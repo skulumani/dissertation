@@ -1,0 +1,64 @@
+% description of variational integrator development
+\section{Variational Integrator}
+A variational integrator is derived through discrete version of the action integral.
+In the continuous time, for holonomic systems the action integral is defined as
+\begin{align}\label{eq:action_integral}
+	S = \int_{0}^T L\left( q, \dot{q}\right) \, dt
+\end{align}
+The equations of motion can be derived from the Lagrangian, \( L\left(q, \dot{q} \right) \), by taking the variation of~\cref{eq:action_integral}
+\begin{align}\label{eq:el_eq}
+	\delta S &= \int_{0}^T \deriv{L}{q} \delta q + \deriv{L}{\dot{q}} \delta \dot{q} \, dt \\
+		&= \int_{0}^T \deriv{L}{q} \delta q - \frac{d}{dt} \left( \deriv{L}{\dot{q}}\right) \delta q \, dt - \left. \left[ \deriv{L}{\dot{q}} \delta q\right] \right|_0^T \\
+	\delta S = 0 &= \deriv{L}{q} - \frac{d}{dt} \left( \deriv{L}{\dot{q}}	\right)
+\end{align}
+\Cref{eq:el_eq} is a vector second order differential equation in terms of the generalized position and velocities and results in \( n\) second order ODEs.
+
+Hamilton's equations are derivable through the use of the Legendre transformation which is a mapping \( \left( q, \dot{q},t\right) \rightarrow \left(q, p, t \right) \) where \( p_i\) is the generalized momenta.
+\begin{align}\label{eq:legendre_transform}
+	p_i = \deriv{L}{\dot{q}}
+\end{align}
+
+The Legendre transformation is useful for variational equations
+\begin{align*}
+	df &= u dx + v dy \\
+\end{align*}
+where
+\begin{align*}
+	u &= \deriv{f}{x} & v &= \deriv{f}{y}
+\end{align*}
+To change from \( \left( x, y\right) \rightarrow \left(u,y \right) \)
+\begin{align*}
+	g &= f - u x\\
+	dg &= df - u dx - x du\\
+	dg &= v dy - x du \\
+	x&= -\deriv{g}{u} & v&= \deriv{g}{y}
+\end{align*}
+
+In the continuous time case one can define the Hamiltonian
+\begin{align}\label{eq:hamiltonian}
+	H &= \sum_{i = 1}^N p_i \dot{q}_i - L \left( q_i,\dot{q}_i, t \right)
+\end{align}
+Applying~\cref{eq:legendre_transform} and taking the variation of~\cref{eq:hamiltonian} allows us to derive the equations of motion in Hamiltonian form
+\begin{align}\label{eq:hamilton_eq}
+	\dot{q}_i &= \deriv{H}{p_i} \\
+	\dot{p}_i &= - \deriv{H}{q_i} + Q_i \\
+	\deriv{L}{t} &= -\deriv{H}{t}
+\end{align}
+Again we are left with \( 2n \) first order differential equations that describe the system dynamics in terms of the generalized position and momenta \( q_i \) and \( p_i\), respectively.
+
+\section{Discrete Lagrange Mechanics}
+We approximate the action integral between \( q_0 \) and \( q_1 \) by quadrature
+\begin{align}\label{eq:exact_discrete_lagrangian}
+	L_D\left( q_0 , q_1 \right) = \int_{0}^{1} L \left( q , \dot{q} \right) \, dt
+\end{align}
+There are multiple possible methods one can use to approximate the integral in~\cref{eq:exact_discrete_lagrangian}.
+
+\begin{align}\label{eq:quadrature_rules}
+	\text{Rectangle Rule} & q &= q_0 & \dot{q} &= \frac{q_1 - q_0}{\Delta t}
+\end{align}
+\begin{itemize}
+	\item Different rules for Lagrangian
+	\item Discrete version of the dynamics
+	\item Discuss jacobians for use in the costate
+	\item Show all the terms used in the analytical inverse operation
+\end{itemize}

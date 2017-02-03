@@ -1,0 +1,49 @@
+% Description of the dynamics formulation for the three body problem
+\section{Variational Dynamics}
+Description of the dynamics from first principles
+\begin{itemize}
+	\item Newton's Equations
+	\item Some history of the three body problem
+	\item plots of the reference frames and bodies
+	\item rotating reference frame and definitions of states
+	\item nondimensionalization
+	\item define all the partials
+\end{itemize}
+
+The continous time dynamics for the three body problem can be defined as 
+\begin{align}\label{eq:con_dyn}
+	\ddot{x} &= 2\dot{y} + x - \frac{\left( 1-\mu\right) \left(x + \mu \right)}{r_1^3} - \frac{\mu\left( x + \mu - 1\right)}{r_2^3} \nonumber \\
+	\ddot{y} &= -2 \dot{x} + y -\frac{\left( 1 - \mu \right)}{r_1^3} y - \frac{\mu }{r_2^3} y \nonumber \\
+	\ddot{z} &= -\frac{\left( 1 - \mu\right)}{r_1^3}z - \frac{\mu}{r_2^3}z
+\end{align}
+This can be defined in terms of the partial derivatives of theeffective gravitational potential
+\begin{align}\label{eq:eff_grav_pot}
+	U &= \frac{1-\mu}{r_1} + \frac{\mu}{r_2} + \frac{1}{2} \left(x^2 + y ^2 \right)
+\end{align}
+The distances to each primary are defined as
+\begin{align}\label{eq:dist}
+	r_1 &= \sqrt{ \left( x+ \mu\right)^2 + y^2 + z^2} \\
+	r_2 &= \sqrt{ \left( x -1 + \mu\right)^2 + y^2 + z^2} \\
+\end{align}
+The partial derivatives of~\cref{eq:eff_grav_pot} are valuable for a variety of scenarios and are given below.
+The gradient or first partials are used in the equations of motion
+\begin{align}\label{eq:first_partials}
+	\deriv{U}{x} = U_{x} &= x - \frac{\left( 1-\mu\right) \left(x + \mu \right)}{r_1^3} - \frac{\mu\left( x + \mu - 1\right)}{r_2^3} \nonumber \\
+	\deriv{U}{y} = U_{y} &= y -\frac{\left( 1 - \mu \right)}{r_1^3} y - \frac{\mu }{r_2^3} y \nonumber \\
+	\deriv{U}{z} = U_{z} &= -\frac{\left( 1 - \mu\right)}{r_1^3}z - \frac{\mu}{r_2^3}z
+\end{align}
+The second order partials are used in the linear analysis of the three body problem and are used in the formulation of the costate equations of motion for the optimal control problem.
+\begin{align}\label{eq:second_partials}
+	\deriv{U_x}{x} &= 1 - \left( 1 - \mu \right) \left[ \frac{1}{r_1^3} - \frac{3 \left( x+\mu\right)^2}{r_1^5}\right] - \mu \left[ \frac{1}{r_2^3} - \frac{3 \left( x -1+ \mu\right)^2}{r_2^5} \right] \nonumber \\
+	\deriv{U_y}{y} &= 1 - \left( 1 - \mu \right) \left[ \frac{1}{r_1^3} - \frac{3 y^2}{r_1^5}\right] - \mu \left[ \frac{1}{r_2^3} - \frac{3 y^2}{r_2^5} \right] \nonumber \\
+	\deriv{U_z}{z} &= - \left( 1 - \mu \right) \left[ \frac{1}{r_1^3} - \frac{3 z^2}{r_1^5}\right] - \mu \left[ \frac{1}{r_2^3} - \frac{3 z^2}{r_2^5} \right] \nonumber \\
+	\deriv{U_x}{y} = \deriv{U_y}{x} &= 3\left( 1 - \mu \right) y \frac{x+\mu}{r_1^5} + 3\mu y \frac{x -1 +\mu}{r_2^5} \\
+	\deriv{U_x}{z} = \deriv{U_z}{x} &= 3\left( 1 - \mu \right) z \frac{x+\mu}{r_1^5} + 3\mu z \frac{x -1 +\mu}{r_2^5} \\
+	\deriv{U_y}{z} = \deriv{U_z}{y} &= 3\left( 1 - \mu \right) y \frac{z}{r_1^5} + 3\mu y \frac{z}{r_2^5} 
+\end{align}
+Some useful partial derivatives are
+\begin{align}\label{eq:dist_partials}
+	\deriv{r_1}{x} &= \frac{x+\mu}{r_1} & \deriv{r_1}{y} &= \frac{y}{r_1} & \deriv{r_1}{z} &= \frac{z}{r_1}\\
+	\deriv{r_2}{x} &= \frac{x -1 +\mu}{r_2} & \deriv{r_2}{y} &= \frac{y}{r_2} & \deriv{r_2}{z} &= \frac{z}{r_2}\\
+	\deriv{}{x}\frac{1}{r_1} &= -\frac{x+\mu}{r_1^3} & \deriv{}{y}\frac{1}{r_1} &= -\frac{y}{r_1^3} & \deriv{}{x}\frac{1}{r_1} &= -\frac{z}{r_1^3}\\
+\end{align}
