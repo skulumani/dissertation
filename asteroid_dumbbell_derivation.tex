@@ -1,0 +1,510 @@
+\documentclass[11pt, reqno]{article}    % use "amsart" instead of "article" for AMSLaTeX format
+\usepackage{my_packages}
+
+\title{Asteroid Dumbbell Derivation}
+\author{Shankar Kulumani}
+\date{03 February 2017}                         % Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+
+\section[EOM Summary]{Dumbbell Equations of Motion}\label{sec:asteroid}
+
+The inertial equations of motion are defined as
+\begin{align}
+    \parenth{m_1 + m_2} \ddot{\vecbf{x}} &= m_1 R_A \deriv{U}{\vecbf{z}_1} + m_2 R_A \deriv{U}{\vecbf{z}_2}, \\
+    J \dot{\vecbf{\Omega}} + \vecbf{\Omega} \times J \vecbf{\Omega} &= \vecbf{M}_1 + \vecbf{M}_2.
+\end{align}
+The vectors \( \vecbf{z}_1 \) and \( \vecbf{z}_2\) define the position of the dumbbell masses as represented in the asteroid fixed frame and are defined as
+\begin{align}
+    \vecbf{z}_1 &= R_A^T \parenth{\vecbf{x} + R \vecbf{\rho}_1} , \\
+    \vecbf{z}_2 &= R_A^T \parenth{\vecbf{x} + R \vecbf{\rho}_2}.
+\end{align}
+The moment on the dumbbell \( \vecbf{M}_i\) is defined as
+\begin{align}
+    \vecbf{M}_i = m_i \parenth{ \vecbf{u}_1 \times \vecbf{r}_1 + \vecbf{u}_2 \times \vecbf{r}_2 + \vecbf{u}_3 \times \vecbf{r}_3},
+\end{align}
+where \( \vecbf{u}_i \) and \( \vecbf{r}_i \) are defined as
+\begin{align*}
+    \deriv{U}{\vecbf{z}_i} \parenth{R_A^T \rho_i}^T = \begin{bmatrix}\vecbf{u}_1 \\ \vecbf{u}_2 \\ \vecbf{u}_3 \end{bmatrix} ,
+    \quad
+    R = \begin{bmatrix}\vecbf{r}_1 \\\vecbf{r}_2 \\ \vecbf{r}_3 \end{bmatrix}
+\end{align*}
+
+The relative equations of motion are defined using the relative kinematic variables
+\begin{align}
+    \vecbf{X} &= R_A^T \vecbf{x}, \\
+    R &= R_A^T R_1 ,\\
+    \vecbf{V} &= R_A^T \dot{\vecbf{x}} ,\\
+    \vecbf{\Omega} &= R \vecbf{\Omega}_1.
+\end{align}
+Using these the equations of motion of the dumbbell relative to the asteroid and defined in the asteroid fixed frame are given as
+\begin{align}
+    \parenth{m_1 + m_2} \dot{\vecbf{V}} + \parenth{m_1 + m_2} S(\vecbf{\Omega}_A) \vecbf{V} &= m_1 \deriv{U}{\vecbf{z}_1} + m_2 \deriv{U}{\vecbf{z}_2} , \\
+    \dot{\parenth{J_R \vecbf{\Omega}}} + \vecbf{\Omega}_A \times J_R \vecbf{\vecbf{\Omega}} &= \vecbf{M}_1 + \vecbf{M}_2 .
+\end{align}
+The asteroid frame position vectors \( \vecbf{z}_i \) are defined similarly as 
+\begin{align*}
+    \vecbf{z}_i = \vecbf{X} + R \vecbf{\rho}_i .
+\end{align*}
+The moment on the dumbbell \( \vecbf{M}_i \) is also defined as
+\begin{align*}
+    \vecbf{M}_i = m_i \parenth{ \vecbf{r}_1 \times \vecbf{u}_1 + \vecbf{r}_2 \times \vecbf{u}_2 + \vecbf{r}_3 \times \vecbf{u}_3},
+\end{align*}
+with \( \vecbf{r}_i \) and \( \vecbf{u}_i \) defined as
+\begin{align*}
+    \vecbf{\rho}_i \deriv{U}{\vecbf{z}_i} = \begin{bmatrix}\vecbf{u}_1 \\ \vecbf{u}_2 \\ \vecbf{u}_3 \end{bmatrix} ,
+    \quad
+    R = R_A^T R_1 = \begin{bmatrix}\vecbf{r}_1 \\\vecbf{r}_2 \\ \vecbf{r}_3 \end{bmatrix}
+\end{align*}
+
+\section[Moment of Inertia]{Moment of Inertia derivation}\label{sec:moi_derivation}
+The inertia tensor for a continuous body is given by
+\begin{align}\label{eq:moi_hatmap}
+    J_I = \int_\mathcal{B} S(\vecbf{\rho})^T S(\vecbf{\rho}) \, dm ,
+\end{align}
+where \( \vecbf{\rho}\) defines the position of the mass element \( dm \) relative to a body-fixed reference frame located at the center of mass of \( \mathcal{B} \) and aligned with the principle axes.
+The hat map identity
+\begin{align*}
+    S(\vecbf{\rho})^T S(\vb{\rho}) &= (\vb{\rho}^T\vb{\rho}) I - \vb{\rho}\vb{\rho}^T , \\
+    &= \tr{\vb{\rho}\vb{\rho}^T} I - \vb{\rho}\vb{\rho}^T ,
+\end{align*}
+is used to equivalently define~\cref{eq:moi_hatmap} in a more familar form as
+\begin{align}\label{eq:moi}
+    J_I = \int_{\mathcal{B}} \bracket{\tr{\vb{\rho}\vb{\rho}^T} I - \vb{\rho}\vb{\rho}^T} \, dm .
+\end{align}
+
+The dumbbell model of the spacecraft is shown in~\cref{fig:dumbbell_sc}.
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\textwidth]{figures/dumbbell_model.pdf}
+    \caption{Dumbbell Spacecraft Model (REPLACE WITH TIKZ)\label{fig:dumbbell_sc}}
+\end{figure}
+The model is composed of two solid spherical masses connected by a massless rod of length \( l\). 
+The body fixed reference frame vector, \( \vh{b}_1\), is aligned with the connecting rod and points along the direction of the body from \( m_1 \) to \( m_2\).
+As a result, the position of \( m_2 \) with respect to \( m_1\) is \( \vb{r}_{12} = l \vh{b}_1\).
+The center of mass of the dumbbell, defined with respect to \( m_1\), is computed as
+\begin{align}\label{eqn:com}
+    \vb{r}_{1c} &= \frac{1}{\sum_i m_i} \sum_i m_i \parenth{\vb{r}_i - \vb{r}_1},\\
+    &= \frac{m_2}{m_1+m_2} l \vh{b}_1 , \\
+    &= l_{cg_{1}} \vh{b}_1 .
+\end{align}
+
+Since the mass of the model is concentrated in the two spherical masses,~\cref{eq:moi} is redefined as
+\begin{align*}
+    J_i = \sum_i^2 \int_{\mathcal{B}} \bracket{\tr{\vb{\rho}_i\vb{\rho}_i^T} I - \vb{\rho}_i \vb{\rho}_i^T} \, dm ,
+\end{align*}
+where \( \vb{\rho}_i = \vb{\zeta}_i + \vb{\eta}_i \) with \( \vb{\zeta}_i \) defining the center of each spherical mass and \( \vb{\eta}_i \) the location of \( dm \) relative to the center of each sphere.
+Using this, the integral term can be expanded as
+\begin{align*}
+    \bracket{\tr{\vb{\rho}_i\vb{\rho}_i^T} I - \vb{\rho}_i \vb{\rho}_i^T} &= \parenth{\vb{\zeta}_i + \vb{\eta}_i}^T \parenth{\vb{\zeta}_i + \vb{\eta}_i}^T I - \parenth{\vb{\zeta}_i + \vb{\eta}_i} \parenth{\vb{\zeta}_i + \vb{\eta}_i}^T , \\
+    &= \parenth{\vb{\zeta}_i^T \vb{\zeta}_i + \vb{\zeta}_i \vb{\eta}_i + \vb{\eta}_i^T \vb{\zeta}_i + \vb{\eta}_i^T \vb{\eta}_i} I - \vb{\zeta}_i \vb{\zeta}_i^T - \vb{\zeta}_i \vb{\eta}_i^T - \vb{\eta}_i \vb{\zeta}_i^T - \vb{\eta}_i \vb{\eta}_i^T .
+\end{align*}
+From the definition of the center of mass, \( \int_{\mathcal{B}_i} \vb{\eta}_i \, dm = 0\), the integral becomes
+\begin{align*}
+    J_I &= \sum_i \int_{\mathcal{B}_i} \parenth{ \vb{\zeta}_i^T \vb{\zeta}_i I - \vb{\zeta}_i \vb{\zeta}_i^T} + \parenth{\vb{\eta}_i^T \vb{\eta}_i I - \vb{\eta}_i \vb{\eta}_i^T} + \parenth{2 \vb{\zeta}_i^T \vb{\eta}_i I - \vb{\zeta}_i \vb{\eta}_i^T - \vb{\eta}_i \vb{\zeta}_i^T} \, dm , \\
+    &= \sum_i \int_{\mathcal{B}_i} \parenth{ \vb{\zeta}_i^T \vb{\zeta}_i I - \vb{\zeta}_i \vb{\zeta}_i^T} + \parenth{\vb{\eta}_i^T \vb{\eta}_i I - \vb{\eta}_i \vb{\eta}_i^T} \, dm , \\
+    &= \sum_i \int_{\mathcal{B}_i} \parenth{ \vb{\zeta}_i^T \vb{\zeta}_i I - \vb{\zeta}_i \vb{\zeta}_i^T} \, dm + \int_{\mathcal{B}_i}\parenth{\vb{\eta}_i^T \vb{\eta}_i I - \vb{\eta}_i \vb{\eta}_i^T} \, dm , \\
+    &= \sum_i m_i \parenth{ \vb{\zeta}_i^T \vb{\zeta}_i I - \vb{\zeta}_i \vb{\zeta}_i^T} + J_i
+\end{align*}
+The moment of inertia of each sphere is \( J_i \) and easily computed to be
+\begin{align*}
+    J_i = \text{diag} \begin{bmatrix} \frac{2}{5} m_i r_i^2 & \frac{2}{5} m_i r_i^2 & \frac{2}{5} m_i r_i^2\end{bmatrix}.
+\end{align*}
+The location of the center of each sphere is 
+\begin{align}
+    \vb{\zeta}_1 &= -l_{cg_{1}} \vh{b}_1 , \\
+    \vb{\zeta}_2 &= \parenth{l - l_{cg_{1}}} \vh{b}_1.
+\end{align}
+Using this gives the final moment of inertia tensor as
+\begin{align}
+    J = \begin{bmatrix}
+        \frac{2}{5} m_1 r_1^2 + \frac{2}{5} m_2 r_2^2  & 0 & 0 \\
+        0 & \frac{2}{5} m_1 r_1^2 + \frac{2}{5} m_2 r_2^2 + m_1 l_1^2 + m_2 l_2^2 & 0 \\
+        0 & 0 & \frac{2}{5} m_1 r_1^2 + \frac{2}{5} m_2 r_2^2 + m_1 l_1^2 + m_2 l_2^2
+    \end{bmatrix} .
+\end{align}
+
+\section{Inertial Frame Derivation}\label{sec:inertial_eoms}
+
+There are three frames of interest for our problem:
+\begin{itemize}
+    \item \( \hat{\vecbf{e}}_i \) - Inertial frame that is fixed at the center of the asteroid
+    \item \( \hat{\vecbf{b}}_i \) - Dumbbell body fixed frame located at the center of mass of the dumbbell and aligned with the principal axes
+    \item \( \hat{\vecbf{f}}_i \) - Asteroid body fixed frame located at the center of mass of the asteroid and aligned with the principal axes
+\end{itemize}
+We assume that the motion of the asteroid is not affected by the presence of the dumbbell spacecraft.
+This is also called the restricted two body problem.
+The kinematics of the dumbbell and asteroid are described in the inertial frame by
+\begin{itemize}
+    \item \( \vecbf{x} \) - the position of the center of mass of the dumbbell spacecraft represented in the inertial frame \( \vecbf{e}_i\)
+    \item \( R \) - the rotation matrix which transforms vectors defined in the spacecraft fixed frame, \( \vecbf{b}_i \), to the inertial frame, \( \vecbf{e}_i \)
+    \item \( \vecbf{\Omega} \) - the angular velocity of the spacecraft body fixed frame relative to the inertial frame and represented in the dumbell body fixed frame \( \vecbf{b}_i \)
+    \item \( R_A \) - the rotation matrix which transforms vectors defined in the asteroid fixed frame, \( \vecbf{f}_i \), to the inertial frame, \( \vecbf{e}_i \)
+\end{itemize}
+
+\subsection{Kinetic Energy}
+The kinetic energy of the dumbbell can be defined as
+\begin{align}
+    T = \frac{1}{2} \int_{\mathsf{B}} \norm{\dot{\vecbf{x}} + \dot{R} \vecbf{\rho} }^2 \, dm ,
+\end{align}
+where the vector \( \vecbf{\rho} \) is defined in the dumbbell body fixed frame, \( \hat{\vecbf{b}}_i \) and represents the position of the mass element \( dm \) relative to the center of mass.
+The quadratic term \( \norm{\dot{\vecbf{x}} + \dot{R} \vecbf{\rho} }^2 \) is expanded as
+\begin{align}
+    \norm{\dot{\vecbf{x}} + \dot{R} \vecbf{\rho} }^2 &= \dot{\vecbf{x}}^T \dot{\vecbf{x}} + \dot{\vecbf{x}}^T \dot{R} \vecbf{\rho} + \parenth{ \dot{R} \vecbf{\rho}}^T \dot{\vecbf{x}} + \parenth{\dot{R} \vecbf{\rho}}^T \parenth{\dot{R} \vecbf{\rho}} \nonumber\\
+    &= \dot{\vecbf{x}}^T \dot{\vecbf{x}} + 2 \dot{\vecbf{x}}^T \dot{R} \vecbf{\rho} + \parenth{\dot{R} \vecbf{\rho}}^T \parenth{\dot{R} \vecbf{\rho}} \nonumber\\
+    &= \norm{\dot{\vecbf{x}}}^2 + 2 \dot{\vecbf{x}}^T \dot{R} \vecbf{\rho} + \norm{\parenth{\dot{R} \vecbf{\rho}} }^2 
+\end{align}
+Combining this with the kinematic equations of motion, \( \dot{R} = R S(\vecbf{\Omega}) \), and noticing the fact that
+\begin{align}
+    \int_{\mathsf{B}} \vecbf{\rho} \, dm = 0
+\end{align}
+the kinetic energy is reduced to
+\begin{align}
+    T &= \frac{1}{2} \int_{\mathsf{B}} \braces{ \norm{\dot{\vecbf{x}}}^2 + \norm{\parenth{\dot{R} \vecbf{\rho}} }^2  } \, dm \nonumber\\
+    &= \frac{1}{2} \int_{\mathsf{B}} \braces{ \norm{\dot{\vecbf{x}}}^2 + \parenth{\dot{R} \vecbf{\rho}}^T \parenth{\dot{R} \vecbf{\rho}}  } \, dm \nonumber\\
+    &= \frac{1}{2} \int_{\mathsf{B}} \braces{ \norm{\dot{\vecbf{x}}}^2 + \vecbf{\rho}^T S(\vecbf{\Omega})^T R^T R S(\vecbf{\Omega}) \vecbf{\rho}  } \, dm \nonumber\\
+    &= \frac{1}{2} \int_{\mathsf{B}} \braces{ \norm{\dot{\vecbf{x}}}^2 + \norm{S(\vecbf{\Omega}) \vecbf{\rho}}^2  } \, dm 
+\end{align}
+
+Another way to derive this relationship is to define the kinetic energy of the system as
+\begin{align}\label{eq:T_prod}
+    T = \frac{1}{2} \sum_{i=1}^2 m_i \dot{\vecbf{r}}_i \cdot \dot{\vecbf{r}}_i ,
+\end{align}
+where \( \dot{\vecbf{r}}_i \) is the inertial velocity of each mass of the dumbbell.
+The inertial velocity is also defined as
+\begin{align}\label{eq:inertial_vel}
+    \dot{\vecbf{r}}_i = \dot{\vecbf{x}} + \dot{\vecbf{\rho}}_i 
+\end{align}
+Substituting~\cref{eq:inertial_vel} into~\cref{eq:T_prod} and expanding results in
+\begin{align*}
+    T = \frac{1}{2} \sum_{i=1}^2 m_i \dot{\vecbf{x}} \cdot \dot{\vecbf{x}}  + \sum_{i=1}^2 m_i \dot{\vecbf{x}} \cdot \dot{\vecbf{\rho}}_i + \frac{1}{2} \sum_{i=1}^2 m_i \dot{\vecbf{\rho}}_i \cdot \dot{\vecbf{\rho}}_i .
+\end{align*}
+As previously, the second term vanishes by the definition of the center of mass
+\begin{align*}
+    \sum m_i \dot{\vecbf{\rho}}_i &= 0, \\
+    \sum m_i \vecbf{\rho} &= 0 .
+\end{align*}
+We define the total mass as \( m = \sum_{i=1}^2 m_i \) and rewrite~\cref{eq:T_prod} as 
+\begin{align*}
+    T = \frac{1}{2} m \dot{\vecbf{x}} \cdot \dot{\vecbf{x}} + \frac{1}{2} \sum_{i=1}^2 m_i \dot{\vecbf{\rho}}_i \cdot \dot{\vecbf{\rho}}_i .
+\end{align*}
+We assume that the vector \( \vecbf{\rho}_i \) is defined in the body fixed, \(\vecbf{b}_i\), of the dumbbell.
+The inertial velocity \( \dot{\vecbf{\rho}}_i \) is defined as
+\begin{align*}
+    \dot{\vecbf{\rho}}_i = \vecbf{\Omega} \times \vecbf{\rho}_i ,
+\end{align*}
+
+where \( \vecbf{\omega} \) is the angular velocity of the dumbbell with respect to the inertial frame and defined in the body frame, \( \vecbf{b}_i\).
+The quadratic term is then given by
+\begin{align}
+    \dot{\vecbf{\rho}}_i \cdot \dot{\vecbf{\rho}}_i &= \dot{\vecbf{\rho}}_i \cdot \parenth{\vecbf{\omega} \times \vecbf{\rho}} ,\nonumber \\
+    &= \vecbf{\omega} \cdot \parenth{\vecbf{\rho}_i \times \dot{\vecbf{\rho}}_i } ,
+\end{align}
+where we used the cyclic permutation identity, \( \vecbf{a} \cdot \parenth{\vecbf{b} \times \vecbf{c}} = \vecbf{b} \cdot \parenth{\vecbf{c} \times \vecbf{a}}  = \vecbf{c} \cdot \parenth{\vecbf{a} \times \vecbf{b}}\).
+The kinetic energy then becomes
+\begin{align}\label{eq:kinetic_energy}
+    T &= \frac{1}{2} \sum_{i=1}^2 m_i \dot{\vecbf{x}} \cdot \dot{\vecbf{x}}  + \sum_{i=1}^2 m_i \dot{\vecbf{x}} \cdot \dot{\vecbf{\rho}}_i + \frac{1}{2} \vecbf{\omega} \cdot \parenth{\sum_{i=1}^2 \vecbf{\rho}_i \times m_i \dot{\vecbf{\rho}}_i } , \nonumber\\
+    T &= \frac{1}{2} m \dot{\vecbf{x}} \cdot \dot{\vecbf{x}} + \frac{1}{2} \vecbf{\omega}\cdot \vecbf{H} , \nonumber \\
+    T &= \frac{1}{2} m \dot{\vecbf{x}} \cdot \dot{\vecbf{x}} + \frac{1}{2} \vecbf{\omega}\cdot J \vecbf{\omega} .
+\end{align}
+
+\subsection{Gravitational Potential Energy}\label{ssec:potential_energy}
+The gravitational potential field around the asteroid is defined using the polyhedron potential model~\cite{werner1994,werner1996}.
+The potential energy on a mass \( m_i \) located at a point \( \vecbf{r} = x \vecbf{f}_1 + y \vecbf{f}_2 + z \vecbf{f}_3 \) is defined as
+\begin{align}\label{eq:polyhedron_potential}
+    m_i U(\vecbf{r}) &= \frac{1}{2} m_i G \sigma \sum_{e \in \text{edges}} \vecbf{r}_e \cdot \vecbf{E}_e \cdot \vecbf{r}_e \cdot L_e - \frac{1}{2} m_i G \sigma \sum_{f \in \text{faces}} \vecbf{r}_f \cdot \vecbf{F}_f \cdot \vecbf{r}_f \cdot \omega_f 
+\end{align}
+The potential energy of the dumbbell is then defined as
+\begin{align}\label{eq:potential_energy}
+    V( \vecbf{x}, R ) =  - m_1 U \parenth{R_A^T \parenth{\vecbf{x} + R \vecbf{\rho}_1}} - m_2 U \parenth{R_A^T \parenth{\vecbf{x} + R \vecbf{\rho}_2}} .
+\end{align}
+Since~\cref{eq:polyhedron_potential} is defined in the asteroid fixed frame, we need to transform the position vectors from the inertial frame to the asteroid body frame.
+
+\subsection{Variation}
+The Lagrangian is given as the difference between~\cref{eq:kinetic_energy} and~\cref{eq:potential_energy}
+\begin{align}\label{eq:lagrangian}
+    L = \frac{1}{2} m \dot{\vecbf{x}} \cdot \dot{\vecbf{x}} + \frac{1}{2} \vecbf{\omega}\cdot J \vecbf{\omega} + m_1 U \parenth{R_A^T \parenth{\vecbf{x} + R \vecbf{\rho}_1}} + m_2 U \parenth{R_A^T \parenth{\vecbf{x} + R \vecbf{\rho}_2}} .
+\end{align}
+The equations of motion can be defined by determining the varaition of the Lagrangian, \( \delta L\).
+First, the variation of~\cref{eq:potential_energy} is defined as
+\begin{align*}
+    \delta U = -m_1 \deriv{U_1}{\vecbf{z}_1}^T \delta \vecbf{z}_1 -m_2 \deriv{U_2}{\vecbf{z}_2}^T \delta \vecbf{z}_2 , 
+\end{align*}
+where \( \vecbf{z}_i = R_A^T \parenth{\vecbf{x} + R \vecbf{\rho}_i}\) and \( \delta \vecbf{z}_i = R_A^T \parenth{\delta \vecbf{x} + \delta R \vecbf{\rho}_I}\). 
+Using the chain rule this is equivalent to 
+\begin{align*}
+    \delta V = -m_1 \bracket{\deriv{U_1}{\vecbf{z}_1} \deriv{\vecbf{z}_1}{\vecbf{x}}}^T \delta \vecbf{x} -m_2 \bracket{\deriv{U_2}{\vecbf{z}_2}^T \deriv{\vecbf{z}_2}{\vecbf{x}}}^T \delta \vecbf{x} 
+    -m_1 \bracket{\deriv{U_1}{\vecbf{z}_1} \deriv{\vecbf{z}_1}{R}}^T \delta R -m_2 \bracket{\deriv{U_2}{\vecbf{z}_2}^T \deriv{\vecbf{z}_2}{R}}^T \delta R .
+\end{align*}
+The partial derivatives are given by
+\begin{align}
+    \deriv{\vecbf{z}_1}{\vecbf{x}} &= R_A^T = \deriv{\vecbf{z}_2}{\vecbf{x}}, \\
+    \deriv{U}{R} &= \deriv{U}{\vecbf{z}_i} \parenth{R_A^T \vecbf{\rho}_1}^T .\\
+\end{align}
+Using the trace identity, \( \tr{A^T B} = \sum_{p,q=1}^{3} \bracket{A}_{pq} \bracket{B}_{pq}\) and \( \delta R = R \eta \) we can define
+\begin{align*}
+    \deriv{U}{R} \delta R = -\tr{\eta R^T \deriv{U}{\vecbf{z}_i}\parenth{R_A^T \vecbf{\rho}_i}^T}.
+\end{align*}
+The gradient of~\cref{eq:polyhedron_potential} is given by
+\begin{align}
+    \deriv{U}{\vecbf{z}} = -G \sigma \sum_{e \in \text{edges}} \vecbf{E}_e \cdot \vecbf{r}_e \cdot L_e + G \sigma \sum_{f \in \text{faces}} \vecbf{F}_f \cdot \vecbf{r}_f \cdot \omega_f \in \R^{3 \times 1} . \label{eq:attraction}\\
+\end{align}
+With these the variation of the potential energy is given by
+\begin{align}\label{eq:potential_variation}
+    \delta V = -m_1 \deriv{U}{\vecbf{z}_1}^T R_A^T \delta \vecbf{x} - m_2 \deriv{U}{\vecbf{z}_2}^T R_A^T \delta \vecbf{x} + m_1 \tr{\eta R^T \deriv{U}{\vecbf{z}_1} \parenth{R_A^T \vecbf{\rho}_1}^T} + m_2 \tr{\eta R^T \deriv{U}{\vecbf{z}_2} \parenth{R_A^T \vecbf{\rho}_2}^T} .
+\end{align}
+
+The variation of the kinetic energy is defined as
+\begin{align}\label{eq:kinetic_variation}
+    \delta T &= \deriv{T}{\dot{\vecbf{x}}}^T \delta \dot{\vecbf{x}} + \deriv{T}{\vecbf{\Omega}}^T \delta \vecbf{\Omega} , \\
+    &= \parenth{m_1 + m_2 }\dot{\vecbf{x}}^T \delta \dot{\vecbf{x}} + \frac{1}{2} \bracket{\delta \vecbf{\Omega}^T J \vecbf{\Omega} + \vecbf{\Omega}^T J \delta \vecbf{\Omega} } , \\
+    &= \parenth{m_1 + m_2 }\dot{\vecbf{x}}^T \delta \dot{\vecbf{x}} + \frac{1}{2} \tr{-\dot{\eta} S(J \vecbf{\Omega}) + \eta S(\vecbf{\Omega} \times J \vecbf{\Omega})} .
+\end{align}
+Combining~\cref{eq:potential_variation,eq:kinetic_variation} and using Hamilton's principle gives us the variation of the action integral
+\begin{align}\label{eq:action_integral_variation}
+    \delta I =& \int_{t_0}^{t_f} \parenth{m_1 + m_2 }\dot{\vecbf{x}}^T \delta \dot{\vecbf{x}}  + \frac{1}{2} \tr{-\dot{\eta} S(J \vecbf{\Omega}) + \eta S(\vecbf{\Omega} \times J \vecbf{\Omega})} \\
+    &+\bracket{m_1 \deriv{U}{\vecbf{z}_1}^T R_A^T + m_2 \deriv{U}{\vecbf{z}_2}^T R_A^T } \delta \vecbf{x} - \tr{ \eta \braces{m_1 R^T \deriv{U}{\vecbf{z}_1} \parenth{R_A^T \vecbf{\rho}_1}^T + m_2 R^T \deriv{U}{\vecbf{z}_2} \parenth{R_A^T \vecbf{\rho}_2}^T}} .
+\end{align}
+Using integration by parts, the variation of the derivatives \( \delta \dot{\vecbf{x}} \) and \( \delta \dot{\eta} \) can be redefined as
+\begin{align*}
+    \int \parenth{m_1 + m_2} \dot{\vecbf{x}}^T \delta \dot{\vecbf{x}} \, dt &= \left. \parenth{m_1 + m_2 } \dot{\vecbf{x}}^T \delta \vecbf{x} \right|_{t_0}^{t_f} - \int_{t_0}^{t_f} \parenth{m_1 + m_2} \ddot{\vecbf{x}}^T \delta \vecbf{x} \, dt , \\
+    \int \frac{1}{2} \tr{- \dot{\eta} S(J \vecbf{\Omega})} \, dt &= \left.\frac{1}{2} \tr{- \eta S(J \vecbf{\Omega})} \right|_{t_0}^{t_f} - \int_{t_0}^{t_f} \frac{1}{2} \tr{- \eta S(J \dot{\vecbf{\Omega}})} \, dt .
+\end{align*}
+Since, the end points are fixed, the variation at \( t_0 \) and \( t_f \) are zero.
+Therefore, the varition of the action integral is then
+\begin{align}\label{eq:inertial_variation_action_integral}
+    \delta I =& \int_{t_0}^{t_f} - \parenth{m_1 + m_2} \ddot{\vecbf{x}}^T \delta \vecbf{x}  + \frac{1}{2} \tr{ \eta S(J \dot{\vecbf{\Omega}}) + \eta S{\vecbf{\Omega} \times J \vecbf{\Omega}} } + \bracket{m_1 \deriv{U}{\vecbf{z}_1}^T R_A^T + m_2 \deriv{U}{\vecbf{z}_2}^T R_A^T } \delta \vecbf{x} \\
+    &- \tr{\eta \braces{m_1 R^T \deriv{U}{\vecbf{z}_1} \parenth{R_A^T \vecbf{\rho}_1}^T + m_2 R^T \deriv{U}{\vecbf{z}_2} \parenth{R_A^T \vecbf{\rho}_2}^T}} \, dt .
+\end{align}
+The variation of the action integral should be zero for all possible variations. 
+Therefore, the translational equations of motion are given by
+\begin{align}\label{eq:translational_eoms}
+    -\parenth{m_1 +m_2} \ddot{\vecbf{x}}^T + m_1 \deriv{U}{\vecbf{z}_1} R_A^T + m_2 \deriv{U}{\vecbf{z}_2}^T R_A^T = 0 .
+\end{align}
+Using the trace property, \( \tr{PQ} = 0 \iff P^T = -P, Q^T = Q\), the rotational equations of motion are given by
+\begin{align}
+    & \tr{ \eta \braces{ S(J \dot{\vecbf{\Omega}}) - 2 m_1 R^T \deriv{U}{\vecbf{z}_1} \parenth{R_A^T \vecbf{\rho}_1}^T - 2 m_2 R^T \deriv{U}{\vecbf{z}_2} \parenth{R_A^T \vecbf{\rho}_2}^T + S(\vecbf{\Omega \times J \vecbf{\Omega}})}} \nonumber\\
+    \Rightarrow & S(J \dot{\vecbf{\Omega}} + \vecbf{\Omega} \times J \vecbf{\Omega}) - 2 m_1 R^T \deriv{U}{\vecbf{z}_1} \parenth{R_A^T \vecbf{\rho}_1}^T - 2 m_2 R^T \deriv{U}{\vecbf{z}_2} \parenth{R_A^T \vecbf{\rho}_2}^T \nonumber\\
+    =& S(J \dot{\vecbf{\Omega}} + \vecbf{\Omega} \times J \vecbf{\Omega})^T - 2 m_1 \parenth{R_A^T \vecbf{\rho}_1} \deriv{U}{\vecbf{z}_1}^T R  - 2 m_2 \parenth{R_A^T \vecbf{\rho}_2} \deriv{U}{\vecbf{z}_2}^T R , \nonumber\\
+    S(J \dot{\vecbf{\Omega}} + \vecbf{\Omega} \times J \vecbf{\Omega}) =& - m_1 \parenth{R_A^T \vecbf{\rho}_1} \deriv{U}{\vecbf{z}_1}^T R  - m_2 \parenth{R_A^T \vecbf{\rho}_2} \deriv{U}{\vecbf{z}_2}^T R \nonumber \\
+    &+ m_1 R^T \deriv{U}{\vecbf{z}_1} \parenth{R_A^T \vecbf{\rho}_1}^T + m_2 R^T \deriv{U}{\vecbf{z}_2} \parenth{R_A^T \vecbf{\rho}_2}^T
+\end{align}
+The gravitational moment can be redefined using the properties of the hat map.
+\begin{align}
+    S(M_i) &= m_1 \parenth{R^T \deriv{U}{\vecbf{z}_i} \parenth{R_A^T \vecbf{\rho}_i}^T - \parenth{R_A^T \vecbf{\rho}_i} \deriv{U}{\vecbf{z}_i}^T R} ,\\
+    &= m_1 \parenth{ y x^t - x y^T} = m_1 S(x \times y) , \\
+    &= m_1 \parenth{ \begin{bmatrix} \vecbf{r}_1^T & \vecbf{r}_2^T & \vecbf{r}_3^T \end{bmatrix} \begin{bmatrix} \vecbf{u}_1 \\ \vecbf{u}_2 \\ \vecbf{u}_3 \end{bmatrix} - \begin{bmatrix} \vecbf{u}_1^T & \vecbf{u}_2^T & \vecbf{u}_3^T \end{bmatrix} \begin{bmatrix} \vecbf{r}_1 \\ \vecbf{r}_2 \\ \vecbf{r}_3 \end{bmatrix}} ,
+\end{align}
+where the matrices are defined as
+\begin{align*}
+    R = \begin{bmatrix} \vecbf{r}_1 \\ \vecbf{r}_2 \\ \vecbf{r}_3\end{bmatrix} ,\quad
+    \deriv{U}{\vecbf{z}_i} \parenth{R_A^T \vecbf{\rho}_i}^T = \begin{bmatrix} \vecbf{u}_1 \\ \vecbf{u}_2 \\ \vecbf{u}_3\end{bmatrix}.
+\end{align*}
+Expanding these products and using the property \(  \parenth{ y x^t - x y^T} = S(x \times y) \) the gravitational moment is given as
+\begin{align}
+    M_i &= m_i \parenth{ \vecbf{u}_{1i} \times \vecbf{r}_1 + \vecbf{u}_{2i} \times \vecbf{r}_2 + \vecbf{u}_{3i} \times \vecbf{r}_3} .
+\end{align}
+The final equations of motion in the inertial frame are 
+\begin{align}
+    \parenth{m_1 + m_2 } \ddot{\vecbf{x}} &= m_1 R_A \deriv{U}{\vecbf{z}_1} + m_2 R_A \deriv{U}{\vecbf{z}_2} ,\\ 
+    J \dot{\vecbf{\Omega}} + \vecbf{\Omega} \times J \vecbf{\Omega } = M_1 + M_2 ,
+\end{align}
+where \( M_i \) is defined as previously and 
+\begin{align*}
+    z_i = R_A^T \parenth{\vecbf{x} + R \vecbf{\rho}_i}.
+\end{align*}
+
+\subsection{Relative Equations of motion}\label{sec:relative_eoms}
+
+The relative kinematics of a dumbbell spacecraft with respect to an asteroid are defined by:
+\begin{itemize}
+    \item \( \vecbf{X} = R_A^T \vecbf{x}_1\) - the position of the center of mass of the dumbbell with respect to the asteroid fixed frame
+    \item \( R = R_A^T R_1\) - the orientation of the dumbbell with respect to the asteroid fixed frame
+    \item \( \vecbf{V} = R_A^T \dot{\vecbf{x}}_1 \) - the velocity of the dumbbell center of mass with respect to the inertial frame represented in the asteroid fixed frame
+    \item \( \vecbf{\Omega} = R \vecbf{\Omega}_1\) - the angular velocity of the dumbbell with respect to the inertial frame represented in the asteroid fixed frame
+\end{itemize}
+The kinetic energy is expressed using the relative variables as
+\begin{align}\label{eq:relative_kinetic}
+    T = \frac{1}{2} \parenth{m_1 + m_2} \norm{\vecbf{V}}^2 + \frac{1}{2} \vecbf{\Omega}_1^T \parenth{R^T J_I R} \vecbf{\Omega}_1 .
+\end{align}
+The potential energy is defined using the relative varibles as
+\begin{align}\label{eq:relative_potential}
+    V = -m_1 U(\vecbf{X} + R \vecbf{\rho}_1) - m_2 U(\vecbf{X}+R \vecbf{\rho}_2).
+\end{align}
+Using~\cref{eq:relative_kinetic,eq:relative_potential}, the Langrangian is expressed in terms of the relative variables as 
+\begin{align}
+    L = T-V = \frac{1}{2} \parenth{m_1 + m_2} \norm{\vecbf{V}}^2 + \frac{1}{2} \vecbf{\Omega}_1^T \parenth{R^T J_I R} \vecbf{\Omega}_1 +m_1 U(\vecbf{X} + R \vecbf{\rho}_1) + m_2 U(\vecbf{X}+R \vecbf{\rho}_2) .
+\end{align}
+
+\subsubsection{Relative variable variations}\label{ssec:relative_variations}
+
+The variation of the relative attitude is expressed as
+\begin{align*}
+    \delta R &= \delta R_A^T R_1 + R_A^T \delta R_1 , \\
+    &= R_A^T R_1 \eta_1,
+\end{align*}
+where we used the fact that the asteroid attitude does not vary, \( \delta R_A = 0\), and the variation of the spacecraft attitude is \( \delta R_1 = R_1 \eta_1\).
+The variation \( \eta_1 \in \so \) is related to the relative variation \( \eta \in \so \) by
+\begin{align*}
+    \eta &= R \eta_1 R^T ,\\
+    &= R_A^T R_1 \eta_1 R_1^T R_A .
+\end{align*}
+Using this, the varation of the relative attitude is then defined as
+\begin{align}\label{eq:relative_attitude_variation}
+    \delta R = R_A^T R_1 \eta_1 = \eta R.
+\end{align}
+The variation of the relative position is defined as
+\begin{align}\label{eq:relative_position_variation}
+    \delta \vecbf{X} = R_A^T \delta \vecbf{x}_1 = \vecbf{\chi} .
+\end{align}
+
+The variation of the relative angular velocity is defined as follows:
+\begin{align}\label{eq:relative_angular_velocity_variation_1}
+    S(\delta \vecbf{\Omega}) &= S(R \delta \vecbf{\Omega}_1) , \nonumber\\
+    &= R S(\delta \vecbf{\Omega}_1) R^T , \nonumber \\
+    &= \delta R S(\vecbf{\Omega}_1) R^T  + R S(\delta \vecbf{\Omega}_1) R^T + R S(\vecbf{\Omega}_1)R^T + R S(\vecbf{\Omega}_1) \delta R^T .
+\end{align}
+The variation \( S(\delta \vecbf{\Omega}_1\) is defined using the kinematic equation \( \dot{R}_1 = R_1 S(\vecbf{\Omega}_1)\) and the variation \( \delta R_1 = R_1 \eta_1 \) as 
+\begin{align}\label{eq:variation_angular_velocity}
+    S(\vecbf{\Omega}_1) &= R_1^T \dot{R}_1 , \nonumber\\
+    S(\delta \vecbf{\Omega}_1) &= \delta R_1^T \dot{R}_1 + R_1^T \delta \dot{R}_1 ,\nonumber \\
+    &= \parenth{R_1 \eta_1}^T \dot{R}_1 + R_1^T \parenth{\dot{R}_1 \eta_1 + R_1 \dot{\eta}_1} , \nonumber\\
+    &= -\eta_1 R_1^T R_1 S(\vecbf{\Omega}_1) + R_1^T R_1 S(\vecbf{\Omega}_1) \eta_1 + R_1^T R_1 \dot{\eta}_1, \nonumber\\
+    &= - \eta_1 S(\vecbf{\Omega}_1) + S(\vecbf{\Omega}_1) \eta_1 + \dot{\eta}_1 .
+\end{align}
+Substituting~\cref{eq:variation_angular_velocity,eq:relative_position_variation} into~\cref{eq:relative_angular_velocity_variation_1} gives
+\begin{align}\label{eq:relative_angular_velocity_variation_2}
+    S(\delta \vecbf{\Omega}) &= \eta R S( \vecbf{\Omega}_1) R^T + R \braces{\dot{\eta}_1 + S(\vecbf{\Omega}_1) \eta_1 - \eta_1 S(\vecbf{\Omega}_1)} R^T + R S( \vecbf{\Omega}_1) R^T \parenth{- \eta} , \nonumber \\
+    &= \eta R S(\vecbf{\Omega}_1)R^T + R \dot{\eta}_1 R^T + R S(\vecbf{\Omega}_1) \eta_1 R^T - R \eta_1 S(\vecbf{\Omega}_1)R^T - R S(\vecbf{\Omega}_1) R^T \eta , \nonumber\\
+    &= \eta S(R \vecbf{\Omega}_1) + R \dot{\eta}_1 R^T + R S(\vecbf{\Omega}_1)\eta_1 R^T - R \eta_1 S(\vecbf{\Omega}_1) R^T - S(R \vecbf{\Omega}_1) \eta .
+\end{align}
+We can further simplify~\cref{eq:relative_angular_velocity_variation_2} by using the following two identies
+\begin{align}
+    R S(\vecbf{\Omega}_1)R^T = RS(\vecbf{\Omega}_1) R^T R \eta_1 R^T = S(R \vecbf{\Omega}_1) R \eta_1 R^T , \label{eq:RSeta_identity_1}\\
+    -R \eta_1 S(\vecbf{\Omega})R^T = - R \eta_1 R^T R S(\vecbf{\Omega}_1)R^T = -R \eta_1 R^T S(R \vecbf{\Omega_1}) . \label{eq:RSeta_identity_2}
+\end{align}
+Substituting~\cref{eq:RSeta_identity_1,eq:RSeta_identity_2} into~\cref{eq:relative_angular_velocity_variation_2} gives another form of \( S(\delta \vecbf{\Omega}\) as
+\begin{align}\label{eq:relative_angular_velocity_variation_3}
+    S(\delta \vecbf{\Omega}) = \eta S(R \vecbf{\Omega}_1) + R \dot{\eta}_1 R^T + S(R \vecbf{\Omega}_1) R \eta_1 R^T - R \eta_1 R^T S(R \vecbf{\Omega}_1) - S(R \vecbf{\Omega}_1) \eta .
+\end{align}
+We use the facts that \( \eta = R \eta_1 R^T \) and \( \vecbf{\Omega} = R \vecbf{\Omega}_1\) to get
+\begin{align}\label{eq:relative_angular_velocity_variation_3}
+    S(\delta \vecbf{\Omega}) = R \dot{\eta}_1 R^T.
+\end{align}
+We now need to define \( \dot{\eta}_1\) by first noting that from \( R = R_A^T R\) and that \( \vecbf{\Omega}_1 = R^T \vecbf{\Omega}\)
+\begin{align}\label{eq:relR_dot}
+    \dot{R} &= R_A^T R_1 + R_A^T \dot{R}_1 , \nonumber\\
+    &= - S(\vecbf{\Omega}_A) R_A^T R_1 + R_A^T R_1 S(\vecbf{\Omega}_1) ,\nonumber\\
+    &= -S(\vecbf{\Omega}_A) R_A^T R_1 + R_A^T R_1 S(R^T \vecbf{\Omega}) , \nonumber\\
+    &= -S(\vecbf{\Omega}_A)R_A^T R_1 + R_A^T R_1 R^T S(\vecbf{\Omega}) R ,\nonumber\\
+    &= -S(\vecbf{\Omega}_A)R + S(\vecbf{\Omega}) R .
+\end{align}
+From the chain rule and applying~\cref{eq:relR_dot} we can define \( \dot{\eta} \) as
+\begin{align}\label{eq:eta_dot}
+    \dot{\eta} &= \dot{R} \eta_1 R^T + R \dot{\eta}_1 R^T + R \eta_1 \dot{R}^T , \nonumber\\
+    &= \braces{S(\vecbf{\Omega}) - S(\vecbf{\Omega}_A)} R \eta_1 R^T + R \dot{\eta}_1 R^T + R \eta_1 \braces{R^T S(\vecbf{\Omega}_A) - R^T S(\vecbf{\Omega})} , \nonumber\\
+    &= \braces{S(\vecbf{\Omega}) - S(\vecbf{\Omega}_A)} \eta + R \dot{\eta}_1 R^T - \eta \braces{S(\vecbf{\Omega}) - S(\vecbf{\Omega}_A)} .
+\end{align}
+Finally, we now substitute~\cref{eq:eta_dot} into~\cref{eq:relative_angular_velocity_variation_3} by rearranging~\cref{eq:eta_dot} in terms of \( \dot{\eta}_1\) to arrive at
+\begin{align}\label{eq:rel_ang_vel_var}
+    S(\delta \vecbf{\Omega}) &= \dot{\eta} - \braces{S(\vecbf{\Omega}) - S(\vecbf{\Omega}_A)} \eta + \eta \braces{S(\vecbf{\Omega}) - S(\vecbf{\Omega}_A)} .
+\end{align}
+
+The variation of the relative linear velocity is computed from 
+\begin{align}\label{eq:delV_1}
+    \delta \vecbf{V} &= \delta R_A^T \dot{\vecbf{x}_1} + R_A^T \delta \dot{\vecbf{x}}_1 , \nonumber \\
+    &= R_A^T \delta \dot{\vecbf{x}}_1 ,
+\end{align}
+since we assume that the asteroid is in a constant rate of rotation.
+We can redefine this variation in terms of the relative variables by using
+\begin{align}\label{eq:Xdot}
+    \dot{\vecbf{\chi}} &= \dot{R}_A^T \delta \vecbf{x}_1 + R_A^T \delta \dot{\vecbf{x}}_1 , \nonumber \\
+    &= -S(\vecbf{\Omega}_A) R_A^T \delta \vecbf{x} + R_A^T \delta \dot{\vecbf{x}}_1 ,\nonumber \\
+    &= -S(\vecbf{\Omega}_A) \vecbf{\chi} + R_A^T \delta \dot{\vecbf{x}}_1 .
+\end{align}
+Rearranging~\cref{eq:Xdot} in terms of \( \delta \dot{\vecbf{x}}_1\) and substituting into~\cref{eq:delV_1} gives
+\begin{align}\label{eq:relative_velocity_variation}
+    \delta \vecbf{V} = \dot{\vecbf{\chi}} + S(\vecbf{\Omega}_A) \vecbf{\chi} .
+\end{align}
+
+In summary, the variation of the relative variables are defined as
+\begin{align*}
+    \delta R &= R_A^T R_1 \eta_1 = \eta R ,\\
+    \delta \vecbf{X} &= R_A^T \delta \vecbf{x}_1 = \vecbf{\chi} , \\
+    S(\delta \vecbf{\Omega}) &= R \dot{\vecbf{\eta}}_1 R^T = \dot{\vecbf{\eta}} - \braces{S(\vecbf{\Omega})-S(\vecbf{\Omega}_A)} \eta + \eta \braces{S(\vecbf{\Omega}-S(\vecbf{\Omega}_A))} , \\
+    \delta \vecbf{V} &= \dot{\vecbf{\chi}} + S(\vecbf{\Omega}_A) \vecbf{\chi} .
+\end{align*}
+\subsubsection{Variation of relative Lagrangian}\label{ssec:var_rel_lagrangian}
+
+The variation of the reduced kinetic energy, shown in~\cref{eq:relative_kinetic}, is given by
+\begin{align}\label{eq:relative_kinetic_variation}
+    \delta T &= \parenth{m_1 + m_2} \vecbf{V}^T \delta \vecbf{V} + \frac{1}{2} \bracket{\delta \vecbf{\Omega}_1^T J_R \vecbf{\Omega}_1 + \vecbf{\Omega}_1^T J_R \delta \vecbf{\Omega}_1} , \\
+    &= \parenth{m_1 + m_2} \delta \vecbf{V} \parenth{\dot{\vecbf{\chi}} + S(\vecbf{\Omega}_A) \vecbf{\chi}} + \frac{1}{2} \tr{- \dot{\eta} S(J_R \vecbf{\Omega}) + \eta S(\vecbf{\Omega}_A \times J_R \vecbf{\Omega})}.
+\end{align}
+The variation of the reduced potential energy, shown in~\cref{eq:relative_potential}, is given by
+\begin{align}\label{eq:relative_potential_variation_1}
+    \delta U &= -m_1 \deriv{U}{\vecbf{z}_1} \delta \vecbf{z}_1 - m_2 \deriv{U}{\vecbf{z}_2} \delta \vecbf{z}_2 ,
+\end{align}
+where \( \delta \vecbf{z}_1 \) and \( \delta \vecbf{z}_2\) are defined similar to those used in~\cref{sec:inertial_eoms} as 
+\begin{align}\label{eq:relative_z}
+    \delta \vecbf{z}_1 &= \delta \vecbf{\chi} + \delta R \vecbf{\rho}_1 , \\
+    \delta \vecbf{z}_2 &= \delta \vecbf{\chi} + \delta R \vecbf{\rho}_2 .
+\end{align}
+Substituting~\cref{eq:relative_z} into~\cref{eq:relative_potential_variation_1} and simplifying gives
+\begin{align}\label{eq:relative_potential_varation}
+    \delta U &= -m_1 \deriv{U}{\vecbf{z}_1}^T \vecbf{\chi} - m_2 \deriv{U}{\vecbf{z}_2} \vecbf{\chi} - m_1 \tr{\eta R \deriv{U}{\vecbf{z}_1} \vecbf{\rho}_1^T} - m_2 \tr{\eta R \deriv{U}{\vecbf{z}_2} \vecbf{\rho}_2^T} .
+\end{align}
+
+Combining~\cref{eq:relative_potential_varation,eq:relative_kinetic_variation} in the variation of the action integral is given by
+\begin{align}\label{eq:relative_variation_action_integral}
+    \delta I =& \int_{t_1}^{t_2} \parenth{m_1 + m_2} \delta \vecbf{V} \parenth{\dot{\vecbf{\chi}} + S(\vecbf{\Omega}_A) \vecbf{\chi}} + \frac{1}{2} \tr{- \dot{\eta} S(J_R \vecbf{\Omega}) + \eta S(\vecbf{\Omega}_A \times J_R \vecbf{\Omega})} \nonumber\\
+    &+m_1 \deriv{U}{\vecbf{z}_1}^T \vecbf{\chi} + m_2 \deriv{U}{\vecbf{z}_2} \vecbf{\chi} + m_1 \tr{\eta R \deriv{U}{\vecbf{z}_1} \vecbf{\rho}_1^T} + m_2 \tr{\eta R \deriv{U}{\vecbf{z}_2} \vecbf{\rho}_2^T} \, dt , \nonumber\\
+    =& \int_{t_1}^{t_2} \parenth{m_1 + m_2} \dot{\vecbf{V}}^T \vecbf{\chi} + \parenth{m_1 + m_2} \vecbf{V}^T S(\vecbf{\Omega}_A) \vecbf{\chi} \nonumber \\
+    &+ \frac{1}{2} \tr{\eta \braces{S(\dot{J_R \vecbf{\Omega}}) + S(\vecbf{\Omega}_A \times J_R \vecbf{\Omega})}} + m_1 \deriv{U}{\vecbf{z}_1}^T \vecbf{\chi} + m_2 \deriv{U}{\vecbf{z}_2}^T \vecbf{\chi} \nonumber\\
+    &+ m_1 \tr{\eta R \deriv{U}{\vecbf{z}_1} \vecbf{\rho}_1^T} m_2 \tr{\eta R \deriv{U}{\vecbf{z}_2} \vecbf{\rho}_2^T} \, dt ,
+\end{align}
+where we used integration by parts to simplify integral
+\begin{align*}
+    \int \parenth{m_1 + m_2} \vecbf{V}^T \dot{\vecbf{\chi}} \, dt &= \left. \parenth{m_1 + m_2 } \vecbf{\chi} \right|_{t_0}^{t_f} - \int \parenth{m_1 +m_2} \dot{\vecbf{V}}^T \vecbf{\chi} \, dt , \\
+    \int \frac{1}{2} \tr{- \dot{\eta} S(J_R \vecbf{\Omega}) + \eta S(\vecbf{\Omega}_A \times J_R \vecbf{\Omega})} &= \left. \frac{1}{2} \tr{-\eta S(J_R \vecbf{\Omega})} \right|_{t_0}^{t_f} - \int \frac{1}{2} \tr{-\eta S(\dot{J_R \vecbf{\Omega}})} \, dt.
+\end{align*}
+Since~\cref{eq:relative_variation_action_integral} must be zero for all admissable variations the  equations of motion are given by
+\begin{align}\label{eq:relative_eoms}
+    \parenth{m_1 +m_2} \dot{\vecbf{V}} + \parenth{m_1 + m_2} S(\vecbf{\Omega}_A) \vecbf{V} &= m_1 \deriv{U}{\vecbf{z}_1} + m_2 \deriv{U}{\vecbf{z}_2} , \\
+    S(\dot{J_R \vecbf{\Omega}}) + S(\vecbf{\Omega}_A \times J_R \vecbf{\Omega}) &= m_1 \vecbf{\rho}_1 \deriv{U}{\vecbf{z}_1}^T R^T - m_1 R \deriv{U}{\vecbf{z}_1} \vecbf{\rho}_1^T + m_2 \vecbf{\rho}_2 \deriv{U}{\vecbf{z}_2} R^T - m_2 R \deriv{U}{\vecbf{z}_2} \vecbf{\rho}_2^T .
+\end{align}
+Using a similar process as~\cref{sec:inertial_eoms} we can redefine the external moment due to gravity as
+\begin{align}
+    M_1 &= m_1 \parenth{\vecbf{r}_1 \times \vecbf{u}_1 + \vecbf{r}_2 \times \vecbf{u}_2 + \vecbf{r}_3 \times \vecbf{u}_3} , \\
+    M_2 &= m_1 \parenth{\vecbf{r}_\alpha \times \vecbf{u}_\alpha + \vecbf{r}_\beta \times \vecbf{u}_\beta + \vecbf{r}_\gamma \times \vecbf{u}_\gamma} , 
+\end{align}
+where the vectors \( \vecbf{r}_i \) and \( \vecbf{u}_i \) are defined as
+\begin{align*}
+    R = \begin{bmatrix} \vecbf{r}_1 \\ \vecbf{r}_2 \\ \vecbf{r}_3 \end{bmatrix} = \begin{bmatrix} \vecbf{r}_\alpha \\ \vecbf{r}_\beta \\ \vecbf{r}_\gamma \end{bmatrix} \quad
+    \vecbf{\rho}_1 \deriv{U}{\vecbf{z}_1}^T = \begin{bmatrix} \vecbf{u}_1 \\ \vecbf{u}_2 \\ \vecbf{u}_3 \end{bmatrix}, \vecbf{\rho}_2 \deriv{U}{\vecbf{z}_2}^T = \begin{bmatrix} \vecbf{u}_\alpha \\ \vecbf{u}_\beta \\ \vecbf{u}_\gamma \end{bmatrix} .
+\end{align*}
+The time derivative \( \dot{J_R}\) is computed from
+\begin{align*}
+    \dot{J}_R &= \dot{R} J_1 R^T + R J_1 \dot{R}^T , \\
+    &= \parenth{S(\vecbf{\Omega})R - S(\vecbf{\Omega}_2) R)} J_1 R^T + R J_1 \parenth{R^T S(\vecbf{\Omega}_2 - R^T S(\vecbf{\Omega}) } \\
+    &= S(\vecbf{\Omega}) R J_1 R^T - S(\vecbf{\Omega}_2) R J_1 R^T + R J_1 R^T S(\vecbf{\Omega}_2) - R J_1 R^T S(\vecbf{\Omega}) \\
+    &=  \parenth{S(\vecbf{\Omega}) - S(\vecbf{\Omega}_2)} R J_1 R^T + R J_1 R^T \parenth{S(\vecbf{\Omega}_2) - S(\vecbf{\Omega})} .
+\end{align*}
+Using this relatipnship the term \( \dot{\parenth{J_R \vecbf{\Omega}}}\) is given by
+\begin{align*}
+    \dot{\parenth{J_R \vecbf{\Omega}}} &= \dot{J}_R \vecbf{\Omega} + J_R \dot{\vecbf{\Omega}} \\
+    &= \bracket{\parenth{S(\vecbf{\Omega}) - S(\vecbf{\Omega}_2)} R J_1 R^T + R J_1 R^T \parenth{S(\vecbf{\Omega}_2) - S(\vecbf{\Omega})}} \vecbf{\Omega} + J_R \dot{\vecbf{\Omega}} .
+\end{align*}
+In summary, the relative equations of motion are given as
+\begin{align}
+    \dot{\vecbf{\chi}} + \vecbf{\Omega}_A \times \vecbf{\chi} &= \vecbf{V} ,\\
+    \dot{R} &= S(\vecbf{\Omega}) R - S(\vecbf{\Omega}_A ) R , \\
+    J_R \dot{\Omega} &= M_1 + M_2 - \vecbf{\Omega}_A \times J_R \vecbf{\Omega} -\bracket{\parenth{S(\vecbf{\Omega}) - S(\vecbf{\Omega}_2)} R J_1 R^T + R J_1 R^T \parenth{S(\vecbf{\Omega}_2) - S(\vecbf{\Omega})}} \vecbf{\Omega} , \\
+    \parenth{m_1 + m_2} \dot{\vecbf{V}} &= m_1 \deriv{U}{\vecbf{z}_1} + m_2 \deriv{U}{\vecbf{z}_2} - \parenth{m_1 +m_2} S(\vecbf{\Omega}_A) \vecbf{V} .
+\end{align}
+
+\bibliographystyle{abbrv}
+%\bibliography{../../../../docs/technical_papers/bibtex/library}
+\bibliography{library}
+\end{document}  
