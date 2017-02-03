@@ -153,62 +153,48 @@ The quadratic term \( \norm{\dot{\vecbf{x}} + \dot{R} \vecbf{\rho} }^2 \) is exp
 \begin{align}
     \norm{\dot{\vecbf{x}} + \dot{R} \vecbf{\rho} }^2 &= \dot{\vecbf{x}}^T \dot{\vecbf{x}} + \dot{\vecbf{x}}^T \dot{R} \vecbf{\rho} + \parenth{ \dot{R} \vecbf{\rho}}^T \dot{\vecbf{x}} + \parenth{\dot{R} \vecbf{\rho}}^T \parenth{\dot{R} \vecbf{\rho}} \nonumber\\
     &= \dot{\vecbf{x}}^T \dot{\vecbf{x}} + 2 \dot{\vecbf{x}}^T \dot{R} \vecbf{\rho} + \parenth{\dot{R} \vecbf{\rho}}^T \parenth{\dot{R} \vecbf{\rho}} \nonumber\\
-    &= \norm{\dot{\vecbf{x}}}^2 + 2 \dot{\vecbf{x}}^T \dot{R} \vecbf{\rho} + \norm{\parenth{\dot{R} \vecbf{\rho}} }^2 
+    &= \norm{\dot{\vecbf{x}}}^2 + 2 \dot{\vecbf{x}}^T \dot{R} \vecbf{\rho} + \norm{\parenth{\dot{R} \vecbf{\rho}} }^2 .
 \end{align}
-Combining this with the kinematic equations of motion, \( \dot{R} = R S(\vecbf{\Omega}) \), and noticing the fact that
+The second term will go to zero from the definition of the center of mass
 \begin{align}
-    \int_{\mathsf{B}} \vecbf{\rho} \, dm = 0
+    \int_{\mathsf{B}} \vecbf{\rho} \, dm = 0 .
 \end{align}
-the kinetic energy is reduced to
+Combining this with the kinematic equations of motion, \( \dot{R} = R S(\vecbf{\Omega}) \), gives
 \begin{align}
     T &= \frac{1}{2} \int_{\mathsf{B}} \braces{ \norm{\dot{\vecbf{x}}}^2 + \norm{\parenth{\dot{R} \vecbf{\rho}} }^2  } \, dm \nonumber\\
     &= \frac{1}{2} \int_{\mathsf{B}} \braces{ \norm{\dot{\vecbf{x}}}^2 + \parenth{\dot{R} \vecbf{\rho}}^T \parenth{\dot{R} \vecbf{\rho}}  } \, dm \nonumber\\
     &= \frac{1}{2} \int_{\mathsf{B}} \braces{ \norm{\dot{\vecbf{x}}}^2 + \vecbf{\rho}^T S(\vecbf{\Omega})^T R^T R S(\vecbf{\Omega}) \vecbf{\rho}  } \, dm \nonumber\\
-    &= \frac{1}{2} \int_{\mathsf{B}} \braces{ \norm{\dot{\vecbf{x}}}^2 + \norm{S(\vecbf{\Omega}) \vecbf{\rho}}^2  } \, dm 
+    &= \frac{1}{2} \int_{\mathsf{B}} \braces{ \norm{\dot{\vecbf{x}}}^2 + \norm{S(\vecbf{\Omega}) \vecbf{\rho}}^2  } \, dm  .
 \end{align}
 
-Another way to derive this relationship is to define the kinetic energy of the system as
-\begin{align}\label{eq:T_prod}
-    T = \frac{1}{2} \sum_{i=1}^2 m_i \dot{\vecbf{r}}_i \cdot \dot{\vecbf{r}}_i ,
-\end{align}
-where \( \dot{\vecbf{r}}_i \) is the inertial velocity of each mass of the dumbbell.
-The inertial velocity is also defined as
-\begin{align}\label{eq:inertial_vel}
-    \dot{\vecbf{r}}_i = \dot{\vecbf{x}} + \dot{\vecbf{\rho}}_i 
-\end{align}
-Substituting~\cref{eq:inertial_vel} into~\cref{eq:T_prod} and expanding results in
+The first term is simplified as
 \begin{align*}
-    T = \frac{1}{2} \sum_{i=1}^2 m_i \dot{\vecbf{x}} \cdot \dot{\vecbf{x}}  + \sum_{i=1}^2 m_i \dot{\vecbf{x}} \cdot \dot{\vecbf{\rho}}_i + \frac{1}{2} \sum_{i=1}^2 m_i \dot{\vecbf{\rho}}_i \cdot \dot{\vecbf{\rho}}_i .
+    \int_{\mathcal{B}} \norm{\dot{\vb{x}}}^2 \, dm = m \norm{\vb{x}}^2 .
 \end{align*}
-As previously, the second term vanishes by the definition of the center of mass
+We use the trace property
 \begin{align*}
-    \sum m_i \dot{\vecbf{\rho}}_i &= 0, \\
-    \sum m_i \vecbf{\rho} &= 0 .
+    \norm{\vb{x}^2} = \vb{x}^T \vb{x} = \tr{\vb{x} \vb{x}^T} .
 \end{align*}
-We define the total mass as \( m = \sum_{i=1}^2 m_i \) and rewrite~\cref{eq:T_prod} as 
+Using this property, the second term becomes
 \begin{align*}
-    T = \frac{1}{2} m \dot{\vecbf{x}} \cdot \dot{\vecbf{x}} + \frac{1}{2} \sum_{i=1}^2 m_i \dot{\vecbf{\rho}}_i \cdot \dot{\vecbf{\rho}}_i .
+    \int_{\mathcal{B}} \norm{S(\vb{\Omega}) \vb{\rho}}^2 \, dm &= \int_{\mathcal{B}} \parenth{S(\vb{\Omega}) \vb{\rho}}^T \parenth{S(\vb{\Omega}) \vb{\rho}}\, dm , \\
+    &= \int_{\mathcal{B}} \tr{S(\vb{\Omega}) \vb{\rho} \vb{\rho}^T S(\vb{\Omega})^T}\, dm , \\
+    &= \tr{S(\vb{\Omega}) \bracket{\int_{\mathcal{B}} \vb{\rho} \vb{\rho}^T \, dm} S(\vb{\Omega})^T} , \\
+    &= \tr{S(\vb{\Omega}) J_d S(\vb{\Omega})^T} .
 \end{align*}
-We assume that the vector \( \vecbf{\rho}_i \) is defined in the body fixed, \(\vecbf{b}_i\), of the dumbbell.
-The inertial velocity \( \dot{\vecbf{\rho}}_i \) is defined as
+We define \( J_d \) as the non-standard moment of inertia.
+It is related to the standard moment of inertia tensor through the following relationship
 \begin{align*}
-    \dot{\vecbf{\rho}}_i = \vecbf{\Omega} \times \vecbf{\rho}_i ,
+    J_I &= \int_{\mathcal{B}} S(\vb{\rho})^T S(\vb{\rho}) \, dm \\
+    &= \int_{\mathcal{B}} \vb{\rho}^T \vb{\rho} I - \vb{\rho}\vb{\rho}^T \, dm , \\
+    &= \int_{\mathcal{B}} \tr{\vb{\rho} \vb{\rho}^T} I - \vb{\rho}\vb{\rho}^T \, dm \\
+    &= \tr{\int_{\mathcal{B}} \vb{\rho} \vb{\rho}^T \, dm} I - \int_{\mathcal{B}} \vb{\rho} \vb{\rho}^T \, dm , \\
+    &= \tr{J_d} I - J_d .
 \end{align*}
-
-where \( \vecbf{\omega} \) is the angular velocity of the dumbbell with respect to the inertial frame and defined in the body frame, \( \vecbf{b}_i\).
-The quadratic term is then given by
-\begin{align}
-    \dot{\vecbf{\rho}}_i \cdot \dot{\vecbf{\rho}}_i &= \dot{\vecbf{\rho}}_i \cdot \parenth{\vecbf{\omega} \times \vecbf{\rho}} ,\nonumber \\
-    &= \vecbf{\omega} \cdot \parenth{\vecbf{\rho}_i \times \dot{\vecbf{\rho}}_i } ,
-\end{align}
-where we used the cyclic permutation identity, \( \vecbf{a} \cdot \parenth{\vecbf{b} \times \vecbf{c}} = \vecbf{b} \cdot \parenth{\vecbf{c} \times \vecbf{a}}  = \vecbf{c} \cdot \parenth{\vecbf{a} \times \vecbf{b}}\).
-The kinetic energy then becomes
+Finally, the kinetic energy of the dumbbell is defined as
 \begin{align}\label{eq:kinetic_energy}
-    T &= \frac{1}{2} \sum_{i=1}^2 m_i \dot{\vecbf{x}} \cdot \dot{\vecbf{x}}  + \sum_{i=1}^2 m_i \dot{\vecbf{x}} \cdot \dot{\vecbf{\rho}}_i + \frac{1}{2} \vecbf{\omega} \cdot \parenth{\sum_{i=1}^2 \vecbf{\rho}_i \times m_i \dot{\vecbf{\rho}}_i } , \nonumber\\
-    T &= \frac{1}{2} m \dot{\vecbf{x}} \cdot \dot{\vecbf{x}} + \frac{1}{2} \vecbf{\omega}\cdot \vecbf{H} , \nonumber \\
-    T &= \frac{1}{2} m \dot{\vecbf{x}} \cdot \dot{\vecbf{x}} + \frac{1}{2} \vecbf{\omega}\cdot J \vecbf{\omega} .
+    T = \frac{1}{2} m \norm{\dot{\vb{x}}}^2 + \frac{1}{2} \tr{S(\vb{\Omega}) J_d S(\vb{\Omega})^T} .
 \end{align}
-
 \subsection{Gravitational Potential Energy}\label{ssec:potential_energy}
 The gravitational potential field around the asteroid is defined using the polyhedron potential model~\cite{werner1994,werner1996}.
 The potential energy on a mass \( m_i \) located at a point \( \vecbf{r} = x \vecbf{f}_1 + y \vecbf{f}_2 + z \vecbf{f}_3 \) is defined as
