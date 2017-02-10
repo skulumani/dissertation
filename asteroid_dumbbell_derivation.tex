@@ -3,7 +3,7 @@
 
 \title{Asteroid Dumbbell Derivation}
 \author{Shankar Kulumani}
-\date{03 February 2017}                         % Activate to display a given date or no date
+\date{\today}                         % Activate to display a given date or no date
 
 \begin{document}
 \maketitle
@@ -184,13 +184,13 @@ Using this property, the second term becomes
 \end{align*}
 We define \( J_d \) as the non-standard moment of inertia.
 It is related to the standard moment of inertia tensor through the following relationship
-\begin{align*}
-    J_I &= \int_{\mathcal{B}} S(\vb{\rho})^T S(\vb{\rho}) \, dm \\
-    &= \int_{\mathcal{B}} \vb{\rho}^T \vb{\rho} I - \vb{\rho}\vb{\rho}^T \, dm , \\
-    &= \int_{\mathcal{B}} \tr{\vb{\rho} \vb{\rho}^T} I - \vb{\rho}\vb{\rho}^T \, dm \\
-    &= \tr{\int_{\mathcal{B}} \vb{\rho} \vb{\rho}^T \, dm} I - \int_{\mathcal{B}} \vb{\rho} \vb{\rho}^T \, dm , \\
+\begin{align}\label{eq:nonstandard_moi}
+    J_I &= \int_{\mathcal{B}} S(\vb{\rho})^T S(\vb{\rho}) \, dm \nonumber \\
+    &= \int_{\mathcal{B}} \vb{\rho}^T \vb{\rho} I - \vb{\rho}\vb{\rho}^T \, dm , \nonumber \\
+    &= \int_{\mathcal{B}} \tr{\vb{\rho} \vb{\rho}^T} I - \vb{\rho}\vb{\rho}^T \, dm \nonumber \\
+    &= \tr{\int_{\mathcal{B}} \vb{\rho} \vb{\rho}^T \, dm} I - \int_{\mathcal{B}} \vb{\rho} \vb{\rho}^T \, dm , \nonumber \\
     &= \tr{J_d} I - J_d .
-\end{align*}
+\end{align}
 Finally, the kinetic energy of the dumbbell is defined as
 \begin{align}\label{eq:kinetic_energy}
     T = \frac{1}{2} m \norm{\dot{\vb{x}}}^2 + \frac{1}{2} \tr{S(\vb{\Omega}) J_d S(\vb{\Omega})^T} .
@@ -299,7 +299,7 @@ where we make use of the polyhedron potential gradient given by~\cref{eq:attract
 The variation of the kinetic energy is defined as
 \begin{align}\label{eq:kinetic_variation}
     \delta T &= \deriv{T}{\dot{\vecbf{x}}}^T \delta \dot{\vecbf{x}} + \deriv{T}{\vecbf{\Omega}}^T \delta \vecbf{\Omega} , \\
-    &=  \parenth{m_1 + m_2} \dot{\vecbf{x}}^T \delta \dot{\vecbf{x}} + \frac{1}{2} \tr{ S(\vb{\delta \Omega}) J_d S(\vb{\Omega})^T + S(\vb{\Omega}) J_d S(\delta \vb{\Omega})^T}.
+    &=  \frac{1}{2} \parenth{m_1 + m_2} \dot{\vecbf{x}}^T \delta \dot{\vecbf{x}} + \frac{1}{2} \tr{ S(\vb{\delta \Omega}) J_d S(\vb{\Omega})^T + S(\vb{\Omega}) J_d S(\delta \vb{\Omega})^T}.
 \end{align}
 The variation of \( \vb{\Omega} \) is computed using the kinematic equations and \( \delta R = R \eta\).
 First, we can rearrange the kinematics to arrive at
@@ -307,15 +307,55 @@ First, we can rearrange the kinematics to arrive at
     S(\vb{\Omega}) = R^T \dot{R}.
 \end{align*}
 Next,
+\begin{align}\label{eq:delta_omega}
+    S(\delta \vb{\Omega}) &= \delta R^T \dot{R} + R^T \delta \dot{R} , \nonumber \\
+    &= - \eta R^T R S(\vb{\Omega}) + R^T \diff{}{t} \parenth{\delta R}, \nonumber\\
+    &= -\eta S(\vb{\Omega}) + R^T \parenth{\dot{R}\eta + R \dot{\eta}}, \nonumber \\
+    &= -\eta S(\vb{\Omega}) + S(\vb{\Omega}) \eta + \dot{\eta}  . 
+\end{align}
+Now,~\cref{eq:delta_omega} is substituted into~\cref{eq:kinetic_variation} to obtain
 \begin{align*}
-    S(\delta \vb{\Omega}) &= \delta R^T \dot{R} + R^T \delta \dot{R} , \\
-    &= - \eta R^T R S(\vb{\Omega}) + R^T \diff{}{t} \parenth{\delta R}, \\
-    &= -\eta S(\vb{\Omega}) + R^T \parenth{\dot{R}\eta + R \dot{\eta}}, \\
-    &= -\eta S(\vb{\Omega}) + S(\vb{\Omega}) \eta + \dot{\eta}  .
+    \delta T &= \frac{1}{2} \parenth{m_1 + m_2} \dot{\vecbf{x}}^T \delta \dot{\vb{x}} + \frac{1}{2} \tr{\parenth{-\eta S(\vb{\Omega}) + S(\vb{\Omega}) \eta + \dot{\eta}} J_d S(\vb{\Omega})^T + S(\vb{\Omega}) J_d \parenth{-\eta S(\vb{\Omega}) + S(\vb{\Omega}) \eta + \dot{\eta}}^T} .
 \end{align*}
+Applying the transpose and multiplying out terms gives
+\begin{align*}
+    \delta T &= \frac{1}{2} \parenth{m_1 + m_2} \dot{\vecbf{x}}^T \delta \dot{\vb{x}} \\
+    &+ \frac{1}{2} \tr{ -\eta S(\vb{\Omega}) J_d S(\vb{\Omega})^T + S(\vb{\Omega})\eta J_d S(\vb{\Omega})^T + \dot{\eta}J_d S(\vb{\Omega})^T + S(\vb{\Omega}) J_d \parenth{-S(\vb{\Omega}) \eta + \eta S(\vb{\Omega}) - \dot{\eta}}} , \\
+    &= \frac{1}{2} \parenth{m_1 + m_2} \dot{\vecbf{x}}^T \delta \dot{\vb{x}} \\
+    &+ \frac{1}{2} \tr{-\eta S(\vb{\Omega}) J_d S(\vb{\Omega})^T + S(\vb{\Omega})\eta J_d S(\vb{\Omega})^T + \dot{\eta}J_d S(\vb{\Omega})^T -S(\vb{\Omega}) J_d S(\vb{\Omega}) \eta + S(\vb{\Omega}) J_d \eta S(\vb{\Omega}) - S(\vb{\Omega}) J_d \dot{\eta} } .
+\end{align*}
+Using the trace property, \( \tr{AB} = \tr{BA} = \tr{A^T B^T} = \tr{B^T A^T} \), lets us redefine several terms
+\begin{align*}
+    \tr{-S(\vb{\Omega}) J_d \dot{\eta}} &= \tr{- \dot{\eta} S(\vb{\Omega}) J_d} , \\
+    \tr{S(\vb{\Omega}) J_d \eta S(\vb{\Omega})} &= \tr{\eta S(\vb{\Omega}) S(\vb{\Omega}) J_d} , \\
+    \tr{-\eta S(\vb{\Omega}) J_d S(\vb{\Omega})^T} &= \tr{\eta S(\vb{\Omega}) J_d S(\vb{\Omega})} .
+\end{align*}
+These transformations allows us to combine several similar terms as
+\begin{align*}
+    \delta T &= \frac{1}{2} \parenth{m_1 + m_2} \dot{\vecbf{x}}^T \delta \dot{\vb{x}} \\
+    & + \frac{1}{2} \tr{-\dot{\eta} \parenth{J_d S(\vb{\Omega}) + S(\vb{\Omega}) J_d}} + \frac{1}{2} \tr{\eta S(\vb{\Omega}) \parenth{J_d S(\vb{\Omega}) + S(\vb{\Omega}) J_d}} + \frac{1}{2} \tr{ S(\vb{\Omega}) \eta J_d S(\vb{\Omega})^T - S(\vb{\Omega}) J_d S(\vb{\Omega}) \eta}
+\end{align*}
+The last trace term can be simplified using the properties of the trace and hat map as
+\begin{align*}
+    \frac{1}{2} \tr{ S(\vb{\Omega}) \eta J_d S(\vb{\Omega})^T - S(\vb{\Omega}) J_d S(\vb{\Omega}) \eta} &= \frac{1}{2} \tr{ - S(\vb{\Omega}) \eta J_d S(\vb{\Omega}) - S(\vb{\Omega}) J_d S(\vb{\Omega}) \eta} , \\
+    &= \frac{1}{2} \tr{ -  \eta J_d S(\vb{\Omega}) S(\vb{\Omega}) - \eta S(\vb{\Omega}) J_d S(\vb{\Omega}) } \\
+    &= -\frac{1}{2} \tr{\eta \parenth{J_d S(\vb{\Omega}) +S(\vb{\Omega}) J_d }S(\vb{\Omega})}
+\end{align*}
+Using this simplification gives
+\begin{align*}
+    \delta T &= \frac{1}{2} \parenth{m_1 + m_2} \dot{\vecbf{x}}^T \delta \dot{\vb{x}} \\
+    & + \frac{1}{2} \tr{-\dot{\eta} \parenth{J_d S(\vb{\Omega}) + S(\vb{\Omega}) J_d}} + \frac{1}{2} \tr{\eta S(\vb{\Omega}) \parenth{J_d S(\vb{\Omega}) + S(\vb{\Omega}) J_d}} - \frac{1}{2} \tr{ \eta \parenth{J_d S(\vb{\Omega}) +S(\vb{\Omega}) J_d }S(\vb{\Omega})} .
+\end{align*}
+From~\cref{eq:nonstandard_moi} this is redefined as
+\begin{align}\label{eq:kinetic_energy_variation_final}
+    \delta T &= \frac{1}{2} \parenth{m_1 + m_2} \dot{\vecbf{x}}^T \delta \dot{\vb{x}} + \frac{1}{2} \tr{-\dot \eta S(J \vb{\Omega}) + \eta \parenth{ S(\vb{\Omega}) S(J \vb{\Omega}) + S(J \vb{\Omega}) S(\vb{\Omega})} } , \nonumber\\
+    &= \frac{1}{2} \parenth{m_1 + m_2} \dot{\vecbf{x}}^T \delta \dot{\vb{x}} + \frac{1}{2} \tr{ - \dot{\eta} S(J \vb{\Omega}) + \eta S(\vb{\Omega} \times J \vb{\Omega})} , 
+\end{align}
+where we used the hat map property, \( S(\vb{x} \times \vb{y}) = S(\vb{x})S(\vb{y}) - S(\vb{y})S(\vb{x}) \), to arrive at the final form.
 
 
-Combining~\cref{eq:potential_variation,eq:kinetic_variation} and using Hamilton's principle gives us the variation of the action integral
+\subsubsection{Hamilton's Principle}
+Combining~\cref{eq:potential_variation,eq:kinetic_energy_variation_final} and using Hamilton's principle gives us the variation of the action integral
 \begin{align}\label{eq:action_integral_variation}
     \delta I =& \int_{t_0}^{t_f} \parenth{m_1 + m_2 }\dot{\vecbf{x}}^T \delta \dot{\vecbf{x}}  + \frac{1}{2} \tr{-\dot{\eta} S(J \vecbf{\Omega}) + \eta S(\vecbf{\Omega} \times J \vecbf{\Omega})} \\
     &+\bracket{m_1 \deriv{U}{\vecbf{z}_1}^T R_A^T + m_2 \deriv{U}{\vecbf{z}_2}^T R_A^T } \delta \vecbf{x} - \tr{ \eta \braces{m_1 R^T \deriv{U}{\vecbf{z}_1} \parenth{R_A^T \vecbf{\rho}_1}^T + m_2 R^T \deriv{U}{\vecbf{z}_2} \parenth{R_A^T \vecbf{\rho}_2}^T}} .
