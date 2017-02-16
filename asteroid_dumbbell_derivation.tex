@@ -118,11 +118,26 @@ The location of the center of each sphere is
 \end{align}
 Using this gives the final moment of inertia tensor as
 \begin{align}
-    J = \begin{bmatrix}
+    J_I = \begin{bmatrix}
         \frac{2}{5} m_1 r_1^2 + \frac{2}{5} m_2 r_2^2  & 0 & 0 \\
         0 & \frac{2}{5} m_1 r_1^2 + \frac{2}{5} m_2 r_2^2 + m_1 l_1^2 + m_2 l_2^2 & 0 \\
         0 & 0 & \frac{2}{5} m_1 r_1^2 + \frac{2}{5} m_2 r_2^2 + m_1 l_1^2 + m_2 l_2^2
     \end{bmatrix} .
+\end{align}
+We define \( J_d \) as the non-standard moment of inertia.
+It is related to the standard moment of inertia tensor, \( J_I\), through the following relationship
+\begin{align}\label{eq:nonstandard_moi}
+    J_I &= \int_{\mathcal{B}} S(\vb{\rho})^T S(\vb{\rho}) \, dm \nonumber \\
+    &= \int_{\mathcal{B}} \vb{\rho}^T \vb{\rho} I - \vb{\rho}\vb{\rho}^T \, dm , \nonumber \\
+    &= \int_{\mathcal{B}} \tr{\vb{\rho} \vb{\rho}^T} I - \vb{\rho}\vb{\rho}^T \, dm \nonumber \\
+    &= \tr{\int_{\mathcal{B}} \vb{\rho} \vb{\rho}^T \, dm} I - \int_{\mathcal{B}} \vb{\rho} \vb{\rho}^T \, dm , \nonumber \\
+    &= \tr{J_d} I - J_d .
+\end{align}
+Using the previous definition for \( \vb{\rho}_i \) we can expand this further as
+\begin{align}
+    J_d &= \sum_i \int_{B_i} \parenth{\vb{\zeta}_i + \vb{\eta}_i}^T \parenth{\vb{\zeta}_i + \vb{\eta}_i} \, dm \, \\
+    &= \sum_i \int_{B_i} \vb{\zeta}_i \vb{\zeta}_i^T + \vb{\eta}_i \vb{\eta}_i^T \, dm , \\
+    &= \sum_i m_i \vb{\zeta}_i \vb{\zeta}_i^T + \frac{1}{5}m_i r_i^2 .
 \end{align}
 
 \section{Inertial Frame Derivation}\label{sec:inertial_eoms}
@@ -182,15 +197,7 @@ Using this property, the second term becomes
     &= \tr{S(\vb{\Omega}) \bracket{\int_{\mathcal{B}} \vb{\rho} \vb{\rho}^T \, dm} S(\vb{\Omega})^T} , \\
     &= \tr{S(\vb{\Omega}) J_d S(\vb{\Omega})^T} .
 \end{align*}
-We define \( J_d \) as the non-standard moment of inertia.
-It is related to the standard moment of inertia tensor through the following relationship
-\begin{align}\label{eq:nonstandard_moi}
-    J_I &= \int_{\mathcal{B}} S(\vb{\rho})^T S(\vb{\rho}) \, dm \nonumber \\
-    &= \int_{\mathcal{B}} \vb{\rho}^T \vb{\rho} I - \vb{\rho}\vb{\rho}^T \, dm , \nonumber \\
-    &= \int_{\mathcal{B}} \tr{\vb{\rho} \vb{\rho}^T} I - \vb{\rho}\vb{\rho}^T \, dm \nonumber \\
-    &= \tr{\int_{\mathcal{B}} \vb{\rho} \vb{\rho}^T \, dm} I - \int_{\mathcal{B}} \vb{\rho} \vb{\rho}^T \, dm , \nonumber \\
-    &= \tr{J_d} I - J_d .
-\end{align}
+
 Finally, the kinetic energy of the dumbbell is defined as
 \begin{align}\label{eq:kinetic_energy}
     T = \frac{1}{2} m \norm{\dot{\vb{x}}}^2 + \frac{1}{2} \tr{S(\vb{\Omega}) J_d S(\vb{\Omega})^T} .
@@ -414,7 +421,7 @@ where \( M_i \) is defined as previously and
     z_i = R_A^T \parenth{\vecbf{x} + R \vecbf{\rho}_i}.
 \end{align*}
 
-\subsection{Relative Equations of motion}\label{sec:relative_eoms}
+\section{Relative Equations of motion}\label{sec:relative_eoms}
 
 The relative kinematics of a dumbbell spacecraft with respect to an asteroid are defined by:
 \begin{itemize}
