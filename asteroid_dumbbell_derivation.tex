@@ -8,56 +8,6 @@
 \begin{document}
 \maketitle
 
-\section[EOM Summary]{Dumbbell Equations of Motion}\label{sec:asteroid}
-
-The inertial equations of motion are defined as
-\begin{align}
-    \parenth{m_1 + m_2} \ddot{\vecbf{x}} &= m_1 R_A \deriv{U}{\vecbf{z}_1} + m_2 R_A \deriv{U}{\vecbf{z}_2}, \\
-    J \dot{\vecbf{\Omega}} + \vecbf{\Omega} \times J \vecbf{\Omega} &= \vecbf{M}_1 + \vecbf{M}_2.
-\end{align}
-The vectors \( \vecbf{z}_1 \) and \( \vecbf{z}_2\) define the position of the dumbbell masses as represented in the asteroid fixed frame and are defined as
-\begin{align}
-    \vecbf{z}_1 &= R_A^T \parenth{\vecbf{x} + R \vecbf{\rho}_1} , \\
-    \vecbf{z}_2 &= R_A^T \parenth{\vecbf{x} + R \vecbf{\rho}_2}.
-\end{align}
-The moment on the dumbbell \( \vecbf{M}_i\) is defined as
-\begin{align}
-    \vecbf{M}_i = m_i \parenth{ \vecbf{u}_1 \times \vecbf{r}_1 + \vecbf{u}_2 \times \vecbf{r}_2 + \vecbf{u}_3 \times \vecbf{r}_3},
-\end{align}
-where \( \vecbf{u}_i \) and \( \vecbf{r}_i \) are defined as
-\begin{align*}
-    \deriv{U}{\vecbf{z}_i} \parenth{R_A^T \rho_i}^T = \begin{bmatrix}\vecbf{u}_1 \\ \vecbf{u}_2 \\ \vecbf{u}_3 \end{bmatrix} ,
-    \quad
-    R = \begin{bmatrix}\vecbf{r}_1 \\\vecbf{r}_2 \\ \vecbf{r}_3 \end{bmatrix}
-\end{align*}
-
-The relative equations of motion are defined using the relative kinematic variables
-\begin{align}
-    \vecbf{X} &= R_A^T \vecbf{x}, \\
-    R &= R_A^T R_1 ,\\
-    \vecbf{V} &= R_A^T \dot{\vecbf{x}} ,\\
-    \vecbf{\Omega} &= R \vecbf{\Omega}_1.
-\end{align}
-Using these the equations of motion of the dumbbell relative to the asteroid and defined in the asteroid fixed frame are given as
-\begin{align}
-    \parenth{m_1 + m_2} \dot{\vecbf{V}} + \parenth{m_1 + m_2} S(\vecbf{\Omega}_A) \vecbf{V} &= m_1 \deriv{U}{\vecbf{z}_1} + m_2 \deriv{U}{\vecbf{z}_2} , \\
-    \dot{\parenth{J_R \vecbf{\Omega}}} + \vecbf{\Omega}_A \times J_R \vecbf{\vecbf{\Omega}} &= \vecbf{M}_1 + \vecbf{M}_2 .
-\end{align}
-The asteroid frame position vectors \( \vecbf{z}_i \) are defined similarly as 
-\begin{align*}
-    \vecbf{z}_i = \vecbf{X} + R \vecbf{\rho}_i .
-\end{align*}
-The moment on the dumbbell \( \vecbf{M}_i \) is also defined as
-\begin{align*}
-    \vecbf{M}_i = m_i \parenth{ \vecbf{r}_1 \times \vecbf{u}_1 + \vecbf{r}_2 \times \vecbf{u}_2 + \vecbf{r}_3 \times \vecbf{u}_3},
-\end{align*}
-with \( \vecbf{r}_i \) and \( \vecbf{u}_i \) defined as
-\begin{align*}
-    \vecbf{\rho}_i \deriv{U}{\vecbf{z}_i} = \begin{bmatrix}\vecbf{u}_1 \\ \vecbf{u}_2 \\ \vecbf{u}_3 \end{bmatrix} ,
-    \quad
-    R = R_A^T R_1 = \begin{bmatrix}\vecbf{r}_1 \\\vecbf{r}_2 \\ \vecbf{r}_3 \end{bmatrix}
-\end{align*}
-
 \section[Moment of Inertia]{Moment of Inertia derivation}\label{sec:moi_derivation}
 The inertia tensor for a continuous body is given by
 \begin{align}\label{eq:moi_hatmap}
@@ -397,29 +347,40 @@ Using the trace property, \( \tr{PQ} = 0 \iff P^T = -P, Q^T = Q\), the rotationa
     &+ m_1 R^T \deriv{U}{\vecbf{z}_1} \parenth{R_A^T \vecbf{\rho}_1}^T + m_2 R^T \deriv{U}{\vecbf{z}_2} \parenth{R_A^T \vecbf{\rho}_2}^T
 \end{align}
 The gravitational moment can be redefined using the properties of the hat map.
+To begin, the right hand side is defined as
 \begin{align}
-    S(M_i) &= m_1 \parenth{R^T \deriv{U}{\vecbf{z}_i} \parenth{R_A^T \vecbf{\rho}_i}^T - \parenth{R_A^T \vecbf{\rho}_i} \deriv{U}{\vecbf{z}_i}^T R} ,\\
-    &= m_1 \parenth{ y x^T - x y^T} = m_1 S(x \times y) , \\
-    &= m_1 \parenth{ \begin{bmatrix} \vecbf{r}_1^T & \vecbf{r}_2^T & \vecbf{r}_3^T \end{bmatrix} \begin{bmatrix} \vecbf{u}_1 \\ \vecbf{u}_2 \\ \vecbf{u}_3 \end{bmatrix} - \begin{bmatrix} \vecbf{u}_1^T & \vecbf{u}_2^T & \vecbf{u}_3^T \end{bmatrix} \begin{bmatrix} \vecbf{r}_1 \\ \vecbf{r}_2 \\ \vecbf{r}_3 \end{bmatrix}} ,
+    S(\vb{M}_i) &= m_i \parenth{R^T \deriv{U}{\vecbf{z}_i} \parenth{R_A^T \vecbf{\rho}_i}^T - \parenth{R_A^T \vecbf{\rho}_i} \deriv{U}{\vecbf{z}_i}^T R} ,\\
+    &= m_i \parenth{ y x^T - x y^T} = m_i S(x \times y) 
 \end{align}
-where the matrices are defined as
+where the vectors \( x, y\) are defined as
 \begin{align*}
-    R = \begin{bmatrix} \vecbf{r}_1 \\ \vecbf{r}_2 \\ \vecbf{r}_3\end{bmatrix} ,\quad
-    \deriv{U}{\vecbf{z}_i} \parenth{R_A^T \vecbf{\rho}_i}^T = \begin{bmatrix} \vecbf{u}_1 \\ \vecbf{u}_2 \\ \vecbf{u}_3\end{bmatrix}.
+    x &= R_A^T \vb{\rho}_i , \\
+    y &= R^T \deriv{U}{\vb{z}_i} .
 \end{align*}
-Expanding these products and using the property \(  \parenth{ y x^T - x y^T} = S(x \times y) \) the gravitational moment is given as
+As a result, the external moment on the dumbbell is given as
 \begin{align}
-    M_i &= m_i \parenth{ \vecbf{u}_{1i} \times \vecbf{r}_1 + \vecbf{u}_{2i} \times \vecbf{r}_2 + \vecbf{u}_{3i} \times \vecbf{r}_3} .
+    \vb{M}_i = m_i \parenth{S(R_A^T \vb{\rho}_i) R^T \deriv{U}{\vb{z}_i}}.
 \end{align}
-The final equations of motion in the inertial frame are 
+
+\subsection[Inertial EOMs]{Inertial equations of motion}\label{sec:inertial_eoms}
+
+The inertial equations of motion are defined as
 \begin{align}
-    \parenth{m_1 + m_2 } \ddot{\vecbf{x}} &= m_1 R_A \deriv{U}{\vecbf{z}_1} + m_2 R_A \deriv{U}{\vecbf{z}_2} ,\\ 
-    J \dot{\vecbf{\Omega}} + \vecbf{\Omega} \times J \vecbf{\Omega } = M_1 + M_2 ,
+    \dot{\vb{x}} &= \vb{v}, \\
+    \parenth{m_1 + m_2} \dot{\vecbf{v}} &= m_1 R_A \deriv{U}{\vecbf{z}_1} + m_2 R_A \deriv{U}{\vecbf{z}_2}, \\
+    \dot{R} &= R S(\vb{\Omega}) , \\
+    J \dot{\vecbf{\Omega}} + \vecbf{\Omega} \times J \vecbf{\Omega} &= \vecbf{M}_1 + \vecbf{M}_2.
 \end{align}
-where \( M_i \) is defined as previously and 
-\begin{align*}
-    z_i = R_A^T \parenth{\vecbf{x} + R \vecbf{\rho}_i}.
-\end{align*}
+The vectors \( \vecbf{z}_1 \) and \( \vecbf{z}_2\) define the position of the dumbbell masses as represented in the asteroid fixed frame and are defined as
+\begin{align}
+    \vecbf{z}_1 &= R_A^T \parenth{\vecbf{x} + R \vecbf{\rho}_1} , \\
+    \vecbf{z}_2 &= R_A^T \parenth{\vecbf{x} + R \vecbf{\rho}_2}.
+\end{align}
+The moment on the dumbbell \( \vecbf{M}_i\) is defined as
+\begin{align}
+    \vecbf{M}_i = m_i \parenth{S(R_A^T \vb{\rho}_i) R^T \deriv{U}{\vb{z}_i}}, 
+\end{align}
+where \( \vb{\rho}_i \) defines the position of each mass in the dumbbell fixed frame.
 
 \section{Relative Equations of motion}\label{sec:relative_eoms}
 
@@ -443,7 +404,7 @@ Using~\cref{eq:relative_kinetic,eq:relative_potential}, the Langrangian is expre
     L = T-V = \frac{1}{2} \parenth{m_1 + m_2} \norm{\vecbf{V}}^2 + \frac{1}{2} \vecbf{\Omega}_1^T \parenth{R^T J_I R} \vecbf{\Omega}_1 +m_1 U(\vecbf{X} + R \vecbf{\rho}_1) + m_2 U(\vecbf{X}+R \vecbf{\rho}_2) .
 \end{align}
 
-\subsubsection{Relative variable variations}\label{ssec:relative_variations}
+\subsection{Relative variable variations}\label{ssec:relative_variations}
 
 The variation of the relative attitude is expressed as
 \begin{align*}
@@ -541,7 +502,7 @@ In summary, the variation of the relative variables are defined as
     S(\delta \vecbf{\Omega}) &= R \dot{\vecbf{\eta}}_1 R^T = \dot{\vecbf{\eta}} - \braces{S(\vecbf{\Omega})-S(\vecbf{\Omega}_A)} \eta + \eta \braces{S(\vecbf{\Omega}-S(\vecbf{\Omega}_A))} , \\
     \delta \vecbf{V} &= \dot{\vecbf{\chi}} + S(\vecbf{\Omega}_A) \vecbf{\chi} .
 \end{align*}
-\subsubsection{Variation of relative Lagrangian}\label{ssec:var_rel_lagrangian}
+\subsection{Variation of relative Lagrangian}\label{ssec:var_rel_lagrangian}
 
 The variation of the reduced kinetic energy, shown in~\cref{eq:relative_kinetic}, is given by
 \begin{align}\label{eq:relative_kinetic_variation}
@@ -610,8 +571,8 @@ In summary, the relative equations of motion are given as
     \parenth{m_1 + m_2} \dot{\vecbf{V}} &= m_1 \deriv{U}{\vecbf{z}_1} + m_2 \deriv{U}{\vecbf{z}_2} - \parenth{m_1 +m_2} S(\vecbf{\Omega}_A) \vecbf{V} .
 \end{align}
 
-\begin{appendix}
-\section{Another Kinetic Energy derivation}
+\section{Appendix}
+\subsection{Another Kinetic Energy derivation}
 Another way to derive this relationship is to define the kinetic energy of the system as
 \begin{align}\label{eq:T_prod}
     T = \frac{1}{2} \sum_{i=1}^2 m_i \dot{\vecbf{r}}_i \cdot \dot{\vecbf{r}}_i ,
@@ -653,7 +614,7 @@ The kinetic energy then becomes
     T &= \frac{1}{2} m \dot{\vecbf{x}} \cdot \dot{\vecbf{x}} + \frac{1}{2} \vecbf{\omega}\cdot \vecbf{H} , \nonumber \\
     T &= \frac{1}{2} m \dot{\vecbf{x}} \cdot \dot{\vecbf{x}} + \frac{1}{2} \vecbf{\omega}\cdot J \vecbf{\omega} .
 \end{align}
-\end{appendix}
+
 \bibliographystyle{abbrv}
 %\bibliography{../../../../docs/technical_papers/bibtex/library}
 \bibliography{library}
