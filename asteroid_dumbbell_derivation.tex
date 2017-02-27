@@ -382,6 +382,31 @@ The moment on the dumbbell \( \vecbf{M}_i\) is defined as
 \end{align}
 where \( \vb{\rho}_i \) defines the position of each mass in the dumbbell fixed frame.
 
+\subsection{Simulation verification}\label{ssec:inertial_eoms_sim}
+To verify the inertial equations of motion, a long duration simulation is performed and the total energy of the dumbbell is computed.
+In this case, it is assumed that the asteroid 4769 Castalia is modeled using \num{256} faces.
+The dumbbell is defined with the following properties:
+\begin{align*}
+    m_1 &= m_2 = \SI{100}{\kilo\gram},  \quad l = \SI{3}{\meter} ,\\
+    r_1 &= r_2 = \SI{1}{\meter}.
+\end{align*} 
+The dumbbell begins with the initial state defined as
+\begin{align*}
+    \vb{x}_0 &= \begin{bmatrix} 1.495746722510590 & 0.000001002669660 & 0.006129720493607\end{bmatrix}^T , \\
+    \dot{\vb{x}}_0 &= \begin{bmatrix} 0.000000302161724 & -0.000899607989820 & -0.000000013286327\end{bmatrix} + \hat\omega \vb{x}_0 , \\
+    R_0 & = I , \\
+    \vb{\Omega}_0 &= \begin{bmatrix} 0 & 0 & 0\end{bmatrix}^T.
+\end{align*}
+The motion of the dumbbell is simulated over \SI{1e6}{\second} with a step size of \SI{1}{\second} using the numerical integration routine \texttt{scipy.odeint} which uses the FORTRAN library \texttt{odepack}.
+The kinetic and potential energy of the dumbbell are computed using~\cref{eq:kinetic_energy,eq:potential_energy} and plotted over the entire timespan.
+\Cref{fig:inertial_energy} shows the history of the energy over the simulation.
+We can see that total energy remains well behaved over the long simulation.
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{figures/ast_dumbbell_inertial_energy.pdf}
+    \caption{Inertial EOMs energy behavior}\label{fig:inertial_energy}
+\end{figure}
+
 \section{Relative Equations of motion}\label{sec:relative_eoms}
 
 The relative motion of a dumbbell spacecraft with respect to an asteroid are defined by the kinematics:
