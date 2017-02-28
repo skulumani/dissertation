@@ -440,16 +440,17 @@ Using this definition the relative kinetic energy is given as
     T &= \frac{1}{2} \parenth{m_1 + m_2} \norm{\vb{V}}^2 + \frac{1}{2} \tr{S(\vb{\Omega}) J_{d_R} S(\vb{\Omega})^T}.
 \end{align}
 
-The potential energy is defined using the relative varibles as
+The potential energy is already defined in terms of the relative position of the dumbbell with respect to the asteroid.
+We now make the substitution using our relative kinematics as
 \begin{align}\label{eq:relative_potential}
     V = -m_1 U(\vecbf{X} + R \vecbf{\rho}_1) - m_2 U(\vecbf{X}+R \vecbf{\rho}_2).
 \end{align}
 Using~\cref{eq:relative_kinetic,eq:relative_potential}, the Langrangian is expressed in terms of the relative variables as 
-\begin{align}
-    L = T-V = \frac{1}{2} \parenth{m_1 + m_2} \norm{\vecbf{V}}^2 + \frac{1}{2} \vecbf{\Omega}_1^T \parenth{R^T J_I R} \vecbf{\Omega}_1 +m_1 U(\vecbf{X} + R \vecbf{\rho}_1) + m_2 U(\vecbf{X}+R \vecbf{\rho}_2) .
+\begin{align}\label{eq:relative_lagrangian}
+    L = T-V = \frac{1}{2} \parenth{m_1 + m_2} \norm{\vb{V}}^2 + \frac{1}{2} \tr{S(\vb{\Omega}) J_{d_R} S(\vb{\Omega})^T} +m_1 U(\vecbf{X} + R \vecbf{\rho}_1) + m_2 U(\vecbf{X}+R \vecbf{\rho}_2) .
 \end{align}
 
-\subsection{Relative variable variations}\label{ssec:relative_variations}
+\subsection{Relative variations}\label{ssec:relative_variations}
 
 The variation of the relative attitude is expressed as
 \begin{align*}
