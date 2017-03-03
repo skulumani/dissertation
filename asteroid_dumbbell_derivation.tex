@@ -412,10 +412,10 @@ We can see that total energy remains well behaved over the long simulation.
 The relative motion of a dumbbell spacecraft with respect to an asteroid are defined by the kinematics:
 \begin{itemize}
     \item \( \vecbf{X} = R_A^T \vecbf{x}_1\) - the position of the center of mass of the dumbbell with respect to the asteroid fixed frame
-    \item \( R = R_A^T R_1\) - the orientation of the dumbbell with respect to the asteroid fixed frame. 
+    \item \( \vb{R} = R_A^T R_1\) - the orientation of the dumbbell with respect to the asteroid fixed frame. 
     This rotation matrix transforms a vector in the dumbbell fixed frame to the asteroid fixed frame.
     \item \( \vecbf{V} = R_A^T \dot{\vecbf{x}}_1 \) - the velocity of the dumbbell center of mass with respect to the inertial frame represented in the asteroid fixed frame
-    \item \( \vecbf{\Omega} = R \vecbf{\Omega}_1\) - the angular velocity of the dumbbell with respect to the inertial frame represented in the asteroid fixed frame.
+    \item \( \vecbf{\Omega} = \vb{R} \vecbf{\Omega}_1\) - the angular velocity of the dumbbell with respect to the inertial frame represented in the asteroid fixed frame.
 \end{itemize}
 As in the inertial equations of motion, we first seek to define the kinetic and potential energy of the dumbbell in terms of these relative kinematics. 
 Afterwards, the variations are taken to derive the equations of motion.
@@ -426,15 +426,16 @@ For the majority of asteroids of interest this is a safe assumption.
 The kinetic energy defined in the inertial frame is given by~\cref{eq:kinetic_energy} and is transformed using the following relationships,
 \begin{align*}
     \dot{\vb{x}}_1 &= R_A \vb{V} , \\
-    \vb{\Omega}_1 &= R^T \vb{\Omega}.
+    \vb{\Omega}_1 &= \vb{R}^T \vb{\Omega}.
 \end{align*}
 Using these, the kinetic energy is expressed using the relative variables as
 \begin{align*}
     T &= \frac{1}{2} \parenth{m_1 + m_2} \norm{\dot{\vb{x}}_1}^2 + \frac{1}{2} \tr{S(\vb{\Omega}_1) J_d S(\vb{\Omega})^T}, \nonumber\\
-    &= \frac{1}{2} \parenth{m_1 + m_2} \parenth{\vb{V}^T R_A^T R_A \vb{V}} + \frac{1}{2} \tr{R^T S(\vb{\Omega})R J_d \parenth{R^TS(\vb{\Omega})R}^T} , \\
-    &= \frac{1}{2} \parenth{m_1 + m_2} \norm{\vb{V}}^2 + \frac{1}{2} \tr{S(\vb{\Omega}) R J_d R^T S(\vb{\Omega})^T}.
+    &= \frac{1}{2} \parenth{m_1 + m_2} \parenth{\vb{V}^T R_A^T R_A \vb{V}} + \frac{1}{2} \tr{\vb{R}^T S(\vb{\Omega})\vb{R} J_d \parenth{\vb{R}^TS(\vb{\Omega})\vb{R}}^T} , \\
+    &= \frac{1}{2} \parenth{m_1 + m_2} \norm{\vb{V}}^2 + \frac{1}{2} \tr{S(\vb{\Omega}) \vb{R} J_d \vb{R}^T S(\vb{\Omega})^T}.
 \end{align*}
-The term \( R J_d R^T = J_{d_R}\) is the expression of the nonstandard moment of inertia tensor of the dumbbell expressed in the asteroid fixed frame. 
+The term \( \vb{R} J_d \vb{R}^T = J_{d_R}\) is the expression of the nonstandard moment of inertia tensor of the dumbbell expressed in the asteroid fixed frame. 
+It is now a time varying inertia matrix as the relative attitude \( \vb{R} \) is a function of time.
 Using this definition the relative kinetic energy is given as
 \begin{align}\label{eq:relative_kinetic}
     T &= \frac{1}{2} \parenth{m_1 + m_2} \norm{\vb{V}}^2 + \frac{1}{2} \tr{S(\vb{\Omega}) J_{d_R} S(\vb{\Omega})^T}.
@@ -443,11 +444,11 @@ Using this definition the relative kinetic energy is given as
 The potential energy is already defined in terms of the relative position of the dumbbell with respect to the asteroid.
 We now make the substitution using our relative kinematics as
 \begin{align}\label{eq:relative_potential}
-    V = -m_1 U(\vecbf{X} + R \vecbf{\rho}_1) - m_2 U(\vecbf{X}+R \vecbf{\rho}_2).
+    V = -m_1 U(\vecbf{X} + \vb{R} \vecbf{\rho}_1) - m_2 U(\vecbf{X}+\vb{R} \vecbf{\rho}_2).
 \end{align}
 Using~\cref{eq:relative_kinetic,eq:relative_potential}, the Langrangian is expressed in terms of the relative variables as 
 \begin{align}\label{eq:relative_lagrangian}
-    L = T-V = \frac{1}{2} \parenth{m_1 + m_2} \norm{\vb{V}}^2 + \frac{1}{2} \tr{S(\vb{\Omega}) J_{d_R} S(\vb{\Omega})^T} +m_1 U(\vecbf{X} + R \vecbf{\rho}_1) + m_2 U(\vecbf{X}+R \vecbf{\rho}_2) .
+    L = T-V = \frac{1}{2} \parenth{m_1 + m_2} \norm{\vb{V}}^2 + \frac{1}{2} \tr{S(\vb{\Omega}) J_{d_R} S(\vb{\Omega})^T} +m_1 U(\vecbf{X} + \vb{R} \vecbf{\rho}_1) + m_2 U(\vecbf{X}+ \vb{R} \vecbf{\rho}_2) .
 \end{align}
 
 \subsection{Relative variations}\label{ssec:relative_variations}
