@@ -507,7 +507,7 @@ We use the facts that \( \eta = \vb{R} \eta_1 \vb{R}^T \) and \( \vecbf{\Omega} 
 \end{align}
 We now need to define \( \dot{\eta}_1\) by first noting that from \( \vb{R} = R_A^T R_1\) and that \( \vecbf{\Omega}_1 = \vb{R}^T \vecbf{\Omega}\)
 \begin{align}\label{eq:relR_dot}
-    \dot{R} &= \dot{R}_A^T R_1 + R_A^T \dot{R}_1 , \nonumber\\
+    \dot{\vb{R}} &= \dot{R}_A^T R_1 + R_A^T \dot{R}_1 , \nonumber\\
     &= - S(\vecbf{\Omega}_A) R_A^T R_1 + R_A^T R_1 S(\vecbf{\Omega}_1) ,\nonumber\\
     &= -S(\vecbf{\Omega}_A) R_A^T R_1 + R_A^T R_1 S(\vb{R}^T \vecbf{\Omega}) , \nonumber\\
     &= -S(\vecbf{\Omega}_A)R_A^T R_1 + R_A^T R_1 \vb{R}^T S(\vecbf{\Omega}) \vb{R} ,\nonumber\\
@@ -519,9 +519,9 @@ From the chain rule and applying~\cref{eq:relR_dot} we can define \( \dot{\eta} 
     &= \braces{S(\vecbf{\Omega}) - S(\vecbf{\Omega}_A)} \vb{R} \eta_1 \vb{R}^T + \vb{R} \dot{\eta}_1 \vb{R}^T + \vb{R} \eta_1 \braces{\vb{R}^T S(\vecbf{\Omega}_A) - \vb{R}^T S(\vecbf{\Omega})} , \nonumber\\
     &= \braces{S(\vecbf{\Omega}) - S(\vecbf{\Omega}_A)} \eta + \vb{R} \dot{\eta}_1 \vb{R}^T - \eta \braces{S(\vecbf{\Omega}) - S(\vecbf{\Omega}_A)} .
 \end{align}
-Finally, we now substitute~\cref{eq:eta_dot} into~\cref{eq:relative_angular_velocity_variation_3} by rearranging~\cref{eq:eta_dot} in terms of \( \dot{\eta}_1\) to arrive at
+Finally, we now substitute~\cref{eq:eta_dot} into~\cref{eq:relative_angular_velocity_variation_3} to arrive at
 \begin{align}\label{eq:rel_ang_vel_var}
-    S(\delta \vecbf{\Omega}) &= \dot{\eta} - \braces{S(\vecbf{\Omega}_A) - S(\vecbf{\Omega})} \eta + \eta \braces{S(\vecbf{\Omega}) - S(\vecbf{\Omega}_A)} , \nonumber \\
+    S(\delta \vecbf{\Omega}) = \vb{R} \dot{\eta}_1 \vb{R}^T &= \dot{\eta} - \braces{S(\vecbf{\Omega}) - S(\vecbf{\Omega}_A)} \eta + \eta \braces{S(\vecbf{\Omega}) - S(\vecbf{\Omega}_A)} , \nonumber \\
     &= \dot{\eta} - S(\vecbf{\Omega}) \eta + \eta S(\vecbf{\Omega}) +  S(\vecbf{\Omega}_A) \eta - \eta S(\vecbf{\Omega}_A) .
 \end{align}
 
@@ -544,9 +544,9 @@ Rearranging~\cref{eq:Xdot} in terms of \( \delta \dot{\vecbf{x}}_1\) and substit
 
 In summary, the variation of the relative variables are defined as
 \begin{align*}
-    \delta R &= R_A^T R_1 \eta_1 = \eta R ,\\
+    \delta \vb{R} &= R_A^T R_1 \eta_1 = \eta \vb{R} ,\\
     \delta \vecbf{X} &= R_A^T \delta \vecbf{x}_1 = \vecbf{\chi} , \\
-    S(\delta \vecbf{\Omega}) &= R \dot{\vecbf{\eta}}_1 R^T = \dot{\vecbf{\eta}} - \eta S(\vecbf{\Omega}_A )  + \eta S(\vecbf{\Omega})  - S(\vecbf{\Omega}_A) \eta + S(\vecbf{\Omega}) \eta, \\
+    S(\delta \vecbf{\Omega}) &= R \dot{\vecbf{\eta}}_1 R^T = \dot{\eta} - S(\vecbf{\Omega}) \eta + \eta S(\vecbf{\Omega}) +  S(\vecbf{\Omega}_A) \eta - \eta S(\vecbf{\Omega}_A) , \\
     \delta \vecbf{V} &= \dot{\vecbf{\chi}} + S(\vecbf{\Omega}_A) \vecbf{\chi} , \\
     &= -S(\vb{\Omega}_A) R_A^T \delta \vb{x}_1 + R_A^T \delta \dot{\vb{x}}_1 + S(\vb{\Omega}_A) R_A^T \delta \vb{x}_1.
 \end{align*}
@@ -554,9 +554,31 @@ In summary, the variation of the relative variables are defined as
 
 The variation of the reduced kinetic energy, shown in~\cref{eq:relative_kinetic}, is given by
 \begin{align}\label{eq:relative_kinetic_variation}
-    \delta T &= \parenth{m_1 + m_2} \vecbf{V}^T \delta \vecbf{V} + \frac{1}{2} \bracket{\delta \vecbf{\Omega}_1^T J_R \vecbf{\Omega}_1 + \vecbf{\Omega}_1^T J_R \delta \vecbf{\Omega}_1} , \\
-    &= \parenth{m_1 + m_2} \delta \vecbf{V} \parenth{\dot{\vecbf{\chi}} + S(\vecbf{\Omega}_A) \vecbf{\chi}} + \frac{1}{2} \tr{- \dot{\eta} S(J_R \vecbf{\Omega}) + \eta S(\vecbf{\Omega}_A \times J_R \vecbf{\Omega})}.
+    \delta T &= \left. \diff{}{\epsilon} \right|_{\epsilon=0} T(\vb{V} + \epsilon \delta \vb{V}, \vb{\Omega} + \epsilon \delta \vb{\Omega}) , \nonumber \\
+    &= \left. \diff{}{\epsilon} \right|_{\epsilon=0} \bracket{\frac{1}{2} m \norm{\vb{V} + \epsilon \delta \vb{V}} \frac{1}{2} \tr{ S(\vb{\Omega} + \epsilon \delta \vb{\Omega} ) J_{d_{R}} S(\vb{\Omega} + \epsilon \delta \vb{\Omega})^T } } , \nonumber\\
+    &= \left. \diff{}{\epsilon} \right|_{\epsilon=0} \bracket{ \frac{1}{2} m \parenth{\vb{V}^T \vb{V} \epsilon \vb{V}^T \delta \vb{V} + \epsilon \delta \vb{V}^T \vb{V} + \epsilon^2 \delta \vb{V}^T \delta \vb{V}} + \frac{1}{2}\tr{ S(\vb{\Omega} + \epsilon \delta \vb{\Omega} ) J_{d_{R}} S(\vb{\Omega} + \epsilon \delta \vb{\Omega})^T } } , \nonumber \\
+    &= m \vb{V}^T \delta \vb{V} + \frac{1}{2} \tr{ S(\delta \vb{\Omega}) J_{d_{R}} S(\vb{\Omega})^T + S(\vb{\Omega}) J_{d_{R}} S(\delta \vb{\Omega})^T} .
 \end{align}
+Now, we can substitute~\cref{eq:rel_ang_vel_var} into the second term to get
+\begin{align*}
+    &\frac{1}{2} \mathrm{tr} \left[ \braces{\dot{\eta} - S(\vecbf{\Omega}) \eta + \eta S(\vecbf{\Omega}) +  S(\vecbf{\Omega}_A) \eta - \eta S(\vecbf{\Omega}_A) } J_{d_{R}} S(\vb{\Omega})^T \right.\\
+    &\left.+ S(\vb{\Omega}) J_{d_{R}} \braces{-\dot{\eta} - \eta S(\vecbf{\Omega}) + S(\vecbf{\Omega}) \eta + \eta S(\vecbf{\Omega}_A) -  S(\vecbf{\Omega}_A) \eta} \right]
+\end{align*}
+Expanding this equation and collecting terms gives the following
+\begin{align*}
+    \frac{1}{2} \tr{ -\dot{\eta}\parenth{J_{d_{R}} S(\vb{\Omega}) + S(\vb{\Omega}) J_{d_{R}}} + A + B },
+\end{align*}
+with
+\begin{align*}
+    A &= \frac{1}{2} \tr{ -S(\vb{\Omega}) \eta J_{d_{R}} S(\vb{\Omega})^T + \eta S(\vb{\Omega}) J_{d_{R}} S(\vb{\Omega})^T - S(\vb{\Omega}) J_{d_{R}} \eta S(\vb{\Omega}) + S(\vb{\Omega}) J_{d_{R}} S(\vb{\Omega}) \eta} , \\
+    B &= \frac{1}{2} \tr{ S(\vb{\Omega}_A) \eta J_{d_{R}} S(\vb{\Omega})^T - \eta S(\vb{\Omega}_A) J_{d_{R}} S(\vb{\Omega})^T + S(\vb{\Omega}) J_{d_{R}} \eta S(\vb{\Omega}_A) - S(\vb{\Omega}) J_{d_{R}} S(\vb{\Omega}_A) \eta}
+\end{align*}
+where we used the properties of the trace and hat-map to define the following transformations
+\begin{align*}
+    \tr{\dot{\eta} J_{d_{R}} S(\vb{\Omega})^T} &= \tr{- \dot{\eta} J_{d_{R}} S(\vb{\Omega})} , \\
+    \tr{ - S(\vb{\Omega}) J_{d_{R}} \dot{\eta} } &= \tr{-\dot{\eta} S(\vb{\Omega}) J_{d_{R}}} .
+\end{align*}
+
 The variation of the reduced potential energy, shown in~\cref{eq:relative_potential}, is given by
 \begin{align}\label{eq:relative_potential_variation_1}
     \delta U &= -m_1 \deriv{U}{\vecbf{z}_1} \delta \vecbf{z}_1 - m_2 \deriv{U}{\vecbf{z}_2} \delta \vecbf{z}_2 ,
