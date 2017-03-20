@@ -578,6 +578,39 @@ where we used the properties of the trace and hat-map to define the following tr
     \tr{\dot{\eta} J_{d_{R}} S(\vb{\Omega})^T} &= \tr{- \dot{\eta} J_{d_{R}} S(\vb{\Omega})} , \\
     \tr{ - S(\vb{\Omega}) J_{d_{R}} \dot{\eta} } &= \tr{-\dot{\eta} S(\vb{\Omega}) J_{d_{R}}} .
 \end{align*}
+We can now simplify\( A \) using the following transformations
+\begin{align*}
+    \tr{ \eta S(\vb{\Omega}) J_{d_{R}} S(\vb{\Omega})^T} &= \tr{-\eta S(\vb{\Omega}) J_{d_{R}} S(\vb{\Omega})} , \\
+    \tr{ - S(\vb{\Omega}) J_{d_{R}} S(\vb{\Omega})} &= \tr{-\eta S(\vb{\Omega}) S(\vb{\Omega}) J_{d_{R}}} , \\
+    \tr{ -S(\vb{\Omega}) \eta J_{d_{R}} S(\vb{\Omega})^T} &= \tr{-\eta J_{d_{R}} S(\vb{\Omega}) S(\vb{\Omega})} , \\
+    \tr{ S(\vb{\Omega}) J_{d_{R}} S(\vb{\Omega}) \eta} &= \tr{\eta S(\vb{\Omega}) J_{d_{R}} S(\vb{\Omega})}.
+\end{align*}
+Similarly, we can perform a similar operation for \( B \) as
+\begin{align*}
+    \tr{-\eta S(\vb{\Omega}_A) J_{d_{R}} S(\vb{\Omega})^T} &= \tr{\eta S(\vb{\Omega}_A) J_{d_{R}} S(\vb{\Omega})} , \\
+    \tr{ S(\vb{\Omega}) J_{d_{R}} \eta S(\vb{\Omega}_A)} &= \tr{\eta S(\vb{\Omega}_A) S(\vb{\Omega}) J_{d_{R}}} , \\
+    \tr{\S(\vb{\Omega}_A) \eta J_{d_{R}} S(\vb{\Omega})^T} &= \tr{-\eta J_{d_{R}} S(\vb{\Omega}) S(\vb{\Omega}_A)} , \\
+    \tr{-S(\vb{\Omega}) J_{d_{R}} S(\vb{\Omega}_A) \eta} &= \tr{\eta S(\vb{\Omega}) J_{d_{R}} S(\vb{\Omega}_A)} .
+\end{align*}
+Combining these allow us to further simplify \( A,B \) as
+\begin{align*}
+    A &= \frac{1}{2} \tr{ -\eta S(\vb{\Omega}) \braces{J_{d_{R}} S(\vb{\Omega}) + S(\vb{\Omega}) J_{d_{R}}} + \eta \braces{J_{d_{R}} S(\vb{\Omega}) + S(\vb{\Omega}) J_{d_{R}}} S(\vb{\Omega})} , \\
+    B &= \frac{1}{2} \tr{ \eta S(\vb{\Omega}_A) \braces{J_{d_{R}} S(\vb{\Omega}) + S(\vb{\Omega}) J_{d_{R}}} - \eta \braces{J_{d_{R}} S(\vb{\Omega}) + S(\vb{\Omega}) J_{d_{R}}} S(\vb{\Omega}_A) } .
+\end{align*}
+In a similar fashion as the inertial equations of motion, we can define
+\begin{align}
+    S(J_R \vb{\Omega}) = S(\vb{\Omega}) J_{d_{R}} + J_{d_{R}} S(\vb{\Omega}) , 
+\end{align}
+which allows us to define \( A \) and \( B \) as 
+\begin{align*}
+    A &= \frac{1}{2} \tr{ - \eta S(\vb{\Omega}) S(J_R \vb{\Omega}) + \eta S(J_R \vb{\Omega}) S(\vb{\Omega})} , \\
+    B &= \frac{1}{2} \tr{ \eta S(\vb{\Omega}_A) \braces{J_{d_{R}} S(\vb{\Omega}) + S(\vb{\Omega}) J_{d_{R}}} - \eta \braces{J_{d_{R}} S(\vb{\Omega}) + S(\vb{\Omega}) J_{d_{R}} } S(\vb{\Omega}_A)} .
+\end{align*}
+Finally, the hat-map identity, \( S(\alpha \times \beta  = S(\alpha) S(\beta) - S(\beta) S(\alpha)\), is used to define the final form of \(\delta T\) by further simplifying \( A \) and \(B \) and substituting them back into~\cref{eq:relative_kinetic_variation} 
+\begin{align}\label{eq:deltaT_relative}
+    \delta T = m \vb{V}^T \delta \vb{V} + \frac{1}{2} \tr{- \dot{\eta} S(J_R \vb{\Omega}) - \eta S(\vb{\Omega} \times J_R \vb{\Omega}) + \eta S(\vb{\Omega}_A \times J_R \vb{\Omega})} .
+\end{align}
+
 
 The variation of the reduced potential energy, shown in~\cref{eq:relative_potential}, is given by
 \begin{align}\label{eq:relative_potential_variation_1}
