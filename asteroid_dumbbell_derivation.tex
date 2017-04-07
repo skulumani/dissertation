@@ -233,26 +233,22 @@ The Lagrangian is given as the difference between~\cref{eq:kinetic_energy} and~\
 \begin{align}\label{eq:lagrangian}
     L = \frac{1}{2} m \norm{\dot{\vb{x}}}^2 + \frac{1}{2} \tr{S(\vb{\Omega}) J_d S(\vb{\Omega})^T} + m_1 U \parenth{R_A^T \parenth{\vecbf{x} + R \vecbf{\rho}_1}} + m_2 U \parenth{R_A^T \parenth{\vecbf{x} + R \vecbf{\rho}_2}} .
 \end{align}
-The equations of motion can be defined by determining the varaition of the Lagrangian, \( \delta L\).
+The equations of motion can be defined by determining the variation of the Lagrangian, \( \delta L\).
+\subsection{Potential Energy Variation}
 First, the variation of~\cref{eq:potential_energy} is defined as
 \begin{align*}
-    \delta U = - \sum_{i=1}^2 m_i \parenth{\sum_{p=1}^3 \deriv{U_i}{\bracket{\vecbf{x}_i}_p}^T \delta \bracket{\vecbf{x}_i}_p + \sum_{p,q=1}^3 \deriv{U_i}{\bracket{R}_{pq} } \delta \bracket{R}_{pq} }.
+    \delta V = - \sum_{i=1}^{2} m_i \deriv{U_i}{\vb{z_i}}^T \parenth{ R_a^T \delta \vb{x} + R_A^T \delta R \vb{\rho}_i}
 \end{align*}
 We then define the position of each dumbbell mass in the asteroid fixed frame as
 \begin{align}\label{eq:pos_asteroid_frame}
     \vecbf{z}_i = R_A^T \parenth{\vecbf{x} + R \vecbf{\rho}_i}.
 \end{align}
-
-Using~\cref{eq:pos_asteroid_frame} and the chain rule this is equivalent to 
-\begin{align*}
-    \delta U = - \sum_{i=1}^2 m_i \parenth{\sum_{p=1}^3 \bracket{\deriv{U_i}{\vecbf{z_i}}^T \deriv{\vecbf{z}_i}{R}}_p  \bracket{\delta \vecbf{x}_i}_p + \sum_{p,q=1}^3 \bracket{\deriv{U_i}{\vecbf{z}_i}  \deriv{\vecbf{z}_i}{R} }_{pq}} \bracket{ \delta R}_{pq} .
-\end{align*}
-Using the trace identity, \( \tr{A^T B} = \sum_{p,q=1}^{3} \bracket{A}_{pq} \bracket{B}_{pq}\) and \( \delta R = R \eta \) we can define the variation of the potential energy as
+Applying the definition for the attitude variation, \(\delta R = R \eta \), the variation of the potential energy is given as
 \begin{align}\label{eq:potential_variation}
-    \delta U = - \sum_{i=1}^2 m_i \deriv{U_i}{\vecbf{z}_i}^T R_A^T \delta \vecbf{x} + m_i \tr{\eta R^T \deriv{U_i}{\vecbf{z}_i} \parenth{R_A^T \vecbf{\rho}_i}^T} ,
+    \delta V = -\sum_{i=1}^2  m_i \parenth{R_A \deriv{U}{\vb{z}_i} }^T \delta \vb{x} + m_i \eta^T \hat{\vb{\rho}_1} R^T R_A \deriv{U}{\vb{z}_i}.
 \end{align}
-where we make use of the polyhedron potential gradient given by~\cref{eq:attraction}.
 
+\subsection{Kinetic Energy Variation}
 The variation of the kinetic energy is defined as
 \begin{align}\label{eq:kinetic_variation}
     \delta T &= \deriv{T}{\dot{\vecbf{x}}}^T \delta \dot{\vecbf{x}} + \deriv{T}{\vecbf{\Omega}}^T \delta \vecbf{\Omega} , \\
