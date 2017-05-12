@@ -496,44 +496,51 @@ The variation \( S(\delta \vecbf{\Omega}_1)\) is defined using~\cref{eq:relative
                             &= - \hat{\eta}_1 \hat{\Omega}_1 + \hat{\Omega}_1 \hat{\eta}_1 + \dot{\hat{\eta}}_1 .
 \end{align*}
 Now, we can use \(S(\delta \Omega_1) \) to simplify~\cref{eq:relative_angular_velocity_variation_1}
-\begin{align}
+\begin{align}\label{eq:relative_angular_velocity_variation_2}
     S(\delta \vb{\Omega}) &= \delta \vb{R} \hat{\Omega}_1 \vb{R}^T + \vb{R} \hat{\delta \Omega_1} \vb{R}^T + \vb{R} \hat{\Omega}_1 \delta \vb{R}^T , \\
-                          &= \hat{\eta} \vb{R} \hat{\Omega}_1 \vb{R}^T + \vb{R} \parenth{-\hat{\eta}_1 \hat{\Omega}_1 + \hat{\Omega} \hat{\eta}_1 + \dot{\hat{\eta}}_1} \vb{R}^T + \vb{R} \hat{\Omega}_1 \vb{R}^T \hat{\eta}^T
+                          &= \hat{\eta} \vb{R} \hat{\Omega}_1 \vb{R}^T + \vb{R} \parenth{-\hat{\eta}_1 \hat{\Omega}_1 + \hat{\Omega} \hat{\eta}_1 + \dot{\hat{\eta}}_1} \vb{R}^T + \vb{R} \hat{\Omega}_1 \vb{R}^T \hat{\eta}^T \\
+                          &= \hat{\eta} S(\vb{R} \Omega_1) - \vb{R} \hat{\eta}_1 \hat{\Omega}_1 \vb{R}^T \vb{R} \hat{\Omega}_1 \vb{\eta}_1 \vb{R}^T + \vb{R} \dot{\hat{\eta}}_1 \vb{R}^T + S(\vb{R}\Omega_1) \hat{\eta}^T
 \end{align}
 where we used the hat map identity \( S(R \vb{x}) = R S(\vb{x}) R^T\) for \( R \in \SO\) and \( \vb{x} \in \R^3\).
 We can further simplify~\cref{eq:relative_angular_velocity_variation_2} by using the following two identies
 \begin{align}
-    \vb{R} S(\vecbf{\Omega}_1) \eta_1 \vb{R}^T = \vb{R}S(\vecbf{\Omega}_1) \vb{R}^T \vb{R} \eta_1 \vb{R}^T = S(\vb{R} \vecbf{\Omega}_1) \vb{R} \eta_1 \vb{R}^T , \label{eq:RSeta_identity_1}\\
-    -\vb{R} \eta_1 S(\vecbf{\Omega})\vb{R}^T = - \vb{R} \eta_1 \vb{R}^T \vb{R} S(\vecbf{\Omega}_1)\vb{R}^T = -\vb{R} \eta_1 \vb{R}^T S(\vb{R} \vecbf{\Omega_1}) . \label{eq:RSeta_identity_2}
+    \vb{R} \hat{\vecbf{\Omega}}_1 \hat{\eta}_1 \vb{R}^T = \vb{R}\hat{\vecbf{\Omega}}_1 \vb{R}^T \vb{R} \hat{\eta}_1 \vb{R}^T = S(\vb{R} \vecbf{\Omega}_1) \vb{R} \eta_1 \vb{R}^T , \label{eq:RSeta_identity_1}\\
+    -\vb{R} \hat{\eta}_1 \hat{\vecbf{\Omega}}_1\vb{R}^T = - \vb{R} \hat{\eta}_1 \vb{R}^T \vb{R} \hat{\vecbf{\Omega}}_1\vb{R}^T = -\vb{R} \hat{\eta}_1 \vb{R}^T S(\vb{R} \vecbf{\Omega_1}) . \label{eq:RSeta_identity_2}
 \end{align}
-Substituting~\cref{eq:RSeta_identity_1,eq:RSeta_identity_2} into~\cref{eq:relative_angular_velocity_variation_2} gives another form of \( S(\delta \vecbf{\Omega})\) as
+We now use the definition of the variation of the relative attitude from~\cref{eq:relative_attitude_variation} to redefine \( \hat{\eta}\) and substitute it into~\cref{eq:RSeta_identity_1,eq:RSeta_identity_2} to arrive at
+\begin{align*}
+    \vb{R} \hat{\Omega}_1 \hat{\eta}_1 \vb{R}^T = \parenth{\vb{R} \Omega_1}^\wedge \hat{\eta} , \\
+    - \vb{R} \hat{\eta}_1 \hat{\Omega}_1 \vb{R}^T = -\hat{\eta} \parenth{\vb{R}\Omega_1}^\wedge.
+\end{align*}
+Substituting these equations into~\cref{eq:relative_angular_velocity_variation_2} gives another form of \( \delta \hat{\vecbf{\Omega}}\) as
 \begin{align}\label{eq:relative_angular_velocity_variation_3}
-    S(\delta \vecbf{\Omega}) = \eta S(\vb{R} \vecbf{\Omega}_1) + \vb{R} \dot{\eta}_1 \vb{R}^T + S(\vb{R} \vecbf{\Omega}_1) \vb{R} \eta_1 \vb{R}^T - \vb{R} \eta_1 \vb{R}^T S(\vb{R} \vecbf{\Omega}_1) - S(\vb{R} \vecbf{\Omega}_1) \eta .
+    \delta \hat{\vb{\Omega}} &= \hat{\eta} \parenth{\vb{R} \Omega_1}^\wedge - \hat{\eta} \parenth{\vb{R} \Omega_1}^\wedge + \parenth{\vb{R} \Omega_1}^\wedge \hat{\eta} + \vb{R} \dot{\hat{\eta}}_1 \vb{R}^T + \parenth{R \Omega_1}^\wedge \hat{\eta}^T , \\
+                             &= \vb{R} \dot{\hat{\eta}}_1 \vb{R}^T .
 \end{align}
-We use the facts that \( \eta = \vb{R} \eta_1 \vb{R}^T \) and \( \vecbf{\Omega} = \vb{R} \vecbf{\Omega}_1\) to get
-\begin{align}\label{eq:relative_angular_velocity_variation_3}
-    S(\delta \vecbf{\Omega}) = \vb{R} \dot{\eta}_1 \vb{R}^T.
-\end{align}
-We now need to define \( \dot{\eta}_1\) by first noting that from \( \vb{R} = R_A^T R_1\) and that \( \vecbf{\Omega}_1 = \vb{R}^T \vecbf{\Omega}\)
+Where we used the facts that \( \hat{\eta} = \vb{R} \hat{\eta}_1 \vb{R}^T \) and \( \vecbf{\Omega} = \vb{R} \vecbf{\Omega}_1\). 
+We now need to define \( \dot{\hat{\eta}}_1\) by first noting that from \( \vb{R} = R_A^T R_1\) and that \( \vecbf{\Omega}_1 = \vb{R}^T \vecbf{\Omega}\)
 \begin{align}\label{eq:relR_dot}
     \dot{\vb{R}} &= \dot{R}_A^T R_1 + R_A^T \dot{R}_1 , \nonumber\\
-    &= - S(\vecbf{\Omega}_A) R_A^T R_1 + R_A^T R_1 S(\vecbf{\Omega}_1) ,\nonumber\\
-    &= -S(\vecbf{\Omega}_A) R_A^T R_1 + R_A^T R_1 S(\vb{R}^T \vecbf{\Omega}) , \nonumber\\
-    &= -S(\vecbf{\Omega}_A)R_A^T R_1 + R_A^T R_1 \vb{R}^T S(\vecbf{\Omega}) \vb{R} ,\nonumber\\
-    &= -S(\vecbf{\Omega}_A)\vb{R} + S(\vecbf{\Omega}) \vb{R} .
+                 &= - \hat{\vecbf{\Omega}}_A R_A^T R_1 + R_A^T R_1 \hat{\vecbf{\Omega}}_1 ,\nonumber\\
+                 &= -\hat{\vecbf{\Omega}}_A R_A^T R_1 + R_A^T R_1 \parenth{\vb{R}^T \vecbf{\Omega}}^\wedge , \nonumber\\
+                 &= -\hat{\vecbf{\Omega}}_A R_A^T R_1 + R_A^T R_1 \vb{R}^T \hat{\vecbf{\Omega}} \vb{R} ,\nonumber\\
+                 &= -\hat{\vecbf{\Omega}}_A\vb{R} + \hat{\vecbf{\Omega}} \vb{R} .
 \end{align}
 From the chain rule and applying~\cref{eq:relR_dot} we can define \( \dot{\eta} \) as
+\begin{align}\label{eq:eta_dot_1}
+    \dot{\hat{\eta}} &= \dot{\vb{R}} \eta_1 \vb{R}^T + \vb{R} \dot{\eta}_1 \vb{R}^T + \vb{R} \eta_1 \dot{\vb{R}}^T , \nonumber\\
+                     &= \braces{- \hat{\Omega}_A \vb{R} + \hat{\Omega} \vb{R}} \hat{\eta}_1 \vb{R}^T + R \dot{\hat{\eta}}_1 \vb{R}^T + \vb{R} \hat{\eta}_1 \braces{\vb{R}^T \hat{\Omega}_A - \vb{R}^T \hat{\Omega}}
+\end{align}
+Now we invert this relationship to define \( \vb{R} \dot{\hat{\eta}}_1 \vb{R}^T \) as
 \begin{align}\label{eq:eta_dot}
-    \dot{\eta} &= \dot{\vb{R}} \eta_1 \vb{R}^T + \vb{R} \dot{\eta}_1 \vb{R}^T + \vb{R} \eta_1 \dot{\vb{R}}^T , \nonumber\\
-    &= \braces{S(\vecbf{\Omega}) - S(\vecbf{\Omega}_A)} \vb{R} \eta_1 \vb{R}^T + \vb{R} \dot{\eta}_1 \vb{R}^T + \vb{R} \eta_1 \braces{\vb{R}^T S(\vecbf{\Omega}_A) - \vb{R}^T S(\vecbf{\Omega})} , \nonumber\\
-    &= \braces{S(\vecbf{\Omega}) - S(\vecbf{\Omega}_A)} \eta + \vb{R} \dot{\eta}_1 \vb{R}^T - \eta \braces{S(\vecbf{\Omega}) - S(\vecbf{\Omega}_A)} .
+    \vb{R} \hat{\eta}_1 \vb{R}^T &= \braces{\hat{\Omega}_A - \hat{\Omega}} \hat{\eta} - \hat{\eta} \braces{\hat{\Omega}_A - \hat{\Omega}} + \dot{\hat{\eta}} .
 \end{align}
 Finally, we now substitute~\cref{eq:eta_dot} into~\cref{eq:relative_angular_velocity_variation_3} to arrive at
 \begin{align}\label{eq:rel_ang_vel_var}
-    S(\delta \vecbf{\Omega}) = \vb{R} \dot{\eta}_1 \vb{R}^T &= \dot{\eta} - \braces{S(\vecbf{\Omega}) - S(\vecbf{\Omega}_A)} \eta + \eta \braces{S(\vecbf{\Omega}) - S(\vecbf{\Omega}_A)} , \nonumber \\
-    &= \dot{\eta} - S(\vecbf{\Omega}) \eta + \eta S(\vecbf{\Omega}) +  S(\vecbf{\Omega}_A) \eta - \eta S(\vecbf{\Omega}_A) .
+    (\delta \vecbf{\Omega})^\wedge &= \dot{\hat{\eta}} - \hat{\Omega} \hat{\eta} + \hat{\Omega}_A \hat{\eta} + \hat{\eta} \hat{\Omega} - \hat{\eta} \hat{\Omega}_A , \\
+                                   &= \dot{\hat{\eta}} + \braces{\hat{\Omega}_A - \hat{\Omega}} - \hat{\eta} \braces{\hat{\Omega}_A - \hat{\Omega}} . 
 \end{align}
-
+\subsubsection{Relative velocity variation}
 The variation of the relative linear velocity is computed from 
 \begin{align}\label{eq:delV_1}
     \delta \vecbf{V} &= \delta R_A^T \dot{\vecbf{x}_1} + R_A^T \delta \dot{\vecbf{x}}_1 , \nonumber \\
