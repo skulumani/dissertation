@@ -35,7 +35,7 @@ The body fixed reference frame vector, \( \vh{b}_1\), is aligned with the connec
 As a result, the position of \( m_2 \) with respect to \( m_1\) is \( \vb{r}_{12} = l \vh{b}_1\).
 The center of mass of the dumbbell, defined with respect to \( m_1\), is computed as
 \begin{align}\label{eqn:com}
-    \vb{r}_{1c} &= \frac{1}{\sum_i m_i} \sum_i m_i \parenth{\vb{r}_i - \vb{r}_1},\\
+    \vb{r}_{2c} &= \frac{1}{\sum_i m_i} \sum_i m_i \parenth{\vb{r}_i - \vb{r}_1},\\
     &= \frac{m_2}{m_1+m_2} l \vh{b}_1 , \\
     &= l_{cg_{1}} \vh{b}_1 .
 \end{align}
@@ -577,7 +577,7 @@ The variation of the reduced kinetic energy, shown in~\cref{eq:relative_kinetic}
 \end{align}
 Now, we can substitute~\cref{eq:rel_ang_vel_var} into the second term to get
 \begin{align*}
-    &\frac{1}{2} \mathrm{tr} \left[ \braces{\dot{\eta} - S(\vecbf{\Omega}) \eta + \eta S(\vecbf{\Omega}) +  S(\vecbf{\Omega}_A) \eta - \eta S(\vecbf{\Omega}_A) } J_{d_{R}} S(\vb{\Omega})^T \right.\\
+    &\frac{1}{2} \mathrm{tr} \left[ \braces{\dot{\hat{\eta}} - \vecbf{\hat\Omega} \eta + \eta S(\vecbf{\Omega}) +  S(\vecbf{\Omega}_A) \eta - \eta S(\vecbf{\Omega}_A) } J_{d_{R}} S(\vb{\Omega})^T \right.\\
     &\left.+ S(\vb{\Omega}) J_{d_{R}} \braces{-\dot{\eta} - \eta S(\vecbf{\Omega}) + S(\vecbf{\Omega}) \eta + \eta S(\vecbf{\Omega}_A) -  S(\vecbf{\Omega}_A) \eta} \right]
 \end{align*}
 Expanding this equation and collecting terms gives the following
