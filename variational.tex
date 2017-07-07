@@ -184,6 +184,75 @@ However, as time progresses the trajectories begin to diverge due to the differe
 The variational integrator exhibits a bounded behavior about the initial energy with a mean variation of \num{4.2522e-20}.
 However, the conventional Runge-Kutta method demonstrates a clear energy drift of \num{4.2814e-8}. 
 Over long simulation horizons or with the addition of small control inputs this poor energy behavior limits the applicability of conventional techniques.
+\section*{Appendix B: Gauss Jordan Elimination}\label{sec:costate_gauss_jordan}
+The costate equations of motion are given by~\cref{eq:costate_eom} and repeated here as
+\begin{align}\label{eq:costate_eom_transpose}
+        \begin{bmatrix} 
+                \fonex & \ftwox & \fthreex & \ffourx \\
+                \foney & \ftwoy & \fthreey & \ffoury \\
+                \fonexd & \ftwoxd & \fthreexd & \ffourxd \\
+                \foneyd & \ftwoyd & \fthreeyd & \ffouryd
+        \end{bmatrix}
+        \begin{bmatrix} \lambda_{\xkp} \\ \lambda_{\ykp} \\ \lambda_{\xdotkp} \\ \lambda_{\ydotkp} \end{bmatrix}
+        =
+        \begin{bmatrix} \lambda_{\xk} \\ \lambda_{\yk} \\ \lambda_{\xdotk} \\ \lambda_{\ydotk} \end{bmatrix} \, .
+\end{align}
+To determine the discrete update map \( \lambda_k \to \lambda_{k+1}\) the inverse of the Jacobian matrix is required.
+In order to avoid the need of an explicit inversion a Gauss Jordan method is implemented.
+To begin, several terms are defined which are required to carry out the row operations and are defined as
+\begin{subequations}\label{eq:ref_scale}
+\begin{align}
+        a &= -\frac{\foney}{\fonex} \, ,\\
+        b &= -\frac{\fonexd}{\fonex} \, , \\
+        c &= -\frac{\foneyd}{\fonex} \, ,\\
+        e &= -\frac{\ftwoxd + b \ftwox}{\ftwoy + a \ftwox} \, ,\\
+        f &= -\frac{\ftwoyd + c \ftwox}{\ftwoy + a \ftwox} \, ,\\
+        g &= -\frac{\fthreeyd + c \fthreex + f \parenth{\fthreey + a \fthreex}}{\fthreexd + b \fthreex + e \parenth{\fthreey + a \fthreex}}\, .
+\end{align}
+\end{subequations}
+\Cref{eq:costate_eom_transpose} is transformed to row echelon form using elementary row operations and is defined as
+\begin{align}\label{eq:costate_ref}
+        \begin{bmatrix} 
+                \alpha_{11} & \alpha_{12} & \alpha_{13} & \alpha_{14} \\
+                0 & \alpha_{22} & \alpha_{23} & \alpha_{24} \\
+                0 & 0 & \alpha_{33} & \alpha_{34} \\
+                0 & 0 & 0 & \alpha_{44}
+        \end{bmatrix}
+        \begin{bmatrix} \lambda_{\xkp} \\ \lambda_{\ykp} \\ \lambda_{\xdotkp} \\ \lambda_{\ydotkp} \end{bmatrix}
+        =
+        \begin{bmatrix} \beta_1 \\ \beta_2 \\ \beta_3 \\ \beta_4 \end{bmatrix} \, ,
+\end{align}
+where the terms \( \alpha_{ij} \) and \( \beta_{i} \) are defined as follows
+\begin{subequations}
+\begin{align}
+        \alpha_{11} &= \fonex \, ,\\
+        \alpha_{12} &= \ftwox \, ,\\
+        \alpha_{13} &= \fthreex \, ,\\
+        \alpha_{14} &= \ffourx \, ,\\
+        \alpha_{22} &= \ftwoy + a \ftwox \, ,\\
+        \alpha_{23} &= \fthreey + a\fthreex \, ,\\
+        \alpha_{24} &= \ffoury + a \ffourx \, ,\\
+        \alpha_{33} &= \fthreexd + b \fthreex + e \parenth{\fthreey + a \fthreex}\, ,\\
+        \alpha_{34} &= \ffourxd + b \ffourx + e \parenth{\ffoury + a \ffourx} \, ,\\
+        \alpha_{44} &= \ffouryd + c \ffourx + f \parenth{\ffoury + a \ffourx} + g \parenth{\ffourxd + b \ffourx + e \parenth{\ffoury + a \ffourx}} \, ,\\
+        \beta_1 &= \lambda_{\xk} \, ,\\
+        \beta_2 &= \lambda_{\yk} + a \lambda_{\xk} \, ,\\
+        \beta_3 &= \lambda_{\xdotk} + b \lambda_{\xk} + e \parenth{\lambda_{\yk} + a \lambda_{\xk}} \, ,\\
+        \beta_4 &= \lambda_{\ydotk} + c \lambda_{\xk} + f \parenth{\lambda_{\yk}+a \lambda_{\xk}} + g \parenth{\lambda_{\xdotk} + b \lambda_{\xk} + e \parenth{\lambda_{\yk} + a \lambda_{\xk}}} \, .
+\end{align}
+\end{subequations}
+Finally, backsubstituion is used to determine explicit equations for the discrete update map \( \vecbf{\lambda}_k \to \vecbf{\lambda}_{k+1} \) which is defined as
+\begin{subequations}\label{eq:costate_update}
+\begin{align}
+        \lambda_{\ydotkp} &= \frac{\beta_4}{\alpha_{44}} \, ,\\
+        \lambda_{\xdotkp} &= \frac{\beta_3}{\alpha_{33}} - \frac{\alpha_{34}}{\alpha_{33}} \lambda_{\ydotkp} \, ,\\
+        \lambda_{\ykp} &= \frac{\beta_2}{\alpha_22} - \frac{\alpha_{33}}{\alpha_{22}}\lambda_{\xdotkp} - \frac{\alpha_{24}}{\alpha_{22}} \lambda_{\ydotkp} \, ,\\
+        \lambda_{\xkp} &= \frac{\beta_1}{\alpha_{11}} - \frac{\alpha_{12}}{\alpha_{11}} \lambda_{\ykp} - \frac{\alpha_{13}}{\alpha_{11}} \lambda_{\xdotkp} - \frac{\alpha_{14}}{\alpha_{11}} \lambda_{\ydotkp} \, .
+\end{align}
+\end{subequations}
+%Once again, these equations exhibit a cascade type relationship. 
+%As as result any errors will compound and tend to accumulate most prevalently in \( \lambda_{\xkp} \).
+
 
 \bibliographystyle{abbrv}
 %\bibliography{../../../../docs/technical_papers/bibtex/library}
