@@ -1,0 +1,3 @@
+[submodule "thesis-gwu"]
+	path = thesis-gwu
+	url = git@github.com:skulumani/thesis-gwu.git
