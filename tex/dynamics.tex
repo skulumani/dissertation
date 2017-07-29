@@ -1,49 +1,94 @@
-% Description of the dynamics formulation for the three body problem
-\section{Variational Dynamics}
-Description of the dynamics from first principles
-\begin{itemize}
-	\item Newton's Equations
-	\item Some history of the three body problem
-	\item plots of the reference frames and bodies
-	\item rotating reference frame and definitions of states
-	\item nondimensionalization
-	\item define all the partials
-\end{itemize}
+\documentclass[11pt, reqno]{article}   	% use "amsart" instead of "article" for AMSLaTeX format
+\usepackage{my_packages}
 
-The continous time dynamics for the three body problem can be defined as 
-\begin{align}\label{eq:con_dyn}
-	\ddot{x} &= 2\dot{y} + x - \frac{\left( 1-\mu\right) \left(x + \mu \right)}{r_1^3} - \frac{\mu\left( x + \mu - 1\right)}{r_2^3} \nonumber \\
-	\ddot{y} &= -2 \dot{x} + y -\frac{\left( 1 - \mu \right)}{r_1^3} y - \frac{\mu }{r_2^3} y \nonumber \\
-	\ddot{z} &= -\frac{\left( 1 - \mu\right)}{r_1^3}z - \frac{\mu}{r_2^3}z
-\end{align}
-This can be defined in terms of the partial derivatives of theeffective gravitational potential
-\begin{align}\label{eq:eff_grav_pot}
-	U &= \frac{1-\mu}{r_1} + \frac{\mu}{r_2} + \frac{1}{2} \left(x^2 + y ^2 \right)
-\end{align}
-The distances to each primary are defined as
-\begin{align}\label{eq:dist}
-	r_1 &= \sqrt{ \left( x+ \mu\right)^2 + y^2 + z^2} \\
-	r_2 &= \sqrt{ \left( x -1 + \mu\right)^2 + y^2 + z^2} \\
-\end{align}
-The partial derivatives of~\cref{eq:eff_grav_pot} are valuable for a variety of scenarios and are given below.
-The gradient or first partials are used in the equations of motion
-\begin{align}\label{eq:first_partials}
-	\deriv{U}{x} = U_{x} &= x - \frac{\left( 1-\mu\right) \left(x + \mu \right)}{r_1^3} - \frac{\mu\left( x + \mu - 1\right)}{r_2^3} \nonumber \\
-	\deriv{U}{y} = U_{y} &= y -\frac{\left( 1 - \mu \right)}{r_1^3} y - \frac{\mu }{r_2^3} y \nonumber \\
-	\deriv{U}{z} = U_{z} &= -\frac{\left( 1 - \mu\right)}{r_1^3}z - \frac{\mu}{r_2^3}z
-\end{align}
-The second order partials are used in the linear analysis of the three body problem and are used in the formulation of the costate equations of motion for the optimal control problem.
-\begin{align}\label{eq:second_partials}
-	\deriv{U_x}{x} &= 1 - \left( 1 - \mu \right) \left[ \frac{1}{r_1^3} - \frac{3 \left( x+\mu\right)^2}{r_1^5}\right] - \mu \left[ \frac{1}{r_2^3} - \frac{3 \left( x -1+ \mu\right)^2}{r_2^5} \right] \nonumber \\
-	\deriv{U_y}{y} &= 1 - \left( 1 - \mu \right) \left[ \frac{1}{r_1^3} - \frac{3 y^2}{r_1^5}\right] - \mu \left[ \frac{1}{r_2^3} - \frac{3 y^2}{r_2^5} \right] \nonumber \\
-	\deriv{U_z}{z} &= - \left( 1 - \mu \right) \left[ \frac{1}{r_1^3} - \frac{3 z^2}{r_1^5}\right] - \mu \left[ \frac{1}{r_2^3} - \frac{3 z^2}{r_2^5} \right] \nonumber \\
-	\deriv{U_x}{y} = \deriv{U_y}{x} &= 3\left( 1 - \mu \right) y \frac{x+\mu}{r_1^5} + 3\mu y \frac{x -1 +\mu}{r_2^5} \\
-	\deriv{U_x}{z} = \deriv{U_z}{x} &= 3\left( 1 - \mu \right) z \frac{x+\mu}{r_1^5} + 3\mu z \frac{x -1 +\mu}{r_2^5} \\
-	\deriv{U_y}{z} = \deriv{U_z}{y} &= 3\left( 1 - \mu \right) y \frac{z}{r_1^5} + 3\mu y \frac{z}{r_2^5} 
-\end{align}
-Some useful partial derivatives are
-\begin{align}\label{eq:dist_partials}
-	\deriv{r_1}{x} &= \frac{x+\mu}{r_1} & \deriv{r_1}{y} &= \frac{y}{r_1} & \deriv{r_1}{z} &= \frac{z}{r_1}\\
-	\deriv{r_2}{x} &= \frac{x -1 +\mu}{r_2} & \deriv{r_2}{y} &= \frac{y}{r_2} & \deriv{r_2}{z} &= \frac{z}{r_2}\\
-	\deriv{}{x}\frac{1}{r_1} &= -\frac{x+\mu}{r_1^3} & \deriv{}{y}\frac{1}{r_1} &= -\frac{y}{r_1^3} & \deriv{}{x}\frac{1}{r_1} &= -\frac{z}{r_1^3}\\
-\end{align}
+\title{Dynamics near asteroids}
+\author{Shankar Kulumani}
+\date{18 Feb 2016}							% Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+
+\subsection*{Dynamics}
+
+I am beginning by modeling the asteroid as a rotating, constant density triaxial ellipsoid. 
+The gravitational potential can be simplified to a second degree and order model and captures the major perturbations due to the non-spherical shape of the body.
+A body fixed frame is centered at the center of mass of the asteroid and aligned with the principle axes. 
+We also assume \( I_{xx} \leq I_{yy} \leq I_{zz} \) and the semi-axes \( \gamma \leq \beta \leq \alpha \).
+The second order and degree potential coefficients are related to the moments of inertia by 
+\begin{align*}
+	C_{20} &= -\frac{1}{2} M \parenth{2 I_{zz} - I_{xx} - I_{yy}} , \\
+	C_{22} &=  \frac{1}{4} \parenth{I_{yy} - I_{xx}} .
+\end{align*}
+The gravitational potential is given by
+\begin{align*}
+	U = \frac{\mu}{r} + \frac{\mu}{r^3} \bracket{C_{20} \parenth{1-\frac{3}{2} \cos^2 \delta} + \frac{3 C_{22} \parenth{x^2 - y^2}}{r^5} } ,
+\end{align*}
+where \( \vecbf{r} = \begin{bmatrix} x & y & z \end{bmatrix}^T \) and \( \mu = G M \) is the gravitational parameter of the asteroid.
+In a rotating reference frame fixed to the asteroid the equations of motion of a massless particle are given by
+\begin{align*}
+	\ddot{x} - 2 \omega \dot{y} &= \omega^2 x - \frac{\mu x}{r^3} + \deriv{U_2}{x} \\
+	\ddot{y} + 2 \omega \dot{x} &= \omega^2 y - \frac{\mu y}{r^3} + \deriv{U_2}{y} \\
+	\ddot{z} &= -\frac{\mu z}{r^3} + \deriv{U_2}{z} 
+\end{align*}
+with the partial derivatives of the non-spherical potential components given by
+\begin{align*}
+	\deriv{U_2}{x} &= -\frac{\mu}{r^5} C_{20} x + \frac{5 \mu C_{20} x \parenth{x^2 + y^2 - 2 z^2}}{2 r^7} + \frac{6 \mu C_{22}x}{r^5} - \frac{15 \mu C_{22} x \parenth{x^2 - y^2}}{r^7} , \\
+	\deriv{U_2}{y} &= -\frac{\mu C_{20} y}{r^5} + \frac{5 \mu C_{20} y \parenth{x^2+y^2-2z^2}}{2 r^7} - \frac{6 \mu C_{22}y}{r^5} - \frac{15 \mu C_{22} y \parenth{x^2 - y^2}}{r^7}, \\
+	\deriv{U_2}{z} &= \frac{2 \mu C_{20} z}{r^5} + \frac{5 \mu C_{20} z \parenth{x^2 + y^2 - 2 z^2}}{2 r^7} - \frac{15 \mu C_{22} z \parenth{x^2-y^2}}{r^7}.
+\end{align*}
+Since the gravitational potential is time invariant we can define a constant of integration as
+\begin{align*}
+	J = \frac{1}{2} \parenth{\dot{x}^ + \dot{y}^2 + \dot{z}^2} - \frac{1}{2} \omega^2 \parenth{x^2 + y^2} - U_2 - \frac{\mu}{r} .
+\end{align*}
+I believe this also means that any other gravitational potential model could also be used as the only requirement is time invariance.
+
+\subsubsection*{Nondimensionalization}
+In order to nondimensionalize the system we define a distance and time scale factor
+\begin{align*}
+	r_s = \parenth{\frac{\mu}{\omega^2}}^{\frac{1}{3}} \quad \tau = \omega t .	
+\end{align*}
+Using these the state is redefined as
+\begin{align*}
+	\tilde{x} &= \frac{x}{r_2} \quad \tilde{y} = \frac{y}{r_s} \quad \tilde{z} = \frac{z}{r_s}, \\
+	\dot{\tilde{x}} &= \frac{\dot{x}}{\omega r_2} \quad \dot{\tilde{y}} = \frac{\dot{y}}{\omega r_s} \quad \dot{\tilde{z}} = \frac{\dot{z}}{r_s},\\
+	\ddot{\tilde{x}} &= \frac{\ddot{x}}{\omega^2 r_2} \quad \ddot{\tilde{y}} = \frac{\ddot{y}}{\omega^2 r_s} \quad \ddot{\tilde{z}} = \frac{\ddot{z}}{\omega^2 r_s} .
+\end{align*}
+And the potential parameters become \( \tilde{C_{20}} = \frac{C_{20}}{r_s^2}, \tilde{C_{22}} = \frac{C_{22}}{r_s^2} \).
+Using these new relations and dropping the tilde notation the nondimensional equations of motion are given by
+\begin{align*}
+	\ddot{x} - 2 \dot{y} &= x - \frac{x}{r^3} + \deriv{U_2}{x}, \\
+	\ddot{y} + 2 \dot{x} &=  y - \frac{y}{r^3} + \deriv{U_2}{y}, \\
+	\ddot{z} &= -\frac{z}{r^3} + \deriv{U_2}{z} .
+\end{align*}
+The second order gravitatational potential in cartesian coordinates becomes
+\begin{align*}
+	U_s = \frac{C_{20} \parenth{x^2+y^2-2z^2}}{2 r^5} + \frac{3 C_{22} \parenth{x^2 - y^2}}{r^5} .
+\end{align*}
+The gradient is found by setting \( \mu =1 \) in the above dimensional relations.
+
+Dr. Scheeres used a spherical harmonic expansion up to order 16 and demonstrated periodic orbits and stable/unstable manifolds around 4769 Castalia~\cite{scheeres1996}.
+I'm attempting to use his values to see if only a second order potential is able to capture some of the same behavior. 
+For example, I created the contour plot in~\cref{fig:2nd_castalia} of the zero velocity curves about 4769 Castalia.
+\begin{figure}
+	\centering
+	\begin{subfigure}[b]{0.5\textwidth}
+	\includegraphics[width=\textwidth]{castalia_zero_velocity_curves}
+	\caption{2nd Order ZVC\label{fig:2nd_castalia}}
+	\end{subfigure}~
+	\begin{subfigure}[b]{0.5\textwidth}
+	\includegraphics[width=\textwidth]{scheeres_castalia}
+	\caption{16th order ZVC\label{fig:castalia}}
+	\end{subfigure}
+\end{figure}
+The zero velocity curves determined using a higher order model is shown in~\cref{fig:castalia}.
+Comparing the two shows that the contours from the lower order model seem to be rotated by \SI{90}{\degree}.
+This seems to suggest that gravitational model (and it's accuracy) plays a very important role in defining equilibrium points and invaraint manifolds.
+One possible source of the difference is that the spherical harmonic model is not accurate when close to surface, where higher order terms are more dominant.
+
+Another issue I've found is trying to find detailed information on the shape/potential for asteroids.
+Different researchers use various methods of normalizing the gravity parameters. 
+As a result it makes it difficult to compare results between papers or to try and duplicate results.
+\bibliographystyle{abbrv}
+%\bibliography{../../../../docs/technical_papers/bibtex/library}
+\bibliography{library}
+\end{document}  
