@@ -1,0 +1,22 @@
+\documentclass[thesis]{thesis-gwu}[2016/09/24]
+
+% this package is only used to generate some random text. 
+% it is not needed in a true document
+\usepackage{lipsum}
+
+\input{tex/frontmatter}
+
+%% DOCUMENT AREA
+\begin{document}
+
+\include{tex/intro}
+\include{tex/results}
+
+\bibliographystyle{plain}
+\bibliography{library}
+
+% appendices must appear after
+\include{tex/appendix}
+
+
+\end{document}
