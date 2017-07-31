@@ -1,13 +1,15 @@
-\documentclass[11pt, reqno]{article}    % use "amsart" instead of "article" for AMSLaTeX format
-\usepackage{my_packages}
+% \documentclass[11pt, reqno]{report}    % use "amsart" instead of "article" for AMSLaTeX format
+% \usepackage{my_packages}
 
-\title{Asteroid Dumbbell Derivation}
-\author{Shankar Kulumani}
-\date{\today}                         % Activate to display a given date or no date
+% \title{Asteroid Dumbbell Derivation}
+% \author{Shankar Kulumani}
+% \date{\today}                         % Activate to display a given date or no date
 
-\begin{document}
-\maketitle
+% \begin{document}
+% \maketitle
 
+% !TEX root = ../dissertation.tex
+\chapter{Dumbbell Spacecraft about an asteroid}
 \section[Moment of Inertia]{Moment of Inertia derivation}\label{sec:moi_derivation}
 The inertia tensor for a continuous body is given by
 \begin{align}\label{eq:moi_hatmap}
@@ -90,7 +92,7 @@ Using the previous definition for \( \vb{\rho}_i \) we can expand this further a
     &= \sum_i m_i \vb{\zeta}_i \vb{\zeta}_i^T + \frac{1}{5}m_i r_i^2 .
 \end{align}
 
-\section{Inertial Frame Derivation}\label{sec:inertial_eoms}
+\section{Inertial Frame Derivation}\label{sec:asteroid_inertial_eoms}
 
 There are three frames of interest for our problem:
 \begin{itemize}
@@ -689,51 +691,49 @@ In summary, the relative equations of motion are given as
     \parenth{m_1 + m_2} \dot{\vecbf{V}} &= m_1 \deriv{U}{\vecbf{z}_1} + m_2 \deriv{U}{\vecbf{z}_2} - \parenth{m_1 +m_2} S(\vecbf{\Omega}_A) \vecbf{V} .
 \end{align}
 
-\section{Appendix}
-\subsection{Another Kinetic Energy derivation}
-Another way to derive this relationship is to define the kinetic energy of the system as
-\begin{align}\label{eq:T_prod}
-    T = \frac{1}{2} \sum_{i=1}^2 m_i \dot{\vecbf{r}}_i \cdot \dot{\vecbf{r}}_i ,
-\end{align}
-where \( \dot{\vecbf{r}}_i \) is the inertial velocity of each mass of the dumbbell.
-The inertial velocity is also defined as
-\begin{align}\label{eq:inertial_vel}
-    \dot{\vecbf{r}}_i = \dot{\vecbf{x}} + \dot{\vecbf{\rho}}_i 
-\end{align}
-Substituting~\cref{eq:inertial_vel} into~\cref{eq:T_prod} and expanding results in
-\begin{align*}
-    T = \frac{1}{2} \sum_{i=1}^2 m_i \dot{\vecbf{x}} \cdot \dot{\vecbf{x}}  + \sum_{i=1}^2 m_i \dot{\vecbf{x}} \cdot \dot{\vecbf{\rho}}_i + \frac{1}{2} \sum_{i=1}^2 m_i \dot{\vecbf{\rho}}_i \cdot \dot{\vecbf{\rho}}_i .
-\end{align*}
-As previously, the second term vanishes by the definition of the center of mass
-\begin{align*}
-    \sum m_i \dot{\vecbf{\rho}}_i &= 0, \\
-    \sum m_i \vecbf{\rho} &= 0 .
-\end{align*}
-We define the total mass as \( m = \sum_{i=1}^2 m_i \) and rewrite~\cref{eq:T_prod} as 
-\begin{align*}
-    T = \frac{1}{2} m \dot{\vecbf{x}} \cdot \dot{\vecbf{x}} + \frac{1}{2} \sum_{i=1}^2 m_i \dot{\vecbf{\rho}}_i \cdot \dot{\vecbf{\rho}}_i .
-\end{align*}
-We assume that the vector \( \vecbf{\rho}_i \) is defined in the body fixed, \(\vecbf{b}_i\), of the dumbbell.
-The inertial velocity \( \dot{\vecbf{\rho}}_i \) is defined as
-\begin{align*}
-    \dot{\vecbf{\rho}}_i = \vecbf{\Omega} \times \vecbf{\rho}_i ,
-\end{align*}
+% \section{Appendix}
+% \subsection{Another Kinetic Energy derivation}
+% Another way to derive this relationship is to define the kinetic energy of the system as
+% \begin{align}\label{eq:T_prod}
+%     T = \frac{1}{2} \sum_{i=1}^2 m_i \dot{\vecbf{r}}_i \cdot \dot{\vecbf{r}}_i ,
+% \end{align}
+% where \( \dot{\vecbf{r}}_i \) is the inertial velocity of each mass of the dumbbell.
+% The inertial velocity is also defined as
+% \begin{align}\label{eq:inertial_vel}
+%     \dot{\vecbf{r}}_i = \dot{\vecbf{x}} + \dot{\vecbf{\rho}}_i 
+% \end{align}
+% Substituting~\cref{eq:inertial_vel} into~\cref{eq:T_prod} and expanding results in
+% \begin{align*}
+%     T = \frac{1}{2} \sum_{i=1}^2 m_i \dot{\vecbf{x}} \cdot \dot{\vecbf{x}}  + \sum_{i=1}^2 m_i \dot{\vecbf{x}} \cdot \dot{\vecbf{\rho}}_i + \frac{1}{2} \sum_{i=1}^2 m_i \dot{\vecbf{\rho}}_i \cdot \dot{\vecbf{\rho}}_i .
+% \end{align*}
+% As previously, the second term vanishes by the definition of the center of mass
+% \begin{align*}
+%     \sum m_i \dot{\vecbf{\rho}}_i &= 0, \\
+%     \sum m_i \vecbf{\rho} &= 0 .
+% \end{align*}
+% We define the total mass as \( m = \sum_{i=1}^2 m_i \) and rewrite~\cref{eq:T_prod} as 
+% \begin{align*}
+%     T = \frac{1}{2} m \dot{\vecbf{x}} \cdot \dot{\vecbf{x}} + \frac{1}{2} \sum_{i=1}^2 m_i \dot{\vecbf{\rho}}_i \cdot \dot{\vecbf{\rho}}_i .
+% \end{align*}
+% We assume that the vector \( \vecbf{\rho}_i \) is defined in the body fixed, \(\vecbf{b}_i\), of the dumbbell.
+% The inertial velocity \( \dot{\vecbf{\rho}}_i \) is defined as
+% \begin{align*}
+%     \dot{\vecbf{\rho}}_i = \vecbf{\Omega} \times \vecbf{\rho}_i ,
+% \end{align*}
 
-where \( \vecbf{\omega} \) is the angular velocity of the dumbbell with respect to the inertial frame and defined in the body frame, \( \vecbf{b}_i\).
-The quadratic term is then given by
-\begin{align}
-    \dot{\vecbf{\rho}}_i \cdot \dot{\vecbf{\rho}}_i &= \dot{\vecbf{\rho}}_i \cdot \parenth{\vecbf{\omega} \times \vecbf{\rho}} ,\nonumber \\
-    &= \vecbf{\omega} \cdot \parenth{\vecbf{\rho}_i \times \dot{\vecbf{\rho}}_i } ,
-\end{align}
-where we used the cyclic permutation identity, \( \vecbf{a} \cdot \parenth{\vecbf{b} \times \vecbf{c}} = \vecbf{b} \cdot \parenth{\vecbf{c} \times \vecbf{a}}  = \vecbf{c} \cdot \parenth{\vecbf{a} \times \vecbf{b}}\).
-The kinetic energy then becomes
-\begin{align}
-    T &= \frac{1}{2} \sum_{i=1}^2 m_i \dot{\vecbf{x}} \cdot \dot{\vecbf{x}}  + \sum_{i=1}^2 m_i \dot{\vecbf{x}} \cdot \dot{\vecbf{\rho}}_i + \frac{1}{2} \vecbf{\omega} \cdot \parenth{\sum_{i=1}^2 \vecbf{\rho}_i \times m_i \dot{\vecbf{\rho}}_i } , \nonumber\\
-    T &= \frac{1}{2} m \dot{\vecbf{x}} \cdot \dot{\vecbf{x}} + \frac{1}{2} \vecbf{\omega}\cdot \vecbf{H} , \nonumber \\
-    T &= \frac{1}{2} m \dot{\vecbf{x}} \cdot \dot{\vecbf{x}} + \frac{1}{2} \vecbf{\omega}\cdot J \vecbf{\omega} .
-\end{align}
-
-\bibliographystyle{abbrv}
-%\bibliography{../../../../docs/technical_papers/bibtex/library}
-\bibliography{library}
-\end{document}  
+% where \( \vecbf{\omega} \) is the angular velocity of the dumbbell with respect to the inertial frame and defined in the body frame, \( \vecbf{b}_i\).
+% The quadratic term is then given by
+% \begin{align}
+%     \dot{\vecbf{\rho}}_i \cdot \dot{\vecbf{\rho}}_i &= \dot{\vecbf{\rho}}_i \cdot \parenth{\vecbf{\omega} \times \vecbf{\rho}} ,\nonumber \\
+%     &= \vecbf{\omega} \cdot \parenth{\vecbf{\rho}_i \times \dot{\vecbf{\rho}}_i } ,
+% \end{align}
+% where we used the cyclic permutation identity, \( \vecbf{a} \cdot \parenth{\vecbf{b} \times \vecbf{c}} = \vecbf{b} \cdot \parenth{\vecbf{c} \times \vecbf{a}}  = \vecbf{c} \cdot \parenth{\vecbf{a} \times \vecbf{b}}\).
+% The kinetic energy then becomes
+% \begin{align}
+%     T &= \frac{1}{2} \sum_{i=1}^2 m_i \dot{\vecbf{x}} \cdot \dot{\vecbf{x}}  + \sum_{i=1}^2 m_i \dot{\vecbf{x}} \cdot \dot{\vecbf{\rho}}_i + \frac{1}{2} \vecbf{\omega} \cdot \parenth{\sum_{i=1}^2 \vecbf{\rho}_i \times m_i \dot{\vecbf{\rho}}_i } , \nonumber\\
+%     T &= \frac{1}{2} m \dot{\vecbf{x}} \cdot \dot{\vecbf{x}} + \frac{1}{2} \vecbf{\omega}\cdot \vecbf{H} , \nonumber \\
+%     T &= \frac{1}{2} m \dot{\vecbf{x}} \cdot \dot{\vecbf{x}} + \frac{1}{2} \vecbf{\omega}\cdot J \vecbf{\omega} .
+% \end{align}
+% %\bibliography{../../../../docs/technical_papers/bibtex/library}
+% \bibliography{library}
+% \end{document}  

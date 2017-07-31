@@ -2,15 +2,20 @@
 
 % this package is only used to generate some random text. 
 % it is not needed in a true document
-\usepackage{lipsum}
+\usepackage{tikz_packages}
+\input{my_macros}
 
 \input{tex/frontmatter}
-\input{my_macros}
 %% DOCUMENT AREA
 \begin{document}
 
-\include{tex/intro}
+% \include{tex/intro}
 \include{tex/results}
+\include{tex/asteroid_dumbbell_derivation}
+\include{tex/dynamics}
+\include{tex/invariant_manifolds}
+\include{tex/variational_integrator}
+\include{tex/optimal_control}
 
 \bibliographystyle{plain}
 \bibliography{library}

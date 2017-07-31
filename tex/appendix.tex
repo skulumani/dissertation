@@ -1,42 +1,47 @@
-% !TEX root = ../thesis-sample.tex
+% !TEX root = ../dissertation.tex
 \appendix
-\chapter{I think you've let your personal feelings cloud your judgement.}
-Now what are the possibilities of warp drive? Cmdr Riker's nervous system has been invaded by an unknown microorganism. The organisms fuse to the nerve, intertwining at the molecular level. That's why the transporter's biofilters couldn't extract it. The vertex waves show a K-complex corresponding to an REM state. The engineering section's critical. Destruction is imminent. Their robes contain ultritium, highly explosive, virtually undetectable by your transporter.
+\subsection{Another Kinetic Energy derivation}
+Another way to derive this relationship is to define the kinetic energy of the system as
+\begin{align}\label{eq:T_prod}
+    T = \frac{1}{2} \sum_{i=1}^2 m_i \dot{\vecbf{r}}_i \cdot \dot{\vecbf{r}}_i ,
+\end{align}
+where \( \dot{\vecbf{r}}_i \) is the inertial velocity of each mass of the dumbbell.
+The inertial velocity is also defined as
+\begin{align}\label{eq:inertial_vel}
+    \dot{\vecbf{r}}_i = \dot{\vecbf{x}} + \dot{\vecbf{\rho}}_i 
+\end{align}
+Substituting~\cref{eq:inertial_vel} into~\cref{eq:T_prod} and expanding results in
+\begin{align*}
+    T = \frac{1}{2} \sum_{i=1}^2 m_i \dot{\vecbf{x}} \cdot \dot{\vecbf{x}}  + \sum_{i=1}^2 m_i \dot{\vecbf{x}} \cdot \dot{\vecbf{\rho}}_i + \frac{1}{2} \sum_{i=1}^2 m_i \dot{\vecbf{\rho}}_i \cdot \dot{\vecbf{\rho}}_i .
+\end{align*}
+As previously, the second term vanishes by the definition of the center of mass
+\begin{align*}
+    \sum m_i \dot{\vecbf{\rho}}_i &= 0, \\
+    \sum m_i \vecbf{\rho} &= 0 .
+\end{align*}
+We define the total mass as \( m = \sum_{i=1}^2 m_i \) and rewrite~\cref{eq:T_prod} as 
+\begin{align*}
+    T = \frac{1}{2} m \dot{\vecbf{x}} \cdot \dot{\vecbf{x}} + \frac{1}{2} \sum_{i=1}^2 m_i \dot{\vecbf{\rho}}_i \cdot \dot{\vecbf{\rho}}_i .
+\end{align*}
+We assume that the vector \( \vecbf{\rho}_i \) is defined in the body fixed, \(\vecbf{b}_i\), of the dumbbell.
+The inertial velocity \( \dot{\vecbf{\rho}}_i \) is defined as
+\begin{align*}
+    \dot{\vecbf{\rho}}_i = \vecbf{\Omega} \times \vecbf{\rho}_i ,
+\end{align*}
 
-\section{We finished our first sensor sweep of the neutral zone.}
-The easiest method.
-
-\begin{equation}\label{eq:sum}
-    x_k = \frac{a_k+b_k}{2}
-\end{equation}
-
-\section{False Position}
-Exceeding reaction chamber thermal limit. We have begun power-supply calibration. Force fields have been established on all turbo lifts and crawlways. Computer, run a level-two diagnostic on warp-drive systems. Antimatter containment positive. Warp drive within normal parameters. I read an ion trail characteristic of a freighter escape pod. The bomb had a molecular-decay detonator. Detecting some unusual fluctuations in subspace frequencies.
-
-\chapter{The game's not big enough unless it scares you a little.}\label{app:appendix_use}
-
-This section might be referencing code and options that no longer exist in this version of the thesis class.
-It should also be updated as well.
-
-This appendix contains the portion of the users' manual that describes
-how to use appendices with this template.  It is put in this appendix
-rather than in Chapter~\cref{chap:intro} simply so that there are two
-appendices.
-
-\section{Starting the Appendices}
-Actually, using appendices is quite simple.  Immediately after the end
-of the last chapter and before the start of the first appendix, simply
-enter the command \verb|\appendix|.  This will tell \LaTeX~to change
-how it interprets the commands \verb|\chapter|, \verb|\section|,
-\textit{etc.}
-
-Each appendix is actually a chapter, so once the \verb|\appendix|
-command has been called, start a new appendix by simply using the
-\verb|\chapter| command.
-
-Note that the \verb|\appendix| command should be called only
-once--not before the start of each appendix.
-
-All the fancy referencing and tools still work.
-You only need to add the appendix command and all will be as it should be.
-
+where \( \vecbf{\omega} \) is the angular velocity of the dumbbell with respect to the inertial frame and defined in the body frame, \( \vecbf{b}_i\).
+The quadratic term is then given by
+\begin{align}
+    \dot{\vecbf{\rho}}_i \cdot \dot{\vecbf{\rho}}_i &= \dot{\vecbf{\rho}}_i \cdot \parenth{\vecbf{\omega} \times \vecbf{\rho}} ,\nonumber \\
+    &= \vecbf{\omega} \cdot \parenth{\vecbf{\rho}_i \times \dot{\vecbf{\rho}}_i } ,
+\end{align}
+where we used the cyclic permutation identity, \( \vecbf{a} \cdot \parenth{\vecbf{b} \times \vecbf{c}} = \vecbf{b} \cdot \parenth{\vecbf{c} \times \vecbf{a}}  = \vecbf{c} \cdot \parenth{\vecbf{a} \times \vecbf{b}}\).
+The kinetic energy then becomes
+\begin{align}
+    T &= \frac{1}{2} \sum_{i=1}^2 m_i \dot{\vecbf{x}} \cdot \dot{\vecbf{x}}  + \sum_{i=1}^2 m_i \dot{\vecbf{x}} \cdot \dot{\vecbf{\rho}}_i + \frac{1}{2} \vecbf{\omega} \cdot \parenth{\sum_{i=1}^2 \vecbf{\rho}_i \times m_i \dot{\vecbf{\rho}}_i } , \nonumber\\
+    T &= \frac{1}{2} m \dot{\vecbf{x}} \cdot \dot{\vecbf{x}} + \frac{1}{2} \vecbf{\omega}\cdot \vecbf{H} , \nonumber \\
+    T &= \frac{1}{2} m \dot{\vecbf{x}} \cdot \dot{\vecbf{x}} + \frac{1}{2} \vecbf{\omega}\cdot J \vecbf{\omega} .
+\end{align}
+% %\bibliography{../../../../docs/technical_papers/bibtex/library}
+% \bibliography{library}
+% \end{document}  

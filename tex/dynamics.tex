@@ -1,13 +1,6 @@
-\documentclass[11pt, reqno]{article}   	% use "amsart" instead of "article" for AMSLaTeX format
-\usepackage{my_packages}
+% !TEX root = ../dissertation.tex
 
-\title{Dynamics near asteroids}
-\author{Shankar Kulumani}
-\date{18 Feb 2016}							% Activate to display a given date or no date
-
-\begin{document}
-\maketitle
-
+\chapter{Asteroid Dynamics}
 \subsection*{Dynamics}
 
 I am beginning by modeling the asteroid as a rotating, constant density triaxial ellipsoid. 
@@ -72,11 +65,11 @@ For example, I created the contour plot in~\cref{fig:2nd_castalia} of the zero v
 \begin{figure}
 	\centering
 	\begin{subfigure}[b]{0.5\textwidth}
-	\includegraphics[width=\textwidth]{castalia_zero_velocity_curves}
+	\includegraphics[width=\textwidth]{figures/castalia_zero_velocity_curves}
 	\caption{2nd Order ZVC\label{fig:2nd_castalia}}
 	\end{subfigure}~
 	\begin{subfigure}[b]{0.5\textwidth}
-	\includegraphics[width=\textwidth]{scheeres_castalia}
+	\includegraphics[width=\textwidth]{figures/scheeres_castalia}
 	\caption{16th order ZVC\label{fig:castalia}}
 	\end{subfigure}
 \end{figure}
@@ -88,7 +81,3 @@ One possible source of the difference is that the spherical harmonic model is no
 Another issue I've found is trying to find detailed information on the shape/potential for asteroids.
 Different researchers use various methods of normalizing the gravity parameters. 
 As a result it makes it difficult to compare results between papers or to try and duplicate results.
-\bibliographystyle{abbrv}
-%\bibliography{../../../../docs/technical_papers/bibtex/library}
-\bibliography{library}
-\end{document}  
