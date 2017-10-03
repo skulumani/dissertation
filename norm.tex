@@ -1,0 +1,83 @@
+\documentclass[11pt, reqno]{article}   	% use "amsart" instead of "article" for AMSLaTeX format
+\usepackage{my_packages}
+
+\title{Vector Norm}
+\author{Shankar Kulumani}
+\date{12 January 2016}
+
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\V}{\mathsf{V}}
+
+\begin{document}
+\maketitle
+\section{Vector Space}
+
+\begin{definition}
+	A field, \( \F \), is a set of elements, called \emph{scalars}, and two operations denoted by \( +\) and \( \cdot\).
+	The following properties must hold
+	\begin{enumerate}
+		\item \emph{Closure}: For all \( a, b \in \F \) both \( a + b \in \F \) and \( a \cdot b \in \F \).
+			More formally this means that \( + \) and \( \cdot \) are binary operations on \( \F \).
+		\item \emph{Commutativity}: For all \( a, b \in \F \) the following hold: \( a + b = b+a \) and \( a \cdot b = b \cdot a\).
+		\item \emph{Associativity}: For all \( a, b, c \in \F \) the following hold: \( a + \parenth{b + c} = \parenth{a + b} + c\) and \( a \cdot \parenth{b \cdot c} = \parenth{a \cdot b} \cdot c\)
+		\item \emph{Distributivity}: For all \( a, b, c \in \F\) the following holds: \( a \cdot \parenth{b+c} = \parenth{a\cdot b} + \parenth{a \cdot c} \).
+		\item \emph{Zero Element}: There exists an element \( 0 \in \F \) such that for all \( a \in \F, a + 0 = a \).
+		\item \emph{Identity Element}: There exists an element \( 1 \in \F \) such that for all \( a \in \F, 1 \cdot a = a \).
+		\item \emph{Inverse}: For all \( a \in \F \) there exists \( b \in \F \) such that \( a + b = 0 \). 
+			Similiarly, for all \( a \neq 0\) there exists \( b \in \F \) such that \( a \cdot b = 1 \)
+	\end{enumerate}
+\end{definition}
+
+A vector space over a field \( \F \) is a set \( \V \) together with the properties above. 
+Elements of \( \V \) are commonly called vectors while elements of \( \F \) are commonly called scalars.
+The operations of vector addition and scalar multiplication hold such that: \( \vecbf{v} + \vecbf{w} \in \V \) and \( a \vecbf{v} \in \V \) for all \( a \in \F \)
+
+\section{Inner Product and norm}
+\begin{definition}
+    A vector norm is a function \( f(\vecbf{x}) : \R^n \to \R \) with specific properties.
+    If \( \vecbf{x} \in \R^n \), we denote its norm by \( \norm{\vecbf{x}} \).
+    The vector norm posses the following properties
+    \begin{enumerate}
+    	\item \emph{Positivity}: \( \norm{\vecbf{x}} \geq 0 \) for all \( \vecbf{x} \in \R^n \) and \( \norm{\vecbf{x}} = 0 \) if and only if \( \vecbf{x} = \mathbf{0} \)
+    	\item \emph{Homegeneity}: \( \norm{\alpha \vecbf{x}} = | \alpha | \norm{x} \) for all \( \alpha \in \R, \vecbf{x} \in \R^n \)
+    	\item \emph{Triangle Inequality}: \( \norm{ \vecbf{x} + \vecbf{y}} \leq \norm{\vecbf{x}} + \norm{\vecbf{y}} \) for all \( \vecbf{x},\vecbf{y} \in \R^n \)
+    \end{enumerate}
+\end{definition}
+
+
+\begin{definition}
+	An \emph{inner product} on the vector space \( \V \) over the field \( \F \) is map which assigns to each pair of vectors \( a, b \in \V\) a value \( \pair{a,b} \in F \) or equivalently,
+	\[
+		\pair{\cdot,\cdot} : \V \times \V \to \F .
+	\]
+	This inner products satisfies three axioms for vectors \( a,b,c \in \V \) and scalars \( c_1,c_2 \in \F\):
+	\begin{enumerate}
+		\item \emph{Symmetry}: \( \pair{a,b} = \bar{\pair{b,a}} \)
+		\item \emph{Bilinearity}: \(\pair{c_1 a +c_2 b,c} = c_1 \pair{a,c} + c_s \pair{b,c} \)
+		\item \emph{Positive-Definiteness}: \( \pair{a,a} \geq 0 \) and \( \pair{a,a} = \) if and only if \( a = 0 \)
+	\end{enumerate}
+\end{definition}
+
+An \emph{inner product space} is a pair \( \parenth{\V, \pair{\cdot,\cdot}} \) where \( \pair{\cdot,\cdot} \) is an inner product on \( \V \).
+A \emph{normed vector space} is a pair \( \parenth{\V, \norm{\cdot}} \), where \( \norm{\cdot} \) is a norm on \(\V\).
+An inner product space is an example of a normed vector space with the norm given by \( \norm{\vecbf{x}} = \sqrt{\pair{\vecbf{x},\vecbf{x}}} \).
+
+
+\subsection{Norm Examples}
+
+\section{Matrix Norm}
+
+\section{Useful Properties}
+\begin{definition}
+	\emph{Cauchy-Schwarz inequality}: Every inner product satisfies the following
+	\[
+		\left| \pair{\vecbf{a},\vecbf{b} }\right| \leq \norm{\vecbf{a}} \norm{\vecbf{b}} \, \forall \, \vecbf{a},\vecbf{b} \in \V
+	\]
+\end{definition}
+
+
+\bibliographystyle{abbrv}
+\bibliography{library.bib}
+
+
+\end{document}  
