@@ -1,0 +1,131 @@
+\chapter{2015 AAS Appendices}
+\section{Appendix A: Costate Equations of Motion}\label{sec:costate_appendix}
+The development of the costate equations of motions begins with determining the second order partial derivatives of the gravitational potential. 
+Due to the symmetry of partial derivatives only three terms are required and are given by
+\begin{align}\label{eq:second_discrete_potential_grad}
+	U_{x\xk} &= \parenth{1-\mu} \bracket{\frac{1}{\distonek^3} - \frac{3 \parenth{\xk +\mu}^2}{\distonek^5}} + \mu \bracket{\frac{1}{\disttwok^3} - \frac{3 \parenth{\xk -1 + \mu}^2}{\disttwok^5}} \, ,\\
+	U_{y\yk} &= \parenth{1-\mu} \bracket{\frac{1}{\distonek^3} - \frac{3 \yk^2}{\distonek^5}} + \mu \bracket{\frac{1}{\disttwok^3} - \frac{3 \yk^2}{\disttwok^5}} \, ,\\
+	U_{x\yk} &= U_{y\xk} =  \frac{-3 \parenth{1-\mu} \parenth{\xk +\mu} \yk}{\distonek^3} - \frac{3\mu\yk\parenth{\xk-1+\mu}}{\disttwok^5} \, .
+\end{align}
+The gradient of~\cref{eq:xkp} is given as
+\begin{subequations}\label{eq:xkp_grad}
+\begin{align}
+	f_{1_x} &= \frac{1}{1+h^2} \bracket{h^2 + 1 + \frac{h^2}{2} -\frac{h^3}{2} U_{y\xk} - \frac{h^2}{2}U_{x\xk}} \, ,\\
+	f_{1_y} &= \frac{1}{1+h^2} \bracket{ \frac{h^3}{2} -\frac{h^3}{2} U_{y\yk} - \frac{h^2}{2}U_{x\yk}} \, ,\\
+	f_{1_{\dot{x}}} &= \frac{h}{1+h^2} \, ,\\
+	f_{1_{\dot{y}}} &= \frac{h^2}{1+h^2} \, .
+\end{align}
+\end{subequations}
+The gradient of~\cref{eq:ykp} is given as
+\begin{subequations}\label{eq:ykp_grad}
+\begin{align}
+	f_{2_x} &= h -h f_{1_x} - \frac{h^2}{2} U_{y\xk} \, , \\
+	f_{2_y} &= -h f_{1_y} + 1 + \frac{h^2}{2} - \frac{h^2}{2} U_{y\yk} \, ,\\
+	f_{2_{\dot{x}}} &= -h f_{1_{\dot{x}}} \, ,\\
+	f_{2_{\dot{y}}} &= h - h f_{1_{\dot{y}}} \, .
+\end{align}
+\end{subequations}
+The gradients of~\cref{eq:distonekp,eq:disttwokp} are given as
+\begin{subequations}\label{eq:distkp_grad}
+\begin{align}
+	\deriv{\distonekp}{\bar{x}} &= \parenth{\left( \xkp + \mu\right)^2 + \ykp^2}^{-\frac{1}{2}} \bracket{\parenth{\xkp + \mu} f_{1_{\bar{x}}} + \ykp f_{2_{\bar{x}}}} \, ,\\
+	\deriv{\disttwokp}{\bar{x}} &= \parenth{\left( \xkp - 1 + \mu\right)^2 + \ykp^2}^{-\frac{1}{2}} \bracket{\parenth{\xkp -1 + \mu} f_{1_{\bar{x}}} + \ykp f_{2_{\bar{x}}}}  \, .
+\end{align}
+\end{subequations}
+The second order partial derivatives of the gravitational potential at \( k+1\) are given as
+\begin{subequations}
+\begin{align}
+	\deriv{U_{x\xkp}}{\bar{x}} &= \parenth{1-\mu}\bracket{\frac{1}{\distonekp^3} f_{1_{\bar{x}}} - \frac{3 \parenth{\xkp +mu}}{\distonekp^4} \deriv{\distonekp}{\bar{x}}} + \mu \bracket{\frac{1}{\disttwokp^3} f_{1_{\bar{x}}} - \frac{-3 \parenth{\xkp -1 + \mu}}{\disttwokp^4} \deriv{\disttwokp}{\bar{x}}} \, ,\\
+	\deriv{U_{y\xkp}}{\bar{x}} &= \parenth{1-\mu}\bracket{\frac{1}{\distonekp^3} f_{2_{\bar{x}}} - \frac{3 \ykp}{\distonekp^4} \deriv{\distonekp}{\bar{x}}} + \mu \bracket{\frac{1}{\disttwokp^3} f_{2_{\bar{x}}} - \frac{-3 \ykp}{\disttwokp^4} \deriv{\disttwokp}{\bar{x}}} \, .
+\end{align}
+\end{subequations}
+The gradient of~\cref{eq:xdotkp,eq:ydotkp} are given as
+\begin{subequations}\label{eq:xdotkp_grad}
+\begin{align}
+	f_{3_x} &= 2 f_{2_x} + \frac{h}{2} \parenth{f_{1_x} + 1} - \frac{h}{2} U_{x\xkp} - \frac{h}{2} U_{x\xk} \, ,\\
+	f_{3_y} &= -2 + 2 f_{2_y} + \frac{h}{2} f_{1_y} - \frac{h}{2} U_{x\ykp} -\frac{h}{2} U_{x\yk} \, ,\\
+	f_{3_{\dot{x}}} &= 1 + 2 f_{2_{\dot{x}}} + \frac{h}{2} f_{1_{\dot{x}}} - \frac{h}{2} U_{x\xdotkp}\, ,\\
+	f_{3_{\dot{y}}} &= 2 f_{2_{\dot{y}}}\, ,
+\end{align}
+\end{subequations}
+\begin{subequations}\label{eq:ydotkp_grad}
+\begin{align}
+	f_{4_x} &= 2 - 2 f_{1_x} + \frac{h}{2} f_{2_x}  - \frac{h}{2} U_{y\xkp} - \frac{h}{2} U_{y\xk} \, ,\\
+	f_{4_y} &= -2f_{1_y}  - \frac{h}{2} \parenth{f_{2_y} + 1} - \frac{h}{2} U_{y\ykp} -\frac{h}{2} U_{y\yk} \, ,\\
+	f_{4_{\dot{x}}} &= - 2 f_{1_{\dot{x}}} +  \frac{h}{2} f_{2_{\dot{x}}} - \frac{h}{2} U_{y\xdotkp}\, ,\\
+	f_{4_{\dot{y}}} &= 1 - 2 f_{1_{\dot{y}}} + \frac{h}{2} f_{2_{\dot{y}}} - \frac{h}{2} U_{y\ydotkp}\, .
+\end{align}
+\end{subequations}
+These gradient equations are in a cascade type structure.
+\Cref{eq:ydotkp_grad,eq:xdotkp_grad} are functions of~\cref{eq:xdotkp,eq:ydotkp}.
+As a result, the accuracy of the Jacobian will tend to decrease as the first order approximation errors accumulate.
+
+\section{Appendix B: Gauss Jordan Elimination}\label{sec:costate_gauss_jordan}
+The costate equations of motion are given by~\cref{eq:costate_eom} and repeated here as
+\begin{align}\label{eq:costate_eom_transpose}
+	\begin{bmatrix} 
+		\fonex & \ftwox & \fthreex & \ffourx \\
+		\foney & \ftwoy & \fthreey & \ffoury \\
+		\fonexd & \ftwoxd & \fthreexd & \ffourxd \\
+		\foneyd & \ftwoyd & \fthreeyd & \ffouryd
+	\end{bmatrix}
+	\begin{bmatrix} \lambda_{\xkp} \\ \lambda_{\ykp} \\ \lambda_{\xdotkp} \\ \lambda_{\ydotkp} \end{bmatrix}
+	=
+	\begin{bmatrix} \lambda_{\xk} \\ \lambda_{\yk} \\ \lambda_{\xdotk} \\ \lambda_{\ydotk} \end{bmatrix} \, .
+\end{align}
+To determine the discrete update map \( \lambda_k \to \lambda_{k+1}\) the inverse of the Jacobian matrix is required.
+In order to avoid the need of an explicit inversion a Gauss Jordan method is implemented.
+To begin, several terms are defined which are required to carry out the row operations and are defined as
+\begin{subequations}\label{eq:ref_scale}
+\begin{align}
+	a &= -\frac{\foney}{\fonex} \, ,\\
+	b &= -\frac{\fonexd}{\fonex} \, , \\
+	c &= -\frac{\foneyd}{\fonex} \, ,\\
+	e &= -\frac{\ftwoxd + b \ftwox}{\ftwoy + a \ftwox} \, ,\\
+	f &= -\frac{\ftwoyd + c \ftwox}{\ftwoy + a \ftwox} \, ,\\
+	g &= -\frac{\fthreeyd + c \fthreex + f \parenth{\fthreey + a \fthreex}}{\fthreexd + b \fthreex + e \parenth{\fthreey + a \fthreex}}\, .
+\end{align}
+\end{subequations}
+\Cref{eq:costate_eom_transpose} is transformed to row echelon form using elementary row operations and is defined as
+\begin{align}\label{eq:costate_ref}
+	\begin{bmatrix} 
+		\alpha_{11} & \alpha_{12} & \alpha_{13} & \alpha_{14} \\
+		0 & \alpha_{22} & \alpha_{23} & \alpha_{24} \\
+		0 & 0 & \alpha_{33} & \alpha_{34} \\
+		0 & 0 & 0 & \alpha_{44}
+	\end{bmatrix}
+	\begin{bmatrix} \lambda_{\xkp} \\ \lambda_{\ykp} \\ \lambda_{\xdotkp} \\ \lambda_{\ydotkp} \end{bmatrix}
+	=
+	\begin{bmatrix} \beta_1 \\ \beta_2 \\ \beta_3 \\ \beta_4 \end{bmatrix} \, ,
+\end{align}
+where the terms \( \alpha_{ij} \) and \( \beta_{i} \) are defined as follows
+\begin{subequations}
+\begin{align}
+	\alpha_{11} &= \fonex \, ,\\
+	\alpha_{12} &= \ftwox \, ,\\
+	\alpha_{13} &= \fthreex \, ,\\
+	\alpha_{14} &= \ffourx \, ,\\
+	\alpha_{22} &= \ftwoy + a \ftwox \, ,\\
+	\alpha_{23} &= \fthreey + a\fthreex \, ,\\
+	\alpha_{24} &= \ffoury + a \ffourx \, ,\\
+	\alpha_{33} &= \fthreexd + b \fthreex + e \parenth{\fthreey + a \fthreex}\, ,\\
+	\alpha_{34} &= \ffourxd + b \ffourx + e \parenth{\ffoury + a \ffourx} \, ,\\
+	\alpha_{44} &= \ffouryd + c \ffourx + f \parenth{\ffoury + a \ffourx} + g \parenth{\ffourxd + b \ffourx + e \parenth{\ffoury + a \ffourx}} \, ,\\
+	\beta_1 &= \lambda_{\xk} \, ,\\
+	\beta_2 &= \lambda_{\yk} + a \lambda_{\xk} \, ,\\
+	\beta_3 &= \lambda_{\xdotk} + b \lambda_{\xk} + e \parenth{\lambda_{\yk} + a \lambda_{\xk}} \, ,\\
+	\beta_4 &= \lambda_{\ydotk} + c \lambda_{\xk} + f \parenth{\lambda_{\yk}+a \lambda_{\xk}} + g \parenth{\lambda_{\xdotk} + b \lambda_{\xk} + e \parenth{\lambda_{\yk} + a \lambda_{\xk}}} \, .
+\end{align}
+\end{subequations}
+Finally, backsubstituion is used to determine explicit equations for the discrete update map \( \lambda_k \to \lambda_{k+1} \) which is defined as
+\begin{subequations}\label{eq:costate_update}
+\begin{align}
+	\lambda_{\ydotkp} &= \frac{\beta_4}{\alpha_{44}} \, ,\\
+	\lambda_{\xdotkp} &= \frac{\beta_3}{\alpha_{33}} - \frac{\alpha_{34}}{\alpha_{33}} \lambda_{\ydotkp} \, ,\\
+	\lambda_{\ykp} &= \frac{\beta_2}{\alpha_22} - \frac{\alpha_{33}}{\alpha_{22}}\lambda_{\xdotkp} - \frac{\alpha_{24}}{\alpha_{22}} \lambda_{\ydotkp} \, ,\\
+	\lambda_{\xkp} &= \frac{\beta_1}{\alpha_{11}} - \frac{\alpha_{12}}{\alpha_{11}} \lambda_{\ykp} - \frac{\alpha_{13}}{\alpha_{11}} \lambda_{\xdotkp} - \frac{\alpha_{14}}{\alpha_{11}} \lambda_{\ydotkp} \, .
+\end{align}
+\end{subequations}
+%Once again, these equations exhibit a cascade type relationship. 
+%As as result any errors will compound and tend to accumulate most prevalently in \( \lambda_{\xkp} \).
+
