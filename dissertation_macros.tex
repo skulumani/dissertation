@@ -1,0 +1,138 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% CUSTOM MACROS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\newcommand{\linearize}[3]{\ensuremath{\left. \frac{\partial #1}{\partial #2} \right|_{#3} \delta #2}}
+\newcommand{\norm}[1]{\ensuremath{\left\| #1 \right\|}}
+\newcommand{\abs}[1]{\ensuremath{\left| #1 \right|}}
+\newcommand{\Real}[1]{\ensuremath{\Re \left\{ #1 \right\}}}
+\newcommand{\bracket}[1]{\ensuremath{\left[ #1 \right]}}
+\newcommand{\braces}[1]{\ensuremath{\left\{ #1 \right\}}}
+\newcommand{\parenth}[1]{\ensuremath{\left( #1 \right)}}
+\newcommand{\pair}[1]{\ensuremath{\langle #1 \rangle}}
+\newcommand{\met}[1]{\ensuremath{\langle\langle #1 \rangle\rangle}}
+\newcommand{\refeqn}[1]{(\ref{eqn:#1})}
+\newcommand{\reffig}[1]{Fig. \ref{fig:#1}}
+\newcommand{\tr}[1]{\mathrm{tr}\ensuremath{\negthickspace\bracket{#1}}}
+\newcommand{\trs}[1]{\mathrm{tr}\ensuremath{[#1]}}
+\newcommand{\deriv}[2]{\ensuremath{\frac{\partial #1}{\partial #2}}}
+\newcommand{\dderiv}[2]{\ensuremath{\frac{\partial^2 #1}{\partial^2 #2}}}
+\newcommand{\dderivc}[3]{\ensuremath{\frac{\partial #1}{\partial #2 \partial #3}}}
+\newcommand{\diff}[2]{\ensuremath{\frac{d #1}{d #2}}}
+\newcommand{\ddiff}[2]{\ensuremath{\frac{d^2 #1}{d #2^2}}}
+\newcommand{\dirDiff}[2]{\ensuremath{\mathbf{D}_{#2} #1 \cdot \delta #2}} % directional derivative
+\newcommand{\SO}{\ensuremath{\mathsf{SO(3)}}}
+\newcommand{\T}{\ensuremath{\mathsf{T}}}
+\renewcommand{\L}{\ensuremath{\mathsf{L}}}
+\newcommand{\so}{\ensuremath{\mathfrak{so}(3)}}
+\newcommand{\SE}{\ensuremath{\mathsf{SE(3)}}}
+\newcommand{\se}{\ensuremath{\mathfrak{se}(3)}}
+\newcommand{\R}{\ensuremath{\mathbb{R}}}
+\newcommand{\aSE}[2]{\ensuremath{\begin{bmatrix}#1&#2\\0&1\end{bmatrix}}}
+\newcommand{\ase}[2]{\ensuremath{\begin{bmatrix}#1&#2\\0&0\end{bmatrix}}}
+\newcommand{\D}{\ensuremath{\mathbf{D}}}
+\newcommand{\Sph}{\ensuremath{\mathsf{S}}}
+\renewcommand{\S}{\Sph}
+\newcommand{\J}{\ensuremath{\mathbf{J}}}
+\newcommand{\Ad}{\ensuremath{\mathrm{Ad}}}
+\newcommand{\intp}{\ensuremath{\mathbf{i}}}
+\newcommand{\extd}{\ensuremath{\mathbf{d}}}
+\newcommand{\hor}{\ensuremath{\mathrm{hor}}}
+\newcommand{\ver}{\ensuremath{\mathrm{ver}}}
+\newcommand{\dyn}{\ensuremath{\mathrm{dyn}}}
+\newcommand{\geo}{\ensuremath{\mathrm{geo}}}
+\newcommand{\Q}{\ensuremath{\mathsf{Q}}}
+\newcommand{\G}{\ensuremath{\mathsf{G}}}
+\newcommand{\g}{\ensuremath{\mathfrak{g}}}
+\newcommand{\Hess}[1]{\ensuremath{\mathrm{Hess} \, #1}}
+\newcommand{\refprop}[1]{Proposition \ref{prop:#1}}
+\newcommand{\vecbf}[1]{\bm{#1}}
+\newcommand{\vb}[1]{\bm{#1}}
+\newcommand{\vh}[1]{\hat{\bm{#1}}}
+\newcommand{\slfrac}[2]{\left.#1\middle/#2\right.}
+
+% SI UNITS
+\newcommand{\usd}[2]{\SI{#1}[\$\ensuremath{\,}]{#2}}
+\DeclareSIUnit\year{yr}
+\DeclareSIUnit\siderealhour{sidereal~hr}
+\DeclareSIUnit\solarsec{solar~sec}
+\DeclareSIUnit\julianday{JD}
+\DeclareSIUnit\px{px}
+% proposition enviornments and proofs
+\newcommand{\squeezeup}{\vspace{-2.5mm}}
+
+\newtheorem{definition}{Definition}
+\newtheorem{lem}{Lemma}
+\newtheorem{prop}{Proposition}
+\newtheorem{cor}{Corollary}
+\newtheorem{remark}{Remark}
+
+% Custom citation command for full cite in presentations - just show author, title, and y ear
+\newcommand{\citecompact}[1]{\citeauthor{#1}, \citetitle{#1}, \citeyear{#1}}
+
+% 2015 AAS Paper
+% custom macros for AAS paper
+% Poincar\'e correct name
+\newcommand{\Poincare}{Poincar\'e }
+
+% Macros for discrete states to save some time typing
+\newcommand{\xk}{\ensuremath{x_k}}
+\newcommand{\xkp}{\ensuremath{x_{k+1}}}
+\newcommand{\yk}{\ensuremath{y_{k}}}
+\newcommand{\ykp}{\ensuremath{y_{k+1}}}
+
+\newcommand{\pxk}{\ensuremath{p_{x_k}}}
+\newcommand{\pxkp}{\ensuremath{p_{x_{k+1}}}}
+\newcommand{\pyk}{\ensuremath{p_{y_k}}}
+\newcommand{\pykp}{\ensuremath{p_{y_{k+1}}}}
+
+\newcommand{\xdotk}{\ensuremath{\dot{x}_{k}}}
+\newcommand{\ydotk}{\ensuremath{\dot{x}_{k}}}
+\newcommand{\xdotkp}{\ensuremath{\dot{x}_{k+1}}}
+\newcommand{\ydotkp}{\ensuremath{\dot{y}_{k+1}}}
+
+\newcommand{\distonek}{\ensuremath{r_{1_k}}}
+\newcommand{\distonekp}{\ensuremath{r_{1_{k+1}}}}
+\newcommand{\disttwok}{\ensuremath{r_{2_{k}}}}
+\newcommand{\disttwokp}{\ensuremath{r_{2_{k+1}}}}
+
+% costate equations of motion (gauss jordan elimination)
+\newcommand{\fonex}{\ensuremath{f_{1_x}}}
+\newcommand{\ftwox}{\ensuremath{f_{2_x}}}
+\newcommand{\fthreex}{\ensuremath{f_{3_x}}}
+\newcommand{\ffourx}{\ensuremath{f_{4_x}}}
+
+\newcommand{\foney}{\ensuremath{f_{1_y}}}
+\newcommand{\ftwoy}{\ensuremath{f_{2_y}}}
+\newcommand{\fthreey}{\ensuremath{f_{3_y}}}
+\newcommand{\ffoury}{\ensuremath{f_{4_y}}}
+
+\newcommand{\fonexd}{\ensuremath{f_{1_{\dot x}}}}
+\newcommand{\ftwoxd}{\ensuremath{f_{2_{\dot x}}}}
+\newcommand{\fthreexd}{\ensuremath{f_{3_{\dot x}}}}
+\newcommand{\ffourxd}{\ensuremath{f_{4_{\dot x}}}}
+
+\newcommand{\foneyd}{\ensuremath{f_{1_{\dot y}}}}
+\newcommand{\ftwoyd}{\ensuremath{f_{2_{\dot y}}}}
+\newcommand{\fthreeyd}{\ensuremath{f_{3_{\dot y}}}}
+\newcommand{\ffouryd}{\ensuremath{f_{4_{\dot y}}}}
+
+% edit cref citations for IEEE format
+\crefformat{equation}{(#2#1#3)} % no abbreviation for equation numbers
+\Crefformat{equation}{Equation~(#2#1#3)} % no abbreviation for equation numbers
+\crefrangeformat{equation}{(#3#1#4--#5#2#6)}
+\Crefrangeformat{equation}{(#3#1#4--#5#2#6)}
+\crefmultiformat{equation}{(#2#1#3)}{ and~(#2#1#3)}{, (#2#1#3)}{ and~(#2#1#3)}
+% edit cref citations for IEEE format
+\crefformat{figure}{Fig.~#2#1#3} % no abbreviation for equation numbers
+\Crefformat{figure}{Fig.~#2#1#3} % no abbreviation for equation numbers
+\crefrangeformat{figure}{Figs.~#3#1#4--#5#2#6}
+\Crefrangeformat{figure}{Figs.~#3#1#4--#5#2#6}
+\crefmultiformat{figure}{Figs.~#2#1#3}{ and~#2#1#3}{, #2#1#3}{ and~#2#1#3}
+% for items in a list
+\crefformat{enumi}{(#2#1#3)}
+\Crefformat{enumi}{Item~(#2#1#3)} 
+\crefrangeformat{enumi}{(#3#1#4--#5#2#6)}
+\Crefrangeformat{enumi}{Items~(#3#1#4--#5#2#6)}
+\crefmultiformat{enumi}{(#2#1#3)}{ and~(#2#1#3)}{, (#2#1#3)}{ and~(#2#1#3)}
