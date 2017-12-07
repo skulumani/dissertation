@@ -4,7 +4,6 @@
 
 
 \section{Introduction}\label{sec:intro}
-
 Rigid body attitude control is an important problem for aerospace vehicles, ground and underwater vehicles, as well as robotic systems~\cite{hughes2004,wertz1978}.
 One distinctive feature of the attitude dynamics of rigid bodies is that it evolves on a nonlinear manifold.
 The three-dimensional special orthogonal group, or \( \SO \), is the set of \( 3 \times 3 \) orthogonal matrices whose determinant is one.
@@ -118,7 +117,7 @@ Another terrestrial example is frequently encountered by unmanned aerial vehicle
 Multiple actuator systems, such as quadrotor aerial vehicles, may exhibit an uneven mass distribution during load transportation or must operate in the presence of turbulence. 
 Treating these effects as disturbances is a popular method to design control systems.
 
-In~\cref{eqn:Rdot}, the \textit{hat} map $\wedge :\R^{3}\rightarrow\so$ represents the transformation of a vector in $\R^{3}$ to a $3\times 3$ skew-symmetric matrix such that $\hat x y = x\times y$ for any $x,y\in\R^{3}$~\cite{bullo2004}. 
+In~\refeqn{Rdot}, the \textit{hat} map $\wedge :\R^{3}\rightarrow\so$ represents the transformation of a vector in $\R^{3}$ to a $3\times 3$ skew-symmetric matrix such that $\hat x y = x\times y$ for any $x,y\in\R^{3}$~\cite{bullo2004}. 
 More explicitly,
 \begin{align*}
     \hat x = \begin{bmatrix} 0 & -x_3 & x_2 \\ x_3 & 0 & -x_1 \\ -x_2 & x_1 & 0\end{bmatrix},
@@ -193,7 +192,7 @@ with
 \end{gather}	
 where \( \alpha \in \R \) is defined as a positive constant and the matrix \( G \in \R^{3 \times 3} \) is defined as a diagonal matrix matrix for distinct, positive constants \( g_1, g_2, g_3 \in \R \).
 Then, the following properties hold
-\begin{enumerate}[(i)]
+\begin{enumerate}
 	\item \label{item:prop_psi_psd} \(\Psi\) is positive definite about \( R = R_d\) on $\SO$.
 	\item \label{item:prop_era}The variation of \( A(R) \) with respect to a variation of \( \delta R = R \hat{\eta} \) for \( \eta \in \R^3 \) is given by
 	\begin{align}\label{eq:dirDiff_A}
@@ -236,11 +235,11 @@ In order to visualize the attitude error function on \( \SO \), we utilize a sph
 Recall, that the spherical coordinate system represents the position of a point relative to an origin in terms of a radial distance, azimuth, and elevation.
 This coordinate system is commonly used to define locations on the Earth in terms of a latitude and longitude.
 Similarly, the positions of celestial objects are defined on the celestial sphere in terms of right ascension and declination. 
-\begin{figure}[H]%
+\begin{figure}[htbp]%
     \centering 
-    \subcaptionbox{ Attractive \( A(R) \) \label{fig:attract_error} }{\includegraphics[trim={8mm 2mm 8mm 2mm}, clip]{figures/2016_IJCAS/attract_error.pdf}}~
-    \subcaptionbox{ Repulsive \( B(R) \) \label{fig:avoid_error} }{\includegraphics[trim={8mm 2mm 8mm 2mm}, clip]{figures/2016_IJCAS/avoid_error.pdf}}~
-    \subcaptionbox{ Combined \( \Psi \) \label{fig:combined_error} }{\includegraphics[trim={8mm 2mm 8mm 2mm}, clip]{figures/2016_IJCAS/combined_error.pdf}}%
+    \subcaptionbox{ Attractive \( A(R) \) \label{fig:attract_error} }{\includegraphics[trim={8mm 2mm 8mm 2mm}, clip, width=0.3\textwidth]{figures/2016_IJCAS/attract_error.pdf}}~
+    \subcaptionbox{ Repulsive \( B(R) \) \label{fig:avoid_error} }{\includegraphics[trim={8mm 2mm 8mm 2mm}, clip, width=0.3\textwidth]{figures/2016_IJCAS/avoid_error.pdf}}~
+    \subcaptionbox{ Combined \( \Psi \) \label{fig:combined_error} }{\includegraphics[trim={8mm 2mm 8mm 2mm}, clip, width=0.3\textwidth]{figures/2016_IJCAS/combined_error.pdf}}%
     \caption{Visualization of Configuration Error Functions using spherical coordinate representation}
     \label{fig:config_error} 
 \end{figure}%
@@ -292,9 +291,9 @@ See~\Cref{proof:error_dyn}
 
 \begin{figure}[t]
     \centering 
-    \subcaptionbox{ Attitude error vector \(e_R\) components \label{fig:eR_con} }{\input{figures/2016_IJCAS_pgf/eR_noadapt.pgf}}~
-    \subcaptionbox{ Configuration error \( \Psi \) \label{fig:Psi_con} }{\input{figures/2016_IJCAS_pgf/Psi_noadapt.pgf}}~
-    \subcaptionbox{ Angle to each constraint \label{fig:con_angles_con} }{\input{figures/2016_IJCAS_pgf/ang_con_noadapt.pgf}} 
+    \subcaptionbox{Attitude error vector \(e_R\) components \label{fig:eR_con}}{\input{figures/2016_IJCAS_pgf/eR_noadapt.pgf}}~
+    \subcaptionbox{Configuration error \( \Psi \) \label{fig:Psi_con}}{\input{figures/2016_IJCAS_pgf/Psi_noadapt.pgf}}~
+   \subcaptionbox{Angle to each constraint \label{fig:con_angles_con}}{\input{figures/2016_IJCAS_pgf/ang_con_noadapt.pgf}}~
     \caption{Attitude stabilization without adaptive update law}
     \label{fig:con} 
 \end{figure}
@@ -322,7 +321,7 @@ An adaptive control system is introduced to asymptotically stabilize the system 
 
 \begin{prop}[Bound on \( \bm{\dot{e}_R} \)]\label{prop:eR_dot_bound}
 Consider the neighborhood \( D \), given in~\cref{prop:config_error}, about the desired attitude, then the following statements hold:
-\begin{enumerate}[(i)]
+\begin{enumerate}
     \item \label{item:prop_eR_dot_bound_AB} Upper bounds of \( A(R) \) and \( B(R) \) are given by
         \begin{gather}
             \norm{A} < b_2 \norm{e_{R_A}}^2 < c_A  , \quad \norm{B} < c_B . \label{eqn:AB_bound}
@@ -418,7 +417,7 @@ It is straightforward to chose \( k_R, k_\Omega, k_\Delta\), using a linear anal
 A body fixed sensor is defined as \(r = [1,0,0]\), while multiple inequality constraints are defined in~\Cref{tab:constraints}.
 The simulation parameters are chosen to be similar to those found in~\cite{lee2011b}, however we increase the size of the constraint regions to create a more challenging scenario for the control system.
 \vspace{-2.5mm}
-\begin{table}[H]
+\begin{table}[htbp]
 \caption{Constraint Parameters~\label{tab:constraints}}
 \begin{center}\begin{tabular}{lc}
 Constraint Vector (\( v \)) & Angle (\( \theta \)) \\ \hline \hline 
@@ -461,13 +460,13 @@ These closed-loop feedback results are computed in real time and offer a signifi
 These results show that the proposed geometric adaptive approach is critical to attitude stabilization in the presence of state constraints and disturbances.
 
 \begin{figure} 
-    \centering 
-    \subcaptionbox{ Configuration error \( \Psi \)\label{fig:Psi_adapt} }{\input{figures/2016_IJCAS_pgf/Psi_adapt.pgf}}~
-    \subcaptionbox{ Angle to each constraint \label{fig:con_angles} }{\input{figures/2016_IJCAS_pgf/ang_con_adapt.pgf}}\\
-    \subcaptionbox{ Disturbance estimate \( \bar \Delta \) components \label{fig:delta_adapt} }{\input{figures/2016_IJCAS_pgf/dist_adapt.pgf}}~
+  \centering 
+  \subcaptionbox{ Configuration error \( \Psi \)\label{fig:Psi_adapt} }{\input{figures/2016_IJCAS_pgf/Psi_adapt.pgf}}~
+  \subcaptionbox{ Angle to each constraint \label{fig:con_angles} }{\input{figures/2016_IJCAS_pgf/ang_con_adapt.pgf}}\\
+  \subcaptionbox{ Disturbance estimate \( \bar \Delta \) components \label{fig:delta_adapt} }{\input{figures/2016_IJCAS_pgf/dist_adapt.pgf}}~
     \subcaptionbox{ Attitude trajectory \label{fig:cad_adapt} }{\includegraphics[trim={10cm 0 10cm 0},clip,width=0.4\columnwidth]{figures/2016_IJCAS/cad_adapt} }
-    \caption{Attitude stabilization with adaptive update law}
-    \label{fig:adapt} 
+  \caption{Attitude stabilization with adaptive update law}
+  \label{fig:adapt} 
 \end{figure}
 \subsection{Attitude Parameterizations}\label{ssec:attitude_parameterization}
 % Discuss the benefits of using this geometric representation as compared to Euler angles or quaternions
@@ -542,10 +541,10 @@ In addition,~\cref{fig:con_angle_tv} shows that the constraint is never violated
 We can see in~\cref{fig:Delta_tv} that that estimate \(\bar \Delta \) for each of the components accurately tracks the true disturbance after approximately~\SI{5}{\second}.
 
 \section{Experiment on Hexrotor UAV}\label{sec:experiment}
-\vspace{-5mm}
-\begin{figure}[H]
+
+\begin{figure}[htbp]
     \centering
-    \includegraphics[width = 0.50\columnwidth]{hexrotor}
+    \includegraphics[width = 0.50\columnwidth]{2016_IJCAS/hexrotor}
     \caption{Attitude control testbed~\label{fig:hexrotor}}
 \end{figure}
 \vspace{-3mm}
@@ -556,7 +555,7 @@ As a result, these systems are underactuated and unable to impart a force along 
 For example, quadrotor UAVs are unable to translate laterally without first conducting a rotation.
 Conversely, the propeller pairs of the hexrotor are angled relative to one another to allow for a fully actuated rigid body.
 This allows the hexrotor to impart a force in any direction and a moment about any axis. 
-\begin{figure}[H]
+\begin{figure}[htbp]
     \centering 
     \subcaptionbox{ {Configuration error \( \Psi \)} \label{fig:Psi_tv} }{\input{figures/2016_IJCAS_pgf/Psi_timevarying.pgf}}~
     \subcaptionbox{ {Angle to constraint } \label{fig:con_angle_tv} }{\input{figures/2016_IJCAS_pgf/ang_con_timevarying.pgf}}~
@@ -569,7 +568,7 @@ This allows the hexrotor to impart a force in any direction and a moment about a
     \subcaptionbox{ {Attitude error vector \(e_R\)} components\label{fig:eR_exp} }{\input{figures/2016_IJCAS_pgf/eR_exp.pgf}}~
     \subcaptionbox{ {Configuration error \( \Psi \)} \label{fig:Psi_exp} }{\input{figures/2016_IJCAS_pgf/Psi_exp.pgf}}~
     \subcaptionbox{ {Control input \( u\) } components\label{fig:u_exp} }{\input{figures/2016_IJCAS_pgf/u_exp.pgf}}\\
-    \subcaptionbox{ {Attitude Trajectory } \label{fig:traj_exp} }{\includegraphics[width=0.3\columnwidth]{figures/2016_IJCAS/traj_exp} }~
+    \subcaptionbox{ {Attitude Trajectory } \label{fig:traj_exp} }{\includegraphics[width=0.3\columnwidth]{2016_IJCAS/traj_exp} }~
     \subcaptionbox{ {Angle to constraint } \label{fig:con_angle_exp} }{\input{figures/2016_IJCAS_pgf/ang_con_exp.pgf}}
     \caption{Constrained Attitude stabilization experiment}
     \label{fig:exp} 
@@ -616,4 +615,307 @@ In addition, we have demonstrated the control system via numerical simulation an
 A novel feature of this control is that it is computed autonomously on-board the UAV.
 This is in contrast to many state constrained attitude control systems which require an a priori attitude trajectory to be calculated. 
 The presented method is simple, efficient and ideal for hardware implementation on embedded systems.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\appendix
+\subsection{Proof of~\Cref{prop:config_error}}\label{proof:config_error}
+To prove~\cref{item:prop_psi_psd}, we note that~\cref{eqn:A} is a positive definite function about \( R = R_d \)~\cite{bullo2004}.
+The constraint angle is assumed \( \ang{0} \leq \theta \leq \ang{90} \) such that \( 0 \leq \cos \theta \).
+The term \( r^T R^T v \) represents the cosine of the angle between the body fixed vector \( r \) and the inertial vector \( v \). 
+It follows that
+\begin{align*}
+	0 \leq  \frac{\cos \theta -  r^T R^T v}{1 + \cos \theta} \leq 1 ,
+\end{align*}
+for all \( R \in \SO \). 
+As a result, its negative logarithm is always positive and from~\cref{eqn:B}, \(1 < B\).
+The error function \( \Psi = A B \) is composed of two positive terms and is therefore also positive definite.
+
+Next, we consider~\cref{item:prop_era}.
+The infinitesimal variation of a rotation matrix is defined as
+\begin{align*}
+    \delta R = \left. \diff{}{\epsilon} \right|_{\epsilon=0} R \exp{\epsilon \hat{\eta}} = R \hat{\eta} .
+\end{align*}
+Using this, the variation of~\cref{eqn:A} is taken with respect to \( R \) as
+\begin{align*}
+	\dirDiff{A}{R} &= \eta \cdot \frac{1}{2} \left( G R_d^T R - R^T R_d G\right)^\vee ,
+%	&= -\frac{1}{2} \tr{G R_d^T \left( R \hat{\eta}\right)} \\
+\end{align*}
+where we used~\cref{eqn:hat1} to achieve the simplified form.
+
+A straightforward application of the chain and product rules of differentiation allows us to show~\cref{item:prop_erb} as
+\begin{align*}
+	\dirDiff{B}{R} &=  \eta \cdot \frac{ - \left( R^T v\right)^\wedge r}{\alpha \left(\cos \theta - r^T R^T v \right)} ,
+%	-\frac{1}{\alpha} \left[\left(\frac{1+\cos \theta}{\cos \theta - r^T R^T v} \right) \left(\eta \cdot \frac{\left( R^T v\right)^\vee r}{1+\cos \theta} \right) \right]
+\end{align*}
+where the scalar triple product~\cref{eqn:STP} was used.
+
+%To show~\cref{item:prop_crit} we note that \( A(R) \) is a positive definite function about \( R = R_d\), with \( \Psi(R_d) = A(R_d) = 0 \).
+%As a result, there exists a neighborhood \(  U \) about \( R = R_d \) such that
+%\begin{align*}
+%  A(R) \geq A(R_d) \; \forall \; R \in U .
+%\end{align*}
+%Since the desired attitude, \( R_d \), must lie in the feasible set, i.e., \( r^T R^T v < \cos \theta \), the addition of the repulsive barrier function, \( B \), does not change the minimum value of \( \Psi \).
+We show~\cref{item:prop_psi_quadratic} by computing the hessian of \( \Psi \), namely \( \Hess(\Psi) \),  using the chain rule as 
+\begin{align*}
+    \Hess &(\Psi)\cdot (\delta R,\delta R)= (\mathbf{D}_R\parenth{\mathbf{D}_R A \cdot \delta R}\cdot \delta R) B\\
+    & + \parenth{\dirDiff{A}{R} }\parenth{\dirDiff{B}{R}} 
+    + \parenth{\dirDiff{B}{R} }\parenth{\dirDiff{A}{R}}\\ &+(\mathbf{D}_R\parenth{\mathbf{D}_R B \cdot \delta R}\cdot \delta R) A.
+\end{align*}
+The first order derivative of \( A(R) \) and \( B(R) \) are given by~\cref{eqn:eRA,eqn:eRB}. 
+The hessian of \( A(R) \) is computed as 
+\begin{align*}
+    \dirDiff{\parenth{\dirDiff{A}{R}}}{R} &= \eta \cdot \frac{1}{2}\parenth{G R_d^T \delta R - \delta R^T R_d G}^\vee  \\
+    &= \eta \cdot \frac{1}{2} \parenth{G R_d^T R \hat \eta + \hat \eta R^T R_d G}^\vee\\
+    &= \eta \cdot \frac{1}{2} \bracket{\parenth{\braces{\tr{R^T R_d G} I - R^T R_d G} \eta}^\wedge}^\vee  \\
+    &= \eta \cdot \frac{1}{2} \parenth{\tr{R^T R_d G} I - R^T R_d G}\eta ,
+\end{align*}
+where we used the scalar triple product rule, from~\cref{eqn:STP}, to arrive at the final form.
+The hessian of \( B(R) \) is computed as
+\begin{align*}
+    \dirDiff{\parenth{\dirDiff{B}{R}}}{R} =& \eta \cdot \left[\frac{\parenth{\delta R^T v}^\wedge r}{\alpha\parenth{r^T R^T v - \cos \theta}} \right. \\
+    & \left. - \frac{\parenth{R^T v}^\wedge r \parenth{r^T \delta R^T v}}{\alpha \parenth{r^TR^Tv - \cos \theta}^2}   \right] .
+\end{align*}
+The term \( \parenth{\delta R^T v}^\wedge r\) is simplified as
+\begin{align*}
+    \parenth{\delta R^T v}^\wedge r &= - \hat{r} \delta R ^T v  \\
+    &= - \hat{r} \parenth{R \hat \eta}^T v  \\
+    &= \hat{r} \parenth{\hat{\eta} R^T } v  \\
+    &= - \hat{r} \parenth{R^T v}^\wedge \eta ,
+\end{align*}
+where we utilized the hat map property from~\cref{eqn:cross_product}.
+Similarly, the term \( r^T \delta R^T v \) is simplified as
+\begin{align*}
+    r^T \delta R^T v &= r^T \parenth{-\hat \eta R^T}v  \\
+    &= r^T \parenth{R^T v}^\wedge \eta .
+\end{align*}
+The hessian of \( B(R) \) then becomes
+\begin{align*}
+    \dirDiff{\parenth{\dirDiff{B}{R}}}{R} =& \eta \cdot \left[ - \frac{ \hat r \parenth{R^T v}^\wedge}{\alpha \parenth{r^T R^T v - \cos \theta}} \right. \\ 
+    & \left. - \frac{\parenth{R^T v}^\wedge r r^T \parenth{R^T v}^\wedge }{ \alpha\parenth{r^T R^T v - \cos \theta}^2}  \right] \eta .
+\end{align*}
+Using these terms, we evaluate \( \Hess{\Psi} \) at the desired attitude \( R = R_d \) as follows. Since $A=0$ and $\mathbf{D}_R A=0$ at $R=R_d$, 
+\begin{align*}
+    \Hess(\Psi)\cdot (\delta R,\delta R)\big|_{R=R_d} = \eta \cdot \frac{1}{2} B \parenth{\tr{G}I -  G} \eta , 
+\end{align*}
+which is positive definite since \( B > 1\) and \( \sum g_i > g_i\). 
+The domain \( D \) is an open neighborhood of the desired attitude \( R_d \), and it excludes the undesired equilibrium points of \( A(R) \) and the infeasible regions defined by the constraints \( r^T R^T v_i \). 
+Therefore, the only critical point of the error function $\Psi$ in the domain $D$ corresponds to the desired attitude $R=R_d$ with $e_R=0$ and $\Psi=0$. 
+Therefore, in \( D \) the configuration error function is quadratic and the bounds in~\cref{item:prop_psi_quadratic} are valid according to~\cite[Proposition 6.30]{bullo2004}.
+
+The proof of \cref{item:prop_era_upbound} is available in~\cite{LeeITCST13}.
+
+\subsection{Proof of~\Cref{prop:error_dyn}}\label{proof:error_dyn}
+From the kinematics~\cref{eqn:Rdot}, and noting that \( \dot{R}_d = 0 \) the time derivative of \( R_d^T R \) is given as
+\begin{gather*}
+	\diff{}{t} \parenth{R_d^T R} = R_d^T R \hat{e}_\Omega .
+\end{gather*}
+Applying this to the time derivative of~\cref{eqn:A} gives
+\begin{gather*}
+	\diff{}{t} (A) = -\frac{1}{2} \tr{G R_d^T R \hat{e}_\Omega} .
+\end{gather*}
+Applying~\cref{eqn:hat1} into this shows~\cref{eqn:A_dot}.
+Next, the time derivative of the repulsive error function is given by
+\begin{gather*}
+	\diff{}{t} (B) = \frac{r^T \parenth{\hat{\Omega} R^T} v}{\alpha \parenth{r^T R^T v - \cos \theta}} .
+\end{gather*}
+Using the scalar triple product, given by~\cref{eqn:STP}, one can reduce this to~\cref{eqn:B_dot}.
+The time derivative of the attractive attitude error vector, \( e_{R_A} \), is given by
+\begin{gather*}
+	\diff{}{t} ( e_{R_A}) = \frac{1}{2} \parenth{\hat{e}_\Omega R^T R_d G + (R^T R_d G)^T \hat{e}_\Omega}^\vee .
+\end{gather*}
+Using the hat map property given in~\cref{eqn:xAAx} this is further reduced to~\cref{eqn:eRA_dot,eqn:E}.
+
+We take the time derivative of the repulsive attitude error vector, \( e_{R_B} \), as
+\begin{gather*}
+	\diff{}{t}( e_{R_B} )= a \Omega v^T R r - a R^T v \Omega^T r + b R^T \hat{v} R r ,
+\end{gather*}
+with \( a \in \R \) and \( b \in \R\) given by 
+\begin{gather*}
+	a = \bracket{\alpha \parenth{r^T R^T v - \cos \theta}}^{-1} , \;
+	b = \frac{r^T \hat{\Omega} R^T v}{\alpha \parenth{r^T R^T v - \cos \theta}^2} .
+\end{gather*}
+Using the scalar triple product from~\cref{eqn:STP} as \( r \cdot \Omega \times \parenth{R^T v} = \parenth{R^T v} \cdot r \times \Omega \) gives~\cref{eqn:eRB_dot,eqn:F}.
+
+We show the time derivative of the configuration error function as
+\begin{gather*}
+	\diff{}{t} (\Psi) = \dot{A} B + A \dot{B} .
+\end{gather*}
+A straightforward substitution of~\cref{eqn:A_dot,eqn:B_dot,eqn:A,eqn:B} into this and applying~\cref{eqn:eR} shows~\cref{eqn:psi_dot}.
+We show~\cref{eqn:eW_dot} by rearranging~\cref{eqn:Wdot} as 
+\begin{align*}
+	\diff{}{t} e_\Omega = \dot{\Omega} = J^{-1} \parenth{u - \Omega \times J \Omega + W(R,\Omega) \Delta } .
+\end{align*}
+
+\subsection{Proof of~\Cref{prop:att_control}}\label{proof:att_control}
+Consider the following Lyapunov function:
+\begin{gather*}%\label{eqn:v_nodist}
+	\mathcal{V} = \frac{1}{2} e_\Omega \cdot J e_\Omega + k_R \Psi(R,R_d) . 
+\end{gather*}
+From~\cref{item:prop_psi_psd} of~\Cref{prop:config_error}, \(\mathcal{V} \geq 0 \).
+Using~\cref{eqn:eW_dot,eqn:psi_dot} with \( \Delta = 0 \), the time derivative of \( \mathcal{V} \) is given by
+\begin{align*}%\label{eqn:vdot_nodist}
+	\dot{\mathcal{V}} &= -k_\Omega \norm{e_\Omega}^2 . 
+%	e_\Omega^T \parenth{ u - \Omega \times J \Omega } + k_R e_R \cdot e_\Omega \nonumber \\
+\end{align*}
+Since \( \mathcal{V} \) is positive definite and \( \dot{\mathcal{V}} \) is negative semi-definite, the zero equilibrium point \( e_R, e_\Omega \) is stable in the sense of Lyapunov. 
+This also implies \( \lim_{t\to\infty} \norm{e_\Omega} = 0 \) and \( \norm{e_R} \) is uniformly bounded, as the Lyapunov function is non-increasing. From \refeqn{eRA_dot} and \refeqn{eRB_dot}, $\lim_{t\to\infty} \dot e_R =0$. 
+One can show that \( \norm{\ddot{e}_R} \) is bounded.
+From Barbalat's Lemma, it follows \( \lim_{t\to\infty}\norm{\dot{e}_R} = 0 \)~\cite[Lemma 8.2]{khalil1996}. 
+Therefore, the equilibrium is asymptotically stable. 
+	
+Furthermore, since \( \dot{\mathcal{V}} \leq 0 \) the Lyapunov function is uniformly bounded which implies 
+\begin{align*}
+	\Psi(R(t)) \leq \mathcal{V}(t) \leq \mathcal{V}(0) .
+\end{align*}
+In addition, the logarithmic term in~\cref{eqn:B} ensures \( \Psi(R) \to \infty \) as \( r^T R^T v \to \cos \theta \).
+Therefore, the inequality constraint is always satisfied given that the desired equilibrium lies in the feasible set.
+	
+\subsection{Proof of~\Cref{prop:eR_dot_bound}}\label{proof:eR_dot_bound}
+%	We first show~\cref{eqn:A_bound,eqn:B_bound} through a proof by contradiction by noting that given the selected domain \( D \) we know the configuration error function is bounded by \( \Psi = A(R) B(R) < \psi\).
+%	If we assume that \( A > \psi \) this means that \( B < 1 \) in order to satisfy the domain \( \Psi < \psi \).
+%	However, this would be in contradiction with~\Cref{proof:config_error} as \( B > 1 \), therefore \( A \) must always be less than \( \psi \).
+%	Next, we show that since the domain \( D \) does not contain the constraint region there is an upper bound of \(B\).
+%	We know that \( B \to \infty \) as the constraint is neared. 
+%	We assume that \( B > \psi \) which implies that \( A < 1 \).
+%	As \( \psi \) is increased this implies that the system is approaching the constraint and that \( A \to 0 \) in order to remain in the domain \( D \).
+%	However, since the chosen domain is assumed to exclude the constraint this situation is not possible and \( B < \psi \).
+%We choose the domain \( D \) to exclude the undesired critical points of \( A(R) \) as well as the infeasible regions defined by the state inequality constraints. 
+%Furthermore,~\cref{proof:config_error} shows that \(D \) is an open neighborhood of the desired attitude configuration, \( R_d\).
+%The proof of the upper bound of \( A(R) \) is given in~\cite{LeeITCST13}.
+
+
+Consider the open neighborhood $D$ of $R=R_d$ defined in~\Cref{prop:config_error}.
+The proof of the upper bound of \( A(R) \) is given in~\cite{LeeITCST13}.
+The selected domain ensures that the configuration error function is bounded \( \Psi < \psi \).
+This implies that that both \( A(R) \) and \( B(R) \) are bounded by constants \( c_A c_B < \psi < h_1\).
+Furthermore, since \( \norm{B} > 1 \) this ensures that \( c_A, c_B < \psi\) and shows~\cref{eqn:AB_bound}.
+
+Next, we show~\cref{eqn:E_bound,eqn:F_bound} using the Frobenius norm.
+The Frobenius norm \( \norm{E}_F \) is given in~\cite{LeeITCST13} as
+\begin{gather*}
+	\norm{E}_F = \sqrt{\tr{E^T E}} = \frac{1}{2} \sqrt{\tr{G^2} + \tr{R^T R_d G}^2} .
+\end{gather*}
+Applying Rodrigues' formula and the Matlab symbolic toolbox, this is simplified to
+\begin{gather*}
+	\norm{E}^2_F \leq \frac{1}{4} \parenth{\tr{G^2} + \tr{G}^2} \leq \frac{1}{2} \tr{G}^2 ,
+\end{gather*}
+which shows~\cref{eqn:E_bound}, since \( \norm{E} \leq \norm{E}_F \).
+
+To show~\cref{eqn:F_bound}, we apply the Frobenius norm \( \norm{F}_F \):
+\begin{align*}
+	\norm{F}_F =& \frac{1}{\alpha ^2 \parenth{r^T R^T v - \cos \theta}^2} \left[\tr{a^T a} - 2 \tr{a^T b} \right. \\
+	&\left.+ 2 \tr{a^T c } + \tr{b^T b}  - 2 \tr{b^T c} + \tr{c^T c}\right] .
+\end{align*}
+where the terms \( a, b, \text{ and } c \) are given by
+\begin{gather*}
+	a = r^T R r I , \quad	b = R^T v r^T , \quad c = \frac{R^T \hat{v} R r v^T R \hat{r}}{r^T R^T v - \cos \theta}.
+\end{gather*}
+A straightforward computation of \( a^T a \) shows that
+\begin{gather*}
+	\tr{a^T a} = \parenth{v^T R r}^2 \tr{I} \leq 3 \beta^2 ,
+\end{gather*}
+where we used the fact that \( v^T R r = r^T R^T v < \beta \) from our given domain.
+Similarly, one can show that \( \tr{a^T b} \) is equivalent to
+\begin{gather*}
+	\tr{a^T b} = v^T R r \tr{R^T v r^T} = \parenth{v^T R r}^2 \leq \beta^2 ,
+\end{gather*} 
+where we used the fact that \( \tr{x y^T} = x^T y \).
+The product \( \tr{a^T c} \) is given by
+\begin{gather*}
+	\tr{a^T c} = \frac{v^T R r}{r^T R^T v - \cos \theta} \tr{\parenth{R^T v}^\vee \parenth{r v^T R} \hat{r} } ,
+\end{gather*}
+where we used the hat map property~\cref{eqn:RxR}.
+One can show that \(\mathrm{tr}[a^T c] \leq 0 \) over the range \( -1 \leq v^T R r \leq \cos \theta \). 
+Next, \( \tr{b^T b}\) is equivalent to
+\begin{gather*}
+	\tr{b^T b} = \tr{r v^T R R^T v r^T} = 1 ,
+\end{gather*}
+since \( r,v \in \Sph^2\).
+Finally, \( \tr{c^T c} \) is reduced to
+\begin{gather*}
+	\tr{c^T c} = \tr{\hat{r} R^T v r^T \bracket{-I + R^T v v^T R} r v^T R \hat{r}} ,
+\end{gather*}
+where we used the fact that \( \hat{x}^2 = - \norm{x}^2 I + x x^T\).
+Expanding and collecting like terms gives
+\begin{gather*}
+	\tr{c^T c } = \frac{1 - 2\parenth{v^T R r}^2 + \parenth{v^T R r}^4}{\parenth{r^T R^T v - \cos \theta}^2} . 
+\end{gather*}
+Using the given domain \( r^T R^T v \leq \beta \) gives the upper bound~\cref{eqn:F_bound}.
+The bound on \( e_{R_A} \) is given in~\cref{eqn:psi_lower_bound} while \( e_{R_B} \) arises from the definition of the cross product \( \norm{a \times b} = \norm{a} \norm{b} \sin \theta \).
+Finally, we can find the upper bound~\cref{eqn:eR_dot} as
+\begin{gather*}
+	\norm{\dot{e}_R} \leq \parenth{\norm{B} \norm{E} + 2 \norm{e_{R_A}} \norm{e_{R_B}} + \norm{A}\norm{F}} \norm{e_\Omega} \, .
+\end{gather*}
+Using~\cref{eqn:AB_bound} to \cref{eqn:eRB_bound} one can define \( H \) in terms of known values.
+
+\subsection{Proof of~\Cref{prop:adaptive_control}}\label{proof:adaptive_control}
+Consider the Lyapunov function \( \mathcal{V} \) given by
+\begin{align*}
+	\mathcal{V} = \frac{1}{2} e_\Omega \cdot J e_\Omega + k_R \Psi + c J e_\Omega \cdot e_R + \frac{1}{2 k_\Delta} e_\Delta \cdot e_\Delta , %\label{eqn:v_adapt}
+\end{align*}
+over the domain \( D \), defined in~\cref{prop:config_error}. 
+In this set, the properties of~\Cref{prop:config_error,prop:error_dyn} are satisfied.
+%Furthermore, the set \( D \) is an open neighborhood of the desired attitude and Lyapunov stability results are valid in this set.
+
+From~\Cref{prop:config_error}, the configuration error function is locally quadratic and it is bounded in \( D \) by~\cref{eq:psi_bound}.
+Using this, the Lyapunov function \( \mathcal{V} \) is bounded by
+\begin{align*} %\label{eqn:v_upper_bound}
+	z^T W_1 z \leq \mathcal{V} \leq z^T W_2 z ,
+\end{align*}
+where \( e_\Delta = \Delta - \bar{\Delta} \), \( z = [\|e_R\|,\|e_\Omega\|,\|e_\Delta\|]^T\in\R^3 \) and the matrices \(W_1,W_2 \in \R^{3 \times 3}\) are given by
+\begin{align*}
+	W_1 & = \begin{bmatrix}
+		k_R n_1 & -\frac{1}{2} c \lambda_M & 0 \\
+		-\frac{1}{2} c \lambda_M & \frac{1}{2} \lambda_m & 0 \\
+		0 & 0 & \frac{1}{2 k_\Delta}
+	\end{bmatrix},\\
+	W_2 & = \begin{bmatrix}
+		k_R n_2 & \frac{1}{2} c \lambda_M & 0 \\
+		\frac{1}{2} c \lambda_M & \frac{1}{2} \lambda_M & 0 \\
+		0 & 0 & \frac{1}{2 k_\Delta}
+	\end{bmatrix} .
+\end{align*}
+%\begin{gather*}
+%\frac{1}{2}\lambda_m k_R n_1 - \frac{1}{4}c^2 \lambda_M^2 >0\\
+%\frac{2\lambda_m k_R n_1}{\lambda_M^2} > c^2 \\
+%\end{gather*}
+The time derivative of \( \mathcal{V}\) with the control input defined by~\cref{eqn:adaptive_control} is given as
+\begin{align*}
+	\dot{\mathcal{V}} =& - k_\Omega e_\Omega^T e_\Omega + \parenth{e_\Omega + c e_R}^T W e_\Delta - k_R c e_R^T e_R \nonumber\\
+	&- k_\Omega c e_R^T e_\Omega + c J e_\Omega^T \dot{e}_R - \frac{1}{k_\Delta} e_\Delta^T \dot{\bar{\Delta}} , \label{eqn:vdot}
+\end{align*}
+where we used \( \dot{e}_\Delta = - \dot{\bar{\Delta}} \).
+The terms linearly dependent on \( e_\Delta\) are combined with~\cref{eqn:delta_dot} to yield
+\begin{align*}
+	 e_\Delta^T \parenth{W^T \parenth{e_\Omega + c e_R} - \frac{1}{k_\Delta} \dot{\bar{\Delta}}} = 0 . 
+\end{align*}
+Using~\Cref{prop:eR_dot_bound}, an upper bound on \( \dot{\mathcal{V}} \) is written as
+\begin{gather*}
+	\dot{\mathcal{V}} \leq -\zeta^T M \zeta ,
+\end{gather*}
+where $\zeta=[\|e_R\|,\|e_\Omega\|]\in\R^2$, and the matrix \( M \in \R^{2 \times 2} \) is 
+\begin{gather*}
+	M = \begin{bmatrix}
+		k_R c & \frac{k_\Omega c}{2} \\
+		\frac{k_\Omega c}{2} & k_\Omega - c \lambda_M H
+	\end{bmatrix} .
+\end{gather*}
+%\begin{gather*}
+%k_R c (k_\Omega -c \lambda_M H) -\frac{1}{4}k_\Omega^2 c^2 < 0\\
+%k_R (k_\Omega -c \lambda_M H) -\frac{1}{4}k_\Omega^2 c < 0\\
+%4k_R k_\Omega -c(4k_R \lambda_M H +k_\Omega^2) <0
+%\end{gather*}
+
+If \( c \) is chosen such that~\cref{eqn:c_bound} is satisfied then the matrices \( W_1, W_2 \) and \( M \) are positive definite.
+This implies that $\mathcal{V}$ is positive definite and decrescent, and $\dot{\mathcal{V}}$ is negative semidefinite in the domain $D$. As such, the zero equilibrium is stable in the sense of Lyapunov, and all of the error variables are bounded. Furthermore, $\lim_{t\to\infty} \zeta=0$ according to the LaSalle-Yoshizawa theorem~\cite{khalil1996}. 
+
+%and 
+%As the Lyapunov function is non-increasing $z$ is uniformly bounded. 
+%	
+%	
+%	This implies that the Lyapunov function \( V \) is non-increasing and bounded from below.
+%	Furthermore, since \( V \) is nonincreasing the disturbance error \( e_\Delta\) is bounded.
+%	Since \( \dot{V} \) is uniformly continuous in time this implies that the zero equilibrium \( e_R, e_\Omega\) is stable in the sense of Lyapunov
+%	The domain \( D \) does that include the undesired equilibria and ensures that as \( e_R \to 0 \) the attitude also converges \( R \to R_d \).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
