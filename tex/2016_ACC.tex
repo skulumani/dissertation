@@ -187,7 +187,7 @@ where we assume \( \ang{0} \leq \theta \leq \ang{90}  \) is the required minimum
 
 The objective is to a determine a control input \( u \) that stabilizes the system from an initial attitude \( R_0 \) to a desired attitude \( R_d \) while ensuring that~\cref{eqn:constraint} is always satisfied.
 
-\section{Attitude Control on $\SO$ with Inequality Constraints}
+\section{Attitude Control with \( \SO \) Inequality Constraints}
 
 The first step in designing a control system on a nonlinear manifold \( \Q \) is the selection of a proper configuration error function. 
 This configuration error function, \( \Psi : \Q \times \Q \to \R \), is a smooth and proper positive definite function that measures the error between the current configuration and a desired configuration. 
@@ -473,7 +473,7 @@ The first term of~\cref{eqn:delta_dot} has the effect of increasing the proporti
 	
 	\centering
 	\begin{subfigure}[htbp]{0.5\columnwidth} 
-		\includegraphics[width=\columnwidth]{figures/2016_ACC/delta_adapt} 
+		\includegraphics[width=\columnwidth]{figures/2016_ACC/Delta_adapt} 
 		\caption{Disturbance estimate \( \bar \Delta \)} \label{fig:delta_adapt} 
 	\end{subfigure}~
 	\begin{subfigure}[htbp]{0.5\columnwidth} 
