@@ -218,7 +218,7 @@ with
 \end{gather}	
 where \( \alpha \in \R \) is defined as a positive constant and the matrix \( G \in \R^{3 \times 3} \) is defined as a diagonal matrix matrix for distinct, positive constants \( g_1, g_2, g_3 \in \R \).
 Then, the following properties hold
-\begin{enumerate}[(i)]
+\begin{enumerate}
 	\item \label{item:prop_psi_psd} \(\Psi\) is positive definite about \( R = R_d\)
 	\item \label{item:prop_era}The variation of \( A(R) \) with respect to a variation of \( \delta R = R \hat{\eta} \) for \( \eta \in \R^3 \) is given by
 	\begin{align}
@@ -289,6 +289,7 @@ While~\cref{eqn:B} represents a single inequality constraint given as~\cref{eqn:
 For example, the configuration error function can be formulated as $\Psi=A[1+\sum_i C_i]$, where $C_i$ has the form of $C_i=B-1$ for the $i$-th constraint. 
 In this manner, one may enforce multiple state inequality constraints, and we later demonstrate this through numerical simulation. 
 
+
 \begin{prop}[Error Dynamics]\label{prop:error_dyn}
 	The attitude error dynamics for \( \Psi, e_R, e_\Omega \) satisfy 
 	\begin{gather}
@@ -357,7 +358,7 @@ Consider a domain \( D \) about the desired attitude defined as
 	D = \braces{R \in \SO \vert \Psi < \psi < h_1, r^T R^T v < \beta < \cos \theta}. \label{eqn:domain}
 \end{align}
 Then the following statements hold:
-\begin{enumerate}[(i)]
+\begin{enumerate}
 	\item \label{item:prop_eR_dot_bound_AB} Upper bounds of \( A(R) \) and \( B(R) \) are given by
 	\begin{gather}
 		\norm{A} < c_A  , \quad \norm{B} < c_B . \label{eqn:AB_bound}
@@ -411,6 +412,7 @@ Compared to the previous work on constrained attitude control, we present a geom
 In addition, we incorporate state inequality constraints for the first time on \( \SO \).
 The presented control system is computed in real-time and offers significant computational advantages over previous iterative methods. 
 In addition, the riguous mathematical proof guarantees stability.
+
 \section{Numerical Examples}
 We demonstrate the performance of the proposed control system via numerical simulation.
 The inertia tensor of a rigid body is given as
@@ -580,6 +582,7 @@ Further tuning of the control gains would enable a faster response and a reduced
 The hexrotor avoids the constrained region illustrated by the circular cone in~\cref{fig:traj_exp}, by rotating around the boundary of the constraint. 
 This verifies that the proposed control system exhibits the desired performance in the experimental setting as well. 
 A video clip showing the attitude manuever is available \url{https://youtu.be/dsmAbwQram4}.
+
 \section{Conclusions}\label{sec:conclusions}
 We have developed a geometric adaptive control system which incorporates state inequality constraints on \(\SO\).
 The presented control system is developed directly on \(\SO\) and it avoids singularities and ambiguities that are inherent to attitude parameterizations.
