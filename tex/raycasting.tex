@@ -1,0 +1,36 @@
+% !TEX root = ../dissertation.tex
+
+\chapter{Determining the shape of an asteroid}
+
+\section{Raycasting}
+
+In the computer graphics field a major problem is the determination of which objects are visible to the user.
+In a method similar to the photographic process in reverse, for each pixel of the image a ray is cast towards the scene and the intersections of this ray with any objects is recorded.
+The first object which intersects the ray is defined as visible while those beyond would be occluded.
+Given this intersection point, the surface normal is computed and surface shading can be determined to render the scene.
+
+Our problem is of a similar nature to that of the computer graphics domain.
+Given the model of an asteroid, its shape model, we wish to first simulate measurements of the surface. 
+In order to simulate these methods, we must also implement a ray casting algorithm that will find the intersection of a measurement from the spacecraft to the surface. 
+
+We assume that the spacecraft is located at \( \vec p \) in the asteroid fixed frame.
+The camera/sensor is aligned with \( \hat d \) in the spacecraft fixed frame.
+An additional vector, defined as the up axis \( \hat u\), finally the standard basis is completed with \( \hat d \times \hat u \) which defines a reference frame attached to the image plane of the sensor.
+Furthermore, we model the the laser ranging sensor as having a fixed field of view defined by the angles \( \alpha, \beta\), defining the vertical and horizontal fields of view.
+In order to simulate depth measurements we need to compute the vectors associated with image sensor in the asteroid frame. 
+Given the view axis, and a chosen distance \( d \), we can define a viewing frustum associated with the sensor. 
+The far plane, is defined as a plane parallel to the image plane at a distance \( d \) along the view axis \( \hat d \).
+We can compute the vectors associated with the maximum extents of the far plane as follows.
+The half height and width of the far plane, at a distance \( d \), is computed as
+\begin{align}
+    H = d \tan \frac{\alpha}{2} , \\
+    W = d \tan \frac{\beta}{2} .
+\end{align}
+From these values, the extents of the far plane are defined by the vectors
+\begin{align}
+    A = \hat d + H \hat u - W \hat r , \\
+    B = \hat d + H \hat u + W \hat r, \\
+    C = \hat d - H \hat  u + W \hat r, \\
+    D = \hat d - H \hat u - W \hat r.
+\end{align}
+
