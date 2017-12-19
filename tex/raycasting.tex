@@ -34,11 +34,14 @@ From these values, the extents of the far plane are defined by the vectors
 \end{align}
 
 % TODO: Explain more about ray casting
-
-% TODO: Talk about laser range finders on spacecraft
+\begin{itemize}
+    \item Give some background on raycasting and where it is used
+    \item Discuss the method used in VTK (Binary space partitioning or Oriented bounding boxes)
+\end{itemize}
 
 \section{Laser Range Finder on Spacecraft}
 
+% TODO: Talk about laser range finders on spacecraft
 Absolute distance measuring devices are a crucial sensor in spacecraft rendezvous or landing applications.
 In addition, they are a critical component for spacecraft operating near asteroids.
 Activate ranging devices allow for precise measurments of the surface shape and enable accurate and safe surface landing~\cite{berry2013}.
@@ -84,15 +87,17 @@ Present a review of current methods used to generate an asteroid shape
 % TODO Discuss how the shape of an asteroid is determined in pracice currently
 \begin{itemize}
     \item Talk about ground based imaging and citations (radar/optical)
+    \item tlak about best knowledge of asteroid before arrival is a ellipsoid model (first mometn)
     \item Talk about sending missions to asteroids with laser altimeters
-    \item Months of mapping and ground OD 
+    \item Months of mapping and ground based OD
 \end{itemize}
 \subsection{Surface Reconstruction}
 
 % TODO Talk about how we construct a mesh given a point cloud
 \begin{itemize}
     \item Review surface reconstruction algorithms
-    \item Talk about the one that is implemented inside VTK
+    \item Talk about the one that is implemented inside VTK Hoppe papers
+    \item 
 \end{itemize}
 
 
