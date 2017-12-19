@@ -52,12 +52,47 @@ In this section, we'll briefly summarize the principles of operation of optical 
 \subsection{Time of Flight Distance Measurement}
 Originally developed for military and surveying application, the basic principle of laser ranging is based on utilizing the fixed speed of light to measure distance.
 The time required for a pulse of energy to travel from the transmitter to the object and return is measured, \( t_d \). 
-Meausuring this round trip \ac{TOF} and using the speed of light, approximately \( c = \SI{30}{\centi\meter\per\nano\second}\), allows one to easily compute the range to the object as
+Meausuring this round trip \gls{tof} and using the speed of light, approximately \( c = \SI{30}{\centi\meter\per\nano\second}\), allows one to easily compute the range to the object as
 \begin{align}
-    \rho = \frac{t_d}{2 c}
+    \rho = \frac{t_d}{2 c}. 
 \end{align}
+A main benefit of the \gls{tof} ranging system is that a single pulse of energy is sufficient to accurately determine distance to meter level precision in the case of spacecraft or millimeter level in industrial applications~\cite{zuber1997,cole1998,amann2001}.
+
+A pulsed \gls{tof} laser distance device consists of a laser transmitter which emits pulses with a duration between \SIrange{5}{50}{\nano\second}~\cite{amann2001}.
+The emitted light pulse triggers a start signal in the onboard timing device and the reflected energy from the object provides the stop command.
+A block diagram of the laser range finder is show in~\cref{fig:lidar_block_diagram}.
+\begin{figure}[htbp]
+    %TODO Update figure with a tikz block diagram
+    \centering
+    \includegraphics[width=\textwidth]{figures/raycasting/block_diagram.png}
+    \caption{\textbf{CHANGE TO TIKZ} Block diagram of \gls{tof} laser range finder\label{fig:lidar_block_diagram}}
+\end{figure}
+A wide variety of lasers are used depending on the intended measurments range.
+In the spacecraft case, laser providing peak energy in the range of \SI{15}{\mega\joule} are often required to measure distance of over \SI{50}{\kilo\meter}~\cite{berry2013}.
+
+The laser range finder is frequently equipped with angle encoders to enable the definition of the position of the measurement point with respect to the sensor. 
+Mechanical scanning is performed using a control system which  either move the entire laser range finder or only the measuring beam.
+Focal plane scanning is another approach which reduces the mechanical complexity of a mechanical scanning system.
+The laser energy illuminates the entire field of view on the surface.
+An array of detectors are aranged to view the surface.
+Each detector only views a portion of the total field of view and the signals are analyzed in the time domain.
+Using this methodology, the system can simulataneously measure distance in multiple directions without any moving parts~\cite{amann2001}.
+
+\subsection{Asteroid Mapping Operations}
+Present a review of current methods used to generate an asteroid shape
+
 % TODO Discuss how the shape of an asteroid is determined in pracice currently
+\begin{itemize}
+    \item Talk about ground based imaging and citations (radar/optical)
+    \item Talk about sending missions to asteroids with laser altimeters
+    \item Months of mapping and ground OD 
+\end{itemize}
+\subsection{Surface Reconstruction}
 
 % TODO Talk about how we construct a mesh given a point cloud
+\begin{itemize}
+    \item Review surface reconstruction algorithms
+    \item Talk about the one that is implemented inside VTK
+\end{itemize}
 
 
