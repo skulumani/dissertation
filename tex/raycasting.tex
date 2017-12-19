@@ -13,13 +13,12 @@ Our problem is of a similar nature to that of the computer graphics domain.
 Given the model of an asteroid, its shape model, we wish to first simulate measurements of the surface. 
 In order to simulate these methods, we must also implement a ray casting algorithm that will find the intersection of a measurement from the spacecraft to the surface. 
 
-We assume that the spacecraft is located at \( \vec p \) in the asteroid fixed frame.
-The camera/sensor is aligned with \( \hat d \) in the spacecraft fixed frame.
-An additional vector, defined as the up axis \( \hat u\), finally the standard basis is completed with \( \hat d \times \hat u \) which defines a reference frame attached to the image plane of the sensor.
-Furthermore, we model the the laser ranging sensor as having a fixed field of view defined by the angles \( \alpha, \beta\), defining the vertical and horizontal fields of view.
+We assume that the spacecraft is located at \gls{rho} in the asteroid fixed frame.
+The camera/sensor is aligned with \gls{view_axis} in the spacecraft fixed frame.
+An additional vector, defined as the up axis \gls{up_axis}, finally the standard basis is completed with \( \gls{view_axis} \times \gls{up_axis} \) which defines a reference frame attached to the image plane of the sensor.
+Furthermore, we model the the laser ranging sensor as having a fixed field of view defined by the angles \( \gls{fov_h}, \gls{fov_v}\), defining the vertical and horizontal fields of view.
 In order to simulate depth measurements we need to compute the vectors associated with image sensor in the asteroid frame. 
-Given the view axis, and a chosen distance \( d \), we can define a viewing frustum associated with the sensor. 
-The far plane, is defined as a plane parallel to the image plane at a distance \( d \) along the view axis \( \hat d \).
+Given the view axis, and a chosen distance \gls{view_distance}, we can define a viewing \gls{frustum} associated with the sensor. 
 We can compute the vectors associated with the maximum extents of the far plane as follows.
 The half height and width of the far plane, at a distance \( d \), is computed as
 \begin{align}
@@ -47,7 +46,7 @@ Activate ranging devices allow for precise measurments of the surface shape and 
 The basic principle central to all active range-finding devices is to transmit a signal onto an object and process the returned signal to determine the distance~\cite{amann2001}.
 The transmitted signal can fall into one of three categories: radio, ultrasonic, or optical.
 The benefit of optical signal is that they can be highly focused to enable high resolution distance measurments
-Optical distance measurment, such as laser range finders, can be further divided into three categories based on the method of operation: interferometry, time-of-flight, or triangulation.
+Optical distance measurment, such as laser range finders, can be further divided into three categories based on the method of operation: interferometry, \gls{tof}, or triangulation.
 In this section, we'll briefly summarize the principles of operation of optical distance measurement devices, and highlight their specific uses with respect to spacecraft missions to asteroids.
 
 \subsection{Time of Flight Distance Measurement}

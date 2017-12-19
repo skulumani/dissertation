@@ -90,21 +90,125 @@ Committee Member
 \showlistoffigures
 \showlistoftables
 \hidenomenclature
+\hidelistofabbreviations
+\hidelistofsymbols
 
-% Definition of any abbreviations used.
-\abbreviations{
-    \acro{CRTBP}{Circular Restricted Three Body Problem}
-    \acro{NSA}{National Security Agency}
-    \acro{SSME}{Space Shuttle Main Engine}
-    \acro{TOF}{time of flight}
+\setabbreviationstyle[acronym]{long-short}
+\setabbreviationstyle[abbreviation]{long-short}
+\makeglossaries
+% you can hide/show the glossaries page
+\showglossarieslistofabbreviations
+\showglossarieslistofsymbols
+\showglossariesglossaryofterms
+
+% abbreviations
+% \newabbreviation{crtbp}{CRTBP}{Circular Restricted Three Body Problem}
+% defining abbreviations like this allows for autocompletion
+\newglossaryentry{filo}{
+    name={FILO},
+    type=\glsxtrabbrvtype,
+    description={first in last out},
+    first={first in last out (FILO)}
 }
-% call an abbreviation using \ac{abbrev}
 
-% symbols and acronyms only show up when used in the text
-\symbols{
-    \acro{F}{Force}    
-    \acro{J}{Moment of Inertia}
-}       
+\newglossaryentry{tof}{
+    name={TOF},
+    type=\glsxtrabbrvtype,
+    description={time of flight},
+    first={time of flight (TOF)}
+}
+
+\newglossaryentry{lidar}{
+    name={LIDAR},
+    type=\glsxtrabbrvtype,
+    description={Light Detection and Ranging},
+    first={Light Detection and Ranging (LIDAR)}
+}
+
+\newglossaryentry{crtbp}{
+    name={CRTBP},
+    type=\glsxtrabbrvtype,
+    description={Circular Restricted Three Body Problem},
+    first={Circular Restricted Three Body Problem (CRTBP)}
+}
+
+% glossary  terms
+\newglossaryentry{linux}{
+    name=Linux,
+    description={is a generic term referring to the family of Unix-like computer operating systems that use the Linux kernel},
+    plural=Linuces
+}
+
+\newglossaryentry{matrix}{
+    name={matrix},
+    plural={matrices},
+    description={rectangular array of quanttities}
+}
+
+\newglossaryentry{frustum}{
+    name={frustum},
+    plural={frusta},
+    description={In geometry: defined as the portion of a solid, normally a cone or pyramid, that lies between two parallel planes.
+    In computer graphics: the viewing frustum is the three-dimensional region which is visible on screen.}
+}
+% symbols
+\newglossaryentry{M}{
+    type=symbols,
+    name={\ensuremath{M}},
+    sort=M,
+    description={a \gls{matrix}}
+}
+
+\newglossaryentry{F}{
+    type=symbols,
+    name={\ensuremath{F}},
+    sort=F,
+    description={External Force}
+}
+
+\newglossaryentry{rho}{
+    type=symbols,
+    name={\ensuremath{\vec \rho}},
+    sort=R,
+    description={Range to target}
+}
+
+\newglossaryentry{view_axis}{
+    type=symbols,
+    name={\ensuremath{\vec d}},
+    sort=D,
+    description={Sensor optical axis}
+}
+
+\newglossaryentry{view_distance}{
+    type=symbols,
+    name={\ensuremath{d}},
+    sort=D,
+    description={Distance from the sensor, along the view axis, to the far plane defining the sensor viewing frustum},
+    see={frustum,view_axis}
+}
+
+\newglossaryentry{up_axis}{
+    type=symbols,
+    name={\ensuremath{\vec u}},
+    sort=U,
+    description={Sensor up axis}
+}
+
+\newglossaryentry{fov_h}{
+    type=symbols,
+    name={\ensuremath{\alpha}},
+    sort=A,
+    description={Horizontal sensor field of view}
+}
+
+\newglossaryentry{fov_v}{
+    type=symbols,
+    name={\ensuremath{\beta}},
+    sort=B,
+    description={Vertical sensor field of view}
+}
+
 % Some abstract text
 \abstract{
     Abstract
