@@ -49,6 +49,14 @@ The transmitted signal can fall into one of three categories: radio, ultrasonic,
 The benefit of optical signal is that they can be highly focused to enable high resolution distance measurments
 Optical distance measurment, such as laser range finders, can be further divided into three categories based on the method of operation: interferometry, time-of-flight, or triangulation.
 In this section, we'll briefly summarize the principles of operation of optical distance measurement devices, and highlight their specific uses with respect to spacecraft missions to asteroids.
+
+\subsection{Time of Flight Distance Measurement}
+Originally developed for military and surveying application, the basic principle of laser ranging is based on utilizing the fixed speed of light to measure distance.
+The time required for a pulse of energy to travel from the transmitter to the object and return is measured, \( t_d \). 
+Meausuring this round trip \ac{TOF} and using the speed of light, approximately \( c = \SI{30}{\centi\meter\per\nano\second}\), allows one to easily compute the range to the object as
+\begin{align}
+    \rho = \frac{t_d}{2 c}
+\end{align}
 % TODO Discuss how the shape of an asteroid is determined in pracice currently
 
 % TODO Talk about how we construct a mesh given a point cloud
