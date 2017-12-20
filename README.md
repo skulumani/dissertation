@@ -6,3 +6,9 @@
 [travis]: https://travis-ci.org/skulumani/dissertation
 [pdf_shield]: https://img.shields.io/badge/PDF-latest-orange.svg?style=flat
 [pdf]: https://github.com/skulumani/dissertation/blob/master-pdf/dissertation.pdf
+
+## Dissertation
+
+This is my disseration at George Washington University.
+
+
