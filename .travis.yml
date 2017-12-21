@@ -22,5 +22,3 @@ deploy:
   skip_cleanup: true
   on:
     repo: skulumani/dissertation
-    branch: master
-    tags: true
