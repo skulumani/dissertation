@@ -11,7 +11,7 @@
 
 [travis]: https://travis-ci.org/skulumani/dissertation
 [github_release]: https://github.com/skulumani/dissertation/releases/latest
-[github_version]: https://github.com/skulumani/dissertation/releases/latest
+[github_version]: https://badge.fury.io/gh/skulumani%2Fdissertation
 [github_last_commit]: https://github.com/skulumani/dissertation/commits/master
 [github_activity]: https://github.com/skulumani/dissertation/graphs/commit-activity
 
