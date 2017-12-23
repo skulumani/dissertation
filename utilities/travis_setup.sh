@@ -16,6 +16,9 @@ if ! command -v pdflatex > /dev/null; then
     echo "Finished install TexLive"
 fi
 
+echo "Installing thesis-gwu"
+tlmgr install thesis-gwu
+
 echo "Now updating TexLive"
 # update texlive
 tlmgr option -- autobackup 0
