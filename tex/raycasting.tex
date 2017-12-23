@@ -88,6 +88,12 @@ The fine topological structure of the surface is not possible without a spacecra
 From ground  based measurments, such as radar or optical telescopes, it is only possible to achieve a coarse model of asteroid, such as a triaxial ellipsoid representation~\cite{hudson1994}.
 The size and shape of asteroid presents critical information into the thermal and collisional histories and more critically into their internal structure~\cite{cole1998}.
 
+Typical missions spend months after arrival at an asteorid mapping and measuring the surface.
+During this mapping phase, which requires upwards of \num{6} months, the spacecraft must maintain a specific trajectory and attitude to ensure best measurements of the surface~\cite{cheng2002,barnouin-jha2008}.
+Both the spacecraft orbit and it's attitude is constrained to best satsify the competing requirements of the range measurements, spacecraft power, and Earth based communications.
+These measurements are then sent back to Earth, and combined with the spacecraft orbit determination to simulateously estimate the asteroid shape, mass, gravity field, spin state, and spacecraft state.
+
+Look at miller2002 for more detail and discuss that here
 
 % TODO Discuss how the shape of an asteroid is determined in pracice currently
 \begin{itemize}
@@ -96,6 +102,7 @@ The size and shape of asteroid presents critical information into the thermal an
     \item Talk about sending missions to asteroids with laser altimeters
     \item Months of mapping and ground based OD
 \end{itemize}
+
 \subsection{Surface Reconstruction}
 
 % TODO Talk about how we construct a mesh given a point cloud
@@ -104,5 +111,17 @@ The size and shape of asteroid presents critical information into the thermal an
     \item Talk about the one that is implemented inside VTK Hoppe papers
     \item 
 \end{itemize}
+
+\subsection{Our approach}
+
+Model LIDAR
+
+Simulate measurements
+
+Update shape
+
+Update gravity model
+
+Control based on new estimate of shape
 
 
