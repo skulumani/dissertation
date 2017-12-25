@@ -109,8 +109,19 @@ This shape generation is a subset of a larger class of methods called surface re
 The goal of surface reconstruction is stated as follows: Given a set of sample points \( X\) assumed to lie on /near the surface \( U \), create a surface model \( S \) approximating \( U \).
 Surface reconstruction is a well-researched field and widely applied in the industrial and computer vision fields.
 The generation of a surface from an object is important in reverse engineering, product design and medical product construction~\cite{amenta2001}.
+The surface reconstruction problem is applied in a variety of fields in science and engineering including 3D scanning, surface reconstruction from contours and surface sketching~\cite{hoppe1992}.
 
+\subsubsection{3D Scanning}
+There are several different approches to acquire shape information of an object.
+The computer vision field several approaches exist to determine the shape of an object.
+In feature correspondance, landmarks are registered and compared across several different  views of an object. 
+The shape of the surface is inferred given the known motion of the camera system~\cite{szeliski2010}.
+Another approach is based on the different surface reflectivity of the surface, called shape from shading~\cite{szeliski2010}.
 
+% TODO Mechanical scanning using a probe or laser scanner 
+% TODO Range images are generated with distances to the surface. Assume known motion of camera (SLAM) if not known
+
+In 
 % TODO Talk about how we construct a mesh given a point cloud
 \begin{itemize}
     \item Review surface reconstruction algorithms
