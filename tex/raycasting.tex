@@ -103,6 +103,15 @@ Look at miller2002 for more detail and discuss that here
     \item Months of mapping and ground based OD
 \end{itemize}
 
+\section{Computational Geometry}
+
+This section can discuss some background in computational geometry.
+
+The majority of computational geometry algorithms are developed for simple planar \glspl{polygon}.
+
+The surface of an object is described as the union of the surfaces of the polygons which define it.
+
+
 \subsection{Surface Reconstruction}
 One of the main mission objectives for asteroid operations is to generate the three-dimensional shape of an asteroid.
 This shape generation is a subset of a larger class of methods called surface reconstruction.
@@ -147,8 +156,35 @@ However, this implicit representation makes it difficult to modify the local sha
 Examples of this approach include~\cite{bolitho2009,hoppe1992,ohtake2005}.
 % TODO Describe in more detail the difference, drawbacks/advantages, of each implicit surface approach.
 
-Surface reconstruction was first addressed in 1983~\cite{uselton1983}.
-In this work, a variety of approaches are discussed to display three dimensional data generated from sensing devices, such as CAT scanners, ultrasound, or range finders.
+Surface reconstruction was first addressed in the early 80's~\cite{uselton1983,uselton1981}.
+The main goal of this early work was focused on developing methods to accurately and efficiently display three dimensional data on a computing system.
+The resulting work developed a computational algorithm to construct the three-dimensional polygonal representation of an object from the collection of points describing the surface.
+The determination of a polygonal surface through a series of points is a relatively straightforward problem, as there an infinite number of solutions.
+However, determining the ``best'' surface is a more challenging problem.
+As the original surface is typically not available, hence the need for measurement and digitization, the quality of the resulting surface must be computed using the measurement points.
+
+Another approach is to use the sculpting of delauney triangulation~\cite{boissonnat1984}.
+Further refinements came with the notion of \( \alpha \) shapes~\cite{edelsbrunner1994}.
+The notion of a signed distance function and the implicit shape representation proposed~\cite{hoppe1992}.
+A modification of this approach extended it to a voxel grid~\cite{curless1996}.
+Ball pivoting allows for a relatively simple method of determining the surface~\cite{bernardini1999}.
+Next, another method seeks to project sample points, with neighbors onto a plane then lift the local two dimensional delauney triangulation to reconstruct the surface~\cite{gopi2000}.
+
+Our overarching goal for the surface reconstruction is to develop an efficient algorithm which allows for online, or near realtime, surface reconstruction from a sparse point cloud.
+Furthermore, this method should allow for an incremental update given a new partial point cloud.
+For example, given an initial coarse point cloud representing the initial guess of the surface, new, high density data, is acquired in a specific location on the surface.
+Instead of processing the entire point cloud, and recomputing the global mesh, an incremental update would allow for modification of only the local neighborhood of the additional data.
+Another useful requirment would be the ability to easily combine two overlapping point clouds into a single surface mesh.
+Finally, the resulting surface should be topologically valid and without holes, i.e. a polyhedron mesh with triangular facets.
+
+\subsubsection{Watertight surface mesh}
+
+There are two main approaches to generate water tight surface meshes.
+The powercrust algorithm seeks to approximate the \gls{MAT} of a three-dimensional object~\cite{amenta2001}.
+Then the inverse map is used to produce a watertight boundary.
+
+Another approach is the tight cocone algorithm~\cite{dey2006}.
+This reduced the complexity of powercrust and uses a post processing method to fill any holes.
 
 \subsubsection{3D Scanning}
 There are several different approches to acquire shape information of an object.
