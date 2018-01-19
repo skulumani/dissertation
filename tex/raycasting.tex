@@ -128,6 +128,25 @@ This process of generating the surface should ideally have the following propert
 % TODO Describe different methods of surface reconstruction
 
 The \gls{implicit_shape} representation allows for a complex shape to be defined by a single equation.
+This approach has the additional benefit of unifying both the surface and volume rendering to a single equation.
+The main advantage associated with implicit surface approach is handling sparse or scattered data.
+It is possible to repair or edit the shape using standard implicit modeling operations.
+For example, given two implicit surfaces
+\begin{align*}
+    F_1(x, y, z) &= 0, \\
+    F_2(x, y, z) &= 0 ,
+\end{align*}
+one can define a new surface as
+\begin{align*}
+    F(x, y, z) = \mu F_1(x, y, z) + (1-\mu) F_2(x,y,z) = 0,
+\end{align*}
+where \( \mu \in \bracket{0, 1}\) is a design parameters defining the blending between the two input surfaces.
+This blending allows one to use primitive shapes/models to create complex surfaces.
+% TODO Find citation for this (blending of implicit shapes)
+
+However, this implicit representation makes it difficult to modify the local shape of the surface. 
+Examples of this approach include~\cite{bolitho2009,hoppe1992,ohtake2005}.
+% TODO Describe in more detail the difference, drawbacks/advantages, of each implicit surface approach.
 
 \subsubsection{3D Scanning}
 There are several different approches to acquire shape information of an object.
