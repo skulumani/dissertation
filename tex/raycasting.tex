@@ -111,6 +111,21 @@ Surface reconstruction is a well-researched field and widely applied in the indu
 The generation of a surface from an object is important in reverse engineering, product design and medical product construction~\cite{amenta2001}.
 The surface reconstruction problem is applied in a variety of fields in science and engineering including 3D scanning, surface reconstruction from contours and surface sketching~\cite{hoppe1992}.
 
+Surface reconstruction, or sometimes referred to as 3D scanning, is the generation of accurate models of real world objects.
+Surface Reconstruction techniques are frequently used to digitize sculptures/architecture, machine parts, archaeological artifacts, or terrain.
+There are a variety of methods to digitize objects, such as laser range finding, mechanical touch probes, or computer vision techniques, i.e. depth from stereo.
+From these digitization methods, a large collection, often times on the order of \( 10^6 - 10^9\), of points are generated.
+From this \gls{point_cloud}, the goal is to construct a surface representation which is faithful to the original data, and the underlying object of interest.
+This process of generating the surface should ideally have the following properties:
+\begin{itemize}
+    \item Fast - low computational cost
+    \item Low memory - storing/operating on large collection of points is frequently memory constrained. Also for use in constrained enviornments
+    \item Robustness - Algorithm must be robust to holes, noisy data, varying or low sample density
+    \item Accuracy - the method should approximate the shape based on the data rather than interpolating between data points
+    \item Features - ability to capture sharp edges or features
+\end{itemize}
+
+
 \subsubsection{3D Scanning}
 There are several different approches to acquire shape information of an object.
 The computer vision field several approaches exist to determine the shape of an object.
