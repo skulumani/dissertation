@@ -101,6 +101,7 @@ Committee Member
 \showglossarieslistofsymbols
 \showglossariesglossaryofterms
 
+% TODO Look up how to manage these definitions using a seperate file (bib etc)
 % abbreviations
 % \newabbreviation{crtbp}{CRTBP}{Circular Restricted Three Body Problem}
 % defining abbreviations like this allows for autocompletion
@@ -150,6 +151,34 @@ Committee Member
     plural={frusta},
     description={In geometry: defined as the portion of a solid, normally a cone or pyramid, that lies between two parallel planes.
     In computer graphics: the viewing frustum is the three-dimensional region which is visible on screen.}
+}
+
+\newglossaryentry{point_cloud}{
+    name={point cloud},
+    plural={point clouds},
+    description={A set of points in some reference system.
+        In a three dimension corrdination system, the points typical represent the cartesian position of the external surface of an object.
+    Frequently generated from a 3D scanning process, these points are rarely used directly but rather converted into a surface representation, such as a polygonal mesh.}
+}
+
+\newglossaryentry{implicit_shape}{
+    name={implicit shape},
+    plural={implicit shapes},
+    description={In mathematics: an implicit shape or surface is the surface in Euclidean space defined by an equation \( F(x, y, z) = 0\).
+    The implicit surface is the zero set of the function \( F \), and is termed \textit{implicit} as the function is not solved for \( x, y, \text{ or } z \).}
+}
+
+\newglossaryentry{polygon}{
+    name={polygon},
+    plural={polygons},
+    description={The area of a plane bounded by straight segments, called edges, which intersect only at their endpoints, called vertices.
+    Each vertex belongs to exactly two edges and similarly each edge has exactly two vertices.}
+}
+
+\newglossaryentry{MAT}{
+    name={medial axis transform},
+    description={The medial axis is the set of all point shaving more than one closest point on the objects boundary.
+    The medial axis along with the associated radius function of the maximally inscribed discs is called the medial axis transform.}
 }
 % symbols
 \newglossaryentry{M}{
@@ -208,7 +237,6 @@ Committee Member
     sort=B,
     description={Vertical sensor field of view}
 }
-
 
 % Some abstract text
 \abstract{
