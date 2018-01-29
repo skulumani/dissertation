@@ -82,7 +82,18 @@ Each detector only views a portion of the total field of view and the signals ar
 Using this methodology, the system can simulataneously measure distance in multiple directions without any moving parts~\cite{amann2001}.
 
 \subsection{Asteroid Mapping Operations}
-Present a review of current methods used to generate an asteroid shape
+
+Precise relative navigation and landing near asteroids is critically dependent on an accurate knowledge of the shape of the body.
+The fine topological structure of the surface is not possible without a spacecraft in the vicinity of the asteroid.
+From ground  based measurments, such as radar or optical telescopes, it is only possible to achieve a coarse model of asteroid, such as a triaxial ellipsoid representation~\cite{hudson1994}.
+The size and shape of asteroid presents critical information into the thermal and collisional histories and more critically into their internal structure~\cite{cole1998}.
+
+Typical missions spend months after arrival at an asteorid mapping and measuring the surface.
+During this mapping phase, which requires upwards of \num{6} months, the spacecraft must maintain a specific trajectory and attitude to ensure best measurements of the surface~\cite{cheng2002,barnouin-jha2008}.
+Both the spacecraft orbit and it's attitude is constrained to best satsify the competing requirements of the range measurements, spacecraft power, and Earth based communications.
+These measurements are then sent back to Earth, and combined with the spacecraft orbit determination to simulateously estimate the asteroid shape, mass, gravity field, spin state, and spacecraft state.
+
+Look at miller2002 for more detail and discuss that here
 
 % TODO Discuss how the shape of an asteroid is determined in pracice currently
 \begin{itemize}
@@ -91,13 +102,251 @@ Present a review of current methods used to generate an asteroid shape
     \item Talk about sending missions to asteroids with laser altimeters
     \item Months of mapping and ground based OD
 \end{itemize}
-\subsection{Surface Reconstruction}
 
+\section{Computational Geometry}
+
+This section can discuss some background in computational geometry.
+
+The majority of computational geometry algorithms are developed for simple planar \glspl{polygon}.
+
+The surface of an object is described as the union of the surfaces of the polygons which define it.
+
+
+\subsection{Surface Reconstruction}
+One of the main mission objectives for asteroid operations is to generate the three-dimensional shape of an asteroid.
+This shape generation is a subset of a larger class of methods called surface reconstruction.
+The goal of surface reconstruction is stated as follows: Given a set of sample points \( X\) assumed to lie on /near the surface \( U \), create a surface model \( S \) approximating \( U \).
+Surface reconstruction is a well-researched field and widely applied in the industrial and computer vision fields.
+The generation of a surface from an object is important in reverse engineering, product design and medical product construction~\cite{amenta2001}.
+The surface reconstruction problem is applied in a variety of fields in science and engineering including 3D scanning, surface reconstruction from contours and surface sketching~\cite{hoppe1992}.
+
+Surface reconstruction, or sometimes referred to as 3D scanning, is the generation of accurate models of real world objects.
+Surface Reconstruction techniques are frequently used to digitize sculptures/architecture, machine parts, archaeological artifacts, or terrain.
+There are a variety of methods to digitize objects, such as laser range finding, mechanical touch probes, or computer vision techniques, i.e. depth from stereo.
+From these digitization methods, a large collection, often times on the order of \( 10^6 - 10^9\), of points are generated.
+From this \gls{point_cloud}, the goal is to construct a surface representation which is faithful to the original data, and the underlying object of interest.
+This process of generating the surface should ideally have the following properties:
+\begin{itemize}
+    \item Fast - low computational cost
+    \item Low memory - storing/operating on large collection of points is frequently memory constrained. Also for use in constrained enviornments
+    \item Robustness - Algorithm must be robust to holes, noisy data, varying or low sample density
+    \item Accuracy - the method should approximate the shape based on the data rather than interpolating between data points
+    \item Features - ability to capture sharp edges or features
+\end{itemize}
+
+% TODO Describe different methods of surface reconstruction
+
+The \gls{implicit_shape} representation allows for a complex shape to be defined by a single equation.
+This approach has the additional benefit of unifying both the surface and volume rendering to a single equation.
+The main advantage associated with implicit surface approach is handling sparse or scattered data.
+It is possible to repair or edit the shape using standard implicit modeling operations.
+For example, given two implicit surfaces
+\begin{align*}
+    F_1(x, y, z) &= 0, \\
+    F_2(x, y, z) &= 0 ,
+\end{align*}
+one can define a new surface as
+\begin{align*}
+    F(x, y, z) = \mu F_1(x, y, z) + (1-\mu) F_2(x,y,z) = 0,
+\end{align*}
+where \( \mu \in \bracket{0, 1}\) is a design parameters defining the blending between the two input surfaces.
+This blending allows one to use primitive shapes/models to create complex surfaces.
+% TODO Find citation for this (blending of implicit shapes)
+However, this implicit representation makes it difficult to modify the local shape of the surface. 
+Examples of this approach include~\cite{bolitho2009,hoppe1992,ohtake2005}.
+% TODO Describe in more detail the difference, drawbacks/advantages, of each implicit surface approach.
+
+Surface reconstruction was first addressed in the early 80's~\cite{uselton1983,uselton1981}.
+The main goal of this early work was focused on developing methods to accurately and efficiently display three dimensional data on a computing system.
+The resulting work developed a computational algorithm to construct the three-dimensional polygonal representation of an object from the collection of points describing the surface.
+The determination of a polygonal surface through a series of points is a relatively straightforward problem, as there an infinite number of solutions.
+However, determining the ``best'' surface is a more challenging problem.
+As the original surface is typically not available, hence the need for measurement and digitization, the quality of the resulting surface must be computed using the measurement points.
+
+Another approach is to use the sculpting of delauney triangulation~\cite{boissonnat1984}.
+Further refinements came with the notion of \( \alpha \) shapes~\cite{edelsbrunner1994}.
+The notion of a signed distance function and the implicit shape representation proposed~\cite{hoppe1992}.
+A modification of this approach extended it to a voxel grid~\cite{curless1996}.
+Ball pivoting allows for a relatively simple method of determining the surface~\cite{bernardini1999}.
+Next, another method seeks to project sample points, with neighbors onto a plane then lift the local two dimensional delauney triangulation to reconstruct the surface~\cite{gopi2000}.
+
+Our overarching goal for the surface reconstruction is to develop an efficient algorithm which allows for online, or near realtime, surface reconstruction from a sparse point cloud.
+Furthermore, this method should allow for an incremental update given a new partial point cloud.
+For example, given an initial coarse point cloud representing the initial guess of the surface, new, high density data, is acquired in a specific location on the surface.
+Instead of processing the entire point cloud, and recomputing the global mesh, an incremental update would allow for modification of only the local neighborhood of the additional data.
+Another useful requirment would be the ability to easily combine two overlapping point clouds into a single surface mesh.
+Finally, the resulting surface should be topologically valid and without holes, i.e. a polyhedron mesh with triangular facets.
+
+\subsubsection{Watertight surface mesh}
+
+There are two main approaches to generate water tight surface meshes.
+The powercrust algorithm seeks to approximate the \gls{MAT} of a three-dimensional object~\cite{amenta2001}.
+Then the inverse map is used to produce a watertight boundary.
+
+Another approach is the tight cocone algorithm~\cite{dey2006}.
+This reduced the complexity of powercrust and uses a post processing method to fill any holes.
+
+\subsubsection{3D Scanning}
+There are several different approches to acquire shape information of an object.
+The computer vision field several approaches exist to determine the shape of an object.
+In feature correspondance, landmarks are registered and compared across several different  views of an object. 
+The shape of the surface is inferred given the known motion of the camera system~\cite{szeliski2010}.
+Another approach is based on the different surface reflectivity of the surface, called shape from shading~\cite{szeliski2010}.
+
+% TODO Mechanical scanning using a probe or laser scanner 
+% TODO Range images are generated with distances to the surface. Assume known motion of camera (SLAM) if not known
+
+In 
 % TODO Talk about how we construct a mesh given a point cloud
 \begin{itemize}
     \item Review surface reconstruction algorithms
     \item Talk about the one that is implemented inside VTK Hoppe papers
     \item 
 \end{itemize}
+
+\section{Updating a mesh}
+
+In order to update a mesh given a single new data point, \( p \in \R^3\) requires the following steps:
+\begin{enumerate}
+    \item Determine the distance from \( p \) to the primitives of the surface
+        \begin{itemize}
+            \item This involves determining the distance to all the vertices, edges, and faces of the surface
+        \end{itemize}
+    \item Find the minimum distance to the primitives
+    \item Based on the closest primitive decide on a method to incorporate \( p \)
+        \begin{itemize}
+            \item This step is still TBD, but the basic idea is to modify the connected edges/faces to incorporate \( p\).
+                This will most likely require some form of Delauney Triangulation
+        \end{itemize}
+    \item Return the new mesh
+\end{enumerate}
+
+\section{Testing and Robustness}
+
+\begin{itemize}
+    \item Handle situation where no face/edge are in ``view''
+    \item \( p \) is inside the surface
+    \item \( p \) is on the surface, face or edge, or even a vertex
+    \item Multiple primitives are equidistant from \( p \)
+\end{itemize}
+
+\section{Current Progress}
+
+I've created methods to determine the minimum distance to the vertices, edges, and the faces of a mesh. 
+The basic algorithm for each is shown below.
+The computation of the closest vertex is fairly straightforward. 
+However, the closest edge/face is less straightforward.
+
+\subsection{Distance to Vertices}
+
+\begin{enumerate}
+    \item Find \( L_2\) norm from \( p \) to each vertex \( v \in V\)
+    \item \( V \) -- Find minimum distance, and the index of the associated vertex
+    \item \( F \) -- Determine all faces that contain this vertex, 
+    \item \( E \) -- Find all edges with this vertex
+    \item \( N \) -- Determine normals associated with connected faces \( F \)
+    \item \( \pm D\) -- determine signed distance, \( N \cdot \parenth{p - P}\)
+\end{enumerate}
+
+\subsection{Distance to Edges}
+The key difference is that we want to identify the closest edge and output the minimum distance location on that edge.
+Furthermore, we need to ensure that this minimum distance point actually is contained by the edge.
+
+Given : \( x_1, x_2 \in \R^3\) defining the vertices of a given edge. 
+
+\begin{enumerate}
+    \item Parametric form of edge \( v = x_1 + \parenth{x_2 - x_1} t\) with \( t \in \bracket{0, 1} \)
+    \item Distance from \( p \) to \( v(t) \)
+        \begin{align}
+            d^2 &= \norm{v(t) - p}^2 
+        \end{align}
+    \item Minimum distance is found by finding \( t\) which minimizes \( d^2 \)
+        \begin{align}
+            t = - \frac{\parenth{x_1 - p} \cdot \parenth{x_2 - x_1}}{\norm{x_2 - x_1}^2}
+        \end{align}
+        Make sure that the value lies in \( t \in \bracket{0, 1}\) or else the perpindicular minimum distance lies outside of the edge.
+    \item Then we can find \( d \) by using the solved value of \( t \)
+        \begin{align}
+            d = \frac{\parenth{x_1 - x_0} \cdot \parenth{x_2 - x_1}}{\norm{x_2 - x_1}}
+        \end{align}
+    \item \(P\) -- Location of closest point on surface
+    \item \( E\) -- identify the minimum edge
+    \item \( V\) -- Identify vertices that define this edge
+    \item \( F\) -- Identify the faces which hold this edge
+    \item \( \pm D\) -- Signed distance to \( p\) similar to above
+\end{enumerate}
+
+\subsection{Distance to Faces}
+This is again more complicated as we now want to find the minimum distance to a plane.
+In addition, we'd like to output this point and ensure it lies within the surface.
+
+Given : Plane defined by \( v_1, v_2, v_3 \in \R^3\)
+\begin{enumerate}
+    \item Find normal projection of \( p \) onto the plane
+    \item Define parametric line from \( p \) in direction of \( - \hat n \)
+        \begin{align}
+            p_0 = p - t \hat n
+        \end{align}
+    \item Find parameter which defines distance to plane and the location of intersection point
+        \begin{align}
+            t = \hat n \cdot p - \hat n \cdot v_1
+        \end{align}
+    \item Need to determine the barycentric coordinates of the intersection point \( p_0\) and see if it is inside or outside of the plane
+        \begin{align}
+            \alpha v_1 + \beta v_2 + \gamma v_3 = p_0
+        \end{align}
+\end{enumerate}
+
+\subsubsection{Barycentric Coordinates}
+
+Given : \( p_0 in \R^3\) in the plane defined by \( v_1, v_2, v_3 \in R^3\)
+
+Find : Location of \( p_0 \) in the triangle
+
+\begin{enumerate}
+    \item Parametric equation of a plane
+        \begin{align}
+            \pi(s, t) = v_1 + s \parenth{v_2 - v_1} + t \parenth{v_3 - v_1}
+        \end{align}
+    \item \( p_0 \) lies on the plane so we can define the following
+        \begin{align}
+            p_0 &= v_1 + s \parenth{v_2 - v_1} + t \parenth{v_3 - v_1} \\
+            c &= s a + t b
+        \end{align}
+        where we define the following
+        \begin{align*}
+            a = v_2 - v_1 \quad b= v_3- v_1 \quad c = p - v_1 \quad n = a \times b
+        \end{align*}
+    \item Define perpindicular vectors in the plane
+        \begin{align}
+            a_p = n \times a \quad b_p = n \times b
+        \end{align}
+    \item Solve for \( s, t\)
+        \begin{align}
+            s = \frac{c \cdot b_p}{a \cdot b_p} \quad t = \frac{c \cdot a_p}{b \cdot a_p}
+        \end{align}
+    \item Use triple product rule to simplify
+        \begin{align}
+            s &= \frac{\parenth{a \cdot b}\parenth{c \cdot b}-\parenth{b \cdot b} \parenth{c \cdot a}}{\parenth{a \cdot b}^2 - \parenth{b \cdot b} \parenth{ a \cdot a}} \\
+            t &=  \frac{\parenth{a \cdot a}\parenth{c \cdot b}-\parenth{b \cdot a} \parenth{c \cdot a}}{\parenth{a \cdot a}^2 - \parenth{b \cdot b} \parenth{ b \cdot a}} \\
+        \end{align} 
+    \item Use parametric plane equation to find barycentric coordinates \( \alpha, \beta, \gamma\)
+        \begin{align}
+            \alpha = 1 - s -t \quad \beta = s \quad \gamma = t \quad \alpha + \beta + \gamma = 1
+        \end{align}
+    \item Output minimum distance \( D\), minimum location \( P \), vertices \( V \), edges \( E\), and faces \( F \)
+\end{enumerate}
+
+\subsection{Our approach}
+
+Model LIDAR
+
+Simulate measurements
+
+Update shape
+
+Update gravity model
+
+Control based on new estimate of shape
 
 
