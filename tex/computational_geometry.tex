@@ -9,3 +9,15 @@ Since that time, the field has grown considerably and has found applications in 
 
 \section{Mathematical Background}
 
+\section{Incremental Mesh update}
+
+This section we outline our algorithm to incrementally update a mesh. 
+Some assumptions:
+
+\begin{itemize}
+    \item We first assume that the initial shape model of the asteroid is valid, though not necessarily accurate.
+        This means that the mesh is a closed, regular triangular polyhedron.
+    \item We assume that there is a sufficient number of vertices in the initial mesh. 
+        Therefore during the surface reconstruction phase, the total number of vertices will not vary greatly.
+\end{itemize}
+
