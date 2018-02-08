@@ -9,6 +9,12 @@ Since that time, the field has grown considerably and has found applications in 
 
 \section{Mathematical Background}
 
+% TODO Come up with some consistent notation
+\begin{itemize}
+    \item Talk about polygon/polyhedron backgroudn
+    \item Define euler's equation
+    \item Talk about all the background in convex, sets, connectivity, topology etc.
+\end{itemize}
 
 \section{Incremental Mesh update}
 
@@ -49,9 +55,9 @@ Consider the polyhedron shape model of a unit cube centered at the origin, which
     \caption[Polyhedron representation of unit cube]{Representation of a unit cube. The edges are defined in red, the vertices in blue, and the faces in gray.~\label{fig:cube_mesh}}
 \end{figure}
 The polyhedron is defined entirely by the locations of the vertices and the connectivity between vertices to define the triangular faces.
-Each vertex of the cube, \( \vb{v}_i \in \R^3\), is stored in a large array \( \vb{V} \in \R^{8 \times 3} \), as shown in~\cref{eq:cube_vertices}.
-The vertices for all polyhedron shape models are typically stored in a body fixed reference system centered at the origin of the shape and aligned with the priniciple axes of the body.
-\begin{align}~\label{eq:cube_vertices}
+Each vertex of the cube, \( \vb{v}_i \in \R^3\), is stored in a large vertex array \( \vb{V} \in \R^{v \times 3} \), as shown in~\cref{eq:cube_vertex_array}.
+The vertices for all polyhedron shape models are typically defined in a body fixed reference system centered at the origin of the shape and aligned with the priniciple axes of the body.
+\begin{align}~\label{eq:cube_vertex_array}
     \vb{V} = \begin{bmatrix}
         \begin{array}{ccc}
         -0.5 & -0.5 & -0.5 \\
@@ -63,10 +69,41 @@ The vertices for all polyhedron shape models are typically stored in a body fixe
         0.5  & 0.5  & -0.5 \\
         0.5  & 0.5  & 0.5
     \end{array}
-   \end{bmatrix}
+   \end{bmatrix}.
 \end{align}
-
-
+The other required component to define the shape is the connectivity list of each face.
+Each triangular face, or facet, of the surface is defined as a triangular face consisting of the three vertices which define the polygon.
+Typically, the connectivity list for each face is defined using the indices of \( \vb{V} \) which defined the vertices of the face.
+For the unit cube, each face, \( \vb{f}_i \in \R^3\) is stored in a large face array \( \vb{F} \in \R^{f \times 3}\), as shown in~\cref{eq:cube_face_array}.
+\begin{align}\label{eq:cube_face_array}
+    \vb{F} = 
+    \begin{bmatrix}
+        \begin{array}{ccc}
+            0 & 6 & 4 \\
+            0 & 2 & 6 \\
+            0 & 3 & 2 \\
+            0 & 1 & 3 \\
+            2 & 7 & 6 \\
+            2 & 3 & 7 \\
+            4 & 6 & 7 \\
+            4 & 7 & 5 \\
+            0 & 4 & 5 \\
+            0 & 5 & 1 \\
+            1 & 5 & 7 \\
+            1 & 7 & 3
+        \end{array}
+    \end{bmatrix}.
+\end{align}
+For example, using~\cref{eq:cube_face_array} we can see that the first face, \( \vb{f}_0 = \begin{bmatrix}\begin{array}{ccc} 0 & 6 & 4 \end{array}\end{bmatrix}\), is defined by the following vertices
+\begin{align*}
+    \vb{v}_0 &= \begin{bmatrix} \begin{array}{ccc} -0.5 & -0.5 & -0.5\end{array}\end{bmatrix},\\
+    \vb{v}_6 &= \begin{bmatrix}\begin{array}{ccc} 0.5 & 0.5 & -0.5 \end{array}\end{bmatrix}, \\
+    \vb{v}_4 &= \begin{bmatrix}\begin{array}{ccc}  0.5  & -0.5  & -0.5\end{array}\end{bmatrix}.
+\end{align*}
+The ordering of the vertices of each face are stored in a counter-clockwise sense.
+As a result, the explicit definition of the face normal is unnessary as the standard will automatically ensure that all face normals are outward pointing.
+This type of representation is common in the computational geometry field is typically referred to as the Wavefront OBJ format.
+Furthermore, this format is the common standard for the definition of asteroid shapes by NASA Planetary Data System.
 \subsection{Distance to Vertices}
 
 \begin{enumerate}
