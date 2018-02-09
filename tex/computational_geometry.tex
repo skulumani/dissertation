@@ -30,6 +30,9 @@ The construction and update of the asteroid shape model must produce a valid thr
 For example, the geometric model must not contain any dangling edges or surfaces~\cite{mortenson1997}.
 A consideration of the topology of the model is crucial, and features such as homogenity and connectivity are important properties to consider.
 
+A \gls{polyhedron} is an arrangement of \glspl{polygon} such that two and only two \glspl{polygon} meet at an edge~\cite{mortenson1997}.
+Furthermore, it is possible to travese the surface of the \gls{polyhedron} by crossing it's edges to eventually cross each face in a continuous path.
+
 \section{Incremental Mesh update}
 
 This section we outline our algorithm to incrementally update a mesh. 
