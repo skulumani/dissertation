@@ -2,10 +2,17 @@
 
 \chapter{Computational Geometry}
 
-Computational geometry is defined as the systematic study of algorithms and data structures for geometric objects.
-A specific focus is on exact algorithms thar are asymptotically fast.
+Computational geometry is defined as the systematic study of algorithms and data structures for geometric objects~\cite{berg2008}.
+A specific focus is on exact algorithms that are asymptotically fast.
 Computational geometry emerged from the fields of computer science in the late 1970s.
 Since that time, the field has grown considerably and has found applications in a large variety of domains, suchs as computer graphics, \gls{gis}, robotics, \gls{CAD}, computer vision, and others.
+
+The general approach to solving computational geometric problem is based on two key components.
+The first is a deep understanding of the geometric properties of the problem and the second is the proper application of efficient algorithms and/or data structures.
+In this chapter, we use several algorithms and approaches from computational geometry to simulate a spacecraft mounted \gls{lidar} sensor around an asteroid.
+The first task is to simulate the measurement from the \gls{lidar} of the surface of the asteroid.
+This will utilize the well known method of \gls{raycasting} to find the intersection of a mesurement ray with the surface.
+Given the surface intersection, these measurements will be incrementally incoprorated into the asteroid shape model while maintaining the required topological constraints.
 
 \section{Mathematical Background}
 
@@ -14,7 +21,10 @@ Since that time, the field has grown considerably and has found applications in 
     \item Talk about polygon/polyhedron backgroudn
     \item Define euler's equation
     \item Talk about all the background in convex, sets, connectivity, topology etc.
+    \item Come up with a consistent notation for the entire thing
 \end{itemize}
+
+
 
 \section{Incremental Mesh update}
 
@@ -103,7 +113,7 @@ For example, using~\cref{eq:cube_face_array} we can see that the first face, \( 
 The ordering of the vertices of each face are stored in a counter-clockwise sense.
 As a result, the explicit definition of the face normal is unnessary as the standard will automatically ensure that all face normals are outward pointing.
 This type of representation is common in the computational geometry field is typically referred to as the Wavefront OBJ format.
-Furthermore, this format is the common standard for the definition of asteroid shapes by NASA \gls{pds}.
+Furthermore, this format is the common standard for the definition of asteroid shapes by NASA \gls{pds}~\cite{gaskell2008b,gaskell2008a}
 \subsection{Distance to Vertices}
 
 \begin{enumerate}
