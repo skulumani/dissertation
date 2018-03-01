@@ -206,4 +206,17 @@ Find : Location of \( p_0 \) in the triangle
 If the candidate point is closest to a vertex, then you can simply redefine the vertex to be the candidate point.
 
 
+\subsection{Incremental mesh update}
 
+Now that we have an effective algorithm to find the distance between a candidate point and the primitives of the surface mesh, we can investigate a method to efficiently incorporate the new candidate point.
+
+The algorithm is composed of the following
+
+\begin{itemize}
+    \item Find the angle between the candidate point and all the vertices
+    \item Determine vertices that  lie within and angular constraint
+    \item Find the perpindicular projection of the candidate point on all of these vertices
+    \item Find the change in radius for these vertices. 
+    \item The minimum radius is the vertes that will be changed.
+    \item If no vertices lie inside the angle constraint then either use the face or edge vertex addition.
+\end{itemize}
