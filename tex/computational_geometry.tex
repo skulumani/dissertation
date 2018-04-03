@@ -51,7 +51,26 @@ The intersection of each face must be one of the following:
     \item the faces meet at a single vertex, or
     \item the faces share two vertices and a common edge.
 \end{itemize}
+This constraint automatically ensures that all edgeds and vertices intersect properly.
+Improper intersection would penetrating faces and faces that intersect improperly. 
+Such as an edge not extending across an entire face.
 
+The second constraint is related to the local topology around each point of the polyhedron.
+\begin{itemize}
+    \item Talk about 2-manifold and homeomorphism to a disk
+    \item Define neighborhood of each point (open adn closed balls)
+\end{itemize}
+
+Global topology
+\begin{itemize}
+    \item Connected closed and bounded
+    \item talk about closed holes (torus) and the genus of a polyhedron
+\end{itemize}
+
+Platonic solids
+\begin{itemize}
+    \item Talk about platonic solids and Euler's equation
+\end{itemize}
 \section{Incremental Mesh update}
 
 This section we outline our algorithm to incrementally update a mesh. 
