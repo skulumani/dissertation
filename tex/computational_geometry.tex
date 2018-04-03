@@ -33,6 +33,19 @@ A consideration of the topology of the model is crucial, and features such as ho
 A \gls{polyhedron} is an arrangement of \glspl{polygon} such that two and only two \glspl{polygon} meet at an edge~\cite{mortenson1997}.
 Furthermore, it is possible to travese the surface of the \gls{polyhedron} by crossing it's edges to eventually cross each face in a continuous path.
 
+\subsection{Polyhedra}
+
+A polyhedron is a generalization of a two-dimensional polygon to three-dimensions.
+It is the region of space with a boundary defined by a surface of a finite number of polygonal faces.
+The surface of the polyhedron is composed of three types of primitive objects: zero-dimensional points called vertices, one-dimensional segments called edges, and two-dimensional polygons called faces or facets.
+Furthemore, without any loss of generality we assume each face is a convex polygon since any nonconvex face can be divided into smaller convex faces.
+A valid polyhedron in the context of asteroid shape models must satisfy several constraints.
+These constraints define the relationship between each of the types of primitives which make up the polyhedron surface.
+The primitives must intersect ``properly'', the local and global topology must be ``proper''.
+For asteroid shape model we further assume that each face is a triangular polygon. 
+Again, this does not limit generality as any polygon can be divided into a series of planar triangles.
+
+
 \section{Incremental Mesh update}
 
 This section we outline our algorithm to incrementally update a mesh. 
