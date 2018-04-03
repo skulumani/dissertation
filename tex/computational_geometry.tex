@@ -222,5 +222,68 @@ Find : Location of \( p_0 \) in the triangle
 \end{enumerate}
 If the candidate point is closest to a vertex, then you can simply redefine the vertex to be the candidate point.
 
+\section{Incremental Radius modification}
+ 
+Here we present a simple algorithm to incrementally update a polygonal mesh with new data points.
+In addition, we then demonstrate it's use with two numerical examples.
+We begin by assuming we have an initial model of the asteroid in the form of a triangular mesh.
+Frequently, this initial model will be a triaxial ellipsoid that serves as an initial approximation of the true asteroid shape.
+The polygonal model is given in the form of vertices, \( \vb{V} \in \R^{v \times 3}\), and faces, \( \vb{F} in \R^{f \times 3} \).
+The first step is to convert the cartesian coordinates into a spherical coordinate representation. 
+Each vertex, \( \vb{v}_i \in \vb{V} \), can be converted to the spherical coordinates, \( r, \theta, \phi \) through the following transformation
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{example-image-golden}
+    \caption{Spherical Coordinate Transformation~\label{fig:spherical_coordinate_transformation}}
+\end{figure}
+\begin{align}
+    r_i &= \norm{\vb{v}_i}, \\ 
+    \theta_i &= \arctan{\frac{z}{r_i}}, \\
+    \phi_i &= \arctan{\frac{y}{r_i}}.
+\end{align}
+
+The next step is to define a region around each candidate point that serves as the maximum area of modification. 
+An infinitesimal surface area element, \( d A \), is shown in~\cref{fig:spherical_coordinate_transformation}.
+Given the spherical coordinates this area is defined as
+\begin{align}
+    d A = r^2 \cos \theta d \phi d \theta .
+\end{align}
+Given a desired surface area, \( d A \), the region of interest in the \( \theta, \phi \) directions can be computed as
+\begin{align}
+    k d \theta ^2 = \frac{d A}{r^2 \cos \theta}, 
+\end{align}
+where we define \( k = \frac{ \theta}{\phi} \) as the ratio between the latitude and longitude.
+
+The geodesic distance on a sphere can be computed given two points, \( \theta_1, \phi_1\) and \( \theta_2, \phi_2\).
+From spherical geometry, the central angle is given as
+\begin{align}
+    \Delta \sigma = \arctan \frac{\sqrt{\parenth{\cos \theta_2 \sin \Delta \phi}^2 + \parenth{\cos \theta_1 \sin \theta_2 - \sin \theta_1 \cos \theta_2 \cos \Delta \phi}^2 }}
+    {\sin \theta_1 \sin \theta_2 + \cos \theta_1 \cos \theta_2 \cos \Delta \phi} , 
+\end{align}
+where \( \Delta \phi = \phi_2 - \phi_1 \).
+The geodesic distance is then given as a scaled value of the central angle, \( d = r \Delta \sigma\).
+
+The vertices that lie within the region of interest
+\begin{align*}
+    \abs{\theta_i} &< \Delta \theta_i,  \\
+    \abs{\phi_i} &< \Delta \phi_i .
+\end{align*}
+are modified according to the following function
+\begin{align}
+    r_i = r_s \parenth{r_m - r_i} + r_i
+\end{align}
+where the scale factor \( r_s\) is computed according to the half normal distribution
+\begin{align}
+    r_s = \frac{\sqrt{2}}{\sigma_s \sqrt{\pi}} \exp \parenth{ - \frac{\Delta \sigma^2}{2 \sigma_s^2} } ,
+\end{align}
+where \( \sigma_s > 0 \) is a scale factor to shape the radius scale curve.
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{example-image-golden}
+    \caption{Radius scale factor plot~\label{fig:radius_scale_factor}}
+\end{figure}
+
+\subsection{Variations of scale factor parameters}
+
 
 
