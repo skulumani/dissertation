@@ -45,6 +45,12 @@ The primitives must intersect ``properly'', the local and global topology must b
 For asteroid shape model we further assume that each face is a triangular polygon. 
 Again, this does not limit generality as any polygon can be divided into a series of planar triangles.
 
+The intersection of each face must be one of the following:
+\begin{itemize}
+    \item the faces are disjoint and do not intersect, or
+    \item the faces meet at a single vertex, or
+    \item the faces share two vertices and a common edge.
+\end{itemize}
 
 \section{Incremental Mesh update}
 
