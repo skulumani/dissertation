@@ -59,15 +59,22 @@ The second constraint is related to the local topology around each point of the 
 In order to be locally proper, the neighborhood about any point on the surface of the polyhedron should be homeomorphic to a two-dimensional disk.
 A neighborhood about any point on the surface is defined as an arbitrarily small subset or region of the surface which surrounds the point.
 Every point on the surface should have a neighborhood which is topologically equivalent to a two dimensional disk.
-The notion of equivalency is mathematically captured using the property of homeomorphism.
-A homemorphism
+The notion of equivalency is mathematically captured using the property of \gls{homeomorphism}.
+A homemorphism between two regions is a continous stretching or bending, without tearing or cutting, from one shape to another.
 This constraint will exlude objects that are not proper polyhedrons, for example those shown in~\cref{fig:improper_polyhedrons}.
 \begin{figure}[h]
     \centering
-    \subcaptionbox{Point lies on two surfaces\label{fig:two_surfaces}}{\includegraphics[width=0.5\textwidth]{example-image-golden}}
+    \subcaptionbox{Point lies on two surfaces\label{fig:two_surfaces}}{\includegraphics[width=0.33\textwidth]{figures/computational_geometry/hanging_face.png}}~
+    \subcaptionbox{The neighborhood around this point is not homemorphic to a disk\label{fig:knotted_polyhedron}}{\includegraphics[width=0.33\textwidth]{figures/computational_geometry/pinched.png}}~
+    \subcaptionbox{The surface is not closed\label{fig:open_polyhedron}}{\includegraphics[width=0.33\textwidth]{figures/computational_geometry/open.png}}
     \caption{Three example objects which are not polyhedra. For each example, the neighborhood about each point is not homeomorphic to an open disk.~\label{fig:improper_polyhedrons}}
 \end{figure}
-In a neighborhood about any point on the surface of the polyhedron 
+In a neighborhood about any point on the surface of the polyhedron should be equivalent to that of a two-dimensional disk.
+A surface where this true for all points is called a \textit{two-manifold}, of a which the surface of a polyhedron is a subset.
+
+The final constraint is related to the global structure of the surface in contrast to the local neighborhood of a point.
+The surface must be connected, closed, and bounded.
+
 \begin{itemize}
     \item Talk about 2-manifold and homeomorphism to a disk
     \item Define neighborhood of each point (open adn closed balls)
@@ -83,6 +90,12 @@ Platonic solids
 \begin{itemize}
     \item Talk about platonic solids and Euler's equation
 \end{itemize}
+
+\subsection{Area of a Polyhedron}
+There is a simple method for determining the volume of an polyhedron.
+The full derivation can be found in~\textcite{newson1899,orourke1998}.
+A polyhedron can be decomposed into a collection of tetrahedron by combining the vertices of each face with that of the origin.
+Assume that the vertices of a face are given by \( \vb{v}_1, \vb{v}_2, \vb{v}_3 \)
 \section{Incremental Mesh update}
 
 This section we outline our algorithm to incrementally update a mesh. 
