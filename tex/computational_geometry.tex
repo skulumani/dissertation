@@ -95,7 +95,22 @@ Platonic solids
 There is a simple method for determining the volume of an polyhedron.
 The full derivation can be found in~\textcite{newson1899,orourke1998}.
 A polyhedron can be decomposed into a collection of tetrahedron by combining the vertices of each face with that of the origin.
-Assume that the vertices of a face are given by \( \vb{v}_1, \vb{v}_2, \vb{v}_3 \)
+Assume that the vertices of a face are defined by \( \vb{v}_1, \vb{v}_2, \vb{v}_3 \) and numbered in a counterclock wise fashion such that the normal to the face is outward facing.
+A tetrahedron is created by combining the vertices of the with any arbitrary point, such as the origin of the polyhedron reference frame.
+Then the volume of the tetrahedron is given by~\cref{eq:volume_tetrahedron}.
+\begin{align}\label{eq:volume_tetrahedron}
+    V = \frac{1}{6} 
+    \begin{vmatrix} 
+        x_1 & y_1 & z_1 & 1 \\
+        x_2 & y_2 & z_2 & 1 \\
+        x_3 & y_3 & z_3 & 1 \\
+        0 & 0 & 0 & 1
+    \end{vmatrix}
+\end{align}
+The total volume of the polyhdron can be computed by summing the contributions of each face as shown in~\cref{eq:volume_polyhedron}.
+\begin{align}\label{eq:volume_polyhedron}
+    V_T = \frac{1}{6} \sum_{f} V_f
+\end{align}
 \section{Incremental Mesh update}
 
 This section we outline our algorithm to incrementally update a mesh. 
