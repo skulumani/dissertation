@@ -20,12 +20,13 @@ Therefore, the translational and rotational equations of motion become decoupled
 However, for operations around an asteroid the orbital radius is much smaller, which leads to much larger values of \(\epsilon\) and much larger influence of the rotational and translational coupling.
 References~\cite{elmasri2005} and~\cite{sanyal2004} investigated the coupling of an elastic dumbbell spacecraft in orbit about a central body, but only considered the case of a spherically symmetric central body.
 
+With these insights, we seek to develop the complete coupled equations of motion of a spacecraft around an asteroid.
+The equations of motion should explicitly consider the interaction of the translational and rotational dynamics.
+Furthermore, the equations should be defined in a global and coordinate-free representation to allow for a single global representation of the motion of the spacecraft and asteroid.
 
-\subsection{Translational Dynamics}
+\subsection{Reference Frames}\label{ssec:dumbbell_eoms_reference_frames}
 
-\subsection{Rotational Dynamics}
-
-\subsection{Coupled Dynamics}
+\subsection{Inertial Frame Equations of Motion}
 
 
 The configuration space for rigid body motion is the semi-direct product, \(\SE = \R^3 \times \SO \), namely the special euclidean group.
@@ -80,6 +81,8 @@ The gravitational moment on the dumbbell \( \vecbf{M}_i\) is defined as
     \vecbf{M}_i = m_i \parenth{S(R_A^T \vb{\rho}_i) R^T \deriv{U}{\vb{z}_i}}.
 \end{align}
 The control inputs to the spacecraft are defined by \( \vb{u}_f, \vb{u}_m \) which define the control force represented in the inertial frame and the control moment represented in the spacecraft frame, respectively. 
+
+\subsection{Asteroid Frame Equations of Motion}
 
 \section{Small-Body Shape Modelling}
 
