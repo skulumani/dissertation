@@ -1,6 +1,7 @@
 \documentclass[thesis]{thesis-gwu}[2016/09/24]
 
 \usepackage{dissertation_packages}
+\addbibresource{library.bib}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 % CUSTOM MACROS
 %%%%%%%%%%%%%%%%%%%%%%%%%
@@ -14,7 +15,8 @@
 %% DOCUMENT AREA
 \begin{document}
 
-\include{tex/introduction}
+% \include{tex/introduction}
+\include{tex/system_model}
 % \include{tex/asteroid_dumbbell_derivation}
 % \include{tex/dynamics}
 % \include{tex/invariant_manifolds}
@@ -30,7 +32,7 @@
 
 % \include{tex/raycasting}
 % \include{tex/reachability_intro}
-\include{tex/computational_geometry}
+% \include{tex/computational_geometry}
 
 % appendices must appear after
 % \appendix
@@ -39,7 +41,7 @@
 % \include{tex/appendix/2016_ACC_appendix}
 % \include{tex/appendix/2016_IJCAS_appendix}
 
-\bibliographystyle{plain}
-\bibliography{library}
+\printbibliography
+
 
 \end{document}
