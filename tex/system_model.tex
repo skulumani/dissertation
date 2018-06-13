@@ -33,6 +33,11 @@ There are three reference frames of interest for this problem:
     \item \( \vecbf{e}_i \) : The inertial reference frame is assumed to be fixed in space. 
         The origin of the frame is chosen to coincide with the center of mass of the asteroid.
         The standard orthornormal basis, \( \vb{e}_1, \vb{e}_2, \vb{e}_3\) are fixed with respect to the stars.
+    \item \( \vb{f}_i \) : The asteroid fixed frame is a rotating reference frame which is fixed to the surface of the asteroid.
+        The reference frame originates at the center of mass of the asteroid and the basis vectors are aligned with the principle motments of inertia of the asteroid.
+        In addition, we assume that at the beginning of any simulation that the asteroid and inertial frames are initially aligned.
+    \item \( \vb{b}_i \) : The spacecraft fixed reference frame is attached to the spacecraft and aligned with the principle moments of inertia.
+        The frame originates at the center of mass of the spacecraft.
 \end{enumerate}
 \subsection{Inertial Frame Equations of Motion}
 
