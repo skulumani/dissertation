@@ -26,7 +26,14 @@ Furthermore, the equations should be defined in a global and coordinate-free rep
 
 \subsection{Reference Frames}\label{ssec:dumbbell_eoms_reference_frames}
 
-The first step in deriving the equations of motion is to first define the kinematics
+The first step in deriving the equations of motion is to first define the \gls{kinematics} of the spacecraft motion.
+This kinematical description will be used in subsequent sections to simulation the motion and define the sensor measurements and asteroid reconstruction.
+There are three reference frames of interest for this problem:
+\begin{enumerate}
+    \item \( \vecbf{e}_i \) : The inertial reference frame is assumed to be fixed in space. 
+        The origin of the frame is chosen to coincide with the center of mass of the asteroid.
+        The standard orthornormal basis, \( \vb{e}_1, \vb{e}_2, \vb{e}_3\) are fixed with respect to the stars.
+\end{enumerate}
 \subsection{Inertial Frame Equations of Motion}
 
 
