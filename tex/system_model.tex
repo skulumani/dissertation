@@ -2,13 +2,31 @@
 
 \chapter{Mathematical Background}
 This is some text
-\section{Translational Dynamics}
+\section{Dumbbell Spacecraft Equations of Motion}\label{sec:dumbbell}
 
-\section{Rotational Dynamics}
+In this section we derive the equations of motion of a rigid spacecraft under the influence of the gravitational attraction of a homogenous asteroid.
+The motion of a spacecraft around an asteroid is markedly different than that of Earth orbiting vehicles.
+First, the gravitational field around an asteroid is highly irregular and complex. 
+The usual assumption of a spherical potential is not valid for small or irregular shaped bodies.
+Furthermore, since the magnitude of the gravitational attraction is relatively small, non-gravitational effects, such as solar radiation pressure or third-body effects, become much more significant.
+As a result, the orbital environment is generally quite complex and it is difficult to generate analytical insights, such as the Keplerian two-body solution.
 
-\section{Coupled Dynamics}
+A second key consideration is the coupling between rotational and translational states around the asteroid.
+The coupling is induced due to the different gravitational forces experienced on various parts of the spacecraft.
+The effect of the gravitational coupling is related to the parameter \(\epsilon = \frac{r}{R_c}\), where \(r\) is the characteristic spacecraft length and \(R_c\) is the orbital radius~\cite{hughes2004}.
+For Earth based missions, the orbital radius is several orders of magnitude larger than the spacecraft length and \(\epsilon\) is small.
+As a result, the corresponding gravitational moment is weak and can be neglected. 
+Therefore, the translational and rotational equations of motion become decoupled and can be considered separately, significantly simplifying the analysis. 
+However, for operations around an asteroid the orbital radius is much smaller, which leads to much larger values of \(\epsilon\) and much larger influence of the rotational and translational coupling.
+References~\cite{elmasri2005} and~\cite{sanyal2004} investigated the coupling of an elastic dumbbell spacecraft in orbit about a central body, but only considered the case of a spherically symmetric central body.
 
-\subsection{Dumbbell Spacecraft Equations of Motion}\label{sec:dumbbell}
+
+\subsection{Translational Dynamics}
+
+\subsection{Rotational Dynamics}
+
+\subsection{Coupled Dynamics}
+
 
 The configuration space for rigid body motion is the semi-direct product, \(\SE = \R^3 \times \SO \), namely the special euclidean group.
 The variations should be carefully constructed such that they respect the geometry of the configuration space.
