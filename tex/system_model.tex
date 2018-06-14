@@ -189,6 +189,44 @@ For example, a torus, or a donute shape, is also considered a polyhedron.
 The key difference between a hole and a cavity is that there are no disconnected surfaces and as a result a polyhedron can have any number of such holes. 
 In practice, we tend to limit our analysis to polyhedron with no holes, or with a genus of zero.
 
+\subsection{Polyhedron Data Structure}
+While the shape of the asteroid will be represented mathematically as a polyhedron, we are still left with the issue of representing this shape in digital form. 
+The eventual computational efficiency and memory consumption of the subesequent sections is heavily dependent on the underlying data structure used to represent the surface.
+In this section, we review some of the basic requirements and features of any data structure.
+In addition, we summarize the ones most popular in the astrodynamics community and the halfedge data structure which we use in this work.
+
+The requirements for any surface/mesh data structure vary between applications and are designed to satisfy both topological and algorithmic requirements.
+Some examples of topological considerations are the use of triangular/polygonal facets or the ability to represent manifold/non-manifold meshes.
+Examples of algorithmic requirements include a consideration of the types of algorithms/processes that will make use of the data, such as visualization or operations that will modify or additional data to the various faces, edges, and vertices of the mesh.
+The choice, and eventual design, of an appropriate data structure is evaluated on its ability to efficiently enable specific operations, such as distance or modification operations.
+A wide variety of data structures have been developed to represent general polyhedron surfaces and can be classified as either \textit{face-based} or \textit{edge-based}.
+
+The simplest method to represent a surface mesh is composed to storing the individual vertices which define each face of the surface.
+In the specific case of a triangular mesh, this entails storing the three vertex coordinates of each face of the mesh, also called the \textit{face-set}~\cite{botsch2010}.
+By assuming that the vertex coordinates are stored as double precision, or \SI{64}{\bit} values, results in \( 3 \cdot 3 \cdot 64 = \SI{576}{\bit} = \SI{72}{\byte}\) per triangular face.
+% TODO Add reference to euler's formula
+Equivalently, from Euler's formula, there is approximately twice as many faces as vertices, and this \textit{face-set} structure will require on average \SI{144}{\byte} per vertex.
+A simple optimization is possible by reducing the redundancy in the representation.
+Each vertex will duplicated as many times as the degree of the vertex.
+This redundancy can be eliminated by storing a list of vertices, and to define the vertices of each face as an index/reference into this vertex list.
+This results in the so called \textit{indexed face set} or \textit{shared-vertex} data structure.
+In the case of triangular meshes and using double precision values, each vertex will require \(\SI{192}{\bit} = \SI{24}{\byte}\).
+Vertex indices of each face can be stored using single precision, \( \SI{32}{\bit} = \SI{4}{\byte}\), values which resuts in a storage requirement of \( \SI{96}{\bit} = \SI{12}{\byte}\) per triangle.
+This type of representation will therefore require on average approximately \( \SI{60}{\byte} \) per vertex, which is half the requirement of the \textit{face-set} data structure.
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{example-image-golden}
+    \caption{Fac}
+\end{figure}
+
+\begin{itemize}
+    \item Tasks required to utilize the shape model
+    \item Face vs. edge based data structure
+    \item Discuss drawbacks of the OBJ format
+    \item Summary and intro to halfedge data structure
+    \item Good pictures
+\end{itemize}
+
 \subsubsection{Wavefront OBJ files}
 The OBJ format is a geometry definition file format used for a variety of computer modeling applications, and is regularly used by the asteroid community~\cite{neese2004}.
 The basic format of the file is an ASCII file where the first \( N_v\) lines begin with \texttt{v} and define the three components of a vertex in the body fixed reference frame.
