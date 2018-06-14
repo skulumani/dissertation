@@ -46,10 +46,22 @@ The reference frames are also shown in~\cref{fig:reference_frames}.
     \caption{Representation of the three reference frames, inertial, asteroid, and spacecraft, used to describe the kinematics\label{fig:reference_frames}}
 \end{figure}
 
-\subsection{Inertial Frame Equations of Motion}
+With the appropriate reference frames, the configuration space of the spacecraft motion is now defined to enable the derivation of the equations of motion.
+From classical mechanics, the parameters which are used to define the motion of the system are called generalized coordinates, and the vector space defined by these coordinates is called the configuration space of the physical system.
+Frequently, the physical parameters of the system must also satisfy some mathematical constraints, which then define a configuration manifold of all generalized coordinates within the configuration space which satisfy the constraints.
+For example, the motion of a particle in three-dimensional Euclidean space can be defined by the typical generalized coordinates in the form of a vector
+\begin{align*}
+    \vb{r} = \begin{matrix}
+        x_1 & x_2 & x_3
+    \end{matrix}^T.
+\end{align*}
+Therefore the configuration space is then the set of all real three dimensional vectors or equivalently,
+\begin{align*}
+    \vb{r} \in \R^3.
+\end{align*}
 
-
-The configuration space for rigid body motion is the semi-direct product, \(\SE = \R^3 \times \SO \), namely the special euclidean group.
+The configuration space for the rigid body motion of the spacecraft is the semi-direct product, \(\SE = \R^3 \times \SO \), namely the special euclidean group.
+The special euclidean group is the group of all transformation
 The variations should be carefully constructed such that they respect the geometry of the configuration space.
 By expressing the motion of the dumbbell directly on the special euclidean group, we avoid the issues inherent in using other kinematic representations which fail to preserve the geometric properties of the configuration space.
 The kinematics of the dumbbell and asteroid are described in the inertial frame by
@@ -61,6 +73,9 @@ The kinematics of the dumbbell and asteroid are described in the inertial frame 
 \end{itemize}
 In this work, we assume that the asteroid is much more massive than the spacecraft and its motion is not affected by that of the spacecraft.
 This assumption allows us to treat the motion of the vehicle independently from that of the asteroid, instead of treating the more complicated full-body problem. 
+\subsection{Inertial Frame Equations of Motion}
+
+
 
 Using our kinematic variables we can define the kinetic and potential energy of the dumbbell as
 \begin{align}\label{eq:kinetic_energy}
