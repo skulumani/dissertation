@@ -251,11 +251,20 @@ A halfedge data structure allows us to iterate through all elements, vertices, e
 In addition, the halfge edge data structure can store arbitrary polygon meshes.
 Furthermore, additional data can be attached to the elements as each is store explicitly.
 Finally, the halfedge data structure allows for simple manipulation and modification of the underlying mesh, enabling operations such as mesh subdivision or simplification.
-
+There are a number of publicly avaiable implementations of the halfedge data structure~\cite{cgalproject2018,botsch2002}.
+We utilize the \texttt{Surface_mesh} data structure implemented within the Computational Geometry Algorithms Library~\cite{sieger2011}.
+This provides a well defined and highly optimzed data structure for the representation of the polyhedron shape of the asteroid.
+Furthermore, the ability to incorporate additional properties enables us to efficently compute the polyheron potential model.
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{example-image-golden}
     \caption{Halfedge data structure look in PMP Fig3.4~\label{fig:halfedge_data_structure}}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{example-image-golden}
+    \caption{Iterating over 1 ring of a vertex}
 \end{figure}
 
 \subsubsection{Wavefront OBJ files}
