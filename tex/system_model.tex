@@ -252,7 +252,7 @@ In addition, the halfge edge data structure can store arbitrary polygon meshes.
 Furthermore, additional data can be attached to the elements as each is store explicitly.
 Finally, the halfedge data structure allows for simple manipulation and modification of the underlying mesh, enabling operations such as mesh subdivision or simplification.
 There are a number of publicly avaiable implementations of the halfedge data structure~\cite{cgalproject2018,botsch2002}.
-We utilize the \texttt{Surface_mesh} data structure implemented within the Computational Geometry Algorithms Library~\cite{sieger2011}.
+We utilize the \texttt{Surface\_mesh} data structure implemented within the Computational Geometry Algorithms Library~\cite{sieger2011}.
 This provides a well defined and highly optimzed data structure for the representation of the polyhedron shape of the asteroid.
 Furthermore, the ability to incorporate additional properties enables us to efficently compute the polyheron potential model.
 \begin{figure}
@@ -304,6 +304,15 @@ It is composed of \num{1579014} vertices and \num{3145728} faces and is able to 
 From this simple example, it is clear that prior to the arrival of a spacecraft the shape and surface knowledge of an asteroid is limited.
 
 \section{Gravitational Models around Small-Bodies}
+Due to the irregular shape of small-bodies, the gravitational field around these bodies is equally irregular.
+Furthermore, the relative size of the spacecraft in comparison with the orbital radius and small-body creates a much larger coupling between the translational and rotational states of the spacecraft.
+In addition, spacecraft will tend to operate in very close proximity to the surface.
+As a result, accurate computation of the gravitational field around these irregular bodies is critical to safe and effective operations.
+The classic approach to determining the gravitational force is to apply Newton's law of Universal gravitation.
+The force due to gravity between two point masses is defined as
+\begin{align}\label{eq:newton_universal_gravitation}
+    \vb{F}_g =  - G \frac{m_1 m_2}{r^2} \frac{\vb{r}}{r}.
+\end{align}
 
 \subsection{Polyhedron Potential Model}\label{sec:polyhedron_potential}
 
