@@ -221,7 +221,18 @@ This type of representation will therefore require on average approximately \( \
 % TODO add acronyms/glossary items for these terms
 Examples of this type of data structure include the stereolithography (STL), Wavefront (OBJ), OFF, and VRML file formats.
 
-While conceptually simple and relatively straight
+While conceptually simple the face based data structure has several critical drawbacks.
+It is difficult to determine the connectivity of individual vertices or faces of the mesh, which makes it ill-suited for most algorithms.
+The vast of majority of computational geometry algorithms will require as a minimum~\cite{botsch2010}:
+\begin{itemize}
+    \item Access to individual vertices, edges and faces, as well as random access to any element.
+    \item Enumeration of the edges of a single face.
+    \item Access to the adjacent faces of an edge which enables access to the neighboring faces.
+    \item Given an edge one must determine the two vertices which define the endpoints.
+    \item Given a vertex one must determine all neighboring faces.
+\end{itemize}
+As a result, any application making use a face based data structure will need to store additional connectivity information in a seperate data structure.
+
 \begin{itemize}
     \item Tasks required to utilize the shape model
     \item Face vs. edge based data structure
