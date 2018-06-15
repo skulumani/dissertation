@@ -216,7 +216,7 @@ This type of representation will therefore require on average approximately \( \
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{example-image-golden}
-    \caption{Face based data structure~\label{fig:face_based_data_structure}}
+    \caption{Face based data structure look in PMP Fig2.3 or 2.4~\label{fig:face_based_data_structure}}
 \end{figure}
 % TODO add acronyms/glossary items for these terms
 Examples of this type of data structure include the stereolithography (STL), Wavefront (OBJ), OFF, and VRML file formats.
@@ -233,13 +233,30 @@ The vast of majority of computational geometry algorithms will require as a mini
 \end{itemize}
 As a result, any application making use a face based data structure will need to store additional connectivity information in a seperate data structure.
 
+In contrast to face-based structures, edge-based data structures store the connectivity information in the edges or halfedges~\cite{botsch2010,orourke1998}.
+By splitting each unorientated edge into two orientated halfedges, the halfedge data structure provides an efficient data structure for mesh based operations.
+Each halfedge is ordered in a clockwise fashion around each face, typically such that the face normal is orientated outwards from the mesh.
+In addition, each halfedge will also store a reference to:
 \begin{itemize}
-    \item Tasks required to utilize the shape model
-    \item Face vs. edge based data structure
-    \item Discuss drawbacks of the OBJ format
-    \item Summary and intro to halfedge data structure
-    \item Good pictures
+    \item The vertex it points to, or its target,
+    \item its adjacent face,
+    \item the next halfedge of the face in a counterclock wise direction,
+    \item the previous halfedge of the face
+    \item the opposite or incident halfedge.
 \end{itemize}
+In addition, each face stores the reference to one of its halfedges, while each vertex stores an outgoing halfedge. 
+The halfedge data structure will require more memory in contrast to face based approaches it offers several advantages which make it ideal for computational geometry operations.
+
+A halfedge data structure allows us to iterate through all elements, vertices, edge, halfedge, or face, in a simple manner.
+In addition, the halfge edge data structure can store arbitrary polygon meshes.
+Furthermore, additional data can be attached to the elements as each is store explicitly.
+Finally, the halfedge data structure allows for simple manipulation and modification of the underlying mesh, enabling operations such as mesh subdivision or simplification.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{example-image-golden}
+    \caption{Halfedge data structure look in PMP Fig3.4~\label{fig:halfedge_data_structure}}
+\end{figure}
 
 \subsubsection{Wavefront OBJ files}
 The OBJ format is a geometry definition file format used for a variety of computer modeling applications, and is regularly used by the asteroid community~\cite{neese2004}.
