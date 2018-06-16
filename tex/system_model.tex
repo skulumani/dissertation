@@ -311,9 +311,26 @@ As a result, accurate computation of the gravitational field around these irregu
 The classic approach to determining the gravitational force is to apply Newton's law of Universal gravitation.
 The force due to gravity between two point masses is defined as
 \begin{align}\label{eq:newton_universal_gravitation}
-    \vb{F}_g =  - G \frac{m_1 m_2}{r^2} \frac{\vb{r}}{r}.
+    \vb{F}_g =  - G \frac{m_1 m_2}{r^2} \frac{\vb{r}}{r},
 \end{align}
+where \( G \) is the universal gravitational constant, \( \vb{r} \) is the relative position vector between the points of mass \( m_1, m_2\), respectively.
 
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{example-image-golden}
+    \caption{Newton's Law of Unviversal Gravitation~\label{fig:universal_gravity}}
+\end{figure}
+
+This gravitational model is defined if point masses or bodies which can be modeled as point masses, such as spherically symmetric planets.
+However, it is not possible to model an irregular asteroid, or an orbiting spacecraft, as point masses.
+Instead, one must treat both bodies as extended objects and compute the gravitational force from the potential function as an integral over the entire body
+\begin{align}\label{eq:volume_integral_potential}
+    \vb{F}_g = \nabla U = G \int_V \frac{1}{r} dm,
+\end{align}
+where \( r = \norm{\vb{r}} \) and \( \nabla U \) is defined as the gradient of \( U \) with respect to the standard cartesian basis vectors
+\begin{align*}
+    \nabla = \deriv{}{x} \hat{\vb{i}} + \deriv{}{y} \hat{\vb{j}} + \deriv{}{z} \hat{\vb{k}}.
+\end{align*}
 \begin{itemize}
     \item Draw picture of two point masses
     \item Discuss conservative force and force from potential function gradient
