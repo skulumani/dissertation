@@ -331,10 +331,17 @@ where \( r = \norm{\vb{r}} \) and \( \nabla U \) is defined as the gradient of \
 \begin{align*}
     \nabla = \deriv{}{x} \hat{\vb{i}} + \deriv{}{y} \hat{\vb{j}} + \deriv{}{z} \hat{\vb{k}}.
 \end{align*}
+There are large variety of methods to evaluate the volume integral in~\cref{eq:volume_integral_potential}.
+
+\begin{align}\label{eq:spherical_harmonic}
+    U = \frac{\mu}{r} \sum_{n=0}^\infty \sum_{m=0}^\infty \parenth{\frac{R}{r}}^nP_{n,m}(\sin \phi) \braces{ C_{nm} \cos(m \lambda) + S_{nm} \sin(m \lambda)}
+\end{align}
+
 \begin{itemize}
     \item Draw picture of two point masses
     \item Discuss conservative force and force from potential function gradient
     \item Discuss the main approaches of the polyhedron model and spherical potential model
+    \item Talk about the main approaches - mascon, spherical harmonic, and polyhedron potential
 \end{itemize}
 
 \subsection{Polyhedron Potential Model}\label{sec:polyhedron_potential}
