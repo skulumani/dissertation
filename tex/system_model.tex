@@ -333,6 +333,17 @@ where \( r = \norm{\vb{r}} \) and \( \nabla U \) is defined as the gradient of \
 \end{align*}
 There are large variety of methods to evaluate the volume integral in~\cref{eq:volume_integral_potential}.
 
+The first approach, sometimes termed the \textit{mass-concentration}, or \textit{mascon} method, approximates the integral using an infinite sum of point masses \( m_i\) located at \( \vb{r}_i \).
+The potential on our object of interest then becomes the summation of the potential caused by each mass \( m_i \) as shown in~\cref{eq:mass_con_potential}.
+\begin{align}\label{eq:mass_con_potential}
+    U = G \sum_{i=0}^{\infty} \frac{m_i}{\norm{\vb{r} - \vb{r}_i}}
+\end{align}
+The method distributes a colleciton of point masses uniformly throughout the body such that the total mass is equal to the body.
+While conceptually simple, and relatively straight forward to numerically implement, the mascon approach has several drawbacks~\cite{scheeres2012a}.
+First, the mascon approach does not provide any method to determine if the object of interest is inside or outside of the body.
+As a result, any numerical simulation making use of the mascon approach will require a secondary operation to determine if the spacecraft has collided with the surface.
+Additionaly, it has been shown that the mascon approach is more computationaly demanding than other methods, namely the spherical harmonic or polyhedron potential method~\cite{werner1996}.
+Finally, while the mascon method will provide the true gravity field in the limit as the number of invidual point masses becomes large, there are significant errors in the direction of the force vector~\cite{werner1996}.
 \begin{align}\label{eq:spherical_harmonic}
     U = \frac{\mu}{r} \sum_{n=0}^\infty \sum_{m=0}^\infty \parenth{\frac{R}{r}}^nP_{n,m}(\sin \phi) \braces{ C_{nm} \cos(m \lambda) + S_{nm} \sin(m \lambda)}
 \end{align}
