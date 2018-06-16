@@ -344,6 +344,27 @@ First, the mascon approach does not provide any method to determine if the objec
 As a result, any numerical simulation making use of the mascon approach will require a secondary operation to determine if the spacecraft has collided with the surface.
 Additionaly, it has been shown that the mascon approach is more computationaly demanding than other methods, namely the spherical harmonic or polyhedron potential method~\cite{werner1996}.
 Finally, while the mascon method will provide the true gravity field in the limit as the number of invidual point masses becomes large, there are significant errors in the direction of the force vector~\cite{werner1996}.
+
+It can be shown that the gravitational potential will satisfy Laplace's equation outside of the body
+\begin{align}
+    \nabla^2 U = 0
+\end{align}
+and Poisson's equation inside of the body
+\begin{align}
+    \nabla^2 U = - 4 \pi G \sigma
+\end{align}
+where \( \sigma \) is the local density of the body.
+Laplace's equation can be solved using a seperation of variables in terms of spherical coordinates~\cite{scheeres2012a}.
+The transformation between cartesian, \( \vb{r} = x \hat{\vb{x}} + \hat{\vb{y}} + \hat{\vb{z}}\),  and spherical coordinates, is given by
+\begin{subequations}
+    \begin{align*}
+        r &= \sqrt{x^2 + y^2 + z^2}, \\
+        \sin \phi &= \frac{z}{r}, \\
+        \tan \lambda &= \frac{y}{x},
+    \end{align*}
+\end{subequations}
+where \( \phi \) is the latitude and \( \lambda\) is the longitude.
+One can then follow a standard derivation~\cite{vallado2007} to arrive at a general form of the spherical harmonic potential model.
 \begin{align}\label{eq:spherical_harmonic}
     U = \frac{\mu}{r} \sum_{n=0}^\infty \sum_{m=0}^\infty \parenth{\frac{R}{r}}^nP_{n,m}(\sin \phi) \braces{ C_{nm} \cos(m \lambda) + S_{nm} \sin(m \lambda)}
 \end{align}
