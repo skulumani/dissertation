@@ -369,10 +369,23 @@ One can then follow a standard derivation~\cite{vallado2007} to arrive at a gene
     U = \frac{\mu}{r} \sum_{l=0}^\infty \sum_{m=0}^l \parenth{\frac{r_o}{r}}^n P_{l, m}(\sin \phi) \braces{ C_{lm} \cos(m \lambda) + S_{lm} \sin(m \lambda)},
 \end{align}
 where \( \mu = G M \) is the gravitational parameter of the body, \( r_o\) is a normalizing radius, which is typically chosen as the mean or maximum radius of the attracting body.
-The term \( P_{l, m} \) is the associated Legendre function while \( C_{lm}\) and \( S_{lm}\) are called the spherical harmonic coefficients or Stoke's coefficients. 
+The term \( P_{l, m} \) are the associated Legendre functions while \( C_{lm}\) and \( S_{lm}\) are called the spherical harmonic coefficients or Stoke's coefficients. 
+The Legendre functions are given in closed form by~\cite{scheeres2012}
+\begin{subequations}
+\begin{align}
+    P_{l, m} \parenth{ \sin \delta} &= \cos^m \phi \sum_{i = 0}^{\text{int}\bracket{l - \frac{m}{2}}} T_{lmi} \sin^{l - m - 2i} \phi ,  \\
+T_{lmi} &= \frac{\parenth{-1}^i\parenth{2l - 2i}!}{2^l i! \parenth{l - i}!\parenth{l - m- 2i}!}.
+\end{align}
+\end{subequations}
+where \( \text{int}\bracket{x}\) defines the integer portion of \( x \).
+Defining the spherical harmonic coefficients, namely \( C_{lm}, S_{lm}\), is equivalent to defining the mass distribution of the body.
+The spherical harmonic coefficients have been determined for many planetary bodies, such as the Earth, to a very high fidelity~\cite{vallado2007,pavlis2012}.
 
+% TODO Continue with the drawbacks of spherical harmonic
+It's possible to convert from polyhedron model to the spherical harmonic coefficients
 \begin{itemize}
     \item Draw picture of two point masses
+    \item Drawbacks of the spherical harmonic potential model:
     \item Discuss conservative force and force from potential function gradient
     \item Discuss the main approaches of the polyhedron model and spherical potential model
     \item Talk about the main approaches - mascon, spherical harmonic, and polyhedron potential
