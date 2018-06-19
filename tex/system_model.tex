@@ -233,8 +233,8 @@ The vast of majority of computational geometry algorithms will require as a mini
 \end{itemize}
 As a result, any application making use a face based data structure will need to store additional connectivity information in a seperate data structure.
 
-In contrast to face-based structures, edge-based data structures store the connectivity information in the edges or halfedges~\cite{botsch2010,orourke1998}.
-By splitting each unorientated edge into two orientated halfedges, the halfedge data structure provides an efficient data structure for mesh based operations.
+In contrast to face-based structures, edge-based data structures store the connectivity information in the edges or halfedges~\cite{botsch2010,orourke1998,berg2008}.
+By splitting each unorientated edge into two orientated halfedges, the halfedge data structure, or also known as the doubly-connected edge list, provides an efficient data structure for mesh based operations.
 Each halfedge is ordered in a clockwise fashion around each face, typically such that the face normal is orientated outwards from the mesh.
 In addition, each halfedge will also store a reference to:
 \begin{itemize}
