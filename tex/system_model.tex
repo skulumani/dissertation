@@ -323,20 +323,19 @@ where \( G \) is the universal gravitational constant, \( \vb{r} \) is the relat
 
 This gravitational model is defined if point masses or bodies which can be modeled as point masses, such as spherically symmetric planets.
 However, it is not possible to model an irregular asteroid, or an orbiting spacecraft, as point masses.
-Instead, one must treat both bodies as extended objects and compute the gravitational force from the potential function as an integral over the entire body
+Instead, one must treat both bodies as extended objects and compute the gravitational force from the potential function as an integral over the entire body, \( \mathcal{B}\),
 \begin{align}\label{eq:volume_integral_potential}
-    \vb{F}_g = \nabla U = G \int_V \frac{1}{r} dm,
+\vb{F}_g ( \vb{r}) = \nabla U = G \int_{\mathcal{B}} \frac{1}{\norm{\vb{r} - \vb{\rho} }} dm (\vb{\rho}),
 \end{align}
-where \( r = \norm{\vb{r}} \) and \( \nabla U \) is defined as the gradient of \( U \) with respect to the standard cartesian basis vectors
+where \( \vb{r} \) is the position of the field point, \( \vb{\rho} \) is the position of the differential mass element of the body and \( \nabla U \) is defined as the gradient of \( U \) with respect to the standard cartesian basis vectors
 \begin{align*}
     \nabla = \deriv{}{x} \hat{\vb{i}} + \deriv{}{y} \hat{\vb{j}} + \deriv{}{z} \hat{\vb{k}}.
 \end{align*}
-There are large variety of methods to evaluate the volume integral in~\cref{eq:volume_integral_potential}.
 
 The first approach, sometimes termed the \textit{mass-concentration}, or \textit{mascon} method, approximates the integral using an infinite sum of point masses \( m_i\) located at \( \vb{r}_i \).
 The potential on our object of interest then becomes the summation of the potential caused by each mass \( m_i \) as shown in~\cref{eq:mass_con_potential}.
 \begin{align}\label{eq:mass_con_potential}
-    U = G \sum_{i=0}^{\infty} \frac{m_i}{\norm{\vb{r} - \vb{r}_i}}
+    U = G \sum_{i=0}^{\infty} \frac{m_i}{\norm{\vb{r} - \vb{\rho}_i}}
 \end{align}
 The method distributes a colleciton of point masses uniformly throughout the body such that the total mass is equal to the body.
 While conceptually simple, and relatively straight forward to numerically implement, the mascon approach has several drawbacks~\cite{scheeres2012a}.
@@ -355,7 +354,7 @@ and Poisson's equation inside of the body
 \end{align}
 where \( \sigma \) is the local density of the body.
 Laplace's equation can be solved using a seperation of variables in terms of spherical coordinates~\cite{scheeres2012a}.
-The transformation between cartesian, \( \vb{r} = x \hat{\vb{x}} + \hat{\vb{y}} + \hat{\vb{z}}\),  and spherical coordinates, is given by
+The transformation between cartesian, \( \vb{r} = x \hat{\vb{x}} + y \hat{\vb{y}} + z \hat{\vb{z}}\),  and spherical coordinates, is given by
 \begin{subequations}
     \begin{align*}
         r &= \sqrt{x^2 + y^2 + z^2}, \\
@@ -382,6 +381,22 @@ Defining the spherical harmonic coefficients, namely \( C_{lm}, S_{lm}\), is equ
 The spherical harmonic coefficients have been determined for many planetary bodies, such as the Earth, to a very high fidelity~\cite{vallado2007,pavlis2012}.
 
 % TODO Continue with the drawbacks of spherical harmonic
+The spherical harmonic gravity model is not applicable in all situations.
+A implicit assumption of the spherical harmonic expansion are that the series converge to the true gravitational field.
+It can be shown that the expansion will diverge when applied to a point within the maximum circumscribing sphere of the body~\cite{scheeres2012a}.
+A typical remedy is to derive two different expansions, the first:
+\begin{align}
+    U = \frac{1}{V} \int_{\mathcal{B}} \parenth{ \frac{\rho}{r}}^i P_{i0} \parenth{ \frac{\vb{r} \cdot \vb{\rho}}{ r \rho}} dV, 
+\end{align}
+is only valid when \( \norm{\rho} < r \) and is not defined at \( \norm{\vb{\rho}} = r\).
+A second expansion can be derived for the case \(\norm{\vb{\rho}} > r \) as
+\begin{align}
+    U = \frac{1}{V} \int_{\mathcal{B}} \parenth{ \frac{r}{\rho}}^i P_{i0} \parenth{ \frac{\vb{r} \cdot \vb{\rho}}{ r \rho}} dV. 
+\end{align}
+If a finite density is assumed, then the gravitational field will vanish at \( \norm{\vb{\rho}} = r \).
+
+% TODO Add picture of biroullion sphere
+% TODO Add glossary entry for biroullion sphere
 It's possible to convert from polyhedron model to the spherical harmonic coefficients
 \begin{itemize}
     \item Draw picture of two point masses
