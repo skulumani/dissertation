@@ -394,18 +394,28 @@ A second expansion can be derived for the case \(\norm{\vb{\rho}} > r \) as
     U = \frac{1}{V} \int_{\mathcal{B}} \parenth{ \frac{r}{\rho}}^i P_{i0} \parenth{ \frac{\vb{r} \cdot \vb{\rho}}{ r \rho}} dV. 
 \end{align}
 If a finite density is assumed, then the gravitational field will vanish at \( \norm{\vb{\rho}} = r \).
+As a result of this discontinuity, the expansion coefficients become a function of the radius of the body and must be recomputed as the body changes.
+These limitations mean that in practice the spherical harmonic expansion model cannot be used for the gravity model when operating around an irregular body.
+The divergence of the expansion causes the gravitational field to become meaningless when close to the surface and make the use of the spherical harmonic model worthless for dynamic computations.
 
 % TODO Add picture of biroullion sphere
 % TODO Add glossary entry for biroullion sphere
-It's possible to convert from polyhedron model to the spherical harmonic coefficients
-\begin{itemize}
-    \item Draw picture of two point masses
-    \item Drawbacks of the spherical harmonic potential model:
-    \item Discuss conservative force and force from potential function gradient
-    \item Discuss the main approaches of the polyhedron model and spherical potential model
-    \item Talk about the main approaches - mascon, spherical harmonic, and polyhedron potential
-\end{itemize}
+% TODO Show picture of point masses and newton's law and add near the equation
+% TODO Add picture of MASCON model (many point masses)
 
+An alternative approach is based on using a specified shape of the body to determine a closed form solution to the gravitational potential.
+Each of these methods are based on a known shape of the body and a strong assumption on the density variation, frequently assuming a homegenous body with constant density.
+The simplest solution is based on a spherical body with a radially-varying density distribution.
+This type of model is best applicable for centrobaric bodies, such as the Earth and many planetary bodies.
+% TODO Write down the spherical potential for a radially varying distribution from AAE532
+The solutions for the constant density ellipsoid and constant density polyhedron are more useful for operations near small irregular bodies.
+These methods provide exact, closed-form solutions which are valid up to the surface of the body and have been used in the majority of research near the surface of small bodies.
+Here we present the ellipsoid and polyhedron potential models.
+
+\subsection{Constant Density Ellipsoid}\label{sec:constant_density_ellipsoid}
+
+% TODO Write equations for constant density elliipsoid
+% TODO Cite some works with use this model
 \subsection{Polyhedron Potential Model}\label{sec:polyhedron_potential}
 
 % most use a spherical harmonic model or a ellipsoid model but we use a polyhedron model
