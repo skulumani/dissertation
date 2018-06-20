@@ -410,12 +410,37 @@ This type of model is best applicable for centrobaric bodies, such as the Earth 
 % TODO Write down the spherical potential for a radially varying distribution from AAE532
 The solutions for the constant density ellipsoid and constant density polyhedron are more useful for operations near small irregular bodies.
 These methods provide exact, closed-form solutions which are valid up to the surface of the body and have been used in the majority of research near the surface of small bodies.
-Here we present the ellipsoid and polyhedron potential models.
+Here we present the ellipsoid and polyhedron potential models which are commonly used heavily used in research around small bodies.
 
 \subsection{Constant Density Ellipsoid}\label{sec:constant_density_ellipsoid}
 
-% TODO Write equations for constant density elliipsoid
-% TODO Cite some works with use this model
+% TODO Need to add citations for these statements
+The ellipsoid gravitational model assumes that the small body is accurately represented by a constant density ellipsoid.
+This strong assumption is appropriate for many bodies as they are relatively close to ellipsoidal in shape.
+Furthermore, many asteroids are also well represented with a constant density. 
+In addition, based on ground measurements alone it is frequently not possible to arrive at a more accurate shape beyond that of a triaxial ellipsoid.
+The triaxial ellipsoid has semi-major axes \( \gamma \leq \beta \leq \alpha\) and the surface of the body is defined by the implicit equation
+\begin{align}
+    \parenth{\frac{x}{\alpha}}^2 + \parenth{\frac{y}{\beta}}^2 + \parenth{\frac{z}{\gamma}}^2 \leq 1 . 
+\end{align}
+% TODO Draw a picture of ellipsoid with teh axes labeled
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{example-image-golden}
+    \caption[Triaxial Ellipsoid]{Constant Density Tri-Axial Ellipsoid Model~\label{fig:triaxial_ellipsoid}}
+\end{figure}
+Using this model, the gravitational potential outside the body is given by
+\begin{subequations}
+\begin{align}
+    U (\vb{r}) &= - \frac{3 \mu}{4} \int_{\lambda{\vb{r}}}^{\infty} \frac{\phi ( \vb{r},  u) }{ \delta(u)} du, \\
+    \phi(\vb{r}, u) &= \frac{x^2}{\alpha^2 + u} + \frac{y^2}{\beta^2 + u} + \frac{z^2}{\gamma^2 + u} - 1 , \\
+    \delta(u) &= \sqrt{\parenth{\alpha^2 + u} \parenth{\beta^2 + u} \parenth{\gamma^2 + u}},
+\end{align}
+where \( \lambda(\vb{r}) \) is defined by \( \phi(\vb{r}, \lambda) = 0 \).
+The position vector should be transformed into the principle axis frame, such that the \( \hat{\vb{x}} \) axis is aligned along the long axis \( \alpha \), \( \hat{\vb{y}} \) is aligned with the intermediate axis \( \beta \), and \( \hat{\vb{z}} \) is aligned along the short axis \( \gamma \).
+Applying Leibniz's rule allows one to compute the Jacobian and Hessian of \( U \)~\cite{scheeres2012a}.
+\end{subequations}  
+
 \subsection{Polyhedron Potential Model}\label{sec:polyhedron_potential}
 
 % most use a spherical harmonic model or a ellipsoid model but we use a polyhedron model
