@@ -189,7 +189,7 @@ For example, a torus, or a donute shape, is also considered a polyhedron.
 The key difference between a hole and a cavity is that there are no disconnected surfaces and as a result a polyhedron can have any number of such holes. 
 In practice, we tend to limit our analysis to polyhedron with no holes, or with a genus of zero.
 
-\subsection{Polyhedron Data Structure}
+\subsection{Polyhedron Data Structures}\label{sec:polyhedron_data_structures}
 While the shape of the asteroid will be represented mathematically as a polyhedron, we are still left with the issue of representing this shape in digital form. 
 The eventual computational efficiency and memory consumption of the subesequent sections is heavily dependent on the underlying data structure used to represent the surface.
 In this section, we review some of the basic requirements and features of any data structure.
@@ -454,13 +454,16 @@ Due to these reasons, we instead model the gravitational potential using the pol
 \subsection{Polyhedron Potential Model}\label{sec:polyhedron_potential}
 
 % TODO Intro to the potnetial model. Cite some papers. Discuss the benefits
-
-% most use a spherical harmonic model or a ellipsoid model but we use a polyhedron model
-An accurate gravitational potential model is necessary for the operation of spacecraft about asteroids.
-Additionally, a detailed shape model of the asteroid is needed for trajectories passing close to the body.
-The classic approach is to expand the gravitational potential into a harmonic series and compute the series coefficients.
-However, the harmonic expansion is always an approximation as a result of the infinite order series used in the representation.
-Additionally, the harmonic model used outside of the circumscribing sphere is not guaranteed to converge inside the sphere, which makes it unsuitable for trajectories near the surface.
+Robert Werner developed the polyhedron potential model in a series of papers in the mid-1990s~\cite{werner1994,werner1996,werner1997}.
+The method provides a closed form solution for the gravitational potential about any arbitrary constant density polyhedron.
+While the solution is closed form, the implementation requires efficient software to compute the potential as it is dependent on a summation over all faces and edges of the polyhedron.
+There is no requirement on the polyhedron shape and it can incorporate craters, ridges, or even holes through the small body.
+Furthermore, the accuracy of the model is solely dependent on the fidelity of the shape in representing the true body and the constant density assumption.
+For bodies with varying density, it is possible to augument the polyhedron potential model to account for the density variations~\cite{scheeres2000a}.
+This approach alleviates the divergence issue of the spherical harmonic model and is applicable for all points on or above the surface and is ideal for general operations around small bodies.
+The polyhedron potential model has become the defacto standard for small body missions and has been used operationally.
+In this section we summarize the polyhedron potential model based on the derivations of Werner.
+We additionally present some of the implementation details in our model and the adaptions for use with the \texttt{Surface_mesh} data structure presented  in~\cref{sec:polyhedron_data_structures}.
 
 We represent the gravitational potential of the asteroid using a polyhedron gravitation model.
 This model is composed of a polyhedron, which is a three-dimensional solid body, that is defined by a series of vectors in the body-fixed frame.
