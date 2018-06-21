@@ -64,6 +64,35 @@
     description={The Planetary Data System (PDS) archives and distributes scientific data from NASA planetary missions, astronomical observations, and laboratory measurements.}
 }
 
+\longnewglossaryentry{stlg}{
+    name={STL}
+}
+{%
+Stereolithography (STL) is a file format native to 3D CAD software.
+It is also sometimes referred to as Standard Triangle Language or Standard Tesselation Language, and not to be confused with the Standard Template Library.
+The file format is commonly used to describe the shape of objects for fabrication and 3D printing.
+Many software libraries exist to produce and convert STL files~\cite{botsch2002,cignoni2008,blenderfoundation1995--2017,libigl2017}.
+}
+
+\longnewglossaryentry{objg}{
+    name={OBJ}
+}
+{
+    OBJ is a file format originally developed by Wavefront technologies.
+    The format is now open and has been adopted by many 3D graphics programs.
+    The OBJ file format is a simple ASCII text file which represents the object geometry alone.
+}
+
+\longnewglossaryentry{offg}{
+    name={OFF}
+    see={objg}
+}
+{%
+Object file format describing the geometry of a 3D object.
+It is a ASCII text file which lists the coordinates of the vertices followed by the indices, zero based, of vertices which compose each face.
+The file format is very similar to that of the \gls{obj} format.
+}
+
 \longnewglossaryentry{raycasting}{
     name={raycasting},
     see={raytracing}
