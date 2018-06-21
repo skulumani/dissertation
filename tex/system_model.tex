@@ -189,7 +189,7 @@ For example, a torus, or a donute shape, is also considered a polyhedron.
 The key difference between a hole and a cavity is that there are no disconnected surfaces and as a result a polyhedron can have any number of such holes. 
 In practice, we tend to limit our analysis to polyhedron with no holes, or with a genus of zero.
 
-\subsection{Polyhedron Data Structure}
+\subsection{Polyhedron Data Structures}\label{sec:polyhedron_data_structures}
 While the shape of the asteroid will be represented mathematically as a polyhedron, we are still left with the issue of representing this shape in digital form. 
 The eventual computational efficiency and memory consumption of the subesequent sections is heavily dependent on the underlying data structure used to represent the surface.
 In this section, we review some of the basic requirements and features of any data structure.
@@ -247,6 +247,7 @@ In addition, each halfedge will also store a reference to:
 In addition, each face stores the reference to one of its halfedges, while each vertex stores an outgoing halfedge. 
 The halfedge data structure will require more memory in contrast to face based approaches it offers several advantages which make it ideal for computational geometry operations.
 
+\subsubsection{Halfedge Data Structure}\label{sec:halfedge_data_structure}
 A halfedge data structure allows us to iterate through all elements, vertices, edge, halfedge, or face, in a simple manner.
 In addition, the halfge edge data structure can store arbitrary polygon meshes.
 Furthermore, additional data can be attached to the elements as each is store explicitly.
@@ -266,6 +267,7 @@ Furthermore, the ability to incorporate additional properties enables us to effi
     \includegraphics[width=\textwidth]{example-image-golden}
     \caption{Iterating over 1 ring of a vertex}
 \end{figure}
+% TODO Describe the halfedge data structure and Surface_mesh in more detail
 
 \subsubsection{Wavefront OBJ files}
 The OBJ format is a geometry definition file format used for a variety of computer modeling applications, and is regularly used by the asteroid community~\cite{neese2004}.
@@ -323,20 +325,19 @@ where \( G \) is the universal gravitational constant, \( \vb{r} \) is the relat
 
 This gravitational model is defined if point masses or bodies which can be modeled as point masses, such as spherically symmetric planets.
 However, it is not possible to model an irregular asteroid, or an orbiting spacecraft, as point masses.
-Instead, one must treat both bodies as extended objects and compute the gravitational force from the potential function as an integral over the entire body
+Instead, one must treat both bodies as extended objects and compute the gravitational force from the potential function as an integral over the entire body, \( \mathcal{B}\),
 \begin{align}\label{eq:volume_integral_potential}
-    \vb{F}_g = \nabla U = G \int_V \frac{1}{r} dm,
+\vb{F}_g ( \vb{r}) = \nabla U = G \int_{\mathcal{B}} \frac{1}{\norm{\vb{r} - \vb{\rho} }} dm (\vb{\rho}),
 \end{align}
-where \( r = \norm{\vb{r}} \) and \( \nabla U \) is defined as the gradient of \( U \) with respect to the standard cartesian basis vectors
+where \( \vb{r} \) is the position of the field point, \( \vb{\rho} \) is the position of the differential mass element of the body and \( \nabla U \) is defined as the gradient of \( U \) with respect to the standard cartesian basis vectors
 \begin{align*}
     \nabla = \deriv{}{x} \hat{\vb{i}} + \deriv{}{y} \hat{\vb{j}} + \deriv{}{z} \hat{\vb{k}}.
 \end{align*}
-There are large variety of methods to evaluate the volume integral in~\cref{eq:volume_integral_potential}.
 
 The first approach, sometimes termed the \textit{mass-concentration}, or \textit{mascon} method, approximates the integral using an infinite sum of point masses \( m_i\) located at \( \vb{r}_i \).
 The potential on our object of interest then becomes the summation of the potential caused by each mass \( m_i \) as shown in~\cref{eq:mass_con_potential}.
 \begin{align}\label{eq:mass_con_potential}
-    U = G \sum_{i=0}^{\infty} \frac{m_i}{\norm{\vb{r} - \vb{r}_i}}
+    U = G \sum_{i=0}^{\infty} \frac{m_i}{\norm{\vb{r} - \vb{\rho}_i}}
 \end{align}
 The method distributes a colleciton of point masses uniformly throughout the body such that the total mass is equal to the body.
 While conceptually simple, and relatively straight forward to numerically implement, the mascon approach has several drawbacks~\cite{scheeres2012a}.
@@ -355,7 +356,7 @@ and Poisson's equation inside of the body
 \end{align}
 where \( \sigma \) is the local density of the body.
 Laplace's equation can be solved using a seperation of variables in terms of spherical coordinates~\cite{scheeres2012a}.
-The transformation between cartesian, \( \vb{r} = x \hat{\vb{x}} + \hat{\vb{y}} + \hat{\vb{z}}\),  and spherical coordinates, is given by
+The transformation between cartesian, \( \vb{r} = x \hat{\vb{x}} + y \hat{\vb{y}} + z \hat{\vb{z}}\),  and spherical coordinates, is given by
 \begin{subequations}
     \begin{align*}
         r &= \sqrt{x^2 + y^2 + z^2}, \\
@@ -382,49 +383,114 @@ Defining the spherical harmonic coefficients, namely \( C_{lm}, S_{lm}\), is equ
 The spherical harmonic coefficients have been determined for many planetary bodies, such as the Earth, to a very high fidelity~\cite{vallado2007,pavlis2012}.
 
 % TODO Continue with the drawbacks of spherical harmonic
-It's possible to convert from polyhedron model to the spherical harmonic coefficients
-\begin{itemize}
-    \item Draw picture of two point masses
-    \item Drawbacks of the spherical harmonic potential model:
-    \item Discuss conservative force and force from potential function gradient
-    \item Discuss the main approaches of the polyhedron model and spherical potential model
-    \item Talk about the main approaches - mascon, spherical harmonic, and polyhedron potential
-\end{itemize}
+The spherical harmonic gravity model is not applicable in all situations.
+A implicit assumption of the spherical harmonic expansion are that the series converge to the true gravitational field.
+It can be shown that the expansion will diverge when applied to a point within the maximum circumscribing sphere of the body~\cite{scheeres2012a}.
+A typical remedy is to derive two different expansions, the first:
+\begin{align}
+    U = \frac{1}{V} \int_{\mathcal{B}} \parenth{ \frac{\rho}{r}}^i P_{i0} \parenth{ \frac{\vb{r} \cdot \vb{\rho}}{ r \rho}} dV, 
+\end{align}
+is only valid when \( \norm{\rho} < r \) and is not defined at \( \norm{\vb{\rho}} = r\).
+A second expansion can be derived for the case \(\norm{\vb{\rho}} > r \) as
+\begin{align}
+    U = \frac{1}{V} \int_{\mathcal{B}} \parenth{ \frac{r}{\rho}}^i P_{i0} \parenth{ \frac{\vb{r} \cdot \vb{\rho}}{ r \rho}} dV. 
+\end{align}
+If a finite density is assumed, then the gravitational field will vanish at \( \norm{\vb{\rho}} = r \).
+As a result of this discontinuity, the expansion coefficients become a function of the radius of the body and must be recomputed as the body changes.
+These limitations mean that in practice the spherical harmonic expansion model cannot be used for the gravity model when operating around an irregular body.
+The divergence of the expansion causes the gravitational field to become meaningless when close to the surface and make the use of the spherical harmonic model worthless for dynamic computations.
+
+% TODO Add picture of biroullion sphere
+% TODO Add glossary entry for biroullion sphere
+% TODO Show picture of point masses and newton's law and add near the equation
+% TODO Add picture of MASCON model (many point masses)
+
+An alternative approach is based on using a specified shape of the body to determine a closed form solution to the gravitational potential.
+Each of these methods are based on a known shape of the body and a strong assumption on the density variation, frequently assuming a homegenous body with constant density.
+The simplest solution is based on a spherical body with a radially-varying density distribution.
+This type of model is best applicable for centrobaric bodies, such as the Earth and many planetary bodies.
+% TODO Write down the spherical potential for a radially varying distribution from AAE532
+The solutions for the constant density ellipsoid and constant density polyhedron are more useful for operations near small irregular bodies.
+These methods provide exact, closed-form solutions which are valid up to the surface of the body and have been used in the majority of research near the surface of small bodies.
+Here we present the ellipsoid and polyhedron potential models which are commonly used heavily used in research around small bodies.
+
+\subsection{Constant Density Ellipsoid}\label{sec:constant_density_ellipsoid}
+
+% TODO Need to add citations for these statements
+The ellipsoid gravitational model assumes that the small body is accurately represented by a constant density ellipsoid.
+This strong assumption is appropriate for many bodies as they are relatively close to ellipsoidal in shape.
+Furthermore, many asteroids are also well represented with a constant density. 
+In addition, based on ground measurements alone it is frequently not possible to arrive at a more accurate shape beyond that of a triaxial ellipsoid.
+The triaxial ellipsoid has semi-major axes \( \gamma \leq \beta \leq \alpha\) and the surface of the body is defined by the implicit equation
+\begin{align}
+    \parenth{\frac{x}{\alpha}}^2 + \parenth{\frac{y}{\beta}}^2 + \parenth{\frac{z}{\gamma}}^2 \leq 1 . 
+\end{align}
+% TODO Draw a picture of ellipsoid with teh axes labeled
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{example-image-golden}
+    \caption[Triaxial Ellipsoid]{Constant Density Tri-Axial Ellipsoid Model~\label{fig:triaxial_ellipsoid}}
+\end{figure}
+Using this model, the gravitational potential outside the body is given by
+\begin{subequations}
+\begin{align}
+    U (\vb{r}) &= - \frac{3 \mu}{4} \int_{\lambda{\vb{r}}}^{\infty} \frac{\phi ( \vb{r},  u) }{ \Delta(u)} du, \\
+    \phi(\vb{r}, u) &= \frac{x^2}{\alpha^2 + u} + \frac{y^2}{\beta^2 + u} + \frac{z^2}{\gamma^2 + u} - 1 , \\
+    \Delta(u) &= \sqrt{\parenth{\alpha^2 + u} \parenth{\beta^2 + u} \parenth{\gamma^2 + u}},
+\end{align}
+where \( \lambda(\vb{r}) \) is defined by \( \phi(\vb{r}, \lambda) = 0 \).
+The position vector should be transformed into the principle axis frame, such that the \( \hat{\vb{x}} \) axis is aligned along the long axis \( \alpha \), \( \hat{\vb{y}} \) is aligned with the intermediate axis \( \beta \), and \( \hat{\vb{z}} \) is aligned along the short axis \( \gamma \).
+A straightforward application of Leibniz's rule allows one to compute the Jacobian and Hessian of \( U \)~\cite{scheeres2012a}.
+\end{subequations}  
+
+The constant density ellipsoid model provides a closed form solution for the gravitational potential but suffers from a number of disadvantages.
+It is based on a specific body shape, namely the triaxial ellipsoid, and is not applicable for bodies that have a different shape.
+Approximating the shape of many small bodies as triaxial ellipsoids is appropriate for many first order dynamical simulations and analysis.
+Insight into the dynamic environment~\cite{guelman2014}, periodic orbits~\cite{hu2002}, equilibrium points~\cite{scheeres1994}, or surface dynamics~\cite{furfaro2013} are all greatly simplified with use of the ellipsoid shape approximation.
+However, once additional data is received, such as improved ground imaging or in-situ measurements from a spacecraft, the shape model of the small body will become more accurate and cause it to diverge from the ellipsoid assumption.
+At this point, the dynamic model is no longer valid and must be modified for use with the updated shape data.
+In the case of an operational mission, this may require extensive redevelopment of core flight software and the associated testing to ensure it is functioning properly. 
+Furthermore, the model is defined in terms of continuous integrals which must be numerically evaluated using methods of Carlson's elliptic integrals.
+Due to these reasons, we instead model the gravitational potential using the polyhedron potential model which alleviates many of these issues.
 
 \subsection{Polyhedron Potential Model}\label{sec:polyhedron_potential}
 
-% most use a spherical harmonic model or a ellipsoid model but we use a polyhedron model
-An accurate gravitational potential model is necessary for the operation of spacecraft about asteroids.
-Additionally, a detailed shape model of the asteroid is needed for trajectories passing close to the body.
-The classic approach is to expand the gravitational potential into a harmonic series and compute the series coefficients.
-However, the harmonic expansion is always an approximation as a result of the infinite order series used in the representation.
-Additionally, the harmonic model used outside of the circumscribing sphere is not guaranteed to converge inside the sphere, which makes it unsuitable for trajectories near the surface.
+% TODO Intro to the potnetial model. Cite some papers. Discuss the benefits
+Robert Werner developed the polyhedron potential model in a series of papers in the mid-1990s~\cite{werner1994,werner1996,werner1997}.
+The method provides a closed form solution for the gravitational potential about any arbitrary constant density polyhedron.
+While the solution is closed form, the implementation requires efficient software to compute the potential as it is dependent on a summation over all faces and edges of the polyhedron.
+There is no requirement on the polyhedron shape and it can incorporate craters, ridges, or even holes through the small body.
+Furthermore, the accuracy of the model is solely dependent on the fidelity of the shape in representing the true body and the constant density assumption.
+For bodies with varying density, it is possible to augument the polyhedron potential model to account for the density variations~\cite{scheeres2000a}.
+This approach alleviates the divergence issue of the spherical harmonic model and is applicable for all points on or above the surface and is ideal for general operations around small bodies.
+The polyhedron potential model has become the defacto standard for small body missions and has been used operationally.
+In this section we summarize the polyhedron potential model based on the derivations of Werner.
+We additionally present some of the implementation details in our model and the adaptions for use with the \texttt{Surface\_mesh} data structure presented  in~\cref{sec:polyhedron_data_structures}.
 
-We represent the gravitational potential of the asteroid using a polyhedron gravitation model.
-This model is composed of a polyhedron, which is a three-dimensional solid body, that is defined by a series of vectors in the body-fixed frame.
-The vectors define vertices in the body-fixed frame as well as planar faces which compose the surface of the asteroid.
-We assume that each face is a triangle composed of three vertices and three edges.
+% TODO Add a link to the section that talks about polyhedrons
+This model is composed of a polyhedron, which is a three-dimensional solid body, that is defined by a series of vectors in the asteroid fixed frame.
+The vectors define vertices in the asteroid fixed frame and combinations of these vertices then define planar faces which compose the surface of the asteroid.
+Additionally, we assume that each face is a triangle composed of three vertices and three edges.
 As a result, only two faces meet at each edge while three faces meet at each vertex.
 Only the body-fixed vectors, and their associated topology, is required to define the exterior gravitational model.
-References~\cite{werner1994} and~\cite{werner1996} give a detailed derivation of the polyhedron model.
-Here, we summarize the key developments and equations required for implementation.
 
+% TODO Need a picture of the edges/faces/halfedges
 Consider three vectors \( \vecbf{v}_1, \vecbf{v}_2, \vecbf{v}_3 \in \R^{3 \times 1} \), assumed to be ordered in a counterclockwise direction about an outward facing normal vector, which define a face.
-It is easy to define the three edges of each face as
+It is easy to define the three halfedges of each face as
 \begin{align}\label{eq:edges}
-    \vecbf{e}_{i+1,i} = \vecbf{v}_{i+1} - \vecbf{v}_i \in \R^{3 \times 1 },
+    \vecbf{h}_{i} = \vecbf{v}_{i+1} - \vecbf{v}_i \in \R^{3 \times 1 },
 \end{align}
-where the index \( i \in \parenth{1,2,3} \) is used to permute all edges of each face.
-Since each edge is a member of two faces, there exist two edges which are defined in opposite directions between the same vertices.
-We can also define the outward normal vector to face \( f\)  as
+where the index \( i \in \parenth{1,2,3} \) is used to permute all vertices of each face.
+Each halfedge has an opposing or inverse which is a member of the adjacent face and orientated in the opposite direction.
+We can also define the outward normal vector to each face \( f \) as
 \begin{align}\label{eq:face_normal}
-    \hat{\vecbf{n}}_f &= \parenth{\vecbf{v}_{2} - \vecbf{v}_1} \times \parenth{\vecbf{v}_{3} - \vecbf{v}_2} \in \R^{3 \times 1},
+    \hat{\vecbf{n}}_f &= \parenth{\vb{h}_2} \times \parenth{\vb{h}_1} \in \R^{3 \times 1},
 \end{align}
-and the outward facing normal vector to each edge as
+and the outward facing normal vector to each halfedge as
 \begin{align}\label{eq:edge_normal}
-    \hat{\vecbf{n}}_{i+1,i}^f &= \parenth{\vecbf{v}_{i+1} - \vecbf{v}_i} \times \hat{\vecbf{n}}_f \in \R^{3 \times 1}.
+    \hat{\vecbf{n}}_{i}^f &= - \parenth{\vb{h}_i} \times \hat{\vecbf{n}}_f \in \R^{3 \times 1}.
 \end{align}
-For each face we define the face dyad \( \vecbf{F}_f \) as
+For each face, we define the face dyad \( \vecbf{F}_f \) as
 \begin{align}\label{eq:face_dyad}
     \vecbf{F}_f &= \hat{\vecbf{n}}_f \hat{\vecbf{n}}_f \in \R^{3 \times 3}.
 \end{align}
@@ -445,12 +511,12 @@ For the face defined by the vertices \( \vecbf{v}_i, \vecbf{v}_j, \vecbf{v}_k \)
 \begin{align}\label{eq:face_factor}
     \omega_f &= 2 \arctan \frac{\vecbf{r}_i \cdot \vecbf{r}_j \times \vecbf{r}_k}{r_i r_j r_k + r_i \parenth{\vecbf{r}_j \cdot \vecbf{r}_k} + r_j \parenth{\vecbf{r}_k \cdot \vecbf{r}_i} + r_k \parenth{\vecbf{r}_i \cdot \vecbf{r}_j}}.
 \end{align}
-The gravitational potential due to a constant density polyhedron is given as
+The gravitational potential due to a constant density polyhedron is then given as
 \begin{align}\label{eq:potential}
     U(\vecbf{r}) &= \frac{1}{2} G \sigma \sum_{e \in \text{edges}} \vecbf{r}_e \cdot \vecbf{E}_e \cdot \vecbf{r}_e \cdot L_e - \frac{1}{2}G \sigma \sum_{f \in \text{faces}} \vecbf{r}_f \cdot \vecbf{F}_f \cdot \vecbf{r}_f \cdot \omega_f \in \R^1,
 \end{align}
 where \( \vecbf{r}_e\) and \(\vecbf{r}_f \) are the vectors from the spacecraft to any point on the respective edge or face, \( G\) is the universal gravitational constant, and \( \sigma \) is the constant density of the asteroid.
-Furthermore we can use these definitions to define the attraction, gravity gradient matrix, and Laplacian as
+Furthermore, we can use these definitions to define the attraction, gravity gradient matrix, and Laplacian as
 \begin{align}
     \nabla U ( \vecbf{r} ) &= -G \sigma \sum_{e \in \text{edges}} \vecbf{E}_e \cdot \vecbf{r}_e \cdot L_e + G \sigma \sum_{f \in \text{faces}} \vecbf{F}_f \cdot \vecbf{r}_f \cdot \omega_f \in \R^{3 \times 1} , \label{eq:attraction}\\
     \nabla \nabla U ( \vecbf{r} ) &= G \sigma \sum_{e \in \text{edges}} \vecbf{E}_e  \cdot L_e - G \sigma \sum_{f \in \text{faces}} \vecbf{F}_f \cdot \omega_f \in \R^{3 \times 3}, \label{eq:gradient_matrix}\\
@@ -460,7 +526,18 @@ Furthermore we can use these definitions to define the attraction, gravity gradi
 One interesting thing to note is that both~\cref{eq:face_dyad,eq:edge_dyad} can be precomputed without knowledge of the position of the satellite.
 They are both solely functions of the vertices and edges of the polyhedral shape model and are computed once and stored.
 Once a position vector \( \vecbf{r} \) is defined, the scalars given in~\cref{eq:edge_factor,eq:face_factor} can be computed for each face and edge.
-Finally,~\cref{eq:potential} is used to compute the gravitational potential on the spacecraft.
+Finally,~\cref{eq:potential} is used to compute the gravitational potential at any point \( \vb{r} \) in the asteroid fixed frame.
 The Laplacian, defined in~\cref{eq:laplacian}, gives a simple method to determine if the spacecraft has collided with the body~\cite{werner1996}. 
+For all points outside the body~\cref{eq:laplacian} is equal to zero and becomes \( 4 \pi \) when inside the body.
 
+The polyhedron potential model is defined as a summation over the faces and edges as shown in~\cref{eq:potential,eq:attraction,eq:gradient_matrix}.
+Some terms, such as~\cref{eq:edge_factor,eq:face_factor}, are computed based on data within each face or edge, respectively.
+While other terms, such as~\cref{eq:face_dyad,eq:edge_dyad}, require the topology of the polyhedron as they are dependent on the specific neighboring face or edge.
+As a result, an efficient procedure is required to determine, store, and update the connectivity of the polyhedron. 
+The standard method to describe the small body shape is in the OBJ format~\cite{neese2004}, which only defines the vertices and faces as described in~\cref{sec:polyhedron_data_structures}.
+Therefore, the additional connectivity information, such as the adjacent faces, opposite halfedges, or unique edges, must be stored in an additional data structure which is accurately traversed.
+For these reasons, the polyhedron potential model is implemented using a halfedge data structure, as implemented in the \texttt{Surface\_mesh} class of CGAL and described in~\cref{sec:halfedge_data_structure}.
+
+
+ 
 
