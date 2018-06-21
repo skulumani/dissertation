@@ -1,4 +1,17 @@
 % !TEX root = ../dissertation.tex
 
 \chapter{Low Thrust Orbital Transfers using Reachability Sets}\label{sec:lowthrust_transfers}
+In this chapter, we propose a systematic design method which enables low-thrust transfers in the planar circular restricted three-body problem as well as an extension for use about asteroids.
+We utilize the concept of the reachability set to enable a simple methodology of selecting initial conditions to achieve general orbital transfers. 
+The reachable set, defined as the set of all attainable states subject to the system constraints, allows for the extension of the previous control-free methods based on invariant manifolds.
+Defining the reachable set on a \Poincare section reduces the dimensionality of the system dynamics to the study of a related discrete update map.
+Through the use of low-thrust control input, the reachable set on the \Poincare section is enlarged and enables a larger space of potential transfers.
+By iteratively computing the reachable set, and minimizing the distance to the target on the \Poincare section, we generate general transfer trajectories.
+With this proposed method, the previous research on control-free trajectories will be generalized with the addition of low thrust propulsion systems.
+
+The method is formulated as an extension to the control free method based on invariant manifolds in the three-body problem~\cite{koon2011}.
+Much of the previous work using invariant manifolds has been applied to the planar circular restricted three body problem.
+This paper provides a discrete optimal control formulation to generate the reachability set on a \Poincare section.
+
+\section{Planar Circular Restricted Three Body Problem}
 
