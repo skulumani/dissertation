@@ -463,27 +463,25 @@ For bodies with varying density, it is possible to augument the polyhedron poten
 This approach alleviates the divergence issue of the spherical harmonic model and is applicable for all points on or above the surface and is ideal for general operations around small bodies.
 The polyhedron potential model has become the defacto standard for small body missions and has been used operationally.
 In this section we summarize the polyhedron potential model based on the derivations of Werner.
-We additionally present some of the implementation details in our model and the adaptions for use with the \texttt{Surface_mesh} data structure presented  in~\cref{sec:polyhedron_data_structures}.
+We additionally present some of the implementation details in our model and the adaptions for use with the \texttt{Surface\_mesh} data structure presented  in~\cref{sec:polyhedron_data_structures}.
 
-We represent the gravitational potential of the asteroid using a polyhedron gravitation model.
-This model is composed of a polyhedron, which is a three-dimensional solid body, that is defined by a series of vectors in the body-fixed frame.
-The vectors define vertices in the body-fixed frame as well as planar faces which compose the surface of the asteroid.
-We assume that each face is a triangle composed of three vertices and three edges.
+% TODO Add a link to the section that talks about polyhedrons
+This model is composed of a polyhedron, which is a three-dimensional solid body, that is defined by a series of vectors in the asteroid fixed frame.
+The vectors define vertices in the asteroid fixed frame and combinations of these vertices then define planar faces which compose the surface of the asteroid.
+Additionally, we assume that each face is a triangle composed of three vertices and three edges.
 As a result, only two faces meet at each edge while three faces meet at each vertex.
 Only the body-fixed vectors, and their associated topology, is required to define the exterior gravitational model.
-References~\cite{werner1994} and~\cite{werner1996} give a detailed derivation of the polyhedron model.
-Here, we summarize the key developments and equations required for implementation.
 
 Consider three vectors \( \vecbf{v}_1, \vecbf{v}_2, \vecbf{v}_3 \in \R^{3 \times 1} \), assumed to be ordered in a counterclockwise direction about an outward facing normal vector, which define a face.
-It is easy to define the three edges of each face as
+It is easy to define the three halfedges of each face as
 \begin{align}\label{eq:edges}
-    \vecbf{e}_{i+1,i} = \vecbf{v}_{i+1} - \vecbf{v}_i \in \R^{3 \times 1 },
+    \vecbf{h}_{i} = \vecbf{v}_{i+1} - \vecbf{v}_i \in \R^{3 \times 1 },
 \end{align}
-where the index \( i \in \parenth{1,2,3} \) is used to permute all edges of each face.
-Since each edge is a member of two faces, there exist two edges which are defined in opposite directions between the same vertices.
-We can also define the outward normal vector to face \( f\)  as
+where the index \( i \in \parenth{1,2,3} \) is used to permute all vertices of each face.
+Each halfedge has an opposing or inverse which is a member of the adjacent face.
+We can also define the outward normal vector to face \( f \)  as
 \begin{align}\label{eq:face_normal}
-    \hat{\vecbf{n}}_f &= \parenth{\vecbf{v}_{2} - \vecbf{v}_1} \times \parenth{\vecbf{v}_{3} - \vecbf{v}_2} \in \R^{3 \times 1},
+    \hat{\vecbf{n}}_f &= \parenth{\vb{h}_2} \times \parenth{\vb{h}_1} \in \R^{3 \times 1},
 \end{align}
 and the outward facing normal vector to each edge as
 \begin{align}\label{eq:edge_normal}
