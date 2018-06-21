@@ -472,22 +472,23 @@ Additionally, we assume that each face is a triangle composed of three vertices 
 As a result, only two faces meet at each edge while three faces meet at each vertex.
 Only the body-fixed vectors, and their associated topology, is required to define the exterior gravitational model.
 
+% TODO Need a picture of the edges/faces/halfedges
 Consider three vectors \( \vecbf{v}_1, \vecbf{v}_2, \vecbf{v}_3 \in \R^{3 \times 1} \), assumed to be ordered in a counterclockwise direction about an outward facing normal vector, which define a face.
 It is easy to define the three halfedges of each face as
 \begin{align}\label{eq:edges}
     \vecbf{h}_{i} = \vecbf{v}_{i+1} - \vecbf{v}_i \in \R^{3 \times 1 },
 \end{align}
 where the index \( i \in \parenth{1,2,3} \) is used to permute all vertices of each face.
-Each halfedge has an opposing or inverse which is a member of the adjacent face.
-We can also define the outward normal vector to face \( f \)  as
+Each halfedge has an opposing or inverse which is a member of the adjacent face and orientated in the opposite direction.
+We can also define the outward normal vector to each face \( f \) as
 \begin{align}\label{eq:face_normal}
     \hat{\vecbf{n}}_f &= \parenth{\vb{h}_2} \times \parenth{\vb{h}_1} \in \R^{3 \times 1},
 \end{align}
-and the outward facing normal vector to each edge as
+and the outward facing normal vector to each halfedge as
 \begin{align}\label{eq:edge_normal}
-    \hat{\vecbf{n}}_{i+1,i}^f &= \parenth{\vecbf{v}_{i+1} - \vecbf{v}_i} \times \hat{\vecbf{n}}_f \in \R^{3 \times 1}.
+    \hat{\vecbf{n}}_{i}^f &= - \parenth{\vb{h}_i} \times \hat{\vecbf{n}}_f \in \R^{3 \times 1}.
 \end{align}
-For each face we define the face dyad \( \vecbf{F}_f \) as
+For each face, we define the face dyad \( \vecbf{F}_f \) as
 \begin{align}\label{eq:face_dyad}
     \vecbf{F}_f &= \hat{\vecbf{n}}_f \hat{\vecbf{n}}_f \in \R^{3 \times 3}.
 \end{align}
@@ -508,12 +509,12 @@ For the face defined by the vertices \( \vecbf{v}_i, \vecbf{v}_j, \vecbf{v}_k \)
 \begin{align}\label{eq:face_factor}
     \omega_f &= 2 \arctan \frac{\vecbf{r}_i \cdot \vecbf{r}_j \times \vecbf{r}_k}{r_i r_j r_k + r_i \parenth{\vecbf{r}_j \cdot \vecbf{r}_k} + r_j \parenth{\vecbf{r}_k \cdot \vecbf{r}_i} + r_k \parenth{\vecbf{r}_i \cdot \vecbf{r}_j}}.
 \end{align}
-The gravitational potential due to a constant density polyhedron is given as
+The gravitational potential due to a constant density polyhedron is then given as
 \begin{align}\label{eq:potential}
     U(\vecbf{r}) &= \frac{1}{2} G \sigma \sum_{e \in \text{edges}} \vecbf{r}_e \cdot \vecbf{E}_e \cdot \vecbf{r}_e \cdot L_e - \frac{1}{2}G \sigma \sum_{f \in \text{faces}} \vecbf{r}_f \cdot \vecbf{F}_f \cdot \vecbf{r}_f \cdot \omega_f \in \R^1,
 \end{align}
 where \( \vecbf{r}_e\) and \(\vecbf{r}_f \) are the vectors from the spacecraft to any point on the respective edge or face, \( G\) is the universal gravitational constant, and \( \sigma \) is the constant density of the asteroid.
-Furthermore we can use these definitions to define the attraction, gravity gradient matrix, and Laplacian as
+Furthermore, we can use these definitions to define the attraction, gravity gradient matrix, and Laplacian as
 \begin{align}
     \nabla U ( \vecbf{r} ) &= -G \sigma \sum_{e \in \text{edges}} \vecbf{E}_e \cdot \vecbf{r}_e \cdot L_e + G \sigma \sum_{f \in \text{faces}} \vecbf{F}_f \cdot \vecbf{r}_f \cdot \omega_f \in \R^{3 \times 1} , \label{eq:attraction}\\
     \nabla \nabla U ( \vecbf{r} ) &= G \sigma \sum_{e \in \text{edges}} \vecbf{E}_e  \cdot L_e - G \sigma \sum_{f \in \text{faces}} \vecbf{F}_f \cdot \omega_f \in \R^{3 \times 3}, \label{eq:gradient_matrix}\\
@@ -523,7 +524,10 @@ Furthermore we can use these definitions to define the attraction, gravity gradi
 One interesting thing to note is that both~\cref{eq:face_dyad,eq:edge_dyad} can be precomputed without knowledge of the position of the satellite.
 They are both solely functions of the vertices and edges of the polyhedral shape model and are computed once and stored.
 Once a position vector \( \vecbf{r} \) is defined, the scalars given in~\cref{eq:edge_factor,eq:face_factor} can be computed for each face and edge.
-Finally,~\cref{eq:potential} is used to compute the gravitational potential on the spacecraft.
+Finally,~\cref{eq:potential} is used to compute the gravitational potential at any point \( \vb{r} \) in the asteroid fixed frame.
 The Laplacian, defined in~\cref{eq:laplacian}, gives a simple method to determine if the spacecraft has collided with the body~\cite{werner1996}. 
+For all points outside the body~\cref{eq:laplacian} is equal to zero and becomes \( 4 \pi \) when inside the body.
 
+
+ 
 
