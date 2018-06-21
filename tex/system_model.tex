@@ -267,6 +267,7 @@ Furthermore, the ability to incorporate additional properties enables us to effi
     \includegraphics[width=\textwidth]{example-image-golden}
     \caption{Iterating over 1 ring of a vertex}
 \end{figure}
+% TODO Describe the halfedge data structure and Surface_mesh in more detail
 
 \subsubsection{Wavefront OBJ files}
 The OBJ format is a geometry definition file format used for a variety of computer modeling applications, and is regularly used by the asteroid community~\cite{neese2004}.
@@ -535,7 +536,7 @@ While other terms, such as~\cref{eq:face_dyad,eq:edge_dyad}, require the topolog
 As a result, an efficient procedure is required to determine, store, and update the connectivity of the polyhedron. 
 The standard method to describe the small body shape is in the OBJ format~\cite{neese2004}, which only defines the vertices and faces as described in~\cref{sec:polyhedron_data_structures}.
 Therefore, the additional connectivity information, such as the adjacent faces, opposite halfedges, or unique edges, must be stored in an additional data structure which is accurately traversed.
-For these reasons, the polyhedron potential model is implemented using a halfedge data structure, as implemented in the \texttt{Surface\_mesh} class of CGAL.
+For these reasons, the polyhedron potential model is implemented using a halfedge data structure, as implemented in the \texttt{Surface\_mesh} class of CGAL and described in~\cref{sec:halfedge_data_structure}.
 
 
  
