@@ -13,5 +13,50 @@ The method is formulated as an extension to the control free method based on inv
 Much of the previous work using invariant manifolds has been applied to the planar circular restricted three body problem.
 This paper provides a discrete optimal control formulation to generate the reachability set on a \Poincare section.
 
-\section{Planar Circular Restricted Three Body Problem}
+\section{Planar Circular Restricted Three Body Problem}\label{sec:pcrtbp}
+% discuss some of the pros/cons of using PCRTBP model
+We utilize the planar circular restricted three body problem~(PCRTBP) as the basis of our system definition. 
+It is a popular model in the preliminary analysis of multibody spacecraft trajectories. 
+In the context of Earth based mission, the PCRTBP affords a relatively simple dynamic model while still capturing the major third body perturbation of the Moon.
+In addition, this model allows for a systematic process to define and exploit \Poincare sections.
+Furthermore, the 2D solutions afforded by the PCRTBP are frequently used to gain a qualitative understanding of the trade space of transfers in the Earth-Moon system.
+The PCRTBP approach offers insight into the fundamental dynamical structure while capturing the major dynamic properties of the planar motion.
+As a result, this approach is best suited for preliminary trajectories which do not require large plane changes.
+
+The Earth is assumed to be the more massive primary, \( m_1 \), while the Moon is the second, smaller primary \( m_2\).
+The equations of motion are developed in a rotating reference frame which allows for much greater insight into the structure of the dynamics.
+This rotating reference frame is later used when deriving the motion about an asteroid.
+Following convention, the system is also non-dimensionalized by the characteristic units of length, mass, and time~\cite{koon2011}.
+As a result, the system can be characterized by a single mass ratio parameter \( \mu \),
+\begin{equation}
+        \mu = \frac{m_2}{m_1+m_2} \, .
+        \label{eq:mass_param}
+\end{equation}
+In the rotating reference frame the Lagrangian is given by
+\begin{equation}\label{eq:pcrtb_lagrangian}
+    L = \frac{1}{2} \parenth{\parenth{\dot{x} - y}^2 + \parenth{\dot{y} + x}^2} + \frac{1 - \mu}{r_1} + \frac{\mu}{r_2},
+\end{equation}
+where the distances \( r_1, r_2 \in \R \) define the distance from the spacecraft to each primary and are defined as
+\begin{align}
+    r_1 &= \sqrt{\parenth{x + \mu}^2 + y^2} , \\
+    r_2 &= \sqrt{\parenth{x -1 + \mu}^2 + y^2} .
+\end{align}
+Following a straightforward application of the Euler-Lagrange equations, a more detailed derivation is provided in~\cite{szebehely1967}, results in the following equations of motion defined in the rotating reference frame
+\begin{equation}\label{eqn:cont_dyn}
+        \left[\begin{array}{c} \dot{\vecbf{r}} \\ \dot{\vecbf{v}} \end{array} \right] = 
+        \left[ \begin{array}{c} \vecbf{v} \\ A \vecbf{v} + \nabla U + \vecbf{u} \end{array} \right] = f\left( t,\vecbf{x}, \vecbf{u}\right) \, ,
+\end{equation}
+where the matrix \( A \) and pseudo gravitational potential gradient \( \nabla U\) are
+\begin{align}
+    A &= \left[ \begin{array}{ccc} 0 & 2 & 0 \\ -2 & 0 & 0 \\ 0 & 0 & 0 \end{array} \right], \label{eq:A_mat} \\
+    \nabla U &= \left[ \begin{array}{c} x - \frac{ \left(1 - \mu\right) \left(x + \mu\right)}{r_1^3} - \frac{\mu \left( x - 1 + \mu \right)}{r_2^3} \\
+                                                                                        y - \frac{ \left(1 - \mu\right) y}{r_1^3} - \frac{\mu y}{r_2^3} \\
+                                                                                        - \frac{ \left(1 - \mu\right) z}{r_1^3} - \frac{\mu z}{r_2^3}\end{array}\right]
+                                        = \left[\begin{array}{c} U_x \\ U_y \\ U_z\end{array} \right] , \label{eq:grav_pot}
+\end{align}
+and the control input is defined as \( \vecbf{u} = \begin{bmatrix} u_x & u_y \end{bmatrix}^T \in \R^{2\times1} \) and assumed to be continuously variable but bounded in magnitude, i.e. \( \vecbf{u}^T \vecbf{u} \leq u_{max}^2 \).
+The state is defined as \( \vecbf{x} = \begin{bmatrix}\vecbf{r} &\vecbf{v} \end{bmatrix}^T\) with \(\vecbf{r} = \begin{bmatrix} x & y \end{bmatrix}^T \in \R^{2\times1}\) and \(\vecbf{v}= \begin{bmatrix} \dot{x} & \dot{y} \end{bmatrix}^T \in \R^{2\times1}\) representing the position and velocity with respect to the system barycenter, respectively.
+
+
+
 
