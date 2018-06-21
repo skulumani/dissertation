@@ -445,13 +445,11 @@ The constant density ellipsoid model provides a closed form solution for the gra
 It is based on a specific body shape, namely the triaxial ellipsoid, and is not applicable for bodies that have a different shape.
 Approximating the shape of many small bodies as triaxial ellipsoids is appropriate for many first order dynamical simulations and analysis.
 Insight into the dynamic environment~\cite{guelman2014}, periodic orbits~\cite{hu2002}, equilibrium points~\cite{scheeres1994}, or surface dynamics~\cite{furfaro2013} are all greatly simplified with use of the ellipsoid shape approximation.
-Furthermore, the model is defined in terms of continuous integral which must be numerically evaluated using methods of Carlson's elliptic integrals.
-
-% TODO Drawbacks of the ellipsoid model
-% Doesn't match the true shape
-% Useful for analytical computations ( citations)
-% Can't modify the model easily once a new shape is determined
-% need to compute Carlson's elliptic integrals numerically
+However, once additional data is received, such as improved ground imaging or in-situ measurements from a spacecraft, the shape model of the small body will become more accurate and cause it to diverge from the ellipsoid assumption.
+At this point, the dynamic model is no longer valid and must be modified for use with the updated shape data.
+In the case of an operational mission, this may require extensive redevelopment of core flight software and the associated testing to ensure it is functioning properly. 
+Furthermore, the model is defined in terms of continuous integrals which must be numerically evaluated using methods of Carlson's elliptic integrals.
+Due to these reasons, we instead model the gravitational potential using the polyhedron potential model which alleviates many of these issues.
 
 \subsection{Polyhedron Potential Model}\label{sec:polyhedron_potential}
 
