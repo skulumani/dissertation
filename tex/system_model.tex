@@ -528,6 +528,10 @@ Finally,~\cref{eq:potential} is used to compute the gravitational potential at a
 The Laplacian, defined in~\cref{eq:laplacian}, gives a simple method to determine if the spacecraft has collided with the body~\cite{werner1996}. 
 For all points outside the body~\cref{eq:laplacian} is equal to zero and becomes \( 4 \pi \) when inside the body.
 
+The polyhedron potential model is defined as a summation over the faces and edges as shown in~\cref{eq:potential,eq:attraction,eq:gradient_matrix}.
+Some terms, such as~\cref{eq:edge_factor,eq:face_factor}, are computed based on data within each face or edge, respectively.
+While other terms, such as~\cref{eq:face_dyad,eq:edge_dyad}, require the topology of the polyhedron as they are dependent on the specific neighboring face or edge.
+As a result, an efficient procedure is required to determine, store, and update the connectivity of the polyhedron. 
 
  
 
