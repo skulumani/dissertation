@@ -438,8 +438,14 @@ Using this model, the gravitational potential outside the body is given by
 \end{align}
 where \( \lambda(\vb{r}) \) is defined by \( \phi(\vb{r}, \lambda) = 0 \).
 The position vector should be transformed into the principle axis frame, such that the \( \hat{\vb{x}} \) axis is aligned along the long axis \( \alpha \), \( \hat{\vb{y}} \) is aligned with the intermediate axis \( \beta \), and \( \hat{\vb{z}} \) is aligned along the short axis \( \gamma \).
-Applying Leibniz's rule allows one to compute the Jacobian and Hessian of \( U \)~\cite{scheeres2012a}.
+A straightforward application of Leibniz's rule allows one to compute the Jacobian and Hessian of \( U \)~\cite{scheeres2012a}.
 \end{subequations}  
+
+The constant density ellipsoid model provides a closed form solution for the gravitational potential but suffers from a number of disadvantages.
+It is based on a specific body shape, namely the triaxial ellipsoid, and is not applicable for bodies that have a different shape.
+Approximating the shape of many small bodies as triaxial ellipsoids is appropriate for many first order dynamical simulations and analysis.
+Insight into the dynamic environment~\cite{guelman2014}, periodic orbits~\cite{hu2002}, equilibrium points~\cite{scheeres1994}, or surface dynamics~\cite{furfaro2013} are all greatly simplified with use of the ellipsoid shape approximation.
+Furthermore, the model is defined in terms of continuous integral which must be numerically evaluated using methods of Carlson's elliptic integrals.
 
 % TODO Drawbacks of the ellipsoid model
 % Doesn't match the true shape
