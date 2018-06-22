@@ -75,7 +75,7 @@ These equilibrium, or Lagrange points, are labeled \( L_i, i = 1, \hdots, 5 \) a
 The Jacobi integral is a valuable invariant property of the three-body system that allows for greater insight into the motion of the spacecraft.
 \begin{figure}[htbp]
         \centering
-        \includegraphics[width=0.5\textwidth]{energy_contours}
+        \includegraphics[width=0.5\textwidth]{./figures/2017_JAS/energy_contours.pdf}
         \caption{Contour plot of Jacobi integral: Zero velocity curves of constant Jacobi integral. A particle with fixed energy level cannot cross the contour lines and is therefore limited to specific regions of the phase space. }
         \label{fig:energy_contour}
 \end{figure} 
@@ -548,3 +548,32 @@ The reachable sets presented in~\cref{fig:varying_tf_reachability_sets} are high
 This example demonstrates that increasing the \( u_m \) results in a larger displacement between the controlled and uncontrolled trajectories.
 The reachable set is enlarged from a single point, as shown in~\cref{fig:manifold_poincare} by the black point, to a larger region as shown in~\cref{fig:varying_tf_poincare}.
 The choice of \( u_m\), \( t_f \) and initial condition all combine to change the resulting reachability set. 
+
+% TODO Add section on reachability transfers in the case of asteroids
+\subsection{Extension to three dimensions and applied to asteroid}
+Add details for 2017 AAS paper
+
+\section{Numerical Examples}
+Here we present several examples of applying this reachability based orbital transfer in both three-body problem and about an asteroid.
+% TODO Add disucssion someplace highlighting the fact that the three body and asteroid frame dynamics are very similar and share same structure
+The dynamic enviornment in both the three body problem and the rotating reference frame of an asteroid are very similar.
+They both share a similar structure and there exist integrals of motion and invariant manifolds.
+In this section, we demonstrate several applications of reachability sets to determine low thrust orbital transfers.
+
+\subsection{Transfer to Periodic Orbit}~\label{sssec:periodic_orbit_transfer}
+% reachable set transfer
+Here we use the results of the preceding section to demonstrate one specific example of a transfer designed using the reachability set.
+The acceleration limit is chosen as  \( u_{max} = 0.75 \approx \SI{2}{\milli\meter\per\second\squared} \) in the Earth-Moon system.
+Assuming a fixed spacecraft mass of \SI{500}{\kilo\gram}, this model defines a maximum thrust of approximately \SI{1}{\newton}.
+Currently, the NASA NEXT xenon thruster is able to provide approximately \SI{0.25}{\newton} of thrust, and a cluster of such engines could be used to provide the desired thrust used in this work~\cite{schmidt2008}.
+The trajectories are generated from a fixed initial state of \( \vecbf{x}_0 = \begin{bmatrix}0.8156 & 0 & 0 & 0.1922 \end{bmatrix}^T \) over a fixed time span of \( t_f = 1.4 \).
+This initial state lies on the initial periodic orbit and the time of flight is equivalent to one half period of the initial periodic orbit. 
+
+% discuss reachability set computation
+The optimal trajectories, under the influence of the control input \( \vecbf{u} \), are plotted in red in~\cref{fig:reach_trajectory}.
+Initially, the spacecraft is assumed to lie on the periodic orbit.
+As a result, the intersection of this periodic orbit with the \Poincare section are two points corresponding to the two crossing of the orbit.
+We show the control-free intersection, \( \vecbf{x}_n \), of the periodic orbit on the \Poincare section in~\cref{fig:manifold_poincare,fig:poincare_compare}
+The use of the continuous low thrust propulsion expands the reachable set to region bounded by the red markers in~\cref{fig:poincare_compare}.
+The reachable set is an ellipsoidal region with a major axis aligned along \( \theta \approx \ang{70} \) as compared to a fixed point without any control input.
+
