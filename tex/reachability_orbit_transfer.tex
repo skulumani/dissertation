@@ -576,4 +576,80 @@ As a result, the intersection of this periodic orbit with the \Poincare section 
 We show the control-free intersection, \( \vecbf{x}_n \), of the periodic orbit on the \Poincare section in~\cref{fig:manifold_poincare,fig:poincare_compare}
 The use of the continuous low thrust propulsion expands the reachable set to region bounded by the red markers in~\cref{fig:poincare_compare}.
 The reachable set is an ellipsoidal region with a major axis aligned along \( \theta \approx \ang{70} \) as compared to a fixed point without any control input.
+\begin{figure} 
+        \centering 
+        \begin{subfigure}[htbp]{0.5\textwidth} 
+            \includegraphics[width=\textwidth]{./figures/2017_JAS/reach_trajectory.pdf} 
+                \caption{Position space view of reachability set} \label{fig:reach_trajectory} 
+        \end{subfigure}~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. %(or a blank line to force the subfigure onto a new line) 
+        \begin{subfigure}[htbp]{0.5\textwidth} 
+            \includegraphics[width=\textwidth]{./figures/2017_JAS/poincare_compare.pdf} 
+                \caption{\Poincare section view of reachability set} \label{fig:poincare_compare} 
+        \end{subfigure} %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. %(or a blank line to force the subfigure onto a new line) 
+                
+        \begin{subfigure}[htbp]{0.5\textwidth} 
+            \includegraphics[width=\textwidth]{./figures/2017_JAS/reach_transfer.pdf} 
+                \caption{Transfer trajectory selected from reachability set viewed in the position space} \label{fig:reach_transfer} 
+        \end{subfigure}~ 
+        \begin{subfigure}[htbp]{0.5\textwidth} 
+            \includegraphics[width=\textwidth]{./figures/2017_JAS/control_input_l1.pdf} 
+                \caption{Control input for the selected transfer trajectory} \label{fig:control_l1} 
+        \end{subfigure}~
+
+        \begin{subfigure}[htbp]{0.5\textwidth} 
+            \includegraphics[width=\textwidth, keepaspectratio]{./figures/2017_JAS/jacobi.pdf} 
+            \caption{Jacobi Energy over transfer \label{fig:jacobi_l1}} 
+        \end{subfigure} 
+
+        \caption{\( L_1 \) Reachability set transfer: The low thrust propulsion is used to approximate the reachability set starting from the initial periodic orbit over a fixed time horizon.
+            The reachability set is shown in~\cref{fig:reach_trajectory,fig:poincare_compare} in both the position and \Poincare space respectively.
+            From this reachability set we chose a trajectory which intersects the target orbit and it is shown in~\cref{fig:reach_transfer}.
+        The optimal control to achieve this transfer is shown in~\cref{fig:control_l1}.}
+        \label{fig:reachability_set_transfer} 
+\end{figure}
+
+\Cref{fig:poincare_compare} shows that the reachable set and those of the descending target region intersect.
+As both regions are discretely approximated a linear interpolation is used to determine the exact intersection state on the \Poincare section.
+This intersection generates a partial target state of \( x_t \text{ and } \dot{x}_t \).
+Using the energy level of the target region, defined by~\cref{eq:jacobi}, and the intersection state we can calculate the final component \( \dot{y} \). 
+This results in a complete target state \( \vecbf{x}_t \) which lies on the reachable set and on the target orbit. 
+A final optimal trajectory is generated such that the \( \vecbf{x}(N) = \vecbf{x}_t \).
+This transfer trajectory is denoted by the green path in~\cref{fig:reach_transfer}.
+The optimal control input is shown in~\cref{fig:control_l1}. 
+The spacecraft achieves the desired target while satisfying the bounded control input.
+The Jacobi energy integral, computed using~\cref{eq:jacobi}, is shown in~\cref{fig:jacobi_l1}.
+\Cref{fig:jacobi_l1} shows that the vehicle begins with an energy level equal to the periodic orbit and arrives at the target orbit with the appropriate energy.
+The first half of the transfer is associated with and increase in energy as the control is used to transition towards the target orbit which is followed by a energy decrease to the target orbit.
+This roughly corresponds with the expected optimal solution of a bang-coast-bang type orbital transfer~\cite{kirk2012}.
+Convergence statistics associated for this transfer are shown in~\cref{tab:l1_transfer_stats}.
+\begin{table}
+    \centering
+    \begin{tabular}{llr}  
+        \toprule
+        Metric    & Value \\
+        \midrule
+        \texttt{fsolve} objective      & \num{6.03e-15}      \\
+        \texttt{fsolve} major iterations       & \num{9}      \\
+        \texttt{fsolve} first order optimality & \num{1.88e-13} \\
+        Optimal cost       & \num{2.09e-31}      \\
+        Execution time & \SI{1.49}{\second}       \\
+        \bottomrule
+
+    \end{tabular}
+    \caption{Convergence statistics for the periodic orbit transfer\label{tab:l1_transfer_stats}}
+\end{table}
+
+% compare the invariant manifold method and reachability set
+A transfer along the invariant manifold requires on average \( t_f \approx 3.1 \) as compared to \( t_f \approx 1.4 \) for a transfer using low thrust propulsion and the reachable set.
+This long time of flight is typical of transfers using invariant manifolds.
+The unstable invariant manifold traverses a large region of the phase space and is dependent on the system dynamics. 
+In addition, the invariant manifolds asymptotically arrive and depart from the periodic orbit. 
+As a result, it may take an arbitrarily long period of time to depart from the vicinity of the periodic orbit.
+In addition, only a small portion of the invariant manifold intersects with the target Moon orbit.
+In contrast, the low thrust control input we are able to enlarge the reachability set from a single point, \( x_n\) associated with the periodic orbit, to a larger ellipsoidal region shown in red in~\cref{fig:poincare_compare}.
+This achieves an intersection with the target orbit with a much lower time of flight as compared to the invariant manifold method.
+In addition, by generating the reachability set we are able to compute the required control input to exactly intersect the target orbit.
+This avoids having to compute and accomplish a secondary impulsive maneuver to transition from the invariant manifold to the target orbit.
+%Since The intersection on the \Poincare section only shows that the \( x \text{ and } \dot{x} \) components intersect.
+%An additional instantaneous \( \Delta V \) would be required to transfer from the invariant manifold to the target.
 
