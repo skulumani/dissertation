@@ -528,3 +528,23 @@ Choosing a new angle \( \theta_d \) corresponds to a different direction as well
 Each optimal control solution, corresponding to a discrete value of \( \theta_d \), is solved using \texttt{fsolve} as described earlier. 
 Each solution on the reachability set is computed in approximately \SI{2}{\minute} on a desktop computer using an \SI{3.4}{\giga\hertz} Intel i7-3700.
 The intersection of the optimal trajectories as well as those of the target Moon orbit with the \Poincare section are shown in~\cref{fig:varying_tf_reachability_sets}.
+
+\begin{figure}
+    \subcaptionbox{Position space view of reachability sets\label{fig:varying_tf_trajectory}}{\includegraphics[width=0.5\textwidth]{./figures/2017_JAS/trajectory_varying_um.pdf}}~
+    \subcaptionbox{\Poincare section view of reachability sets\label{fig:varying_tf_poincare}}{\includegraphics[width=0.5\textwidth]{./figures/2017_JAS/poincare_section_varying_um.pdf}}
+    \caption{Variation of \( t_f \) and \( u_m\) on the reachability set. 
+        Colors, \braces{\text{red}, \text{blue}, \text{green}, \text{yellow}}, are used note increasing \( t_f\) while markers, \braces{\text{circle}, \text{square}, \text{cross}}, are used to denote increasing \(u_m\).
+    Increasing the maximum control bound has a large effect and enables the reachability set to intersect the target manifold. 
+    Increases in \(t_f\) are less critical and have minimal impact on the distribution of the reachability set on the \Poincare section.~\label{fig:varying_tf_reachability_sets}}
+\end{figure}
+
+\Cref{fig:varying_tf_reachability_sets} shows the reachabilty set for twelve combinations of \(t_f\) and \( u_m\) listed in~\cref{tab:varying_tf}.
+With a small maximum control bound, \( u_m = \num{0.05} \) shown using square markers, the reachable set is not dramatically changed from that of the no control solution.
+The reachable set is denoted using square markers on the left most portion of \cref{fig:varying_tf_poincare}.
+Variations of \( t_f\) are indicated using different colors and also demonstrate that this parameters has a smaller impact than changes in \( u_m \).
+Increasing the control bound to \( u_m = \num{0.25} \) and \( u_m = \num{0.5} \) shows that the reachable set progressively approaches the target set.
+
+The reachable sets presented in~\cref{fig:varying_tf_reachability_sets} are highly dependent on the initial condition, terminal time, and maximum control bound. 
+This example demonstrates that increasing the \( u_m \) results in a larger displacement between the controlled and uncontrolled trajectories.
+The reachable set is enlarged from a single point, as shown in~\cref{fig:manifold_poincare} by the black point, to a larger region as shown in~\cref{fig:varying_tf_poincare}.
+The choice of \( u_m\), \( t_f \) and initial condition all combine to change the resulting reachability set. 
