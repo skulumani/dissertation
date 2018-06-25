@@ -80,6 +80,11 @@ This assumption allows us to treat the motion of the vehicle independently from 
 % TODO Add link to dynamic model given in previous section
 % The spacecraft model is the same as that defined in 
 
+In this section, we develop a coupled control system to track a desired trajectory.
+We assume that the desired trajectory, \( R_d(t), \vb{x}_d(t) \), are defined as the rotation matrix of the spacecraft body frame with respect to the inertial frame and the relative position of the spacecraft center of mass with respect to the asteorid and defined in the inertial frame, respectively.
+In contrast to controller derived for quadrotor \gls{UAV}, the attitude and translational motion is only lightly coupled in the spacecraft scenario.
+
+
 \subsection{Attitude Control}
 In order to determine the attitude control input, we first define a desired attitude tracking command.
 An arbitrary smooth attitude tracking command \( R_d (t) \in \SO \) is given as a function of time.
