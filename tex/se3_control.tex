@@ -91,10 +91,13 @@ However, there are also many examples of underactuated spacecraft, such as those
 % TODO Add citaitons for these papers
 In these situations, there are a variety of methods to handle the underactuation, ranging from optimal control techniques, exploiting external forces, or utilizing multiple control loops.
 
+The control system is presented as two seperate controllers, one for the attitude tracking and one for translational tracking. 
+These controllers are computed independently and used to manuever the spacecraft for both asteroid reconstruction and landing.
 
 \subsection{Attitude Control}
 In order to determine the attitude control input, we first define a desired attitude tracking command.
 An arbitrary smooth attitude tracking command \( R_d (t) \in \SO \) is given as a function of time.
+% TODO Add link to this equation in dynamic derivation
 The corresponding angular velocity command is obtained using the attitude kinematics equation, \( \hat{\Omega}_d = R_d^T \dot{R}_d \).
 With the desired attitude command, we then define the errors associated with the attitude and angular velocity.
 The attitude and angular velocity tracking errors must be careful chosen to remain on the tangent bundle of \SO.
