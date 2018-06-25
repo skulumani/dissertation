@@ -82,7 +82,11 @@ This assumption allows us to treat the motion of the vehicle independently from 
 
 In this section, we develop a coupled control system to track a desired trajectory.
 We assume that the desired trajectory, \( R_d(t), \vb{x}_d(t) \), are defined as the rotation matrix of the spacecraft body frame with respect to the inertial frame and the relative position of the spacecraft center of mass with respect to the asteorid and defined in the inertial frame, respectively.
-In contrast to controller derived for quadrotor \gls{UAV}, the attitude and translational motion is only lightly coupled in the spacecraft scenario.
+In contrast to controller derived for quadrotor \gls{uav}, the attitude and translational motion is only lightly coupled in the spacecraft scenario.
+From the dynamic equations of motion, the coupling between the translational and rotational dynamics is due to the gravitational moment on the spacecraft.
+Furthermore, we assume that we have a fully actuated spacecraft such that we can apply a torque about all three rotational axes and a force in all three directions.
+This is in contrast to \glspl{uav} where the system is underactuated and in order to produce certain translational forces the system must first rotate.
+This is a relatively standard assumption in the astrodynamics community as most spacecraft contain seperate systems for attitude control,e.g. rwa, cmg, or cold gas thrusters, and translational control, e.g. cold-gas thrusters, electric propulsion, or large chemical rockets~\cite{hughes2004,wertz1978}.
 
 
 \subsection{Attitude Control}
