@@ -65,6 +65,21 @@ We briefly summarize the key developments of the \( \SE \) control scheme and le
 
 % TODO Specifics for use in the asteroid case
 
+\subsection{Spacecraft Dynamic Model}\label{sec:controlled_dynamic_model}
+We consider the controlled motion of a rigid dumbbell spacecraft about a small body.
+% TODO Add some citations for dumbbell for use in spacecraft
+The dumbbell spacecraft consists of two masses connected by a massless rod and is a well-known representation of a multi body spacecraft.
+Furthermore, the dumbbell model captures the important interactions of the coupling between orbital and attitude dynamics. 
+As a result, this simple model is useful to capture the main characteristics of a wide variety of spacecraft configurations.
+Typically, spacecraft have mass concentrated in a central structure, referred to as the bus, which houses the command and control system, actuators, fuel, sensors etc. 
+In addition, comparatively light-weight solar panels extend from the bus to provide electrical energy from solar radiation. 
+As a result, the distributed mass of the spacecraft is captured with the dumbbell representation.
+In this section, we briefly review the polyhedron potential model and then present the derivation of the coupled dynamics of a dumbbell spacecraft about an asteroid.
+In this work, we assume that the asteroid is much more massive than the spacecraft and its motion is not affected by that of the spacecraft.
+This assumption allows us to treat the motion of the vehicle independently from that of the asteroid, instead of treating the more complicated full-body problem. 
+% TODO Add link to dynamic model given in previous section
+% The spacecraft model is the same as that defined in 
+
 \subsection{Attitude Control}
 In order to determine the attitude control input, we first define a desired attitude tracking command.
 An arbitrary smooth attitude tracking command \( R_d (t) \in \SO \) is given as a function of time.
@@ -112,3 +127,63 @@ This results in the dynamics of the error variables and the gains are chosen to 
 \section{Numerical Example}
 
 % TODO Disucss numerical implementation
+Typically, spacecraft missions require extensive interaction from ground based human operators. 
+This interaction ranges from system health checks to navigation and hardware commands.
+In addition, there is frequently a large group of analysts in support of any given mission. 
+A wide variety of factors make human in the loop control of spacecraft especially difficult.
+First, the vast distances cause significant time delays which render it impossible to react immediately to events experienced by the spacecraft. 
+Furthermore, deep space missions are designed for continuous mission operations for many years or even decades. 
+It is becoming increasingly difficult to maintain trained and knowledgeable staff for several decades in order to support a single mission.
+In addition, these operators become increasingly scarce as the contemporary hardware and software tools surpass those of these decades old spacecraft. 
+As a result, there is a large focus on completely autonomous spacecraft systems.
+
+We present a numerical simulation of a rigid dumbbell about asteroid Itokawa.
+The dumbbell spacecraft is composed of two equal masses, \( m_1, m_2 = \SI{500}{\kilo\gram} \), seperated by \( l = \SI{3}{\meter} \).
+The dumbbell body frame is defined with the first body fixed axis, \( \vb{b}_1 \), originating at the center of mass of the spacecraft and directed along the vector from \( m_1 \) towards \( m_2 \).
+The other two axes of the spacecraft fixed frame are chosen orthogonal to the \( \vb{b}_1 \) and lie in the plane orthogonal to the dumbbell axis of symmetry. 
+A camera, using the parameters from~\cref{tab:camera_parameters}, is aligned with the \( \vb{b}_1 \) axis and used to feed image data to the ORB-SLAM system.
+A numerical simulation is used to demonstrate the geometric control of the coupled motion of the spacecraft, and the ability to estimate the motion of the spacecraft from monocular imagery.
+
+The initial condition of the spacecraft is defined as
+\begin{align}
+    \vb{x}_0 &= \begin{bmatrix} 0 & -2.550 & 0 \end{bmatrix} \si{\kilo\meter}, \\
+    R_0 &= \exp { \frac{\pi}{2} \vb{e}_3 } .
+\end{align}
+The spacecraft begins on the inertial \( \vb{e}_2 \) axis and initially pointing at the asteroid. 
+A tracking command is designed to transition the spacecraft towards the asteroid fixed \( \vb{f}_1  \) axis followed by a vertical descent along towards the asteroid surface.
+The translational command is divided into two stages, a traverse step where the spacecraft follows a trajectory to align itself with the \( \vb{f}_1 \) axis and a landing step where the spacecraft follows a constant velocity descent towards the surface. 
+The desired position command is defined as
+\begin{align}
+    \vb{x}_d = 
+    \begin{cases}
+        2.550 \begin{bmatrix} \sin{\omega t} & -\cos{\omega t} & 0 \end{bmatrix}, & t \leq t_d \\
+        R_A \begin{bmatrix} \frac{2}{t_d} (t - t_d) + 2.550 & 0 & 0 \end{bmatrix}, & t > t_d , 
+    \end{cases}
+\end{align}
+where \( \omega = \frac{\pi}{2 t_d} \), \( t_d \) is the time from the simulation start when the constant velocity descent should begin, and \( t \) is the simulation time step.
+
+The desired attitude command is chosen such that the spacecraft camera axis, \( \vb{b}_1 \), is directed along the nadir towards the asteroid.
+It is sufficient to define two orthogonal vectors to uniquely determine the attitude of the spacecraft.
+The \( \vb{b}_{3d} \) vector is chosen to lie in the plane spanned by \(\vb{b}_{1d} \) and \( \vb{e}_3 = \vb{f}_3 \).
+The desired attitude command is defined as
+\begin{align}
+    \vb{b}_{1d} &= - \frac{\vb{x}}{\norm{\vb{x}}} , \\
+    \vb{b}_{3d} &= \frac{\vb{f}_3 - \parenth{\vb{f}_3 \cdot \vb{b}_{1d}} \vb{b}_{1d}}{\norm{\vb{f}_3 - \parenth{\vb{f}_3 \cdot \vb{b}_{1d}} \vb{b}_{1d}}}, \\
+    \vb{b}_{2d} &= \vb{b}_{3d} \times \vb{b}_{1d} , \\
+R_d &= \begin{bmatrix} \vb{b}_{1d} & \vb{b}_{2d} & \vb{b}_{3d} \end{bmatrix} .
+\end{align}
+The camera axis is aligned with the spacecraft \( \vb{b}_ 1 \) axis, which is direted towards the asteroid, throughout the landing trajectory as the spacecraft moves in the equatorial plane of the asteroid.
+
+The simulation is carried out over \SI{7200}{\second} with the spacecraft following a circular trajectory for the first \SI{3600}{\sec} before vertically descending in the body fixed frame for the last \SI{3600}{\second}.
+\Cref{fig:true_landing_trajectory} shows a view from the positive \( \vb{f}_3 \) pole of the asteroid of the simulated trajectory. 
+The position of the center of mass of the dumbbell is shown in blue, while the pointing direction of the camera axis is defined in red. 
+The attitude of the dumbbell is displayed at several points along the trajectory demonstraiting the pointing of the camera. 
+Furthermore, asteroid Itokawa is shown in its final orientation at the completion of the landing simulation. 
+\Cref{fig:pos_components} shows that the nonlinear controller is able to accurately track the desired translational trajectory for the duration of the simulation.
+\begin{figure}[htbp]
+    \captionsetup[subfigure]{position=b}
+    \centering
+    \subcaptionbox{Planar view of landing trajectory\label{fig:true_landing_trajectory}}{\includegraphics[width=0.5\textwidth]{figures/2017_AAS_fall/traj_fig.pdf}}~
+    \subcaptionbox{Position of spacecraft in the inertial frame\label{fig:pos_components}}{\includegraphics[width=0.5\textwidth]{figures/2017_AAS_fall/pos_fig.pdf}}
+    \caption{Landing trajectory to asteroid Itokawa~\label{fig:position}}
+\end{figure}
