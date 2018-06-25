@@ -118,20 +118,52 @@ This configuration error function, \( \Psi : \Q \times \Q \to \R \), is a smooth
 Once an appropriate configuration error function is chosen, one can then define a configuration error vector and a velocity error vector in the tangent space \( \mathsf{T}_q \Q \) through the derivatives of \( \Psi \)~\cite{bullo2004}. 
 With the configuration error function and vectors, the remaining procedure is analogous to nonlinear control design on Euclidean vector spaces. 
 One chooses control inputs as functions of the state through a Lyapunov analysis on \Q.
-The configuration error function used in this analysis has been used in~\cite{bullo2004,chaturvedi2009}.
+The configuration error function used in this analysis has been used in~\cite{bullo2004,chaturvedi2009,lee2011a,kulumani2017a}.
 In this section we summarize the properties developed previously and present several extensions for our use in the case of motion around an asteroid.
 
 % trackign control
 In order to determine the attitude control input, we first define a desired attitude tracking command.
-An arbitrary smooth attitude tracking command \( R_d (t) \in \SO \) is given as a function of time.
+An arbitrary smooth attitude tracking command \( R_d (t) \in \SO \in \R^3 \) are given as a function of time.
 % TODO Add link to this equation in dynamic derivation
 The corresponding angular velocity command is obtained using the attitude kinematics equation, \( \hat{\Omega}_d = R_d^T \dot{R}_d \).
-With the desired attitude command, we then define the errors associated with the attitude and angular velocity.
+With the desired attitude command, \( R_d(t), \Omega_d(t) \), we then define the errors associated with the attitude and angular velocity.
 The attitude and angular velocity tracking errors must be careful chosen to remain on the tangent bundle of \SO.
-First, an attitude error function is defined on \( \SO \times \SO \) as
+\begin{prop}{Attitude Configuration Error Function}
+First, an attitude error function \(\Psi : \SO \times \SO  \to \R \), an attitude error vector \( e_R : \SO \times \SO \to \R \), and an angular velocity error \( e_\Omega : \SO \times \R^3 \times \SO \times \R^3 \) are defined as
+\begin{subequations}
 \begin{align}\label{eq:attitude_error_function}
-    \Psi(R, R_d) = \frac{1}{2} \tr{I - R_d^T R}.
+    \Psi(R, R_d) &= \frac{1}{2} \tr{I - R_d^T R}, \\
+    e_R &= \frac{1}{2} \parenth{R_d^T R - R^T R_d^\vee}, \\
+    e_\Omega &= \Omega - R^T R_d \Omega_d .
 \end{align}
+\end{subequations}
+Then the following properties hold:
+\begin{enumerate}
+    \item \( \Psi \) is locally positive definite about \( R = R_d \) on \( \SO \).
+    \item \label{item:prop_er}The variation of \( \Psi \) with respect to a variation of \( \delta R = R \hat{\eta} \) for \( \eta \in \R^3 \) is given by
+	\begin{align}\label{eq:dirDiff_psi}
+		\dirDiff{A}{R} &= \eta \cdot e_{R} ,
+	\end{align}
+	where the notation \( \dirDiff{A}{R} \) represents the directional derivative of $A$ with respect to $R$ along the direction $\delta R$.
+    \item The critical points of \( \Psi \), where \( e_R = 0 \) are \( \braces{R_d} \cup \braces{R_d \exp(\pi \hat s) } \) for \( s \in \braces{e_1, e_2, e_3}\)
+	\item \label{item:prop_era_upbound}An upper bound of \( \norm{e_{R}} \) is given as:
+	\begin{align}
+		\norm{e_{R}}^2 \leq \frac{\Psi}{b_1} , \label{eqn:psi_lower_bound}
+	\end{align}
+	where the constant \( b_1 \) is given by \( b_1 = \frac{h_1}{h_2 + h_3} \) for 
+	\begin{align*}
+		h_1 &= \min\braces{g_1 + g_2, g_2 + g_3 , g_3 + g_1} ,\\
+		h_2 &= \min\braces{\parenth{g_1 -g_2}^2,\parenth{g_2 -g_3}^2 , \parenth{g_3 -g_1}^2} ,\\
+		h_3 &= \min\braces{\parenth{g_1 + g_2}^2, \parenth{g_2 + g_3}^2 , \parenth{g_3 + g_1}^2}.		
+	\end{align*}
+    \item \label{item:prop_psi_quadratic} \( \Psi \) is a locally quadratic function, which means there exist constants \( 0 < n_1 \leq n_2 \) such that
+    \begin{align}\label{eq:psi_bound}
+        n_1 \norm{e_R}^2 \leq \Psi(R) \leq n_2 \norm{e_R}^2 ,
+    \end{align}
+    for $0<\psi < h_1 $.
+\end{enumerate}
+\end{prop}
+
 This positive definite function parameterizes the error between the current attitude, \( R \), and the desired attitude command \( R_d \).
 Using the variations of \( \Psi \) gives the attitude tracking error vector \( e_R \in \R^3 \) as
 \begin{align}\label{eq:attitude_error_vector}
