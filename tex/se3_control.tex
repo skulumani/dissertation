@@ -95,6 +95,37 @@ The control system is presented as two seperate controllers, one for the attitud
 These controllers are computed independently and used to manuever the spacecraft for both asteroid reconstruction and landing.
 
 \subsection{Attitude Control}
+One distinctive feature of the attitude dynamics of rigid bodies is that it evolves on a nonlinear manifold.
+The three-dimensional special orthogonal group, or \( \SO \), is the set of \( 3 \times 3 \) orthogonal matrices whose determinant is one.
+This configuration space is non-Euclidean and yields unique stability properties which are not observable on a linear space.
+For example, it is impossible to achieve global attitude stabilization using continuous time-invariant feedback~\cite{bhat2000}.
+
+Attitude control is typically studied using a variety of attitude parameterizations, such as Euler angles or quaternions~\cite{shuster1993}.
+Attitude parameterizations fail to represent the nonlinear configuration space both globally and uniquely~\cite{chaturvedi2011a}.
+For example, minimal attitude representations, such as Euler angle sequences or modified Rodriguez parameters, suffer from singularities.
+These attitude representations are not suitable for large angular slews.
+In order to avoid singularities, the designer must carefully switch the chosen Euler angle sequence based on the operating region.
+Another option is to artificially limit the operating region of the rigid body.
+This ensures the system operates in a region free from singularities but limits the performance capabilities and ability to perform arbitrarily large angular maneuvers.
+Quaternions do not have singularities but they double cover the special orthogonal group.
+As a result, any physical attitude is represented by a pair of antipodal quaternions on the three-sphere.
+An immediate implication of this ambiguity is that closed-loop stability properties derived using quaternions may not hold for the physical rigid body evolving on the true configuration space, namely the special orthogonal group.
+During implementation, the designer must carefully resolve this non-unique representation in quaternion based attitude control systems to avoid undesirable unwinding behavior~\cite{bhat2000}.
+This behavior is characterized by situations where the rigid body starts close to the desired attitude, yet the system unnecessarily rotates through a large angle in spite of a small initial error. 
+
+The first step in designing a control system on a nonlinear manifold \( \Q \) is the selection of a proper configuration error function. 
+This configuration error function, \( \Psi : \Q \times \Q \to \R \), is a smooth and proper positive definite function that measures the error between the current configuration and a desired configuration. 
+Once an appropriate configuration error function is chosen, one can then define a configuration error vector and a velocity error vector in the tangent space \( \mathsf{T}_q \Q \) through the derivatives of \( \Psi \)~\cite{bullo2004}. 
+With the configuration error function and vectors, the remaining procedure is analogous to nonlinear control design on Euclidean vector spaces. 
+One chooses control inputs as functions of the state through a Lyapunov analysis on \Q.
+The configuration error function used in this analysis has been used in~\cite{bullo2004,chaturvedi2009}.
+In this section we summarize the properties developed previously and present several extensions for our use in the case of motion around an asteroid.
+
+
+
+
+
+% trackign control
 In order to determine the attitude control input, we first define a desired attitude tracking command.
 An arbitrary smooth attitude tracking command \( R_d (t) \in \SO \) is given as a function of time.
 % TODO Add link to this equation in dynamic derivation
