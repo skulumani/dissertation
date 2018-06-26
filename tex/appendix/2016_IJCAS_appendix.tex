@@ -28,6 +28,7 @@ Evaluating the Hessian at \( R = R_d \)
 shows that the Hessian is positive definite at \( R_d \) and therefore the critical point is a minimum for any variation \( \eta \) and proves~\cite{item:prop_psi_psd}.
 
 To prove~\cref{item:prop_critical_points} we must first determine the critical points of~\cref{eq:er}.
+The derivations are originally presented in~\cite{bullo2004,chaturvedi2011a} and we present and expand on their original descriptions.
 We define the relative attitude error as \( Q = R_d^T R \) and expand~\cref{eq:er} as
 \begin{align*}
     e_{R_A} &= \frac{1}{2} \parenth{G Q - Q^T G} ^ \vee, \\
@@ -49,7 +50,7 @@ At a critical point, the following equations must be satisfied
     \end{align}
 \end{subequations}     
 Using the conditions in~\cref{eq:erA_critical_conditons} the relative attitude error \( Q \) becomes
-\begin{align}
+\begin{align}\label{eq:relative_attitude_error}
     Q = R_d^T R_e =
     \begin{bmatrix} 
         q_{11} & q_{12} & q_{13} \\ 
@@ -58,14 +59,60 @@ Using the conditions in~\cref{eq:erA_critical_conditons} the relative attitude e
     \end{bmatrix}
     \in \SO
 \end{align}
-Since, \( Q = R_d^T R \in \SO \) the following condition is also satisfied
+Since, \( Q = R_d^T R \) is orthonormal the main diagonal of \( QQ^T \) is equal to \num{1} and each column of \( Q \) is unit length.
 \begin{align*}
     Q Q^T &= I, \\
           &= \begin{bmatrix}
             q_{11}^2 + q_{12}^2 + q_{13}^2 & q_{11}q_{12}\frac{g_1}{g_2} + q_{12}q_{22} + q_{13}q_{23} & q_{11}q_{13}\frac{g_1}{g_3} + q_{12}q_{23}\frac{g_2}{g_3} + q_{13}q_{33} \\
-            q_{11}q_{12}\frac{g_1}{g_2} &0 & 0
-\end{bmatrix}
+            q_{11}q_{12}\frac{g_1}{g_2}  + q_{12}q_{22} + q_{23}q_{13} & \frac{g_1^2}{g_2^2}q_{12}^2 + q_{22}^2 + q_{23}^2 & \frac{g_1^2}{g_2g_3} q_{12}q_{13}{ + \frac{g_2|}g_3}q_{23}q_{22} + q_{23}q_{33} \\
+            \frac{g_1}{g_3} q_{11}q_{13} + \frac{g_2}{g_3}q_{23}q_{12} + q_{33}q_{13} & \frac{g_1^2}{g_3 g_2} q_{12}q_{13} + \frac{g_2}{g_3} q_{23}q_{22} + q_{33} q_{23} & \frac{g_1^2}{g_3^2}q_{13}^2 + \frac{g_2^2}{g_3^2}q_{23}^2 + q_{33}^2
+\end{bmatrix} , 
 \end{align*}
+As a result the following \num{6} conditions must be satisfied when \( e_{R_A} = 0 \):
+\begin{align}
+    q_{11}^2 + q_{12}^2 + q_{13}^2 &= 1,\label{eq:orthogonal_1} \\
+    \frac{g_1^2}{g_2^2}q_{12}^2 + q_{22}^2 + q_{23}^2 &= 1, \label{eq:orthogonal_2}\\
+    \frac{g_1^2}{g_3^2}q_{13}^2 + \frac{g_2^2}{g_3^2}q_{23}^2 + q_{33}^2 &= 1, \label{eq:orthogonal_3}\\
+    q_{11}^2 + \frac{g_1^2}{g_2^2}q_{12}^2 + \frac{g_1^2}{g_3^2}q_{13}^2 &= 1, \label{eq:unit_norm_1}\\
+    q_{12} + q_{22}^2 + \frac{g_2^2}{g_3^2}q_{23}^2 &= 1, \label{eq:unit_norm_2}\\
+    q_{13}^2 + q_{23}^2 + q_{33}^2 &= 1.\label{eq:unit_norm_3}
+\end{align}
+We can further simplify these relationships by rewriting~\cref{eq:orthogonal_1,eq:orthogonal_2,eq:orthogonal_3} as
+\begin{align}
+    q_{11}^2 &= 1 - q_{12}^2 - q_{13}^2 , \\
+    q_{22}^2 &= 1 - \frac{g_1^2}{g_2^2} q_{12}^2 - q_{23}^2, \\
+    q_{33}^2 &= 1 - \frac{g_1^2}{g_3^2}q_{13}^2 - \frac{g_2^2}{g_3^2}q_{23}^2 
+\end{align}
+and substituting these relationships into~\cref{eq:unit_norm_1,eq:unit_norm_2,eq:unit_norm_3} to arrive at
+\begin{subequations}\label{eq:era_critical_point_conditions}
+\begin{align}
+    \parenth{1 - \frac{g_1^2}{g_2^2} } q_{12}^2 + \parenth{1 - \frac{g_1^2}{g_3^2}}q_{13}^2 &= 0 , \label{eq:era_condition_1}\\
+    \parenth{1 - \frac{g_1^2}{g_2^2}} q_{12}^2 - \parenth{1 - \frac{g_2^2}{g_3^2}}q_{23}^2 &= 0 , \label{eq:era_condition_2}\\
+    \parenth{1 - \frac{g_1^2}{g_3^2}} q_{13}^2 + \parenth{1 - \frac{g_2^2}{g_3^2}} q_{23}^2 &= 0 .\label{eq:era_condition_3}
+\end{align}
+\end{subequations}     
+The relationships in~\cref{eq:era_critical_point_conditions} are equivalent to the statement that \( e_{R_A} = 0 \) and must also be satisfied at each critical point.
+Since each \( g_i \) is distinct and greater than zero, the solution to~\cref{eq:erA_critical_conditons}, or equivalently \( e_{R_A} = 0 \), must satisfy one of two possible conditions:
+\begin{enumerate}[label=(\roman*)]
+    \item \label{item:condition_1} \( q_{12} = q_{13} = q_{23} =0\)
+    \item \label{item:condition_2} \( q_{ij} \neq 0 \; \forall \; i \neq j \)
+\end{enumerate}
+These conditions can be determined by noticing that~\cref{item:condition_1} is the trivial solution.
+For~\cref{item:condition_2}, consider the situation that \( q_{12} \neq 0 \) then from the fact that \( g_i \) are distinct yields the fact that \( \parenth{1 - \frac{g_1^2}{g_2^2} } \neq 0 \) and \( \parenth{1 - \frac{g_1^2}{g_3^2} } \neq 0 \) which means that \( q_{13}^2 \neq 0 \) since the terms must add to zero.
+Similar arguments can be made for the other relations in~\cref{eq:era_critical_point_conditions} which means that the solutions must satisify either~\cref{item:condition_1} or~\cref{item:condition_2}.
+
+Now consider~\cref{item:condition_2} and assume that \( g_2 > g_1 \) and \( q_{12}, q_{13}, q_{23} \neq 0 \).
+From~\cref{eq:era_condition_1} this implies that \( \parenth{1 - \frac{g_1^2}{g_2^2} } q_{12}^2 > 0\) since \( q_{12}^2 > 0\).
+Therefore, in order for~\cref{eq:era_condition_1} to be satisfied means that \( \parenth{1 - \frac{g_1^2}{g_3^2} } q_{13}^2 < 0 \) which further implies that \( g_1 > g_3 \).
+As a result, \( g_2 > g_1 > g_3 \).
+Using this inequality in~\cref{eq:era_condition_3} implies that
+\begin{align*}
+    \parenth{1 - \frac{g_2^2}{g_3^2}} q_{23} < 0, \quad \parenth{1 - \frac{g_1^2}{g_3^2}} q_{13}^2 < 0 .
+\end{align*}
+Therefore the left hand side of~\cref{eq:era_condition_3} is negative and a contradiction.
+Applying a similar logic for the case \( g_1 > g_2 \) shows that~\cref{item:condition_2} is not possible and therefore~\cref{item:condition_1} must be satisfied.
+Substituting~\cref{item:condition_1} into~\cref{eq:relative_attitude_error} shows that the main diagonal of \( Q \) must be composed of \( + 1 \) or \( -1 \).
+Thus, the critical points of \( A(R) \) are those provided in~\cref{item:prop_critical_points}.
 %The term \( r^T R^T v \) represents the cosine of the angle between the body fixed vector \( r \) and the inertial vector \( v \). 
 %It follows that
 %\begin{align*}
