@@ -1,6 +1,19 @@
-\chapter{2016 IJCAS Appendices}
-\subsection{Proof of~\Cref{prop:config_error}}\label{proof:attitude_config_error}
-To prove~\cref{item:prop_psi_psd}, we note that~\cref{eqn:A} is a positive definite function about \( R = R_d \)~\cite{bullo2004}.
+\chapter{Nonlinear Geometric Controller Proofs}
+\section{Proof of~\Cref{prop:attitude_control_configuration_error}}\label{proof:attitude_config_error}
+To prove~\cref{item:prop_psi_psd}, we first seek to show that \( \Psi(R_d) \) is a minimum by showing that the first derivative is zero at \( R_d \).
+The infinitesimal variation of a rotation matrix is defined as
+\begin{align*}
+    \delta R = \left. \diff{}{\epsilon} \right|_{\epsilon=0} R \exp{\epsilon \hat{\eta}} = R \hat{\eta} .
+\end{align*}
+Using this, the variation of~\cref{eqn:psi} is taken with respect to \( R \) as
+\begin{align*}
+	\dirDiff{A}{R} &= \eta \cdot \frac{1}{2} \left( G R_d^T R - R^T R_d G\right)^\vee ,
+%	&= -\frac{1}{2} \tr{G R_d^T \left( R \hat{\eta}\right)} \\
+\end{align*}
+where we used~\cref{eqn:hat1} to achieve the simplified form.
+
+Next, the second derivative of \( \Psi \) is shown to be positive at \( R_d \). 
+
 The constraint angle is assumed \( \ang{0} \leq \theta \leq \ang{90} \) such that \( 0 \leq \cos \theta \).
 The term \( r^T R^T v \) represents the cosine of the angle between the body fixed vector \( r \) and the inertial vector \( v \). 
 It follows that
