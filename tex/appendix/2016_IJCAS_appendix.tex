@@ -1,5 +1,7 @@
 \chapter{Nonlinear Geometric Controller Proofs}
 \section{Proof of~\Cref{prop:attitude_control_configuration_error}}\label{proof:attitude_config_error}
+
+\subsection{Proof of~\Cref{item:prop_psi_psd,item:prop_er}}\label{proof:prop_psi_psd}
 To prove~\cref{item:prop_psi_psd}, we first seek to show that \( A(R_d) \) is a critical point by showing that the first derivative is zero at \( R_d \).
 The infinitesimal variation of a rotation matrix is defined as
 \begin{align*}
@@ -27,6 +29,7 @@ Evaluating the Hessian at \( R = R_d \)
 \end{align*}
 shows that the Hessian is positive definite at \( R_d \) and therefore the critical point is a minimum for any variation \( \eta \) and proves~\cite{item:prop_psi_psd}.
 
+% \subsection{Proof of~\Cref{item:prop_critical_points}}\label{proof:prop_critical_points}
 To prove~\cref{item:prop_critical_points} we must first determine the critical points of~\cref{eq:er}.
 The derivations are originally presented in~\cite{bullo2004,chaturvedi2011a} and we present and expand on their original descriptions.
 We define the relative attitude error as \( Q = R_d^T R \) and expand~\cref{eq:er} as
@@ -120,7 +123,8 @@ These critical points correspond to additional rotations of \SI{180}{\degree} ab
     R_\gamma &= R_d \begin{bmatrix} -1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & -1 \end{bmatrix} .
 \end{align}
 
-
+% \subsection{Proof of~\Cref{item:prop_era_upbound,item:prop_psi_quadratic}}\label{proof:prop_psi_quadratic}
+More proofs from paper
 %The term \( r^T R^T v \) represents the cosine of the angle between the body fixed vector \( r \) and the inertial vector \( v \). 
 %It follows that
 %\begin{align*}
