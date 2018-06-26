@@ -48,7 +48,24 @@ At a critical point, the following equations must be satisfied
         g_2 q_{21} &= g_1 q_{12}.
     \end{align}
 \end{subequations}     
-
+Using the conditions in~\cref{eq:erA_critical_conditons} the relative attitude error \( Q \) becomes
+\begin{align}
+    Q = R_d^T R_e =
+    \begin{bmatrix} 
+        q_{11} & q_{12} & q_{13} \\ 
+        \frac{g_1}{g_2} q_{12} & q_{22} & q_{23} \\
+        \frac{g_1}{g_3} q_{13} & \frac{g_2}{g_3} q_{23} & q_{33}
+    \end{bmatrix}
+    \in \SO
+\end{align}
+Since, \( Q = R_d^T R \in \SO \) the following condition is also satisfied
+\begin{align*}
+    Q Q^T &= I, \\
+          &= \begin{bmatrix}
+            q_{11}^2 + q_{12}^2 + q_{13}^2 & q_{11}q_{12}\frac{g_1}{g_2} + q_{12}q_{22} + q_{13}q_{23} & q_{11}q_{13}\frac{g_1}{g_3} + q_{12}q_{23}\frac{g_2}{g_3} + q_{13}q_{33} \\
+            q_{11}q_{12}\frac{g_1}{g_2} &0 & 0
+\end{bmatrix}
+\end{align*}
 %The term \( r^T R^T v \) represents the cosine of the angle between the body fixed vector \( r \) and the inertial vector \( v \). 
 %It follows that
 %\begin{align*}
