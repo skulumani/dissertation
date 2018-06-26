@@ -1,62 +1,19 @@
 \chapter{Nonlinear Geometric Controller Proofs}
 \section{Proof of~\Cref{prop:attitude_control_configuration_error}}\label{proof:attitude_config_error}
-To prove~\cref{item:prop_psi_psd}, we first seek to show that \( \Psi(R_d) \) is a minimum by showing that the first derivative is zero at \( R_d \).
+To prove~\cref{item:prop_psi_psd}, we first seek to show that \( A(R_d) \) is a critical point by showing that the first derivative is zero at \( R_d \).
 The infinitesimal variation of a rotation matrix is defined as
 \begin{align*}
     \delta R = \left. \diff{}{\epsilon} \right|_{\epsilon=0} R \exp{\epsilon \hat{\eta}} = R \hat{\eta} .
 \end{align*}
 Using this, the variation of~\cref{eqn:psi} is taken with respect to \( R \) as
-\begin{align*}
-	\dirDiff{A}{R} &= \eta \cdot \frac{1}{2} \left( G R_d^T R - R^T R_d G\right)^\vee ,
+\begin{align}\label{eq:dirDiff_A}
+	\dirDiff{\Psi}{R} &= \eta \cdot \frac{1}{2} \left( G R_d^T R - R^T R_d G\right)^\vee ,
 %	&= -\frac{1}{2} \tr{G R_d^T \left( R \hat{\eta}\right)} \\
-\end{align*}
+\end{align}
 where we used~\cref{eqn:hat1} to achieve the simplified form.
-
-Next, the second derivative of \( \Psi \) is shown to be positive at \( R_d \). 
-
-The constraint angle is assumed \( \ang{0} \leq \theta \leq \ang{90} \) such that \( 0 \leq \cos \theta \).
-The term \( r^T R^T v \) represents the cosine of the angle between the body fixed vector \( r \) and the inertial vector \( v \). 
-It follows that
-\begin{align*}
-	0 \leq  \frac{\cos \theta -  r^T R^T v}{1 + \cos \theta} \leq 1 ,
-\end{align*}
-for all \( R \in \SO \). 
-As a result, its negative logarithm is always positive and from~\cref{eqn:B}, \(1 < B\).
-The error function \( \Psi = A B \) is composed of two positive terms and is therefore also positive definite.
-
-Next, we consider~\cref{item:prop_era}.
-The infinitesimal variation of a rotation matrix is defined as
-\begin{align*}
-    \delta R = \left. \diff{}{\epsilon} \right|_{\epsilon=0} R \exp{\epsilon \hat{\eta}} = R \hat{\eta} .
-\end{align*}
-Using this, the variation of~\cref{eqn:A} is taken with respect to \( R \) as
-\begin{align*}
-	\dirDiff{A}{R} &= \eta \cdot \frac{1}{2} \left( G R_d^T R - R^T R_d G\right)^\vee ,
-%	&= -\frac{1}{2} \tr{G R_d^T \left( R \hat{\eta}\right)} \\
-\end{align*}
-where we used~\cref{eqn:hat1} to achieve the simplified form.
-
-A straightforward application of the chain and product rules of differentiation allows us to show~\cref{item:prop_erb} as
-\begin{align*}
-	\dirDiff{B}{R} &=  \eta \cdot \frac{ - \left( R^T v\right)^\wedge r}{\alpha \left(\cos \theta - r^T R^T v \right)} ,
-%	-\frac{1}{\alpha} \left[\left(\frac{1+\cos \theta}{\cos \theta - r^T R^T v} \right) \left(\eta \cdot \frac{\left( R^T v\right)^\vee r}{1+\cos \theta} \right) \right]
-\end{align*}
-where the scalar triple product~\cref{eqn:STP} was used.
-
-%To show~\cref{item:prop_crit} we note that \( A(R) \) is a positive definite function about \( R = R_d\), with \( \Psi(R_d) = A(R_d) = 0 \).
-%As a result, there exists a neighborhood \(  U \) about \( R = R_d \) such that
-%\begin{align*}
-%  A(R) \geq A(R_d) \; \forall \; R \in U .
-%\end{align*}
-%Since the desired attitude, \( R_d \), must lie in the feasible set, i.e., \( r^T R^T v < \cos \theta \), the addition of the repulsive barrier function, \( B \), does not change the minimum value of \( \Psi \).
-We show~\cref{item:prop_psi_quadratic} by computing the hessian of \( \Psi \), namely \( \Hess(\Psi) \),  using the chain rule as 
-\begin{align*}
-    \Hess &(\Psi)\cdot (\delta R,\delta R)= (\mathbf{D}_R\parenth{\mathbf{D}_R A \cdot \delta R}\cdot \delta R) B\\
-    & + \parenth{\dirDiff{A}{R} }\parenth{\dirDiff{B}{R}} 
-    + \parenth{\dirDiff{B}{R} }\parenth{\dirDiff{A}{R}}\\ &+(\mathbf{D}_R\parenth{\mathbf{D}_R B \cdot \delta R}\cdot \delta R) A.
-\end{align*}
-The first order derivative of \( A(R) \) and \( B(R) \) are given by~\cref{eqn:eRA,eqn:eRB}. 
-The hessian of \( A(R) \) is computed as 
+\Cref{eq:dirDiff_A} also proves~\cref{item:prop_er}.
+Evaluating~\cref{eq:dirDiff_A} at \( R = R_d \) demonstrates that \( R_d \) is a critical point of \( \Psi \)
+Next, the second derivative of \( \Psi \) is computed as
 \begin{align*}
     \dirDiff{\parenth{\dirDiff{A}{R}}}{R} &= \eta \cdot \frac{1}{2}\parenth{G R_d^T \delta R - \delta R^T R_d G}^\vee  \\
     &= \eta \cdot \frac{1}{2} \parenth{G R_d^T R \hat \eta + \hat \eta R^T R_d G}^\vee\\
@@ -64,39 +21,108 @@ The hessian of \( A(R) \) is computed as
     &= \eta \cdot \frac{1}{2} \parenth{\tr{R^T R_d G} I - R^T R_d G}\eta ,
 \end{align*}
 where we used the scalar triple product rule, from~\cref{eqn:STP}, to arrive at the final form.
-The hessian of \( B(R) \) is computed as
+Evaluating the Hessian at \( R = R_d \)
 \begin{align*}
-    \dirDiff{\parenth{\dirDiff{B}{R}}}{R} =& \eta \cdot \left[\frac{\parenth{\delta R^T v}^\wedge r}{\alpha\parenth{r^T R^T v - \cos \theta}} \right. \\
-    & \left. - \frac{\parenth{R^T v}^\wedge r \parenth{r^T \delta R^T v}}{\alpha \parenth{r^TR^Tv - \cos \theta}^2}   \right] .
+    \Hess(A)\cdot (\delta R,\delta R)\big|_{R=R_d} = \eta \cdot \frac{1}{2} \parenth{\tr{G}I -  G} \eta 
 \end{align*}
-The term \( \parenth{\delta R^T v}^\wedge r\) is simplified as
-\begin{align*}
-    \parenth{\delta R^T v}^\wedge r &= - \hat{r} \delta R ^T v  \\
-    &= - \hat{r} \parenth{R \hat \eta}^T v  \\
-    &= \hat{r} \parenth{\hat{\eta} R^T } v  \\
-    &= - \hat{r} \parenth{R^T v}^\wedge \eta ,
-\end{align*}
-where we utilized the hat map property from~\cref{eqn:cross_product}.
-Similarly, the term \( r^T \delta R^T v \) is simplified as
-\begin{align*}
-    r^T \delta R^T v &= r^T \parenth{-\hat \eta R^T}v  \\
-    &= r^T \parenth{R^T v}^\wedge \eta .
-\end{align*}
-The hessian of \( B(R) \) then becomes
-\begin{align*}
-    \dirDiff{\parenth{\dirDiff{B}{R}}}{R} =& \eta \cdot \left[ - \frac{ \hat r \parenth{R^T v}^\wedge}{\alpha \parenth{r^T R^T v - \cos \theta}} \right. \\ 
-    & \left. - \frac{\parenth{R^T v}^\wedge r r^T \parenth{R^T v}^\wedge }{ \alpha\parenth{r^T R^T v - \cos \theta}^2}  \right] \eta .
-\end{align*}
-Using these terms, we evaluate \( \Hess{\Psi} \) at the desired attitude \( R = R_d \) as follows. Since $A=0$ and $\mathbf{D}_R A=0$ at $R=R_d$, 
-\begin{align*}
-    \Hess(\Psi)\cdot (\delta R,\delta R)\big|_{R=R_d} = \eta \cdot \frac{1}{2} B \parenth{\tr{G}I -  G} \eta , 
-\end{align*}
-which is positive definite since \( B > 1\) and \( \sum g_i > g_i\). 
-The domain \( D \) is an open neighborhood of the desired attitude \( R_d \), and it excludes the undesired equilibrium points of \( A(R) \) and the infeasible regions defined by the constraints \( r^T R^T v_i \). 
-Therefore, the only critical point of the error function $\Psi$ in the domain $D$ corresponds to the desired attitude $R=R_d$ with $e_R=0$ and $\Psi=0$. 
-Therefore, in \( D \) the configuration error function is quadratic and the bounds in~\cref{item:prop_psi_quadratic} are valid according to~\cite[Proposition 6.30]{bullo2004}.
+shows that the Hessian is positive definite at \( R_d \) and therefore the critical point is a minimum for any variation \( \eta \) and proves~\cite{item:prop_psi_psd}.
 
-The proof of \cref{item:prop_era_upbound} is available in~\cite{LeeITCST13}.
+To prove~\cref{item:prop_critical_points} we must first determine the critical points of~\cref{eq:er}.
+We define the relative attitude error as \( Q = R_d^T R \) and expand~\cref{eq:er} as
+\begin{align*}
+    e_{R_A} &= \frac{1}{2} \parenth{G Q - Q^T G} ^ \vee, \\
+            &= \frac{1}{2} \parenth{
+            \begin{bmatrix} g_1 & 0 & 0 \\ 0 & g_2 & 0 \\ 0 & 0 & g_3 \end{bmatrix}
+            \begin{bmatrix} q_{11} & q_{12} & q_{13} \\ q_{21} & q_{22} & q_{23} \\ q_{31} & q_{32} & q_{33}\end{bmatrix}
+            -
+            \begin{bmatrix} q_{11} & q_{21} & q_{31} \\ q_{12} & q_{22} & q_{32} \\ q_{13} & q_{23} & q_{33}\end{bmatrix}
+            \begin{bmatrix} g_1 & 0 & 0 \\ 0 & g_2 & 0 \\ 0 & 0 & g_3 \end{bmatrix}
+            }^\vee , \\
+            &= \frac{1}{2} \begin{bmatrix} g_3 q_{32} - g_2 q_{23} \\ g_1 q_{13} - g_3 q_{31} \\ g_2 q_{21} - g_1 q_{12}\end{bmatrix}
+\end{align*}
+At a critical point, the following equations must be satisfied
+%The term \( r^T R^T v \) represents the cosine of the angle between the body fixed vector \( r \) and the inertial vector \( v \). 
+%It follows that
+%\begin{align*}
+%	0 \leq  \frac{\cos \theta -  r^T R^T v}{1 + \cos \theta} \leq 1 ,
+%\end{align*}
+%for all \( R \in \SO \). 
+%As a result, its negative logarithm is always positive and from~\cref{eqn:B}, \(1 < B\).
+%The error function \( \Psi = A B \) is composed of two positive terms and is therefore also positive definite.
+
+%Next, we consider~\cref{item:prop_era}.
+%The infinitesimal variation of a rotation matrix is defined as
+%\begin{align*}
+%    \delta R = \left. \diff{}{\epsilon} \right|_{\epsilon=0} R \exp{\epsilon \hat{\eta}} = R \hat{\eta} .
+%\end{align*}
+%Using this, the variation of~\cref{eqn:A} is taken with respect to \( R \) as
+%\begin{align*}
+%	\dirDiff{A}{R} &= \eta \cdot \frac{1}{2} \left( G R_d^T R - R^T R_d G\right)^\vee ,
+%%	&= -\frac{1}{2} \tr{G R_d^T \left( R \hat{\eta}\right)} \\
+%\end{align*}
+%where we used~\cref{eqn:hat1} to achieve the simplified form.
+
+%A straightforward application of the chain and product rules of differentiation allows us to show~\cref{item:prop_erb} as
+%\begin{align*}
+%	\dirDiff{B}{R} &=  \eta \cdot \frac{ - \left( R^T v\right)^\wedge r}{\alpha \left(\cos \theta - r^T R^T v \right)} ,
+%%	-\frac{1}{\alpha} \left[\left(\frac{1+\cos \theta}{\cos \theta - r^T R^T v} \right) \left(\eta \cdot \frac{\left( R^T v\right)^\vee r}{1+\cos \theta} \right) \right]
+%\end{align*}
+%where the scalar triple product~\cref{eqn:STP} was used.
+
+%%To show~\cref{item:prop_crit} we note that \( A(R) \) is a positive definite function about \( R = R_d\), with \( \Psi(R_d) = A(R_d) = 0 \).
+%%As a result, there exists a neighborhood \(  U \) about \( R = R_d \) such that
+%%\begin{align*}
+%%  A(R) \geq A(R_d) \; \forall \; R \in U .
+%%\end{align*}
+%%Since the desired attitude, \( R_d \), must lie in the feasible set, i.e., \( r^T R^T v < \cos \theta \), the addition of the repulsive barrier function, \( B \), does not change the minimum value of \( \Psi \).
+%We show~\cref{item:prop_psi_quadratic} by computing the hessian of \( \Psi \), namely \( \Hess(\Psi) \),  using the chain rule as 
+%\begin{align*}
+%    \Hess &(\Psi)\cdot (\delta R,\delta R)= (\mathbf{D}_R\parenth{\mathbf{D}_R A \cdot \delta R}\cdot \delta R) B\\
+%    & + \parenth{\dirDiff{A}{R} }\parenth{\dirDiff{B}{R}} 
+%    + \parenth{\dirDiff{B}{R} }\parenth{\dirDiff{A}{R}}\\ &+(\mathbf{D}_R\parenth{\mathbf{D}_R B \cdot \delta R}\cdot \delta R) A.
+%\end{align*}
+%The first order derivative of \( A(R) \) and \( B(R) \) are given by~\cref{eqn:eRA,eqn:eRB}. 
+%The hessian of \( A(R) \) is computed as 
+%\begin{align*}
+%    \dirDiff{\parenth{\dirDiff{A}{R}}}{R} &= \eta \cdot \frac{1}{2}\parenth{G R_d^T \delta R - \delta R^T R_d G}^\vee  \\
+%    &= \eta \cdot \frac{1}{2} \parenth{G R_d^T R \hat \eta + \hat \eta R^T R_d G}^\vee\\
+%    &= \eta \cdot \frac{1}{2} \bracket{\parenth{\braces{\tr{R^T R_d G} I - R^T R_d G} \eta}^\wedge}^\vee  \\
+%    &= \eta \cdot \frac{1}{2} \parenth{\tr{R^T R_d G} I - R^T R_d G}\eta ,
+%\end{align*}
+%where we used the scalar triple product rule, from~\cref{eqn:STP}, to arrive at the final form.
+%The hessian of \( B(R) \) is computed as
+%\begin{align*}
+%    \dirDiff{\parenth{\dirDiff{B}{R}}}{R} =& \eta \cdot \left[\frac{\parenth{\delta R^T v}^\wedge r}{\alpha\parenth{r^T R^T v - \cos \theta}} \right. \\
+%    & \left. - \frac{\parenth{R^T v}^\wedge r \parenth{r^T \delta R^T v}}{\alpha \parenth{r^TR^Tv - \cos \theta}^2}   \right] .
+%\end{align*}
+%The term \( \parenth{\delta R^T v}^\wedge r\) is simplified as
+%\begin{align*}
+%    \parenth{\delta R^T v}^\wedge r &= - \hat{r} \delta R ^T v  \\
+%    &= - \hat{r} \parenth{R \hat \eta}^T v  \\
+%    &= \hat{r} \parenth{\hat{\eta} R^T } v  \\
+%    &= - \hat{r} \parenth{R^T v}^\wedge \eta ,
+%\end{align*}
+%where we utilized the hat map property from~\cref{eqn:cross_product}.
+%Similarly, the term \( r^T \delta R^T v \) is simplified as
+%\begin{align*}
+%    r^T \delta R^T v &= r^T \parenth{-\hat \eta R^T}v  \\
+%    &= r^T \parenth{R^T v}^\wedge \eta .
+%\end{align*}
+%The hessian of \( B(R) \) then becomes
+%\begin{align*}
+%    \dirDiff{\parenth{\dirDiff{B}{R}}}{R} =& \eta \cdot \left[ - \frac{ \hat r \parenth{R^T v}^\wedge}{\alpha \parenth{r^T R^T v - \cos \theta}} \right. \\ 
+%    & \left. - \frac{\parenth{R^T v}^\wedge r r^T \parenth{R^T v}^\wedge }{ \alpha\parenth{r^T R^T v - \cos \theta}^2}  \right] \eta .
+%\end{align*}
+%Using these terms, we evaluate \( \Hess{\Psi} \) at the desired attitude \( R = R_d \) as follows. Since $A=0$ and $\mathbf{D}_R A=0$ at $R=R_d$, 
+%\begin{align*}
+%    \Hess(\Psi)\cdot (\delta R,\delta R)\big|_{R=R_d} = \eta \cdot \frac{1}{2} B \parenth{\tr{G}I -  G} \eta , 
+%\end{align*}
+%which is positive definite since \( B > 1\) and \( \sum g_i > g_i\). 
+%The domain \( D \) is an open neighborhood of the desired attitude \( R_d \), and it excludes the undesired equilibrium points of \( A(R) \) and the infeasible regions defined by the constraints \( r^T R^T v_i \). 
+%Therefore, the only critical point of the error function $\Psi$ in the domain $D$ corresponds to the desired attitude $R=R_d$ with $e_R=0$ and $\Psi=0$. 
+%Therefore, in \( D \) the configuration error function is quadratic and the bounds in~\cref{item:prop_psi_quadratic} are valid according to~\cite[Proposition 6.30]{bullo2004}.
+
+%The proof of \cref{item:prop_era_upbound} is available in~\cite{LeeITCST13}.
 
 \subsection{Proof of~\Cref{prop:error_dyn}}\label{proof:error_dyn}
 From the kinematics~\cref{eqn:Rdot}, and noting that \( \dot{R}_d = 0 \) the time derivative of \( R_d^T R \) is given as

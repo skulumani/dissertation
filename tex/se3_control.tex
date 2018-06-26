@@ -129,23 +129,23 @@ The corresponding angular velocity command is obtained using the attitude kinema
 With the desired attitude command, \( R_d(t), \Omega_d(t) \), we then define the errors associated with the attitude and angular velocity.
 The attitude and angular velocity tracking errors must be careful chosen to remain on the tangent bundle of \SO.
 \begin{prop}{Attitude Configuration Error Function}\label{prop:attitude_control_configuration_error}
-First, an attitude error function \(\Psi : \SO \times \SO  \to \R \), an attitude error vector \( e_R : \SO \times \SO \to \R \), and an angular velocity error \( e_\Omega : \SO \times \R^3 \times \SO \times \R^3 \) are defined as
+First, an attitude error function \(A : \SO \times \SO  \to \R \), an attitude error vector \( e_R : \SO \times \SO \to \R \), and an angular velocity error \( e_\Omega : \SO \times \R^3 \times \SO \times \R^3 \) are defined as
 \begin{subequations}\label{eq:attitude_error_function}
 \begin{align}
-    \Psi(R, R_d) &= \frac{1}{2} \tr{I - R_d^T R}, \label{eq:psi} \\
-    e_R &= \frac{1}{2} \parenth{R_d^T R - R^T R_d^\vee}, \label{eq:er}\\
+    A(R, R_d) &= \frac{1}{2} G \tr{I - R_d^T R}, \label{eq:psi} \\
+    e_R &= \frac{1}{2} G \parenth{R_d^T R - R^T R_d^\vee}, \label{eq:er}\\
     e_\Omega &= \Omega - R^T R_d \Omega_d \label{eq:ew}.
 \end{align}
 \end{subequations}
 Then the following properties hold:
 \begin{enumerate}
-    \item \label{item:prop_psi_psd} \( \Psi \) is locally positive definite about \( R = R_d \) on \( \SO \).
-    \item \label{item:prop_er}The variation of \( \Psi \) with respect to a variation of \( \delta R = R \hat{\eta} \) for \( \eta \in \R^3 \) is given by
+    \item \label{item:prop_psi_psd} \( A \) is locally positive definite about \( R = R_d \) on \( \SO \).
+    \item \label{item:prop_er}The variation of \( A \) with respect to a variation of \( \delta R = R \hat{\eta} \) for \( \eta \in \R^3 \) is given by
 	\begin{align}\label{eq:dirDiff_psi}
 		\dirDiff{A}{R} &= \eta \cdot e_{R} ,
 	\end{align}
 	where the notation \( \dirDiff{A}{R} \) represents the directional derivative of $A$ with respect to $R$ along the direction $\delta R$.
-    \item The critical points of \( \Psi \), where \( e_R = 0 \) are \( \braces{R_d} \cup \braces{R_d \exp(\pi \hat s) } \) for \( s \in \braces{e_1, e_2, e_3}\)
+    \item \label{item:prop_critical_points} The critical points of \( A \), where \( e_R = 0 \) are \( \braces{R_d} \cup \braces{R_d \exp(\pi \hat s) } \) for \( s \in \braces{e_1, e_2, e_3}\)
 	\item \label{item:prop_era_upbound}An upper bound of \( \norm{e_{R}} \) is given as:
 	\begin{align}
 		\norm{e_{R}}^2 \leq \frac{\Psi}{b_1} , \label{eqn:psi_lower_bound}
