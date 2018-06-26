@@ -140,7 +140,7 @@ First, an attitude error function \(A : \SO \times \SO  \to \R \), an attitude e
 Then the following properties hold:
 \begin{enumerate}
     \item \label{item:prop_psi_psd} \( A \) is locally positive definite about \( R = R_d \) on \( \SO \).
-    \item \label{item:prop_er}The variation of \( A \) with respect to a variation of \( \delta R = R \hat{\eta} \) for \( \eta \in \R^3 \) is given by
+    \item \label{item:prop_er} The variation of \( A \) with respect to a variation of \( \delta R = R \hat{\eta} \) for \( \eta \in \R^3 \) is given by
 	\begin{align}\label{eq:dirDiff_psi}
 		\dirDiff{A}{R} &= \eta \cdot e_{R} ,
 	\end{align}
@@ -166,6 +166,12 @@ Then the following properties hold:
 \begin{proof}
     See~\Cref{proof:attitude_config_error}
 \end{proof}
+
+\subsection{Constrained Attitude Control}
+
+Talk about the constrained attitude control
+
+\subsection{Attitude Pointing modes}
 
 This positive definite function parameterizes the error between the current attitude, \( R \), and the desired attitude command \( R_d \).
 Using the variations of \( \Psi \) gives the attitude tracking error vector \( e_R \in \R^3 \) as
