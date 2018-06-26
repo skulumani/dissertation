@@ -31,11 +31,13 @@ The cross product of \( \vb{x} \) and \( \vb{y} \) is defined as
     \begin{bmatrix} y_1 \\ y_2 \\ y_3 \end{bmatrix}
     = \hat{\vb{x}} \vb{y}.
 \end{align}
+The hat map is defined as the skew symmetric matrix given by
+\begin{align}
+    \hat x = \begin{bmatrix} 0 & -x_3 & x_2 \\ x_3 & 0 & -x_1 \\ -x_2 & x_1 & 0\end{bmatrix} 
+    = - \hat{\vb{x}}^T \in \so ,
+\end{align}
+for $\vb{x}=[x_1,x_2,x_3]^T\in\R^{3}$. 
 
-\begin{align*}
-    \hat x = \begin{bmatrix} 0 & -x_3 & x_2 \\ x_3 & 0 & -x_1 \\ -x_2 & x_1 & 0\end{bmatrix},
-\end{align*}
-for $x=[x_1,x_2,x_3]^T\in\R^{3}$. 
 Several properties of the hat map are summarized as
 \begin{gather}
    \hat x y = x\times y = - y\times x = - \hat y x, \label{eqn:cross_product}\\
