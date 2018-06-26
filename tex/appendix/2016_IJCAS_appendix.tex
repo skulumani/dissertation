@@ -113,6 +113,14 @@ Therefore the left hand side of~\cref{eq:era_condition_3} is negative and a cont
 Applying a similar logic for the case \( g_1 > g_2 \) shows that~\cref{item:condition_2} is not possible and therefore~\cref{item:condition_1} must be satisfied.
 Substituting~\cref{item:condition_1} into~\cref{eq:relative_attitude_error} shows that the main diagonal of \( Q \) must be composed of \( + 1 \) or \( -1 \).
 Thus, the critical points of \( A(R) \) are those provided in~\cref{item:prop_critical_points}.
+These critical points correspond to additional rotations of \SI{180}{\degree} about each axes, or more explicitly \( R_e = \braces{R_d, R_\alpha, R_\beta, R_\gamma} \) where
+\begin{align}
+    R_\alpha &= R_d \begin{bmatrix} 1 & 0 & 0 \\ 0 & -1 & 0 \\ 0 & 0 & -1 \end{bmatrix} , \\
+    R_\beta &= R_d \begin{bmatrix} -1 & 0 & 0 \\ 0 & -1 & 0 \\ 0 & 0 & 1 \end{bmatrix} , \\
+    R_\gamma &= R_d \begin{bmatrix} -1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & -1 \end{bmatrix} .
+\end{align}
+
+
 %The term \( r^T R^T v \) represents the cosine of the angle between the body fixed vector \( r \) and the inertial vector \( v \). 
 %It follows that
 %\begin{align*}
