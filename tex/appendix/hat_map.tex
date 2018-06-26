@@ -19,6 +19,18 @@ Consider two vectors \( \vb{x}, \vb{y} \in \R^3\) where
     \vb{y} &= \begin{bmatrix} y_1 & y_2 & y_3 \end{bmatrix}^T .
 \end{align*}
 The cross product of \( \vb{x} \) and \( \vb{y} \) is defined as
+\begin{align}
+    \vb{x} \times \vb{y} = 
+    \begin{bmatrix} 
+        x_2 y_3 - x_3 y_2 \\
+        x_3 y_1 - x_1 y_3 \\
+        x_1 y_2 - x_2 y_1 
+    \end{bmatrix}
+    = 
+    \begin{bmatrix} 0 & -x_3 & x_2 \\ x_3 & 0 & -x_1 \\ -x_2 & x_1 & 0\end{bmatrix}
+    \begin{bmatrix} y_1 \\ y_2 \\ y_3 \end{bmatrix}
+    = \hat{\vb{x}} \vb{y}.
+\end{align}
 
 \begin{align*}
     \hat x = \begin{bmatrix} 0 & -x_3 & x_2 \\ x_3 & 0 & -x_1 \\ -x_2 & x_1 & 0\end{bmatrix},
