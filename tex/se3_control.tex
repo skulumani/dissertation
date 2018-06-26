@@ -130,11 +130,11 @@ With the desired attitude command, \( R_d(t), \Omega_d(t) \), we then define the
 The attitude and angular velocity tracking errors must be careful chosen to remain on the tangent bundle of \SO.
 \begin{prop}{Attitude Configuration Error Function}\label{prop:attitude_control_configuration_error}
 First, an attitude error function \(\Psi : \SO \times \SO  \to \R \), an attitude error vector \( e_R : \SO \times \SO \to \R \), and an angular velocity error \( e_\Omega : \SO \times \R^3 \times \SO \times \R^3 \) are defined as
-\begin{subequations}
-\begin{align}\label{eq:attitude_error_function}
+\begin{subequations}\label{eq:attitude_error_function}
+\begin{align}
     \Psi(R, R_d) &= \frac{1}{2} \tr{I - R_d^T R}, \label{eq:psi} \\
-    e_R &= \frac{1}{2} \parenth{R_d^T R - R^T R_d^\vee}, \\
-    e_\Omega &= \Omega - R^T R_d \Omega_d .
+    e_R &= \frac{1}{2} \parenth{R_d^T R - R^T R_d^\vee}, \label{eq:er}\\
+    e_\Omega &= \Omega - R^T R_d \Omega_d \label{eq:ew}.
 \end{align}
 \end{subequations}
 Then the following properties hold:
