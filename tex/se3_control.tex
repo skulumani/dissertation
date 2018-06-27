@@ -419,6 +419,249 @@ If \( c \) is chosen such that
 See~\Cref{proof:adaptive_control}
 \end{proof}
 
+Nonlinear adaptive controllers have been developed for attitude stabilization in terms of modified Rodriguez parameters and quaternions, as well as attitude tracking in terms of Euler angles. 
+The proposed control system is developed on \(\SO\) and avoids the singularities of Euler angles and Rodriguez parameters while incorporating state inequality constraints. 
+In addition, the unwinding and double coverage ambiguity of quaternions are also completely avoided. 
+The control system handles uncertain disturbances while avoiding constrained regions.
+
+Compared to the previous work on constrained attitude control, we present a geometrically exact control system without parameterizations.
+The controller is designed on the true configuration manifold, \( \SO \), and is free from the issues associated with other attitude representations.
+In addition, we incorporate state inequality constraints for the first time on \( \SO \).
+The presented control system is computed in real-time and offers significant computational advantages over previous iterative methods. 
+In addition, the rigorous mathematical proof guarantees stability.
+This is in contrast to many of the previous methods which offer no stability guarantees.
+The presented analysis offers provable bounds on the expected motion, which are critical for hardware implementation or mission critical applications.
+
+\subsection{Numerical Examples of Constrained Attitude Control}\label{sec:constrained_attitude_control_numerical_example}
+
+We demonstrate the performance of the constrained attitude control system via numerical simulation.
+The inertia tensor of a rigid body is given as
+\begin{gather*}
+    J = \begin{bmatrix}
+	\num{5.5} & \num{0.06} & \num{-0.03} \\
+	\num{0.06} & \num{5.5} & \num{0.01} \\
+	\num{-0.03} & \num{0.01} & \num{0.1}
+    \end{bmatrix} \times 10^{-3}~\si{\kilo\gram\meter\squared} .
+\end{gather*} 
+The control system parameters are chosen as
+\begin{gather*}
+	G = \text{diag} [0.9,1.1,1.0], \quad k_R = 0.4 , \quad	k_\Omega = 0.296 ,\quad
+	c = 1.0 , \quad k_\Delta = 0.5 , \quad \alpha = 15 .
+\end{gather*}
+The diagonal matrix \( G \) serves as a weighting matrix for the relative difference between \( R \) and \( R_d \). 
+Using this term, the control designer can modify the shape of the attractive error function, given in~\cref{eq:A}, and the resulting behavior of the closed loop system.
+Similarly, the constant \( \alpha \) is used to modify the shape of the repulsive error function, given in~\cref{eq:B}.
+In general, this term is derived from the system design and the nature of the obstacles in the dynamic environment.
+For example, a system wishing to avoid pointing at a diffuse obstacle, such as incoming debris, may chose an appropriate value of \( \theta \), based on the best available information, and a relatively low \( \alpha \) to ensure additional safety margin near the constraint boundary. 
+Similarly, in an environment with several densely spaced obstacles, such as that presented in~\cref{fig:cad_adapt}, a much larger \( \alpha \) would enable more aggressive maneuvers which pass closer to the constraint boundary without violation.
+This would increase the allowable region of operation in a highly constrained environment.
+The parameters \( k_R, k_\Omega, c, k_\Delta\) are control parameters used to modify the closed-loop behavior of the system.
+It is straightforward to chose \( k_R, k_\Omega, k_\Delta\), using a linear analysis, to satisfy desired response criteria, such as settling time or percent overshoot~\cite{nise2004}.
+A body fixed sensor is defined as \(r = [1,0,0]\), while multiple inequality constraints are defined in~\Cref{tab:constraints}.
+The simulation parameters are chosen to be similar to those found in~\cite{lee2011b}, however we increase the size of the constraint regions to create a more challenging scenario for the control system.
+\begin{table}[htbp]
+    \centering
+\begin{tabular}{lc}
+    \toprule
+Constraint Vector (\( v \)) & Angle (\( \theta \)) \\ 
+\midrule
+\([0.174,\,-0.934,\, -0.034]^T\) & \ang{40} \\ 
+\([0 ,\, 0.7071 ,\, 0.7071]^T\) & \ang{40} \\ 
+\([-0.853 ,\, 0.436 ,\, -0.286]^T\) & \ang{40} \\ 
+\([-0.122 ,\,-0.140,\, -0.983]^T\) & \ang{20} \\
+\bottomrule
+\end{tabular} 
+\caption{Constraint Parameters~\label{tab:constraints}}
+\end{table}
+The initial state is defined as \(R_0 =  \exp(\ang{225} \times \frac{\pi}{180} \hat{e}_3), \Omega_0 = 0\), with \( e_3 = \begin{bmatrix} 0 & 0 & 1 \end{bmatrix}^T \).
+The desired state is \( R_d = I,\Omega_d = 0\).
+We show simulation results for the system stabilizing about the desired attitude with and without the adaptive update law from~\Cref{prop:adaptive_control}.
+We assume a fixed disturbance of \(\Delta = \begin{bmatrix} 0.2 & 0.2 & 0.2 \end{bmatrix}^T \si{\newton\meter}\), with the function \( W(R,\Omega) = I \).
+This form is equivalent to an integral control term which penalizes deviations from the desired configuration.
+The first term of~\cref{eqn:delta_dot} has the effect of increasing the proportional gain of the control system, since the time derivative of the attitude error vector, \( \dot{e}_{R} \), is linear with respect to the angular velocity error vector \( e_\Omega\).
+
+\begin{figure}[t]
+    \centering 
+    \subcaptionbox{Attitude error vector \(e_R\) components \label{fig:eR_con}}{\input{figures/2016_IJCAS_pgf/eR_noadapt.pgf}}~
+    \subcaptionbox{Configuration error \( \Psi \) \label{fig:Psi_con}}{\input{figures/2016_IJCAS_pgf/Psi_noadapt.pgf}}~
+   \subcaptionbox{Angle to each constraint \label{fig:con_angles_con}}{\input{figures/2016_IJCAS_pgf/ang_con_noadapt.pgf}}~
+    \caption{Attitude stabilization without adaptive update law}
+    \label{fig:con} 
+\end{figure}
+Simulation results without the adaptive update law are shown in~\cref{fig:con}.
+\Cref{fig:eR_con} shows each component of the attitude error vector,~\cref{eq:eR}, over the simulation time span.
+\Cref{fig:Psi_con} shows the  magnitude of the combined error function,~\cref{eqn:psi}.
+Without the update law, the system does not achieve zero steady state error. 
+\Cref{fig:Psi_con} shows that the configuration error function does not converge to zero and there exist steady state errors.
+In spite of the uncompensated disturbance, the system is able to avoid the constrained regions as shown in~\cref{fig:con_angles_con}.
+The angle to each of the constraints, which is measured in degrees and given by \( \arccos(r^T R^T v_i) \), is always greater than the specified angle, \( \theta_i \), in~\Cref{tab:constraints}.
+
+\Cref{fig:adapt} shows the results with the addition of the adaptive update law.
+\Cref{fig:Psi_adapt,fig:con_angles} are equivalent to~\cref{fig:Psi_con,fig:con_angles_con} with the exception of the addition of the adaptive update law.
+The addition of the adaptive update law allows the system to converge to the desired attitude in the presence of constraints.
+The path of the body fixed sensor in the inertial frame, namely \( R r \), is illustrated in~\cref{fig:cad_adapt} by the blue trajectory.
+The rendering of the spacecraft is presented in the desired, or final, orientation of the simulation.
+The inequality constraints from~\Cref{tab:constraints} are depicted as red cones, where the cone half angle is \( \theta \).
+The control system is able to asymptotically converge to the desired attitude.
+\Cref{fig:con_angles} shows that the angle, \( \arccos(r^T R^T v_i) \) and measured in degrees, between the body fixed sensor and each constraint is satisfied for the entire maneuver.
+In addition, the estimate of the disturbance converges to the true value as shown in~\cref{fig:delta_adapt}.
+
+Both control system are able to automatically avoid the constrained regions. 
+In addition, these results show that it is straightforward to incorporate an arbitrary amount of large constraints.
+In spite of this challenging configuration space, the proposed control system offers a simple method of avoiding constrained regions.
+These closed-loop feedback results are computed in real time and offer a significant advantage over typical open-loop planning methods.
+These results show that the proposed geometric adaptive approach is critical to attitude stabilization in the presence of state constraints and disturbances.
+
+\begin{figure} 
+  \centering 
+  \subcaptionbox{ Configuration error \( \Psi \)\label{fig:Psi_adapt} }{\input{figures/2016_IJCAS_pgf/Psi_adapt.pgf}}~
+  \subcaptionbox{ Angle to each constraint \label{fig:con_angles} }{\input{figures/2016_IJCAS_pgf/ang_con_adapt.pgf}}\\
+  \subcaptionbox{ Disturbance estimate \( \bar \Delta \) components \label{fig:delta_adapt} }{\input{figures/2016_IJCAS_pgf/dist_adapt.pgf}}~
+    \subcaptionbox{ Attitude trajectory \label{fig:cad_adapt} }{\includegraphics[trim={10cm 0 10cm 0},clip,width=0.4\columnwidth]{figures/2016_IJCAS/cad_adapt} }
+  \caption{Attitude stabilization with adaptive update law}
+  \label{fig:adapt} 
+\end{figure}
+
+\subsection{Attitude Parameterizations}\label{ssec:attitude_parameterization}
+% TODO Think about moving this section to the introduction
+% Discuss the benefits of using this geometric representation as compared to Euler angles or quaternions
+Attitude parameterizations, such as Euler angles and Quaternions, are frequently used in the aerospace and astrodynamics communities~\cite{vallado2007}.
+For example, Euler angle sequences are frequently used to describe the transformation between a variety of reference frames used to describe the position and orientation of the orbit of Earth satellites~\cite{vallado2007}.
+In addition, quaternions were used during the operation of Skylab and the NASA Space Shuttle~\cite{hughes2004}.
+However, the choice of attitude parameterization plays a critical role in control design and the resulting motion of the system.
+
+% singularities and the problems involved with using Euler angles
+Euler angle sequences are a minimum, three-parameter set of angles which describe the transformation between two reference frames.
+Using Euler angles, we can represent any general rotation as a sequence of three intermediate rotations~\cite{shuster1993}.
+By convention, there are \num{24} possible Euler angle sequences for any given rotation.
+In addition, Euler angles are a minimum representation, as only three angles, and the associated sequence, are required to describe the three angular degrees of freedom of the rigid body.
+However, there is great ambiguity in the representation of the attitude as there are many equivalent Euler angle sequences for a given attitude of the system.
+Therefore, great care must be taken in the control system design to ensure that a consistent sequence is used. 
+Furthermore, it has been shown that no minimal attitude representation can describe orientations both globally and without singularities~\cite{hughes2004,bhat2000}.
+These singularities can cause significant difficulties during control design and hardware implementation.
+
+To demonstrate the effect of the kinematic singularities inherent with Euler angles we will represent the attitude of the body fixed reference frame, \( \vecbf{b}_i \), with respect to the inertial frame, \( \vecbf{e}_i\), in terms of the 3-1-3 Euler angle sequence.
+More explicitly, this corresponds to the rotation sequence \( \theta_1 \vecbf{b}_3 , \theta_2 \vecbf{b}_1, \theta_3 \vecbf{b}_3 \).
+The rotation matrix, \( R(\theta_1, \theta_2, \theta_3) \), corresponding to this sequence is 
+\begin{align}\label{eq:euler313}
+    \begin{bmatrix}
+        -s_1 c_2 s_3 + c_3 c_1 & -s_1 c_2 c_3 - s_3 c_1 & s_1s_2 \\
+        c_1 c_2 s_3 + c_3 s_1 & c_1 c_2 c_3 - s_3 s_1 & - c_1 s_2 \\
+        s_2 s_3 & s_2 c_3 & c_2
+    \end{bmatrix} ,
+\end{align}
+where \( s_i, c_i \) represent \( \sin \theta_i, \cos \theta_i \) for \( i = \braces{1,2,3}\).
+Using this representation, the kinematic differential equations for the associated Euler angles are given as
+\begin{align}\label{eq:euler313_diff}
+    \begin{bmatrix}
+        \dot{\theta}_1 \\ \dot{\theta}_2 \\ \dot{\theta}_3 
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        \slfrac{\parenth{\Omega_1 s_3 + \Omega_2 c_3}}{s_2} \\
+        \Omega_1 c_3 - \Omega_2 s_3 \\
+        -\slfrac{\parenth{\Omega_1 s_3 + \omega_2 c_3}c_2}{s_2} + \Omega_3
+    \end{bmatrix} .
+\end{align}
+From~\cref{eq:euler313_diff}, it is immediately clear that a singularity exists when \( \sin \theta_2 = 0 \) or equivalently, \( \theta_2 = 0, \pm \pi \). 
+In the vicinity of the singularity, the angular velocities of the Euler angles will tend to approach \( \pm \infty \) and the angular velocities will experience instantaneous sign changes.
+Furthermore, all Euler angle sequences will exhibit a similar singularity at either \( \theta_2 = 0, \pm \pi \) or \( \theta_2 = \pm \frac{\pi}{2}, \pm \frac{3\pi}{2} \).
+Therefore simply switching the sequence does not alleviate the issue, but rather only moves the singularity.
+As a result, Euler angles are not appropriate for systems which experience large angular rotations, such as those demonstrated in~\cref{fig:adapt}, or control systems which rely on the angular velocities \( \theta_i \).
+% discuss the unwinding phenomenon with quaternions
+\subsection{Time-varying Disturbance}\label{ssec:time_varying}
+% TODO Add citation to dynamics that include attitude disturbance term
+The form of the uncertainty, given in~\cref{eq:Wdot}, is commonly used in the adaptive control literature~\cite{lee2011a,ioannou2012}. 
+A wide variety of realistic disturbances, such as gravitational gradients or malfunctioning thrusters for spacecraft scenarios, are accurately represented via this model. 
+In addition, it is possible to represent the uncertainty of a time-varying inertia matrix as an equivalent external disturbance. 
+For example, Euler's law gives the relationship for the rate of change of angular momentum as
+\begin{align*}
+    M_{ext} = \dot{\vecbf{H}} = \dot{J} \vecbf{\Omega} + J \dot{\vecbf{\Omega}} .
+\end{align*}
+Using this, we can see that an instantaneous change in \( J \) is proportional to an external moment.
+Finally, it has been shown that this adaptive control formulation is able to handle time-varying disturbances under some mild assumptions~\cite{ioannou2012}. 
+
+We demonstrate the ability to handle an uncertain time-varying disturbance via numerical example.
+The system is identical to the one presented in~\Cref{sec:numerical_simulation}, however we modify the external disturbance. 
+The external disturbance is the superposition of constant and time-varying terms as
+\begin{align*}
+    \Delta = \begin{bmatrix} 0.2 \\ 0.2 \\0.2 \end{bmatrix} + 0.02 \begin{bmatrix} \sin 9 t \\ \cos 9 t \\ \frac{1}{2} \parenth{\sin 9t + \cos 9t}\end{bmatrix} \si{\newton\meter}.
+\end{align*}
+We define a constraint in the inertial frame as \( v = [\frac{1}{\sqrt{2}}, \frac{1}{\sqrt{2}}, 0]^T \) with \( \theta = \ang{12} \).
+The initial state is defined as \(R(0) = \exp( \frac{\pi}{2} \hat{e}_3) \), while the desired state is \(R_d =I \).
+The goal is to rotate the vehicle about the \( e_3 \) axis while avoiding the obstacle and compensating for the time-varying disturbance. 
+
+\Cref{fig:tv} demonstrates the ability for the adaptive controller, which is presented in~\Cref{prop:adaptive_control}, to handle time-varying disturbances.
+\Cref{fig:Psi_tv} shows the non-dimensional value of the configuration error function and demonstrates that the adaptive controller is able to stabilize the system to the desired attitude configuration.
+In addition,~\cref{fig:con_angle_tv} shows that the constraint is never violated as the angle between the body-fixed sensor \( r \) and the constraint \( v \) is greater than \SI{12}{\degree} over the entire attitude maneuver.
+We can see in~\cref{fig:Delta_tv} that that estimate \(\bar \Delta \) for each of the components accurately tracks the true disturbance after approximately~\SI{5}{\second}.
+
+\section{Experiment on Hexrotor UAV}\label{sec:experiment}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width = 0.50\columnwidth]{2016_IJCAS/hexrotor}
+    \caption{Attitude control testbed~\label{fig:hexrotor}}
+\end{figure}
+\vspace{-3mm}
+A hexrotor unmanned aerial vehicle (UAV), as seen in~\cref{fig:hexrotor}, has been developed at the Flight Dynamics and Controls Laboratory (FDCL) at the George Washington University.
+The UAV is composed of three pairs of counter-rotating propellers. 
+Typical UAVs are composed of four or more co-planar propellers.
+As a result, these systems are underactuated and unable to impart a force along every degree of freedom.
+For example, quadrotor UAVs are unable to translate laterally without first conducting a rotation.
+Conversely, the propeller pairs of the hexrotor are angled relative to one another to allow for a fully actuated rigid body.
+This allows the hexrotor to impart a force in any direction and a moment about any axis. 
+\begin{figure}[htbp]
+    \centering 
+    \subcaptionbox{ {Configuration error \( \Psi \)} \label{fig:Psi_tv} }{\input{figures/2016_IJCAS_pgf/Psi_timevarying.pgf}}~
+    \subcaptionbox{ {Angle to constraint } \label{fig:con_angle_tv} }{\input{figures/2016_IJCAS_pgf/ang_con_timevarying.pgf}}~
+    \subcaptionbox{ {Disturbance estimate \(\bar\Delta\) components} \label{fig:Delta_tv} }{\input{figures/2016_IJCAS_pgf/dist_timevarying.pgf}}
+    \caption{Time-varying external disturbance simulation}
+    \label{fig:tv} 
+\end{figure}
+\begin{figure}[t]
+    \centering 
+    \subcaptionbox{ {Attitude error vector \(e_R\)} components\label{fig:eR_exp} }{\input{figures/2016_IJCAS_pgf/eR_exp.pgf}}~
+    \subcaptionbox{ {Configuration error \( \Psi \)} \label{fig:Psi_exp} }{\input{figures/2016_IJCAS_pgf/Psi_exp.pgf}}~
+    \subcaptionbox{ {Control input \( u\) } components\label{fig:u_exp} }{\input{figures/2016_IJCAS_pgf/u_exp.pgf}}\\
+    \subcaptionbox{ {Attitude Trajectory } \label{fig:traj_exp} }{\includegraphics[width=0.3\columnwidth]{2016_IJCAS/traj_exp} }~
+    \subcaptionbox{ {Angle to constraint } \label{fig:con_angle_exp} }{\input{figures/2016_IJCAS_pgf/ang_con_exp.pgf}}
+    \caption{Constrained Attitude stabilization experiment}
+    \label{fig:exp} 
+\end{figure}
+Attitude information is measured by a combination of both on and off board sensor systems.
+The VectorNav VN-100 is a rugged, miniature high-performance inertial measurement unit which provides high frequency angular velocity measurements.
+A Vicon motion capture system is installed within the test environment and used to provide high accuracy attitude measurements. 
+A series of reflective markers are placed on the hexrotor and their relative position is captured by a series of infrared optical cameras. 
+Assuming a fixed rigid body, the Vicon system is able to derive the attitude of the hexrotor and transmit this data to the processor onboard the hexrotor.
+The control input is computed on-board, using the full state measurement, and implemented at approximately \SI{100}{\hertz}.
+In order to constrain the motion, allowing us to test only the attitude dynamics, we attach the hexrotor to a spherical joint.
+Since, the center of rotation is below the center of gravity of the hexrotor there is a destabilizing gravitational moment.
+The resulting attitude dynamics are similar to an inverted pendulum model.
+We augment the control input in~\cref{eqn:adaptive_control} with an additional term to negate the effect of the gravitational moment.
+
+A sensor pointing direction is defined in the body-fixed frame of the hexrotor as \( r = [1,0,0]^T \).
+We define an obstacle in the inertial frame as \( v = [\frac{1}{\sqrt{2}}, \frac{1}{\sqrt{2}}, 0]^T \) with \( \theta = \ang{12} \).
+An initial state is defined as \(R(0) = \exp( \frac{\pi}{2} \hat{e}_3) \), while the desired state is \(R_d =I \).
+This results in the UAV performing a \ang{90} yaw rotation about the vertical axis of the spherical joint and the constrained region is on the shortest path connecting $R_0$ and $R_d$. 
+The attitude control system is identical to the one presented in~\Cref{prop:adaptive_control} with the exception of a gravity moment term, \( M_g = r_{cg} \times m g R^T e_3\) which represents the gravitational moment due to the distance \( r_{cg} \) between the center of mass and the center of rotation. 
+In addition, the following parameters were also modified: \(k_R = 0.4, k_\Omega = 0.7 ,c = 0.1 , \alpha = 8 \text{ and } k_\Delta = 0.05\) to account for the differences in the hardware model of the hexrotor.
+
+The experimental results are shown in~\Cref{fig:exp}.
+\Cref{fig:eR_exp} shows the behavior of each of the components of the attitude error vector, defined by~\cref{eq:eR}, over the experiment time span.
+\Cref{fig:Psi_exp} shows the time history of the attitude error function, defined by~\cref{eq:psi}.
+\Cref{fig:u_exp} shows the magnitude of each component of the control input in \si{\newton\meter}, which is computed from~\cref{eqn:adaptive_control}.
+Finally,~\cref{fig:con_angle_exp} shows the angle between the body-fixed sensor and the obstacle in degrees.
+In order to maneuver the system ``close" to the constrained zone we utilize several intermediary set points on either side of the obstacle.
+From the initial attitude the hexrotor rotates to the first set point, pauses, and then continues around the obstacle to the second set point before continuing toward the desired attitude.
+As a result this creates the stepped behavior of the configuration error history as shown in~\cref{fig:Psi_exp}.
+
+The hexrotor avoids the constrained region illustrated by the circular cone in~\cref{fig:traj_exp}, by rotating around the boundary of the constraint. 
+\Cref{fig:con_angle_exp} shows the angle, \( \arccos r^T R^T v \), between the body mounted sensor and the inertially fixed sensor.
+The experiment demonstrates that the minimum angular separation is \SI{14}{\degree} which satisfies the constraint of \( \theta = \SI{12}{\degree} \).
+This further validates that the proposed control system exhibits the desired performance in the experimental setting as well. 
+A video clip is available at \url{https://youtu.be/dsmAbwQram4}.
+
 
 \subsection{Attitude Pointing modes}
 
