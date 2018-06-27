@@ -86,7 +86,7 @@ In contrast to controller derived for quadrotor \gls{uav}, the attitude and tran
 From the dynamic equations of motion, the coupling between the translational and rotational dynamics is due to the gravitational moment on the spacecraft.
 Furthermore, we assume that we have a fully actuated spacecraft such that we can apply a torque about all three rotational axes and a force in all three directions.
 This is in contrast to \glspl{uav} where the system is underactuated and in order to produce certain translational forces the system must first rotate.
-This is a relatively standard assumption in the astrodynamics community as most spacecraft contain seperate systems for attitude control, e.g. \glspl{rwa}, \glspl{cmg}, or cold gas thrusters, and translational control, e.g. cold-gas thrusters, electric propulsion, or large chemical rockets~\cite{hughes2004,wertz1978}.
+This is a relatively standard assumption in the astrodynamics community as most spacecraft contain seperate systems for attitude control, e.g.\ \glspl{rwa}, \glspl{cmg}, or cold gas thrusters, and translational control, e.g.\ cold-gas thrusters, electric propulsion, or large chemical rockets~\cite{hughes2004,wertz1978}.
 However, there are also many examples of underactuated spacecraft, such as those with damaged components~\cite{petersen2015a} or cubesats with limited cost and/or size budgets.
 % TODO Add citaitons for these papers
 In these situations, there are a variety of methods to handle the underactuation, ranging from optimal control techniques, exploiting external forces, or utilizing multiple control loops.
@@ -155,13 +155,31 @@ Then the following properties hold:
 		h_1 &= \min\braces{g_1 + g_2, g_2 + g_3 , g_3 + g_1} ,\\
 		h_2 &= \max\braces{\parenth{g_1 -g_2}^2,\parenth{g_2 -g_3}^2 , \parenth{g_3 -g_1}^2} ,\\
 		h_3 &= \max\braces{\parenth{g_1 + g_2}^2, \parenth{g_2 + g_3}^2 , \parenth{g_3 + g_1}^2}, \\		
-        h_4 &= \max\braces{ g_1 + g_, g_2 +g_3, g+3 + g_1}, \\
+        h_4 &= \max\braces{g_1 + g_, g_2 +g_3, g+3 + g_1}, \\
         h_5 &= \max\braces{\parenth{g_1 + g_2}^2, \parenth{g_2 + g_3}^2, \parenth{g_3 + g_1}^2}.
 	\end{align*}
 \end{enumerate}
 \end{prop}
 \begin{proof}
     See~\Cref{proof:attitude_config_error}
+\end{proof}
+
+With the appropriate attitude configuration error we now present the error dynamics in~\cref{prop:attractive_error_dynamics}, which are used in the subsequent development of the nonlinear control system.
+\begin{prop}\label{prop:attractive_error_dynamics}
+    The attitude error dynamics for \( A(R, R_d), e_\Omega \) satisfy
+	\begin{gather}
+    	\diff{}{t} \parenth{A(R)} = e_{R_A} \cdot e_\Omega , \label{eqn:A_dot} \\
+		\diff{}{t} \parenth{e_{R_A}} = E(R, R_d) e_\Omega , \label{eqn:eRA_dot} \\
+        \diff{}{t} \parenth{e_\Omega} = J^{-1} \parenth{-\Omega \times J \Omega + u + W(R, \Omega) \Delta + M_{ext}} , \label{eqn:eW_dot}
+	\end{gather}
+	where the matrix \(E(R,R_d)\in \R^{3\times3} \) is given by
+	\begin{align}
+		E(R,R_d) = &\frac{1}{2} \parenth{\tr{R^T R_d G}I - R^T R_d G} , \label{eqn:E} \\
+	\end{align}
+\end{prop}
+
+\begin{proof}
+    See~\Cref{proof:attractive_error_dynamics}
 \end{proof}
 
 \subsection{Constrained Attitude Control}
@@ -177,7 +195,7 @@ Using the variations of \( \Psi \) gives the attitude tracking error vector \( e
 \end{align}
 After further manipulation and using the attitude kinematics equation from~\cref{eq:attitude_kinematics}, it is possible to define the angular veloicty tracking error \( e_\Omega \in \R^3 \) as
 \begin{align}\label{eq:angular_velocity_error_vector}
-    e_\Omega = \Omega - R^T R_d \Omega_d .
+    e_\Omega = \Omega - R^T R_d \Omega_d.
 \end{align}
 With the properly defined attitude error vectors the rotational control input is defined as 
 \begin{align*}\label{eq:rotational_control}
@@ -191,7 +209,7 @@ First we define a smooth tracking command \( x_d(t) \in \R^3 \), which defines t
 The tracking error vectors are easier to define as they evolve on a Euclidean space rather than a nonlinear manifold and are given by
 \begin{align}
     e_x = x - x_d ,\\
-    e_v = v - \dot{x}_d .
+    e_v = v - \dot{x}_d.
 \end{align}
 With the error variables, the translational control input is then given by
 \begin{align}\label{eq:translation_control}
@@ -227,7 +245,7 @@ A numerical simulation is used to demonstrate the geometric control of the coupl
 The initial condition of the spacecraft is defined as
 \begin{align}
     \vb{x}_0 &= \begin{bmatrix} 0 & -2.550 & 0 \end{bmatrix} \si{\kilo\meter}, \\
-    R_0 &= \exp { \frac{\pi}{2} \vb{e}_3 } .
+    R_0 &= \exp {\frac{\pi}{2} \vb{e}_3}.
 \end{align}
 The spacecraft begins on the inertial \( \vb{e}_2 \) axis and initially pointing at the asteroid. 
 A tracking command is designed to transition the spacecraft towards the asteroid fixed \( \vb{f}_1  \) axis followed by a vertical descent along towards the asteroid surface.
@@ -250,7 +268,7 @@ The desired attitude command is defined as
     \vb{b}_{1d} &= - \frac{\vb{x}}{\norm{\vb{x}}} , \\
     \vb{b}_{3d} &= \frac{\vb{f}_3 - \parenth{\vb{f}_3 \cdot \vb{b}_{1d}} \vb{b}_{1d}}{\norm{\vb{f}_3 - \parenth{\vb{f}_3 \cdot \vb{b}_{1d}} \vb{b}_{1d}}}, \\
     \vb{b}_{2d} &= \vb{b}_{3d} \times \vb{b}_{1d} , \\
-R_d &= \begin{bmatrix} \vb{b}_{1d} & \vb{b}_{2d} & \vb{b}_{3d} \end{bmatrix} .
+R_d &= \begin{bmatrix} \vb{b}_{1d} & \vb{b}_{2d} & \vb{b}_{3d} \end{bmatrix}.
 \end{align}
 The camera axis is aligned with the spacecraft \( \vb{b}_ 1 \) axis, which is direted towards the asteroid, throughout the landing trajectory as the spacecraft moves in the equatorial plane of the asteroid.
 
@@ -263,7 +281,7 @@ Furthermore, asteroid Itokawa is shown in its final orientation at the completio
 \begin{figure}[htbp]
     \captionsetup[subfigure]{position=b}
     \centering
-    \subcaptionbox{Planar view of landing trajectory\label{fig:true_landing_trajectory}}{\includegraphics[width=0.5\textwidth]{figures/2017_AAS_fall/traj_fig.pdf}}~
+    \subcaptionbox{Planar view of landing trajectory\label{fig:true_landing_trajectory}}{\includegraphics[width=0.5\textwidth]{figures/2017_AAS_fall/traj_fig.pdf}}
     \subcaptionbox{Position of spacecraft in the inertial frame\label{fig:pos_components}}{\includegraphics[width=0.5\textwidth]{figures/2017_AAS_fall/pos_fig.pdf}}
     \caption{Landing trajectory to asteroid Itokawa~\label{fig:position}}
 \end{figure}
