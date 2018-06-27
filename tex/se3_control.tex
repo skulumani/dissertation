@@ -662,24 +662,6 @@ The experiment demonstrates that the minimum angular separation is \SI{14}{\degr
 This further validates that the proposed control system exhibits the desired performance in the experimental setting as well. 
 A video clip is available at \url{https://youtu.be/dsmAbwQram4}.
 
-
-\subsection{Attitude Pointing modes}
-
-This positive definite function parameterizes the error between the current attitude, \( R \), and the desired attitude command \( R_d \).
-Using the variations of \( \Psi \) gives the attitude tracking error vector \( e_R \in \R^3 \) as
-\begin{align}\label{eq:attitude_error_vector}
-    e_R = \frac{1}{2} \parenth{R_d^T R - R^T R_d^\vee}.
-\end{align}
-After further manipulation and using the attitude kinematics equation from~\cref{eq:attitude_kinematics}, it is possible to define the angular veloicty tracking error \( e_\Omega \in \R^3 \) as
-\begin{align}\label{eq:angular_velocity_error_vector}
-    e_\Omega = \Omega - R^T R_d \Omega_d.
-\end{align}
-With the properly defined attitude error vectors the rotational control input is defined as 
-\begin{align*}\label{eq:rotational_control}
-    \vb{u}_m = - k_R e_R - k_\Omega e_\Omega + \Omega \times J \Omega - J \parenth{\hat{\Omega} R^T R_d \Omega_d - R^T R_d \dot{\Omega}_d} - \vb{M}_1 - \vb{M_2} 
-\end{align*}
-where \( k_R, k_\Omega \) are positive controller constants.
-
 \subsection{Translation Control}
 The translational control input is defined in a similar manner. 
 First we define a smooth tracking command \( x_d(t) \in \R^3 \), which defines the desired position of the spacecraft in the inertial frame.
