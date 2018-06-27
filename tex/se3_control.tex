@@ -132,22 +132,22 @@ The attitude and angular velocity tracking errors must be careful chosen to rema
 First, an attitude error function \(A : \SO \times \SO  \to \R \), an attitude error vector \( e_R : \SO \times \SO \to \R \), and an angular velocity error \( e_\Omega : \SO \times \R^3 \times \SO \times \R^3 \) are defined as
 \begin{subequations}\label{eq:attitude_error_function}
 \begin{align}
-    A(R, R_d) &= \frac{1}{2} G \tr{I - R_d^T R}, \label{eq:psi} \\
-    e_R &= \frac{1}{2} G \parenth{R_d^T R - R^T R_d^\vee}, \label{eq:er}\\
-    e_\Omega &= \Omega - R^T R_d \Omega_d \label{eq:ew}.
+    A(R, R_d) &= \frac{1}{2} G \tr{I - R_d^T R}, \label{eq:A} \\
+    e_R &= \frac{1}{2} G \parenth{R_d^T R - R^T R_d^\vee}, \label{eq:eRA}\\
+    e_\Omega &= \Omega - R^T R_d \Omega_d \label{eq:eWA}.
 \end{align}
 \end{subequations}
 Then the following properties hold:
 \begin{enumerate}
-    \item \label{item:prop_psi_psd} \( A \) is locally positive definite about \( R = R_d \) on \( \SO \).
-    \item \label{item:prop_er} The variation of \( A \) with respect to a variation of \( \delta R = R \hat{\eta} \) for \( \eta \in \R^3 \) is given by
-	\begin{align}\label{eq:dirDiff_psi}
+    \item \label{item:prop_A_psd} \( A \) is locally positive definite about \( R = R_d \) on \( \SO \).
+    \item \label{item:prop_eRA} The variation of \( A \) with respect to a variation of \( \delta R = R \hat{\eta} \) for \( \eta \in \R^3 \) is given by
+	\begin{align}\label{eq:dirDiff_A}
 		\dirDiff{A}{R} &= \eta \cdot e_{R} ,
 	\end{align}
 	where the notation \( \dirDiff{A}{R} \) represents the directional derivative of $A$ with respect to $R$ along the direction $\delta R$.
     \item \label{item:prop_critical_points} The critical points of \( A \), where \( e_R = 0 \) are \( \braces{R_d} \cup \braces{R_d \exp(\pi \hat s) } \) for \( s \in \braces{e_1, e_2, e_3}\)
-    \item \label{item:prop_psi_quadratic} \( \Psi \) is a locally quadratic function, which means there exist constants \( 0 < n_1 \leq n_2 \) such that
-    \begin{align}\label{eq:psi_bound}
+    \item \label{item:prop_A_quadratic} \( \Psi \) is a locally quadratic function, which means there exist constants \( 0 < n_1 \leq n_2 \) such that
+    \begin{align}\label{eq:A_bound}
         n_1 \norm{e_R}^2 \leq \Psi(R) \leq n_2 \norm{e_R}^2 ,
     \end{align}
     for $0<\psi < h_1 $ where the constants \( n_1 = \frac{h_1}{h_2 + h_3} \) and \( n_2 = \frac{h_1 h_4}{h_5 \parenth{h1 - \psi} }\) for
@@ -268,6 +268,40 @@ More explicitly, we extend the trace form used in~\cite{bullo2004,LeeITCST13} an
 Based on the proposed configuration error function, a nonlinear geometric attitude controller is constructed. 
 A smooth control system is first developed assuming that there is  no disturbance, and then it is extended to include an adaptive update law for stabilization in the presence of unknown disturbances. 
 The proposed attitude configuration error function and several properties are summarized as follows.
+\begin{prop}[Constrained Attitude Error Function] \label{prop:repulsive_configuration_error}
+Define an attitude error function \( \Psi : \SO \to \R \), an attitude error vector \( e_R \in \R^3 \), and an angular velocity error vector \( e_\Omega \in \R^3 \) as follows:
+\begin{gather}
+	\Psi(R, R_d) = A(R, R_d) B(R) , \label{eqn:psi} \\
+	e_R = e_{R_A} B(R) + A(R,R_d) e_{R_B} , \label{eqn:eR} \\
+	e_\Omega = \Omega , \label{eqn:eW}
+\end{gather}
+with
+\begin{gather}
+	B(R) = 1 - \frac{1}{\alpha} \ln \left( \frac{\cos \theta -  r^T R^T v}{1 + \cos \theta}\right). \label{eq:B} \\
+	e_{R_B} = \frac{\left( R^T v\right)^\wedge r}{\alpha \left(r^T R^T v - \cos \theta \right)}. \label{eq:eRB} 
+\end{gather}	
+where \( \alpha \in \R \) is defined as a positive constant.
+Then, the following properties hold
+\begin{enumerate}
+	\item \label{item:prop_psi_psd} \(\Psi\) is positive definite about \( R = R_d\) on $\SO$.
+	\item \label{item:prop_erb} The variation of \( B(R) \) with respect to a variation of \( \delta R = R \hat{\eta} \) for \( \eta \in \R^3 \) is given by
+	\begin{align}\label{eq:dirDiff_B}
+		\dirDiff{B}{R} &= \eta \cdot e_{R_{B}}.
+	\end{align}
+    \item \label{item:prop_psi_quadratic} \( \Psi \) is a locally quadratic function, which means there exist constants \( 0 < n_1 \leq n_2 \) such that
+    \begin{align}\label{eq:psi_bound}
+        n_1 \norm{e_R}^2 \leq \Psi(R) \leq n_2 \norm{e_R}^2 ,
+    \end{align}
+    on the neighborhood $D$ of the desired attitude \( R_d \)
+    \begin{align}\label{eq:psi_quadratic_domain}
+        D = \braces{R\in\SO  \vert \Psi < \psi < h_1, r^T R^T v < \beta < \cos \theta}
+    \end{align}
+    for $0<\psi < h_1 $ and $0< \beta<\cos\theta$. 
+\end{enumerate}
+\end{prop}
+\begin{proof}
+    See~\Cref{proof:repulsive_configuration_error}
+\end{proof}
 
 \subsection{Attitude Pointing modes}
 
