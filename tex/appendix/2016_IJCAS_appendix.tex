@@ -1,6 +1,194 @@
-\chapter{2016 IJCAS Appendices}
-\subsection{Proof of~\Cref{prop:config_error}}\label{proof:attitude_config_error}
-To prove~\cref{item:prop_psi_psd}, we note that~\cref{eqn:A} is a positive definite function about \( R = R_d \)~\cite{bullo2004}.
+\chapter{Nonlinear Geometric Controller Proofs}
+\section{Proof of~\Cref{prop:attitude_control_configuration_error}}\label{proof:attitude_config_error}
+
+\subsection{Proof of~\Cref{item:prop_psi_psd} and~\Cref{item:prop_er}}\label{proof:prop_psi_psd}
+To prove~\cref{item:prop_psi_psd}, we first seek to show that \( A(R_d) \) is a critical point by showing that the first derivative is zero at \( R_d \).
+The infinitesimal variation of a rotation matrix is defined as
+\begin{align*}
+    \delta R = \left. \diff{}{\epsilon} \right|_{\epsilon=0} R \exp{\epsilon \hat{\eta}} = R \hat{\eta}.
+\end{align*}
+Using this, the variation of~\cref{eqn:psi} is taken with respect to \( R \) as
+\begin{align}\label{eq:dirDiff_A}
+	\dirDiff{\Psi}{R} &= \eta \cdot \frac{1}{2} \left( G R_d^T R - R^T R_d G\right)^\vee ,
+%	&= -\frac{1}{2} \tr{G R_d^T \left( R \hat{\eta}\right)} \\
+\end{align}
+where we used~\cref{eqn:hat1} to achieve the simplified form.
+\Cref{eq:dirDiff_A} also proves~\cref{item:prop_er}.
+Evaluating~\cref{eq:dirDiff_A} at \( R = R_d \) demonstrates that \( R_d \) is a critical point of \( \Psi \)
+Next, the second derivative of \( A \) is computed as
+\begin{align*}
+    \dirDiff{\parenth{\dirDiff{A}{R}}}{R} &= \eta \cdot \frac{1}{2}\parenth{G R_d^T \delta R - \delta R^T R_d G}^\vee  \\
+    &= \eta \cdot \frac{1}{2} \parenth{G R_d^T R \hat \eta + \hat \eta R^T R_d G}^\vee\\
+    &= \eta \cdot \frac{1}{2} \bracket{\parenth{\braces{\tr{R^T R_d G} I - R^T R_d G} \eta}^\wedge}^\vee  \\
+    &= \eta \cdot \frac{1}{2} \parenth{\tr{R^T R_d G} I - R^T R_d G}\eta ,
+\end{align*}
+where we used the scalar triple product rule, from~\cref{eqn:STP}, to arrive at the final form.
+Evaluating the Hessian at \( R = R_d \)
+\begin{align}\label{eq:A_hessian}
+    \Hess(A)\cdot (\delta R,\delta R)\big|_{R=R_d} = \eta \cdot \frac{1}{2} \parenth{\tr{G}I -  G} \eta 
+\end{align}
+shows that the Hessian is positive definite at \( R_d \) and therefore the critical point is a minimum for any variation \( \eta \) and proves~\cite{item:prop_psi_psd}.
+
+\subsection{Proof of~\Cref{item:prop_critical_points}}\label{proof:prop_critical_points}
+To prove~\cref{item:prop_critical_points} we must first determine the critical points of~\cref{eq:er}.
+The derivations are originally presented in~\cite{bullo2004,chaturvedi2011a} and we present and expand on their original descriptions.
+We define the relative attitude error as \( Q = R_d^T R \) and expand~\cref{eq:er} as
+\begin{align*}
+    e_{R_A} &= \frac{1}{2} \parenth{G Q - Q^T G} ^ \vee, \\
+            &= \frac{1}{2} \parenth{%
+            \begin{bmatrix} g_1 & 0 & 0 \\ 0 & g_2 & 0 \\ 0 & 0 & g_3 \end{bmatrix}
+            \begin{bmatrix} q_{11} & q_{12} & q_{13} \\ q_{21} & q_{22} & q_{23} \\ q_{31} & q_{32} & q_{33}\end{bmatrix}
+            -
+            \begin{bmatrix} q_{11} & q_{21} & q_{31} \\ q_{12} & q_{22} & q_{32} \\ q_{13} & q_{23} & q_{33}\end{bmatrix}
+            \begin{bmatrix} g_1 & 0 & 0 \\ 0 & g_2 & 0 \\ 0 & 0 & g_3 \end{bmatrix}
+            }^\vee , \\
+            &= \frac{1}{2} \begin{bmatrix} g_3 q_{32} - g_2 q_{23} \\ g_1 q_{13} - g_3 q_{31} \\ g_2 q_{21} - g_1 q_{12}\end{bmatrix}
+\end{align*}
+At a critical point, the following equations must be satisfied
+\begin{subequations}\label{eq:erA_critical_conditons}
+    \begin{align}
+        g_3q_{32} &= g_2 q_{23}, \\
+        g_1 q_{13} &= g_3 q_{31}, \\
+        g_2 q_{21} &= g_1 q_{12}.
+    \end{align}
+\end{subequations}     
+Using the conditions in~\cref{eq:erA_critical_conditons} the relative attitude error \( Q \) becomes
+\begin{align}\label{eq:relative_attitude_error}
+    Q = R_d^T R_e =
+    \begin{bmatrix} 
+        q_{11} & q_{12} & q_{13} \\ 
+        \frac{g_1}{g_2} q_{12} & q_{22} & q_{23} \\
+        \frac{g_1}{g_3} q_{13} & \frac{g_2}{g_3} q_{23} & q_{33}
+    \end{bmatrix}
+    \in \SO
+\end{align}
+Since, \( Q = R_d^T R \) is orthonormal the main diagonal of \( QQ^T \) is equal to \num{1} and each column of \( Q \) is unit length.
+\begin{align*}
+    Q Q^T &= I, \\
+          &= \begin{bmatrix}
+            q_{11}^2 + q_{12}^2 + q_{13}^2 & q_{11}q_{12}\frac{g_1}{g_2} + q_{12}q_{22} + q_{13}q_{23} & q_{11}q_{13}\frac{g_1}{g_3} + q_{12}q_{23}\frac{g_2}{g_3} + q_{13}q_{33} \\
+            q_{11}q_{12}\frac{g_1}{g_2}  + q_{12}q_{22} + q_{23}q_{13} & \frac{g_1^2}{g_2^2}q_{12}^2 + q_{22}^2 + q_{23}^2 & \frac{g_1^2}{g_2g_3} q_{12}q_{13} + \frac{g_2}{g_3}q_{23}q_{22} + q_{23}q_{33} \\
+            \frac{g_1}{g_3} q_{11}q_{13} + \frac{g_2}{g_3}q_{23}q_{12} + q_{33}q_{13} & \frac{g_1^2}{g_3 g_2} q_{12}q_{13} + \frac{g_2}{g_3} q_{23}q_{22} + q_{33} q_{23} & \frac{g_1^2}{g_3^2}q_{13}^2 + \frac{g_2^2}{g_3^2}q_{23}^2 + q_{33}^2
+\end{bmatrix} , 
+\end{align*}
+As a result the following \num{6} conditions must be satisfied when \( e_{R_A} = 0 \):
+\begin{align}
+    q_{11}^2 + q_{12}^2 + q_{13}^2 &= 1,\label{eq:orthogonal_1} \\
+    \frac{g_1^2}{g_2^2}q_{12}^2 + q_{22}^2 + q_{23}^2 &= 1, \label{eq:orthogonal_2}\\
+    \frac{g_1^2}{g_3^2}q_{13}^2 + \frac{g_2^2}{g_3^2}q_{23}^2 + q_{33}^2 &= 1, \label{eq:orthogonal_3}\\
+    q_{11}^2 + \frac{g_1^2}{g_2^2}q_{12}^2 + \frac{g_1^2}{g_3^2}q_{13}^2 &= 1, \label{eq:unit_norm_1}\\
+    q_{12} + q_{22}^2 + \frac{g_2^2}{g_3^2}q_{23}^2 &= 1, \label{eq:unit_norm_2}\\
+    q_{13}^2 + q_{23}^2 + q_{33}^2 &= 1.\label{eq:unit_norm_3}
+\end{align}
+We can further simplify these relationships by rewriting~\cref{eq:orthogonal_1,eq:orthogonal_2,eq:orthogonal_3} as
+\begin{align}
+    q_{11}^2 &= 1 - q_{12}^2 - q_{13}^2 , \\
+    q_{22}^2 &= 1 - \frac{g_1^2}{g_2^2} q_{12}^2 - q_{23}^2, \\
+    q_{33}^2 &= 1 - \frac{g_1^2}{g_3^2}q_{13}^2 - \frac{g_2^2}{g_3^2}q_{23}^2 
+\end{align}
+and substituting these relationships into~\cref{eq:unit_norm_1,eq:unit_norm_2,eq:unit_norm_3} to arrive at
+\begin{subequations}\label{eq:era_critical_point_conditions}
+\begin{align}
+    \parenth{1 - \frac{g_1^2}{g_2^2} } q_{12}^2 + \parenth{1 - \frac{g_1^2}{g_3^2}}q_{13}^2 &= 0 , \label{eq:era_condition_1}\\
+    \parenth{1 - \frac{g_1^2}{g_2^2}} q_{12}^2 - \parenth{1 - \frac{g_2^2}{g_3^2}}q_{23}^2 &= 0 , \label{eq:era_condition_2}\\
+    \parenth{1 - \frac{g_1^2}{g_3^2}} q_{13}^2 + \parenth{1 - \frac{g_2^2}{g_3^2}} q_{23}^2 &= 0.\label{eq:era_condition_3}
+\end{align}
+\end{subequations}     
+The relationships in~\cref{eq:era_critical_point_conditions} are equivalent to the statement that \( e_{R_A} = 0 \) and must also be satisfied at each critical point.
+Since each \( g_i \) is distinct and greater than zero, the solution to~\cref{eq:erA_critical_conditons}, or equivalently \( e_{R_A} = 0 \), must satisfy one of two possible conditions:
+\begin{enumerate}[label=(\roman*)]
+    \item \label{item:condition_1} \( q_{12} = q_{13} = q_{23} =0\)
+    \item \label{item:condition_2} \( q_{ij} \neq 0 \; \forall \; i \neq j \)
+\end{enumerate}
+These conditions can be determined by noticing that~\cref{item:condition_1} is the trivial solution.
+For~\cref{item:condition_2}, consider the situation that \( q_{12} \neq 0 \) then from the fact that \( g_i \) are distinct yields the fact that \( \parenth{1 - \frac{g_1^2}{g_2^2} } \neq 0 \) and \( \parenth{1 - \frac{g_1^2}{g_3^2} } \neq 0 \) which means that \( q_{13}^2 \neq 0 \) since the terms must add to zero.
+Similar arguments can be made for the other relations in~\cref{eq:era_critical_point_conditions} which means that the solutions must satisify either~\cref{item:condition_1} or~\cref{item:condition_2}.
+
+Now consider~\cref{item:condition_2} and assume that \( g_2 > g_1 \) and \( q_{12}, q_{13}, q_{23} \neq 0 \).
+From~\cref{eq:era_condition_1} this implies that \( \parenth{1 - \frac{g_1^2}{g_2^2} } q_{12}^2 > 0\) since \( q_{12}^2 > 0\).
+Therefore, in order for~\cref{eq:era_condition_1} to be satisfied means that \( \parenth{1 - \frac{g_1^2}{g_3^2} } q_{13}^2 < 0 \) which further implies that \( g_1 > g_3 \).
+As a result, \( g_2 > g_1 > g_3 \).
+Using this inequality in~\cref{eq:era_condition_3} implies that
+\begin{align*}
+    \parenth{1 - \frac{g_2^2}{g_3^2}} q_{23} < 0, \quad \parenth{1 - \frac{g_1^2}{g_3^2}} q_{13}^2 < 0.
+\end{align*}
+Therefore the left hand side of~\cref{eq:era_condition_3} is negative and a contradiction.
+Applying a similar logic for the case \( g_1 > g_2 \) shows that~\cref{item:condition_2} is not possible and therefore~\cref{item:condition_1} must be satisfied.
+Substituting~\cref{item:condition_1} into~\cref{eq:relative_attitude_error} shows that the main diagonal of \( Q \) must be composed of \( + 1 \) or \( -1 \).
+Thus, the critical points of \( A(R) \) are those provided in~\cref{item:prop_critical_points}.
+These critical points correspond to additional rotations of \SI{180}{\degree} about each axes, or more explicitly \( R_e = \braces{R_d, R_\alpha, R_\beta, R_\gamma} \) where
+\begin{align}
+    R_\alpha &= R_d \begin{bmatrix} 1 & 0 & 0 \\ 0 & -1 & 0 \\ 0 & 0 & -1 \end{bmatrix} , \\
+    R_\beta &= R_d \begin{bmatrix} -1 & 0 & 0 \\ 0 & -1 & 0 \\ 0 & 0 & 1 \end{bmatrix} , \\
+    R_\gamma &= R_d \begin{bmatrix} -1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & -1 \end{bmatrix}.
+\end{align}
+
+\subsection{Proof of~\Cref{item:prop_psi_quadratic}}\label{proof:prop_psi_quadratic}
+
+The original proof for~\cref{item:prop_psi_quadratic} is presented in~\cite{lee2011a} and summarized in this section.
+Define \( Q = R_d^T R = \exp \hat{\vb{x}} \in \SO \) for any \( \vb{x} \in \R^3 \) from Rodrigues' formula
+\begin{align}\label{eq:rodrigues_formula}
+    Q = = \exp{\theta \hat{\vb{x}}} = I + \sin \theta \vh{x} + \parenth{1 - \cos \theta} \vh{x}^2 \in \SO.
+\end{align}
+Using a symbolic computation tool one can then find
+\begin{align}\label{eq:psi_rodrigues}
+    A &= \frac{1 - \cos \norm \vb{x}}{2\norm{\vb{x}^2}} \sum_{\parenth{i, j, k} \in \mathcal{C}} \parenth{g_i + g_j} x_k^2, \\
+    \norm{e_{R_A}}^2 &= \frac{\parenth{1 - \cos \norm{\vb{x}}^2} }{4 \norm{\vb{x}}^2}  \sum_{\parenth{i, j, k} \in \mathcal{C}} \\parenth{g_i - g_j}^2 x_i^2 x_j^2 + \frac{\sin^2 \norm{\vb{x}}}{4 \norm{\vb{x}}^2} \sum_{\parenth{i, j, k} \in \mathcal{C}} \parenth{g_i + g_j}^2 x_k^2,
+\end{align}
+where \( \mathcal{C} = \braces{ \parenth{1, 2, 3} , \parenth{2, 3, 1} , \parenth{3, 1, 2} } \).
+Using~\cref{eq:psi_rodrigues} one can show
+\begin{align}
+    \frac{\norm{e_{R_A}}^2}{A} \leq \frac{h_2 + h_3}{h_1} , \quad \frac{A}{\norm{e_{R_A}}^2} \leq \frac{h_1 h_4}{h_5 \parenth{h_1 - \psi} } ,
+\end{align}
+which proves~\cref{item:prop_psi_quadratic}.
+
+\subsection{Proof of~\Cref{prop:attractive_error_dynamics}}\label{proof:attractive_error_dynamics}
+From the kinematics~\cref{eqn:Rdot}, and noting that \( \dot{R}_d = 0 \) the time derivative of \( R_d^T R \) is given as
+\begin{gather*}
+	\diff{}{t} \parenth{R_d^T R} = R_d^T R \hat{e}_\Omega.
+\end{gather*}
+Applying this to the time derivative of~\cref{eqn:A} gives
+\begin{gather*}
+	\diff{}{t} (A) = -\frac{1}{2} \tr{G R_d^T R \hat{e}_\Omega}.
+\end{gather*}
+Applying~\cref{eqn:hat1} into this shows~\cref{eqn:A_dot}.
+
+The time derivative of the attractive attitude error vector, \( e_{R_A} \), is given by
+\begin{gather*}
+	\diff{}{t} ( e_{R_A}) = \frac{1}{2} \parenth{\hat{e}_\Omega R^T R_d G + (R^T R_d G)^T \hat{e}_\Omega}^\vee.
+\end{gather*}
+Using the hat map property given in~\cref{eqn:xAAx} this is further reduced to~\cref{eqn:eRA_dot,eqn:E}.
+
+% TODO Add link to dynamics that includes both external force and a disturbance
+We show~\cref{eqn:eW_dot} by rearranging~\cref{eqn:Wdot} as 
+\begin{align*}
+    \diff{}{t} e_\Omega = \dot{\Omega} = J^{-1} \parenth{u - \Omega \times J \Omega + W(R,\Omega) \Delta +M_{ext}}.
+\end{align*}
+
+\subsection{Proof of~\Cref{prop:att_control}}\label{proof:att_control}
+Consider the following Lyapunov function:
+\begin{gather*}%\label{eqn:v_nodist}
+	\mathcal{V} = \frac{1}{2} e_\Omega \cdot J e_\Omega + k_R \Psi(R,R_d). 
+\end{gather*}
+From~\cref{item:prop_psi_psd} of~\Cref{prop:attitude_control_configuration_error}, \(\mathcal{V} \geq 0 \).
+Using~\cref{eqn:eW_dot,eqn:A_dot} with \( \Delta = 0 \), the time derivative of \( \mathcal{V} \) is given by
+\begin{align*}%\label{eqn:vdot_nodist}
+	\dot{\mathcal{V}} &= -k_\Omega \norm{e_\Omega}^2. 
+%	e_\Omega^T \parenth{ u - \Omega \times J \Omega } + k_R e_R \cdot e_\Omega \nonumber \\
+\end{align*}
+Since \( \mathcal{V} \) is positive definite and \( \dot{\mathcal{V}} \) is negative semi-definite, the zero equilibrium point \( e_R, e_\Omega \) is stable in the sense of Lyapunov. 
+This also implies \( \lim_{t\to\infty} \norm{e_\Omega} = 0 \) and \( \norm{e_{R_A}} \) is uniformly bounded, as the Lyapunov function is non-increasing. From~\cref{eq:eRA_dot}, $\lim_{t\to\infty} \dot e_R =0$. 
+One can show that \( \norm{\ddot{e}_R} \) is bounded.
+From Barbalat's Lemma, it follows \( \lim_{t\to\infty}\norm{\dot{e}_R} = 0 \)~\cite[Lemma 8.2]{khalil1996}. 
+Therefore, the equilibrium is asymptotically stable. 
+	
+Furthermore, since \( \dot{\mathcal{V}} \leq 0 \) the Lyapunov function is uniformly bounded which implies 
+\begin{align*}
+	A(R(t)) \leq \mathcal{V}(t) \leq \mathcal{V}(0).
+\end{align*}
+
+\section{Proof of~\Cref{prop:repulsive_configuration_error}}\label{proof:repulsive_configuration_error}
+To prove~\cref{item:prop_psi_psd} we note that~\cref{eqn:A} is a positive definite function about \( R = R_d \)~\cite{bullo2004}, which is shown in~\cref{proof:prop_psi_psd}.
 The constraint angle is assumed \( \ang{0} \leq \theta \leq \ang{90} \) such that \( 0 \leq \cos \theta \).
 The term \( r^T R^T v \) represents the cosine of the angle between the body fixed vector \( r \) and the inertial vector \( v \). 
 It follows that
@@ -9,52 +197,27 @@ It follows that
 \end{align*}
 for all \( R \in \SO \). 
 As a result, its negative logarithm is always positive and from~\cref{eqn:B}, \(1 < B\).
-The error function \( \Psi = A B \) is composed of two positive terms and is therefore also positive definite.
-
-Next, we consider~\cref{item:prop_era}.
-The infinitesimal variation of a rotation matrix is defined as
-\begin{align*}
-    \delta R = \left. \diff{}{\epsilon} \right|_{\epsilon=0} R \exp{\epsilon \hat{\eta}} = R \hat{\eta} .
-\end{align*}
-Using this, the variation of~\cref{eqn:A} is taken with respect to \( R \) as
-\begin{align*}
-	\dirDiff{A}{R} &= \eta \cdot \frac{1}{2} \left( G R_d^T R - R^T R_d G\right)^\vee ,
-%	&= -\frac{1}{2} \tr{G R_d^T \left( R \hat{\eta}\right)} \\
-\end{align*}
-where we used~\cref{eqn:hat1} to achieve the simplified form.
+The error function \( \Psi = A B \) is composed of two positive terms and is therefore also positive definite, and it is minimized at \( R = R_d \).
 
 A straightforward application of the chain and product rules of differentiation allows us to show~\cref{item:prop_erb} as
 \begin{align*}
-	\dirDiff{B}{R} &=  \eta \cdot \frac{ - \left( R^T v\right)^\wedge r}{\alpha \left(\cos \theta - r^T R^T v \right)} ,
+	\dirDiff{B}{R} &=  \eta \cdot \frac{- \left( R^T v\right)^\vee r}{\alpha \left(\cos \theta - r^T R^T v \right)} ,
 %	-\frac{1}{\alpha} \left[\left(\frac{1+\cos \theta}{\cos \theta - r^T R^T v} \right) \left(\eta \cdot \frac{\left( R^T v\right)^\vee r}{1+\cos \theta} \right) \right]
 \end{align*}
 where the scalar triple product~\cref{eqn:STP} was used.
 
-%To show~\cref{item:prop_crit} we note that \( A(R) \) is a positive definite function about \( R = R_d\), with \( \Psi(R_d) = A(R_d) = 0 \).
-%As a result, there exists a neighborhood \(  U \) about \( R = R_d \) such that
-%\begin{align*}
-%  A(R) \geq A(R_d) \; \forall \; R \in U .
-%\end{align*}
-%Since the desired attitude, \( R_d \), must lie in the feasible set, i.e., \( r^T R^T v < \cos \theta \), the addition of the repulsive barrier function, \( B \), does not change the minimum value of \( \Psi \).
 We show~\cref{item:prop_psi_quadratic} by computing the hessian of \( \Psi \), namely \( \Hess(\Psi) \),  using the chain rule as 
 \begin{align*}
     \Hess &(\Psi)\cdot (\delta R,\delta R)= (\mathbf{D}_R\parenth{\mathbf{D}_R A \cdot \delta R}\cdot \delta R) B\\
     & + \parenth{\dirDiff{A}{R} }\parenth{\dirDiff{B}{R}} 
     + \parenth{\dirDiff{B}{R} }\parenth{\dirDiff{A}{R}}\\ &+(\mathbf{D}_R\parenth{\mathbf{D}_R B \cdot \delta R}\cdot \delta R) A.
 \end{align*}
-The first order derivative of \( A(R) \) and \( B(R) \) are given by~\cref{eqn:eRA,eqn:eRB}. 
-The hessian of \( A(R) \) is computed as 
-\begin{align*}
-    \dirDiff{\parenth{\dirDiff{A}{R}}}{R} &= \eta \cdot \frac{1}{2}\parenth{G R_d^T \delta R - \delta R^T R_d G}^\vee  \\
-    &= \eta \cdot \frac{1}{2} \parenth{G R_d^T R \hat \eta + \hat \eta R^T R_d G}^\vee\\
-    &= \eta \cdot \frac{1}{2} \bracket{\parenth{\braces{\tr{R^T R_d G} I - R^T R_d G} \eta}^\wedge}^\vee  \\
-    &= \eta \cdot \frac{1}{2} \parenth{\tr{R^T R_d G} I - R^T R_d G}\eta ,
-\end{align*}
-where we used the scalar triple product rule, from~\cref{eqn:STP}, to arrive at the final form.
+The first order derivatives of \( A(R) \) and \( B(R) \) are given by~\cref{eq:eRA,eq:eRB}. 
+The hessian of \( A(R) \) is shown in~\cref{eq:A_hessian}.
 The hessian of \( B(R) \) is computed as
 \begin{align*}
     \dirDiff{\parenth{\dirDiff{B}{R}}}{R} =& \eta \cdot \left[\frac{\parenth{\delta R^T v}^\wedge r}{\alpha\parenth{r^T R^T v - \cos \theta}} \right. \\
-    & \left. - \frac{\parenth{R^T v}^\wedge r \parenth{r^T \delta R^T v}}{\alpha \parenth{r^TR^Tv - \cos \theta}^2}   \right] .
+    & \left. - \frac{\parenth{R^T v}^\wedge r \parenth{r^T \delta R^T v}}{\alpha \parenth{r^TR^Tv - \cos \theta}^2}   \right].
 \end{align*}
 The term \( \parenth{\delta R^T v}^\wedge r\) is simplified as
 \begin{align*}
@@ -67,14 +230,15 @@ where we utilized the hat map property from~\cref{eqn:cross_product}.
 Similarly, the term \( r^T \delta R^T v \) is simplified as
 \begin{align*}
     r^T \delta R^T v &= r^T \parenth{-\hat \eta R^T}v  \\
-    &= r^T \parenth{R^T v}^\wedge \eta .
+    &= r^T \parenth{R^T v}^\wedge \eta.
 \end{align*}
 The hessian of \( B(R) \) then becomes
 \begin{align*}
-    \dirDiff{\parenth{\dirDiff{B}{R}}}{R} =& \eta \cdot \left[ - \frac{ \hat r \parenth{R^T v}^\wedge}{\alpha \parenth{r^T R^T v - \cos \theta}} \right. \\ 
-    & \left. - \frac{\parenth{R^T v}^\wedge r r^T \parenth{R^T v}^\wedge }{ \alpha\parenth{r^T R^T v - \cos \theta}^2}  \right] \eta .
+    \dirDiff{\parenth{\dirDiff{B}{R}}}{R} =& \eta \cdot \left[ - \frac{\hat r \parenth{R^T v}^\wedge}{\alpha \parenth{r^T R^T v - \cos \theta}} \right. \\ 
+    & \left. - \frac{\parenth{R^T v}^\wedge r r^T \parenth{R^T v}^\wedge }{\alpha\parenth{r^T R^T v - \cos \theta}^2}  \right] \eta.
 \end{align*}
-Using these terms, we evaluate \( \Hess{\Psi} \) at the desired attitude \( R = R_d \) as follows. Since $A=0$ and $\mathbf{D}_R A=0$ at $R=R_d$, 
+Using these terms, we evaluate \( \Hess{\Psi} \) at the desired attitude \( R = R_d \) as follows. 
+Since $A=0$ and $\mathbf{D}_R A=0$ at $R=R_d$, 
 \begin{align*}
     \Hess(\Psi)\cdot (\delta R,\delta R)\big|_{R=R_d} = \eta \cdot \frac{1}{2} B \parenth{\tr{G}I -  G} \eta , 
 \end{align*}
@@ -83,28 +247,12 @@ The domain \( D \) is an open neighborhood of the desired attitude \( R_d \), an
 Therefore, the only critical point of the error function $\Psi$ in the domain $D$ corresponds to the desired attitude $R=R_d$ with $e_R=0$ and $\Psi=0$. 
 Therefore, in \( D \) the configuration error function is quadratic and the bounds in~\cref{item:prop_psi_quadratic} are valid according to~\cite[Proposition 6.30]{bullo2004}.
 
-The proof of \cref{item:prop_era_upbound} is available in~\cite{LeeITCST13}.
-
-\subsection{Proof of~\Cref{prop:error_dyn}}\label{proof:error_dyn}
-From the kinematics~\cref{eqn:Rdot}, and noting that \( \dot{R}_d = 0 \) the time derivative of \( R_d^T R \) is given as
+\section{Proof of~\Cref{prop:repulsive_configuration_error}}\label{proof:repulsive_configuration_error}
+The time derivative of the repulsive error function is given by
 \begin{gather*}
-	\diff{}{t} \parenth{R_d^T R} = R_d^T R \hat{e}_\Omega .
+	\diff{}{t} (B) = \frac{r^T \parenth{\hat{\Omega} R^T} v}{\alpha \parenth{r^T R^T v - \cos \theta}}.
 \end{gather*}
-Applying this to the time derivative of~\cref{eqn:A} gives
-\begin{gather*}
-	\diff{}{t} (A) = -\frac{1}{2} \tr{G R_d^T R \hat{e}_\Omega} .
-\end{gather*}
-Applying~\cref{eqn:hat1} into this shows~\cref{eqn:A_dot}.
-Next, the time derivative of the repulsive error function is given by
-\begin{gather*}
-	\diff{}{t} (B) = \frac{r^T \parenth{\hat{\Omega} R^T} v}{\alpha \parenth{r^T R^T v - \cos \theta}} .
-\end{gather*}
-Using the scalar triple product, given by~\cref{eqn:STP}, one can reduce this to~\cref{eqn:B_dot}.
-The time derivative of the attractive attitude error vector, \( e_{R_A} \), is given by
-\begin{gather*}
-	\diff{}{t} ( e_{R_A}) = \frac{1}{2} \parenth{\hat{e}_\Omega R^T R_d G + (R^T R_d G)^T \hat{e}_\Omega}^\vee .
-\end{gather*}
-Using the hat map property given in~\cref{eqn:xAAx} this is further reduced to~\cref{eqn:eRA_dot,eqn:E}.
+Using the scalar triple product, given by~\cref{eqn:STP}, one can reduce this to~\cref{eq:B_dot}.
 
 We take the time derivative of the repulsive attitude error vector, \( e_{R_B} \), as
 \begin{gather*}
@@ -113,43 +261,16 @@ We take the time derivative of the repulsive attitude error vector, \( e_{R_B} \
 with \( a \in \R \) and \( b \in \R\) given by 
 \begin{gather*}
 	a = \bracket{\alpha \parenth{r^T R^T v - \cos \theta}}^{-1} , \;
-	b = \frac{r^T \hat{\Omega} R^T v}{\alpha \parenth{r^T R^T v - \cos \theta}^2} .
+	b = \frac{r^T \hat{\Omega} R^T v}{\alpha \parenth{r^T R^T v - \cos \theta}^2}.
 \end{gather*}
-Using the scalar triple product from~\cref{eqn:STP} as \( r \cdot \Omega \times \parenth{R^T v} = \parenth{R^T v} \cdot r \times \Omega \) gives~\cref{eqn:eRB_dot,eqn:F}.
+Using the scalar triple product from~\cref{eqn:STP} as \( r \cdot \Omega \times \parenth{R^T v} = \parenth{R^T v} \cdot r \times \Omega \) gives~\cref{eq:eRB_dot,eq:F}.
 
 We show the time derivative of the configuration error function as
 \begin{gather*}
-	\diff{}{t} (\Psi) = \dot{A} B + A \dot{B} .
+	\diff{}{t} (\Psi) = \dot{A} B + A \dot{B}.
 \end{gather*}
-A straightforward substitution of~\cref{eqn:A_dot,eqn:B_dot,eqn:A,eqn:B} into this and applying~\cref{eqn:eR} shows~\cref{eqn:psi_dot}.
-We show~\cref{eqn:eW_dot} by rearranging~\cref{eqn:Wdot} as 
-\begin{align*}
-	\diff{}{t} e_\Omega = \dot{\Omega} = J^{-1} \parenth{u - \Omega \times J \Omega + W(R,\Omega) \Delta } .
-\end{align*}
+A straightforward substitution of~\cref{eq:A_dot,eq:B_dot,eq:A,eq:B} into this and applying~\cref{eq:eR} shows~\cref{eq:psi_dot}.
 
-\subsection{Proof of~\Cref{prop:att_control}}\label{proof:att_control}
-Consider the following Lyapunov function:
-\begin{gather*}%\label{eqn:v_nodist}
-	\mathcal{V} = \frac{1}{2} e_\Omega \cdot J e_\Omega + k_R \Psi(R,R_d) . 
-\end{gather*}
-From~\cref{item:prop_psi_psd} of~\Cref{prop:config_error}, \(\mathcal{V} \geq 0 \).
-Using~\cref{eqn:eW_dot,eqn:psi_dot} with \( \Delta = 0 \), the time derivative of \( \mathcal{V} \) is given by
-\begin{align*}%\label{eqn:vdot_nodist}
-	\dot{\mathcal{V}} &= -k_\Omega \norm{e_\Omega}^2 . 
-%	e_\Omega^T \parenth{ u - \Omega \times J \Omega } + k_R e_R \cdot e_\Omega \nonumber \\
-\end{align*}
-Since \( \mathcal{V} \) is positive definite and \( \dot{\mathcal{V}} \) is negative semi-definite, the zero equilibrium point \( e_R, e_\Omega \) is stable in the sense of Lyapunov. 
-This also implies \( \lim_{t\to\infty} \norm{e_\Omega} = 0 \) and \( \norm{e_R} \) is uniformly bounded, as the Lyapunov function is non-increasing. From \refeqn{eRA_dot} and \refeqn{eRB_dot}, $\lim_{t\to\infty} \dot e_R =0$. 
-One can show that \( \norm{\ddot{e}_R} \) is bounded.
-From Barbalat's Lemma, it follows \( \lim_{t\to\infty}\norm{\dot{e}_R} = 0 \)~\cite[Lemma 8.2]{khalil1996}. 
-Therefore, the equilibrium is asymptotically stable. 
-	
-Furthermore, since \( \dot{\mathcal{V}} \leq 0 \) the Lyapunov function is uniformly bounded which implies 
-\begin{align*}
-	\Psi(R(t)) \leq \mathcal{V}(t) \leq \mathcal{V}(0) .
-\end{align*}
-In addition, the logarithmic term in~\cref{eqn:B} ensures \( \Psi(R) \to \infty \) as \( r^T R^T v \to \cos \theta \).
-Therefore, the inequality constraint is always satisfied given that the desired equilibrium lies in the feasible set.
 	
 \subsection{Proof of~\Cref{prop:eR_dot_bound}}\label{proof:eR_dot_bound}
 %	We first show~\cref{eqn:A_bound,eqn:B_bound} through a proof by contradiction by noting that given the selected domain \( D \) we know the configuration error function is bounded by \( \Psi = A(R) B(R) < \psi\).
@@ -174,7 +295,7 @@ Furthermore, since \( \norm{B} > 1 \) this ensures that \( c_A, c_B < \psi\) and
 Next, we show~\cref{eqn:E_bound,eqn:F_bound} using the Frobenius norm.
 The Frobenius norm \( \norm{E}_F \) is given in~\cite{LeeITCST13} as
 \begin{gather*}
-	\norm{E}_F = \sqrt{\tr{E^T E}} = \frac{1}{2} \sqrt{\tr{G^2} + \tr{R^T R_d G}^2} .
+	\norm{E}_F = \sqrt{\tr{E^T E}} = \frac{1}{2} \sqrt{\tr{G^2} + \tr{R^T R_d G}^2}.
 \end{gather*}
 Applying Rodrigues' formula and the Matlab symbolic toolbox, this is simplified to
 \begin{gather*}
@@ -185,7 +306,7 @@ which shows~\cref{eqn:E_bound}, since \( \norm{E} \leq \norm{E}_F \).
 To show~\cref{eqn:F_bound}, we apply the Frobenius norm \( \norm{F}_F \):
 \begin{align*}
 	\norm{F}_F =& \frac{1}{\alpha ^2 \parenth{r^T R^T v - \cos \theta}^2} \left[\tr{a^T a} - 2 \tr{a^T b} \right. \\
-	&\left.+ 2 \tr{a^T c } + \tr{b^T b}  - 2 \tr{b^T c} + \tr{c^T c}\right] .
+	&\left.+ 2 \tr{a^T c } + \tr{b^T b}  - 2 \tr{b^T c} + \tr{c^T c}\right].
 \end{align*}
 where the terms \( a, b, \text{ and } c \) are given by
 \begin{gather*}
@@ -219,13 +340,13 @@ Finally, \( \tr{c^T c} \) is reduced to
 where we used the fact that \( \hat{x}^2 = - \norm{x}^2 I + x x^T\).
 Expanding and collecting like terms gives
 \begin{gather*}
-	\tr{c^T c } = \frac{1 - 2\parenth{v^T R r}^2 + \parenth{v^T R r}^4}{\parenth{r^T R^T v - \cos \theta}^2} . 
+	\tr{c^T c } = \frac{1 - 2\parenth{v^T R r}^2 + \parenth{v^T R r}^4}{\parenth{r^T R^T v - \cos \theta}^2}. 
 \end{gather*}
 Using the given domain \( r^T R^T v \leq \beta \) gives the upper bound~\cref{eqn:F_bound}.
 The bound on \( e_{R_A} \) is given in~\cref{eqn:psi_lower_bound} while \( e_{R_B} \) arises from the definition of the cross product \( \norm{a \times b} = \norm{a} \norm{b} \sin \theta \).
 Finally, we can find the upper bound~\cref{eqn:eR_dot} as
 \begin{gather*}
-	\norm{\dot{e}_R} \leq \parenth{\norm{B} \norm{E} + 2 \norm{e_{R_A}} \norm{e_{R_B}} + \norm{A}\norm{F}} \norm{e_\Omega} \, .
+	\norm{\dot{e}_R} \leq \parenth{\norm{B} \norm{E} + 2 \norm{e_{R_A}} \norm{e_{R_B}} + \norm{A}\norm{F}} \norm{e_\Omega} \,.
 \end{gather*}
 Using~\cref{eqn:AB_bound} to \cref{eqn:eRB_bound} one can define \( H \) in terms of known values.
 
@@ -254,7 +375,7 @@ where \( e_\Delta = \Delta - \bar{\Delta} \), \( z = [\|e_R\|,\|e_\Omega\|,\|e_\
 		k_R n_2 & \frac{1}{2} c \lambda_M & 0 \\
 		\frac{1}{2} c \lambda_M & \frac{1}{2} \lambda_M & 0 \\
 		0 & 0 & \frac{1}{2 k_\Delta}
-	\end{bmatrix} .
+	\end{bmatrix}.
 \end{align*}
 %\begin{gather*}
 %\frac{1}{2}\lambda_m k_R n_1 - \frac{1}{4}c^2 \lambda_M^2 >0\\
@@ -268,7 +389,7 @@ The time derivative of \( \mathcal{V}\) with the control input defined by~\cref{
 where we used \( \dot{e}_\Delta = - \dot{\bar{\Delta}} \).
 The terms linearly dependent on \( e_\Delta\) are combined with~\cref{eqn:delta_dot} to yield
 \begin{align*}
-	 e_\Delta^T \parenth{W^T \parenth{e_\Omega + c e_R} - \frac{1}{k_\Delta} \dot{\bar{\Delta}}} = 0 . 
+	 e_\Delta^T \parenth{W^T \parenth{e_\Omega + c e_R} - \frac{1}{k_\Delta} \dot{\bar{\Delta}}} = 0. 
 \end{align*}
 Using~\Cref{prop:eR_dot_bound}, an upper bound on \( \dot{\mathcal{V}} \) is written as
 \begin{gather*}
@@ -279,7 +400,7 @@ where $\zeta=[\|e_R\|,\|e_\Omega\|]\in\R^2$, and the matrix \( M \in \R^{2 \time
 	M = \begin{bmatrix}
 		k_R c & \frac{k_\Omega c}{2} \\
 		\frac{k_\Omega c}{2} & k_\Omega - c \lambda_M H
-	\end{bmatrix} .
+	\end{bmatrix}.
 \end{gather*}
 %\begin{gather*}
 %k_R c (k_\Omega -c \lambda_M H) -\frac{1}{4}k_\Omega^2 c^2 < 0\\

@@ -46,7 +46,7 @@ References~\cite{guelman1994, furfaro2013, zexu2012} consider the soft landing p
 These approaches were primarily based on nonlinear control techniques which allowed for the development of closed loop controllers which enable landing.
 However, only the translational dynamics of the body was considered and no notion of the attitude dynamics or it's coupling to the position is considered.
 Furthermore, relatively simple gravitational models are used which make the results unsuitable for operations near irregular bodies.
-\section{Geometric Control}
+\section{Nonlinear Geometric Control}
 
 A wide variety of control schemes have been proposed for asteroid landing missions~\cite{furfaro2013,li2011a}.
 In addition, there are a  variety of controllers developed for systems evolving on \( \SE \)~\cite{lee2010,lee2013}.
@@ -86,7 +86,7 @@ In contrast to controller derived for quadrotor \gls{uav}, the attitude and tran
 From the dynamic equations of motion, the coupling between the translational and rotational dynamics is due to the gravitational moment on the spacecraft.
 Furthermore, we assume that we have a fully actuated spacecraft such that we can apply a torque about all three rotational axes and a force in all three directions.
 This is in contrast to \glspl{uav} where the system is underactuated and in order to produce certain translational forces the system must first rotate.
-This is a relatively standard assumption in the astrodynamics community as most spacecraft contain seperate systems for attitude control, e.g. \glspl{rwa}, \glspl{cmg}, or cold gas thrusters, and translational control, e.g. cold-gas thrusters, electric propulsion, or large chemical rockets~\cite{hughes2004,wertz1978}.
+This is a relatively standard assumption in the astrodynamics community as most spacecraft contain seperate systems for attitude control, e.g.\ \glspl{rwa}, \glspl{cmg}, or cold gas thrusters, and translational control, e.g.\ cold-gas thrusters, electric propulsion, or large chemical rockets~\cite{hughes2004,wertz1978}.
 However, there are also many examples of underactuated spacecraft, such as those with damaged components~\cite{petersen2015a} or cubesats with limited cost and/or size budgets.
 % TODO Add citaitons for these papers
 In these situations, there are a variety of methods to handle the underactuation, ranging from optimal control techniques, exploiting external forces, or utilizing multiple control loops.
@@ -128,44 +128,232 @@ An arbitrary smooth attitude tracking command \( R_d (t) \in \SO \in \R^3 \) are
 The corresponding angular velocity command is obtained using the attitude kinematics equation, \( \hat{\Omega}_d = R_d^T \dot{R}_d \).
 With the desired attitude command, \( R_d(t), \Omega_d(t) \), we then define the errors associated with the attitude and angular velocity.
 The attitude and angular velocity tracking errors must be careful chosen to remain on the tangent bundle of \SO.
-\begin{prop}{Attitude Configuration Error Function}
-First, an attitude error function \(\Psi : \SO \times \SO  \to \R \), an attitude error vector \( e_R : \SO \times \SO \to \R \), and an angular velocity error \( e_\Omega : \SO \times \R^3 \times \SO \times \R^3 \) are defined as
-\begin{subequations}
-\begin{align}\label{eq:attitude_error_function}
-    \Psi(R, R_d) &= \frac{1}{2} \tr{I - R_d^T R}, \\
-    e_R &= \frac{1}{2} \parenth{R_d^T R - R^T R_d^\vee}, \\
-    e_\Omega &= \Omega - R^T R_d \Omega_d .
+\begin{prop}{Attitude Configuration Error Function}\label{prop:attitude_control_configuration_error}
+First, an attitude error function \(A : \SO \times \SO  \to \R \), an attitude error vector \( e_R : \SO \times \SO \to \R \), and an angular velocity error \( e_\Omega : \SO \times \R^3 \times \SO \times \R^3 \) are defined as
+\begin{subequations}\label{eq:attitude_error_function}
+\begin{align}
+    A(R, R_d) &= \frac{1}{2} G \tr{I - R_d^T R}, \label{eq:A} \\
+    e_R &= \frac{1}{2} G \parenth{R_d^T R - R^T R_d^\vee}, \label{eq:eRA}\\
+    e_\Omega &= \Omega - R^T R_d \Omega_d \label{eq:eWA}.
 \end{align}
 \end{subequations}
 Then the following properties hold:
 \begin{enumerate}
-    \item \( \Psi \) is locally positive definite about \( R = R_d \) on \( \SO \).
-    \item \label{item:prop_er}The variation of \( \Psi \) with respect to a variation of \( \delta R = R \hat{\eta} \) for \( \eta \in \R^3 \) is given by
-	\begin{align}\label{eq:dirDiff_psi}
+    \item \label{item:prop_A_psd} \( A \) is locally positive definite about \( R = R_d \) on \( \SO \).
+    \item \label{item:prop_eRA} The variation of \( A \) with respect to a variation of \( \delta R = R \hat{\eta} \) for \( \eta \in \R^3 \) is given by
+	\begin{align}\label{eq:dirDiff_A}
 		\dirDiff{A}{R} &= \eta \cdot e_{R} ,
 	\end{align}
 	where the notation \( \dirDiff{A}{R} \) represents the directional derivative of $A$ with respect to $R$ along the direction $\delta R$.
-    \item The critical points of \( \Psi \), where \( e_R = 0 \) are \( \braces{R_d} \cup \braces{R_d \exp(\pi \hat s) } \) for \( s \in \braces{e_1, e_2, e_3}\)
-	\item \label{item:prop_era_upbound}An upper bound of \( \norm{e_{R}} \) is given as:
-	\begin{align}
-		\norm{e_{R}}^2 \leq \frac{\Psi}{b_1} , \label{eqn:psi_lower_bound}
-	\end{align}
-	where the constant \( b_1 \) is given by \( b_1 = \frac{h_1}{h_2 + h_3} \) for 
-	\begin{align*}
-		h_1 &= \min\braces{g_1 + g_2, g_2 + g_3 , g_3 + g_1} ,\\
-		h_2 &= \min\braces{\parenth{g_1 -g_2}^2,\parenth{g_2 -g_3}^2 , \parenth{g_3 -g_1}^2} ,\\
-		h_3 &= \min\braces{\parenth{g_1 + g_2}^2, \parenth{g_2 + g_3}^2 , \parenth{g_3 + g_1}^2}.		
-	\end{align*}
-    \item \label{item:prop_psi_quadratic} \( \Psi \) is a locally quadratic function, which means there exist constants \( 0 < n_1 \leq n_2 \) such that
-    \begin{align}\label{eq:psi_bound}
+    \item \label{item:prop_critical_points} The critical points of \( A \), where \( e_R = 0 \) are \( \braces{R_d} \cup \braces{R_d \exp(\pi \hat s) } \) for \( s \in \braces{e_1, e_2, e_3}\)
+    \item \label{item:prop_A_quadratic} \( \Psi \) is a locally quadratic function, which means there exist constants \( 0 < n_1 \leq n_2 \) such that
+    \begin{align}\label{eq:A_bound}
         n_1 \norm{e_R}^2 \leq \Psi(R) \leq n_2 \norm{e_R}^2 ,
     \end{align}
-    for $0<\psi < h_1 $.
+    for $0<\psi < h_1 $ where the constants \( n_1 = \frac{h_1}{h_2 + h_3} \) and \( n_2 = \frac{h_1 h_4}{h_5 \parenth{h1 - \psi} }\) for
+	\begin{align*}
+		h_1 &= \min\braces{g_1 + g_2, g_2 + g_3 , g_3 + g_1} ,\\
+		h_2 &= \max\braces{\parenth{g_1 -g_2}^2,\parenth{g_2 -g_3}^2 , \parenth{g_3 -g_1}^2} ,\\
+		h_3 &= \max\braces{\parenth{g_1 + g_2}^2, \parenth{g_2 + g_3}^2 , \parenth{g_3 + g_1}^2}, \\		
+        h_4 &= \max\braces{g_1 + g_, g_2 +g_3, g+3 + g_1}, \\
+        h_5 &= \max\braces{\parenth{g_1 + g_2}^2, \parenth{g_2 + g_3}^2, \parenth{g_3 + g_1}^2}.
+	\end{align*}
 \end{enumerate}
 \end{prop}
 \begin{proof}
     See~\Cref{proof:attitude_config_error}
 \end{proof}
+
+With the appropriate attitude configuration error we now present the error dynamics in~\cref{prop:attractive_error_dynamics}, which are used in the subsequent development of the nonlinear control system.
+\begin{prop}\label{prop:attractive_error_dynamics}
+    The attitude error dynamics for \( A(R, R_d), e_\Omega \) satisfy
+	\begin{gather}
+    	\diff{}{t} \parenth{A(R)} = e_{R_A} \cdot e_\Omega , \label{eq:A_dot} \\
+		\diff{}{t} \parenth{e_{R_A}} = E(R, R_d) e_\Omega , \label{eq:eRA_dot} \\
+        \diff{}{t} \parenth{e_\Omega} = J^{-1} \parenth{-\Omega \times J \Omega + u + W(R, \Omega) \Delta + M_{ext}} , \label{eq:eW_dot}
+	\end{gather}
+	where the matrix \(E(R,R_d)\in \R^{3\times3} \) is given by
+	\begin{align}
+		E(R,R_d) = &\frac{1}{2} \parenth{\tr{R^T R_d G}I - R^T R_d G} , \label{eq:E} \\
+	\end{align}
+\end{prop}
+\begin{proof}
+    See~\Cref{proof:attractive_error_dynamics}
+\end{proof}
+
+\subsubsection{Attitude Control without Disturbance}
+With the appropriate attitude configuration error we now present an attitude controller for attitude stabailization and tracking. 
+This controller assumes that there is no disturbances on the attitude dynamics, i.e.\ \( \Delta = 0 \).
+\begin{prop}[Attitude Control]\label{prop:att_control}
+	Given a desired attitude command \( \parenth{R_d, \Omega_d = 0} \) and positive constants \( k_R, k_\Omega \in \R \) we define a control input \( u \in \R^3 \) as follows
+	\begin{gather}
+        u = -k_R e_R - k_\Omega e_\Omega + \Omega \times J \Omega - M_{ext}. \label{eqn:nodist_control}
+	\end{gather}
+	Then the zero equilibrium of the attitude error is asymptotically stable, and the inequality constraint is always satisfied.
+\end{prop}
+\begin{proof}
+See~\Cref{proof:att_control}
+\end{proof}
+
+\subsection{Constrained Attitude Control}
+
+Many physical rigid body systems must perform large angular slews in the presence of state constraints.
+For example, autonomous spacecraft or aerial systems are typically equipped with sensitive optical payloads, such as infrared or interferometric sensors.
+These systems require retargeting while avoiding direct exposure to sunlight or other bright objects.
+In addition, many ground based attitude testing environments, such as air bearing platforms, must operate in the presence of physical obstructions.
+Determining a satisfactory attitude control maneuver in the presence of state constraints is a challenging task.
+The removal of constrained regions from the rotational configuration space results in a \textit{nonconvex} region.
+The attitude control problem in the feasible configuration space has been extensively studied~\cite{bullo2004,MayTeePaCC11,LEEITAC15}.
+However, the attitude control problem in the presence of constraints has received much less attention.
+
+% discuss how previous papers (mcinnes and lee/meshabi) have short comings
+Several approaches have been developed to treat the attitude control problem in the presence of constraints.
+A conceptually straightforward approach is used in~\cite{hablani1999} to determine feasible attitude trajectories prior to implementation.
+The algorithm determines an intermediate point such that an unconstrained maneuver can be calculated for each subsegment.
+Typically, an optimal or easily implementable on-board control scheme for attitude maneuvers is applied to maneuver the vehicle along these segments.
+In this manner, it is possible to solve the constrained attitude control problem by linking several intermediary unconstrained maneuvers.
+While this method is conceptually simple, it is difficult to generalize for an arbitrary number of constraints.
+In addition, this approach is only applicable to problems where the selection of intermediate points are computationally feasible.
+
+The approach in~\cite{frazzoli2001} involves the use of randomized motion planning algorithms to solve the constrained attitude control problem.
+A graph is generated consisting of vertices from an initial attitude to a desired attitude. 
+A random iterative search is conducted to determine a path through a directed graph such that a given cost, which parameterizes the path cost, is minimized.
+The random search approach can only stochastically guarantee attitude convergence as it can be shown that as the number of vertices in the graph grow, the probability of nonconvergence goes to zero.
+However, the computational demand grows as the size of the graph is increased and a new graph is required when constraints are modified. 
+As a result, random search approaches are ill-suited to on-board implementation or in scenarios that require agile maneuvers.
+
+Model predictive control for spacecraft attitude dynamics is another popular approach and has been studied in~\cite{guiggiani2014,kalabic2014,gupta2015}.
+These methods rely on linear or non-linear state dynamics to repeatedly solve a finite-time optimal control problem.
+Also known as receding horizon control, the optimal control formulation allows for a straight forward method to incorporate state and control constraints.
+Computing the optimal control strategy over a moving horizon allows for a form of feedback type control rather than the more typical open-loop optimal control solution.
+Due to the iterative nature of solving optimization problems, model predictive control methods are computational expensive and frequently apply direct optimization methods to solve the necessary conditions for optimality.
+Therefore, these methods are complicated to implement and may not be suitable for real-time control applications.
+  
+% Previous potential function approach - developed using attitude parameterizations - singularities/ambiguities
+Artificial potential functions are commonly used to handle kinematic constraints for a wide range of problems in robotics~\cite{rimon1992}.
+The goal is the design of attractive and repulsive terms which drive the system toward or away from a certain obstacle, respectively.
+The attractive function is designed to drive the system towards the desired state.
+Similarly, a repulsive function is constructed such that the system is directed away from the constraints. 
+The superposition of these functions allows one to apply standard feedback control schemes for stabilization and tracking.
+More specifically, artificial potential functions have previously been applied to the spacecraft attitude control problem in~\cite{lee2011b,mcinnes1994}.
+However, both of these approaches were developed using attitude parameterizations, namely Euler angles and quaternions, and as such, they are limited by the singularities of minimal representations or the ambiguity of quaternions.
+
+This section is focused on developing an adaptive attitude control scheme in the presence of attitude inequality constraints on \(\SO\).
+We apply a potential function based approach developed directly on the nonlinear manifold \(\SO\). 
+By characterizing the attitude both globally and uniquely on \(\SO\), our approach avoids the issues of attitude parameterizations, such as kinematic singularities and ambiguities, and is geometrically exact. 
+A configuration error function on \(\SO\) with a logarithmic barrier function is proposed to avoid constrained regions. 
+Instead of calculating a priori trajectories, as in the randomized approaches, our approach results in a closed-loop attitude control system. 
+This makes it ideal for on-board implementation on UAV or spacecraft systems. 
+In addition, unlike previous approaches our control system can handle an arbitrary number of constrained regions without modification.
+This approach results in a conceptually simple obstacle avoidance scheme which extends the previous work of artificial potential functions on Euclidean spaces to the special orthogonal group.
+Furthermore, we use this new configuration error function to design an adaptive update law to enable attitude convergence in the presence of uncertain disturbances. 
+
+\paragraph{State Inequality Constraint}\label{sec:state_inequality_constraint}
+The two-sphere is the manifold of unit-vectors in \( \R^3 \), i.e., \( \Sph^2 = \{ q \in \R^3 \,  \vert \, \norm{q} = 1 \}\).
+We define \( r \in \Sph^2 \) to be a unit vector from the mass center of the rigid body along a certain direction and it is represented with respect to the body-fixed frame.
+For example, \( r \) may represent the pointing direction of an on-board optical sensor.
+We define \( v \in \Sph^2 \) to be a unit vector from the mass center of the rigid body toward an undesired pointing direction and represented in the inertial reference frame.
+For example, \( v \) may represent the inertial direction of a bright celestial object or the incoming direction of particles or other debris.
+It is further assumed that optical sensor has a strict non-exposure constraint with respect to the celestial object.
+We formulate this hard constraint as
+\begin{align}
+	r^T R^T v \leq \cos \theta , \label{eqn:constraint}
+\end{align}
+where we assume \( \ang{0} \leq \theta \leq \ang{90}  \) is the required minimum angular separation between \( r \) and \( R^T v \). 
+The objective is to a determine a control input \( u \) that stabilizes the system from an initial attitude \( R_0 \) to a desired attitude \( R_d \) while ensuring that~\cref{eqn:constraint} is always satisfied.
+
+\paragraph{Constrained Attitude Error Function}
+To handle the attitude inequality constraint, we propose a new attitude configuration error function. 
+More explicitly, we extend the trace form used in~\cite{bullo2004,LeeITCST13} and presented in~\Cref{prop:attitude_control_configuration_error} for attitude control on \(\SO\) with the addition of a logarithmic barrier function. 
+Based on the proposed configuration error function, a nonlinear geometric attitude controller is constructed. 
+A smooth control system is first developed assuming that there is  no disturbance, and then it is extended to include an adaptive update law for stabilization in the presence of unknown disturbances. 
+The proposed attitude configuration error function and several properties are summarized as follows.
+\begin{prop}[Constrained Attitude Error Function] \label{prop:repulsive_configuration_error}
+Define an attitude error function \( \Psi : \SO \to \R \), an attitude error vector \( e_R \in \R^3 \), and an angular velocity error vector \( e_\Omega \in \R^3 \) as follows:
+\begin{gather}
+	\Psi(R, R_d) = A(R, R_d) B(R) , \label{eq:psi} \\
+	e_R = e_{R_A} B(R) + A(R,R_d) e_{R_B} , \label{eq:eR} \\
+	e_\Omega = \Omega , \label{eq:eW}
+\end{gather}
+with
+\begin{gather}
+	B(R) = 1 - \frac{1}{\alpha} \ln \left( \frac{\cos \theta -  r^T R^T v}{1 + \cos \theta}\right). \label{eq:B} \\
+	e_{R_B} = \frac{\left( R^T v\right)^\wedge r}{\alpha \left(r^T R^T v - \cos \theta \right)}. \label{eq:eRB} 
+\end{gather}	
+where \( \alpha \in \R \) is defined as a positive constant.
+Then, the following properties hold
+\begin{enumerate}
+	\item \label{item:prop_psi_psd} \(\Psi\) is positive definite about \( R = R_d\) on $\SO$.
+	\item \label{item:prop_erb} The variation of \( B(R) \) with respect to a variation of \( \delta R = R \hat{\eta} \) for \( \eta \in \R^3 \) is given by
+	\begin{align}\label{eq:dirDiff_B}
+		\dirDiff{B}{R} &= \eta \cdot e_{R_{B}}.
+	\end{align}
+    \item \label{item:prop_psi_quadratic} \( \Psi \) is a locally quadratic function, which means there exist constants \( 0 < n_1 \leq n_2 \) such that
+    \begin{align}\label{eq:psi_bound}
+        n_1 \norm{e_R}^2 \leq \Psi(R) \leq n_2 \norm{e_R}^2 ,
+    \end{align}
+    on the neighborhood $D$ of the desired attitude \( R_d \)
+    \begin{align}\label{eq:psi_quadratic_domain}
+        D = \braces{R\in\SO  \vert \Psi < \psi < h_1, r^T R^T v < \beta < \cos \theta}
+    \end{align}
+    for $0<\psi < h_1 $ and $0< \beta<\cos\theta$. 
+\end{enumerate}
+\end{prop}
+\begin{proof}
+    See~\Cref{proof:repulsive_configuration_error}
+\end{proof}
+
+\Cref{eqn:psi} is composed of an attractive term, \( A (R) \) toward the desired attitude, and a repulsive term, \( B(R) \) away from the undesired direction \( R^T v \).
+In order to visualize the attitude error function on \( \SO \), we utilize a spherical coordinate representation.
+Recall, that the spherical coordinate system represents the position of a point relative to an origin in terms of a radial distance, azimuth, and elevation.
+This coordinate system is commonly used to define locations on the Earth in terms of a latitude and longitude.
+Similarly, the positions of celestial objects are defined on the celestial sphere in terms of right ascension and declination. 
+\begin{figure}[htbp]%
+    \centering 
+    \subcaptionbox{Attractive \( A(R) \) \label{fig:attract_error} }{\includegraphics[trim={8mm 2mm 8mm 2mm}, clip, width=0.3\textwidth]{figures/2016_IJCAS/attract_error.pdf}}
+    \subcaptionbox{Repulsive \( B(R) \) \label{fig:avoid_error} }{\includegraphics[trim={8mm 2mm 8mm 2mm}, clip, width=0.3\textwidth]{figures/2016_IJCAS/avoid_error.pdf}}
+    \subcaptionbox{Combined \( \Psi \) \label{fig:combined_error} }{\includegraphics[trim={8mm 2mm 8mm 2mm}, clip, width=0.3\textwidth]{figures/2016_IJCAS/combined_error.pdf}}%
+    \caption{Visualization of Configuration Error Functions using spherical coordinate representation}
+    \label{fig:config_error} 
+\end{figure}%
+We apply this concept and parameterize the rotation matrix \( R \in \SO \) in terms of the spherical angles \( \SI{-180}{\degree} \leq \lambda \leq \SI{180}{\degree}  \) and \( \SI{-90}{\degree} \leq \beta \leq \SI{90}{\degree} \). 
+Using the elementary Euler rotations, the rotation matrix is now defined as \( R = \exp( \lambda \hat{e}_2) \exp( \beta \hat{e}_3) \).
+We iterate over the domains of \( \lambda\) and \(\beta\) in order to rotate the body-fixed vector \( r \) throughout the two-sphere \( \S^2 \).
+Applying this method,~\cref{fig:config_error} allows us to visualize the error function on \( \SO \).
+The horizontal axes of~\cref{fig:config_error} represent the domain of the spherical angles \( \lambda \) and \( \beta \) in degrees, while the vertical axes represent the unitless magnitude of the error functions defined in~\cref{eq:psi,eq:A,eq:B}.
+The attractive error function, given by~\cref{eq:A}, has been previously used for attitude control on \(\SO\).
+The potential well of \( A(R)\) is illustrated in~\cref{fig:attract_error}, where the desired attitude lies at the minimum of \( A(R) \).
+
+To incorporate the state inequality constraints we apply a logarithmic barrier term.
+Barrier functions are typically used in optimal control and motion planning applications.
+A visualization of the repulsive error function is presented in~\cref{fig:avoid_error} which shows that as the boundary of the constraint is neared, or \( r^T R^T v \to \cos \theta \), the barrier term increases, \( B \to \infty\).
+We use the scale factor~\(\frac{1}{1+\cos \theta} \) to ensure that \( \Psi \) remains positive definite.
+The logarithmic function is popular as it quickly decays away from the constraint boundary.
+The positive constant \( \alpha \) serves to shape the barrier function.
+As \( \alpha \) is increased the impact of \( B(R) \) is reduced away from the constraint boundary. 
+The superposition of the attractive and repulsive functions is shown in~\cref{fig:combined_error}.
+The control system is defined such that the attitude trajectory follows the negative gradient of \( \Psi \) toward the minimum at \( R = R_d \), while avoiding the constrained region.
+
+While~\cref{eqn:B} represents a single inequality constraint given as~\cref{eqn:constraint}, it is readily generalized to multiple constraints of an arbitrary orientation. 
+For example, the configuration error function can be formulated as $\Psi=A[1+\sum_i C_i]$, where $C_i$ has the form of $C_i=B-1$ for the $i$-th constraint. 
+In this manner, one may enforce multiple state inequality constraints, and we later demonstrate this through numerical simulation. 
+This is in contrast to many previous approaches which are computationally difficult to extend to situations with multiple constraints.
+We present the dynamics of the combined configuration error function in~\Cref{prop:error_dyn}, which are used in the subsequent development of the nonlinear control system.
+
+\begin{prop}[Constrained Error Dynamics]\label{prop:repulsive_error_dynamics}
+	The attitude error dynamics for \( \Psi, e_R, e_\Omega \) satisfy 
+	\begin{gather}
+		\diff{}{t} \parenth{\Psi} = e_R \cdot e_\Omega , \label{eq:psi_dot}\\
+		\diff{}{t} \parenth{e_R} = \dot{e}_{R_A} B + e_{R_A} \dot{B} + \dot{A}e_{R_B} + A \dot{e}_{R_B} , \label{eq:eR_dot} \\
+		\diff{}{t} \parenth{e_{R_B}} = F(R) e_\Omega , \label{eq:eRB_dot} \\
+		\diff{}{t} \parenth{B(R)} = e_{R_B} \cdot e_\Omega , \label{eq:B_dot} \\
+	\end{gather}
+	where the matrix \(F(R) \in \R^{3\times3} \) is given by
+	\begin{align}
+		F(R) = &\frac{1}{\alpha \parenth{r^T R^T v - \cos \theta}} \left[\parenth{v^T R r} I - R^T v r^T + \frac{R^T \hat{v} R r v^T R \hat{r}}{\parenth{r^T R^T v - \cos \theta}}\right]. \label{eq:F}
+	\end{align}
+\end{prop}
+\subsection{Attitude Pointing modes}
 
 This positive definite function parameterizes the error between the current attitude, \( R \), and the desired attitude command \( R_d \).
 Using the variations of \( \Psi \) gives the attitude tracking error vector \( e_R \in \R^3 \) as
@@ -174,7 +362,7 @@ Using the variations of \( \Psi \) gives the attitude tracking error vector \( e
 \end{align}
 After further manipulation and using the attitude kinematics equation from~\cref{eq:attitude_kinematics}, it is possible to define the angular veloicty tracking error \( e_\Omega \in \R^3 \) as
 \begin{align}\label{eq:angular_velocity_error_vector}
-    e_\Omega = \Omega - R^T R_d \Omega_d .
+    e_\Omega = \Omega - R^T R_d \Omega_d.
 \end{align}
 With the properly defined attitude error vectors the rotational control input is defined as 
 \begin{align*}\label{eq:rotational_control}
@@ -188,7 +376,7 @@ First we define a smooth tracking command \( x_d(t) \in \R^3 \), which defines t
 The tracking error vectors are easier to define as they evolve on a Euclidean space rather than a nonlinear manifold and are given by
 \begin{align}
     e_x = x - x_d ,\\
-    e_v = v - \dot{x}_d .
+    e_v = v - \dot{x}_d.
 \end{align}
 With the error variables, the translational control input is then given by
 \begin{align}\label{eq:translation_control}
@@ -224,7 +412,7 @@ A numerical simulation is used to demonstrate the geometric control of the coupl
 The initial condition of the spacecraft is defined as
 \begin{align}
     \vb{x}_0 &= \begin{bmatrix} 0 & -2.550 & 0 \end{bmatrix} \si{\kilo\meter}, \\
-    R_0 &= \exp { \frac{\pi}{2} \vb{e}_3 } .
+    R_0 &= \exp {\frac{\pi}{2} \vb{e}_3}.
 \end{align}
 The spacecraft begins on the inertial \( \vb{e}_2 \) axis and initially pointing at the asteroid. 
 A tracking command is designed to transition the spacecraft towards the asteroid fixed \( \vb{f}_1  \) axis followed by a vertical descent along towards the asteroid surface.
@@ -247,7 +435,7 @@ The desired attitude command is defined as
     \vb{b}_{1d} &= - \frac{\vb{x}}{\norm{\vb{x}}} , \\
     \vb{b}_{3d} &= \frac{\vb{f}_3 - \parenth{\vb{f}_3 \cdot \vb{b}_{1d}} \vb{b}_{1d}}{\norm{\vb{f}_3 - \parenth{\vb{f}_3 \cdot \vb{b}_{1d}} \vb{b}_{1d}}}, \\
     \vb{b}_{2d} &= \vb{b}_{3d} \times \vb{b}_{1d} , \\
-R_d &= \begin{bmatrix} \vb{b}_{1d} & \vb{b}_{2d} & \vb{b}_{3d} \end{bmatrix} .
+R_d &= \begin{bmatrix} \vb{b}_{1d} & \vb{b}_{2d} & \vb{b}_{3d} \end{bmatrix}.
 \end{align}
 The camera axis is aligned with the spacecraft \( \vb{b}_ 1 \) axis, which is direted towards the asteroid, throughout the landing trajectory as the spacecraft moves in the equatorial plane of the asteroid.
 
@@ -260,7 +448,7 @@ Furthermore, asteroid Itokawa is shown in its final orientation at the completio
 \begin{figure}[htbp]
     \captionsetup[subfigure]{position=b}
     \centering
-    \subcaptionbox{Planar view of landing trajectory\label{fig:true_landing_trajectory}}{\includegraphics[width=0.5\textwidth]{figures/2017_AAS_fall/traj_fig.pdf}}~
+    \subcaptionbox{Planar view of landing trajectory\label{fig:true_landing_trajectory}}{\includegraphics[width=0.5\textwidth]{figures/2017_AAS_fall/traj_fig.pdf}}
     \subcaptionbox{Position of spacecraft in the inertial frame\label{fig:pos_components}}{\includegraphics[width=0.5\textwidth]{figures/2017_AAS_fall/pos_fig.pdf}}
     \caption{Landing trajectory to asteroid Itokawa~\label{fig:position}}
 \end{figure}
