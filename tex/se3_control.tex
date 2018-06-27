@@ -168,13 +168,13 @@ With the appropriate attitude configuration error we now present the error dynam
 \begin{prop}\label{prop:attractive_error_dynamics}
     The attitude error dynamics for \( A(R, R_d), e_\Omega \) satisfy
 	\begin{gather}
-    	\diff{}{t} \parenth{A(R)} = e_{R_A} \cdot e_\Omega , \label{eqn:A_dot} \\
-		\diff{}{t} \parenth{e_{R_A}} = E(R, R_d) e_\Omega , \label{eqn:eRA_dot} \\
-        \diff{}{t} \parenth{e_\Omega} = J^{-1} \parenth{-\Omega \times J \Omega + u + W(R, \Omega) \Delta + M_{ext}} , \label{eqn:eW_dot}
+    	\diff{}{t} \parenth{A(R)} = e_{R_A} \cdot e_\Omega , \label{eq:A_dot} \\
+		\diff{}{t} \parenth{e_{R_A}} = E(R, R_d) e_\Omega , \label{eq:eRA_dot} \\
+        \diff{}{t} \parenth{e_\Omega} = J^{-1} \parenth{-\Omega \times J \Omega + u + W(R, \Omega) \Delta + M_{ext}} , \label{eq:eW_dot}
 	\end{gather}
 	where the matrix \(E(R,R_d)\in \R^{3\times3} \) is given by
 	\begin{align}
-		E(R,R_d) = &\frac{1}{2} \parenth{\tr{R^T R_d G}I - R^T R_d G} , \label{eqn:E} \\
+		E(R,R_d) = &\frac{1}{2} \parenth{\tr{R^T R_d G}I - R^T R_d G} , \label{eq:E} \\
 	\end{align}
 \end{prop}
 \begin{proof}
@@ -272,8 +272,8 @@ The proposed attitude configuration error function and several properties are su
 Define an attitude error function \( \Psi : \SO \to \R \), an attitude error vector \( e_R \in \R^3 \), and an angular velocity error vector \( e_\Omega \in \R^3 \) as follows:
 \begin{gather}
 	\Psi(R, R_d) = A(R, R_d) B(R) , \label{eq:psi} \\
-	e_R = e_{R_A} B(R) + A(R,R_d) e_{R_B} , \label{eqn:eR} \\
-	e_\Omega = \Omega , \label{eqn:eW}
+	e_R = e_{R_A} B(R) + A(R,R_d) e_{R_B} , \label{eq:eR} \\
+	e_\Omega = \Omega , \label{eq:eW}
 \end{gather}
 with
 \begin{gather}
@@ -338,8 +338,21 @@ While~\cref{eqn:B} represents a single inequality constraint given as~\cref{eqn:
 For example, the configuration error function can be formulated as $\Psi=A[1+\sum_i C_i]$, where $C_i$ has the form of $C_i=B-1$ for the $i$-th constraint. 
 In this manner, one may enforce multiple state inequality constraints, and we later demonstrate this through numerical simulation. 
 This is in contrast to many previous approaches which are computationally difficult to extend to situations with multiple constraints.
-We present the dynamics of the configuration error function in~\Cref{prop:error_dyn}, which are used in the subsequent development of the nonlinear control system.
+We present the dynamics of the combined configuration error function in~\Cref{prop:error_dyn}, which are used in the subsequent development of the nonlinear control system.
 
+\begin{prop}[Constrained Error Dynamics]\label{prop:repulsive_error_dynamics}
+	The attitude error dynamics for \( \Psi, e_R, e_\Omega \) satisfy 
+	\begin{gather}
+		\diff{}{t} \parenth{\Psi} = e_R \cdot e_\Omega , \label{eq:psi_dot}\\
+		\diff{}{t} \parenth{e_R} = \dot{e}_{R_A} B + e_{R_A} \dot{B} + \dot{A}e_{R_B} + A \dot{e}_{R_B} , \label{eq:eR_dot} \\
+		\diff{}{t} \parenth{e_{R_B}} = F(R) e_\Omega , \label{eq:eRB_dot} \\
+		\diff{}{t} \parenth{B(R)} = e_{R_B} \cdot e_\Omega , \label{eq:B_dot} \\
+	\end{gather}
+	where the matrix \(F(R) \in \R^{3\times3} \) is given by
+	\begin{align}
+		F(R) = &\frac{1}{\alpha \parenth{r^T R^T v - \cos \theta}} \left[\parenth{v^T R r} I - R^T v r^T + \frac{R^T \hat{v} R r v^T R \hat{r}}{\parenth{r^T R^T v - \cos \theta}}\right]. \label{eq:F}
+	\end{align}
+\end{prop}
 \subsection{Attitude Pointing modes}
 
 This positive definite function parameterizes the error between the current attitude, \( R \), and the desired attitude command \( R_d \).
