@@ -663,6 +663,19 @@ This further validates that the proposed control system exhibits the desired per
 A video clip is available at \url{https://youtu.be/dsmAbwQram4}.
 
 \subsection{Translation Control}
+In order to fully control the spacecraft, we require an additional translational controller.
+In the case of missions about very small bodies, typical orbital transfer and control schemes become impractical as the gravitational attraction is too weak to enable proper Keplerian orbits~\cite{broschart2005}.
+Furthermore, since the gravitational attraction is very small in magnitude the effect of external disturbances, such as solar radiation pressure or differential forces on the body, become much more significant.
+In particular, various approaches have been developed for closed-loop control near small-bodies.
+For example, researchers have developed hovering type schemes~\cite{broschart2005,sawai2002}, sliding mode based approaches for landing, optimal control, and most recently geometric control.
+
+% TODO Mention how our problem is a little simpler since coupling is 'light' but can be extended
+
+% TODO State the error variables
+
+% TODO Derive teh error dynamics
+
+% TODO Lyapunov stability for translation
 The translational control input is defined in a similar manner. 
 First we define a smooth tracking command \( x_d(t) \in \R^3 \), which defines the desired position of the spacecraft in the inertial frame.
 The tracking error vectors are easier to define as they evolve on a Euclidean space rather than a nonlinear manifold and are given by
