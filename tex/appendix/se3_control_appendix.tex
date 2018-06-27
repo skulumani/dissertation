@@ -343,23 +343,23 @@ Consider the Lyapunov function \( \mathcal{V} \) given by
 \begin{align*}
 	\mathcal{V} = \frac{1}{2} e_\Omega \cdot J e_\Omega + k_R \Psi + c J e_\Omega \cdot e_R + \frac{1}{2 k_\Delta} e_\Delta \cdot e_\Delta , %\label{eqn:v_adapt}
 \end{align*}
-over the domain \( D \), defined in~\cref{prop:config_error}. 
-In this set, the properties of~\Cref{prop:config_error,prop:error_dyn} are satisfied.
+over the domain \( D \), defined in~\cref{prop:repulsive_configuration_error}. 
+In this set, the properties of~\Cref{prop:repulsive_configuration_error,prop:repulsive_error_dynamics} are satisfied.
 %Furthermore, the set \( D \) is an open neighborhood of the desired attitude and Lyapunov stability results are valid in this set.
 
-From~\Cref{prop:config_error}, the configuration error function is locally quadratic and it is bounded in \( D \) by~\cref{eq:psi_bound}.
+From~\Cref{prop:repulsive_configuration_error}, the configuration error function is locally quadratic and it is bounded in \( D \) by~\cref{eq:psi_bound}.
 Using this, the Lyapunov function \( \mathcal{V} \) is bounded by
 \begin{align*} %\label{eqn:v_upper_bound}
 	z^T W_1 z \leq \mathcal{V} \leq z^T W_2 z ,
 \end{align*}
 where \( e_\Delta = \Delta - \bar{\Delta} \), \( z = [\|e_R\|,\|e_\Omega\|,\|e_\Delta\|]^T\in\R^3 \) and the matrices \(W_1,W_2 \in \R^{3 \times 3}\) are given by
 \begin{align*}
-	W_1 & = \begin{bmatrix}
+	W_1  = \begin{bmatrix}
 		k_R n_1 & -\frac{1}{2} c \lambda_M & 0 \\
 		-\frac{1}{2} c \lambda_M & \frac{1}{2} \lambda_m & 0 \\
 		0 & 0 & \frac{1}{2 k_\Delta}
-	\end{bmatrix},\\
-	W_2 & = \begin{bmatrix}
+	\end{bmatrix}\quad
+	W_2  = \begin{bmatrix}
 		k_R n_2 & \frac{1}{2} c \lambda_M & 0 \\
 		\frac{1}{2} c \lambda_M & \frac{1}{2} \lambda_M & 0 \\
 		0 & 0 & \frac{1}{2 k_\Delta}

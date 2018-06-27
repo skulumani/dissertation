@@ -399,6 +399,26 @@ where  \( H \in \R \) is defined as
 See~\Cref{proof:eR_dot_bound}
 \end{proof}
 
+Adaptive control is typically used in dynamical systems with varying or uncertain components.
+In~\Cref{prop:adaptive_control}, we present an adaptive attitude controller which handles uncertain disturbances while satisfying the state inequality constraints.
+\begin{prop}[Constrained Adaptive Attitude Control]\label{prop:adaptive_control}
+Given  a desired attitude command \( (R_d, \Omega_d = 0 )\) and positive constants \( k_R, k_\Omega, k_\Delta, c \in \R \), we define a control input \( u \in \R^3\) and an adaptive update law for the estimated uncertainty \( \bar{\Delta} \) as follows:
+\begin{align}
+    u &= - k_R e_R - k_\Omega e_\Omega + \Omega \times J \Omega - W \bar{\Delta} - M_{ext} , \label{eqn:adaptive_control} \\
+	\dot{\bar{\Delta}} &= k_\Delta W^T \parenth{e_\Omega + c e_R} . \label{eqn:delta_dot}
+\end{align}
+If \( c \) is chosen such that
+\begin{gather}
+	0 < c < \min \braces{\sqrt{\frac{2 \lambda_m k_R n_1}{\lambda_M^2}},
+	%\sqrt{\frac{2 k_R n_2}{\lambda_M}}, 
+	\frac{4 k_R k_\Omega}{k_\Omega^2 + 4 k_R \lambda_M H}} , \label{eqn:c_bound}
+\end{gather}
+  the zero equilibrium of the error vectors is stable in the sense of Lyapunov. Furthermore, $e_R,e_\Omega\rightarrow 0$ as $t\rightarrow\infty$, and $\bar\Delta$ is  bounded.
+\end{prop}
+\begin{proof}
+See~\Cref{proof:adaptive_control}
+\end{proof}
+
 
 \subsection{Attitude Pointing modes}
 
