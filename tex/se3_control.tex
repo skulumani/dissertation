@@ -146,21 +146,18 @@ Then the following properties hold:
 	\end{align}
 	where the notation \( \dirDiff{A}{R} \) represents the directional derivative of $A$ with respect to $R$ along the direction $\delta R$.
     \item \label{item:prop_critical_points} The critical points of \( A \), where \( e_R = 0 \) are \( \braces{R_d} \cup \braces{R_d \exp(\pi \hat s) } \) for \( s \in \braces{e_1, e_2, e_3}\)
-	\item \label{item:prop_era_upbound}An upper bound of \( \norm{e_{R}} \) is given as:
-	\begin{align}
-		\norm{e_{R}}^2 \leq \frac{\Psi}{b_1} , \label{eqn:psi_lower_bound}
-	\end{align}
-	where the constant \( b_1 \) is given by \( b_1 = \frac{h_1}{h_2 + h_3} \) for 
-	\begin{align*}
-		h_1 &= \min\braces{g_1 + g_2, g_2 + g_3 , g_3 + g_1} ,\\
-		h_2 &= \min\braces{\parenth{g_1 -g_2}^2,\parenth{g_2 -g_3}^2 , \parenth{g_3 -g_1}^2} ,\\
-		h_3 &= \min\braces{\parenth{g_1 + g_2}^2, \parenth{g_2 + g_3}^2 , \parenth{g_3 + g_1}^2}.		
-	\end{align*}
     \item \label{item:prop_psi_quadratic} \( \Psi \) is a locally quadratic function, which means there exist constants \( 0 < n_1 \leq n_2 \) such that
     \begin{align}\label{eq:psi_bound}
         n_1 \norm{e_R}^2 \leq \Psi(R) \leq n_2 \norm{e_R}^2 ,
     \end{align}
-    for $0<\psi < h_1 $.
+    for $0<\psi < h_1 $ where the constants \( n_1 = \frac{h_1}{h_2 + h_3} \) and \( n_2 = \frac{h_1 h_4}{h_5 \parenth{h1 - \psi} }\) for
+	\begin{align*}
+		h_1 &= \min\braces{g_1 + g_2, g_2 + g_3 , g_3 + g_1} ,\\
+		h_2 &= \max\braces{\parenth{g_1 -g_2}^2,\parenth{g_2 -g_3}^2 , \parenth{g_3 -g_1}^2} ,\\
+		h_3 &= \max\braces{\parenth{g_1 + g_2}^2, \parenth{g_2 + g_3}^2 , \parenth{g_3 + g_1}^2}, \\		
+        h_4 &= \max\braces{ g_1 + g_, g_2 +g_3, g+3 + g_1}, \\
+        h_5 &= \max\braces{\parenth{g_1 + g_2}^2, \parenth{g_2 + g_3}^2, \parenth{g_3 + g_1}^2}.
+	\end{align*}
 \end{enumerate}
 \end{prop}
 \begin{proof}

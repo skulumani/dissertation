@@ -123,8 +123,25 @@ These critical points correspond to additional rotations of \SI{180}{\degree} ab
     R_\gamma &= R_d \begin{bmatrix} -1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & -1 \end{bmatrix} .
 \end{align}
 
-\subsection{Proof of~\Cref{item:prop_era_upbound} and~\Cref{item:prop_psi_quadratic}}\label{proof:prop_psi_quadratic}
-More proofs from paper
+\subsection{Proof of~\Cref{item:prop_psi_quadratic}}\label{proof:prop_psi_quadratic}
+
+The original proof for~\cref{item:prop_psi_quadratic} is presented in~\cite{lee2011a} and summarized in this section.
+Define \( Q = R_d^T R = \exp \hat{\vb{x}} \in \SO \) for any \( \vb{x} \in \R^3 \) from Rodrigues' formula
+\begin{align}\label{eq:rodrigues_formula}
+    Q = = \exp{\theta \hat{\vb{x}}} = I + \sin \theta \vh{x} + \parenth{1 - \cos \theta} \vh{x}^2 \in \SO.
+\end{align}
+Using a symbolic computation tool one can then find
+\begin{align}\label{eq:psi_rodrigues}
+    A &= \frac{1 - \cos \norm \vb{x}}{2\norm{\vb{x}^2}} \sum_{\parenth{i, j, k} \in \mathcal{C}} \parenth{g_i + g_j} x_k^2, \\
+    \norm{e_{R_A}}^2 &= \frac{\parenth{1 - \cos \norm{\vb{x}}^2} }{4 \norm{\vb{x}}^2}  \sum_{\parenth{i, j, k} \in \mathcal{C}} \\parenth{g_i - g_j}^2 x_i^2 x_j^2 + \frac{\sin^2 \norm{\vb{x}}}{4 \norm{\vb{x}}^2} \sum_{\parenth{i, j, k} \in \mathcal{C}} \parenth{g_i + g_j}^2 x_k^2,
+\end{align}
+where \( \mathcal{C} = \braces{ \parenth{1, 2, 3} , \parenth{2, 3, 1} , \parenth{3, 1, 2} } \).
+Using~\cref{eq:psi_rodrigues} one can show
+\begin{align}
+    \frac{\norm{e_{R_A}}^2}{A} \leq \frac{h_2 + h_3}{h_1} , \quad \frac{A}{\norm{e_{R_A}}^2} \leq \frac{h_1 h_4}{h_5 \parenth{h_1 - \psi} } ,
+\end{align}
+which proves~\cref{item:prop_psi_quadratic}.
+
 %The term \( r^T R^T v \) represents the cosine of the angle between the body fixed vector \( r \) and the inertial vector \( v \). 
 %It follows that
 %\begin{align*}
