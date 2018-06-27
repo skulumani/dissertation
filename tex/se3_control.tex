@@ -177,9 +177,22 @@ With the appropriate attitude configuration error we now present the error dynam
 		E(R,R_d) = &\frac{1}{2} \parenth{\tr{R^T R_d G}I - R^T R_d G} , \label{eqn:E} \\
 	\end{align}
 \end{prop}
-
 \begin{proof}
     See~\Cref{proof:attractive_error_dynamics}
+\end{proof}
+
+\subsubsection{Attitude Control without Disturbance}
+With the appropriate attitude configuration error we now present an attitude controller for attitude stabailization and tracking. 
+This controller assumes that there is no disturbances on the attitude dynamics, i.e.\ \( \Delta = 0 \).
+\begin{prop}[Attitude Control]\label{prop:att_control}
+	Given a desired attitude command \( \parenth{R_d, \Omega_d = 0} \) and positive constants \( k_R, k_\Omega \in \R \) we define a control input \( u \in \R^3 \) as follows
+	\begin{gather}
+        u = -k_R e_R - k_\Omega e_\Omega + \Omega \times J \Omega - M_{ext}. \label{eqn:nodist_control}
+	\end{gather}
+	Then the zero equilibrium of the attitude error is asymptotically stable, and the inequality constraint is always satisfied.
+\end{prop}
+\begin{proof}
+See~\Cref{proof:att_control}
 \end{proof}
 
 \subsection{Constrained Attitude Control}
