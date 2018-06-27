@@ -353,6 +353,53 @@ We present the dynamics of the combined configuration error function in~\Cref{pr
 		F(R) = &\frac{1}{\alpha \parenth{r^T R^T v - \cos \theta}} \left[\parenth{v^T R r} I - R^T v r^T + \frac{R^T \hat{v} R r v^T R \hat{r}}{\parenth{r^T R^T v - \cos \theta}}\right]. \label{eq:F}
 	\end{align}
 \end{prop}
+\begin{proof}
+    See~\Cref{proof:repulsive_configuration_error}.
+\end{proof}
+
+We extend the results of the controller presented in~\cref{prop:att_control} with the addition of a fixed but unknown disturbance \( \Delta \).
+This scenario is typical of many mechanical systems and represents unmodelled dynamics or external moments acting on the system.
+For example, Earth orbiting spacecraft typically experience a torque due to a gravitational gradient.
+% as well as external torques to due solar radiation pressure.
+Aerial vehicles will similarly experience external torques due to air currents or turbulence.
+An adaptive control system is introduced to asymptotically stabilize the system to a desired attitude while ensuring that state constraints are satisfied. %We first show several properties of the controlled system. 
+\begin{prop}[Bound on \( \bm{\dot{e}_R} \)]\label{prop:eR_dot_bound}
+Consider the neighborhood \( D \), given in~\cref{prop:repulsive_configuration_error}, about the desired attitude, then the following statements hold:
+\begin{enumerate}
+    \item \label{item:prop_eR_dot_bound_AB} Upper bounds of \( A(R) \) and \( B(R) \) are given by
+        \begin{gather}
+            \norm{A} < b_2 \norm{e_{R_A}}^2 < c_A  , \quad \norm{B} < c_B. \label{eqn:AB_bound}
+        \end{gather}
+        where the constant \( b_2\) is given by \( b_2 = \frac{h_1 h_4}{h_5 \parenth{h_1 - \psi}}\) for
+        \begin{align*}
+            h_4 &= \min\braces{g_1 + g_2, g_2 + g_3 , g_3 + g_1} ,\\
+            h_5 &= \min\braces{\parenth{g_1 + g_2}^2,\parenth{g_2 + g_3}^2 , \parenth{g_3 + g_1}^2}.\\
+        \end{align*}
+    \item \label{item:prop_eR_dot_bound_EF} Upper bounds of \( E(R,R_d) \) and \( F(R) \) are given by
+        \begin{gather}
+            \norm{E} \leq \frac{1}{\sqrt{2}} \tr{G}  , \label{eqn:E_bound} \\
+            \norm{F} \leq \frac{\parenth{\beta^2 + 1}\parenth{\beta - \cos \theta}^2 + 1 + \beta^2 \parenth{\beta^2-2}}{\alpha^2 \parenth{\beta-\cos \theta}^4}. \label{eqn:F_bound}
+        \end{gather}
+    \item Upper bounds of the attitude error vectors \( e_{R_A} \) and \( e_{R_B} \) are given by
+        \begin{gather}
+            \norm{e_{R_A}} \leq \sqrt{\frac{\psi}{b_1}}, \label{eqn:eRA_bound} \\
+            \norm{e_{R_B}} \leq \frac{\sin\theta}{\alpha \parenth{\cos \theta - \beta}}. \label{eqn:eRB_bound}
+        \end{gather}
+\end{enumerate}
+These results are combined to yield a maximum upper bound of the time derivative of the attitude error vector \( \dot{e}_R \) as
+\begin{gather}
+	\norm{\dot{e}_R} \leq H \norm{e_\Omega} ,\label{eqn:eR_bound}
+\end{gather}
+where  \( H \in \R \) is defined as
+\begin{gather}
+	H = \norm{B} \norm{E} + 2 \norm{e_{R_A}} \norm{e_{R_B}} + \norm{A}\norm{F}. \label{eqn:H}
+\end{gather}
+\end{prop}
+\begin{proof}
+See~\Cref{proof:eR_dot_bound}
+\end{proof}
+
+
 \subsection{Attitude Pointing modes}
 
 This positive definite function parameterizes the error between the current attitude, \( R \), and the desired attitude command \( R_d \).
