@@ -273,31 +273,19 @@ A straightforward substitution of~\cref{eq:A_dot,eq:B_dot,eq:A,eq:B} into this a
 
 	
 \subsection{Proof of~\Cref{prop:eR_dot_bound}}\label{proof:eR_dot_bound}
-%	We first show~\cref{eqn:A_bound,eqn:B_bound} through a proof by contradiction by noting that given the selected domain \( D \) we know the configuration error function is bounded by \( \Psi = A(R) B(R) < \psi\).
-%	If we assume that \( A > \psi \) this means that \( B < 1 \) in order to satisfy the domain \( \Psi < \psi \).
-%	However, this would be in contradiction with~\Cref{proof:config_error} as \( B > 1 \), therefore \( A \) must always be less than \( \psi \).
-%	Next, we show that since the domain \( D \) does not contain the constraint region there is an upper bound of \(B\).
-%	We know that \( B \to \infty \) as the constraint is neared. 
-%	We assume that \( B > \psi \) which implies that \( A < 1 \).
-%	As \( \psi \) is increased this implies that the system is approaching the constraint and that \( A \to 0 \) in order to remain in the domain \( D \).
-%	However, since the chosen domain is assumed to exclude the constraint this situation is not possible and \( B < \psi \).
-%We choose the domain \( D \) to exclude the undesired critical points of \( A(R) \) as well as the infeasible regions defined by the state inequality constraints. 
-%Furthermore,~\cref{proof:config_error} shows that \(D \) is an open neighborhood of the desired attitude configuration, \( R_d\).
-%The proof of the upper bound of \( A(R) \) is given in~\cite{LeeITCST13}.
 
-
-Consider the open neighborhood $D$ of $R=R_d$ defined in~\Cref{prop:config_error}.
-The proof of the upper bound of \( A(R) \) is given in~\cite{LeeITCST13}.
+Consider the open neighborhood $D$ of $R=R_d$ defined in~\Cref{prop:repulsive_configuration_error}.
+The proof of the upper bound of \( A(R) \) is given in~\cref{proof:prop_psi_quadratic}.
 The selected domain ensures that the configuration error function is bounded \( \Psi < \psi \).
 This implies that that both \( A(R) \) and \( B(R) \) are bounded by constants \( c_A c_B < \psi < h_1\).
 Furthermore, since \( \norm{B} > 1 \) this ensures that \( c_A, c_B < \psi\) and shows~\cref{eqn:AB_bound}.
 
 Next, we show~\cref{eqn:E_bound,eqn:F_bound} using the Frobenius norm.
-The Frobenius norm \( \norm{E}_F \) is given in~\cite{LeeITCST13} as
+The Frobenius norm \( \norm{E}_F \) is given in~\cite{lee2013b} as
 \begin{gather*}
 	\norm{E}_F = \sqrt{\tr{E^T E}} = \frac{1}{2} \sqrt{\tr{G^2} + \tr{R^T R_d G}^2}.
 \end{gather*}
-Applying Rodrigues' formula and the Matlab symbolic toolbox, this is simplified to
+Applying Rodrigues' formula and a symbolic computation tool, this is simplified to
 \begin{gather*}
 	\norm{E}^2_F \leq \frac{1}{4} \parenth{\tr{G^2} + \tr{G}^2} \leq \frac{1}{2} \tr{G}^2 ,
 \end{gather*}
@@ -343,8 +331,8 @@ Expanding and collecting like terms gives
 	\tr{c^T c } = \frac{1 - 2\parenth{v^T R r}^2 + \parenth{v^T R r}^4}{\parenth{r^T R^T v - \cos \theta}^2}. 
 \end{gather*}
 Using the given domain \( r^T R^T v \leq \beta \) gives the upper bound~\cref{eqn:F_bound}.
-The bound on \( e_{R_A} \) is given in~\cref{eqn:psi_lower_bound} while \( e_{R_B} \) arises from the definition of the cross product \( \norm{a \times b} = \norm{a} \norm{b} \sin \theta \).
-Finally, we can find the upper bound~\cref{eqn:eR_dot} as
+The bound on \( e_{R_A} \) is given in~\cref{proof:prop_psi_quadratic} while \( e_{R_B} \) arises from the definition of the cross product \( \norm{a \times b} = \norm{a} \norm{b} \sin \theta \).
+Finally, we can find the upper bound~\cref{eq:eR_dot} as
 \begin{gather*}
 	\norm{\dot{e}_R} \leq \parenth{\norm{B} \norm{E} + 2 \norm{e_{R_A}} \norm{e_{R_B}} + \norm{A}\norm{F}} \norm{e_\Omega} \,.
 \end{gather*}
@@ -355,23 +343,23 @@ Consider the Lyapunov function \( \mathcal{V} \) given by
 \begin{align*}
 	\mathcal{V} = \frac{1}{2} e_\Omega \cdot J e_\Omega + k_R \Psi + c J e_\Omega \cdot e_R + \frac{1}{2 k_\Delta} e_\Delta \cdot e_\Delta , %\label{eqn:v_adapt}
 \end{align*}
-over the domain \( D \), defined in~\cref{prop:config_error}. 
-In this set, the properties of~\Cref{prop:config_error,prop:error_dyn} are satisfied.
+over the domain \( D \), defined in~\cref{prop:repulsive_configuration_error}. 
+In this set, the properties of~\Cref{prop:repulsive_configuration_error,prop:repulsive_error_dynamics} are satisfied.
 %Furthermore, the set \( D \) is an open neighborhood of the desired attitude and Lyapunov stability results are valid in this set.
 
-From~\Cref{prop:config_error}, the configuration error function is locally quadratic and it is bounded in \( D \) by~\cref{eq:psi_bound}.
+From~\Cref{prop:repulsive_configuration_error}, the configuration error function is locally quadratic and it is bounded in \( D \) by~\cref{eq:psi_bound}.
 Using this, the Lyapunov function \( \mathcal{V} \) is bounded by
 \begin{align*} %\label{eqn:v_upper_bound}
 	z^T W_1 z \leq \mathcal{V} \leq z^T W_2 z ,
 \end{align*}
 where \( e_\Delta = \Delta - \bar{\Delta} \), \( z = [\|e_R\|,\|e_\Omega\|,\|e_\Delta\|]^T\in\R^3 \) and the matrices \(W_1,W_2 \in \R^{3 \times 3}\) are given by
 \begin{align*}
-	W_1 & = \begin{bmatrix}
+	W_1  = \begin{bmatrix}
 		k_R n_1 & -\frac{1}{2} c \lambda_M & 0 \\
 		-\frac{1}{2} c \lambda_M & \frac{1}{2} \lambda_m & 0 \\
 		0 & 0 & \frac{1}{2 k_\Delta}
-	\end{bmatrix},\\
-	W_2 & = \begin{bmatrix}
+	\end{bmatrix}\quad
+	W_2  = \begin{bmatrix}
 		k_R n_2 & \frac{1}{2} c \lambda_M & 0 \\
 		\frac{1}{2} c \lambda_M & \frac{1}{2} \lambda_M & 0 \\
 		0 & 0 & \frac{1}{2 k_\Delta}
