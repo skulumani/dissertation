@@ -197,7 +197,77 @@ See~\Cref{proof:att_control}
 
 \subsection{Constrained Attitude Control}
 
-Talk about the constrained attitude control
+Many physical rigid body systems must perform large angular slews in the presence of state constraints.
+For example, autonomous spacecraft or aerial systems are typically equipped with sensitive optical payloads, such as infrared or interferometric sensors.
+These systems require retargeting while avoiding direct exposure to sunlight or other bright objects.
+In addition, many ground based attitude testing environments, such as air bearing platforms, must operate in the presence of physical obstructions.
+Determining a satisfactory attitude control maneuver in the presence of state constraints is a challenging task.
+The removal of constrained regions from the rotational configuration space results in a \textit{nonconvex} region.
+The attitude control problem in the feasible configuration space has been extensively studied~\cite{bullo2004,MayTeePaCC11,LEEITAC15}.
+However, the attitude control problem in the presence of constraints has received much less attention.
+
+% discuss how previous papers (mcinnes and lee/meshabi) have short comings
+Several approaches have been developed to treat the attitude control problem in the presence of constraints.
+A conceptually straightforward approach is used in~\cite{hablani1999} to determine feasible attitude trajectories prior to implementation.
+The algorithm determines an intermediate point such that an unconstrained maneuver can be calculated for each subsegment.
+Typically, an optimal or easily implementable on-board control scheme for attitude maneuvers is applied to maneuver the vehicle along these segments.
+In this manner, it is possible to solve the constrained attitude control problem by linking several intermediary unconstrained maneuvers.
+While this method is conceptually simple, it is difficult to generalize for an arbitrary number of constraints.
+In addition, this approach is only applicable to problems where the selection of intermediate points are computationally feasible.
+
+The approach in~\cite{frazzoli2001} involves the use of randomized motion planning algorithms to solve the constrained attitude control problem.
+A graph is generated consisting of vertices from an initial attitude to a desired attitude. 
+A random iterative search is conducted to determine a path through a directed graph such that a given cost, which parameterizes the path cost, is minimized.
+The random search approach can only stochastically guarantee attitude convergence as it can be shown that as the number of vertices in the graph grow, the probability of nonconvergence goes to zero.
+However, the computational demand grows as the size of the graph is increased and a new graph is required when constraints are modified. 
+As a result, random search approaches are ill-suited to on-board implementation or in scenarios that require agile maneuvers.
+
+Model predictive control for spacecraft attitude dynamics is another popular approach and has been studied in~\cite{guiggiani2014,kalabic2014,gupta2015}.
+These methods rely on linear or non-linear state dynamics to repeatedly solve a finite-time optimal control problem.
+Also known as receding horizon control, the optimal control formulation allows for a straight forward method to incorporate state and control constraints.
+Computing the optimal control strategy over a moving horizon allows for a form of feedback type control rather than the more typical open-loop optimal control solution.
+Due to the iterative nature of solving optimization problems, model predictive control methods are computational expensive and frequently apply direct optimization methods to solve the necessary conditions for optimality.
+Therefore, these methods are complicated to implement and may not be suitable for real-time control applications.
+  
+% Previous potential function approach - developed using attitude parameterizations - singularities/ambiguities
+Artificial potential functions are commonly used to handle kinematic constraints for a wide range of problems in robotics~\cite{rimon1992}.
+The goal is the design of attractive and repulsive terms which drive the system toward or away from a certain obstacle, respectively.
+The attractive function is designed to drive the system towards the desired state.
+Similarly, a repulsive function is constructed such that the system is directed away from the constraints. 
+The superposition of these functions allows one to apply standard feedback control schemes for stabilization and tracking.
+More specifically, artificial potential functions have previously been applied to the spacecraft attitude control problem in~\cite{lee2011b,mcinnes1994}.
+However, both of these approaches were developed using attitude parameterizations, namely Euler angles and quaternions, and as such, they are limited by the singularities of minimal representations or the ambiguity of quaternions.
+
+This section is focused on developing an adaptive attitude control scheme in the presence of attitude inequality constraints on \(\SO\).
+We apply a potential function based approach developed directly on the nonlinear manifold \(\SO\). 
+By characterizing the attitude both globally and uniquely on \(\SO\), our approach avoids the issues of attitude parameterizations, such as kinematic singularities and ambiguities, and is geometrically exact. 
+A configuration error function on \(\SO\) with a logarithmic barrier function is proposed to avoid constrained regions. 
+Instead of calculating a priori trajectories, as in the randomized approaches, our approach results in a closed-loop attitude control system. 
+This makes it ideal for on-board implementation on UAV or spacecraft systems. 
+In addition, unlike previous approaches our control system can handle an arbitrary number of constrained regions without modification.
+This approach results in a conceptually simple obstacle avoidance scheme which extends the previous work of artificial potential functions on Euclidean spaces to the special orthogonal group.
+Furthermore, we use this new configuration error function to design an adaptive update law to enable attitude convergence in the presence of uncertain disturbances. 
+
+\paragraph{State Inequality Constraint}\label{sec:state_inequality_constraint}
+The two-sphere is the manifold of unit-vectors in \( \R^3 \), i.e., \( \Sph^2 = \{ q \in \R^3 \,  \vert \, \norm{q} = 1 \}\).
+We define \( r \in \Sph^2 \) to be a unit vector from the mass center of the rigid body along a certain direction and it is represented with respect to the body-fixed frame.
+For example, \( r \) may represent the pointing direction of an on-board optical sensor.
+We define \( v \in \Sph^2 \) to be a unit vector from the mass center of the rigid body toward an undesired pointing direction and represented in the inertial reference frame.
+For example, \( v \) may represent the inertial direction of a bright celestial object or the incoming direction of particles or other debris.
+It is further assumed that optical sensor has a strict non-exposure constraint with respect to the celestial object.
+We formulate this hard constraint as
+\begin{align}
+	r^T R^T v \leq \cos \theta , \label{eqn:constraint}
+\end{align}
+where we assume \( \ang{0} \leq \theta \leq \ang{90}  \) is the required minimum angular separation between \( r \) and \( R^T v \). 
+The objective is to a determine a control input \( u \) that stabilizes the system from an initial attitude \( R_0 \) to a desired attitude \( R_d \) while ensuring that~\cref{eqn:constraint} is always satisfied.
+
+\paragraph{Constrained Attitude Error Function}
+To handle the attitude inequality constraint, we propose a new attitude configuration error function. 
+More explicitly, we extend the trace form used in~\cite{bullo2004,LeeITCST13} and presented in~\Cref{prop:attitude_control_configuration_error} for attitude control on \(\SO\) with the addition of a logarithmic barrier function. 
+Based on the proposed configuration error function, a nonlinear geometric attitude controller is constructed. 
+A smooth control system is first developed assuming that there is  no disturbance, and then it is extended to include an adaptive update law for stabilization in the presence of unknown disturbances. 
+The proposed attitude configuration error function and several properties are summarized as follows.
 
 \subsection{Attitude Pointing modes}
 
