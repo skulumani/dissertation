@@ -271,7 +271,7 @@ The proposed attitude configuration error function and several properties are su
 \begin{prop}[Constrained Attitude Error Function] \label{prop:repulsive_configuration_error}
 Define an attitude error function \( \Psi : \SO \to \R \), an attitude error vector \( e_R \in \R^3 \), and an angular velocity error vector \( e_\Omega \in \R^3 \) as follows:
 \begin{gather}
-	\Psi(R, R_d) = A(R, R_d) B(R) , \label{eqn:psi} \\
+	\Psi(R, R_d) = A(R, R_d) B(R) , \label{eq:psi} \\
 	e_R = e_{R_A} B(R) + A(R,R_d) e_{R_B} , \label{eqn:eR} \\
 	e_\Omega = \Omega , \label{eqn:eW}
 \end{gather}
@@ -302,6 +302,43 @@ Then, the following properties hold
 \begin{proof}
     See~\Cref{proof:repulsive_configuration_error}
 \end{proof}
+
+\Cref{eqn:psi} is composed of an attractive term, \( A (R) \) toward the desired attitude, and a repulsive term, \( B(R) \) away from the undesired direction \( R^T v \).
+In order to visualize the attitude error function on \( \SO \), we utilize a spherical coordinate representation.
+Recall, that the spherical coordinate system represents the position of a point relative to an origin in terms of a radial distance, azimuth, and elevation.
+This coordinate system is commonly used to define locations on the Earth in terms of a latitude and longitude.
+Similarly, the positions of celestial objects are defined on the celestial sphere in terms of right ascension and declination. 
+\begin{figure}[htbp]%
+    \centering 
+    \subcaptionbox{Attractive \( A(R) \) \label{fig:attract_error} }{\includegraphics[trim={8mm 2mm 8mm 2mm}, clip, width=0.3\textwidth]{figures/2016_IJCAS/attract_error.pdf}}
+    \subcaptionbox{Repulsive \( B(R) \) \label{fig:avoid_error} }{\includegraphics[trim={8mm 2mm 8mm 2mm}, clip, width=0.3\textwidth]{figures/2016_IJCAS/avoid_error.pdf}}
+    \subcaptionbox{Combined \( \Psi \) \label{fig:combined_error} }{\includegraphics[trim={8mm 2mm 8mm 2mm}, clip, width=0.3\textwidth]{figures/2016_IJCAS/combined_error.pdf}}%
+    \caption{Visualization of Configuration Error Functions using spherical coordinate representation}
+    \label{fig:config_error} 
+\end{figure}%
+We apply this concept and parameterize the rotation matrix \( R \in \SO \) in terms of the spherical angles \( \SI{-180}{\degree} \leq \lambda \leq \SI{180}{\degree}  \) and \( \SI{-90}{\degree} \leq \beta \leq \SI{90}{\degree} \). 
+Using the elementary Euler rotations, the rotation matrix is now defined as \( R = \exp( \lambda \hat{e}_2) \exp( \beta \hat{e}_3) \).
+We iterate over the domains of \( \lambda\) and \(\beta\) in order to rotate the body-fixed vector \( r \) throughout the two-sphere \( \S^2 \).
+Applying this method,~\cref{fig:config_error} allows us to visualize the error function on \( \SO \).
+The horizontal axes of~\cref{fig:config_error} represent the domain of the spherical angles \( \lambda \) and \( \beta \) in degrees, while the vertical axes represent the unitless magnitude of the error functions defined in~\cref{eq:psi,eq:A,eq:B}.
+The attractive error function, given by~\cref{eq:A}, has been previously used for attitude control on \(\SO\).
+The potential well of \( A(R)\) is illustrated in~\cref{fig:attract_error}, where the desired attitude lies at the minimum of \( A(R) \).
+
+To incorporate the state inequality constraints we apply a logarithmic barrier term.
+Barrier functions are typically used in optimal control and motion planning applications.
+A visualization of the repulsive error function is presented in~\cref{fig:avoid_error} which shows that as the boundary of the constraint is neared, or \( r^T R^T v \to \cos \theta \), the barrier term increases, \( B \to \infty\).
+We use the scale factor~\(\frac{1}{1+\cos \theta} \) to ensure that \( \Psi \) remains positive definite.
+The logarithmic function is popular as it quickly decays away from the constraint boundary.
+The positive constant \( \alpha \) serves to shape the barrier function.
+As \( \alpha \) is increased the impact of \( B(R) \) is reduced away from the constraint boundary. 
+The superposition of the attractive and repulsive functions is shown in~\cref{fig:combined_error}.
+The control system is defined such that the attitude trajectory follows the negative gradient of \( \Psi \) toward the minimum at \( R = R_d \), while avoiding the constrained region.
+
+While~\cref{eqn:B} represents a single inequality constraint given as~\cref{eqn:constraint}, it is readily generalized to multiple constraints of an arbitrary orientation. 
+For example, the configuration error function can be formulated as $\Psi=A[1+\sum_i C_i]$, where $C_i$ has the form of $C_i=B-1$ for the $i$-th constraint. 
+In this manner, one may enforce multiple state inequality constraints, and we later demonstrate this through numerical simulation. 
+This is in contrast to many previous approaches which are computationally difficult to extend to situations with multiple constraints.
+We present the dynamics of the configuration error function in~\Cref{prop:error_dyn}, which are used in the subsequent development of the nonlinear control system.
 
 \subsection{Attitude Pointing modes}
 
