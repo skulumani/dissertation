@@ -254,7 +254,7 @@ The hessian of \( A(R) \) is shown in~\cref{eq:A_hessian}.
 The hessian of \( B(R) \) is computed as
 \begin{align*}
     \dirDiff{\parenth{\dirDiff{B}{R}}}{R} =& \eta \cdot \left[\frac{\parenth{\delta R^T v}^\wedge r}{\alpha\parenth{r^T R^T v - \cos \theta}} \right. \\
-    & \left. - \frac{\parenth{R^T v}^\wedge r \parenth{r^T \delta R^T v}}{\alpha \parenth{r^TR^Tv - \cos \theta}^2}   \right] .
+    & \left. - \frac{\parenth{R^T v}^\wedge r \parenth{r^T \delta R^T v}}{\alpha \parenth{r^TR^Tv - \cos \theta}^2}   \right].
 \end{align*}
 The term \( \parenth{\delta R^T v}^\wedge r\) is simplified as
 \begin{align*}
@@ -267,12 +267,12 @@ where we utilized the hat map property from~\cref{eqn:cross_product}.
 Similarly, the term \( r^T \delta R^T v \) is simplified as
 \begin{align*}
     r^T \delta R^T v &= r^T \parenth{-\hat \eta R^T}v  \\
-    &= r^T \parenth{R^T v}^\wedge \eta .
+    &= r^T \parenth{R^T v}^\wedge \eta.
 \end{align*}
 The hessian of \( B(R) \) then becomes
 \begin{align*}
-    \dirDiff{\parenth{\dirDiff{B}{R}}}{R} =& \eta \cdot \left[ - \frac{ \hat r \parenth{R^T v}^\wedge}{\alpha \parenth{r^T R^T v - \cos \theta}} \right. \\ 
-    & \left. - \frac{\parenth{R^T v}^\wedge r r^T \parenth{R^T v}^\wedge }{ \alpha\parenth{r^T R^T v - \cos \theta}^2}  \right] \eta .
+    \dirDiff{\parenth{\dirDiff{B}{R}}}{R} =& \eta \cdot \left[ - \frac{\hat r \parenth{R^T v}^\wedge}{\alpha \parenth{r^T R^T v - \cos \theta}} \right. \\ 
+    & \left. - \frac{\parenth{R^T v}^\wedge r r^T \parenth{R^T v}^\wedge }{\alpha\parenth{r^T R^T v - \cos \theta}^2}  \right] \eta.
 \end{align*}
 Using these terms, we evaluate \( \Hess{\Psi} \) at the desired attitude \( R = R_d \) as follows. 
 Since $A=0$ and $\mathbf{D}_R A=0$ at $R=R_d$, 
