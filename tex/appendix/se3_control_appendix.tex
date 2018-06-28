@@ -409,3 +409,47 @@ This implies that $\mathcal{V}$ is positive definite and decrescent, and $\dot{\
 %	The domain \( D \) does that include the undesired equilibria and ensures that as \( e_R \to 0 \) the attitude also converges \( R \to R_d \).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\section{Proof of~\Cref{prop:translational_control}}\label{proof:translational_control}
+The translational dynamics can be defined as
+\begin{align}\label{eq:translation_dynamics_simple}
+    \dot{x} = v , \\
+    m \dot{v} = F_{ext} + u_f ,
+\end{align}
+where \( m \in \R \) is defined as the total mass of the vehicle while \( F_{ext} \) is the total external force.
+
+Consider the Lyapunov function
+\begin{align}\label{eq:translational_lyapunov}
+    V = \frac{1}{2} k_x e_x^T e_x + \frac{1}{2} m e_v^T e_v + c e_x^T e_x.
+\end{align}
+\Cref{eq:translational_lyapunov} is also equivalent to
+\begin{align}\label{eq:translational_lyapunov_matrix}
+    V = z^T W_1 z , 
+\end{align}
+where \( z = \begin{bmatrix} \norm{e_x} & \norm{e_v} \end{bmatrix}^T \) and \( W_1\in \R^2\) is defined as
+\begin{align}\label{eq:translational_lyapunov_W}
+    W_1 = \begin{bmatrix}
+        \frac{1}{2} k_x & \frac{1}{2} c \\
+        \frac{1}{2} c & \frac{1}{2} m 
+    \end{bmatrix}.
+\end{align}
+The time derivative of~\cref{eq:translational_lyapunov} can then be defined as
+\begin{align}\label{eq:translation_lyapunov_derivative}
+    \dot{\mathcal{V} } = - \parenth{k_v - c} e_v^T e_v - \frac{k_x c}{m} e_x^T e_x - \frac{k_v c}{m} e_x^T e_v, 
+\end{align}
+where we used~\cref{eq:translational_control,eq:translational_dynamics,eq:translation_error_dynamics}.
+\Cref{eq:translation_lyapunov_derivative} can also be redefined as
+\begin{align}\label{eq:translational_lyapunov_derivative_matrix}
+    \dot{\mathcal{V}} = - z^T W_2 z, 
+\end{align}
+where \( W_2 \in \R^2 \) is defined as
+\begin{align}\label{eq:translational_lyapunov_W2}
+    W_2 = \begin{bmatrix}
+        \frac{k_x c}{m} & \frac{k_v^2 c^2}{2 m^2} \\
+        \frac{k_v c}{2 m} & k_v - c
+    \end{bmatrix}.
+\end{align}
+If \( c \) is chosen such that~\cref{eq:translational_control_gain_bound} is satisfied then \( W_1, W_2 \) will be positive definite.
+As a result, this shows that \( \mathcal{V} > 0 , \dot{ \mathcal{V}} < 0 \) and that the zero equilibrium of the error variables, namely \( x_d, \dot{x}_d \) is asymptotically stable~\cite{khalil1996}.
+
+
+

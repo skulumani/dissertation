@@ -678,7 +678,27 @@ The tracking error vectors are easier to define as they evolve on a Euclidean sp
     e_x = x - x_d ,\\
     e_v = v - \dot{x}_d.
 \end{align}
-
+The error dynamics are given by
+\begin{align}\label{eq:translation_error_dynamics}
+    \dot{e}_x &= v - \dot{x}_d, \\
+    \dot{e}_v &= \dot{v} - \ddot{x}_d .
+\end{align}
+A translational control input is derived to ensure asymptotic trajectory tracking for the spacecraft.
+\begin{prop}[Translational Control]\label{prop:translational_control}
+    Given a desired trajectory \( \vb{x}_d \) and positive constants \( k_x, k_v, c \in \R \) we define a control input \( \vb{u}_f \in \R \) as follows:
+    \begin{align}\label{eq:translational_control}
+        \vb{u}_f = -k_x e_x - k_v e_v - F_{ext} + m \ddot{x}_d .
+    \end{align}
+    If \( c \) is chosen such that
+    \begin{align}\label{eq:translational_control_gain_bound}
+        0 < c < \min \braces{\sqrt{k_x m}, \frac{4 k_x k_v m}{ k_v \parenth{4 k_x m - k_v} }   }
+    \end{align}
+    then the zero equilibrium of the error vectors~\cref{eq:translation_error_variables} is stable in the sense of Lyapunov.
+    Furthermore, \( e_x, e_v \to 0 \) as \( t \to \infty\).
+\end{prop}
+\begin{proof}
+    See~\cref{proof:translational_control}
+\end{proof}
 % TODO Derive teh error dynamics
 
 % TODO Lyapunov stability for translation
