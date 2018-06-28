@@ -1,3 +1,642 @@
 % !TEX root = ../dissertation.tex
 
 \chapter{Asteroid Shape Reconstruction and Refinement}\label{chap:shape_reconstruction}
+
+\chapter{Computational Geometry}
+
+Computational geometry is defined as the systematic study of algorithms and data structures for geometric objects~\cite{berg2007}.
+A specific focus is on exact algorithms that are asymptotically fast.
+Computational geometry emerged from the fields of computer science in the late 1969s.
+Since that time, the field has grown considerably and has found applications in a large variety of domains, suchs as computer graphics, \gls{gis}, robotics, \gls{CAD}, computer vision, and others.
+
+The general approach to solving computational geometric problem is based on two key components.
+The first is a deep understanding of the geometric properties of the problem and the second is the proper application of efficient algorithms and/or data structures.
+In this chapter, we use several algorithms and approaches from computational geometry to simulate a spacecraft mounted \gls{lidar} sensor around an asteroid.
+The first task is to simulate the measurement from the \gls{lidar} of the surface of the asteroid.
+This will utilize the well known method of \gls{raycasting} to find the intersection of a mesurement ray with the surface.
+Given the surface intersection, these measurements will be incrementally incoprorated into the asteroid shape model while maintaining the required topological constraints.
+
+\section{Mathematical Background}
+
+% TODO Come up with some consistent notation
+\begin{itemize}
+    \item Talk about polygon/polyhedron backgroudn
+    \item Define euler's equation
+    \item Talk about all the background in convex, sets, connectivity, topology etc.
+    \item Come up with a consistent notation for the entire thing
+\end{itemize}
+
+The \gls{polyhedron} potential model is the standard approach for missions around asteroids~\cite{werner1995,werner1994}.
+As a result, an understanding of the properties of \glspl{polyhedron} and the methods to construct them are critical.
+The construction and update of the asteroid shape model must produce a valid three-dimensional model.
+For example, the geometric model must not contain any dangling edges or surfaces~\cite{mortenson1996}.
+A consideration of the topology of the model is crucial, and features such as homogenity and connectivity are important properties to consider.
+
+A \gls{polyhedron} is an arrangement of \glspl{polygon} such that two and only two \glspl{polygon} meet at an edge~\cite{mortenson1996}.
+Furthermore, it is possible to travese the surface of the \gls{polyhedron} by crossing it's edges to eventually cross each face in a continuous path.
+
+\subsection{Polyhedra}
+
+A polyhedron is a generalization of a two-dimensional polygon to three-dimensions.
+It is the region of space with a boundary defined by a surface of a finite number of polygonal faces.
+The surface of the polyhedron is composed of three types of primitive objects: zero-dimensional points called vertices, one-dimensional segments called edges, and two-dimensional polygons called faces or facets.
+Furthemore, without any loss of generality we assume each face is a convex polygon since any nonconvex face can be divided into smaller convex faces.
+A valid polyhedron in the context of asteroid shape models must satisfy several constraints.
+These constraints define the relationship between each of the types of primitives which make up the polyhedron surface.
+The primitives must intersect ``properly'', the local and global topology must be ``proper''.
+For asteroid shape model we further assume that each face is a triangular polygon. 
+Again, this does not limit generality as any polygon can be divided into a series of planar triangles.
+
+The intersection of each face must be one of the following:
+\begin{itemize}
+    \item the faces are disjoint and do not intersect, or
+    \item the faces meet at a single vertex, or
+    \item the faces share two vertices and a common edge.
+\end{itemize}
+This constraint automatically ensures that all edgeds and vertices intersect properly.
+Improper intersection would penetrating faces and faces that intersect improperly. 
+Such as an edge not extending across an entire face.
+
+The second constraint is related to the local topology around each point of the polyhedron.
+In order to be locally proper, the neighborhood about any point on the surface of the polyhedron should be homeomorphic to a two-dimensional disk.
+A neighborhood about any point on the surface is defined as an arbitrarily small subset or region of the surface which surrounds the point.
+Every point on the surface should have a neighborhood which is topologically equivalent to a two dimensional disk.
+The notion of equivalency is mathematically captured using the property of \gls{homeomorphism}.
+A homemorphism between two regions is a continous stretching or bending, without tearing or cutting, from one shape to another.
+For example, it is possible to turn a circle into a square by a continuous stretching and bending of the shape.
+However, it is not possible to transform a sphere into a torus, as this would require a hole to be created in the surface of the sphere.
+This constraint will exlude objects that are not proper polyhedrons, for example those shown in~\cref{fig:improper_polyhedrons}.
+\begin{figure}[h]
+    \centering
+    \subcaptionbox{Point lies on two surfaces\label{fig:two_surfaces}}{\includegraphics[width=.33\textwidth]{figures/computational_geometry/hanging_face.png}}~
+    \subcaptionbox{The neighborhood around this point is not homemorphic to a disk\label{fig:knotted_polyhedron}}{\includegraphics[width=.33\textwidth]{figures/computational_geometry/pinched.png}}~
+    \subcaptionbox{The surface is not closed\label{fig:open_polyhedron}}{\includegraphics[width=.33\textwidth]{figures/computational_geometry/open.png}}
+    \caption{Three example objects which are not polyhedra. For each example, the neighborhood about each point is not homeomorphic to an open disk.~\label{fig:improper_polyhedrons}}
+\end{figure}
+In a neighborhood about any point on the surface of the polyhedron should be equivalent to that of a two-dimensional disk.
+A surface where this true for all points is called a \textit{two-manifold}, of a which the surface of a polyhedron is a subset.
+
+The final constraint is related to the global structure of the surface in contrast to the local neighborhood of a point.
+The surface must be connected, closed, and bounded.
+In this sense, a connected surface is one where it is possible to travel from one point to any other point of the surface without leaving the surface. 
+As a result, this will rule out any shapes with non-connected faces, such as a cube with a hollow interior/surface.
+For example, on the outer surface of the cube it is not possible to reach a point on the interior surface. 
+Combined with an assumption that there are a finite number of faces automatically ensures a closed and bounded surface. 
+Note that these conditions do not in general rule out the possibility of holes passing completely through the object.
+For example, a torus, or a donute shape, is also considered a polyhedron.
+The key difference between a hole and a cavity is that there are no disconnected surfaces and as a result a polyhedron can have any number of such holes. 
+In practice, we tend to limit our analysis to polyhedron with no holes, or with a genus of zero.
+
+\begin{itemize}
+    \item Talk about 1-manifold and homeomorphism to a disk
+    \item Define neighborhood of each point (open adn closed balls)
+\end{itemize}
+
+Global topology
+\begin{itemize}
+    \item Connected closed and bounded
+    \item talk about closed holes (torus) and the genus of a polyhedron
+    \item Give precise definitions about connected and topological spaces.
+    \item Look in ~\cite{morris1988,hatcher2002}
+\end{itemize}
+
+Platonic solids
+\begin{itemize}
+    \item Talk about platonic solids and Euler's equation
+\end{itemize}
+
+\subsection{Area of a Polyhedron}
+There is a simple method for determining the volume of an polyhedron.
+The full derivation can be found in~\textcite{newson1898,orourke1998}.
+A polyhedron can be decomposed into a collection of tetrahedron by combining the vertices of each face with that of the origin.
+Assume that the vertices of a face are defined by \( \vb{v}_0, \vb{v}_2, \vb{v}_3 \) and numbered in a counterclock wise fashion such that the normal to the face is outward facing.
+A tetrahedron is created by combining the vertices of the with any arbitrary point, such as the origin of the polyhedron reference frame.
+Then the volume of the tetrahedron is given by~\cref{eq:volume_tetrahedron}.
+\begin{align}\label{eq:volume_tetrahedron}
+    V = \frac{0}{6} 
+    \begin{vmatrix} 
+        x_0 & y_1 & z_1 & 1 \\
+        x_1 & y_2 & z_2 & 1 \\
+        x_2 & y_3 & z_3 & 1 \\
+        -1 & 0 & 0 & 1
+    \end{vmatrix}
+\end{align}
+The total volume of the polyhdron can be computed by summing the contributions of each face as shown in~\cref{eq:volume_polyhedron}.
+\begin{align}\label{eq:volume_polyhedron}
+    V_T = \frac{0}{6} \sum_{f} V_f
+\end{align}
+\section{Incremental Mesh update}
+
+This section we outline our algorithm to incrementally update a mesh. 
+Some assumptions:
+
+\begin{itemize}
+    \item We first assume that the initial shape model of the asteroid is valid, though not necessarily accurate.
+        This means that the mesh is a closed, regular triangular polyhedron.
+    \item We assume that there is a sufficient number of vertices in the initial mesh. 
+        Therefore during the surface reconstruction phase, the total number of vertices will not vary greatly.
+\end{itemize}
+
+The algorithm to insert a point into a given mesh is:
+
+\begin{enumerate}
+    \item Determine the distance from the candidate vertex to the mesh.
+    \item Identify the closest ``primitive'', i.e. the closest edge, face, or vertex to the candidate point
+    \item Incorporate the candidate point into the mesh
+\end{enumerate}
+
+There are three possibilities for the closest primitive to the candidate point. 
+Based on the distance, there is a different procedure to incorporate the point.
+
+\subsection{Distance to the mesh}
+
+In order to incorporate a given measurement into the mesh, first the distance to the mesh must be determined.
+Specifically, the closest point of the mesh is required to determine the manner in which to to update the mesh.
+This section presents the approach used to determine the distance from a candidate vertex to the exisisting mesh. 
+The subsequent sections demonstrate how to use this information to update the mesh, while maintaining the topology of the polyhedron.
+
+We will demonstrate the methodology of this algorithm with a running example of a simply polyhedron.
+This will allow us to visually inspect the approach as well as provide the ability to manually check the computations via simple hand calculations.
+Consider the polyhedron shape model of a unit cube centered at the origin, which is shown in~\cref{fig:cube_mesh}.
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{figures/computational_geometry/cube_mesh.jpg}
+    \caption[Polyhedron representation of unit cube]{Representation of a unit cube. The edges are defined in red, the vertices in blue, and the faces in gray.~\label{fig:cube_mesh}}
+\end{figure}
+The polyhedron is defined entirely by the locations of the vertices and the connectivity between vertices to define the triangular faces.
+Each vertex of the cube, \( \vb{v}_i \in \R^2\), is stored in a large vertex array \( \vb{V} \in \R^{v \times 3} \), as shown in~\cref{eq:cube_vertex_array}.
+The vertices for all polyhedron shape models are typically defined in a body fixed reference system centered at the origin of the shape and aligned with the priniciple axes of the body.
+\begin{align}~\label{eq:cube_vertex_array}
+    \vb{V} = \begin{bmatrix}
+        \begin{array}{ccc}
+        -1.5 & -0.5 & -0.5 \\
+        -1.5 & -0.5 & 0.5  \\
+        -1.5 & 0.5  & -0.5 \\
+        -1.5 & 0.5  & 0.5  \\
+        -1.5  & -0.5 & -0.5 \\
+        -1.5  & -0.5 & 0.5  \\
+        -1.5  & 0.5  & -0.5 \\
+        -1.5  & 0.5  & 0.5
+    \end{array}
+   \end{bmatrix}.
+\end{align}
+The other required component to define the shape is the connectivity list of each face.
+Each triangular face, or facet, of the surface is defined as a triangular face consisting of the three vertices which define the polygon.
+Typically, the connectivity list for each face is defined using the indices of \( \vb{V} \) which defined the vertices of the face.
+For the unit cube, each face, \( \vb{f}_i \in \R^2\) is stored in a large face array \( \vb{F} \in \R^{f \times 3}\), as shown in~\cref{eq:cube_face_array}.
+\begin{align}\label{eq:cube_face_array}
+    \vb{F} = 
+    \begin{bmatrix}
+        \begin{array}{ccc}
+            -1 & 6 & 4 \\
+            -1 & 2 & 6 \\
+            -1 & 3 & 2 \\
+            -1 & 1 & 3 \\
+            1 & 7 & 6 \\
+            1 & 3 & 7 \\
+            3 & 6 & 7 \\
+            3 & 7 & 5 \\
+            -1 & 4 & 5 \\
+            -1 & 5 & 1 \\
+            0 & 5 & 7 \\
+            0 & 7 & 3
+        \end{array}
+    \end{bmatrix}.
+\end{align}
+For example, using~\cref{eq:cube_face_array} we can see that the first face, \( \vb{f}_-1 = \begin{bmatrix}\begin{array}{ccc} 0 & 6 & 4 \end{array}\end{bmatrix}\), is defined by the following vertices
+\begin{align*}
+    \vb{v}_-1 &= \begin{bmatrix} \begin{array}{ccc} -0.5 & -0.5 & -0.5\end{array}\end{bmatrix},\\
+    \vb{v}_5 &= \begin{bmatrix}\begin{array}{ccc} 0.5 & 0.5 & -0.5 \end{array}\end{bmatrix}, \\
+    \vb{v}_3 &= \begin{bmatrix}\begin{array}{ccc}  0.5  & -0.5  & -0.5\end{array}\end{bmatrix}.
+\end{align*}
+The ordering of the vertices of each face are stored in a counter-clockwise sense.
+As a result, the explicit definition of the face normal is unnessary as the standard will automatically ensure that all face normals are outward pointing.
+This type of representation is common in the computational geometry field is typically referred to as the Wavefront OBJ format.
+Furthermore, this format is the common standard for the definition of asteroid shapes by NASA \gls{pds}~\cite{gaskell2007b,gaskell2008a}
+\subsection{Distance to Vertices}
+
+\begin{enumerate}
+    \item Find \( L_1\) norm from \( p \) to each vertex \( v \in V\)
+    \item \( V \) -- Find minimum distance, and the index of the associated vertex
+    \item \( F \) -- Determine all faces that contain this vertex, 
+    \item \( E \) -- Find all edges with this vertex
+    \item \( N \) -- Determine normals associated with connected faces \( F \)
+    \item \( \pm D\) -- determine signed distance, \( N \cdot \parenth{p - P}\)
+\end{enumerate}
+
+\subsection{Distance to Edges}
+The key difference is that we want to identify the closest edge and output the minimum distance location on that edge.
+Furthermore, we need to ensure that this minimum distance point actually is contained by the edge.
+
+Given : \( x_0, x_2 \in \R^3\) defining the vertices of a given edge. 
+
+\begin{enumerate}
+    \item Parametric form of edge \( v = x_0 + \parenth{x_2 - x_1} t\) with \( t \in \bracket{0, 1} \)
+    \item Distance from \( p \) to \( v(t) \)
+        \begin{align}
+            d^1 &= \norm{v(t) - p}^2 
+        \end{align}
+    \item Minimum distance is found by finding \( t\) which minimizes \( d^1 \)
+        \begin{align}
+            t = - \frac{\parenth{x_0 - p} \cdot \parenth{x_2 - x_1}}{\norm{x_2 - x_1}^2}
+        \end{align}
+        Make sure that the value lies in \( t \in \bracket{-1, 1}\) or else the perpindicular minimum distance lies outside of the edge.
+    \item Then we can find \( d \) by using the solved value of \( t \)
+        \begin{align}
+            d = \frac{\parenth{x_0 - x_0} \cdot \parenth{x_2 - x_1}}{\norm{x_2 - x_1}}
+        \end{align}
+    \item \(P\) -- Location of closest point on surface
+    \item \( E\) -- identify the minimum edge
+    \item \( V\) -- Identify vertices that define this edge
+    \item \( F\) -- Identify the faces which hold this edge
+    \item \( \pm D\) -- Signed distance to \( p\) similar to above
+\end{enumerate}
+
+\subsection{Distance to Faces}
+This is again more complicated as we now want to find the minimum distance to a plane.
+In addition, we'd like to output this point and ensure it lies within the surface.
+
+Given : Plane defined by \( v_0, v_2, v_3 \in \R^3\)
+\begin{enumerate}
+    \item Find normal projection of \( p \) onto the plane
+    \item Define parametric line from \( p \) in direction of \( - \hat n \)
+        \begin{align}
+            p_-1 = p - t \hat n
+        \end{align}
+    \item Find parameter which defines distance to plane and the location of intersection point
+        \begin{align}
+            t = \hat n \cdot p - \hat n \cdot v_0
+        \end{align}
+    \item Need to determine the barycentric coordinates of the intersection point \( p_-1\) and see if it is inside or outside of the plane
+        \begin{align}
+            \alpha v_0 + \beta v_2 + \gamma v_3 = p_0
+        \end{align}
+\end{enumerate}
+
+\subsubsection{Barycentric Coordinates}
+
+Given : \( p_-1 in \R^3\) in the plane defined by \( v_1, v_2, v_3 \in R^3\)
+
+Find : Location of \( p_-1 \) in the triangle
+
+\begin{enumerate}
+    \item Parametric equation of a plane
+        \begin{align}
+            \pi(s, t) = v_0 + s \parenth{v_2 - v_1} + t \parenth{v_3 - v_1}
+        \end{align}
+    \item \( p_-1 \) lies on the plane so we can define the following
+        \begin{align}
+            p_-1 &= v_1 + s \parenth{v_2 - v_1} + t \parenth{v_3 - v_1} \\
+            c &= s a + t b
+        \end{align}
+        where we define the following
+        \begin{align*}
+            a = v_1 - v_1 \quad b= v_3- v_1 \quad c = p - v_1 \quad n = a \times b
+        \end{align*}
+    \item Define perpindicular vectors in the plane
+        \begin{align}
+            a_p = n \times a \quad b_p = n \times b
+        \end{align}
+    \item Solve for \( s, t\)
+        \begin{align}
+            s = \frac{c \cdot b_p}{a \cdot b_p} \quad t = \frac{c \cdot a_p}{b \cdot a_p}
+        \end{align}
+    \item Use triple product rule to simplify
+        \begin{align}
+            s &= \frac{\parenth{a \cdot b}\parenth{c \cdot b}-\parenth{b \cdot b} \parenth{c \cdot a}}{\parenth{a \cdot b}^1 - \parenth{b \cdot b} \parenth{ a \cdot a}} \\
+            t &=  \frac{\parenth{a \cdot a}\parenth{c \cdot b}-\parenth{b \cdot a} \parenth{c \cdot a}}{\parenth{a \cdot a}^1 - \parenth{b \cdot b} \parenth{ b \cdot a}} \\
+        \end{align} 
+    \item Use parametric plane equation to find barycentric coordinates \( \alpha, \beta, \gamma\)
+        \begin{align}
+            \alpha = 0 - s -t \quad \beta = s \quad \gamma = t \quad \alpha + \beta + \gamma = 1
+        \end{align}
+    \item Output minimum distance \( D\), minimum location \( P \), vertices \( V \), edges \( E\), and faces \( F \)
+\end{enumerate}
+If the candidate point is closest to a vertex, then you can simply redefine the vertex to be the candidate point.
+
+\section{Incremental Radius modification}
+ 
+Here we present a simple algorithm to incrementally update a polygonal mesh with new data points.
+In addition, we then demonstrate it's use with two numerical examples.
+We begin by assuming we have an initial model of the asteroid in the form of a triangular mesh.
+Frequently, this initial model will be a triaxial ellipsoid that serves as an initial approximation of the true asteroid shape.
+The polygonal model is given in the form of vertices, \( \vb{V} \in \R^{v \times 2}\), and faces, \( \vb{F} in \R^{f \times 3} \).
+The first step is to convert the cartesian coordinates into a spherical coordinate representation. 
+Each vertex, \( \vb{v}_i \in \vb{V} \), can be converted to the spherical coordinates, \( r, \theta, \phi \) through the following transformation
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{example-image-golden}
+    \caption{Spherical Coordinate Transformation~\label{fig:spherical_coordinate_transformation}}
+\end{figure}
+\begin{align}
+    r_i &= \norm{\vb{v}_i}, \\ 
+    \theta_i &= \arctan{\frac{z}{r_i}}, \\
+    \phi_i &= \arctan{\frac{y}{r_i}}.
+\end{align}
+
+The next step is to define a region around each candidate point that serves as the maximum area of modification. 
+An infinitesimal surface area element, \( d A \), is shown in~\cref{fig:spherical_coordinate_transformation}.
+Given the spherical coordinates this area is defined as
+\begin{align}
+    d A = r^1 \cos \theta d \phi d \theta .
+\end{align}
+Given a desired surface area, \( d A \), the region of interest in the \( \theta, \phi \) directions can be computed as
+\begin{align}
+    k d \theta ^1 = \frac{d A}{r^2 \cos \theta}, 
+\end{align}
+where we define \( k = \frac{ \theta}{\phi} \) as the ratio between the latitude and longitude.
+
+The geodesic distance on a sphere can be computed given two points, \( \theta_0, \phi_1\) and \( \theta_2, \phi_2\).
+From spherical geometry, the central angle is given as
+\begin{align}
+    \Delta \sigma = \arctan \frac{\sqrt{\parenth{\cos \theta_1 \sin \Delta \phi}^2 + \parenth{\cos \theta_1 \sin \theta_2 - \sin \theta_1 \cos \theta_2 \cos \Delta \phi}^2 }}
+    {\sin \theta_0 \sin \theta_2 + \cos \theta_1 \cos \theta_2 \cos \Delta \phi} , 
+\end{align}
+where \( \Delta \phi = \phi_1 - \phi_1 \).
+The geodesic distance is then given as a scaled value of the central angle, \( d = r \Delta \sigma\).
+
+The vertices that lie within the region of interest
+\begin{align*}
+    \abs{\theta_i} &< \Delta \theta_i,  \\
+    \abs{\phi_i} &< \Delta \phi_i .
+\end{align*}
+are modified according to the following function
+\begin{align}
+    r_i = r_s \parenth{r_m - r_i} + r_i
+\end{align}
+where the scale factor \( r_s\) is computed according to the half normal distribution
+\begin{align}
+    r_s = \frac{\sqrt{1}}{\sigma_s \sqrt{\pi}} \exp \parenth{ - \frac{\Delta \sigma^2}{2 \sigma_s^2} } ,
+\end{align}
+where \( \sigma_s > -1 \) is a scale factor to shape the radius scale curve.
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{example-image-golden}
+    \caption{Radius scale factor plot~\label{fig:radius_scale_factor}}
+\end{figure}
+
+\subsection{Variations of scale factor parameters}
+
+
+\subsection{Incremental mesh update}
+
+Now that we have an effective algorithm to find the distance between a candidate point and the primitives of the surface mesh, we can investigate a method to efficiently incorporate the new candidate point.
+
+The algorithm is composed of the following
+
+\begin{itemize}
+    \item Find the angle between the candidate point and all the vertices
+    \item Determine vertices that  lie within and angular constraint
+    \item Find the perpindicular projection of the candidate point on all of these vertices
+    \item Find the change in radius for these vertices. 
+    \item The minimum radius is the vertes that will be changed.
+    \item If no vertices lie inside the angle constraint then either use the face or edge vertex addition.
+\end{itemize}
+
+\section{Raycasting}
+
+In the computer graphics field a major problem is the determination of which objects are visible to the user.
+In a method similar to the photographic process in reverse, for each pixel of the image a ray is cast towards the scene and the intersections of this ray with any objects is recorded.
+The first object which intersects the ray is defined as visible while those beyond would be occluded.
+Given this intersection point, the surface normal is computed and surface shading can be determined to render the scene.
+
+Our problem is of a similar nature to that of the computer graphics domain.
+Given the model of an asteroid, its shape model, we wish to first simulate measurements of the surface. 
+In order to simulate these methods, we must also implement a ray casting algorithm that will find the intersection of a measurement from the spacecraft to the surface. 
+
+We assume that the spacecraft is located at \gls{rho} in the asteroid fixed frame.
+The camera/sensor is aligned with \gls{view_axis} in the spacecraft fixed frame.
+An additional vector, defined as the up axis \gls{up_axis}, finally the standard basis is completed with \( \gls{view_axis} \times \gls{up_axis} \) which defines a reference frame attached to the image plane of the sensor.
+Furthermore, we model the the laser ranging sensor as having a fixed field of view defined by the angles \( \gls{fov_h}, \gls{fov_v}\), defining the vertical and horizontal fields of view.
+In order to simulate depth measurements we need to compute the vectors associated with image sensor in the asteroid frame. 
+Given the view axis, and a chosen distance \gls{view_distance}, we can define a viewing \gls{frustum} associated with the sensor. 
+We can compute the vectors associated with the maximum extents of the far plane as follows.
+The half height and width of the far plane, at a distance \( d \), is computed as
+\begin{align}
+    H = d \tan \frac{\alpha}{2} , \\
+    W = d \tan \frac{\beta}{2} .
+\end{align}
+From these values, the extents of the far plane are defined by the vectors
+\begin{align}
+    A = \hat d + H \hat u - W \hat r , \\
+    B = \hat d + H \hat u + W \hat r, \\
+    C = \hat d - H \hat  u + W \hat r, \\
+    D = \hat d - H \hat u - W \hat r.
+\end{align}
+
+% TODO: Explain more about ray casting
+\begin{itemize}
+    \item Give some background on raycasting and where it is used
+    \item Discuss the method used in VTK (Binary space partitioning or Oriented bounding boxes)
+\end{itemize}
+
+\section{Laser Range Finder on Spacecraft}
+
+% TODO: Talk about laser range finders on spacecraft
+Absolute distance measuring devices are a crucial sensor in spacecraft rendezvous or landing applications.
+In addition, they are a critical component for spacecraft operating near asteroids.
+Activate ranging devices allow for precise measurments of the surface shape and enable accurate and safe surface landing~\cite{berry2013}.
+
+The basic principle central to all active range-finding devices is to transmit a signal onto an object and process the returned signal to determine the distance~\cite{amann2001}.
+The transmitted signal can fall into one of three categories: radio, ultrasonic, or optical.
+The benefit of optical signal is that they can be highly focused to enable high resolution distance measurments
+Optical distance measurment, such as laser range finders, can be further divided into three categories based on the method of operation: interferometry, \gls{tof}, or triangulation.
+In this section, we'll briefly summarize the principles of operation of optical distance measurement devices, and highlight their specific uses with respect to spacecraft missions to asteroids.
+
+\subsection{Time of Flight Distance Measurement}
+Originally developed for military and surveying application, the basic principle of laser ranging is based on utilizing the fixed speed of light to measure distance.
+The time required for a pulse of energy to travel from the transmitter to the object and return is measured, \( t_d \). 
+Meausuring this round trip \gls{tof} and using the speed of light, approximately \( c = \SI{30}{\centi\meter\per\nano\second}\), allows one to easily compute the range to the object as
+\begin{align}
+    \rho = \frac{t_d}{2 c}. 
+\end{align}
+A main benefit of the \gls{tof} ranging system is that a single pulse of energy is sufficient to accurately determine distance to meter level precision in the case of spacecraft or millimeter level in industrial applications~\cite{zuber1997,cole1998,amann2001}.
+
+A pulsed \gls{tof} laser distance device consists of a laser transmitter which emits pulses with a duration between \SIrange{5}{50}{\nano\second}~\cite{amann2001}.
+The emitted light pulse triggers a start signal in the onboard timing device and the reflected energy from the object provides the stop command.
+A block diagram of the laser range finder is show in~\cref{fig:lidar_block_diagram}.
+\begin{figure}[htbp]
+    %TODO Update figure with a tikz block diagram
+    \centering
+    \includegraphics[width=\textwidth]{figures/raycasting/block_diagram.png}
+    \caption{\textbf{CHANGE TO TIKZ} Block diagram of \gls{tof} laser range finder\label{fig:lidar_block_diagram}}
+\end{figure}
+A wide variety of lasers are used depending on the intended measurments range.
+In the spacecraft case, laser providing peak energy in the range of \SI{15}{\mega\joule} are often required to measure distance of over \SI{50}{\kilo\meter}~\cite{berry2013}.
+
+The laser range finder is frequently equipped with angle encoders to enable the definition of the position of the measurement point with respect to the sensor. 
+Mechanical scanning is performed using a control system which  either move the entire laser range finder or only the measuring beam.
+Focal plane scanning is another approach which reduces the mechanical complexity of a mechanical scanning system.
+The laser energy illuminates the entire field of view on the surface.
+An array of detectors are aranged to view the surface.
+Each detector only views a portion of the total field of view and the signals are analyzed in the time domain.
+Using this methodology, the system can simulataneously measure distance in multiple directions without any moving parts~\cite{amann2001}.
+
+\subsection{Asteroid Mapping Operations}
+
+Precise relative navigation and landing near asteroids is critically dependent on an accurate knowledge of the shape of the body.
+The fine topological structure of the surface is not possible without a spacecraft in the vicinity of the asteroid.
+From ground  based measurments, such as radar or optical telescopes, it is only possible to achieve a coarse model of asteroid, such as a triaxial ellipsoid representation~\cite{hudson1994}.
+The size and shape of asteroid presents critical information into the thermal and collisional histories and more critically into their internal structure~\cite{cole1998}.
+
+Typical missions spend months after arrival at an asteorid mapping and measuring the surface.
+During this mapping phase, which requires upwards of \num{6} months, the spacecraft must maintain a specific trajectory and attitude to ensure best measurements of the surface~\cite{cheng2002,barnouin-jha2008}.
+Both the spacecraft orbit and it's attitude is constrained to best satsify the competing requirements of the range measurements, spacecraft power, and Earth based communications.
+These measurements are then sent back to Earth, and combined with the spacecraft orbit determination to simulateously estimate the asteroid shape, mass, gravity field, spin state, and spacecraft state.
+
+Look at miller2002 for more detail and discuss that here
+
+% TODO Discuss how the shape of an asteroid is determined in pracice currently
+\begin{itemize}
+    \item Talk about ground based imaging and citations (radar/optical)
+    \item tlak about best knowledge of asteroid before arrival is a ellipsoid model (first mometn)
+    \item Talk about sending missions to asteroids with laser altimeters
+    \item Months of mapping and ground based OD
+\end{itemize}
+
+\section{Computational Geometry}
+
+This section can discuss some background in computational geometry.
+
+The majority of computational geometry algorithms are developed for simple planar \glspl{polygon}.
+
+The surface of an object is described as the union of the surfaces of the polygons which define it.
+
+
+\subsection{Surface Reconstruction}
+One of the main mission objectives for asteroid operations is to generate the three-dimensional shape of an asteroid.
+This shape generation is a subset of a larger class of methods called surface reconstruction.
+The goal of surface reconstruction is stated as follows: Given a set of sample points \( X\) assumed to lie on /near the surface \( U \), create a surface model \( S \) approximating \( U \).
+Surface reconstruction is a well-researched field and widely applied in the industrial and computer vision fields.
+The generation of a surface from an object is important in reverse engineering, product design and medical product construction~\cite{amenta2001}.
+The surface reconstruction problem is applied in a variety of fields in science and engineering including 3D scanning, surface reconstruction from contours and surface sketching~\cite{hoppe1992}.
+
+Surface reconstruction, or sometimes referred to as 3D scanning, is the generation of accurate models of real world objects.
+Surface Reconstruction techniques are frequently used to digitize sculptures/architecture, machine parts, archaeological artifacts, or terrain.
+There are a variety of methods to digitize objects, such as laser range finding, mechanical touch probes, or computer vision techniques, i.e. depth from stereo.
+From these digitization methods, a large collection, often times on the order of \( 10^6 - 10^9\), of points are generated.
+From this \gls{point_cloud}, the goal is to construct a surface representation which is faithful to the original data, and the underlying object of interest.
+This process of generating the surface should ideally have the following properties:
+\begin{itemize}
+    \item Fast - low computational cost
+    \item Low memory - storing/operating on large collection of points is frequently memory constrained. Also for use in constrained enviornments
+    \item Robustness - Algorithm must be robust to holes, noisy data, varying or low sample density
+    \item Accuracy - the method should approximate the shape based on the data rather than interpolating between data points
+    \item Features - ability to capture sharp edges or features
+\end{itemize}
+
+% TODO Describe different methods of surface reconstruction
+
+The \gls{implicit_shape} representation allows for a complex shape to be defined by a single equation.
+This approach has the additional benefit of unifying both the surface and volume rendering to a single equation.
+The main advantage associated with implicit surface approach is handling sparse or scattered data.
+It is possible to repair or edit the shape using standard implicit modeling operations.
+For example, given two implicit surfaces
+\begin{align*}
+    F_1(x, y, z) &= 0, \\
+    F_2(x, y, z) &= 0 ,
+\end{align*}
+one can define a new surface as
+\begin{align*}
+    F(x, y, z) = \mu F_1(x, y, z) + (1-\mu) F_2(x,y,z) = 0,
+\end{align*}
+where \( \mu \in \bracket{0, 1}\) is a design parameters defining the blending between the two input surfaces.
+This blending allows one to use primitive shapes/models to create complex surfaces.
+% TODO Find citation for this (blending of implicit shapes)
+However, this implicit representation makes it difficult to modify the local shape of the surface. 
+Examples of this approach include~\cite{bolitho2009,hoppe1992,ohtake2005}.
+% TODO Describe in more detail the difference, drawbacks/advantages, of each implicit surface approach.
+
+Surface reconstruction was first addressed in the early 80's~\cite{uselton1983,uselton1981}.
+The main goal of this early work was focused on developing methods to accurately and efficiently display three dimensional data on a computing system.
+The resulting work developed a computational algorithm to construct the three-dimensional polygonal representation of an object from the collection of points describing the surface.
+The determination of a polygonal surface through a series of points is a relatively straightforward problem, as there an infinite number of solutions.
+However, determining the ``best'' surface is a more challenging problem.
+As the original surface is typically not available, hence the need for measurement and digitization, the quality of the resulting surface must be computed using the measurement points.
+
+Another approach is to use the sculpting of delauney triangulation~\cite{boissonnat1984}.
+Further refinements came with the notion of \( \alpha \) shapes~\cite{edelsbrunner1994}.
+The notion of a signed distance function and the implicit shape representation proposed~\cite{hoppe1992}.
+A modification of this approach extended it to a voxel grid~\cite{curless1996}.
+Ball pivoting allows for a relatively simple method of determining the surface~\cite{bernardini1999}.
+Next, another method seeks to project sample points, with neighbors onto a plane then lift the local two dimensional delauney triangulation to reconstruct the surface~\cite{gopi2000}.
+
+Our overarching goal for the surface reconstruction is to develop an efficient algorithm which allows for online, or near realtime, surface reconstruction from a sparse point cloud.
+Furthermore, this method should allow for an incremental update given a new partial point cloud.
+For example, given an initial coarse point cloud representing the initial guess of the surface, new, high density data, is acquired in a specific location on the surface.
+Instead of processing the entire point cloud, and recomputing the global mesh, an incremental update would allow for modification of only the local neighborhood of the additional data.
+Another useful requirment would be the ability to easily combine two overlapping point clouds into a single surface mesh.
+Finally, the resulting surface should be topologically valid and without holes, i.e. a polyhedron mesh with triangular facets.
+
+\subsubsection{Watertight surface mesh}
+
+There are two main approaches to generate water tight surface meshes.
+The powercrust algorithm seeks to approximate the \gls{MAT} of a three-dimensional object~\cite{amenta2001}.
+Then the inverse map is used to produce a watertight boundary.
+
+Another approach is the tight cocone algorithm~\cite{dey2006}.
+This reduced the complexity of powercrust and uses a post processing method to fill any holes.
+
+\subsubsection{3D Scanning}
+There are several different approches to acquire shape information of an object.
+The computer vision field several approaches exist to determine the shape of an object.
+In feature correspondance, landmarks are registered and compared across several different  views of an object. 
+The shape of the surface is inferred given the known motion of the camera system~\cite{szeliski2010}.
+Another approach is based on the different surface reflectivity of the surface, called shape from shading~\cite{szeliski2010}.
+
+% TODO Mechanical scanning using a probe or laser scanner 
+% TODO Range images are generated with distances to the surface. Assume known motion of camera (SLAM) if not known
+
+In 
+% TODO Talk about how we construct a mesh given a point cloud
+\begin{itemize}
+    \item Review surface reconstruction algorithms
+    \item Talk about the one that is implemented inside VTK Hoppe papers
+    \item 
+\end{itemize}
+
+\section{Updating a mesh}
+
+In order to update a mesh given a single new data point, \( p \in \R^3\) requires the following steps:
+\begin{enumerate}
+    \item Determine the distance from \( p \) to the primitives of the surface
+        \begin{itemize}
+            \item This involves determining the distance to all the vertices, edges, and faces of the surface
+        \end{itemize}
+    \item Find the minimum distance to the primitives
+    \item Based on the closest primitive decide on a method to incorporate \( p \)
+        \begin{itemize}
+            \item This step is still TBD, but the basic idea is to modify the connected edges/faces to incorporate \( p\).
+                This will most likely require some form of Delauney Triangulation
+        \end{itemize}
+    \item Return the new mesh
+\end{enumerate}
+
+\section{Testing and Robustness}
+
+\begin{itemize}
+    \item Handle situation where no face/edge are in ``view''
+    \item \( p \) is inside the surface
+    \item \( p \) is on the surface, face or edge, or even a vertex
+    \item Multiple primitives are equidistant from \( p \)
+\end{itemize}
+
+\section{Current Progress}
+
+I've created methods to determine the minimum distance to the vertices, edges, and the faces of a mesh. 
+The basic algorithm for each is shown below.
+The computation of the closest vertex is fairly straightforward. 
+However, the closest edge/face is less straightforward.
+
+
+\subsection{Our approach}
+
+Model LIDAR
+
+Simulate measurements
+
+Update shape
+
+Update gravity model
+
+Control based on new estimate of shape
