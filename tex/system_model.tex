@@ -51,14 +51,12 @@ From classical mechanics, the parameters which are used to define the motion of 
 Frequently, the physical parameters of the system must also satisfy some mathematical constraints, which then define a configuration manifold of all generalized coordinates within the configuration space which satisfy the constraints.
 For example, the motion of a particle in three-dimensional Euclidean space can be defined by the typical generalized coordinates in the form of a vector
 \begin{align*}
-    \vb{r} = \begin{matrix}
+    \vb{r} = \begin{bmatrix}
         x_1 & x_2 & x_3
-    \end{matrix}^T.
+    \end{bmatrix}^T.
 \end{align*}
-Therefore the configuration space is then the set of all real three dimensional vectors or equivalently,
-\begin{align*}
-    \vb{r} \in \R^3.
-\end{align*}
+Therefore the configuration space is then the set of all real three dimensional vectors or equivalently, \(\vb{r} \in \R^3\).
+
 If we further assume that the point is constrained to the surface of a sphere, for example in the case of a spherical pendulum, then the configuration space becomes the subset of \( \R^3 \) which also define points the on sphere, \( \S^2 \).
 If the particle is an extended body rather than a point mass then the orientation becomes an additional configuration parameter.
 The orientation of any rigid body can be defined as the orientation of a body fixed reference frame with respect to an inertial frame. 
@@ -87,7 +85,48 @@ The kinematics of the dumbbell and asteroid are described in the inertial frame 
 \end{itemize}
 In this work, we assume that the asteroid is much more massive than the spacecraft and its motion is not affected by that of the spacecraft.
 This assumption allows us to treat the motion of the vehicle independently from that of the asteroid, instead of treating the more complicated full-body problem. 
-\subsection{Inertial Frame Equations of Motion}
+In~\cref{sec:dumbbell_model} we present the dumbbell model of our spacecraft.
+Using the model, the coupled dynamics of the spacecraft are derived in both the inertial, in~\cref{sec:inertial_dumbbell_eoms} and asteroid fixed frames~\cref{sec:asteroid_dumbbell_eoms}.
+
+\subsection{Dumbbell Spacecraft Model}\label{sec:dumbbell_model}
+
+The dumbbell spacecraft consists of two masses connected by a massless rod and is a well-known representation of a multi body spacecraft.
+Furthermore, the dumbbell model captures the important interactions of the coupling between orbital and attitude dynamics. 
+As a result, this simple model is useful to capture the main characteristics of a wide variety of spacecraft configurations.
+Typically, spacecraft have mass concentrated in a central structure, referred to as the bus, which houses the command and control system, actuators, fuel, sensors etc. 
+In addition, comparatively light-weight solar panels extend from the bus to provide electrical energy from solar radiation. 
+As a result, the distributed mass of the spacecraft is captured with the dumbbell representation.
+
+The dumbbell is defined by two spherical masses of radius \( r_1, r_2 \in \R \) with masses \( m_1, m_2 \in \R\).
+The masses are seperated by a massless rod of length \( l \) and attached to the centers of each mass.
+\Cref{fig:dumbbell_sc} shows the model and associated parameters.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{figures/dumbbell.png}
+    \caption{Dumbbell Model of Rigid Spacecraft}
+    \label{fig:dumbbell_sc}
+\end{figure}
+The spacecraft body fixed frame is centered at the center of mass of the vehicle.
+The \( \vh{b}_1 \) is axis is aligned with the connecting rod while the \( \vh{b}_2, \vh{b}_3 \) axes span the plane orthogonal to the axis of symmetry of the dumbbell.
+The distance from the center of mass to each mass is defined as
+\begin{align}\label{eq:dumbbell_mass_distances}
+    l_1 &= \frac{m_2}{m_1 + m_2} l, \\
+    l_2 &= l - l_1.
+\end{align}
+
+\paragraph{Moment of Inertia Derivation}\label{sec:moment_of_inertia}
+The inertia tensor/matrix of a rigid body is defined~\cite{greenwood1988} as
+\begin{align}
+    J_I = \int_{\mathcal{B}} \bracket{ \parenth{\vb{\rho}^T \vb{\rho} }I - \vb{\rho}\vb{\rho}^T} dm, 
+\end{align}
+where \( \vb{\rho} \in \R^3 \) is the position of a mass element \( dm \) in the body fixed frame of the spacecraft.
+One can also use~\cref{eq:xTx} to define the inertia matrix in several other equivalent forms
+\begin{align*}
+    J_I &= \int_{\mathcal{B}} \bracket{ \parenth{\vb{\rho}^T \vb{\rho} }I - \vb{\rho}\vb{\rho}^T} dm, \\
+        &= \int_{\mathcal{B}} \tr{\vb{\rho}\vb{\rho}^T} I - \vb{\rho}\vb{\rho}^T, \\
+        &= \int_{\mathcal{B}} \vh{\rho}^T \vh{\rho} dm.
+\end{align*}
+\subsection{Inertial Frame Equations of Motion}\label{sec:inertial_dumbbell_eoms}
 
 
 
