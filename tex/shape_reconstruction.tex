@@ -12,7 +12,15 @@
 
 % TODO Show examples of shape reconstruction (Castalia, using C++ code for speed)
 
-\section{Computational Geometry}
+This chapter is devoted to introducing the application of computational geometry to asteroid shape reconstruction.
+The polyhedron potential model is the standard approach for missions operating around small-bodies.
+As a result, the determination of an accurate shape is critical for both the gravitational model as well as any low-altitude operations.
+Prior to any spacecraft mission to an asteroid, extensive ground measurements will be collected on the potential target.
+These measurements will be used to not only accurately track the small body in space, but also to generate an approximate shape model of the body. 
+However, these shape models are relatively coarse and only provide a general shape of the body and lack detailed features critical for safe and accurate landing.
+Typically, a significant portion of the mission life cycle is devoted solely to terrain mapping and shape modeling.
+For example, the NEAR mission devoted the first five months in the vicinity of asteroid Eros to mapping and shape estimation~\cite{antreasian2002} while the Hyabusa mission spent three months near asteroid Itokawa~\cite{barnouin-jha2008} using a \gls{lidar} sensor to accurately measure the surface.
+However, for certain types of missions, such as asteroid mitigation~\cite{garshnek2000,pitz2014} or multiple body surveying~\cite{stuart2011a,stuart2016} this type of extensive mapping is not feasible.
 
 Computational geometry is defined as the systematic study of algorithms and data structures for geometric objects~\cite{berg2007}.
 A specific focus is on exact algorithms that are asymptotically fast.
@@ -26,6 +34,7 @@ The first task is to simulate the measurement from the \gls{lidar} of the surfac
 This will utilize the well known method of \gls{raycasting} to find the intersection of a mesurement ray with the surface.
 Given the surface intersection, these measurements will be incrementally incoprorated into the asteroid shape model while maintaining the required topological constraints.
 
+\section{Asteroid Shape Modeling}
 \section{Mathematical Background}
 
 % TODO Come up with some consistent notation
