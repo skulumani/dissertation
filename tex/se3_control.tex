@@ -699,20 +699,12 @@ A translational control input is derived to ensure asymptotic trajectory trackin
 \begin{proof}
     See~\cref{proof:translational_control}
 \end{proof}
-% TODO Derive teh error dynamics
 
-% TODO Lyapunov stability for translation
-The translational control input is defined in a similar manner. 
-With the error variables, the translational control input is then given by
-\begin{align}\label{eq:translation_control}
-    \vb{u}_f = - k_x e_x  - k_v e_v + ( m_1  + m_2 ) \ddot{x}_d - \vb{F}_1 - \vb{F}_2 ,
-\end{align}
-where \( k_x, k_v \) are positive constants. 
 The control gains are chosen based on the desired closed-loop system response. 
 A variety of techniques are available to choose these gains, but a simple linear analysis offers a straightforward and systematic approach to choosing suitable values. 
-We use the control inputs defined in~\cref{eq:translation_control,eq:rotational_control} and substitute them into the dynamic equations of motion in~\cref{eq:translational_dynamics,eq:attitude_dynamics}.
+We use the control inputs defined in~\cref{eq:translational_control,eq:rotational_control} and substitute them into the dynamic equations of motion in~\cref{eq:translational_dynamics,eq:attitude_dynamics}.
 This results in the dynamics of the error variables and the gains are chosen to ensure the error behavior meets desired performance criteria, such as percent overshoot or settling time~\cite{nise2004}.
-
+% TODO Give examples of choosing controller gains
 
 \section{Numerical Example}
 
