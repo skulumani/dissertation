@@ -186,10 +186,50 @@ A nonstandard moment of inertia matrix \( J_d \in \R^{3 \times 3 } \) is defined
         zx & yz & z^2
     \end{bmatrix} dm.
 \end{align}
+Using~\cref{eq:xTx} and the properties of the outer product, it can be shown that
+\begin{subequations}\label{eq:moi_transformation}
+    \begin{align}
+        J &= \tr{J_d} I - J_d, \\
+        J_d &= \frac{1}{2} \tr{J} I - J.
+    \end{align}
+\end{subequations}     
+In addition, the following equation is also satisfied for any \( \vc{\Omega} \in \R^3 \)
+\begin{align}\label{eq:moi_hat_prop}
+    \parenth{J \vc{\Omega}}^\wedge = \vh{\Omega} J_d + J_d \vh{\Omega}.
+\end{align}
+\Cref{eq:moi_hat_prop} is easy to prove by substituting \( \vc{\Omega} = \begin{bmatrix} \Omega_1 & \Omega_2 & \Omega_3 \end{bmatrix} \) and expanding both sides of~\cref{eq:moi_hat_prop} to
+\begin{align*}
+    \begin{bmatrix}
+        \parenth{J_{yy} + J_{zz}} \Omega_1 - J_{xy} \Omega_2 - J_{zx} \Omega_3 \\
+        -J_{xy}\Omega_1 + \parenth{J_{zz} + J_{xx}} \Omega_2 - J_{yz}\Omega_3 \\
+        -J_{zx}\Omega_1 - J_{yz}\Omega_2 + \parenth{J_{xx} + J_{yy}} \Omega_3
+    \end{bmatrix}^\wedge,
+\end{align*}
+where \( J_{xy} = \int_{\mathcal{B}} xy dm \in \R \) and the other terms are defined simarily.
 
 \subsection{Inertial Frame Equations of Motion}\label{sec:inertial_dumbbell_eoms}
 
+\paragraph{Kinetic Energy of Dumbbell}\label{sec:inertial_kinetic_energy}
+The kinetic energy of the spacecraft begins with the kinematics defined in~\cref{ssec:dumbbell_eoms_reference_frames} as
+\begin{align}\label{eq:inertial_KE_1}
+    T = \frac{1}{2} \int_{\mathcal{B}} \norm{ \dot{\vc{x}} + \dot{R} \vc{\rho}}^2 dm,
+\end{align}
+where \( \vc{\rho} \in \R^3 \) defines the position of the mass element \( dm \) in the body fixed frame of the spacecraft.
+Expanding the quadratic term in~\cref{eq:inertial_KE_1} results in
+\begin{align}\label{eq:inertial_KE_2}
+    T = \frac{1}{2} \int_{\mathcal{B}} \parenth{ \norm{\dot{\vc{x}}^2 + 2 \dot{\vc{x}}^T \dot{R} \vc{\rho} + \norm{\dot{R} \vc{\rho} }^2  } dm .
+\end{align}
+\Cref{eq:inertial_KE_2} is further simplified by noting that
+\begin{align*}
+    \int_{\mathcal{B}} \vc{\rho} dm = 0,
+\end{align*}
+and from using the kinematics \( \dot{R} = \R \vh{\Omega} \) for \( \vc{\Omega} \in \R^3 \) 
+\begin{align*}
+    \norm{\dot{R} \vc{\rho} }^2 &= \vc{\rho}\dot{R}^T \dot{R} \vc{\rho} , \\
+                                &= 
+\end{align*}
 
+\paragraph{Potential Energy of Dumbbell}
 
 Using our kinematic variables we can define the kinetic and potential energy of the dumbbell as
 \begin{align}\label{eq:kinetic_energy}
