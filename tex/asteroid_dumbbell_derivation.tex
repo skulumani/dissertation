@@ -227,76 +227,8 @@ The Lagrangian is given as the difference between~\cref{eq:kinetic_energy} and~\
 \end{align}
 The equations of motion can be defined by determining the variation of the Lagrangian, \( \delta L\).
 \subsection{Potential Energy Variation}
-First, the variation of~\cref{eq:potential_energy} is defined as
-\begin{align*}
-    \delta V = - \sum_{i=1}^{2} m_i \deriv{U_i}{\vb{z_i}}^T \parenth{ R_a^T \delta \vb{x} + R_A^T \delta R \vb{\rho}_i}
-\end{align*}
-We then define the position of each dumbbell mass in the asteroid fixed frame as
-\begin{align}\label{eq:pos_asteroid_frame}
-    \vecbf{z}_i = R_A^T \parenth{\vecbf{x} + R \vecbf{\rho}_i}.
-\end{align}
-Applying the definition for the attitude variation, \(\delta R = R \eta \), the variation of the potential energy is given as
-\begin{align}\label{eq:potential_variation}
-    \delta V = -\sum_{i=1}^2  m_i \parenth{R_A \deriv{U}{\vb{z}_i} }^T \delta \vb{x} + m_i \eta^T \hat{\vb{\rho}_1} R^T R_A \deriv{U}{\vb{z}_i}.
-\end{align}
 
 \subsection{Kinetic Energy Variation}
-The variation of the kinetic energy is defined as
-\begin{align}\label{eq:kinetic_variation}
-    \delta T &= \deriv{T}{\dot{\vecbf{x}}}^T \delta \dot{\vecbf{x}} + \deriv{T}{\vecbf{\Omega}}^T \delta \vecbf{\Omega} , \\
-    &=   \parenth{m_1 + m_2} \dot{\vecbf{x}}^T \delta \dot{\vecbf{x}} + \frac{1}{2} \tr{ S(\vb{\delta \Omega}) J_d S(\vb{\Omega})^T + S(\vb{\Omega}) J_d S(\delta \vb{\Omega})^T}.
-\end{align}
-The variation of \( \vb{\Omega} \) is computed using the kinematic equations and \( \delta R = R \eta\).
-First, we can rearrange the kinematics to arrive at
-\begin{align*}
-    S(\vb{\Omega}) = R^T \dot{R}.
-\end{align*}
-Next,
-\begin{align}\label{eq:delta_omega}
-    S(\delta \vb{\Omega}) &= \delta R^T \dot{R} + R^T \delta \dot{R} , \nonumber \\
-    &= - \eta R^T R S(\vb{\Omega}) + R^T \diff{}{t} \parenth{\delta R}, \nonumber\\
-    &= -\eta S(\vb{\Omega}) + R^T \parenth{\dot{R}\eta + R \dot{\eta}}, \nonumber \\
-    &= -\eta S(\vb{\Omega}) + S(\vb{\Omega}) \eta + \dot{\eta}  . 
-\end{align}
-Now,~\cref{eq:delta_omega} is substituted into~\cref{eq:kinetic_variation} to obtain
-\begin{align*}
-    \delta T &=  \parenth{m_1 + m_2} \dot{\vecbf{x}}^T \delta \dot{\vb{x}} + \frac{1}{2} \tr{\parenth{-\eta S(\vb{\Omega}) + S(\vb{\Omega}) \eta + \dot{\eta}} J_d S(\vb{\Omega})^T + S(\vb{\Omega}) J_d \parenth{-\eta S(\vb{\Omega}) + S(\vb{\Omega}) \eta + \dot{\eta}}^T} .
-\end{align*}
-Applying the transpose and multiplying out terms gives
-\begin{align*}
-    \delta T &=  \parenth{m_1 + m_2} \dot{\vecbf{x}}^T \delta \dot{\vb{x}} \\
-    &+ \frac{1}{2} \tr{ -\eta S(\vb{\Omega}) J_d S(\vb{\Omega})^T + S(\vb{\Omega})\eta J_d S(\vb{\Omega})^T + \dot{\eta}J_d S(\vb{\Omega})^T + S(\vb{\Omega}) J_d \parenth{-S(\vb{\Omega}) \eta + \eta S(\vb{\Omega}) - \dot{\eta}}} , \\
-    &=  \parenth{m_1 + m_2} \dot{\vecbf{x}}^T \delta \dot{\vb{x}} \\
-    &+ \frac{1}{2} \tr{-\eta S(\vb{\Omega}) J_d S(\vb{\Omega})^T + S(\vb{\Omega})\eta J_d S(\vb{\Omega})^T + \dot{\eta}J_d S(\vb{\Omega})^T -S(\vb{\Omega}) J_d S(\vb{\Omega}) \eta + S(\vb{\Omega}) J_d \eta S(\vb{\Omega}) - S(\vb{\Omega}) J_d \dot{\eta} } .
-\end{align*}
-Using the trace property, \( \tr{AB} = \tr{BA} = \tr{A^T B^T} = \tr{B^T A^T} \), lets us redefine several terms
-\begin{align*}
-    \tr{-S(\vb{\Omega}) J_d \dot{\eta}} &= \tr{- \dot{\eta} S(\vb{\Omega}) J_d} , \\
-    \tr{S(\vb{\Omega}) J_d \eta S(\vb{\Omega})} &= \tr{\eta S(\vb{\Omega}) S(\vb{\Omega}) J_d} , \\
-    \tr{-\eta S(\vb{\Omega}) J_d S(\vb{\Omega})^T} &= \tr{\eta S(\vb{\Omega}) J_d S(\vb{\Omega})} .
-\end{align*}
-These transformations allows us to combine several similar terms as
-\begin{align*}
-    \delta T &= \parenth{m_1 + m_2} \dot{\vecbf{x}}^T \delta \dot{\vb{x}} \\
-    & + \frac{1}{2} \tr{-\dot{\eta} \parenth{J_d S(\vb{\Omega}) + S(\vb{\Omega}) J_d}} + \frac{1}{2} \tr{\eta S(\vb{\Omega}) \parenth{J_d S(\vb{\Omega}) + S(\vb{\Omega}) J_d}} + \frac{1}{2} \tr{ S(\vb{\Omega}) \eta J_d S(\vb{\Omega})^T - S(\vb{\Omega}) J_d S(\vb{\Omega}) \eta}
-\end{align*}
-The last trace term can be simplified using the properties of the trace and hat map as
-\begin{align*}
-    \frac{1}{2} \tr{ S(\vb{\Omega}) \eta J_d S(\vb{\Omega})^T - S(\vb{\Omega}) J_d S(\vb{\Omega}) \eta} &= \frac{1}{2} \tr{ - S(\vb{\Omega}) \eta J_d S(\vb{\Omega}) - S(\vb{\Omega}) J_d S(\vb{\Omega}) \eta} , \\
-    &= \frac{1}{2} \tr{ -  \eta J_d S(\vb{\Omega}) S(\vb{\Omega}) - \eta S(\vb{\Omega}) J_d S(\vb{\Omega}) } \\
-    &= -\frac{1}{2} \tr{\eta \parenth{J_d S(\vb{\Omega}) +S(\vb{\Omega}) J_d }S(\vb{\Omega})}
-\end{align*}
-Using this simplification gives
-\begin{align*}
-    \delta T &= \parenth{m_1 + m_2} \dot{\vecbf{x}}^T \delta \dot{\vb{x}} \\
-    & + \frac{1}{2} \tr{-\dot{\eta} \parenth{J_d S(\vb{\Omega}) + S(\vb{\Omega}) J_d}} + \frac{1}{2} \tr{\eta S(\vb{\Omega}) \parenth{J_d S(\vb{\Omega}) + S(\vb{\Omega}) J_d}} - \frac{1}{2} \tr{ \eta \parenth{J_d S(\vb{\Omega}) +S(\vb{\Omega}) J_d }S(\vb{\Omega})} .
-\end{align*}
-From~\cref{eq:nonstandard_moi} this is redefined as
-\begin{align}\label{eq:kinetic_energy_variation_final}
-    \delta T &= \parenth{m_1 + m_2} \dot{\vecbf{x}}^T \delta \dot{\vb{x}} + \frac{1}{2} \tr{-\dot \eta S(J \vb{\Omega}) + \eta \parenth{ S(\vb{\Omega}) S(J \vb{\Omega}) + S(J \vb{\Omega}) S(\vb{\Omega})} } , \nonumber\\
-    &=  \parenth{m_1 + m_2} \dot{\vecbf{x}}^T \delta \dot{\vb{x}} + \frac{1}{2} \tr{ - \dot{\eta} S(J \vb{\Omega}) + \eta S(\vb{\Omega} \times J \vb{\Omega})} , 
-\end{align}
-where we used the hat map property, \( S(\vb{x} \times \vb{y}) = S(\vb{x})S(\vb{y}) - S(\vb{y})S(\vb{x}) \), to arrive at the final form.
 
 
 \subsubsection{Hamilton's Principle}
