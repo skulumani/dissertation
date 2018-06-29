@@ -46,14 +46,13 @@ The variation of the kinetic energy is defined as
 \end{align}
 Now,~\cref{eq:inertial_ang_vel_variation} is substituted into~\cref{eq:kinetic_variation} to obtain
 \begin{align*}
-    \delta T &=  \parenth{m_1 + m_2} \dot{\vecbf{x}}^T \delta \dot{\vb{x}} + \frac{1}{2} \tr{\parenth{-\eta S(\vb{\Omega}) + S(\vb{\Omega}) \eta + \dot{\eta}} J_d S(\vb{\Omega})^T + S(\vb{\Omega}) J_d \parenth{-\eta S(\vb{\Omega}) + S(\vb{\Omega}) \eta + \dot{\eta}}^T} .
+    \delta T =&  \parenth{m_1 + m_2} \dot{\vc{x}}^T \delta \dot{\vc{x}} + \frac{1}{2} \tr{\parenth{-\vc{\eta} \vh{\Omega} + \vh{\Omega} \vc{\eta} + \dot{\vc{\eta}}} J_d \vh{\Omega}^T} \nonumber \\
+              &+ \frac{1}{2} \tr{\vh{\Omega} J_d \parenth{-\vc{\eta} \vh{\Omega} + \vh{\Omega} \vc{\eta} + \dot{\vc{\eta}}}^T} .
 \end{align*}
-Applying the transpose and multiplying out terms gives
+Evaluating the transpose and expanding the product gives
 \begin{align*}
-    \delta T &=  \parenth{m_1 + m_2} \dot{\vecbf{x}}^T \delta \dot{\vb{x}} \\
-    &+ \frac{1}{2} \tr{ -\eta S(\vb{\Omega}) J_d S(\vb{\Omega})^T + S(\vb{\Omega})\eta J_d S(\vb{\Omega})^T + \dot{\eta}J_d S(\vb{\Omega})^T + S(\vb{\Omega}) J_d \parenth{-S(\vb{\Omega}) \eta + \eta S(\vb{\Omega}) - \dot{\eta}}} , \\
-    &=  \parenth{m_1 + m_2} \dot{\vecbf{x}}^T \delta \dot{\vb{x}} \\
-    &+ \frac{1}{2} \tr{-\eta S(\vb{\Omega}) J_d S(\vb{\Omega})^T + S(\vb{\Omega})\eta J_d S(\vb{\Omega})^T + \dot{\eta}J_d S(\vb{\Omega})^T -S(\vb{\Omega}) J_d S(\vb{\Omega}) \eta + S(\vb{\Omega}) J_d \eta S(\vb{\Omega}) - S(\vb{\Omega}) J_d \dot{\eta} } .
+    \delta T =&  \parenth{m_1 + m_2} \dot{\vc{x}}^T \delta \dot{\vc{x}} \\
+              &+ \frac{1}{2} \tr{ -\vc{\eta} \vh{\Omega} J_d \vh{\Omega}^T + \vh{\Omega} \vc{\eta} J_d \vh{\Omega}^T + \dot{\vc{\eta}} J_d \vh{\Omega}^T + \vh{\Omega} J_d -\vh{\Omega} J_d \vh{\Omega} \vc{\eta} + \vh{\Omega} J_d \vc{\eta} \vh{\Omega} - \vh{\Omega} J_d \dot{\vc{\eta}}}.
 \end{align*}
 Using the trace property, \( \tr{AB} = \tr{BA} = \tr{A^T B^T} = \tr{B^T A^T} \), lets us redefine several terms
 \begin{align*}
