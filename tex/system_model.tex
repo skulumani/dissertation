@@ -217,7 +217,7 @@ The kinetic energy of the spacecraft begins with the kinematics defined in~\cref
 where \( \vc{\rho} \in \R^3 \) defines the position of the mass element \( dm \) in the body fixed frame of the spacecraft.
 Expanding the quadratic term in~\cref{eq:inertial_KE_1} results in
 \begin{align}\label{eq:inertial_KE_2}
-    T = \frac{1}{2} \int_{\mathcal{B}} \parenth{ \norm{\dot{\vc{x}}^2 + 2 \dot{\vc{x}}^T \dot{R} \vc{\rho} + \norm{\dot{R} \vc{\rho} }^2  } dm .
+T = \frac{1}{2} \int_{\mathcal{B}}  \norm{\dot{\vc{x}}}^2 + 2 \dot{\vc{x}}^T \dot{R} \vc{\rho} + \norm{\dot{R} \vc{\rho} }^2    dm .
 \end{align}
 \Cref{eq:inertial_KE_2} is further simplified by noting that
 \begin{align*}
@@ -226,8 +226,23 @@ Expanding the quadratic term in~\cref{eq:inertial_KE_1} results in
 and from using the kinematics \( \dot{R} = \R \vh{\Omega} \) for \( \vc{\Omega} \in \R^3 \) 
 \begin{align*}
     \norm{\dot{R} \vc{\rho} }^2 &= \vc{\rho}\dot{R}^T \dot{R} \vc{\rho} , \\
-                                &= 
+                                &=  \vc{\rho}^T \vh{\Omega}^T \vh{\Omega} \vc{\rho} , \\
+                                &= \norm{ \vh{\Omega} \vc{\rho} }^2, 
 \end{align*}
+which results in the following expression for the kinetic energy
+\begin{align}\label{eq:inertial_KE_3}
+    T = \frac{1}{2} \int_{\mathcal{B}} \braces{ \norm{\dot{\vc{x}}}^2 + \norm{\vh{\Omega} \vc{\rho}}^2 } dm.
+\end{align}
+The second term \( \norm{\vh{\Omega}\vc{\rho}}^2 \) is simplified to
+\begin{align}
+    \norm{ \vh{\Omega}\vc{\rho} }^2 &= \parenth{ \vh{\Omega}\vc{\rho}}^T \parenth{\vh{\Omega}\vc{\rho}} , \\
+                                    &= \tr{ \vh{\Omega} \vc{\rho} \vc{\rho}^T \vh{\Omega}^T }.
+\end{align}
+Applying this to~\cref{eq:inertial_KE_3} results in the final form of the kinetic energy as
+\begin{align}
+    T = \frac{1}{2} m \norm{\dot{\vc{x}}}^2 + \frac{1}{2} \tr{ \vh{\Omega}J_d \vh{\Omega^T } }, 
+\end{align}
+where we applied the non-standard moment of inertia defined in~\cref{eq:nonstandard_moment_of_inertia}.
 
 \paragraph{Potential Energy of Dumbbell}
 
