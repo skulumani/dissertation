@@ -1,5 +1,29 @@
 % !TEX root = ../../dissertation.tex
 
 \chapter{Derivation of Inertial Equations of Motion}\label{proof:inertial_dumbbell_eoms}
+The Lagrangian function \( L \in \R \) is a scalar function of the generalized coordinates and their velocities..
+The Lagrangian is defined as the total system kinetic energy minus the total system potential energy:
+\begin{align*}
+    L(q, \dot{q} ) = T(q, \dot{q}) - U (q) ,
+\end{align*}
+where \( T(q, \dot{q} \) is the kinetic energy of the system while \( U(q) \) is the potential energy of the system.
 
+The derivation is simplified to the case of two spherical masses, but can be extended to any arbitrary configuration of masses.
+The kinetic and potential energy of the dumbbell model is dupblicated from~\cref{eq:dumbbell_kinetic_and_potential_energy} 
+\begin{align*}
+    T &= \frac{1}{2} m \norm{\dot{\vb{x}}}^2 + \frac{1}{2} \tr{\vh{\Omega} J_d \vh{\Omega}^T} , \\
+    V( \vecbf{x}, R ) &=  - m_1 U \parenth{R_A^T \parenth{\vecbf{x} + R \vecbf{\rho}_1}} - m_2 U \parenth{R_A^T \parenth{\vecbf{x} + R \vecbf{\rho}_2}} .
+\end{align*}
+The configuration space of the motion is \( \SE \), and as a result the variations must be correctly defined to respect the geometry of the configuration space.
+Consider the variations of \( \vc{x}, \dot{\vc{x}} \) as
+\begin{align}
+    \vc{x}^\epsilon &= \vc{x} + \epsilon \delta \vc{x} + \mathcal{O}(\epsilon^2), \label{eq:inertial_pos_variation} \\
+    \dot{\vc{x}}^\epsilon &= \dot{\vc{x}} \delta \dot{\vc{x}} + \mathcal{O}(\epsilon^2), \label{eq:inertial_vel_variation}
+\end{align}
+where \( \delta \vc{x}, \delta \dot{\vc{x}} \in \R^3 \) are the infinitesimal variations of the position and velocity which vanish at the endpoints.
+In other words,
+\begin{align*}
+    \delta \vc{x} (t_0) &= \delta \vc{x} (t_f ) = 0, \\
+    \delta \dot{\vc{x}} (t_0) &= \delta \dot{\vc{x}} (t_f) = 0 .
+\end{align*}
 
