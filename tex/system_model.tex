@@ -127,7 +127,7 @@ One can also use~\cref{eq:xTx} to define the inertia matrix in several other equ
         &= \int_{\mathcal{B}} \vh{\rho}^T \vh{\rho} dm.
 \end{align*}
 The location of an infinitesimal mass element \( dm \) can be decomposed into
-\begin{align}
+\begin{align}\label{eq:mass_element_position}
     \vc{\rho}_i = \vc{\zeta} + \vc{\eta}_i, 
 \end{align}
 where \( \vb{\zeta} \) is the location of the center of \( m_i \) in the spacecraft fixed frame while \( \vc{\eta} \) the position of \( dm \) with respect to the center of \( m_i \) and expressed in the spacecraft fixed frame.
@@ -137,6 +137,56 @@ where \( \vb{\zeta} \) is the location of the center of \( m_i \) in the spacecr
     \caption{Decomposition of mass element positon vector}
     \label{fig:dumbbell_moi_mass_element_position}
 \end{figure}
+Using~\cref{eq:mass_element_position} the moment of inertia can be expanded as
+\begin{align*}
+    J_I &= \sum_i^n \int_{\mathcal{B}_i} \parenth{\vc{\zeta}_i + \vb{\eta}_i}^T \parenth{\vc{\zeta}_i + \vc{\eta}_i } I  - \parenth{\vc{\zeta}_i + \vc{\eta}_i} \parenth{\vc{\zeta}_i + \vc{\eta}_i}^T dm .
+\end{align*}
+Further expansion leads to
+\begin{align*}
+    J_I = \sum_i^n \int_{\mathcal{B}_i} \parenth{\vc{\zeta}_i^T \vc{\zeta}_i}I - \vc{\zeta}_i \vc{\zeta}_i^T + \vc{\eta}_i^T \vc{\eta}_i I - \vc{\eta}_i \vc{\eta}_i^T dm, 
+\end{align*}
+since the cross terms include an integration over the constant density sphere goes to zero:
+\begin{align*}
+    \int_{\mathcal{B}_i} \vc{\eta}_i dm = 0 .
+\end{align*}
+The integration is now split into two components: an integration within each sphere, \( \vc{\eta}_i \) terms, and and integration involving the location of the sphere, \( \vc{\zeta}_i \) terms.
+As a result, the final moment of inertia of a system of rigid spherical masses is 
+\begin{align}\label{eq:dumbbell_moment_of_inertia}
+    J_I = \sum_i J_i + m_i \parenth{\vc{\zeta}_i^T \vc{\zeta}_i I - \vc{\zeta}_i \vc{\zeta}_i^T} , 
+\end{align}
+where \( \vc{\zeta}_i \) is the position of \( m_i \) in the spacecraft fixed frame and the moment of inertia of each sphere is
+\begin{align}\label{eq:sphere_moment_of_inertia}
+    J_i = \begin{bmatrix} 
+        \frac{2}{5} m_i r_i^2 & 0 & 0 \\
+        0 & \frac{2}{5} m_i r_i^2 & 0 \\
+        0 & 0 & \frac{2}{5} m_i r_i^2 
+    \end{bmatrix}.
+\end{align}
+\Cref{eq:dumbbell_moment_of_inertia} is consitent with the well-known parallel-axis theorem~\cite{greenwood1988}.
+
+%TODO Nonstandard moment of inertia matrix
+\paragraph{Nonstandard Moment of Inertia Matrix}
+The standard moment of inertia \( J \in \R^{3 \times 3} \) of a rigid body is given by
+\begin{align}\label{eq:standard_moment_of_inertia}
+    J = \int_{\mathcal{B}} \vh{\rho}^T \vh{\rho} dm 
+    = \int_{\mathcal{B}}  
+    \begin{bmatrix} 
+        y^2 + z^2 & -xy & -zx \\
+        -xy & z^2 + x^2 & -yz \\
+        -zx & yz & x^2 + y^2
+    \end{bmatrix} dm, 
+\end{align}
+where \( \vc{\rho} = \begin{bmatrix} x & y & z \end{bmatrix}\).
+A nonstandard moment of inertia matrix \( J_d \in \R^{3 \times 3 } \) is defined as
+\begin{align} \label{eq:nonstandard_moment_of_inertia}
+    J_d = \int_{\mathcal{B}} \vc{\rho} \vc{\rho}^T dm = \int_{\mathcal{B}} 
+    \begin{bmatrix}
+        x^2 & xy & zx \\
+        xy & y^2 & yz \\
+        zx & yz & z^2
+    \end{bmatrix} dm.
+\end{align}
+
 \subsection{Inertial Frame Equations of Motion}\label{sec:inertial_dumbbell_eoms}
 
 
@@ -181,6 +231,7 @@ The gravitational moment on the dumbbell \( \vecbf{M}_i\) is defined as
 \end{align}
 The control inputs to the spacecraft are defined by \( \vb{u}_f, \vb{u}_m \) which define the control force represented in the inertial frame and the control moment represented in the spacecraft frame, respectively. 
 
+\
 \subsection{Asteroid Frame Equations of Motion}
 
 
