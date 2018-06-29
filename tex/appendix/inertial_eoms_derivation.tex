@@ -54,17 +54,20 @@ Evaluating the transpose and expanding the product gives
     \delta T =&  \parenth{m_1 + m_2} \dot{\vc{x}}^T \delta \dot{\vc{x}} \\
               &+ \frac{1}{2} \tr{ -\vc{\eta} \vh{\Omega} J_d \vh{\Omega}^T + \vh{\Omega} \vc{\eta} J_d \vh{\Omega}^T + \dot{\vc{\eta}} J_d \vh{\Omega}^T + \vh{\Omega} J_d -\vh{\Omega} J_d \vh{\Omega} \vc{\eta} + \vh{\Omega} J_d \vc{\eta} \vh{\Omega} - \vh{\Omega} J_d \dot{\vc{\eta}}}.
 \end{align*}
-Using the trace property, \( \tr{AB} = \tr{BA} = \tr{A^T B^T} = \tr{B^T A^T} \), lets us redefine several terms
-\begin{align*}
-    \tr{-S(\vb{\Omega}) J_d \dot{\eta}} &= \tr{- \dot{\eta} S(\vb{\Omega}) J_d} , \\
-    \tr{S(\vb{\Omega}) J_d \eta S(\vb{\Omega})} &= \tr{\eta S(\vb{\Omega}) S(\vb{\Omega}) J_d} , \\
-    \tr{-\eta S(\vb{\Omega}) J_d S(\vb{\Omega})^T} &= \tr{\eta S(\vb{\Omega}) J_d S(\vb{\Omega})} .
-\end{align*}
+Using the trace property~\cref{eq:trAB}, lets us redefine several terms as follows:
+\begin{subequations}\label{eq:inertial_kinetic_energy_substitutions}
+\begin{align}
+    \tr{-\vh{\Omega} J_d \dot{\vc{\eta}}} &= \tr{- \dot{\vc{\eta}} \vh{\Omega} J_d} , \\
+    \tr{\vh{\Omega} J_d \vc{\eta} \vh{\Omega}} &= \tr{\vc{\eta} \vh{\Omega} \vh{Omega} J_d} , \\
+    \tr{-\vc{\eta} \vh{\Omega} J_d \vh{\Omega}^T} &= \tr{\vc{\eta} \vh{\Omega} J_d \vh{\Omega}} .
+\end{align}
+\end{subequations}     
 These transformations allows us to combine several similar terms as
-\begin{align*}
-    \delta T &= \parenth{m_1 + m_2} \dot{\vecbf{x}}^T \delta \dot{\vb{x}} \\
-    & + \frac{1}{2} \tr{-\dot{\eta} \parenth{J_d S(\vb{\Omega}) + S(\vb{\Omega}) J_d}} + \frac{1}{2} \tr{\eta S(\vb{\Omega}) \parenth{J_d S(\vb{\Omega}) + S(\vb{\Omega}) J_d}} + \frac{1}{2} \tr{ S(\vb{\Omega}) \eta J_d S(\vb{\Omega})^T - S(\vb{\Omega}) J_d S(\vb{\Omega}) \eta}
-\end{align*}
+\begin{align}
+    \delta T =&\parenth{m_1 + m_2} \dot{\vecbf{x}}^T \delta \dot{\vb{x}} \nonumber\\
+              &+ \frac{1}{2} \tr{-\dot{\vc{\eta}} \parenth{J_d \vh{\Omega} + \vh{\Omega} J_d}} + \frac{1}{2} \tr{\vc{\eta} \vh{\Omega} \parenth{J_d \vh{\Omega} + \vh{\Omega} J_d}} \nonumber \\
+              &+ \frac{1}{2} \tr{ \vh{\Omega} \vc{\eta} J_d \vh{\Omega}^T - \vh{\Omega} J_d \vh{\Omega} \eta}.
+\end{align}
 The last trace term can be simplified using the properties of the trace and hat map as
 \begin{align*}
     \frac{1}{2} \tr{ S(\vb{\Omega}) \eta J_d S(\vb{\Omega})^T - S(\vb{\Omega}) J_d S(\vb{\Omega}) \eta} &= \frac{1}{2} \tr{ - S(\vb{\Omega}) \eta J_d S(\vb{\Omega}) - S(\vb{\Omega}) J_d S(\vb{\Omega}) \eta} , \\
