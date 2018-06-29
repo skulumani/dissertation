@@ -9,9 +9,6 @@
 
 \input{tex/frontmatter}
 
-% \includeonly{tex/se3_control,
-%              tex/appendix/hat_map,
-%              tex/appendix/se3_control_appendix}
 %% DOCUMENT AREA
 \begin{document}
 
@@ -31,6 +28,7 @@
 % Talk about control on non-linear manifolds use IJCAS paper
 \include{tex/se3_control}
 % TODO Shape reconstruction using LIDAR measurements
+\include{tex/shape_reconstruction}
 
 % TODO Conclusion and future work
 
@@ -47,17 +45,16 @@
 % \include{tex/2017_AAS_fall}
 % \include{tex/2017_SSPI}
 
-% \include{tex/raycasting}
 % \include{tex/reachability_intro}
-% \include{tex/computational_geometry}
 
 % appendices must appear after
 \appendix
 \include{tex/appendix/hat_map}
+\include{tex/appendix/trace}
+\include{tex/appendix/se3_control_appendix}
 % \include{tex/appendix/appendix}
 % \include{tex/appendix/2015_AAS_appendix}
 % \include{tex/appendix/2016_ACC_appendix}
-\include{tex/appendix/se3_control_appendix}
 
 \printbibliography
 
