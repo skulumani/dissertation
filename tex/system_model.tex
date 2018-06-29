@@ -126,22 +126,152 @@ One can also use~\cref{eq:xTx} to define the inertia matrix in several other equ
         &= \int_{\mathcal{B}} \tr{\vb{\rho}\vb{\rho}^T} I - \vb{\rho}\vb{\rho}^T, \\
         &= \int_{\mathcal{B}} \vh{\rho}^T \vh{\rho} dm.
 \end{align*}
+The location of an infinitesimal mass element \( dm \) can be decomposed into
+\begin{align}\label{eq:mass_element_position}
+    \vc{\rho}_i = \vc{\zeta} + \vc{\eta}_i, 
+\end{align}
+where \( \vb{\zeta} \) is the location of the center of \( m_i \) in the spacecraft fixed frame while \( \vc{\eta} \) the position of \( dm \) with respect to the center of \( m_i \) and expressed in the spacecraft fixed frame.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{figures/dumbbell_pos_vector.png}
+    \caption{Decomposition of mass element positon vector}
+    \label{fig:dumbbell_moi_mass_element_position}
+\end{figure}
+Using~\cref{eq:mass_element_position} the moment of inertia can be expanded as
+\begin{align*}
+    J_I &= \sum_i^n \int_{\mathcal{B}_i} \parenth{\vc{\zeta}_i + \vb{\eta}_i}^T \parenth{\vc{\zeta}_i + \vc{\eta}_i } I  - \parenth{\vc{\zeta}_i + \vc{\eta}_i} \parenth{\vc{\zeta}_i + \vc{\eta}_i}^T dm .
+\end{align*}
+Further expansion leads to
+\begin{align*}
+    J_I = \sum_i^n \int_{\mathcal{B}_i} \parenth{\vc{\zeta}_i^T \vc{\zeta}_i}I - \vc{\zeta}_i \vc{\zeta}_i^T + \vc{\eta}_i^T \vc{\eta}_i I - \vc{\eta}_i \vc{\eta}_i^T dm, 
+\end{align*}
+since the cross terms include an integration over the constant density sphere goes to zero:
+\begin{align*}
+    \int_{\mathcal{B}_i} \vc{\eta}_i dm = 0 .
+\end{align*}
+The integration is now split into two components: an integration within each sphere, \( \vc{\eta}_i \) terms, and and integration involving the location of the sphere, \( \vc{\zeta}_i \) terms.
+As a result, the final moment of inertia of a system of rigid spherical masses is 
+\begin{align}\label{eq:dumbbell_moment_of_inertia}
+    J_I = \sum_i J_i + m_i \parenth{\vc{\zeta}_i^T \vc{\zeta}_i I - \vc{\zeta}_i \vc{\zeta}_i^T} , 
+\end{align}
+where \( \vc{\zeta}_i \) is the position of \( m_i \) in the spacecraft fixed frame and the moment of inertia of each sphere is
+\begin{align}\label{eq:sphere_moment_of_inertia}
+    J_i = \begin{bmatrix} 
+        \frac{2}{5} m_i r_i^2 & 0 & 0 \\
+        0 & \frac{2}{5} m_i r_i^2 & 0 \\
+        0 & 0 & \frac{2}{5} m_i r_i^2 
+    \end{bmatrix}.
+\end{align}
+\Cref{eq:dumbbell_moment_of_inertia} is consitent with the well-known parallel-axis theorem~\cite{greenwood1988}.
+
+%TODO Nonstandard moment of inertia matrix
+\paragraph{Nonstandard Moment of Inertia Matrix}
+The standard moment of inertia \( J \in \R^{3 \times 3} \) of a rigid body is given by
+\begin{align}\label{eq:standard_moment_of_inertia}
+    J = \int_{\mathcal{B}} \vh{\rho}^T \vh{\rho} dm 
+    = \int_{\mathcal{B}}  
+    \begin{bmatrix} 
+        y^2 + z^2 & -xy & -zx \\
+        -xy & z^2 + x^2 & -yz \\
+        -zx & yz & x^2 + y^2
+    \end{bmatrix} dm, 
+\end{align}
+where \( \vc{\rho} = \begin{bmatrix} x & y & z \end{bmatrix}\).
+A nonstandard moment of inertia matrix \( J_d \in \R^{3 \times 3 } \) is defined as
+\begin{align} \label{eq:nonstandard_moment_of_inertia}
+    J_d = \int_{\mathcal{B}} \vc{\rho} \vc{\rho}^T dm = \int_{\mathcal{B}} 
+    \begin{bmatrix}
+        x^2 & xy & zx \\
+        xy & y^2 & yz \\
+        zx & yz & z^2
+    \end{bmatrix} dm.
+\end{align}
+Using~\cref{eq:xTx} and the properties of the outer product, it can be shown that
+\begin{subequations}\label{eq:moi_transformation}
+    \begin{align}
+        J &= \tr{J_d} I - J_d, \\
+        J_d &= \frac{1}{2} \tr{J} I - J.
+    \end{align}
+\end{subequations}     
+In addition, the following equation is also satisfied for any \( \vc{\Omega} \in \R^3 \)
+\begin{align}\label{eq:moi_hat_prop}
+    \parenth{J \vc{\Omega}}^\wedge = \vh{\Omega} J_d + J_d \vh{\Omega}.
+\end{align}
+\Cref{eq:moi_hat_prop} is easy to prove by substituting \( \vc{\Omega} = \begin{bmatrix} \Omega_1 & \Omega_2 & \Omega_3 \end{bmatrix} \) and expanding both sides of~\cref{eq:moi_hat_prop} to
+\begin{align*}
+    \begin{bmatrix}
+        \parenth{J_{yy} + J_{zz}} \Omega_1 - J_{xy} \Omega_2 - J_{zx} \Omega_3 \\
+        -J_{xy}\Omega_1 + \parenth{J_{zz} + J_{xx}} \Omega_2 - J_{yz}\Omega_3 \\
+        -J_{zx}\Omega_1 - J_{yz}\Omega_2 + \parenth{J_{xx} + J_{yy}} \Omega_3
+    \end{bmatrix}^\wedge,
+\end{align*}
+where \( J_{xy} = \int_{\mathcal{B}} xy dm \in \R \) and the other terms are defined simarily.
+
 \subsection{Inertial Frame Equations of Motion}\label{sec:inertial_dumbbell_eoms}
 
-
-
-Using our kinematic variables we can define the kinetic and potential energy of the dumbbell as
-\begin{align}\label{eq:kinetic_energy}
-    T &= \frac{1}{2} m \norm{\dot{\vb{x}}}^2 + \frac{1}{2} \tr{S(\vb{\Omega}) J_d S\parenth{\vb{\Omega}}^T} , \\
-    V( \vecbf{x}, R ) &=  - m_1 U \parenth{R_A^T \parenth{\vecbf{x} + R \vecbf{\rho}_1}} - m_2 U \parenth{R_A^T \parenth{\vecbf{x} + R \vecbf{\rho}_2}} ,
+\paragraph{Kinetic Energy of Dumbbell}\label{sec:inertial_kinetic_energy}
+The kinetic energy of the spacecraft begins with the kinematics defined in~\cref{ssec:dumbbell_eoms_reference_frames} as
+\begin{align}\label{eq:inertial_KE_1}
+    T = \frac{1}{2} \int_{\mathcal{B}} \norm{ \dot{\vc{x}} + \dot{R} \vc{\rho}}^2 dm,
 \end{align}
-where the polyhedron potential is defined in~\cref{eq:potential}.
-The position of each mass \(m_i\) of the dumbbell is defined in the dumbbell fixed frame by the vector \(\vb{\rho}_i\). 
+where \( \vc{\rho} \in \R^3 \) defines the position of the mass element \( dm \) in the body fixed frame of the spacecraft.
+Expanding the quadratic term in~\cref{eq:inertial_KE_1} results in
+\begin{align}\label{eq:inertial_KE_2}
+T = \frac{1}{2} \int_{\mathcal{B}}  \norm{\dot{\vc{x}}}^2 + 2 \dot{\vc{x}}^T \dot{R} \vc{\rho} + \norm{\dot{R} \vc{\rho} }^2    dm .
+\end{align}
+\Cref{eq:inertial_KE_2} is further simplified by noting that
+\begin{align*}
+    \int_{\mathcal{B}} \vc{\rho} dm = 0,
+\end{align*}
+and from using the kinematics \( \dot{R} = \R \vh{\Omega} \) for \( \vc{\Omega} \in \R^3 \) 
+\begin{align*}
+    \norm{\dot{R} \vc{\rho} }^2 &= \vc{\rho}\dot{R}^T \dot{R} \vc{\rho} , \\
+                                &=  \vc{\rho}^T \vh{\Omega}^T \vh{\Omega} \vc{\rho} , \\
+                                &= \norm{ \vh{\Omega} \vc{\rho} }^2, 
+\end{align*}
+which results in the following expression for the kinetic energy
+\begin{align}\label{eq:inertial_KE_3}
+    T = \frac{1}{2} \int_{\mathcal{B}} \braces{ \norm{\dot{\vc{x}}}^2 + \norm{\vh{\Omega} \vc{\rho}}^2 } dm.
+\end{align}
+The second term \( \norm{\vh{\Omega}\vc{\rho}}^2 \) is simplified to
+\begin{align}
+    \norm{ \vh{\Omega}\vc{\rho} }^2 &= \parenth{ \vh{\Omega}\vc{\rho}}^T \parenth{\vh{\Omega}\vc{\rho}} , \\
+                                    &= \tr{ \vh{\Omega} \vc{\rho} \vc{\rho}^T \vh{\Omega}^T }.
+\end{align}
+Applying this to~\cref{eq:inertial_KE_3} results in the final form of the kinetic energy as
+\begin{align}\label{eq:inertial_kinetic_energy}
+    T = \frac{1}{2} m \norm{\dot{\vc{x}}}^2 + \frac{1}{2} \tr{ \vh{\Omega}J_d \vh{\Omega^T } }, 
+\end{align}
+where we applied the non-standard moment of inertia defined in~\cref{eq:nonstandard_moment_of_inertia}.
+
+\paragraph{Potential Energy of Dumbbell}
+The potential energy of the dumbbell is a function of the asteroid potential model.
+There are a number of possible models as shown in~\cref{sec:gravitational_models}.
+For a rigid body composed of several spherical point masses, the total potential becomes
+\begin{align}\label{eq:inertial_potential_energy}
+    V(\vc{x}, R, R_A) = \sum_{i}^n - m_i U \parenth{R_A^T \parenth{\vc{x} + R \vc{\rho}_i}},
+\end{align}
+where \( \vc{x} \in \R^3\) is the position of the center of mass, \( R \in \SO\) is the rotation matrix which transforms vectors from the spacecraft frame to the inertial frame, and \( R_A \in \SO \) is the rotation matrix which transforms vectors from the asteroid frame to the inertial frame.
+
+Using our kinematic variables we can define the kinetic and potential energy of the dumbbell using~\cref{eq:inertial_kinetic_energy,eq:inertial_potential_energy} as
+\begin{subequations}\label{eq:dumbbell_kinetic_and_potential_energy}
+\begin{align}
+    T &= \frac{1}{2} m \norm{\dot{\vb{x}}}^2 + \frac{1}{2} \tr{\vh{\Omega} J_d \vh{\Omega}^T} , \label{eq:dumbbell_kinetic_energy}\\
+    V( \vecbf{x}, R ) &=  - m_1 U \parenth{R_A^T \parenth{\vecbf{x} + R \vecbf{\rho}_1}} - m_2 U \parenth{R_A^T \parenth{\vecbf{x} + R \vecbf{\rho}_2}} , \label{eq:dumbbell_potential_energy}
+\end{align}
+\end{subequations}     
+where we utilize the polyhedron potential is defined in~\cref{sec:polyhedron_potential}.
+The position of each mass \(m_i\) of the dumbbell is defined in the dumbbell fixed frame by the vector \(\vc{\rho}_i\). 
+With~\cref{eq:dumbbell_kinetic_and_potential_energy} one can then use Hamilton's principle to derive the equations of motion.
+However, the first step is to determine the varations of \( T, V \).
+These variations must be carefully constructed such that the variations of the configuration variables do not violate the nonlinear manifold.
 The next step is to define the variations of the kinetic and potential energy to derive the equations of motion, which are given as
 \begin{align} 
-    \delta V &= -\sum_{i=1}^2  m_i \parenth{R_A \deriv{U}{\vb{z}_i} }^T \delta \vb{x} + m_i \hat{\vb{\eta}}\cdot \hat{\vb{\rho}_1} R^T R_A \deriv{U}{\vb{z}_i}, \\
-    \delta T &= \parenth{m_1 + m_2} \dot{\vecbf{x}}^T \delta \dot{\vb{x}} + \frac{1}{2} \tr{- \dot{\hat{\vb{\eta}}} S(J \vb{\Omega}) + \hat{\vb{\eta}} S(\hat{\vb{\Omega}} J \vb{\Omega})}. 
+    \delta V &= -\sum_{i=1}^2  m_i \parenth{R_A \deriv{U}{\vb{z}_i} }^T \delta \vb{x} + m_i \hat{\vb{\eta}}\cdot \hat{\vb{\rho}_1} R^T R_A \deriv{U}{\vb{z}_i}, \label{eq:dumbbell_kinetic_energy_variation} \\
+    \delta T &= \parenth{m_1 + m_2} \dot{\vecbf{x}}^T \delta \dot{\vb{x}} + \frac{1}{2} \tr{- \dot{\hat{\vb{\eta}}} S(J \vb{\Omega}) + \hat{\vb{\eta}} S(\hat{\vb{\Omega}} J \vb{\Omega})}. \label{eq:dumbbell_potential_energy_variation} ,
 \end{align}
+where \( \vc{z}_i = R_A^T \parenth{\vc{x} + R \vc{\rho}} \) and defines the position of \( m_i \) in the asteroid fixed frame.
+The derivation of~\cref{eq:dumbbell_potential_energy_variation,eq:dumbbell_kinetic_energy_variation} is provided in~\cref{proof:inertial_dumbbell_eoms}.
 
 Using the variations of the kinetic and potential energy we can derive the equations of motion of the dumbbell spacecraft about an asteroid using Hamilton's principle. 
 Hamilton's principle then states that the variation of the action integral
@@ -173,7 +303,7 @@ The control inputs to the spacecraft are defined by \( \vb{u}_f, \vb{u}_m \) whi
 \subsection{Asteroid Frame Equations of Motion}
 
 
-\section{Gravitational Models around Small-Bodies}
+\section{Gravitational Models around Small-Bodies}\label{sec:gravitational_models}
 Due to the irregular shape of small-bodies, the gravitational field around these bodies is equally irregular.
 Furthermore, the relative size of the spacecraft in comparison with the orbital radius and small-body creates a much larger coupling between the translational and rotational states of the spacecraft.
 In addition, spacecraft will tend to operate in very close proximity to the surface.
