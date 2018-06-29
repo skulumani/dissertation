@@ -239,25 +239,40 @@ The second term \( \norm{\vh{\Omega}\vc{\rho}}^2 \) is simplified to
                                     &= \tr{ \vh{\Omega} \vc{\rho} \vc{\rho}^T \vh{\Omega}^T }.
 \end{align}
 Applying this to~\cref{eq:inertial_KE_3} results in the final form of the kinetic energy as
-\begin{align}
+\begin{align}\label{eq:inertial_kinetic_energy}
     T = \frac{1}{2} m \norm{\dot{\vc{x}}}^2 + \frac{1}{2} \tr{ \vh{\Omega}J_d \vh{\Omega^T } }, 
 \end{align}
 where we applied the non-standard moment of inertia defined in~\cref{eq:nonstandard_moment_of_inertia}.
 
 \paragraph{Potential Energy of Dumbbell}
+The potential energy of the dumbbell is a function of the asteroid potential model.
+There are a number of possible models as shown in~\cref{sec:gravitational_models}.
+For a rigid body composed of several spherical point masses, the total potential becomes
+\begin{align}\label{eq:inertial_potential_energy}
+    V(\vc{x}, R, R_A) = \sum_{i}^n - m_i U \parenth{R_A^T \parenth{\vc{x} + R \vc{\rho}_i}},
+\end{align}
+where \( \vc{x} \in \R^3\) is the position of the center of mass, \( R \in \SO\) is the rotation matrix which transforms vectors from the spacecraft frame to the inertial frame, and \( R_A \in \SO \) is the rotation matrix which transforms vectors from the asteroid frame to the inertial frame.
 
-Using our kinematic variables we can define the kinetic and potential energy of the dumbbell as
-\begin{align}\label{eq:kinetic_energy}
-    T &= \frac{1}{2} m \norm{\dot{\vb{x}}}^2 + \frac{1}{2} \tr{S(\vb{\Omega}) J_d S\parenth{\vb{\Omega}}^T} , \\
-    V( \vecbf{x}, R ) &=  - m_1 U \parenth{R_A^T \parenth{\vecbf{x} + R \vecbf{\rho}_1}} - m_2 U \parenth{R_A^T \parenth{\vecbf{x} + R \vecbf{\rho}_2}} ,
+Using our kinematic variables we can define the kinetic and potential energy of the dumbbell using~\cref{eq:inertial_kinetic_energy,eq:inertial_potential_energy} as
+\begin{subequations}\label{eq:dumbbell_kinetic_and_potential_energy}
+\begin{align}
+    T &= \frac{1}{2} m \norm{\dot{\vb{x}}}^2 + \frac{1}{2} \tr{\vh{\Omega} J_d \vh{\Omega}^T} , \label{eq:dumbbell_kinetic_energy}\\
+    V( \vecbf{x}, R ) &=  - m_1 U \parenth{R_A^T \parenth{\vecbf{x} + R \vecbf{\rho}_1}} - m_2 U \parenth{R_A^T \parenth{\vecbf{x} + R \vecbf{\rho}_2}} , \label{eq:dumbbell_potential_energy}
 \end{align}
-where the polyhedron potential is defined in~\cref{eq:potential}.
-The position of each mass \(m_i\) of the dumbbell is defined in the dumbbell fixed frame by the vector \(\vb{\rho}_i\). 
+\end{subequations}     
+where we utilize the polyhedron potential is defined in~\cref{sec:polyhedron_potential}.
+The position of each mass \(m_i\) of the dumbbell is defined in the dumbbell fixed frame by the vector \(\vc{\rho}_i\). 
+With~\cref{eq:dumbbell_kinetic_and_potential_energy} one can then use Hamilton's principle to derive the equations of motion.
+However, the first step is to determine the varations of \( T, V \).
+These variations must be carefully constructed such that the variations of the configuration variables do not violate the nonlinear manifold.
 The next step is to define the variations of the kinetic and potential energy to derive the equations of motion, which are given as
+\begin{subequations}\label{eq:dumbbell_kinetic_and_potential_energy_variations}
 \begin{align} 
-    \delta V &= -\sum_{i=1}^2  m_i \parenth{R_A \deriv{U}{\vb{z}_i} }^T \delta \vb{x} + m_i \hat{\vb{\eta}}\cdot \hat{\vb{\rho}_1} R^T R_A \deriv{U}{\vb{z}_i}, \\
-    \delta T &= \parenth{m_1 + m_2} \dot{\vecbf{x}}^T \delta \dot{\vb{x}} + \frac{1}{2} \tr{- \dot{\hat{\vb{\eta}}} S(J \vb{\Omega}) + \hat{\vb{\eta}} S(\hat{\vb{\Omega}} J \vb{\Omega})}. 
+    \delta V &= -\sum_{i=1}^2  m_i \parenth{R_A \deriv{U}{\vb{z}_i} }^T \delta \vb{x} + m_i \hat{\vb{\eta}}\cdot \hat{\vb{\rho}_1} R^T R_A \deriv{U}{\vb{z}_i}, \label{eq:dumbbell_kinetic_energy_variation} \\
+    \delta T &= \parenth{m_1 + m_2} \dot{\vecbf{x}}^T \delta \dot{\vb{x}} + \frac{1}{2} \tr{- \dot{\hat{\vb{\eta}}} S(J \vb{\Omega}) + \hat{\vb{\eta}} S(\hat{\vb{\Omega}} J \vb{\Omega})}. \label{eq:dumbbell_potential_energy_variation} 
 \end{align}
+\end{subequations}     
+The derivation of~\cref{eq:dumbbell_kinetic_and_potential_energy_variations} is provided in~\cref{proof:dumbbell_kinetic_and_potential_energy_variation}.
 
 Using the variations of the kinetic and potential energy we can derive the equations of motion of the dumbbell spacecraft about an asteroid using Hamilton's principle. 
 Hamilton's principle then states that the variation of the action integral
@@ -290,7 +305,7 @@ The control inputs to the spacecraft are defined by \( \vb{u}_f, \vb{u}_m \) whi
 \subsection{Asteroid Frame Equations of Motion}
 
 
-\section{Gravitational Models around Small-Bodies}
+\section{Gravitational Models around Small-Bodies}\label{sec:gravitational_models}
 Due to the irregular shape of small-bodies, the gravitational field around these bodies is equally irregular.
 Furthermore, the relative size of the spacecraft in comparison with the orbital radius and small-body creates a much larger coupling between the translational and rotational states of the spacecraft.
 In addition, spacecraft will tend to operate in very close proximity to the surface.
