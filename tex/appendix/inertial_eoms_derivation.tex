@@ -40,23 +40,11 @@ The variation of \( \vc{\Omega} \) is computed from the kinematics and~\cref{eq:
 
 \section{Variation of the kinetic energy}\label{sec:inertial_kinetic_energy_variation}
 The variation of the kinetic energy is defined as
-\begin{align}\label{eq:kinetic_variation}
-    \delta T &= \deriv{T}{\dot{\vecbf{x}}}^T \delta \dot{\vecbf{x}} + \deriv{T}{\vecbf{\Omega}}^T \delta \vecbf{\Omega} , \\
-    &=   \parenth{m_1 + m_2} \dot{\vecbf{x}}^T \delta \dot{\vecbf{x}} + \frac{1}{2} \tr{ S(\vb{\delta \Omega}) J_d S(\vb{\Omega})^T + S(\vb{\Omega}) J_d S(\delta \vb{\Omega})^T}.
+\begin{align}
+    \delta T &= \left. \diff{}{\epsilon}\right|_{\epsilon=0} T(\dot{\vc{x}} + \epsilon \delta \dot{\vc{x}}, \vc{\Omega} + \epsilon \delta \vc{\Omega}), \nonumber\\
+             &=   \parenth{m_1 + m_2} \dot{\vecbf{x}}^T \delta \dot{\vecbf{x}} + \frac{1}{2} \tr{ (\delta \vc{\Omega} )^\wedge J_d (\delta \vc{\Omega} )^T + (\delta \vc{\Omega})J_d (\delta \vc{\Omega})^T}\label{eq:kinetic_variation}.
 \end{align}
-The variation of \( \vb{\Omega} \) is computed using the kinematic equations and \( \delta R = R \eta\).
-First, we can rearrange the kinematics to arrive at
-\begin{align*}
-    S(\vb{\Omega}) = R^T \dot{R}.
-\end{align*}
-Next,
-\begin{align}\label{eq:delta_omega}
-    S(\delta \vb{\Omega}) &= \delta R^T \dot{R} + R^T \delta \dot{R} , \nonumber \\
-    &= - \eta R^T R S(\vb{\Omega}) + R^T \diff{}{t} \parenth{\delta R}, \nonumber\\
-    &= -\eta S(\vb{\Omega}) + R^T \parenth{\dot{R}\eta + R \dot{\eta}}, \nonumber \\
-    &= -\eta S(\vb{\Omega}) + S(\vb{\Omega}) \eta + \dot{\eta}  . 
-\end{align}
-Now,~\cref{eq:delta_omega} is substituted into~\cref{eq:kinetic_variation} to obtain
+Now,~\cref{eq:inertial_ang_vel_variation} is substituted into~\cref{eq:kinetic_variation} to obtain
 \begin{align*}
     \delta T &=  \parenth{m_1 + m_2} \dot{\vecbf{x}}^T \delta \dot{\vb{x}} + \frac{1}{2} \tr{\parenth{-\eta S(\vb{\Omega}) + S(\vb{\Omega}) \eta + \dot{\eta}} J_d S(\vb{\Omega})^T + S(\vb{\Omega}) J_d \parenth{-\eta S(\vb{\Omega}) + S(\vb{\Omega}) \eta + \dot{\eta}}^T} .
 \end{align*}
