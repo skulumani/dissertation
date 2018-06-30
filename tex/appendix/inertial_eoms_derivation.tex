@@ -96,6 +96,6 @@ Applying the chain and product rule of differentiation results in
 where \( \vc{z}_i = R_A^T \parenth{\vc{x} + R \vc{\rho}_i} \) is the position of each mass in the asteroid fixed frame.
 Applying the definition for the attitude variation, \(\delta R = R \eta \), the variation of the potential energy becomes
 \begin{align*}
-    \delta V = -\sum_{i=1}^2 \bracket{ m_i \parenth{R_A \deriv{U_i}{\vc{z}_i} }^T \delta \vc{x} + m_i \vc{\eta}^T \vh{\rho}_i R^T R_A \deriv{U_i}{\vb{z}_i}}
+    \delta V &= \sum_{i=1}^2 \braces{ \bracket{m_i \deriv{U}{\vecbf{z}_i}^T R_A^T } \delta \vecbf{x} - \tr{ \vc{\eta} \bracket{m_i R^T \deriv{U}{\vecbf{z}_i} \parenth{R_A^T \vecbf{\rho}_i}^T}} },
 \end{align*}
 which is equivalent to~\cref{eq:dumbbell_potential_energy_variation}.

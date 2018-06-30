@@ -267,7 +267,7 @@ However, the first step is to determine the varations of \( T, V \).
 These variations must be carefully constructed such that the variations of the configuration variables do not violate the nonlinear manifold.
 The next step is to define the variations of the kinetic and potential energy to derive the equations of motion, which are given as
 \begin{align} 
-    \delta V &= -\sum_{i=1}^2  \bracket{m_i \parenth{R_A \deriv{U}{\vc{z}_i} }^T \delta \vb{x} + m_i \vc{\eta}^T \hat{\vc{\rho}_i} R^T R_A \deriv{U}{\vc{z}_i}}, \label{eq:dumbbell_kinetic_energy_variation} \\
+    \delta V &= \sum_{i=1}^2 \braces{ \bracket{m_i \deriv{U}{\vecbf{z}_i}^T R_A^T } \delta \vecbf{x} - \tr{ \vc{\eta} \bracket{m_i R^T \deriv{U}{\vecbf{z}_i} \parenth{R_A^T \vecbf{\rho}_i}^T}} },\label{eq:dumbbell_kinetic_energy_variation} \\ 
     \delta T &= \parenth{m_1 + m_2} \dot{\vc{x}}^T \delta \dot{\vc{x}} + \frac{1}{2} \tr{- \dot{\vc{\eta}} \parenth{J \vc{\Omega}}^\wedge + \vc{\eta} \parenth{\vh{\Omega} J \vc{\Omega}} }. \label{eq:dumbbell_potential_energy_variation} ,
 \end{align}
 where \( \vc{z}_i = R_A^T \parenth{\vc{x} + R \vc{\rho}} \) and defines the position of \( m_i \) in the asteroid fixed frame.
@@ -283,10 +283,11 @@ In other words,
 \begin{align}\label{eq:hamiltons_principle}
     \delta \mathcal{G}  = \int_{t_0}^{t_f} \delta T - \delta V dt = 0.
 \end{align}
-Substituting~\cref{eq:dumbbell_potential_energy_variation,eq:dumbbell_kinetic_energy_variation} into~\cref{eq:hamiltons_principle}  gives
+Substituting~\cref{eq:dumbbell_potential_energy_variation,eq:dumbbell_kinetic_energy_variation} into~\cref{eq:hamiltons_principle} and evaluating for two masses gives
 \begin{align}\label{eq:action_integral_full}
-    \delta \mathcal{G} = \int_{t_0}^{t_f}& \left\{  \parenth{m_1 + m_2} \dot{\vc{x}}^T \delta \dot{\vc{x}} + \frac{1}{2} \tr{- \dot{\vc{\eta}} \parenth{J \vc{\Omega}}^\wedge + \vc{\eta} \parenth{\vh{\Omega} J \vc{\Omega}} } \right. \nonumber \\
-                                         & \left. +\sum_{i=1}^2  \bracket{m_i \parenth{R_A \deriv{U}{\vc{z}_i} }^T \delta \vb{x} - m_i \vc{\eta}^T \hat{\vc{\rho}_i} R^T R_A \deriv{U}{\vc{z}_i}} \right\} dt.
+    \delta \mathcal{G} &= \int_{t_0}^{t_f} \braces{ \parenth{m_1 + m_2 }\dot{\vecbf{x}}^T \delta \dot{\vecbf{x}}  + \bracket{m_1 \deriv{U}{\vecbf{z}_1}^T R_A^T + m_2 \deriv{U}{\vecbf{z}_2}^T R_A^T } \delta \vecbf{x}} dt \nonumber\\
+                        &+ \int_{t_0}^{t_f} \braces{\frac{1}{2} \tr{-\dot{\eta} \parenth{J \vc{\Omega}}^\wedge + \eta \parenth{\vh{\Omega}J\vc{\Omega} }} } dt  \nonumber\\
+                        &- \int_{t_0}^{t_f} \braces{\tr{ \eta \parenth{m_1 R^T \deriv{U}{\vecbf{z}_1} \parenth{R_A^T \vecbf{\rho}_1}^T + m_2 R^T \deriv{U}{\vecbf{z}_2} \parenth{R_A^T \vecbf{\rho}_2}^T}} } dt.
 \end{align}
 Using integration by parts allows one to remove the derivative terms from~\cref{eq:action_integral_full} as follows
 \begin{subequations}\label{eq:action_integral_integration_by_parts}
@@ -298,9 +299,11 @@ Using integration by parts allows one to remove the derivative terms from~\cref{
 The variations \( \delta \vc{x}, \vc{\eta}\) vanish at the endpoints \( t_0, t_f \) and the terms outside of the integrals in~\cref{eq:action_integral_integration_by_parts} become zero.
 As a result, using~\cref{eq:action_integral_integration_by_parts} in~\cref{eq:action_integral_full} gives the following for \( \delta \mathcal{G} \),
 \begin{align}
-    \delta \mathcal{G} = \int_{t_0}^{t_f}& \left\{  \parenth{m_1 + m_2} \dot{\vc{x}}^T \delta \dot{\vc{x}} + \frac{1}{2} \tr{- \dot{\vc{\eta}} \parenth{J \vc{\Omega}}^\wedge + \vc{\eta} \parenth{\vh{\Omega} J \vc{\Omega}} } \right. \nonumber \\
-                                         & \left. +\sum_{i=1}^2  \bracket{m_i \parenth{R_A \deriv{U}{\vc{z}_i} }^T \delta \vb{x} - m_i \vh{\eta}^T \hat{\vc{\rho}_i} R^T R_A \deriv{U}{\vc{z}_i}} \right\} dt.
+    \delta \mathcal{G} = \int_{t_0}^{t_f} & \left\{  \parenth{m_1 + m_2} \ddot{\vc{x}}^T + \bracket{m_1 \deriv{U}{\vecbf{z}_1}^T R_A^T + m_2 \deriv{U}{\vecbf{z}_2}^T R_A^T } \right\} \delta\vc{x} dt \\
+    + \int_{t_0}^{t_f} &\left\{ \frac{1}{2} \tr{\vc{\eta} \parenth{J \dot{\vc{\Omega}}}^\wedge + \vc{\eta} \parenth{\vh{\Omega} J \vc{\Omega}} } \right. \nonumber \\
+    + & \left.  \tr{ \eta \parenth{m_1 R^T \deriv{U}{\vecbf{z}_1} \parenth{R_A^T \vecbf{\rho}_1}^T + m_2 R^T \deriv{U}{\vecbf{z}_2} \parenth{R_A^T \vecbf{\rho}_2}^T}} \right\} dt.
 \end{align}
+Hamilton's principle states that the variation of the action integral should be zero for all possible variations, \( \delta \vc{x} : \bracket{t_0, t_f} \to \R^3 \) and \( \eta : \bracket{t_0, t_f} \to \so \)~\cite{lanczos1970}.
 Applying the calculus of variations and integration by parts results in the familiar Euler-Lagrange equations of motion.
 Applying the Legendre transformation allows for the same dynamics to be expressed in an equivalent form as Hamilton's equations~\cite{lanczos1970}.
 The equations of motion of a dumbbell spacecraft influenced by a polyhedron potential model are given as
@@ -321,6 +324,57 @@ The gravitational moment on the dumbbell \( \vecbf{M}_i\) is defined as
     \vecbf{M}_i = m_i \parenth{S(R_A^T \vb{\rho}_i) R^T \deriv{U}{\vb{z}_i}}.
 \end{align}
 The control inputs to the spacecraft are defined by \( \vb{u}_f, \vb{u}_m \) which define the control force represented in the inertial frame and the control moment represented in the spacecraft frame, respectively. 
+
+\subsection{Hamilton's Principle}
+Hamilton's principle states that the actual path taken by a holonomic system results in a stationary action integral with respect to path variations and assuming fixed endpoints.
+The action integral is defined as
+\begin{align*}
+    I = \int_0^{t_f} L \, dt . 
+\end{align*}
+Combining~\cref{eq:potential_variation,eq:kinetic_energy_variation_final} and taking the variation of the action integral gives
+\begin{align}\label{eq:action_integral_variation}
+    \delta I =& \int_{t_0}^{t_f} \parenth{m_1 + m_2 }\dot{\vecbf{x}}^T \delta \dot{\vecbf{x}}  + \frac{1}{2} \tr{-\dot{\eta} S(J \vecbf{\Omega}) + \eta S(\vecbf{\Omega} \times J \vecbf{\Omega})} \\
+    &+\bracket{m_1 \deriv{U}{\vecbf{z}_1}^T R_A^T + m_2 \deriv{U}{\vecbf{z}_2}^T R_A^T } \delta \vecbf{x} - \tr{ \eta \braces{m_1 R^T \deriv{U}{\vecbf{z}_1} \parenth{R_A^T \vecbf{\rho}_1}^T + m_2 R^T \deriv{U}{\vecbf{z}_2} \parenth{R_A^T \vecbf{\rho}_2}^T}} .
+\end{align}
+Using integration by parts, the variation of the derivatives \( \delta \dot{\vecbf{x}} \) and \( \delta \dot{\eta} \) can be redefined as
+\begin{align*}
+    \int \parenth{m_1 + m_2} \dot{\vecbf{x}}^T \delta \dot{\vecbf{x}} \, dt &= \left. \parenth{m_1 + m_2 } \dot{\vecbf{x}}^T \delta \vecbf{x} \right|_{t_0}^{t_f} - \int_{t_0}^{t_f} \parenth{m_1 + m_2} \ddot{\vecbf{x}}^T \delta \vecbf{x} \, dt , \\
+    \int \frac{1}{2} \tr{- \dot{\eta} S(J \vecbf{\Omega})} \, dt &= \left.\frac{1}{2} \tr{- \eta S(J \vecbf{\Omega})} \right|_{t_0}^{t_f} - \int_{t_0}^{t_f} \frac{1}{2} \tr{- \eta S(J \dot{\vecbf{\Omega}})} \, dt .
+\end{align*}
+Since, the end points are fixed, the variation at \( t_0 \) and \( t_f \) are zero.
+Therefore, the varition of the action integral is then
+\begin{align}\label{eq:inertial_variation_action_integral}
+    \delta I =& \int_{t_0}^{t_f} - \parenth{m_1 + m_2} \ddot{\vecbf{x}}^T \delta \vecbf{x}  + \frac{1}{2} \tr{ \eta S(J \dot{\vecbf{\Omega}}) + \eta S{\vecbf{\Omega} \times J \vecbf{\Omega}} } + \bracket{m_1 \deriv{U}{\vecbf{z}_1}^T R_A^T + m_2 \deriv{U}{\vecbf{z}_2}^T R_A^T } \delta \vecbf{x} \\
+    &- \tr{\eta \braces{m_1 R^T \deriv{U}{\vecbf{z}_1} \parenth{R_A^T \vecbf{\rho}_1}^T + m_2 R^T \deriv{U}{\vecbf{z}_2} \parenth{R_A^T \vecbf{\rho}_2}^T}} \, dt .
+\end{align}
+The variation of the action integral should be zero for all possible variations. 
+Therefore, the translational equations of motion are given by
+\begin{align}\label{eq:translational_eoms}
+    -\parenth{m_1 +m_2} \ddot{\vecbf{x}}^T + m_1 \deriv{U}{\vecbf{z}_1} R_A^T + m_2 \deriv{U}{\vecbf{z}_2}^T R_A^T = 0 .
+\end{align}
+Using the trace property, \( \tr{PQ} = 0 \iff P^T = -P, Q^T = Q\), the rotational equations of motion are given by
+\begin{align}
+    & \tr{ \eta \braces{ S(J \dot{\vecbf{\Omega}}) - 2 m_1 R^T \deriv{U}{\vecbf{z}_1} \parenth{R_A^T \vecbf{\rho}_1}^T - 2 m_2 R^T \deriv{U}{\vecbf{z}_2} \parenth{R_A^T \vecbf{\rho}_2}^T + S(\vecbf{\Omega \times J \vecbf{\Omega}})}} \nonumber\\
+    \Rightarrow & S(J \dot{\vecbf{\Omega}} + \vecbf{\Omega} \times J \vecbf{\Omega}) - 2 m_1 R^T \deriv{U}{\vecbf{z}_1} \parenth{R_A^T \vecbf{\rho}_1}^T - 2 m_2 R^T \deriv{U}{\vecbf{z}_2} \parenth{R_A^T \vecbf{\rho}_2}^T \nonumber\\
+    =& S(J \dot{\vecbf{\Omega}} + \vecbf{\Omega} \times J \vecbf{\Omega})^T - 2 m_1 \parenth{R_A^T \vecbf{\rho}_1} \deriv{U}{\vecbf{z}_1}^T R  - 2 m_2 \parenth{R_A^T \vecbf{\rho}_2} \deriv{U}{\vecbf{z}_2}^T R , \nonumber\\
+    S(J \dot{\vecbf{\Omega}} + \vecbf{\Omega} \times J \vecbf{\Omega}) =& - m_1 \parenth{R_A^T \vecbf{\rho}_1} \deriv{U}{\vecbf{z}_1}^T R  - m_2 \parenth{R_A^T \vecbf{\rho}_2} \deriv{U}{\vecbf{z}_2}^T R \nonumber \\
+    &+ m_1 R^T \deriv{U}{\vecbf{z}_1} \parenth{R_A^T \vecbf{\rho}_1}^T + m_2 R^T \deriv{U}{\vecbf{z}_2} \parenth{R_A^T \vecbf{\rho}_2}^T
+\end{align}
+The gravitational moment can be redefined using the properties of the hat map.
+To begin, the right hand side is defined as
+\begin{align}
+    S(\vb{M}_i) &= m_i \parenth{R^T \deriv{U}{\vecbf{z}_i} \parenth{R_A^T \vecbf{\rho}_i}^T - \parenth{R_A^T \vecbf{\rho}_i} \deriv{U}{\vecbf{z}_i}^T R} ,\\
+    &= m_i \parenth{ y x^T - x y^T} = m_i S(x \times y) 
+\end{align}
+where the vectors \( x, y\) are defined as
+\begin{align*}
+    x &= R_A^T \vb{\rho}_i , \\
+    y &= R^T \deriv{U}{\vb{z}_i} .
+\end{align*}
+As a result, the external moment on the dumbbell is given as
+\begin{align}
+    \vb{M}_i = m_i \parenth{S(R_A^T \vb{\rho}_i) R^T \deriv{U}{\vb{z}_i}}.
+\end{align}
 
 \subsection{Asteroid Frame Equations of Motion}
 
