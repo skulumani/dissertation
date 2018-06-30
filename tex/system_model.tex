@@ -267,14 +267,14 @@ However, the first step is to determine the varations of \( T, V \).
 These variations must be carefully constructed such that the variations of the configuration variables do not violate the nonlinear manifold.
 The next step is to define the variations of the kinetic and potential energy to derive the equations of motion, which are given as
 \begin{align} 
-    \delta V &= -\sum_{i=1}^2  m_i \parenth{R_A \deriv{U}{\vb{z}_i} }^T \delta \vb{x} + m_i \hat{\vb{\eta}}\cdot \hat{\vb{\rho}_1} R^T R_A \deriv{U}{\vb{z}_i}, \label{eq:dumbbell_kinetic_energy_variation} \\
-    \delta T &= \parenth{m_1 + m_2} \dot{\vecbf{x}}^T \delta \dot{\vb{x}} + \frac{1}{2} \tr{- \dot{\hat{\vb{\eta}}} S(J \vb{\Omega}) + \hat{\vb{\eta}} S(\hat{\vb{\Omega}} J \vb{\Omega})}. \label{eq:dumbbell_potential_energy_variation} ,
+    \delta V &= -\sum_{i=1}^2  \bracket{m_i \parenth{R_A \deriv{U}{\vc{z}_i} }^T \delta \vb{x} + m_i \vh{\eta}^T \hat{\vc{\rho}_i} R^T R_A \deriv{U}{\vc{z}_i}}, \label{eq:dumbbell_kinetic_energy_variation} \\
+    \delta T &= \parenth{m_1 + m_2} \dot{\vc{x}}^T \delta \dot{\vc{x}} + \frac{1}{2} \tr{- \dot{\vc{\eta}} \parenth{J \vc{\Omega}}^\wedge + \vc{\eta} \parenth{\vh{\Omega} J \vc{\Omega}} }. \label{eq:dumbbell_potential_energy_variation} ,
 \end{align}
 where \( \vc{z}_i = R_A^T \parenth{\vc{x} + R \vc{\rho}} \) and defines the position of \( m_i \) in the asteroid fixed frame.
 The derivation of~\cref{eq:dumbbell_potential_energy_variation,eq:dumbbell_kinetic_energy_variation} is provided in~\cref{proof:inertial_dumbbell_eoms}.
 
 Using the variations of the kinetic and potential energy we can derive the equations of motion of the dumbbell spacecraft about an asteroid using Hamilton's principle. 
-Hamilton's principle then states that the variation of the action integral
+Hamilton's principle states that the variation of the action integral
 \begin{align}
     \mathsf{G} = \int_{t_0}^{t_f} T(\dot{q}) - V(q) dt,
 \end{align}
