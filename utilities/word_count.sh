@@ -7,7 +7,7 @@ INDEX=0
 
 echo "INDEX,COMMIT,DATE,WORDS_TEXT,WORDS_HEADER,WORDS_CAPTION,NUM_HEADER,NUM_FLOAT,NUM_MATH_INLINE,NUM_MATH_DISPLAY" > ${OUTPUT_FILE}
 
-for COMMIT in $(git rev-list -n 10 --reverse ${BRANCH})
+for COMMIT in $(git rev-list --reverse ${BRANCH})
 do
     COUNTS="$(git show $COMMIT:$INPUT_FILE 2>/dev/null | texcount -1 -merge -q -)"
     
@@ -21,6 +21,8 @@ do
     NUM_MATH_DISPLAY="$(awk -F'[/|)]' '{print $4}' <<< ${COUNTS})"
     echo "${INDEX},${COMMIT},${DATE},${WORDS_TEXT},${WORDS_HEADER},${WORDS_CAPTION// /},${NUM_HEADER},${NUM_FLOAT},${NUM_MATH_INLINE},${NUM_MATH_DISPLAY}" >> ${OUTPUT_FILE}
     INDEX=$[$INDEX + 1]
+
+    echo "${DATE} ${WORDS_TEXT}"
 done
 
 mv $OUTPUT_FILE ./utilities/
