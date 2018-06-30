@@ -1,0 +1,11 @@
+\documentclass[]{standalone}
+\usepackage{pgfplots}
+\usepackage{filecontents}
+
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}
+\addplot table [x=INDEX, y=WORDS_TEXT, col sep=comma] {word_count.csv};
+\end{axis}
+\end{tikzpicture}
+\end{document}
