@@ -4,8 +4,9 @@
 
 \begin{document}
 \begin{tikzpicture}
-\begin{axis}
-\addplot table [x=INDEX, y=WORDS_TEXT, col sep=comma] {word_count.csv};
-\end{axis}
+    \begin{axis}[
+        xlabel=Index,ylabel=Words]
+        \addplot table [x=INDEX, y=WORDS_TEXT, col sep=comma] {word_count.csv};
+    \end{axis}
 \end{tikzpicture}
 \end{document}
