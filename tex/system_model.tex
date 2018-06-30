@@ -267,7 +267,7 @@ However, the first step is to determine the varations of \( T, V \).
 These variations must be carefully constructed such that the variations of the configuration variables do not violate the nonlinear manifold.
 The next step is to define the variations of the kinetic and potential energy to derive the equations of motion, which are given as
 \begin{align} 
-    \delta V &= -\sum_{i=1}^2  \bracket{m_i \parenth{R_A \deriv{U}{\vc{z}_i} }^T \delta \vb{x} + m_i \vh{\eta}^T \hat{\vc{\rho}_i} R^T R_A \deriv{U}{\vc{z}_i}}, \label{eq:dumbbell_kinetic_energy_variation} \\
+    \delta V &= -\sum_{i=1}^2  \bracket{m_i \parenth{R_A \deriv{U}{\vc{z}_i} }^T \delta \vb{x} + m_i \vc{\eta}^T \hat{\vc{\rho}_i} R^T R_A \deriv{U}{\vc{z}_i}}, \label{eq:dumbbell_kinetic_energy_variation} \\
     \delta T &= \parenth{m_1 + m_2} \dot{\vc{x}}^T \delta \dot{\vc{x}} + \frac{1}{2} \tr{- \dot{\vc{\eta}} \parenth{J \vc{\Omega}}^\wedge + \vc{\eta} \parenth{\vh{\Omega} J \vc{\Omega}} }. \label{eq:dumbbell_potential_energy_variation} ,
 \end{align}
 where \( \vc{z}_i = R_A^T \parenth{\vc{x} + R \vc{\rho}} \) and defines the position of \( m_i \) in the asteroid fixed frame.
@@ -286,15 +286,21 @@ In other words,
 Substituting~\cref{eq:dumbbell_potential_energy_variation,eq:dumbbell_kinetic_energy_variation} into~\cref{eq:hamiltons_principle}  gives
 \begin{align}\label{eq:action_integral_full}
     \delta \mathcal{G} = \int_{t_0}^{t_f}& \left\{  \parenth{m_1 + m_2} \dot{\vc{x}}^T \delta \dot{\vc{x}} + \frac{1}{2} \tr{- \dot{\vc{\eta}} \parenth{J \vc{\Omega}}^\wedge + \vc{\eta} \parenth{\vh{\Omega} J \vc{\Omega}} } \right. \nonumber \\
-                                         & \left. +\sum_{i=1}^2  \bracket{m_i \parenth{R_A \deriv{U}{\vc{z}_i} }^T \delta \vb{x} - m_i \vh{\eta}^T \hat{\vc{\rho}_i} R^T R_A \deriv{U}{\vc{z}_i}} \right\} dt.
+                                         & \left. +\sum_{i=1}^2  \bracket{m_i \parenth{R_A \deriv{U}{\vc{z}_i} }^T \delta \vb{x} - m_i \vc{\eta}^T \hat{\vc{\rho}_i} R^T R_A \deriv{U}{\vc{z}_i}} \right\} dt.
 \end{align}
 Using integration by parts allows one to remove the derivative terms from~\cref{eq:action_integral_full} as follows
 \begin{subequations}\label{eq:action_integral_integration_by_parts}
     \begin{align}
-        \int_{t_0}^{t_f} \braces{ \parenth{m_1 + m_2 } \dot{\vc{x}}^T \delta \dot{\vc{x}} } dt  = 
+        \int_{t_0}^{t_f} \braces{ \parenth{m_1 + m_2 } \dot{\vc{x}}^T \delta \dot{\vc{x}} } dt  &= \left. \parenth{m_1 + m_2} \dot{\vc{x}}^T \delta \vc{x} \right|_{t_0}^{t_f} - \int_{t_0}^{t_f} \parenth{m_1 + m_2} \ddot{\vc{x}}^T \delta \vc{x} dt, \label{eq:action_integral_integration_by_parts_translation}\\
+            \int_{t_0}^{t_f} \frac{1}{2} \tr{ - \dot{\vc{\eta}} \parenth{J \vc{\Omega}}^\wedge } dt &= \left. \frac{1}{2} \tr{ - \vc{\eta} \parenth{J \vc{\Omega}}^\wedge } \right|_{t_0}^{t_f} - \int_{t_0}^{t_f} \frac{1}{2} \tr{- \vc{\eta} \parenth{J \dot{\vc{\Omega}} }^\wedge } dt. \label{eq:action_integral_integration_by_parts_attitude}
     \end{align}
 \end{subequations}     
-
+The variations \( \delta \vc{x}, \vc{\eta}\) vanish at the endpoints \( t_0, t_f \) and the terms outside of the integrals in~\cref{eq:action_integral_integration_by_parts} become zero.
+As a result, using~\cref{eq:action_integral_integration_by_parts} in~\cref{eq:action_integral_full} gives the following for \( \delta \mathcal{G} \),
+\begin{align}
+    \delta \mathcal{G} = \int_{t_0}^{t_f}& \left\{  \parenth{m_1 + m_2} \dot{\vc{x}}^T \delta \dot{\vc{x}} + \frac{1}{2} \tr{- \dot{\vc{\eta}} \parenth{J \vc{\Omega}}^\wedge + \vc{\eta} \parenth{\vh{\Omega} J \vc{\Omega}} } \right. \nonumber \\
+                                         & \left. +\sum_{i=1}^2  \bracket{m_i \parenth{R_A \deriv{U}{\vc{z}_i} }^T \delta \vb{x} - m_i \vh{\eta}^T \hat{\vc{\rho}_i} R^T R_A \deriv{U}{\vc{z}_i}} \right\} dt.
+\end{align}
 Applying the calculus of variations and integration by parts results in the familiar Euler-Lagrange equations of motion.
 Applying the Legendre transformation allows for the same dynamics to be expressed in an equivalent form as Hamilton's equations~\cite{lanczos1970}.
 The equations of motion of a dumbbell spacecraft influenced by a polyhedron potential model are given as
