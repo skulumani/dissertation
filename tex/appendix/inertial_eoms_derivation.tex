@@ -77,14 +77,14 @@ The last trace term can be simplified using~\cref{eq:trABC,eq:hatxT} as
 Using~\cref{eq:inertial_kinetic_nergy_substitution_last_trace} in~\cref{eq:inertial_kinetic_energy_1} gives
 \begin{align}\label{eq:inertial_kinetic_energy_2}
     \delta T =\parenth{m_1 + m_2} \dot{\vecbf{x}}^T \delta \dot{\vb{x}} &+ \frac{1}{2} \tr{-\dot{\vc{\eta}} \parenth{J_d \vh{\Omega} + \vh{\Omega} J_d}} + \frac{1}{2} \tr{\vc{\eta} \vh{\Omega} \parenth{J_d \vh{\Omega} + \vh{\Omega} J_d}} \nonumber \\
-              &- \frac{1}{2} \tr{ \vc{\eta} \parenth{J_d \vh{\Omega} + \vh{\Omega} J_d }\vh{\Omega}} .
+              &- \frac{1}{2} \tr{ \vc{\eta} \parenth{J_d \vh{\Omega} + \vh{\Omega} J_d }\vh{\Omega}}.
 \end{align}
 Using~\cref{eq:moi_hat_prop} in~\cref{eq:inertial_kinetic_energy_2} gives
 \begin{align}\label{eq:kinetic_energy_variation_final}
-    \delta T &= \parenth{m_1 + m_2} \dot{\vecbf{x}}^T \delta \dot{\vb{x}} + \frac{1}{2} \tr{-\dot \eta S(J \vb{\Omega}) + \eta \parenth{ S(\vb{\Omega}) S(J \vb{\Omega}) + S(J \vb{\Omega}) S(\vb{\Omega})} } , \nonumber\\
-    &=  \parenth{m_1 + m_2} \dot{\vecbf{x}}^T \delta \dot{\vb{x}} + \frac{1}{2} \tr{ - \dot{\eta} S(J \vb{\Omega}) + \eta S(\vb{\Omega} \times J \vb{\Omega})} , 
+    \delta T &= \parenth{m_1 + m_2} \dot{\vc{x}}^T \delta \dot{\vc{x}} + \frac{1}{2} \tr{-\dot{\vc{\eta}} \parenth{J\vc{\Omega}}^\wedge + \vc{\eta} \parenth{ \vh{\Omega} \parenth{J\vc{\Omega}}^\wedge + \parenth{J \vc{\Omega}}^\wedge \vh{\Omega}} } , \nonumber\\
+             &=  \parenth{m_1 + m_2} \dot{\vc{x}}^T \delta \dot{\vc{x}} + \frac{1}{2} \tr{ - \dot{\vc{\eta}} \parenth{J \vc{\Omega}}^\wedge + \vc{\eta} \parenth{\vh{\Omega} J \vc{\Omega}}} , 
 \end{align}
-where we used the hat map property, \( S(\vb{x} \times \vb{y}) = S(\vb{x})S(\vb{y}) - S(\vb{y})S(\vb{x}) \), to arrive at the final form.
+where we used~\cref{eq:hatxy} to arrive at the final form.
 
 
 \section{Variation of the potential energy}\label{sec:inertial_potential_energy_variation}
