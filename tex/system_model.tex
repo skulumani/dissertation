@@ -379,7 +379,7 @@ The relative attitude kinematics are defined by
 \end{align}
 where \( \gls{sym:ratt} \in \SO \) is the relative attitude of the spacecraft with respect to the asteroid.
 \( \gls{sym:ratt} \) transforms vectors from the spacecraft fixed frame to the asteroid fixedf frame.
-\( \gls{sym:rangve} \in \R^3 \) is the angular velocity of the spacecraft with respect to the inertial frame and expressed in the inertial frame.
+\( \gls{sym:rangvel} \in \R^3 \) is the angular velocity of the spacecraft with respect to the inertial frame and expressed in the inertial frame.
 
 As in~\cref{sec:inertial_dumbbell_eoms}, we first seek to define the kinetic and potential energy of the dumbbell in terms of these relative kinematics. 
 Afterwards, the variations are taken to derive the equations of motion.
@@ -435,7 +435,7 @@ The variation of the relative position given in~\cref{eq:relative_position} is d
 The variation of the relative attitude given in~\cref{eq:relative_attitude} is expressed as
 \begin{align}
     \delta \gls{sym:ratt} &= \left. \diff{}{\epsilon} \right|_{\epsilon=0}  \gls{sym:Ra}[^T] \gls{sym:iatt}^\epsilon = \gls{sym:Ra}[^T] \delta \gls{sym:iatt}, \nonumber\\
-                        &= \gls{sym:Ra}[^T] \gls{sym:iatt} \eta,
+                          &= \gls{sym:Ra}[^T] \gls{sym:iatt} \eta, \label{eq:relative_attitude_variation_1}
 \end{align}
 where we used the fact that the asteroid attitude does not vary, \( \delta \gls{sym:Ra} = 0\), and the variation of the spacecraft attitude is given in~\cref{eq:inertial_att_variation}.
 The variation of the spacecraft attitude \( \gls{sym:iattvar} \in \so \) is related to the relative variation \( \gls{sym:rattvar} \in \so \) by
@@ -444,12 +444,12 @@ The variation of the spacecraft attitude \( \gls{sym:iattvar} \in \so \) is rela
                       &= \gls{sym:Ra}[^T] \gls{sym:iatt} \gls{sym:iattvar} \gls{sym:iatt}[^T] \gls{sym:Ra}.\label{eq:relative_attitude_variation}
 \end{align}
 We can invert~\cref{eq:relative_attitude_variation} to find
-\begin{align}
+\begin{align}\label{eq:relative_attitude_variation_inverse}
     \gls{sym:iattvar} &= \gls{sym:iatt}[^T] \gls{sym:Ra} \gls{sym:rattvar} \gls{sym:Ra}[^T] \gls{sym:iatt}.
 \end{align}
-Using this, the varation of the relative attitude is then defined as
+Using this, the varation of the relative attitude is derived by substituting~\cref{eq:relative_attitude_variation_inverse} into~\cref{eq:relative_attitude_variation_1} as
 \begin{align}\label{eq:relative_attitude_variation}
-    \delta \vb{R} = R_A^T R_1 \hat{\eta}_1 = \hat{\eta} R_A^T R_1 = \hat{\eta} \vb{R}.
+    \delta \gls{sym:ratt} = \gls{sym:Ra}[^T] \gls{sym:iatt} \gls{sym:iattvar} = \gls{sym:rattvar} \gls{sym:Ra}[^T] \gls{sym:iatt} = \gls{sym:rattvar} \gls{sym:ratt}
 \end{align}
 
 \subsubsection{Relative angular velocity variation}
