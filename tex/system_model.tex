@@ -366,10 +366,11 @@ In astrodynamics, this fact is typically used to reduce the two body problem to 
 In this section, the equations of motion of a rigid spacecraft are derived in the asteroid fixed frame.
 This derivation can be considered a specific example of the relative full body problem and is readily generalized to multiple bodies.
 
+
 The relative motion of a dumbbell spacecraft with respect to an asteroid are defined by the kinematics:
 \begin{itemize}
-    \item \( \vecbf{X} = R_A^T \vecbf{x}_1\) - the position of the center of mass of the dumbbell with respect to the asteroid fixed frame
-    \item \( \vb{R} = R_A^T R_1\) - the orientation of the dumbbell with respect to the asteroid fixed frame. 
+    \item \( \vc{\mathsf{x}} = R_A^T \vc{x}_1\) - the position of the center of mass of the dumbbell with respect to the asteroid and expressed in the asteroid fixed frame.
+    \item \( \mathsf{R} = R_A^T R_1\) - the orientation of the dumbbell with respect to the asteroid fixed frame. 
     This rotation matrix transforms a vector in the dumbbell fixed frame to the asteroid fixed frame.
     \item \( \vecbf{V} = R_A^T \dot{\vecbf{x}}_1 \) - the velocity of the dumbbell center of mass with respect to the inertial frame represented in the asteroid fixed frame
     \item \( \vecbf{\Omega} = \vb{R} \vecbf{\Omega}_1\) - the angular velocity of the dumbbell with respect to the inertial frame represented in the asteroid fixed frame.
