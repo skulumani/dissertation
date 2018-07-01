@@ -450,21 +450,14 @@ Using this, the varation of the relative attitude is derived by substituting~\cr
     \delta \gls{sym:ratt} = \gls{sym:Ra}[^T] \gls{sym:iatt} \gls{sym:iattvar} = \gls{sym:rattvar} \gls{sym:Ra}[^T] \gls{sym:iatt} = \gls{sym:rattvar} \gls{sym:ratt}
 \end{align}
 
-\subsubsection{Relative angular velocity variation}
 The variation of the relative angular velocity is defined as follows:
 \begin{align}\label{eq:relative_angular_velocity_variation_1}
-    S(\delta \vecbf{\Omega}) &= \left. \diff{}{\epsilon} \right|_{\epsilon=0} S(\vb{R}^\epsilon  \vecbf{\Omega}^\epsilon_1) , \nonumber\\
-    &= \left. \diff{}{\epsilon} \right|_{\epsilon=0} \vb{R}^\epsilon S(\vecbf{\Omega}^\epsilon_1)  \parenth{\vb{R}^\epsilon}^T, \nonumber\\
-    &= \delta \vb{R} S(\vecbf{\Omega}_1) \vb{R}^T  + \vb{R} S(\delta \vecbf{\Omega}_1) \vb{R}^T + \vb{R} S(\vecbf{\Omega}_1) \delta \vb{R}^T .
+    \parenth{\delta \gls{sym:rangvel}}^\wedge &= \left. \diff{}{\epsilon} \right|_{\epsilon=0} \parenth{ \gls{sym:ratt}[^\epsilon] \gls{sym:iangvel}[^\epsilon] }^\wedge, \nonumber\\
+                                              &= \left. \diff{}{\epsilon} \right|_{\epsilon=0} \gls{sym:ratt}[^\epsilon] \hat{\glsentrytext{sym:iangvel}}^\epsilon \parenth{\gls{sym:ratt}[^\epsilon]}^T, \nonumber\\
+                                              &= \delta \gls{sym:ratt} \hat{\gls{sym:iangvel}} \gls{sym:ratt}[^T] + \gls{sym:ratt} \delta \hat{\gls{sym:iangvel}} \gls{sym:ratt}[^T] + \gls{sym:ratt} \hat{\gls{sym:iangvel}} \delta \gls{sym:ratt}[^T],
 \end{align}
-The variation \( S(\delta \vecbf{\Omega}_1)\) is defined using~\cref{eq:relative_attitude_variation,eq:delta_omega} to give the following intermediate result \(S(\vb{\Omega}_1)\)
-\begin{align*}
-    S(\delta \vb{\Omega}_1) &= \delta R_1^T \dot{R}_1 + R_1^T \delta \dot{R}_1 , \\
-                            &= -\hat{\eta}_1 R_1^T R_1 \hat{\Omega}_1 + R_1^T \parenth{\dot{R}_1 \hat{\eta}_1 + R_1 \dot{\hat{\eta}}_1} , \\
-                            &= -\hat{\eta}_1 \hat{\Omega}_1 + R_1^T \parenth{r_1 \hat{\Omega}_1 \hat{\eta}_1 + R_1 \dot{\hat{\eta}}_1 } , \\
-                            &= - \hat{\eta}_1 \hat{\Omega}_1 + \hat{\Omega}_1 \hat{\eta}_1 + \dot{\hat{\eta}}_1 .
-\end{align*}
-Now, we can use \(S(\delta \Omega_1) \) to simplify~\cref{eq:relative_angular_velocity_variation_1}
+where we used~\cref{eq:hatRxR} to arrive at the final form.
+The variation \( \delta \gls{sym:iangvel} \) is defined in~\cref{eq:inertial_ang_vel_variation} and subsitituded into~\cref{eq:relative_angular_velocity_variation_1} to give
 \begin{align}\label{eq:relative_angular_velocity_variation_2}
     S(\delta \vb{\Omega}) &= \delta \vb{R} \hat{\Omega}_1 \vb{R}^T + \vb{R} \hat{\delta \Omega_1} \vb{R}^T + \vb{R} \hat{\Omega}_1 \delta \vb{R}^T , \\
                           &= \hat{\eta} \vb{R} \hat{\Omega}_1 \vb{R}^T + \vb{R} \parenth{-\hat{\eta}_1 \hat{\Omega}_1 + \hat{\Omega} \hat{\eta}_1 + \dot{\hat{\eta}}_1} \vb{R}^T + \vb{R} \hat{\Omega}_1 \vb{R}^T \hat{\eta}^T \\
