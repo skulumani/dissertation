@@ -364,8 +364,7 @@ This is a consequence of the fact that the gravitational potential can be descri
 Physically, this is due to the fact that the total linear and angular momentum of the system is conserved.
 In astrodynamics, this fact is typically used to reduce the two body problem to that of the relative two body problem which affords convienent analytical solutions~\cite{vallado2007,bate1971}.
 In this section, the equations of motion of a rigid spacecraft are derived in the asteroid fixed frame.
-This derivation can be considered a specific example of the relative full body problem and is readily generalized to multiple bodies.
-
+This derivation can be considered a specific example of the relative full body problem and is readily generalized to multiple bodies~\cite{lee2007a}.
 
 The relative motion of a dumbbell spacecraft with respect to an asteroid are defined by the kinematics:
 \begin{align}
@@ -424,6 +423,14 @@ In~\cref{proof:inertial_dumbbell_eoms} the variations of the inertial configurai
 Following a similar process the variations of the reduced variables must be derived such that they also satisfy the variations of the inertial variables.
 These variations must be defined precisely to ensure that the configuration space is preserved properly. 
 These variations will be critical for the following step of applying the Euler-Lagrage equations and deriving the equations of motion.
+The variations of the reduced variables are obtained from the variations of the original variables given in~\cref{eq:inertial_pos_variation,eq:inertial_vel_variation,eq:inertial_att_variation,eq:inertial_ang_vel_variation} and the definition of the reduced variables given in~\cref{eq:relative_position,eq:relative_velocity,eq:relative_attitude,eq:relative_angular_velocity}.
+
+The variation of the relative position given in~\cref{eq:relative_position} is defined as
+\begin{align}
+    \delta \gls{sym:rx} &= \left. \diff{}{\epsilon} \right|_{\epsilon=0} \gls{sym:Ra}[^T] \gls{sym:ix}^\epsilon ,\nonumber \\
+                        &= \gls{sym:Ra}[^T] \delta \gls{sym:ix} , \nonumber\\
+                        &= \vc{\chi}.\label{eq:relative_position_variation}
+\end{align}
 
 \subsubsection{Relative attitude variation}
 The variation of the relative attitude is expressed as
@@ -444,14 +451,6 @@ We can invert this relationship to find
 Using this, the varation of the relative attitude is then defined as
 \begin{align}\label{eq:relative_attitude_variation}
     \delta \vb{R} = R_A^T R_1 \hat{\eta}_1 = \hat{\eta} R_A^T R_1 = \hat{\eta} \vb{R}.
-\end{align}
-
-\subsubsection{Relative position variation}
-The variation of the relative position is defined as
-\begin{align}\label{eq:relative_position_variation}
-    \delta \vecbf{X} &= \left. \diff{}{\epsilon} \right|_{\epsilon=0} R_A^T \vb{x}_1^\epsilon ,\nonumber \\
-     &= R_A^T \delta \vb{x}_1 , \nonumber\\
-     &= \vecbf{\chi} .
 \end{align}
 
 \subsubsection{Relative angular velocity variation}
