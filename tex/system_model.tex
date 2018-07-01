@@ -477,18 +477,32 @@ Substituting~\cref{eq:RSeta_identity_1,eq:RSeta_identity_2} into~\cref{eq:relati
     \parenth{\delta \gls{sym:rangvel}}^\wedge &= \gls{sym:rattvar} \parenth{\gls{sym:ratt}\gls{sym:iangvel}}^\wedge - \gls{sym:rattvar} \parenth{\gls{sym:ratt}\gls{sym:iangvel}}^\wedge + \parenth{\gls{sym:ratt}\gls{sym:iangvel}}^\wedge + \gls{sym:ratt}\dot{\gls{sym:iattvar}}\gls{sym:ratt}[^T] + \parenth{\gls{sym:ratt}\gls{sym:iangvel}}^\wedge \gls{sym:rattvar}[^T] ,\nonumber \\
                                               &= \gls{sym:ratt} \dot{\gls{sym:iattvar}} \gls{sym:ratt}[^T] .
 \end{align}
-We now need to define \( \dot{\hat{\eta}}_1\) by first noting that from \( \vb{R} = R_A^T R_1\) and that \( \vecbf{\Omega}_1 = \vb{R}^T \vecbf{\Omega}\)
-\begin{align}\label{eq:relR_dot}
-    \dot{\vb{R}} &= \dot{R}_A^T R_1 + R_A^T \dot{R}_1 , \nonumber\\
-                 &= - \hat{\vecbf{\Omega}}_A R_A^T R_1 + R_A^T R_1 \hat{\vecbf{\Omega}}_1 ,\nonumber\\
-                 &= -\hat{\vecbf{\Omega}}_A R_A^T R_1 + R_A^T R_1 \parenth{\vb{R}^T \vecbf{\Omega}}^\wedge , \nonumber\\
-                 &= -\hat{\vecbf{\Omega}}_A R_A^T R_1 + R_A^T R_1 \vb{R}^T \hat{\vecbf{\Omega}} \vb{R} ,\nonumber\\
-                 &= -\hat{\vecbf{\Omega}}_A\vb{R} + \hat{\vecbf{\Omega}} \vb{R} .
+We now need to define \( \dot{\gls{sym:iattvar}}\) in terms of the reduced variables.
+From~\cref{eq:relative_attitude} and the product rule we can define
+\begin{align}\label{eq:relative_attitude_derivative_1}
+    \dot{R}_r = \dot{R}_A^T R + R_A^T \dot{R}.
 \end{align}
-From the chain rule and applying~\cref{eq:relR_dot} we can define \( \dot{\eta} \) as
-\begin{align}\label{eq:eta_dot_1}
-    \dot{\hat{\eta}} &= \dot{\vb{R}} \eta_1 \vb{R}^T + \vb{R} \dot{\eta}_1 \vb{R}^T + \vb{R} \eta_1 \dot{\vb{R}}^T , \nonumber\\
-                     &= \braces{- \hat{\Omega}_A \vb{R} + \hat{\Omega} \vb{R}} \hat{\eta}_1 \vb{R}^T + R \dot{\hat{\eta}}_1 \vb{R}^T + \vb{R} \hat{\eta}_1 \braces{\vb{R}^T \hat{\Omega}_A - \vb{R}^T \hat{\Omega}}
+From the kinematic equation for the rotation matrix we have
+\begin{subequations}\label{eq:attitude_kinematics_derivative}
+\begin{align}
+    \dot{R}_A &= R_A \hat{\Omega}_A, \\
+    \dot{R} &= R \hat{\Omega} = R \parenth{\gls{sym:ratt}[^T]\gls{sym:rangvel}}^\wedge, 
+\end{align}
+\end{subequations}
+where we used~\cref{eq:relative_angular_velocity}.
+Applying~\cref{eq:attitude_kinematics_derivative,eq:hatRxR} into~\cref{eq:relative_attitude_derivative_1} gives
+\begin{align}
+    \dot{R}_r &= \hat{\Omega}_A^T R_A^T \gls{sym:iatt} + \gls{sym:Ra}[^T] \gls{sym:iatt} \parenth{\gls{sym:ratt}[^T] \gls{sym:rangvel}}^\wedge, \nonumber \\
+              &= \hat{\Omega}_A^T R_A^T \gls{sym:iatt} + \gls{sym:Ra}[^T] \gls{sym:iatt} \gls{sym:ratt}[^T] \hat{\Omega}_r \gls{sym:ratt}, \nonumber \\
+              &= - \hat{\Omega}_A \gls{sym:ratt} + \hat{\Omega}_r \gls{sym:ratt}. \label{eq:relative_attitude_derivative}
+\end{align}
+From~\cref{eq:relative_attitude_variation} and the product rule, the time derivative of \( \gls{sym:rattvar} \) is given by
+\begin{align}\label{eq:relative_attitude_variation_derivative}
+    \dot{\eta}_r = \dot{R}_r \gls{sym:iattvar} \gls{sym:ratt}[^T] + \gls{sym:ratt}\dot{\gls{sym:iattvar}}\gls{sym:ratt}[^T] + \gls{sym:ratt}\gls{sym:iattvar}\dot{R}_r^T 
+\end{align}
+Substituting~\cref{eq:relative_attitude_derivative} into~\cref{eq:relative_attitude_variation_derivative} gives
+\begin{align}
+    \dot{\eta}_r &= \braces{}\gls{sym:iattvar}\gls{sym:ratt}[^T]
 \end{align}
 Now we invert this relationship to define \( \vb{R} \dot{\hat{\eta}}_1 \vb{R}^T \) as
 \begin{align}\label{eq:eta_dot}
