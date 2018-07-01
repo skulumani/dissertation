@@ -364,8 +364,7 @@ This is a consequence of the fact that the gravitational potential can be descri
 Physically, this is due to the fact that the total linear and angular momentum of the system is conserved.
 In astrodynamics, this fact is typically used to reduce the two body problem to that of the relative two body problem which affords convienent analytical solutions~\cite{vallado2007,bate1971}.
 In this section, the equations of motion of a rigid spacecraft are derived in the asteroid fixed frame.
-This derivation can be considered a specific example of the relative full body problem and is readily generalized to multiple bodies.
-
+This derivation can be considered a specific example of the relative full body problem and is readily generalized to multiple bodies~\cite{lee2007a}.
 
 The relative motion of a dumbbell spacecraft with respect to an asteroid are defined by the kinematics:
 \begin{align}
@@ -389,32 +388,49 @@ In other words, the size of the dumbbell spacecraft is significantly less than t
 As a result, the motion of the asteroid is unaffected by that of the spacecraft.
 
 The kinetic energy defined in the inertial frame is given by~\cref{eq:inertial_kinetic_energy} and is transformed using~\cref{eq:relative_position,eq:relative_angular_velocity} as
-\begin{align}
-    T &= \frac{1}{2} \parenth{m_1 + m_2} \norm{\gls{sym:iv}}^2 + \frac{1}{2} \tr{\hat{\gls{sym:iW}} J_d \hat{\glsentrytext{sym:iW}}^T}, \nonumber\\
-      &= \frac{1}{2} \parenth{m_1 + m_2} \parenth{\gls{sym:rv} R_A^T R_A \gls{sym:rv}} + \frac{1}{2} \tr{\parenth{\gls{sym:rR}^T \vc{\Omega}}^\wedge J_d \parenth{\vb{R}^TS(\vb{\Omega})\vb{R}}^T}, \nonumber\\
-    &= \frac{1}{2} \parenth{m_1 + m_2} \norm{\vb{V}}^2 + \frac{1}{2} \tr{S(\vb{\Omega}) \vb{R} J_d \vb{R}^T S(\vb{\Omega})^T}.
+\begin{align}\label{eq:relative_kinetic_energy_1}
+    T &= \frac{1}{2} \parenth{m_1 + m_2} \parenth{\gls{sym:rv} \gls{sym:Ra}[^T] \gls{sym:Ra} \gls{sym:rv}} + \frac{1}{2} \tr{\parenth{\gls{sym:rR}[^T] \gls{sym:rW}}^\wedge J_d \parenth{\gls{sym:rR}[^T] \gls{sym:rW} }^{\wedge T}}. 
 \end{align}
-The term \( \vb{R} J_d \vb{R}^T = J_{d_R}\) is the expression of the nonstandard moment of inertia tensor of the dumbbell expressed in the asteroid fixed frame. 
-It is now a time varying inertia matrix as the relative attitude \( \vb{R} \) is a function of time.
+Using~\cref{eq:hatRxR,eq:trABC} in~\cref{eq:relative_kinetic_energy_1} results in
+\begin{align}\label{eq:relative_kinetic_energy_2}
+    T = \frac{1}{2} \parenth{m_1 + m_2} \norm{\gls{sym:rv}}^2 + \frac{1}{2} \tr{\hat{\gls{sym:rW}} \gls{sym:rR} J_d \gls{sym:rR}[^T] \hat{\glsentrytext{sym:rW}}^T}.
+\end{align}
+The term \( \gls{sym:rR} J_d \gls{sym:rR}[^T] = J_{d_R}\) is the expression of the nonstandard moment of inertia tensor of the dumbbell expressed in the asteroid fixed frame. 
+It is now a time varying inertia matrix as the relative attitude \( \gls{sym:rR} \) is a function of time.
+Using~\cref{eq:hatRxR} it can be shown that \( J_{d_R} \) also satisfies a similar property as~\cref{eq:moi_hat_prop}, 
+\begin{align}\label{eq:moi_relative_hat_prop}
+    \parenth{J_R \gls{sym:rW}}^\wedge = \hat{\gls{sym:rW}} J_{d_R} + J_{d_R}\hat{\gls{sym:rW}},
+\end{align}
+where \( J_R = \gls{sym:rR} J \gls{sym:rR}[^T] \in \R^{3 \times 3}\) is the standard moment of inertia matrix of the spacecraft expressed with respect to the asteroid fixed frame.
 Using this definition the relative kinetic energy is given as
-\begin{align}\label{eq:relative_kinetic}
-    T &= \frac{1}{2} \parenth{m_1 + m_2} \norm{\vb{V}}^2 + \frac{1}{2} \tr{S(\vb{\Omega}) J_{d_R} S(\vb{\Omega})^T}.
+\begin{align}\label{eq:relative_kinetic_energy}
+    T &= \frac{1}{2} \parenth{m_1 + m_2} \norm{\gls{sym:rv}}^2 + \frac{1}{2} \tr{\hat{\gls{sym:rW}} J_{d_R} \hat{\glsentrytext{sym:rW}}^T}.
 \end{align}
 
 The potential energy is already defined in terms of the relative position of the dumbbell with respect to the asteroid.
-We now make the substitution using our relative kinematics as
-\begin{align}\label{eq:relative_potential}
-    V = -m_1 U(\vecbf{X} + \vb{R} \vecbf{\rho}_1) - m_2 U(\vecbf{X}+\vb{R} \vecbf{\rho}_2).
+Using the relative kinematics given in~\cref{eq:relative_position,eq:relative_attitude} gives
+\begin{align}\label{eq:relative_potential_energy}
+    V = -m_1 U( \gls{sym:rx} + \gls{sym:rR} \vc{\rho}_1) - m_2 U(\gls{sym:rx} + \gls{sym:rR} \vc{\rho}_2).
 \end{align}
-Using~\cref{eq:relative_kinetic,eq:relative_potential}, the Langrangian is expressed in terms of the relative variables as 
+Using~\cref{eq:relative_kinetic_energy,eq:relative_potential_energy}, the reduced Langrangian is expressed in terms of the relative kinematics as 
 \begin{align}\label{eq:relative_lagrangian}
-    L = T-V = \frac{1}{2} \parenth{m_1 + m_2} \norm{\vb{V}}^2 + \frac{1}{2} \tr{S(\vb{\Omega}) J_{d_R} S(\vb{\Omega})^T} +m_1 U(\vecbf{X} + \vb{R} \vecbf{\rho}_1) + m_2 U(\vecbf{X}+ \vb{R} \vecbf{\rho}_2) .
+    L = T-V =& \frac{1}{2} \parenth{m_1 + m_2} \norm{\gls{sym:rv}}^2 + \frac{1}{2} \tr{\hat{\gls{sym:rW}} J_{d_R} \hat{\glsentrytext{sym:rW}}^T} \nonumber \\
+             &+m_1 U(\gls{sym:rx} + \gls{sym:rR} \vc{\rho}_1) + m_2 U(\gls{sym:rx} + \gls{sym:rR} \vc{\rho}_2) .
 \end{align}
 
 \subsection{Relative variations}\label{ssec:relative_variations}
-In a process similar to that used for the inertial equations of motion, we define the variations of kinematic variables.
+In~\cref{proof:inertial_dumbbell_eoms} the variations of the inertial configuraiton variables were derived.
+Following a similar process the variations of the reduced variables must be derived such that they also satisfy the variations of the inertial variables.
 These variations must be defined precisely to ensure that the configuration space is preserved properly. 
 These variations will be critical for the following step of applying the Euler-Lagrage equations and deriving the equations of motion.
+The variations of the reduced variables are obtained from the variations of the original variables given in~\cref{eq:inertial_pos_variation,eq:inertial_vel_variation,eq:inertial_att_variation,eq:inertial_ang_vel_variation} and the definition of the reduced variables given in~\cref{eq:relative_position,eq:relative_velocity,eq:relative_attitude,eq:relative_angular_velocity}.
+
+The variation of the relative position given in~\cref{eq:relative_position} is defined as
+\begin{align}
+    \delta \gls{sym:rx} &= \left. \diff{}{\epsilon} \right|_{\epsilon=0} \gls{sym:Ra}[^T] \gls{sym:ix}^\epsilon ,\nonumber \\
+                        &= \gls{sym:Ra}[^T] \delta \gls{sym:ix} , \nonumber\\
+                        &= \vc{\chi}.\label{eq:relative_position_variation}
+\end{align}
 
 \subsubsection{Relative attitude variation}
 The variation of the relative attitude is expressed as
@@ -435,14 +451,6 @@ We can invert this relationship to find
 Using this, the varation of the relative attitude is then defined as
 \begin{align}\label{eq:relative_attitude_variation}
     \delta \vb{R} = R_A^T R_1 \hat{\eta}_1 = \hat{\eta} R_A^T R_1 = \hat{\eta} \vb{R}.
-\end{align}
-
-\subsubsection{Relative position variation}
-The variation of the relative position is defined as
-\begin{align}\label{eq:relative_position_variation}
-    \delta \vecbf{X} &= \left. \diff{}{\epsilon} \right|_{\epsilon=0} R_A^T \vb{x}_1^\epsilon ,\nonumber \\
-     &= R_A^T \delta \vb{x}_1 , \nonumber\\
-     &= \vecbf{\chi} .
 \end{align}
 
 \subsubsection{Relative angular velocity variation}
