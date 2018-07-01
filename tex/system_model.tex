@@ -381,11 +381,7 @@ In this analysis, it is assumed that the motion of the asteroid is not impacted 
 In other words, the size of the dumbbell spacecraft is significantly less than that of the dumbbell. 
 As a result, the motion of the asteroid is unaffected by that of the spacecraft.
 
-The kinetic energy defined in the inertial frame is given by~\cref{eq:kinetic_energy} and is transformed using the following relationships,
-\begin{align*}
-    \dot{\vb{x}}_1 &= R_A \vb{V} , \\
-    \vb{\Omega}_1 &= \vb{R}^T \vb{\Omega}.
-\end{align*}
+The kinetic energy defined in the inertial frame is given by~\cref{eq:inertial_kinetic_energy} and is transformed using \( \gls{sym:rx}, \gls{sym:rW}\)
 Using these, the kinetic energy is expressed using the relative variables as
 \begin{align*}
     T &= \frac{1}{2} \parenth{m_1 + m_2} \norm{\dot{\vb{x}}_1}^2 + \frac{1}{2} \tr{S(\vb{\Omega}_1) J_d S(\vb{\Omega})^T}, \nonumber\\
