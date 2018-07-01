@@ -398,19 +398,24 @@ Using~\cref{eq:hatRxR,eq:trABC} in~\cref{eq:relative_kinetic_energy_1} results i
 \end{align}
 The term \( \gls{sym:rR} J_d \gls{sym:rR}[^T] = J_{d_R}\) is the expression of the nonstandard moment of inertia tensor of the dumbbell expressed in the asteroid fixed frame. 
 It is now a time varying inertia matrix as the relative attitude \( \gls{sym:rR} \) is a function of time.
+Using~\cref{eq:hatRxR} it can be shown that \( J_{d_R} \) also satisfies a similar property as~\cref{eq:moi_hat_prop}, 
+\begin{align}\label{eq:moi_relative_hat_prop}
+    \parenth{J_R \gls{sym:rW}}^\wedge = \hat{\gls{sym:rW}} J_{d_R} + J_{d_R}\hat{\gls{sym:rW}},
+\end{align}
+where \( J_R = \gls{sym:rR} J \gls{sym:rR}[^T] \in \R^{3 \times 3}\) is the standard moment of inertia matrix of the spacecraft expressed with respect to the asteroid fixed frame.
 Using this definition the relative kinetic energy is given as
 \begin{align}\label{eq:relative_kinetic_energy}
     T &= \frac{1}{2} \parenth{m_1 + m_2} \norm{\gls{sym:rv}}^2 + \frac{1}{2} \tr{\hat{\gls{sym:rW}} J_{d_R} \hat{\glsentrytext{sym:rW}}^T}.
 \end{align}
 
 The potential energy is already defined in terms of the relative position of the dumbbell with respect to the asteroid.
-We now make the substitution using our relative kinematics as
-\begin{align}\label{eq:relative_potential}
-    V = -m_1 U(\vecbf{X} + \vb{R} \vecbf{\rho}_1) - m_2 U(\vecbf{X}+\vb{R} \vecbf{\rho}_2).
+Using the relative kinematics given in~\cref{eq:relative_position,eq:relative_attitude} gives
+\begin{align}\label{eq:relative_potential_energy}
+    V = -m_1 U( \gls{sym:rx} + \gls{sym:rR} \vc{\rho}_1) - m_2 U(\gls{sym:rx} + \gls{sym:rR} \vc{\rho}_2).
 \end{align}
-Using~\cref{eq:relative_kinetic,eq:relative_potential}, the Langrangian is expressed in terms of the relative variables as 
+Using~\cref{eq:relative_kinetic_energy,eq:relative_potential_energy}, the reduced Langrangian is expressed in terms of the relative kinematics as 
 \begin{align}\label{eq:relative_lagrangian}
-    L = T-V = \frac{1}{2} \parenth{m_1 + m_2} \norm{\vb{V}}^2 + \frac{1}{2} \tr{S(\vb{\Omega}) J_{d_R} S(\vb{\Omega})^T} +m_1 U(\vecbf{X} + \vb{R} \vecbf{\rho}_1) + m_2 U(\vecbf{X}+ \vb{R} \vecbf{\rho}_2) .
+    L = T-V = \frac{1}{2} \parenth{m_1 + m_2} \norm{\gls{sym:rv}}^2 + \frac{1}{2} \tr{\hat{\gls{sym:rW}} J_{d_R} \hat{\glsentrytext{sym:rW}}^T} +m_1 U(\gls{sym:rx} + \gls{sym:rR} \vc{\rho}_1) + m_2 U(\gls{sym:rx} + \gls{sym:rR} \vc{\rho}_2) .
 \end{align}
 
 \subsection{Relative variations}\label{ssec:relative_variations}
