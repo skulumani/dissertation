@@ -391,7 +391,7 @@ As a result, the motion of the asteroid is unaffected by that of the spacecraft.
 The kinetic energy defined in the inertial frame is given by~\cref{eq:inertial_kinetic_energy} and is transformed using~\cref{eq:relative_position,eq:relative_angular_velocity} as
 \begin{align}
     T &= \frac{1}{2} \parenth{m_1 + m_2} \norm{\dot{\vc{x}}}^2 + \frac{1}{2} \tr{\vh{\Omega} J_d \vh{\Omega}^T}, \nonumber\\
-    &= \frac{1}{2} \parenth{m_1 + m_2} \parenth{\vb{V}^T R_A^T R_A \vb{V}} + \frac{1}{2} \tr{\vb{R}^T S(\vb{\Omega})\vb{R} J_d \parenth{\vb{R}^TS(\vb{\Omega})\vb{R}}^T}, \nonumber\\
+      &= \frac{1}{2} \parenth{m_1 + m_2} \parenth{\gls{sym:rv} R_A^T R_A \gls{sym:rv}} + \frac{1}{2} \tr{\parenth{\gls{sym:rR}^T \vc{\Omega}}^\wedge J_d \parenth{\vb{R}^TS(\vb{\Omega})\vb{R}}^T}, \nonumber\\
     &= \frac{1}{2} \parenth{m_1 + m_2} \norm{\vb{V}}^2 + \frac{1}{2} \tr{S(\vb{\Omega}) \vb{R} J_d \vb{R}^T S(\vb{\Omega})^T}.
 \end{align}
 The term \( \vb{R} J_d \vb{R}^T = J_{d_R}\) is the expression of the nonstandard moment of inertia tensor of the dumbbell expressed in the asteroid fixed frame. 
