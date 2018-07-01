@@ -368,30 +368,32 @@ This derivation can be considered a specific example of the relative full body p
 
 
 The relative motion of a dumbbell spacecraft with respect to an asteroid are defined by the kinematics:
-\begin{itemize}
-    \item \( \vc{\mathsf{x}} = R_A^T \vc{x}_1\) - the position of the center of mass of the dumbbell with respect to the asteroid and expressed in the asteroid fixed frame.
-    \item \( \mathsf{R} = R_A^T R_1\) - the orientation of the dumbbell with respect to the asteroid fixed frame. 
-    This rotation matrix transforms a vector in the dumbbell fixed frame to the asteroid fixed frame.
-    \item \( \vecbf{V} = R_A^T \dot{\vecbf{x}}_1 \) - the velocity of the dumbbell center of mass with respect to the inertial frame represented in the asteroid fixed frame
-    \item \( \vecbf{\Omega} = \vb{R} \vecbf{\Omega}_1\) - the angular velocity of the dumbbell with respect to the inertial frame represented in the asteroid fixed frame.
-\end{itemize}
-As in the inertial equations of motion, we first seek to define the kinetic and potential energy of the dumbbell in terms of these relative kinematics. 
+\begin{align}
+    \gls{sym:rx} &= R_A^T \vc{x}, \label{eq:relative_position} \\
+    \gls{sym:rv} &= R_A^T \dot{\vc{x}}, \label{eq:relative_velocity},
+\end{align}
+where \( \gls{sym:rx} \in \R^3 \) is the relative position of the spacecraft with respect to the asteroid and expressed in the asteroid fixed frame, and \( \gls{sym:rv} \in \R^3 \) is the relative velocity of the spacecraft with respect to the asteroid and expressed in the asteroid fixed frame.
+The relative attitude kinematics are defined by
+\begin{align}
+    \gls{sym:rR} &= R_A^T R, \label{eq:relative_attitude} \\
+    \gls{sym:rW} &= \gls{sym:rR} \vc{\Omega}, \label{eq:relative_angular_velocity}
+\end{align}
+where \( \gls{sym:rR} \in \SO \) is the relative attitude of the spacecraft with respect to the asteroid.
+\( \gls{sym:rR} \) transforms vectors from the spacecraft fixed frame to the asteroid fixedf frame.
+\( \gls{sym:rW} \in \R^3 \) is the angular velocity of the spacecraft with respect to the inertial frame and expressed in the inertial frame.
+
+As in~\cref{sec:inertial_dumbbell_eoms}, we first seek to define the kinetic and potential energy of the dumbbell in terms of these relative kinematics. 
 Afterwards, the variations are taken to derive the equations of motion.
 In this analysis, it is assumed that the motion of the asteroid is not impacted by that of the dumbbell.
-In other words, the size of the dumbbell is significantly less than that of the dumbbell. 
-For the majority of asteroids of interest this is a safe assumption.
+In other words, the size of the dumbbell spacecraft is significantly less than that of the dumbbell. 
+As a result, the motion of the asteroid is unaffected by that of the spacecraft.
 
-The kinetic energy defined in the inertial frame is given by~\cref{eq:kinetic_energy} and is transformed using the following relationships,
-\begin{align*}
-    \dot{\vb{x}}_1 &= R_A \vb{V} , \\
-    \vb{\Omega}_1 &= \vb{R}^T \vb{\Omega}.
-\end{align*}
-Using these, the kinetic energy is expressed using the relative variables as
-\begin{align*}
-    T &= \frac{1}{2} \parenth{m_1 + m_2} \norm{\dot{\vb{x}}_1}^2 + \frac{1}{2} \tr{S(\vb{\Omega}_1) J_d S(\vb{\Omega})^T}, \nonumber\\
-    &= \frac{1}{2} \parenth{m_1 + m_2} \parenth{\vb{V}^T R_A^T R_A \vb{V}} + \frac{1}{2} \tr{\vb{R}^T S(\vb{\Omega})\vb{R} J_d \parenth{\vb{R}^TS(\vb{\Omega})\vb{R}}^T} , \\
+The kinetic energy defined in the inertial frame is given by~\cref{eq:inertial_kinetic_energy} and is transformed using~\cref{eq:relative_position,eq:relative_angular_velocity} as
+\begin{align}
+    T &= \frac{1}{2} \parenth{m_1 + m_2} \norm{\dot{\vc{x}}}^2 + \frac{1}{2} \tr{\vh{\Omega} J_d \vh{\Omega}^T}, \nonumber\\
+    &= \frac{1}{2} \parenth{m_1 + m_2} \parenth{\vb{V}^T R_A^T R_A \vb{V}} + \frac{1}{2} \tr{\vb{R}^T S(\vb{\Omega})\vb{R} J_d \parenth{\vb{R}^TS(\vb{\Omega})\vb{R}}^T}, \nonumber\\
     &= \frac{1}{2} \parenth{m_1 + m_2} \norm{\vb{V}}^2 + \frac{1}{2} \tr{S(\vb{\Omega}) \vb{R} J_d \vb{R}^T S(\vb{\Omega})^T}.
-\end{align*}
+\end{align}
 The term \( \vb{R} J_d \vb{R}^T = J_{d_R}\) is the expression of the nonstandard moment of inertia tensor of the dumbbell expressed in the asteroid fixed frame. 
 It is now a time varying inertia matrix as the relative attitude \( \vb{R} \) is a function of time.
 Using this definition the relative kinetic energy is given as
