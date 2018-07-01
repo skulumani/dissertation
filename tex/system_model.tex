@@ -51,14 +51,12 @@ From classical mechanics, the parameters which are used to define the motion of 
 Frequently, the physical parameters of the system must also satisfy some mathematical constraints, which then define a configuration manifold of all generalized coordinates within the configuration space which satisfy the constraints.
 For example, the motion of a particle in three-dimensional Euclidean space can be defined by the typical generalized coordinates in the form of a vector
 \begin{align*}
-    \vb{r} = \begin{matrix}
+    \vb{r} = \begin{bmatrix}
         x_1 & x_2 & x_3
-    \end{matrix}^T.
+    \end{bmatrix}^T.
 \end{align*}
-Therefore the configuration space is then the set of all real three dimensional vectors or equivalently,
-\begin{align*}
-    \vb{r} \in \R^3.
-\end{align*}
+Therefore the configuration space is then the set of all real three dimensional vectors or equivalently, \(\vb{r} \in \R^3\).
+
 If we further assume that the point is constrained to the surface of a sphere, for example in the case of a spherical pendulum, then the configuration space becomes the subset of \( \R^3 \) which also define points the on sphere, \( \S^2 \).
 If the particle is an extended body rather than a point mass then the orientation becomes an additional configuration parameter.
 The orientation of any rigid body can be defined as the orientation of a body fixed reference frame with respect to an inertial frame. 
@@ -87,32 +85,265 @@ The kinematics of the dumbbell and asteroid are described in the inertial frame 
 \end{itemize}
 In this work, we assume that the asteroid is much more massive than the spacecraft and its motion is not affected by that of the spacecraft.
 This assumption allows us to treat the motion of the vehicle independently from that of the asteroid, instead of treating the more complicated full-body problem. 
-\subsection{Inertial Frame Equations of Motion}
+In~\cref{sec:dumbbell_model} we present the dumbbell model of our spacecraft.
+Using the model, the coupled dynamics of the spacecraft are derived in both the inertial, in~\cref{sec:inertial_dumbbell_eoms} and asteroid fixed frames~\cref{sec:asteroid_dumbbell_eoms}.
 
+\subsection{Dumbbell Spacecraft Model}\label{sec:dumbbell_model}
 
+The dumbbell spacecraft consists of two masses connected by a massless rod and is a well-known representation of a multi body spacecraft.
+Furthermore, the dumbbell model captures the important interactions of the coupling between orbital and attitude dynamics. 
+As a result, this simple model is useful to capture the main characteristics of a wide variety of spacecraft configurations.
+Typically, spacecraft have mass concentrated in a central structure, referred to as the bus, which houses the command and control system, actuators, fuel, sensors etc. 
+In addition, comparatively light-weight solar panels extend from the bus to provide electrical energy from solar radiation. 
+As a result, the distributed mass of the spacecraft is captured with the dumbbell representation.
 
-Using our kinematic variables we can define the kinetic and potential energy of the dumbbell as
-\begin{align}\label{eq:kinetic_energy}
-    T &= \frac{1}{2} m \norm{\dot{\vb{x}}}^2 + \frac{1}{2} \tr{S(\vb{\Omega}) J_d S\parenth{\vb{\Omega}}^T} , \\
-    V( \vecbf{x}, R ) &=  - m_1 U \parenth{R_A^T \parenth{\vecbf{x} + R \vecbf{\rho}_1}} - m_2 U \parenth{R_A^T \parenth{\vecbf{x} + R \vecbf{\rho}_2}} ,
+The dumbbell is defined by two spherical masses of radius \( r_1, r_2 \in \R \) with masses \( m_1, m_2 \in \R\).
+The masses are seperated by a massless rod of length \( l \) and attached to the centers of each mass.
+\Cref{fig:dumbbell_sc} shows the model and associated parameters.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{figures/dumbbell.png}
+    \caption{Dumbbell Model of Rigid Spacecraft}
+    \label{fig:dumbbell_sc}
+\end{figure}
+The spacecraft body fixed frame is centered at the center of mass of the vehicle.
+The \( \vh{b}_1 \) is axis is aligned with the connecting rod while the \( \vh{b}_2, \vh{b}_3 \) axes span the plane orthogonal to the axis of symmetry of the dumbbell.
+The distance from the center of mass to each mass is defined as
+\begin{align}\label{eq:dumbbell_mass_distances}
+    l_1 &= \frac{m_2}{m_1 + m_2} l, \\
+    l_2 &= l - l_1.
 \end{align}
-where the polyhedron potential is defined in~\cref{eq:potential}.
-The position of each mass \(m_i\) of the dumbbell is defined in the dumbbell fixed frame by the vector \(\vb{\rho}_i\). 
+
+\paragraph{Moment of Inertia Derivation}\label{sec:moment_of_inertia}
+The inertia tensor/matrix of a rigid body is defined~\cite{greenwood1988} as
+\begin{align}
+    J_I = \int_{\mathcal{B}} \bracket{ \parenth{\vb{\rho}^T \vb{\rho} }I - \vb{\rho}\vb{\rho}^T} dm, 
+\end{align}
+where \( \vb{\rho} \in \R^3 \) is the position of a mass element \( dm \) in the body fixed frame of the spacecraft.
+One can also use~\cref{eq:xTx} to define the inertia matrix in several other equivalent forms
+\begin{align*}
+    J_I &= \int_{\mathcal{B}} \bracket{ \parenth{\vb{\rho}^T \vb{\rho} }I - \vb{\rho}\vb{\rho}^T} dm, \\
+        &= \int_{\mathcal{B}} \tr{\vb{\rho}\vb{\rho}^T} I - \vb{\rho}\vb{\rho}^T, \\
+        &= \int_{\mathcal{B}} \vh{\rho}^T \vh{\rho} dm.
+\end{align*}
+The location of an infinitesimal mass element \( dm \) can be decomposed into
+\begin{align}\label{eq:mass_element_position}
+    \vc{\rho}_i = \vc{\zeta} + \vc{\eta}_i, 
+\end{align}
+where \( \vb{\zeta} \) is the location of the center of \( m_i \) in the spacecraft fixed frame while \( \vc{\eta} \) the position of \( dm \) with respect to the center of \( m_i \) and expressed in the spacecraft fixed frame.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{figures/dumbbell_pos_vector.png}
+    \caption{Decomposition of mass element positon vector}
+    \label{fig:dumbbell_moi_mass_element_position}
+\end{figure}
+Using~\cref{eq:mass_element_position} the moment of inertia can be expanded as
+\begin{align*}
+    J_I &= \sum_i^n \int_{\mathcal{B}_i} \parenth{\vc{\zeta}_i + \vb{\eta}_i}^T \parenth{\vc{\zeta}_i + \vc{\eta}_i } I  - \parenth{\vc{\zeta}_i + \vc{\eta}_i} \parenth{\vc{\zeta}_i + \vc{\eta}_i}^T dm .
+\end{align*}
+Further expansion leads to
+\begin{align*}
+    J_I = \sum_i^n \int_{\mathcal{B}_i} \parenth{\vc{\zeta}_i^T \vc{\zeta}_i}I - \vc{\zeta}_i \vc{\zeta}_i^T + \vc{\eta}_i^T \vc{\eta}_i I - \vc{\eta}_i \vc{\eta}_i^T dm, 
+\end{align*}
+since the cross terms include an integration over the constant density sphere goes to zero:
+\begin{align*}
+    \int_{\mathcal{B}_i} \vc{\eta}_i dm = 0 .
+\end{align*}
+The integration is now split into two components: an integration within each sphere, \( \vc{\eta}_i \) terms, and and integration involving the location of the sphere, \( \vc{\zeta}_i \) terms.
+As a result, the final moment of inertia of a system of rigid spherical masses is 
+\begin{align}\label{eq:dumbbell_moment_of_inertia}
+    J_I = \sum_i J_i + m_i \parenth{\vc{\zeta}_i^T \vc{\zeta}_i I - \vc{\zeta}_i \vc{\zeta}_i^T} , 
+\end{align}
+where \( \vc{\zeta}_i \) is the position of \( m_i \) in the spacecraft fixed frame and the moment of inertia of each sphere is
+\begin{align}\label{eq:sphere_moment_of_inertia}
+    J_i = \begin{bmatrix} 
+        \frac{2}{5} m_i r_i^2 & 0 & 0 \\
+        0 & \frac{2}{5} m_i r_i^2 & 0 \\
+        0 & 0 & \frac{2}{5} m_i r_i^2 
+    \end{bmatrix}.
+\end{align}
+\Cref{eq:dumbbell_moment_of_inertia} is consitent with the well-known parallel-axis theorem~\cite{greenwood1988}.
+
+%TODO Nonstandard moment of inertia matrix
+\paragraph{Nonstandard Moment of Inertia Matrix}
+The standard moment of inertia \( J \in \R^{3 \times 3} \) of a rigid body is given by
+\begin{align}\label{eq:standard_moment_of_inertia}
+    J = \int_{\mathcal{B}} \vh{\rho}^T \vh{\rho} dm 
+    = \int_{\mathcal{B}}  
+    \begin{bmatrix} 
+        y^2 + z^2 & -xy & -zx \\
+        -xy & z^2 + x^2 & -yz \\
+        -zx & yz & x^2 + y^2
+    \end{bmatrix} dm, 
+\end{align}
+where \( \vc{\rho} = \begin{bmatrix} x & y & z \end{bmatrix}\).
+A nonstandard moment of inertia matrix \( J_d \in \R^{3 \times 3 } \) is defined as
+\begin{align} \label{eq:nonstandard_moment_of_inertia}
+    J_d = \int_{\mathcal{B}} \vc{\rho} \vc{\rho}^T dm = \int_{\mathcal{B}} 
+    \begin{bmatrix}
+        x^2 & xy & zx \\
+        xy & y^2 & yz \\
+        zx & yz & z^2
+    \end{bmatrix} dm.
+\end{align}
+Using~\cref{eq:xTx} and the properties of the outer product, it can be shown that
+\begin{subequations}\label{eq:moi_transformation}
+    \begin{align}
+        J &= \tr{J_d} I - J_d, \\
+        J_d &= \frac{1}{2} \tr{J} I - J.
+    \end{align}
+\end{subequations}     
+In addition, the following equation is also satisfied for any \( \vc{\Omega} \in \R^3 \)
+\begin{align}\label{eq:moi_hat_prop}
+    \parenth{J \vc{\Omega}}^\wedge = \vh{\Omega} J_d + J_d \vh{\Omega}.
+\end{align}
+\Cref{eq:moi_hat_prop} is easy to prove by substituting \( \vc{\Omega} = \begin{bmatrix} \Omega_1 & \Omega_2 & \Omega_3 \end{bmatrix} \) and expanding both sides of~\cref{eq:moi_hat_prop} to
+\begin{align*}
+    \begin{bmatrix}
+        \parenth{J_{yy} + J_{zz}} \Omega_1 - J_{xy} \Omega_2 - J_{zx} \Omega_3 \\
+        -J_{xy}\Omega_1 + \parenth{J_{zz} + J_{xx}} \Omega_2 - J_{yz}\Omega_3 \\
+        -J_{zx}\Omega_1 - J_{yz}\Omega_2 + \parenth{J_{xx} + J_{yy}} \Omega_3
+    \end{bmatrix}^\wedge,
+\end{align*}
+where \( J_{xy} = \int_{\mathcal{B}} xy dm \in \R \) and the other terms are defined simarily.
+
+\subsection{Inertial Frame Equations of Motion}\label{sec:inertial_dumbbell_eoms}
+
+\paragraph{Kinetic Energy of Dumbbell}\label{sec:inertial_kinetic_energy}
+The kinetic energy of the spacecraft begins with the kinematics defined in~\cref{ssec:dumbbell_eoms_reference_frames} as
+\begin{align}\label{eq:inertial_KE_1}
+    T = \frac{1}{2} \int_{\mathcal{B}} \norm{ \dot{\vc{x}} + \dot{R} \vc{\rho}}^2 dm,
+\end{align}
+where \( \vc{\rho} \in \R^3 \) defines the position of the mass element \( dm \) in the body fixed frame of the spacecraft.
+Expanding the quadratic term in~\cref{eq:inertial_KE_1} results in
+\begin{align}\label{eq:inertial_KE_2}
+T = \frac{1}{2} \int_{\mathcal{B}}  \norm{\dot{\vc{x}}}^2 + 2 \dot{\vc{x}}^T \dot{R} \vc{\rho} + \norm{\dot{R} \vc{\rho} }^2    dm .
+\end{align}
+\Cref{eq:inertial_KE_2} is further simplified by noting that
+\begin{align*}
+    \int_{\mathcal{B}} \vc{\rho} dm = 0,
+\end{align*}
+and from using the kinematics \( \dot{R} = \R \vh{\Omega} \) for \( \vc{\Omega} \in \R^3 \) 
+\begin{align*}
+    \norm{\dot{R} \vc{\rho} }^2 &= \vc{\rho}\dot{R}^T \dot{R} \vc{\rho} , \\
+                                &=  \vc{\rho}^T \vh{\Omega}^T \vh{\Omega} \vc{\rho} , \\
+                                &= \norm{ \vh{\Omega} \vc{\rho} }^2, 
+\end{align*}
+which results in the following expression for the kinetic energy
+\begin{align}\label{eq:inertial_KE_3}
+    T = \frac{1}{2} \int_{\mathcal{B}} \braces{ \norm{\dot{\vc{x}}}^2 + \norm{\vh{\Omega} \vc{\rho}}^2 } dm.
+\end{align}
+The second term \( \norm{\vh{\Omega}\vc{\rho}}^2 \) is simplified to
+\begin{align}
+    \norm{ \vh{\Omega}\vc{\rho} }^2 &= \parenth{ \vh{\Omega}\vc{\rho}}^T \parenth{\vh{\Omega}\vc{\rho}} , \\
+                                    &= \tr{ \vh{\Omega} \vc{\rho} \vc{\rho}^T \vh{\Omega}^T }.
+\end{align}
+Applying this to~\cref{eq:inertial_KE_3} results in the final form of the kinetic energy as
+\begin{align}\label{eq:inertial_kinetic_energy}
+    T = \frac{1}{2} m \norm{\dot{\vc{x}}}^2 + \frac{1}{2} \tr{ \vh{\Omega}J_d \vh{\Omega^T } }, 
+\end{align}
+where we applied the non-standard moment of inertia defined in~\cref{eq:nonstandard_moment_of_inertia}.
+
+\paragraph{Potential Energy of Dumbbell}
+The potential energy of the dumbbell is a function of the asteroid potential model.
+There are a number of possible models as shown in~\cref{sec:gravitational_models}.
+For a rigid body composed of several spherical point masses, the total potential becomes
+\begin{align}\label{eq:inertial_potential_energy}
+    V(\vc{x}, R, R_A) = \sum_{i}^n - m_i U \parenth{R_A^T \parenth{\vc{x} + R \vc{\rho}_i}},
+\end{align}
+where \( \vc{x} \in \R^3\) is the position of the center of mass, \( R \in \SO\) is the rotation matrix which transforms vectors from the spacecraft frame to the inertial frame, and \( R_A \in \SO \) is the rotation matrix which transforms vectors from the asteroid frame to the inertial frame.
+
+Using our kinematic variables we can define the kinetic and potential energy of the dumbbell using~\cref{eq:inertial_kinetic_energy,eq:inertial_potential_energy} as
+\begin{subequations}\label{eq:dumbbell_kinetic_and_potential_energy}
+\begin{align}
+    T &= \frac{1}{2} m \norm{\dot{\vb{x}}}^2 + \frac{1}{2} \tr{\vh{\Omega} J_d \vh{\Omega}^T} , \label{eq:dumbbell_kinetic_energy}\\
+    V( \vecbf{x}, R ) &=  - m_1 U \parenth{R_A^T \parenth{\vecbf{x} + R \vecbf{\rho}_1}} - m_2 U \parenth{R_A^T \parenth{\vecbf{x} + R \vecbf{\rho}_2}} , \label{eq:dumbbell_potential_energy}
+\end{align}
+\end{subequations}     
+where we utilize the polyhedron potential is defined in~\cref{sec:polyhedron_potential}.
+The position of each mass \(m_i\) of the dumbbell is defined in the dumbbell fixed frame by the vector \(\vc{\rho}_i\). 
+With~\cref{eq:dumbbell_kinetic_and_potential_energy} one can then use Hamilton's principle to derive the equations of motion.
+However, the first step is to determine the varations of \( T, V \).
+These variations must be carefully constructed such that the variations of the configuration variables do not violate the nonlinear manifold.
 The next step is to define the variations of the kinetic and potential energy to derive the equations of motion, which are given as
 \begin{align} 
-    \delta V &= -\sum_{i=1}^2  m_i \parenth{R_A \deriv{U}{\vb{z}_i} }^T \delta \vb{x} + m_i \hat{\vb{\eta}}\cdot \hat{\vb{\rho}_1} R^T R_A \deriv{U}{\vb{z}_i}, \\
-    \delta T &= \parenth{m_1 + m_2} \dot{\vecbf{x}}^T \delta \dot{\vb{x}} + \frac{1}{2} \tr{- \dot{\hat{\vb{\eta}}} S(J \vb{\Omega}) + \hat{\vb{\eta}} S(\hat{\vb{\Omega}} J \vb{\Omega})}. 
+    \delta V &= \sum_{i=1}^2 \braces{ \bracket{m_i \deriv{U}{\vecbf{z}_i}^T R_A^T } \delta \vecbf{x} - \tr{ \vc{\eta} \bracket{m_i R^T \deriv{U}{\vecbf{z}_i} \parenth{R_A^T \vecbf{\rho}_i}^T}} },\label{eq:dumbbell_kinetic_energy_variation} \\ 
+    \delta T &= \parenth{m_1 + m_2} \dot{\vc{x}}^T \delta \dot{\vc{x}} + \frac{1}{2} \tr{- \dot{\vc{\eta}} \parenth{J \vc{\Omega}}^\wedge + \vc{\eta} \parenth{\vh{\Omega} J \vc{\Omega}}^\wedge }. \label{eq:dumbbell_potential_energy_variation} ,
 \end{align}
+where \( \vc{z}_i = R_A^T \parenth{\vc{x} + R \vc{\rho}} \) and defines the position of \( m_i \) in the asteroid fixed frame.
+The derivation of~\cref{eq:dumbbell_potential_energy_variation,eq:dumbbell_kinetic_energy_variation} is provided in~\cref{proof:inertial_dumbbell_eoms}.
 
 Using the variations of the kinetic and potential energy we can derive the equations of motion of the dumbbell spacecraft about an asteroid using Hamilton's principle. 
-Hamilton's principle then states that the variation of the action integral
-\begin{align}
-    \mathsf{G} = \int_{t_0}^{t_f} T(\dot{q}) - V(q) dt,
+Hamilton's principle states that the variation of the action integral
+\begin{align}\label{eq:action_integral}
+    \mathcal{G} = \int_{t_0}^{t_f} T(\dot{\vc{q}}) - V(\vc{q}) dt,
 \end{align}
 is stationary with fixed endpoints. 
-Applying the calculus of variations and integration by parts results in the familiar Euler-Lagrange equations of motion.
-Applying the Legendre transformation allows for the same dynamics to be expressed in an equivalent form as Hamilton's equations~\cite{lanczos1970}.
-The equations of motion of a dumbbell spacecraft influenced by a polyhedron potential model are given as
+In other words, 
+\begin{align}\label{eq:hamiltons_principle}
+    \delta \mathcal{G}  = \int_{t_0}^{t_f} \delta T - \delta V dt = 0.
+\end{align}
+Substituting~\cref{eq:dumbbell_potential_energy_variation,eq:dumbbell_kinetic_energy_variation} into~\cref{eq:hamiltons_principle} and evaluating for two masses gives
+\begin{align}\label{eq:action_integral_full}
+    \delta \mathcal{G} &= \int_{t_0}^{t_f} \braces{ \parenth{m_1 + m_2 }\dot{\vecbf{x}}^T \delta \dot{\vecbf{x}}  + \bracket{m_1 \deriv{U}{\vecbf{z}_1}^T R_A^T + m_2 \deriv{U}{\vecbf{z}_2}^T R_A^T } \delta \vecbf{x}} dt \nonumber\\
+                        &+ \int_{t_0}^{t_f} \braces{\frac{1}{2} \tr{-\dot{\eta} \parenth{J \vc{\Omega}}^\wedge + \eta \parenth{\vh{\Omega}J\vc{\Omega} }^\wedge } } dt  \nonumber\\
+                        &- \int_{t_0}^{t_f} \braces{\tr{ \eta \parenth{m_1 R^T \deriv{U}{\vecbf{z}_1} \parenth{R_A^T \vecbf{\rho}_1}^T + m_2 R^T \deriv{U}{\vecbf{z}_2} \parenth{R_A^T \vecbf{\rho}_2}^T}} } dt.
+\end{align}
+Using integration by parts allows one to remove the derivative terms from~\cref{eq:action_integral_full} as follows
+\begin{subequations}\label{eq:action_integral_integration_by_parts}
+    \begin{align}
+        \int_{t_0}^{t_f} \braces{ \parenth{m_1 + m_2 } \dot{\vc{x}}^T \delta \dot{\vc{x}} } dt  &= \left. \parenth{m_1 + m_2} \dot{\vc{x}}^T \delta \vc{x} \right|_{t_0}^{t_f} - \int_{t_0}^{t_f} \parenth{m_1 + m_2} \ddot{\vc{x}}^T \delta \vc{x} dt, \label{eq:action_integral_integration_by_parts_translation}\\
+            \int_{t_0}^{t_f} \frac{1}{2} \tr{ - \dot{\vc{\eta}} \parenth{J \vc{\Omega}}^\wedge } dt &= \left. \frac{1}{2} \tr{ - \vc{\eta} \parenth{J \vc{\Omega}}^\wedge } \right|_{t_0}^{t_f} - \int_{t_0}^{t_f} \frac{1}{2} \tr{- \vc{\eta} \parenth{J \dot{\vc{\Omega}} }^\wedge } dt. \label{eq:action_integral_integration_by_parts_attitude}
+    \end{align}
+\end{subequations}     
+The variations \( \delta \vc{x}, \vc{\eta}\) vanish at the endpoints \( t_0, t_f \) and the terms outside of the integrals in~\cref{eq:action_integral_integration_by_parts} become zero.
+As a result, using~\cref{eq:action_integral_integration_by_parts} in~\cref{eq:action_integral_full} gives the following for \( \delta \mathcal{G} \),
+\begin{align}\label{eq:action_integral_stationary}
+    \delta \mathcal{G} = \int_{t_0}^{t_f} & \left\{  \parenth{m_1 + m_2} \ddot{\vc{x}}^T + \bracket{m_1 \deriv{U}{\vecbf{z}_1}^T R_A^T + m_2 \deriv{U}{\vecbf{z}_2}^T R_A^T } \right\} \delta\vc{x} dt \nonumber\\
+    + \int_{t_0}^{t_f} &\left\{ \frac{1}{2} \tr{\vc{\eta} \parenth{J \dot{\vc{\Omega}}}^\wedge + \vc{\eta} \parenth{\vh{\Omega} J \vc{\Omega}}^\wedge } \right. \nonumber \\
+    + & \left.  \tr{ \eta \parenth{m_1 R^T \deriv{U}{\vecbf{z}_1} \parenth{R_A^T \vecbf{\rho}_1}^T + m_2 R^T \deriv{U}{\vecbf{z}_2} \parenth{R_A^T \vecbf{\rho}_2}^T}} \right\} dt.
+\end{align}
+Hamilton's principle states that the variation of the action integral should be zero for all possible variations, \( \delta \vc{x} : \bracket{t_0, t_f} \to \R^3 \) and \( \eta : \bracket{t_0, t_f} \to \so \)~\cite{lanczos1970}.
+Therefore, the first expression inside to brace should be zero, which leads directly to the translational equations of motion.
+\begin{align}\label{eq:translational_eoms}
+    -\parenth{m_1 +m_2} \ddot{\vecbf{x}}^T + m_1 \deriv{U}{\vecbf{z}_1} R_A^T + m_2 \deriv{U}{\vecbf{z}_2}^T R_A^T = 0 .
+\end{align}
+Since, \( \eta \in \so \) is skew-symmetric we have by~\cref{eq:trPQ} that the second expression in braces should by symmetric.
+The second expression in braces is rewritten as
+\begin{align}
+    \tr{ \eta \braces{ \parenth{ J \dot{\vc{\Omega}}}^\wedge - 2 m_1 R^T \deriv{U}{\vecbf{z}_1} \parenth{R_A^T \vecbf{\rho}_1}^T - 2 m_2 R^T \deriv{U}{\vecbf{z}_2} \parenth{R_A^T \vecbf{\rho}_2}^T + \parenth{\vh{\Omega}J \vc{\Omega} }^\wedge }} \nonumber\\
+\end{align}
+Applying~\cref{eq:trPQ} gives
+\begin{align}
+    &\parenth{J \dot{\vecbf{\Omega}} + \vh{\Omega} J \vecbf{\Omega}}^\wedge - 2 m_1 R^T \deriv{U}{\vecbf{z}_1} \parenth{R_A^T \vecbf{\rho}_1}^T - 2 m_2 R^T \deriv{U}{\vecbf{z}_2} \parenth{R_A^T \vecbf{\rho}_2}^T \nonumber\\
+    =& {\parenth{J \dot{\vecbf{\Omega}} + \vh{\Omega}  J \vecbf{\Omega}}^{\wedge}}^T - 2 m_1 \parenth{R_A^T \vecbf{\rho}_1} \deriv{U}{\vecbf{z}_1}^T R  - 2 m_2 \parenth{R_A^T \vecbf{\rho}_2} \deriv{U}{\vecbf{z}_2}^T R .
+\end{align}
+Using~\cref{eq:hatx} leads to
+\begin{align}
+    \parenth{J \dot{\vecbf{\Omega}} + \vecbf{\Omega} \times J \vecbf{\Omega}}^\wedge =& - m_1 \parenth{R_A^T \vecbf{\rho}_1} \deriv{U}{\vecbf{z}_1}^T R  - m_2 \parenth{R_A^T \vecbf{\rho}_2} \deriv{U}{\vecbf{z}_2}^T R \nonumber \\
+    &+ m_1 R^T \deriv{U}{\vecbf{z}_1} \parenth{R_A^T \vecbf{\rho}_1}^T + m_2 R^T \deriv{U}{\vecbf{z}_2} \parenth{R_A^T \vecbf{\rho}_2}^T
+\end{align}
+The gravitational moment can be redefined using the properties of the hat map.
+To begin, the right hand side is defined as
+\begin{align}
+    \vh{M}_i &= m_i \parenth{R^T \deriv{U}{\vecbf{z}_i} \parenth{R_A^T \vecbf{\rho}_i}^T - \parenth{R_A^T \vecbf{\rho}_i} \deriv{U}{\vecbf{z}_i}^T R} ,\\
+             &= m_i \parenth{ y x^T - x y^T} = m_i \parenth{\vh{x}\vc{y}}^\wedge
+\end{align}
+where the vectors \( x, y\) are defined as
+\begin{align*}
+    x &= R_A^T \vb{\rho}_i , \\
+    y &= R^T \deriv{U}{\vb{z}_i} .
+\end{align*}
+As a result, the external moment on the dumbbell is given as
+\begin{align}
+    \vc{M}_{ext} = \sum_{i}^2 \vc{M}_i , 
+\end{align}
+where the gravitational moment  due to \( m_i \) is
+\begin{align}
+    \vb{M}_i = m_i \parenth{R_A^T \vb{\rho}_i}^\wedge R^T \deriv{U}{\vb{z}_i}.
+\end{align}
+Hhe Legendre transformation allows for the same dynamics to be expressed in an equivalent form as Hamilton's equations~\cite{lanczos1970}.
+In summary, the inertial equations of motion of a dumbbell spacecraft influenced by a polyhedron potential model are given as
 \begin{align}
     \dot{\vb{x}} &= \vb{v}, \label{eq:position_kinematics}\\
     \parenth{m_1 + m_2} \dot{\vecbf{v}} &= m_1 R_A \deriv{U}{\vecbf{z}_1} + m_2 R_A \deriv{U}{\vecbf{z}_2} + \vecbf{u}_f, \label{eq:translational_dynamics}\\
@@ -125,186 +356,302 @@ The vectors \( \vecbf{z}_1 \) and \( \vecbf{z}_2\) define the position of the du
     \vecbf{z}_2 &= R_A^T \parenth{\vecbf{x} + R \vecbf{\rho}_2}, 
 \end{align}
 where \( \vb{\rho}_i \) defines the position of each mass in the spacecraft fixed body frame.
-The gravitational moment on the dumbbell \( \vecbf{M}_i\) is defined as
-\begin{align}
-    \vecbf{M}_i = m_i \parenth{S(R_A^T \vb{\rho}_i) R^T \deriv{U}{\vb{z}_i}}.
-\end{align}
 The control inputs to the spacecraft are defined by \( \vb{u}_f, \vb{u}_m \) which define the control force represented in the inertial frame and the control moment represented in the spacecraft frame, respectively. 
-
+% TODO Ensure that \eta is not bold (it's a matrix) also all vectors should be bold and lower case
 \subsection{Asteroid Frame Equations of Motion}
+The complete motion of rigid bodies under the influence of their mutual gravity only depends on the relative position and relative attitude of the bodies~\cite{lee2007a}.
+This is a consequence of the fact that the gravitational potential can be described using only the relative position.
+Physically, this is due to the fact that the total linear and angular momentum of the system is conserved.
+In astrodynamics, this fact is typically used to reduce the two body problem to that of the relative two body problem which affords convienent analytical solutions~\cite{vallado2007,bate1971}.
+In this section, the equations of motion of a rigid spacecraft are derived in the asteroid fixed frame.
+This derivation can be considered a specific example of the relative full body problem and is readily generalized to multiple bodies.
 
-\section{Small-Body Shape Modelling}
 
-Asteroids can have a wide variety of shapes, and most are vastly different than that of a sphere or ellipsoid.
-\Cref{fig:irregular_asteroids} shows two examples of small solar system bodies that have highly irregular shapes.
-As a result of these highly variable shapes, an adaptable format is required to represent the wide variety of surface shapes and surface features.
-\begin{figure}[h]
-    \centering
-    \subcaptionbox{Asteroid Itokawa\label{fig:itokawa}}{\includegraphics[height=0.3\textheight,width=0.5\textwidth, keepaspectratio]{figures/mathematical_background/eso1405b.jpg}}~
-    \subcaptionbox{Comet 67/Churyumov-Gerasimenko\label{fig:67p}}{\includegraphics[height=0.3\textheight,width=0.5\textwidth,keepaspectratio]{figures/mathematical_background/comet67pcgin.jpg}}
-    \caption{Examples of the non-ellipsoidal shapes of small solar system bodies. Both asteroids and comets will tend to have vastly irregular shapes due to their low mass and violent histories of impacts and collisions~\label{fig:irregular_asteroids}}
-\end{figure}
-The scientific community describes asteroid shape using the facet-vertex model.
-This approach is an efficient representation of the more general notion of a polyhedron from geometry.
-In this section, we define the notion of the polyhedron and some specifics of the format used in the astrodynamics community.
-
-A polyhedron is a generalization of a two-dimensional polygon to three-dimensions~\cite{orourke1998}.
-It is the region of space with a boundary defined by a surface of a finite number of polygonal faces.
-The surface of the polyhedron is composed of three types of primitive objects: zero-dimensional points called vertices, one-dimensional segments called edges, and two-dimensional polygons called faces or facets.
-Furthemore, without any loss of generality we assume each face is a convex polygon since any nonconvex face can be divided into smaller convex faces.
-A valid polyhedron, in the context of asteroid shape models, must satisfy several constraints.
-These constraints define the relationship between each of the types of primitives which make up the polyhedron surface.
-The primitives must intersect ``properly'' and the local and global topology must be ``proper''.
-For asteroid shape model we further assume that each face is a triangular polygon. 
-Again, this does not limit generality as any polygon can be divided into a series of planar triangles.
-
-The intersection of each face must be one of the following:
+The relative motion of a dumbbell spacecraft with respect to an asteroid are defined by the kinematics:
 \begin{itemize}
-    \item the faces are disjoint and do not intersect, or
-    \item the faces meet at a single vertex, or
-    \item the faces share two vertices and a common edge.
+    \item \( \vc{\mathsf{x}} = R_A^T \vc{x}_1\) - the position of the center of mass of the dumbbell with respect to the asteroid and expressed in the asteroid fixed frame.
+    \item \( \mathsf{R} = R_A^T R_1\) - the orientation of the dumbbell with respect to the asteroid fixed frame. 
+    This rotation matrix transforms a vector in the dumbbell fixed frame to the asteroid fixed frame.
+    \item \( \vecbf{V} = R_A^T \dot{\vecbf{x}}_1 \) - the velocity of the dumbbell center of mass with respect to the inertial frame represented in the asteroid fixed frame
+    \item \( \vecbf{\Omega} = \vb{R} \vecbf{\Omega}_1\) - the angular velocity of the dumbbell with respect to the inertial frame represented in the asteroid fixed frame.
 \end{itemize}
-These intersection constraints automatically ensures that all edgeds and vertices intersect properly.
-For example, edges that do not extend across an entire face or faces with penetrate would be improper and invalid.
+As in the inertial equations of motion, we first seek to define the kinetic and potential energy of the dumbbell in terms of these relative kinematics. 
+Afterwards, the variations are taken to derive the equations of motion.
+In this analysis, it is assumed that the motion of the asteroid is not impacted by that of the dumbbell.
+In other words, the size of the dumbbell is significantly less than that of the dumbbell. 
+For the majority of asteroids of interest this is a safe assumption.
 
-The second constraint is related to the local topology around each point on the surface of the polyhedron.
-In order to be locally proper, the neighborhood about any point on the surface of the polyhedron should be homeomorphic to a two-dimensional disk.
-A neighborhood about any point on the surface is defined as an arbitrarily small subset or region of the surface which surrounds the point.
-Every point on the surface should have a neighborhood which is topologically equivalent to a two dimensional disk.
-The notion of equivalency is mathematically captured using the property of homeomorphism.
-A homemorphism between two regions is a continous stretching or bending, without tearing or cutting, from one shape to another.
-For example, it is possible to turn a circle into a square by a continuous stretching and bending of the shape.
-However, it is not possible to transform a sphere into a torus, as this would require a hole to be created in the surface of the sphere.
-The neighborhood about any point on the surface of the polyhedron should be equivalent to that of a two-dimensional disk.
-A surface where this true for all points is called a \textit{two-manifold}, of a which the surface of a polyhedron is a subset.
+The kinetic energy defined in the inertial frame is given by~\cref{eq:kinetic_energy} and is transformed using the following relationships,
+\begin{align*}
+    \dot{\vb{x}}_1 &= R_A \vb{V} , \\
+    \vb{\Omega}_1 &= \vb{R}^T \vb{\Omega}.
+\end{align*}
+Using these, the kinetic energy is expressed using the relative variables as
+\begin{align*}
+    T &= \frac{1}{2} \parenth{m_1 + m_2} \norm{\dot{\vb{x}}_1}^2 + \frac{1}{2} \tr{S(\vb{\Omega}_1) J_d S(\vb{\Omega})^T}, \nonumber\\
+    &= \frac{1}{2} \parenth{m_1 + m_2} \parenth{\vb{V}^T R_A^T R_A \vb{V}} + \frac{1}{2} \tr{\vb{R}^T S(\vb{\Omega})\vb{R} J_d \parenth{\vb{R}^TS(\vb{\Omega})\vb{R}}^T} , \\
+    &= \frac{1}{2} \parenth{m_1 + m_2} \norm{\vb{V}}^2 + \frac{1}{2} \tr{S(\vb{\Omega}) \vb{R} J_d \vb{R}^T S(\vb{\Omega})^T}.
+\end{align*}
+The term \( \vb{R} J_d \vb{R}^T = J_{d_R}\) is the expression of the nonstandard moment of inertia tensor of the dumbbell expressed in the asteroid fixed frame. 
+It is now a time varying inertia matrix as the relative attitude \( \vb{R} \) is a function of time.
+Using this definition the relative kinetic energy is given as
+\begin{align}\label{eq:relative_kinetic}
+    T &= \frac{1}{2} \parenth{m_1 + m_2} \norm{\vb{V}}^2 + \frac{1}{2} \tr{S(\vb{\Omega}) J_{d_R} S(\vb{\Omega})^T}.
+\end{align}
 
-The final constraint is related to the global structure of the surface in contrast to the local neighborhood of a point.
-The surface must be connected, closed, and bounded.
-In this sense, a connected surface is one where it is possible to travel from one point to any other point of the surface without leaving the surface. 
-As a result, this will rule out any shapes with non-connected faces, such as a cube with a hollow interior/surface.
-For example, on the outer surface of the cube it is not possible to reach a point on the interior surface. 
-Combined with an assumption that there are a finite number of faces automatically ensures a closed and bounded surface. 
-Note that these conditions do not in general rule out the possibility of holes passing completely through the object.
-For example, a torus, or a donute shape, is also considered a polyhedron.
-The key difference between a hole and a cavity is that there are no disconnected surfaces and as a result a polyhedron can have any number of such holes. 
-In practice, we tend to limit our analysis to polyhedron with no holes, or with a genus of zero.
+The potential energy is already defined in terms of the relative position of the dumbbell with respect to the asteroid.
+We now make the substitution using our relative kinematics as
+\begin{align}\label{eq:relative_potential}
+    V = -m_1 U(\vecbf{X} + \vb{R} \vecbf{\rho}_1) - m_2 U(\vecbf{X}+\vb{R} \vecbf{\rho}_2).
+\end{align}
+Using~\cref{eq:relative_kinetic,eq:relative_potential}, the Langrangian is expressed in terms of the relative variables as 
+\begin{align}\label{eq:relative_lagrangian}
+    L = T-V = \frac{1}{2} \parenth{m_1 + m_2} \norm{\vb{V}}^2 + \frac{1}{2} \tr{S(\vb{\Omega}) J_{d_R} S(\vb{\Omega})^T} +m_1 U(\vecbf{X} + \vb{R} \vecbf{\rho}_1) + m_2 U(\vecbf{X}+ \vb{R} \vecbf{\rho}_2) .
+\end{align}
 
-\subsection{Polyhedron Data Structures}\label{sec:polyhedron_data_structures}
-While the shape of the asteroid will be represented mathematically as a polyhedron, we are still left with the issue of representing this shape in digital form. 
-The eventual computational efficiency and memory consumption of the subesequent sections is heavily dependent on the underlying data structure used to represent the surface.
-In this section, we review some of the basic requirements and features of any data structure.
-In addition, we summarize the ones most popular in the astrodynamics community and the halfedge data structure which we use in this work.
+\subsection{Relative variations}\label{ssec:relative_variations}
+In a process similar to that used for the inertial equations of motion, we define the variations of kinematic variables.
+These variations must be defined precisely to ensure that the configuration space is preserved properly. 
+These variations will be critical for the following step of applying the Euler-Lagrage equations and deriving the equations of motion.
 
-The requirements for any surface/mesh data structure vary between applications and are designed to satisfy both topological and algorithmic requirements.
-Some examples of topological considerations are the use of triangular/polygonal facets or the ability to represent manifold/non-manifold meshes.
-Examples of algorithmic requirements include a consideration of the types of algorithms/processes that will make use of the data, such as visualization or operations that will modify or additional data to the various faces, edges, and vertices of the mesh.
-The choice, and eventual design, of an appropriate data structure is evaluated on its ability to efficiently enable specific operations, such as distance or modification operations.
-A wide variety of data structures have been developed to represent general polyhedron surfaces and can be classified as either \textit{face-based} or \textit{edge-based}.
+\subsubsection{Relative attitude variation}
+The variation of the relative attitude is expressed as
+\begin{align*}
+    \delta \vb{R} &= \left. \diff{}{\epsilon} \right|_{\epsilon=0}  R_A^T R_1^\epsilon = R_A^T \delta R_1, \\
+                  &= R_A^T R_1 \hat{\eta}_1,
+\end{align*}
+where we used the fact that the asteroid attitude does not vary, \( \delta R_A = 0\), and the variation of the spacecraft attitude is \( \delta R_1 = R_1 \hat{\eta}_1\).
+The variation of the dumbbell attitude \( \hat{\eta}_1 \in \so \) is related to the relative variation \( \hat{\eta} \in \so \) by
+\begin{align*}
+    \hat{\eta} &= \vb{R} \hat{\eta}_1 \vb{R}^T ,\\
+               &= R_A^T R_1 \hat{\eta}_1 R_1^T R_A .
+\end{align*}
+We can invert this relationship to find
+\begin{align*}
+    \hat{\eta}_1 &= R_1^T R_A \hat{\eta} R_A^T R_1 .
+\end{align*}
+Using this, the varation of the relative attitude is then defined as
+\begin{align}\label{eq:relative_attitude_variation}
+    \delta \vb{R} = R_A^T R_1 \hat{\eta}_1 = \hat{\eta} R_A^T R_1 = \hat{\eta} \vb{R}.
+\end{align}
 
-The simplest method to represent a surface mesh is composed to storing the individual vertices which define each face of the surface.
-In the specific case of a triangular mesh, this entails storing the three vertex coordinates of each face of the mesh, also called the \textit{face-set}~\cite{botsch2010}.
-By assuming that the vertex coordinates are stored as double precision, or \SI{64}{\bit} values, results in \( 3 \cdot 3 \cdot 64 = \SI{576}{\bit} = \SI{72}{\byte}\) per triangular face.
-% TODO Add reference to euler's formula
-Equivalently, from Euler's formula, there is approximately twice as many faces as vertices, and this \textit{face-set} structure will require on average \SI{144}{\byte} per vertex.
-A simple optimization is possible by reducing the redundancy in the representation.
-Each vertex will duplicated as many times as the degree of the vertex.
-This redundancy can be eliminated by storing a list of vertices, and to define the vertices of each face as an index/reference into this vertex list.
-This results in the so called \textit{indexed face set} or \textit{shared-vertex} data structure.
-In the case of triangular meshes and using double precision values, each vertex will require \(\SI{192}{\bit} = \SI{24}{\byte}\).
-Vertex indices of each face can be stored using single precision, \( \SI{32}{\bit} = \SI{4}{\byte}\), values which resuts in a storage requirement of \( \SI{96}{\bit} = \SI{12}{\byte}\) per triangle.
-This type of representation will therefore require on average approximately \( \SI{60}{\byte} \) per vertex, which is half the requirement of the \textit{face-set} data structure.
-\begin{figure}
-    \centering
-    \includegraphics[width=\textwidth]{example-image-golden}
-    \caption{Face based data structure look in PMP Fig2.3 or 2.4~\label{fig:face_based_data_structure}}
-\end{figure}
-Examples of this type of data structure include the \gls{stl}, \gls{obj}, and \gls{off} file formats.
+\subsubsection{Relative position variation}
+The variation of the relative position is defined as
+\begin{align}\label{eq:relative_position_variation}
+    \delta \vecbf{X} &= \left. \diff{}{\epsilon} \right|_{\epsilon=0} R_A^T \vb{x}_1^\epsilon ,\nonumber \\
+     &= R_A^T \delta \vb{x}_1 , \nonumber\\
+     &= \vecbf{\chi} .
+\end{align}
 
-While conceptually simple the face based data structure has several critical drawbacks.
-It is difficult to determine the connectivity of individual vertices or faces of the mesh, which makes it ill-suited for most algorithms.
-The vast of majority of computational geometry algorithms will require as a minimum~\cite{botsch2010}:
-\begin{itemize}
-    \item Access to individual vertices, edges and faces, as well as random access to any element.
-    \item Enumeration of the edges of a single face.
-    \item Access to the adjacent faces of an edge which enables access to the neighboring faces.
-    \item Given an edge one must determine the two vertices which define the endpoints.
-    \item Given a vertex one must determine all neighboring faces.
-\end{itemize}
-As a result, any application making use a face based data structure will need to store additional connectivity information in a seperate data structure.
+\subsubsection{Relative angular velocity variation}
+The variation of the relative angular velocity is defined as follows:
+\begin{align}\label{eq:relative_angular_velocity_variation_1}
+    S(\delta \vecbf{\Omega}) &= \left. \diff{}{\epsilon} \right|_{\epsilon=0} S(\vb{R}^\epsilon  \vecbf{\Omega}^\epsilon_1) , \nonumber\\
+    &= \left. \diff{}{\epsilon} \right|_{\epsilon=0} \vb{R}^\epsilon S(\vecbf{\Omega}^\epsilon_1)  \parenth{\vb{R}^\epsilon}^T, \nonumber\\
+    &= \delta \vb{R} S(\vecbf{\Omega}_1) \vb{R}^T  + \vb{R} S(\delta \vecbf{\Omega}_1) \vb{R}^T + \vb{R} S(\vecbf{\Omega}_1) \delta \vb{R}^T .
+\end{align}
+The variation \( S(\delta \vecbf{\Omega}_1)\) is defined using~\cref{eq:relative_attitude_variation,eq:delta_omega} to give the following intermediate result \(S(\vb{\Omega}_1)\)
+\begin{align*}
+    S(\delta \vb{\Omega}_1) &= \delta R_1^T \dot{R}_1 + R_1^T \delta \dot{R}_1 , \\
+                            &= -\hat{\eta}_1 R_1^T R_1 \hat{\Omega}_1 + R_1^T \parenth{\dot{R}_1 \hat{\eta}_1 + R_1 \dot{\hat{\eta}}_1} , \\
+                            &= -\hat{\eta}_1 \hat{\Omega}_1 + R_1^T \parenth{r_1 \hat{\Omega}_1 \hat{\eta}_1 + R_1 \dot{\hat{\eta}}_1 } , \\
+                            &= - \hat{\eta}_1 \hat{\Omega}_1 + \hat{\Omega}_1 \hat{\eta}_1 + \dot{\hat{\eta}}_1 .
+\end{align*}
+Now, we can use \(S(\delta \Omega_1) \) to simplify~\cref{eq:relative_angular_velocity_variation_1}
+\begin{align}\label{eq:relative_angular_velocity_variation_2}
+    S(\delta \vb{\Omega}) &= \delta \vb{R} \hat{\Omega}_1 \vb{R}^T + \vb{R} \hat{\delta \Omega_1} \vb{R}^T + \vb{R} \hat{\Omega}_1 \delta \vb{R}^T , \\
+                          &= \hat{\eta} \vb{R} \hat{\Omega}_1 \vb{R}^T + \vb{R} \parenth{-\hat{\eta}_1 \hat{\Omega}_1 + \hat{\Omega} \hat{\eta}_1 + \dot{\hat{\eta}}_1} \vb{R}^T + \vb{R} \hat{\Omega}_1 \vb{R}^T \hat{\eta}^T \\
+                          &= \hat{\eta} S(\vb{R} \Omega_1) - \vb{R} \hat{\eta}_1 \hat{\Omega}_1 \vb{R}^T \vb{R} \hat{\Omega}_1 \vb{\eta}_1 \vb{R}^T + \vb{R} \dot{\hat{\eta}}_1 \vb{R}^T + S(\vb{R}\Omega_1) \hat{\eta}^T
+\end{align}
+where we used the hat map identity \( S(R \vb{x}) = R S(\vb{x}) R^T\) for \( R \in \SO\) and \( \vb{x} \in \R^3\).
+We can further simplify~\cref{eq:relative_angular_velocity_variation_2} by using the following two identies
+\begin{align}
+    \vb{R} \hat{\vecbf{\Omega}}_1 \hat{\eta}_1 \vb{R}^T = \vb{R}\hat{\vecbf{\Omega}}_1 \vb{R}^T \vb{R} \hat{\eta}_1 \vb{R}^T = S(\vb{R} \vecbf{\Omega}_1) \vb{R} \eta_1 \vb{R}^T , \label{eq:RSeta_identity_1}\\
+    -\vb{R} \hat{\eta}_1 \hat{\vecbf{\Omega}}_1\vb{R}^T = - \vb{R} \hat{\eta}_1 \vb{R}^T \vb{R} \hat{\vecbf{\Omega}}_1\vb{R}^T = -\vb{R} \hat{\eta}_1 \vb{R}^T S(\vb{R} \vecbf{\Omega_1}) . \label{eq:RSeta_identity_2}
+\end{align}
+We now use the definition of the variation of the relative attitude from~\cref{eq:relative_attitude_variation} to redefine \( \hat{\eta}\) and substitute it into~\cref{eq:RSeta_identity_1,eq:RSeta_identity_2} to arrive at
+\begin{align*}
+    \vb{R} \hat{\Omega}_1 \hat{\eta}_1 \vb{R}^T = \parenth{\vb{R} \Omega_1}^\wedge \hat{\eta} , \\
+    - \vb{R} \hat{\eta}_1 \hat{\Omega}_1 \vb{R}^T = -\hat{\eta} \parenth{\vb{R}\Omega_1}^\wedge.
+\end{align*}
+Substituting these equations into~\cref{eq:relative_angular_velocity_variation_2} gives another form of \( \delta \hat{\vecbf{\Omega}}\) as
+\begin{align}\label{eq:relative_angular_velocity_variation_3}
+    \delta \hat{\vb{\Omega}} &= \hat{\eta} \parenth{\vb{R} \Omega_1}^\wedge - \hat{\eta} \parenth{\vb{R} \Omega_1}^\wedge + \parenth{\vb{R} \Omega_1}^\wedge \hat{\eta} + \vb{R} \dot{\hat{\eta}}_1 \vb{R}^T + \parenth{R \Omega_1}^\wedge \hat{\eta}^T , \\
+                             &= \vb{R} \dot{\hat{\eta}}_1 \vb{R}^T .
+\end{align}
+Where we used the facts that \( \hat{\eta} = \vb{R} \hat{\eta}_1 \vb{R}^T \) and \( \vecbf{\Omega} = \vb{R} \vecbf{\Omega}_1\). 
+We now need to define \( \dot{\hat{\eta}}_1\) by first noting that from \( \vb{R} = R_A^T R_1\) and that \( \vecbf{\Omega}_1 = \vb{R}^T \vecbf{\Omega}\)
+\begin{align}\label{eq:relR_dot}
+    \dot{\vb{R}} &= \dot{R}_A^T R_1 + R_A^T \dot{R}_1 , \nonumber\\
+                 &= - \hat{\vecbf{\Omega}}_A R_A^T R_1 + R_A^T R_1 \hat{\vecbf{\Omega}}_1 ,\nonumber\\
+                 &= -\hat{\vecbf{\Omega}}_A R_A^T R_1 + R_A^T R_1 \parenth{\vb{R}^T \vecbf{\Omega}}^\wedge , \nonumber\\
+                 &= -\hat{\vecbf{\Omega}}_A R_A^T R_1 + R_A^T R_1 \vb{R}^T \hat{\vecbf{\Omega}} \vb{R} ,\nonumber\\
+                 &= -\hat{\vecbf{\Omega}}_A\vb{R} + \hat{\vecbf{\Omega}} \vb{R} .
+\end{align}
+From the chain rule and applying~\cref{eq:relR_dot} we can define \( \dot{\eta} \) as
+\begin{align}\label{eq:eta_dot_1}
+    \dot{\hat{\eta}} &= \dot{\vb{R}} \eta_1 \vb{R}^T + \vb{R} \dot{\eta}_1 \vb{R}^T + \vb{R} \eta_1 \dot{\vb{R}}^T , \nonumber\\
+                     &= \braces{- \hat{\Omega}_A \vb{R} + \hat{\Omega} \vb{R}} \hat{\eta}_1 \vb{R}^T + R \dot{\hat{\eta}}_1 \vb{R}^T + \vb{R} \hat{\eta}_1 \braces{\vb{R}^T \hat{\Omega}_A - \vb{R}^T \hat{\Omega}}
+\end{align}
+Now we invert this relationship to define \( \vb{R} \dot{\hat{\eta}}_1 \vb{R}^T \) as
+\begin{align}\label{eq:eta_dot}
+    \vb{R} \hat{\eta}_1 \vb{R}^T &= \braces{\hat{\Omega}_A - \hat{\Omega}} \hat{\eta} - \hat{\eta} \braces{\hat{\Omega}_A - \hat{\Omega}} + \dot{\hat{\eta}} .
+\end{align}
+Finally, we now substitute~\cref{eq:eta_dot} into~\cref{eq:relative_angular_velocity_variation_3} to arrive at
+\begin{align}\label{eq:rel_ang_vel_var}
+    (\delta \vecbf{\Omega})^\wedge &= \dot{\hat{\eta}} - \hat{\Omega} \hat{\eta} + \hat{\Omega}_A \hat{\eta} + \hat{\eta} \hat{\Omega} - \hat{\eta} \hat{\Omega}_A , \\
+                                   &= \dot{\hat{\eta}} + \braces{\hat{\Omega}_A - \hat{\Omega}} - \hat{\eta} \braces{\hat{\Omega}_A - \hat{\Omega}} . 
+\end{align}
+\subsubsection{Relative velocity variation}
+The variation of the relative linear velocity is computed from 
+\begin{align}\label{eq:delV_1}
+    \delta \vecbf{V} &= \delta R_A^T \dot{\vecbf{x}_1} + R_A^T \delta \dot{\vecbf{x}}_1 , \nonumber \\
+    &= R_A^T \delta \dot{\vecbf{x}}_1 ,
+\end{align}
+since we assume that the asteroid is in a constant rate of rotation.
+We can redefine this variation in terms of the relative variables by using
+\begin{align}\label{eq:Xdot}
+    \dot{\vecbf{\chi}} &= \dot{R}_A^T \delta \vecbf{x}_1 + R_A^T \delta \dot{\vecbf{x}}_1 , \nonumber \\
+    &= -S(\vecbf{\Omega}_A) R_A^T \delta \vecbf{x} + R_A^T \delta \dot{\vecbf{x}}_1 ,\nonumber \\
+    &= -S(\vecbf{\Omega}_A) \vecbf{\chi} + R_A^T \delta \dot{\vecbf{x}}_1 .
+\end{align}
+Rearranging~\cref{eq:Xdot} in terms of \( \delta \dot{\vecbf{x}}_1\) and substituting into~\cref{eq:delV_1} gives
+\begin{align}\label{eq:relative_velocity_variation}
+    \delta \vecbf{V} = \dot{\vecbf{\chi}} + S(\vecbf{\Omega}_A) \vecbf{\chi} .
+\end{align}
 
-In contrast to face-based structures, edge-based data structures store the connectivity information in the edges or halfedges~\cite{botsch2010,orourke1998,berg2008}.
-By splitting each unorientated edge into two orientated halfedges, the halfedge data structure, or also known as the doubly-connected edge list, provides an efficient data structure for mesh based operations.
-Each halfedge is ordered in a clockwise fashion around each face, typically such that the face normal is orientated outwards from the mesh.
-In addition, each halfedge will also store a reference to:
-\begin{itemize}
-    \item The vertex it points to, or its target,
-    \item its adjacent face,
-    \item the next halfedge of the face in a counterclock wise direction,
-    \item the previous halfedge of the face
-    \item the opposite or incident halfedge.
-\end{itemize}
-In addition, each face stores the reference to one of its halfedges, while each vertex stores an outgoing halfedge. 
-The halfedge data structure will require more memory in contrast to face based approaches it offers several advantages which make it ideal for computational geometry operations.
+\subsubsection{Summary: Relative Variations}
+In summary, the variation of the relative variables are defined as
+\begin{align*}
+    \delta \vecbf{X} &= R_A^T \delta \vecbf{x}_1 = \vecbf{\chi} , \\
+    \delta \vb{R} &= R_A^T R_1 \hat{\eta}_1 = \hat{\eta} \vb{R} ,\\
+    \delta \hat{\vecbf{\Omega}} &= R \dot{\hat{\vecbf{\eta}}}_1 R^T = \dot{\hat{\eta}} - \hat{\vecbf{\Omega}} \hat{\eta} + \hat{\eta} \hat{\vecbf{\Omega}} +  \hat{\vecbf{\Omega}}_A \hat{\eta} - \hat{\eta} \hat{\vecbf{\Omega}}_A , \\
+    \delta \vecbf{V} &= \dot{\vecbf{\chi}} + \hat{\vecbf{\Omega}}_A \vecbf{\chi} .
+\end{align*}
+\subsection{Variation of relative Lagrangian}\label{ssec:var_rel_lagrangian}
 
-\subsubsection{Halfedge Data Structure}\label{sec:halfedge_data_structure}
-A halfedge data structure allows us to iterate through all elements, vertices, edge, halfedge, or face, in a simple manner.
-In addition, the halfge edge data structure can store arbitrary polygon meshes.
-Furthermore, additional data can be attached to the elements as each is store explicitly.
-Finally, the halfedge data structure allows for simple manipulation and modification of the underlying mesh, enabling operations such as mesh subdivision or simplification.
-There are a number of publicly avaiable implementations of the halfedge data structure~\cite{cgalproject2018,botsch2002}.
-We utilize the \texttt{Surface\_mesh} data structure implemented within the Computational Geometry Algorithms Library~\cite{sieger2011}.
-This provides a well defined and highly optimzed data structure for the representation of the polyhedron shape of the asteroid.
-Furthermore, the ability to incorporate additional properties enables us to efficently compute the polyheron potential model.
-\begin{figure}
-    \centering
-    \includegraphics[width=\textwidth]{example-image-golden}
-    \caption{Halfedge data structure look in PMP Fig3.4~\label{fig:halfedge_data_structure}}
-\end{figure}
+The variation of the reduced kinetic energy, shown in~\cref{eq:relative_kinetic}, is given by
+\begin{align}\label{eq:relative_kinetic_variation}
+    \delta T &= \left. \diff{}{\epsilon} \right|_{\epsilon=0} T(\vb{V} + \epsilon \delta \vb{V}, \vb{\Omega} + \epsilon \delta \vb{\Omega}) , \nonumber \\
+    &= \left. \diff{}{\epsilon} \right|_{\epsilon=0} \bracket{\frac{1}{2} m \norm{\vb{V} + \epsilon \delta \vb{V}} \frac{1}{2} \tr{ S(\vb{\Omega} + \epsilon \delta \vb{\Omega} ) J_{d_{R}} S(\vb{\Omega} + \epsilon \delta \vb{\Omega})^T } } , \nonumber\\
+    &= \left. \diff{}{\epsilon} \right|_{\epsilon=0} \bracket{ \frac{1}{2} m \parenth{\vb{V}^T \vb{V} \epsilon \vb{V}^T \delta \vb{V} + \epsilon \delta \vb{V}^T \vb{V} + \epsilon^2 \delta \vb{V}^T \delta \vb{V}} + \frac{1}{2}\tr{ S(\vb{\Omega} + \epsilon \delta \vb{\Omega} ) J_{d_{R}} S(\vb{\Omega} + \epsilon \delta \vb{\Omega})^T } } , \nonumber \\
+    &= m \vb{V}^T \delta \vb{V} + \frac{1}{2} \tr{ S(\delta \vb{\Omega}) J_{d_{R}} S(\vb{\Omega})^T + S(\vb{\Omega}) J_{d_{R}} S(\delta \vb{\Omega})^T} .
+\end{align}
+Now, we can substitute~\cref{eq:rel_ang_vel_var} into the second term to get
+\begin{align*}
+    \frac{1}{2} \mathrm{tr} \left[ \braces{\dot{\hat{\eta}} - \vecbf{\hat\Omega} \hat{\eta} + \hat{\eta} \vecbf{\hat{\Omega}} +  \vecbf{\hat{\Omega}}_A \hat{\eta} - \hat{\eta} \vecbf{\hat{\Omega}}_A } J_{d_{R}} \vb{\hat{\Omega}}^T + \vb{\hat{\Omega}} J_{d_{R}} \braces{-\dot{\hat{\eta}} - \hat{\eta} \vecbf{\hat{\Omega}} + \vecbf{\hat{\Omega}} \hat{\eta} + \hat{\eta} \vecbf{\hat{\Omega}}_A -  \vecbf{\hat{\Omega}}_A \hat{\eta}} \right]
+\end{align*}
+Expanding this equation and collecting terms gives the following
+\begin{align*}
+    \frac{1}{2} \tr{ -\dot{\hat{\eta}}\parenth{J_{d_{R}} \hat{\vb{\Omega}} + \hat{\vb{\Omega}} J_{d_{R}}} + A + B },
+\end{align*}
+with
+\begin{align*}
+    A &= - \hat{\vb{\Omega}} \hat{\eta} J_{d_{R}} \hat{\vb{\Omega}}^T + \hat{\eta} \hat{\vb{\Omega}} J_{d_R} \hat{\vb{\Omega}}^T - \hat{\vb{\Omega}}J_{d_R} \hat{\eta} \hat{\vb{\Omega}}^T + \hat{\vb{\Omega}} J_{d_R} \hat{\vb{\Omega}}\hat{\eta}   ,\\ 
+    B &= \hat{\vb{\Omega}}_A \hat{\eta} J_{d_R} \hat{\vb{\Omega}}^T - \hat{\eta} \hat{\vb{\Omega}}_A J_{d_R} \hat{\vb{\Omega}} + \hat{\vb{\Omega}} J_{d_R} \hat{\eta} \hat{\vb{\Omega}}_A - \hat{\vb{\Omega}} J_{d_R} \hat{\vb{\Omega}}_A \hat{\eta} .
+\end{align*}
+where we used the properties of the trace and hat-map to define the following transformations
+\begin{align*}
+    \tr{\dot{\hat{\eta}} J_{d_{R}} \hat{\vb{\Omega}}^T} &= \tr{- \dot{\hat{\eta}} J_{d_{R}} \hat{\vb{\Omega}}} , \\
+    \tr{ - \hat{\vb{\Omega}} J_{d_{R}} \dot{\hat{\eta}} } &= \tr{-\dot{\hat{\eta}} \hat{\vb{\Omega}} J_{d_{R}}} .
+\end{align*}
+We can now simplify\( A \) using the following transformations
+\begin{align*}
+    \tr{ \eta S(\vb{\Omega}) J_{d_{R}} S(\vb{\Omega})^T} &= \tr{-\eta S(\vb{\Omega}) J_{d_{R}} S(\vb{\Omega})} , \\
+    \tr{ - S(\vb{\Omega}) J_{d_{R}} S(\vb{\Omega})} &= \tr{-\eta S(\vb{\Omega}) S(\vb{\Omega}) J_{d_{R}}} , \\
+    \tr{ -S(\vb{\Omega}) \eta J_{d_{R}} S(\vb{\Omega})^T} &= \tr{-\eta J_{d_{R}} S(\vb{\Omega}) S(\vb{\Omega})} , \\
+    \tr{ S(\vb{\Omega}) J_{d_{R}} S(\vb{\Omega}) \eta} &= \tr{\eta S(\vb{\Omega}) J_{d_{R}} S(\vb{\Omega})}.
+\end{align*}
+Similarly, we can perform a similar operation for \( B \) as
+\begin{align*}
+    \tr{-\eta S(\vb{\Omega}_A) J_{d_{R}} S(\vb{\Omega})^T} &= \tr{\eta S(\vb{\Omega}_A) J_{d_{R}} S(\vb{\Omega})} , \\
+    \tr{ S(\vb{\Omega}) J_{d_{R}} \eta S(\vb{\Omega}_A)} &= \tr{\eta S(\vb{\Omega}_A) S(\vb{\Omega}) J_{d_{R}}} , \\
+    \tr{\S(\vb{\Omega}_A) \eta J_{d_{R}} S(\vb{\Omega})^T} &= \tr{-\eta J_{d_{R}} S(\vb{\Omega}) S(\vb{\Omega}_A)} , \\
+    \tr{-S(\vb{\Omega}) J_{d_{R}} S(\vb{\Omega}_A) \eta} &= \tr{\eta S(\vb{\Omega}) J_{d_{R}} S(\vb{\Omega}_A)} .
+\end{align*}
+Combining these allow us to further simplify \( A,B \) as
+\begin{align*}
+    A &= \frac{1}{2} \tr{ -\eta S(\vb{\Omega}) \braces{J_{d_{R}} S(\vb{\Omega}) + S(\vb{\Omega}) J_{d_{R}}} + \eta \braces{J_{d_{R}} S(\vb{\Omega}) + S(\vb{\Omega}) J_{d_{R}}} S(\vb{\Omega})} , \\
+    B &= \frac{1}{2} \tr{ \eta S(\vb{\Omega}_A) \braces{J_{d_{R}} S(\vb{\Omega}) + S(\vb{\Omega}) J_{d_{R}}} - \eta \braces{J_{d_{R}} S(\vb{\Omega}) + S(\vb{\Omega}) J_{d_{R}}} S(\vb{\Omega}_A) } .
+\end{align*}
+In a similar fashion as the inertial equations of motion, we can define
+\begin{align}
+    S(J_R \vb{\Omega}) = S(\vb{\Omega}) J_{d_{R}} + J_{d_{R}} S(\vb{\Omega}) , 
+\end{align}
+which allows us to define \( A \) and \( B \) as 
+\begin{align*}
+    A &= \frac{1}{2} \tr{ - \eta S(\vb{\Omega}) S(J_R \vb{\Omega}) + \eta S(J_R \vb{\Omega}) S(\vb{\Omega})} , \\
+    B &= \frac{1}{2} \tr{ \eta S(\vb{\Omega}_A) \braces{J_{d_{R}} S(\vb{\Omega}) + S(\vb{\Omega}) J_{d_{R}}} - \eta \braces{J_{d_{R}} S(\vb{\Omega}) + S(\vb{\Omega}) J_{d_{R}} } S(\vb{\Omega}_A)} .
+\end{align*}
+Finally, the hat-map identity, \( S(\alpha \times \beta  = S(\alpha) S(\beta) - S(\beta) S(\alpha)\), is used to define the final form of \(\delta T\) by further simplifying \( A \) and \(B \) and substituting them back into~\cref{eq:relative_kinetic_variation} 
+\begin{align}\label{eq:deltaT_relative}
+    \delta T = m \vb{V}^T \delta \vb{V} + \frac{1}{2} \tr{- \dot{\eta} S(J_R \vb{\Omega}) - \eta S(\vb{\Omega} \times J_R \vb{\Omega}) + \eta S(\vb{\Omega}_A \times J_R \vb{\Omega})} .
+\end{align}
 
-\begin{figure}
-    \centering
-    \includegraphics[width=\textwidth]{example-image-golden}
-    \caption{Iterating over 1 ring of a vertex}
-\end{figure}
-% TODO Describe the halfedge data structure and Surface_mesh in more detail
 
-\subsubsection{Wavefront OBJ files}
-The OBJ format is a geometry definition file format used for a variety of computer modeling applications, and is regularly used by the asteroid community~\cite{neese2004}.
-The basic format of the file is an ASCII file where the first \( N_v\) lines begin with \texttt{v} and define the three components of a vertex in the body fixed reference frame.
-The following \( N_f\) lines begin with \texttt{f} and define the three indices of the vertices that make up the face.
-The numbering of the vertices is implicitly defined by the order listed in the file, i.e. the vertices are defined from \( 1 \) to \( N_v\).
-There are two main assumptions used by the asteroid community.
-First, each face is triangular and second, the vertices are numbered in a counterclockwise fashion about each face.
-This allows the outward facing normal to each face to be uniquely defined without any additional data.
+The variation of the reduced potential energy, shown in~\cref{eq:relative_potential}, is given by
+\begin{align}\label{eq:relative_potential_variation_1}
+    \delta U &= -m_1 \deriv{U}{\vecbf{z}_1} \delta \vecbf{z}_1 - m_2 \deriv{U}{\vecbf{z}_2} \delta \vecbf{z}_2 ,
+\end{align}
+where \( \delta \vecbf{z}_1 \) and \( \delta \vecbf{z}_2\) are defined similar to those used in~\cref{sec:inertial_eoms} as 
+\begin{align}\label{eq:relative_z}
+    \delta \vecbf{z}_1 &= \delta \vecbf{\chi} + \delta R \vecbf{\rho}_1 , \\
+    \delta \vecbf{z}_2 &= \delta \vecbf{\chi} + \delta R \vecbf{\rho}_2 .
+\end{align}
+Substituting~\cref{eq:relative_z} into~\cref{eq:relative_potential_variation_1} and simplifying gives
+\begin{align}\label{eq:relative_potential_varation}
+    \delta U &= -m_1 \deriv{U}{\vecbf{z}_1}^T \vecbf{\chi} - m_2 \deriv{U}{\vecbf{z}_2} \vecbf{\chi} - m_1 \tr{\eta R \deriv{U}{\vecbf{z}_1} \vecbf{\rho}_1^T} - m_2 \tr{\eta R \deriv{U}{\vecbf{z}_2} \vecbf{\rho}_2^T} .
+\end{align}
 
-This polyhedron model, captured using the OBJ format, allows for a much larger class of potential object shapes. 
-The accuracy of the shape model can be arbitrarily improved by incorporating additional vertices and faces, which increase the resolution of the model in regions of high complexity.
-The polyhedron model can capture arbitrary depressions, ridges, or holes through the asteroid.
-Small bodies typically lack sufficient mass to create regular, spherical shapes, and exhibit a large variety in resulting shapes such as the examples shown in~\cref{fig:asteroid_shape}.
-\begin{figure}
-    \centering
-    \subcaptionbox{4769 Castalia\label{fig:castalia}}{\includegraphics[width=0.33\textwidth]{figures/mathematical_background/castalia_isometric.jpg}}~
-    \subcaptionbox{Geographus\label{fig:geographus}}{\includegraphics[width=0.33\textwidth]{figures/mathematical_background/geographus_isometric.jpg}}~
-    \subcaptionbox{Golevka\label{fig:golevka}}{\includegraphics[width=0.33\textwidth]{figures/mathematical_background/golevka_isometric.jpg}}
-    \caption{Polyhedron Shape Models for several asteroids~\label{fig:asteroid_shape}}
-\end{figure}
-Polyhedron shape models are available for several asteroids~\cite{neese2004,gaskell2008b}.
-The quality and resolution is dependent on the measurement available of the body.
-\Cref{fig:itokawa_radar} shows a polyhedron model of asteroid 25143 Itokawa based on ground radar measurements~\cite{neese2004}.
-This model is composed of \num{6098} vertices and \num{12192} faces and captures the general ellipsoidal shape of the asteroid.
-However, ground based measurements are unable to provide the resolution required to capture the fine details or even the asymmetry of asteroid Itokawa.
-In contrast,~\cref{fig:itokawa_insitu} shows the model derived from in-situ measurements from optical sensor of the Hyabusa spacecraft~\cite{gaskell2008a}.
-It is composed of \num{1579014} vertices and \num{3145728} faces and is able to capture small surface features such as boulders.
-\begin{figure}
-    \centering
-    \subcaptionbox{25143 Itokawa Radar Model\label{fig:itokawa_radar}}{\includegraphics[width=0.5\textwidth]{figures/mathematical_background/itokawa_radar_isometric.jpg}}~
-    \subcaptionbox{25143 Itokawa In-Situ Model\label{fig:itokawa_insitu}}{\includegraphics[width=0.5\textwidth]{figures/mathematical_background/itokawa_isometric.jpg}}
-    \caption[Comparison of Radar and In-situ Itokawa models]{Comparision of polyhedron models of 25143 Itokawa based on ground based radar or in-situ measurements.
-        The ground based model can capture the rough ellipsoidal shape but does not capture fine surface details.}
-\end{figure}
-From this simple example, it is clear that prior to the arrival of a spacecraft the shape and surface knowledge of an asteroid is limited.
+Combining~\cref{eq:relative_potential_varation,eq:relative_kinetic_variation} in the variation of the action integral is given by
+\begin{align}\label{eq:relative_variation_action_integral}
+    \delta I =& \int_{t_1}^{t_2} \parenth{m_1 + m_2} \delta \vecbf{V} \parenth{\dot{\vecbf{\chi}} + S(\vecbf{\Omega}_A) \vecbf{\chi}} + \frac{1}{2} \tr{- \dot{\eta} S(J_R \vecbf{\Omega}) + \eta S(\vecbf{\Omega}_A \times J_R \vecbf{\Omega})} \nonumber\\
+    &+m_1 \deriv{U}{\vecbf{z}_1}^T \vecbf{\chi} + m_2 \deriv{U}{\vecbf{z}_2} \vecbf{\chi} + m_1 \tr{\eta R \deriv{U}{\vecbf{z}_1} \vecbf{\rho}_1^T} + m_2 \tr{\eta R \deriv{U}{\vecbf{z}_2} \vecbf{\rho}_2^T} \, dt , \nonumber\\
+    =& \int_{t_1}^{t_2} \parenth{m_1 + m_2} \dot{\vecbf{V}}^T \vecbf{\chi} + \parenth{m_1 + m_2} \vecbf{V}^T S(\vecbf{\Omega}_A) \vecbf{\chi} \nonumber \\
+    &+ \frac{1}{2} \tr{\eta \braces{S(\dot{J_R \vecbf{\Omega}}) + S(\vecbf{\Omega}_A \times J_R \vecbf{\Omega})}} + m_1 \deriv{U}{\vecbf{z}_1}^T \vecbf{\chi} + m_2 \deriv{U}{\vecbf{z}_2}^T \vecbf{\chi} \nonumber\\
+    &+ m_1 \tr{\eta R \deriv{U}{\vecbf{z}_1} \vecbf{\rho}_1^T} m_2 \tr{\eta R \deriv{U}{\vecbf{z}_2} \vecbf{\rho}_2^T} \, dt ,
+\end{align}
+where we used integration by parts to simplify integral
+\begin{align*}
+    \int \parenth{m_1 + m_2} \vecbf{V}^T \dot{\vecbf{\chi}} \, dt &= \left. \parenth{m_1 + m_2 } \vecbf{\chi} \right|_{t_0}^{t_f} - \int \parenth{m_1 +m_2} \dot{\vecbf{V}}^T \vecbf{\chi} \, dt , \\
+    \int \frac{1}{2} \tr{- \dot{\eta} S(J_R \vecbf{\Omega}) + \eta S(\vecbf{\Omega}_A \times J_R \vecbf{\Omega})} &= \left. \frac{1}{2} \tr{-\eta S(J_R \vecbf{\Omega})} \right|_{t_0}^{t_f} - \int \frac{1}{2} \tr{-\eta S(\dot{J_R \vecbf{\Omega}})} \, dt.
+\end{align*}
+Since~\cref{eq:relative_variation_action_integral} must be zero for all admissable variations the  equations of motion are given by
+\begin{align}\label{eq:relative_eoms}
+    \parenth{m_1 +m_2} \dot{\vecbf{V}} + \parenth{m_1 + m_2} S(\vecbf{\Omega}_A) \vecbf{V} &= m_1 \deriv{U}{\vecbf{z}_1} + m_2 \deriv{U}{\vecbf{z}_2} , \\
+    S(\dot{J_R \vecbf{\Omega}}) + S(\vecbf{\Omega}_A \times J_R \vecbf{\Omega}) &= m_1 \vecbf{\rho}_1 \deriv{U}{\vecbf{z}_1}^T R^T - m_1 R \deriv{U}{\vecbf{z}_1} \vecbf{\rho}_1^T + m_2 \vecbf{\rho}_2 \deriv{U}{\vecbf{z}_2} R^T - m_2 R \deriv{U}{\vecbf{z}_2} \vecbf{\rho}_2^T .
+\end{align}
+Using a similar process as~\cref{sec:inertial_eoms} we can redefine the external moment due to gravity as
+\begin{align}
+    M_1 &= m_1 \parenth{\vecbf{r}_1 \times \vecbf{u}_1 + \vecbf{r}_2 \times \vecbf{u}_2 + \vecbf{r}_3 \times \vecbf{u}_3} , \\
+    M_2 &= m_1 \parenth{\vecbf{r}_\alpha \times \vecbf{u}_\alpha + \vecbf{r}_\beta \times \vecbf{u}_\beta + \vecbf{r}_\gamma \times \vecbf{u}_\gamma} , 
+\end{align}
+where the vectors \( \vecbf{r}_i \) and \( \vecbf{u}_i \) are defined as
+\begin{align*}
+    R = \begin{bmatrix} \vecbf{r}_1 \\ \vecbf{r}_2 \\ \vecbf{r}_3 \end{bmatrix} = \begin{bmatrix} \vecbf{r}_\alpha \\ \vecbf{r}_\beta \\ \vecbf{r}_\gamma \end{bmatrix} \quad
+    \vecbf{\rho}_1 \deriv{U}{\vecbf{z}_1}^T = \begin{bmatrix} \vecbf{u}_1 \\ \vecbf{u}_2 \\ \vecbf{u}_3 \end{bmatrix}, \vecbf{\rho}_2 \deriv{U}{\vecbf{z}_2}^T = \begin{bmatrix} \vecbf{u}_\alpha \\ \vecbf{u}_\beta \\ \vecbf{u}_\gamma \end{bmatrix} .
+\end{align*}
+The time derivative \( \dot{J_R}\) is computed from
+\begin{align*}
+    \dot{J}_R &= \dot{R} J_1 R^T + R J_1 \dot{R}^T , \\
+    &= \parenth{S(\vecbf{\Omega})R - S(\vecbf{\Omega}_2) R)} J_1 R^T + R J_1 \parenth{R^T S(\vecbf{\Omega}_2 - R^T S(\vecbf{\Omega}) } \\
+    &= S(\vecbf{\Omega}) R J_1 R^T - S(\vecbf{\Omega}_2) R J_1 R^T + R J_1 R^T S(\vecbf{\Omega}_2) - R J_1 R^T S(\vecbf{\Omega}) \\
+    &=  \parenth{S(\vecbf{\Omega}) - S(\vecbf{\Omega}_2)} R J_1 R^T + R J_1 R^T \parenth{S(\vecbf{\Omega}_2) - S(\vecbf{\Omega})} .
+\end{align*}
+Using this relatipnship the term \( \dot{\parenth{J_R \vecbf{\Omega}}}\) is given by
+\begin{align*}
+    \dot{\parenth{J_R \vecbf{\Omega}}} &= \dot{J}_R \vecbf{\Omega} + J_R \dot{\vecbf{\Omega}} \\
+    &= \bracket{\parenth{S(\vecbf{\Omega}) - S(\vecbf{\Omega}_2)} R J_1 R^T + R J_1 R^T \parenth{S(\vecbf{\Omega}_2) - S(\vecbf{\Omega})}} \vecbf{\Omega} + J_R \dot{\vecbf{\Omega}} .
+\end{align*}
+In summary, the relative equations of motion are given as
+\begin{align}
+    \dot{\vecbf{\chi}} + \vecbf{\Omega}_A \times \vecbf{\chi} &= \vecbf{V} ,\\
+    \dot{R} &= S(\vecbf{\Omega}) R - S(\vecbf{\Omega}_A ) R , \\
+    J_R \dot{\Omega} &= M_1 + M_2 - \vecbf{\Omega}_A \times J_R \vecbf{\Omega} -\bracket{\parenth{S(\vecbf{\Omega}) - S(\vecbf{\Omega}_2)} R J_1 R^T + R J_1 R^T \parenth{S(\vecbf{\Omega}_2) - S(\vecbf{\Omega})}} \vecbf{\Omega} , \\
+    \parenth{m_1 + m_2} \dot{\vecbf{V}} &= m_1 \deriv{U}{\vecbf{z}_1} + m_2 \deriv{U}{\vecbf{z}_2} - \parenth{m_1 +m_2} S(\vecbf{\Omega}_A) \vecbf{V} .
+\end{align}
 
-\section{Gravitational Models around Small-Bodies}
+\section{Gravitational Models around Small-Bodies}\label{sec:gravitational_models}
 Due to the irregular shape of small-bodies, the gravitational field around these bodies is equally irregular.
 Furthermore, the relative size of the spacecraft in comparison with the orbital radius and small-body creates a much larger coupling between the translational and rotational states of the spacecraft.
 In addition, spacecraft will tend to operate in very close proximity to the surface.

@@ -1,0 +1,101 @@
+% !TEX root = ../../dissertation.tex
+
+\chapter{Derivation of Inertial Equations of Motion}\label{proof:inertial_dumbbell_eoms}
+The Lagrangian function \( L \in \R \) is a scalar function of the generalized coordinates and their velocities..
+The Lagrangian is defined as the total system kinetic energy minus the total system potential energy:
+\begin{align*}
+    L(q, \dot{q} ) = T(q, \dot{q}) - U (q) ,
+\end{align*}
+where \( T(q, \dot{q} \) is the kinetic energy of the system while \( U(q) \) is the potential energy of the system.
+
+The derivation is simplified to the case of two spherical masses, but can be extended to any arbitrary configuration of masses.
+The kinetic and potential energy of the dumbbell model is dupblicated from~\cref{eq:dumbbell_kinetic_and_potential_energy} 
+\begin{align*}
+    T &= \frac{1}{2} m \norm{\dot{\vb{x}}}^2 + \frac{1}{2} \tr{\vh{\Omega} J_d \vh{\Omega}^T} , \\
+    V( \vecbf{x}, R ) &=  - m_1 U \parenth{R_A^T \parenth{\vecbf{x} + R \vecbf{\rho}_1}} - m_2 U \parenth{R_A^T \parenth{\vecbf{x} + R \vecbf{\rho}_2}} .
+\end{align*}
+The configuration space of the motion is \( \SE \), and as a result the variations must be correctly defined to respect the geometry of the configuration space.
+Consider the variations of \( \vc{x}, \dot{\vc{x}} \) as
+\begin{align}
+    \vc{x}^\epsilon &= \vc{x} + \epsilon \delta \vc{x} + \mathcal{O}(\epsilon^2), \label{eq:inertial_pos_variation} \\
+    \dot{\vc{x}}^\epsilon &= \dot{\vc{x}} \delta \dot{\vc{x}} + \mathcal{O}(\epsilon^2), \label{eq:inertial_vel_variation}
+\end{align}
+where \( \delta \vc{x}, \delta \dot{\vc{x}} \in \R^3 \) are the infinitesimal variations of the position and velocity which vanish at the endpoints.
+In other words,
+\begin{align*}
+    \delta \vc{x} (t_0) &= \delta \vc{x} (t_f ) = 0, \\
+    \delta \dot{\vc{x}} (t_0) &= \delta \dot{\vc{x}} (t_f) = 0 .
+\end{align*}
+The variation of \( R \) is expressed in terms of the Lie algebra \( \vc{\eta} \in \so \) and the exponential map~\cite{hall2015} as
+\begin{align}\label{eq:inertial_att_variation}
+    \delta R =  \left.\diff{}{\epsilon}\right|_{\epsilon=0} \exp \epsilon \vc{\eta} = R \vc{\eta}
+\end{align}
+where the variation \( \vc{\eta} \) vanishes at \( t_0, t_f\).
+The variation of \( \vc{\Omega} \) is computed from the kinematics and~\cref{eq:inertial_att_variation} as
+\begin{align}
+    \parenth{\delta \vc{\Omega}}^\wedge  &= \left. \diff{}{\epsilon}\right|_{\epsilon=0} {R^\epsilon}^T \dot{R}^\epsilon, \nonumber \\
+                                         &= \delta R^T \dot{R} + R^T \delta \dot{R}, \nonumber \\
+                                         &= - \vc{\eta} \vh{\Omega} + \vh{\Omega} + \dot{\vc{\eta}}\label{eq:inertial_ang_vel_variation}
+\end{align}
+
+\section{Variation of the kinetic energy}\label{sec:inertial_kinetic_energy_variation}
+The variation of the kinetic energy is defined as
+\begin{align}
+    \delta T &= \left. \diff{}{\epsilon}\right|_{\epsilon=0} T(\dot{\vc{x}} + \epsilon \delta \dot{\vc{x}}, \vc{\Omega} + \epsilon \delta \vc{\Omega}), \nonumber\\
+             &=   \parenth{m_1 + m_2} \dot{\vecbf{x}}^T \delta \dot{\vecbf{x}} + \frac{1}{2} \tr{ (\delta \vc{\Omega} )^\wedge J_d (\delta \vc{\Omega} )^T + (\delta \vc{\Omega})J_d (\delta \vc{\Omega})^T}\label{eq:kinetic_variation}.
+\end{align}
+Now,~\cref{eq:inertial_ang_vel_variation} is substituted into~\cref{eq:kinetic_variation} to obtain
+\begin{align*}
+    \delta T =&  \parenth{m_1 + m_2} \dot{\vc{x}}^T \delta \dot{\vc{x}} + \frac{1}{2} \tr{\parenth{-\vc{\eta} \vh{\Omega} + \vh{\Omega} \vc{\eta} + \dot{\vc{\eta}}} J_d \vh{\Omega}^T} \nonumber \\
+              &+ \frac{1}{2} \tr{\vh{\Omega} J_d \parenth{-\vc{\eta} \vh{\Omega} + \vh{\Omega} \vc{\eta} + \dot{\vc{\eta}}}^T} .
+\end{align*}
+Evaluating the transpose and expanding the product gives
+\begin{align*}
+    \delta T =&  \parenth{m_1 + m_2} \dot{\vc{x}}^T \delta \dot{\vc{x}} \\
+              &+ \frac{1}{2} \tr{ -\vc{\eta} \vh{\Omega} J_d \vh{\Omega}^T + \vh{\Omega} \vc{\eta} J_d \vh{\Omega}^T + \dot{\vc{\eta}} J_d \vh{\Omega}^T + \vh{\Omega} J_d -\vh{\Omega} J_d \vh{\Omega} \vc{\eta} + \vh{\Omega} J_d \vc{\eta} \vh{\Omega} - \vh{\Omega} J_d \dot{\vc{\eta}}}.
+\end{align*}
+Using the trace property~\cref{eq:trAB}, lets us redefine several terms as follows:
+\begin{subequations}\label{eq:inertial_kinetic_energy_substitutions}
+\begin{align}
+    \tr{-\vh{\Omega} J_d \dot{\vc{\eta}}} &= \tr{- \dot{\vc{\eta}} \vh{\Omega} J_d} , \\
+    \tr{\vh{\Omega} J_d \vc{\eta} \vh{\Omega}} &= \tr{\vc{\eta} \vh{\Omega} \vh{Omega} J_d} , \\
+    \tr{-\vc{\eta} \vh{\Omega} J_d \vh{\Omega}^T} &= \tr{\vc{\eta} \vh{\Omega} J_d \vh{\Omega}} .
+\end{align}
+\end{subequations}     
+\Cref{eq:inertial_kinetic_energy_substitutions} allows one to combine several similar terms as
+\begin{align}\label{eq:inertial_kinetic_energy_1}
+    \delta T =&\parenth{m_1 + m_2} \dot{\vecbf{x}}^T \delta \dot{\vb{x}} \nonumber\\
+              &+ \frac{1}{2} \tr{-\dot{\vc{\eta}} \parenth{J_d \vh{\Omega} + \vh{\Omega} J_d}} + \frac{1}{2} \tr{\vc{\eta} \vh{\Omega} \parenth{J_d \vh{\Omega} + \vh{\Omega} J_d}} \nonumber \\
+              &+ \frac{1}{2} \tr{ \vh{\Omega} \vc{\eta} J_d \vh{\Omega}^T - \vh{\Omega} J_d \vh{\Omega} \eta}.
+\end{align}
+The last trace term can be simplified using~\cref{eq:trABC,eq:hatxT} as
+\begin{align}\label{eq:inertial_kinetic_nergy_substitution_last_trace}
+    \frac{1}{2} \tr{ \vh{\Omega} \vc{\eta} J_d \vh{\Omega}^T - \vh{\Omega} J_d \vh{\Omega} \vc{\eta}} &= \frac{1}{2} \tr{ - \vh{\Omega} \vc{\eta} J_d \vh{\Omega} - \vh{\Omega} J_d \vh{\Omega} \vc{\eta}},\nonumber \\
+                                                                                                      &= \frac{1}{2} \tr{ - \vc{\eta} J_d \vh{\Omega} \vh{\Omega} - \vc{\eta} \vh{\Omega} J_d \vh{\Omega} }, \nonumber\\
+                                                                                                      &= -\frac{1}{2} \tr{\vc{\eta} \parenth{J_d \vh{\Omega} + \vh{\Omega} J_d }\vh{\Omega}}
+\end{align}
+Using~\cref{eq:inertial_kinetic_nergy_substitution_last_trace} in~\cref{eq:inertial_kinetic_energy_1} gives
+\begin{align}\label{eq:inertial_kinetic_energy_2}
+    \delta T =\parenth{m_1 + m_2} \dot{\vecbf{x}}^T \delta \dot{\vb{x}} &+ \frac{1}{2} \tr{-\dot{\vc{\eta}} \parenth{J_d \vh{\Omega} + \vh{\Omega} J_d}} + \frac{1}{2} \tr{\vc{\eta} \vh{\Omega} \parenth{J_d \vh{\Omega} + \vh{\Omega} J_d}} \nonumber \\
+              &- \frac{1}{2} \tr{ \vc{\eta} \parenth{J_d \vh{\Omega} + \vh{\Omega} J_d }\vh{\Omega}}.
+\end{align}
+Using~\cref{eq:moi_hat_prop} in~\cref{eq:inertial_kinetic_energy_2} gives
+\begin{align}\label{eq:kinetic_energy_variation_final}
+    \delta T &= \parenth{m_1 + m_2} \dot{\vc{x}}^T \delta \dot{\vc{x}} + \frac{1}{2} \tr{-\dot{\vc{\eta}} \parenth{J\vc{\Omega}}^\wedge + \vc{\eta} \parenth{ \vh{\Omega} \parenth{J\vc{\Omega}}^\wedge + \parenth{J \vc{\Omega}}^\wedge \vh{\Omega}} } , \nonumber\\
+             &=  \parenth{m_1 + m_2} \dot{\vc{x}}^T \delta \dot{\vc{x}} + \frac{1}{2} \tr{ - \dot{\vc{\eta}} \parenth{J \vc{\Omega}}^\wedge + \vc{\eta} \parenth{\vh{\Omega} J \vc{\Omega}}^\wedge} , 
+\end{align}
+where we used~\cref{eq:hatxy} to arrive at the final form.
+
+
+\section{Variation of the potential energy}\label{sec:inertial_potential_energy_variation}
+With the appropriate variations defined on the configuration space when can define the variation of~\cref{eq:inertial_potential_energy}.
+Applying the chain and product rule of differentiation results in
+\begin{align}
+    \delta V = - \sum_{i=1}^{2} m_i \deriv{U_i}{\vc{z_i}}^T \parenth{ R_A^T \delta \vc{x} + R_A^T \delta R \vc{\rho}_i}
+\end{align}
+where \( \vc{z}_i = R_A^T \parenth{\vc{x} + R \vc{\rho}_i} \) is the position of each mass in the asteroid fixed frame.
+Applying the definition for the attitude variation, \(\delta R = R \eta \), the variation of the potential energy becomes
+\begin{align*}
+    \delta V &= \sum_{i=1}^2 \braces{ \bracket{m_i \deriv{U}{\vecbf{z}_i}^T R_A^T } \delta \vecbf{x} - \tr{ \vc{\eta} \bracket{m_i R^T \deriv{U}{\vecbf{z}_i} \parenth{R_A^T \vecbf{\rho}_i}^T}} },
+\end{align*}
+which is equivalent to~\cref{eq:dumbbell_potential_energy_variation}.
