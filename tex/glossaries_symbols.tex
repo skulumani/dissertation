@@ -56,30 +56,72 @@
     description={Vertical sensor field of view}
 }
 
-\newglossaryentry{rx} {
+\newglossaryentry{sym:Ra}{
     type=symbols,
-    name={\ensuremath{\bm{\mathsf{x}}}},
+    name={\ensuremath{R_A}},
+    description={Attitude of the asteroid. This rotation matrix transforms vectors from the asteroid fixed frame to the inertial frame.},
+    nonumberlist=true
+}
+
+\newglossaryentry{sym:ix}{
+    type=symbols,
+    name={\ensuremath{\vc{x}}},
     sort=X,
-    description={Relative position vector of spacecraft with respect to asteroid and expressed in the asteroid fixed frame.}
+    description={Inertial position of the spacecraft center of mass expressed in the inertial frame.},
+    nonumberlist=true
 }
 
-\newglossaryentry{rv}{
+\newglossaryentry{sym:iv}{
     type=symbols,
-    name={\ensuremath{\bm{\mathsf{v}}}},
+    name={\ensuremath{\vc{v}}},
     sort=V,
-    description={Relative velocity vector of spacecraft with respect to asteroid and expressed in the asteroid fixed frame.}
+    description={Inertial velocity vector of spacecraft with respect to the inertial frame and expressed in the inertial frame.},
+    nonumberlist=true
 }
 
-\newglossaryentry{rR}{
+\newglossaryentry{sym:iR}{
+    type=symbols,
+    name={\ensuremath{R}},
+    sort=R,
+    description={Inertial attitude of the spacecraft with respect to the inertial frame. This rotation matrix transforms vectors from the spacecraft fixed frame to the inertial frame.},
+    nonumberlist=true
+}
+
+\newglossaryentry{sym:iW}{
+    type=symbols,
+    name={\ensuremath{\vc{\Omega}}},
+    sort=W,
+    description={Angular velocity of the spacecraft with respect to the inertial frame and expressed in the spacecraft fixed frame.},
+    nonumberlist=true
+}
+\newglossaryentry{sym:rx} {
+    type=symbols,
+    name={\ensuremath{\vc{\mathsf{x}}}},
+    sort=X,
+    description={Relative position vector of spacecraft with respect to asteroid and expressed in the asteroid fixed frame.},
+    nonumberlist=true
+}
+
+\newglossaryentry{sym:rv}{
+    type=symbols,
+    name={\ensuremath{\vc{\mathsf{v}}}},
+    sort=V,
+    description={Relative velocity vector of spacecraft with respect to asteroid and expressed in the asteroid fixed frame.},
+    nonumberlist=true
+}
+
+\newglossaryentry{sym:rR}{
     type=symbols,
     name={\ensuremath{\mathsf{R}}},
     sort=R,
-    description={Relative attitude of the spacecraft with respect to the asteroid. This rotation matrix converts vectors in the spacecraft fixed frame to the asteroid fixed frame.}
+    description={Relative attitude of the spacecraft with respect to the asteroid. This rotation matrix converts vectors in the spacecraft fixed frame to the asteroid fixed frame.},
+    nonumberlist=true
 }
 
-\newglossaryentry{rW}{
+\newglossaryentry{sym:rW}{
     type=symbols,
     name={\ensuremath{\mathsf{\Omega}}},
     sort=W,
-    description={Angular velocity of the spacecraft with respect to the inertial frame and expressed in the asteroid fixed frame.}
+    description={Angular velocity of the spacecraft with respect to the inertial frame and expressed in the asteroid fixed frame.},
+    nonumberlist=true
 }
