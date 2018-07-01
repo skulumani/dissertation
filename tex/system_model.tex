@@ -474,10 +474,9 @@ We can further simplify~\cref{eq:relative_angular_velocity_variation_3} by using
 \end{align}
 Substituting~\cref{eq:RSeta_identity_1,eq:RSeta_identity_2} into~\cref{eq:relative_angular_velocity_variation_3} gives
 \begin{align}\label{eq:relative_angular_velocity_variation_4}
-    \delta \hat{\vb{\Omega}} &= \hat{\eta} \parenth{\vb{R} \Omega_1}^\wedge - \hat{\eta} \parenth{\vb{R} \Omega_1}^\wedge + \parenth{\vb{R} \Omega_1}^\wedge \hat{\eta} + \vb{R} \dot{\hat{\eta}}_1 \vb{R}^T + \parenth{R \Omega_1}^\wedge \hat{\eta}^T , \\
-                             &= \vb{R} \dot{\hat{\eta}}_1 \vb{R}^T .
+    \parenth{\delta \gls{sym:rangvel}}^\wedge &= \gls{sym:rattvar} \parenth{\gls{sym:ratt}\gls{sym:iangvel}}^\wedge - \gls{sym:rattvar} \parenth{\gls{sym:ratt}\gls{sym:iangvel}}^\wedge + \parenth{\gls{sym:ratt}\gls{sym:iangvel}}^\wedge + \gls{sym:ratt}\dot{\gls{sym:iattvar}}\gls{sym:ratt}[^T] + \parenth{\gls{sym:ratt}\gls{sym:iangvel}}^\wedge \gls{sym:rattvar}[^T] ,\nonumber \\
+                                              &= \gls{sym:ratt} \dot{\gls{sym:iattvar}} \gls{sym:ratt}[^T] .
 \end{align}
-Where we used the facts that \( \hat{\eta} = \vb{R} \hat{\eta}_1 \vb{R}^T \) and \( \vecbf{\Omega} = \vb{R} \vecbf{\Omega}_1\). 
 We now need to define \( \dot{\hat{\eta}}_1\) by first noting that from \( \vb{R} = R_A^T R_1\) and that \( \vecbf{\Omega}_1 = \vb{R}^T \vecbf{\Omega}\)
 \begin{align}\label{eq:relR_dot}
     \dot{\vb{R}} &= \dot{R}_A^T R_1 + R_A^T \dot{R}_1 , \nonumber\\
