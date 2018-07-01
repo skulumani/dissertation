@@ -415,11 +415,13 @@ Using the relative kinematics given in~\cref{eq:relative_position,eq:relative_at
 \end{align}
 Using~\cref{eq:relative_kinetic_energy,eq:relative_potential_energy}, the reduced Langrangian is expressed in terms of the relative kinematics as 
 \begin{align}\label{eq:relative_lagrangian}
-    L = T-V = \frac{1}{2} \parenth{m_1 + m_2} \norm{\gls{sym:rv}}^2 + \frac{1}{2} \tr{\hat{\gls{sym:rW}} J_{d_R} \hat{\glsentrytext{sym:rW}}^T} +m_1 U(\gls{sym:rx} + \gls{sym:rR} \vc{\rho}_1) + m_2 U(\gls{sym:rx} + \gls{sym:rR} \vc{\rho}_2) .
+    L = T-V =& \frac{1}{2} \parenth{m_1 + m_2} \norm{\gls{sym:rv}}^2 + \frac{1}{2} \tr{\hat{\gls{sym:rW}} J_{d_R} \hat{\glsentrytext{sym:rW}}^T} \nonumber \\
+             &+m_1 U(\gls{sym:rx} + \gls{sym:rR} \vc{\rho}_1) + m_2 U(\gls{sym:rx} + \gls{sym:rR} \vc{\rho}_2) .
 \end{align}
 
 \subsection{Relative variations}\label{ssec:relative_variations}
-In a process similar to that used for the inertial equations of motion, we define the variations of kinematic variables.
+In~\cref{proof:inertial_dumbbell_eoms} the variations of the inertial configuraiton variables were derived.
+Following a similar process the variations of the reduced variables must be derived such that they also satisfy the variations of the inertial variables.
 These variations must be defined precisely to ensure that the configuration space is preserved properly. 
 These variations will be critical for the following step of applying the Euler-Lagrage equations and deriving the equations of motion.
 
