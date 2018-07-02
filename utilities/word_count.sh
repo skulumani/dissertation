@@ -11,7 +11,8 @@ for COMMIT in $(git rev-list --reverse ${BRANCH})
 do
     COUNTS="$(git show $COMMIT:$INPUT_FILE 2>/dev/null | texcount -1 -merge -q -)"
     
-    DATE="$(git log -1 --date=iso --pretty=format:%ad $COMMIT)"
+    DATE="$(awk -F':' '{print $1":"$2":"$3}' <<< $(git log -1 --date=iso --pretty=format:%ad $COMMIT))"
+    # DATE="$(git log -1 --date=iso --pretty=format:%ad $COMMIT)"
     WORDS_TEXT="$(awk -F'[+]' '{print $1}' <<< ${COUNTS})"
     WORDS_HEADER="$(awk -F'[+]' '{print $2}' <<< ${COUNTS})"
     WORDS_CAPTION="$(awk -F'[+|(]' '{print $3}' <<< ${COUNTS})"
