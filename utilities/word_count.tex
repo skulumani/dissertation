@@ -1,12 +1,29 @@
-\documentclass[]{standalone}
+\documentclass[border=5mm]{standalone}
 \usepackage{pgfplots}
-\usepackage{filecontents}
+\pgfplotsset{compat=1.6}
+\usepgfplotslibrary{dateplot}
 
 \begin{document}
 \begin{tikzpicture}
     \begin{axis}[
-        xlabel=Index,ylabel=Words]
-        \addplot table [x=INDEX, y=WORDS_TEXT, col sep=comma] {word_count.csv};
+        date coordinates in=x,
+        xticklabel style={rotate=90},
+        xlabel=Index,
+        ylabel=Number, 
+        title=Word Count,
+        scaled ticks=false,
+        grid=major, % Display a grid
+        grid style={dashed,gray!30}] % Set the style]
+
+        \addplot +[mark=none] table [x=DATE, y=WORDS_TEXT, col sep=comma] {word_count.csv};
+        \addlegendentry{Words};
+
+        \addplot +[mark=none] table [x=DATE, y=NUM_MATH_INLINE, col sep=comma] {word_count.csv};
+        \addlegendentry{Inline Math};
+
+        \addplot +[mark=none] table [x=DATE, y=NUM_MATH_DISPLAY, col sep=comma] {word_count.csv};
+        \addlegendentry{Display Math};
+
     \end{axis}
 \end{tikzpicture}
 \end{document}
