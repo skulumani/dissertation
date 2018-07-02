@@ -418,128 +418,13 @@ Using~\cref{eq:relative_kinetic_energy,eq:relative_potential_energy}, the reduce
              &+m_1 U(\gls{sym:rpos} + \gls{sym:ratt} \vc{\rho}_1) + m_2 U(\gls{sym:rpos} + \gls{sym:ratt} \vc{\rho}_2) .
 \end{align}
 
-\subsection{Relative variations}\label{ssec:relative_variations}
-In~\cref{proof:inertial_dumbbell_eoms} the variations of the inertial configuration variables were derived.
-Following a similar process the variations of the reduced variables must be derived such that they also satisfy the variations of the inertial variables.
-These variations must be defined precisely to ensure that the configuration space is preserved properly. 
-These variations will be critical for the following step of applying the Euler-Lagrage equations and deriving the equations of motion.
-The variations of the reduced variables are obtained from the variations of the original variables given in~\cref{eq:inertial_pos_variation,eq:inertial_vel_variation,eq:inertial_att_variation,eq:inertial_ang_vel_variation} and the definition of the reduced variables given in~\cref{eq:relative_position,eq:relative_velocity,eq:relative_attitude,eq:relative_angular_velocity}.
-
-The variation of the relative position given in~\cref{eq:relative_position} is defined as
-\begin{align}
-    \delta \gls{sym:rpos} &= \left. \diff{}{\epsilon} \right|_{\epsilon=0} \gls{sym:Ra}[^T] \gls{sym:ipos}^\epsilon ,\nonumber \\
-                        &= \gls{sym:Ra}[^T] \delta \gls{sym:ipos} .\label{eq:relative_position_variation}
-\end{align}
-The variation of the relative attitude given in~\cref{eq:relative_attitude} is expressed as
-\begin{align}
-    \delta \gls{sym:ratt} &= \left. \diff{}{\epsilon} \right|_{\epsilon=0}  \gls{sym:Ra}[^T] \gls{sym:iatt}^\epsilon = \gls{sym:Ra}[^T] \delta \gls{sym:iatt}, \nonumber\\
-                          &= \gls{sym:Ra}[^T] \gls{sym:iatt} \gls{sym:iattvar} = \gls{sym:ratt} \gls{sym:iattvar}, \label{eq:relative_attitude_variation_1}
-\end{align}
-where we used the fact that the asteroid attitude does not vary, \( \delta \gls{sym:Ra} = 0\), and the variation of the spacecraft attitude is given in~\cref{eq:inertial_att_variation}.
-The variation of the spacecraft attitude \( \gls{sym:iattvar} \in \so \) is related to the relative variation \( \gls{sym:rattvar} \in \so \) by
-\begin{align}
-    \gls{sym:rattvar} &= \gls{sym:ratt} \gls{sym:iattvar} \gls{sym:ratt}[^T],\nonumber\\
-                      &= \gls{sym:Ra}[^T] \gls{sym:iatt} \gls{sym:iattvar} \gls{sym:iatt}[^T] \gls{sym:Ra}.\label{eq:relative_attitude_variation}
-\end{align}
-We can invert~\cref{eq:relative_attitude_variation} to find
-\begin{align}\label{eq:relative_attitude_variation_inverse}
-    \gls{sym:iattvar} &= \gls{sym:iatt}[^T] \gls{sym:Ra} \gls{sym:rattvar} \gls{sym:Ra}[^T] \gls{sym:iatt}.
-\end{align}
-Using this, the varation of the relative attitude is derived by substituting~\cref{eq:relative_attitude_variation_inverse} into~\cref{eq:relative_attitude_variation_1} as
-\begin{align}\label{eq:relative_attitude_matrix_variation}
-    \delta \gls{sym:ratt} = \gls{sym:Ra}[^T] \gls{sym:iatt} \gls{sym:iattvar} = \gls{sym:rattvar} \gls{sym:Ra}[^T] \gls{sym:iatt} = \gls{sym:rattvar} \gls{sym:ratt}
-\end{align}
-
-The variation of the relative angular velocity is defined as follows:
-\begin{align}\label{eq:relative_angular_velocity_variation_1}
-    \parenth{\delta \gls{sym:rangvel}}^\wedge &= \left. \diff{}{\epsilon} \right|_{\epsilon=0} \parenth{ \gls{sym:ratt}[^\epsilon] \gls{sym:iangvel}[^\epsilon] }^\wedge, \nonumber\\
-                                              &= \left. \diff{}{\epsilon} \right|_{\epsilon=0} \gls{sym:ratt}[^\epsilon] \hat{\glsentrytext{sym:iangvel}}^\epsilon \parenth{\gls{sym:ratt}[^\epsilon]}^T, \nonumber\\
-                                              &= \delta \gls{sym:ratt} \hat{\gls{sym:iangvel}} \gls{sym:ratt}[^T] + \gls{sym:ratt} \delta \hat{\gls{sym:iangvel}} \gls{sym:ratt}[^T] + \gls{sym:ratt} \hat{\gls{sym:iangvel}} \delta \gls{sym:ratt}[^T],
-\end{align}
-where we used~\cref{eq:hatRxR} to arrive at the final form.
-The variation \( \delta \gls{sym:iangvel} \) is defined in~\cref{eq:inertial_ang_vel_variation} and subsitituded into~\cref{eq:relative_angular_velocity_variation_1} to give
-\begin{align}\label{eq:relative_angular_velocity_variation_2}
-    \parenth{\delta \gls{sym:rangvel}}^\wedge &= \delta \gls{sym:ratt} \hat{\gls{sym:iangvel}} \gls{sym:ratt}[^T] + \gls{sym:ratt} \delta \hat{\gls{sym:iangvel}} \gls{sym:ratt}[^T] + \gls{sym:ratt}\hat{\gls{sym:iangvel}}\delta \gls{sym:ratt}[^T], \nonumber \\
-                                              &= \gls{sym:rattvar} \gls{sym:ratt} \hat{\gls{sym:iangvel}} \gls{sym:ratt}[^T] + \gls{sym:ratt} \parenth{ - \gls{sym:iattvar} \hat{\gls{sym:iangvel}} + \hat{\gls{sym:iangvel}}\gls{sym:iattvar} + \dot{\gls{sym:iattvar}} } \gls{sym:ratt}[^T] + \gls{sym:ratt} \hat{\gls{sym:iangvel}} \gls{sym:ratt}[^T] \gls{sym:rattvar}[^T], \nonumber \\
-                                              &= \gls{sym:rattvar} \gls{sym:ratt}\hat{\gls{sym:iangvel}}\gls{sym:ratt}[^T] - \gls{sym:ratt} \gls{sym:iattvar} \hat{\gls{sym:iangvel}} \gls{sym:ratt}[^T] + \gls{sym:ratt} \hat{\gls{sym:iangvel}} \gls{sym:iattvar} \gls{sym:ratt}[^T] + \gls{sym:ratt} \dot{\gls{sym:iattvar}} \gls{sym:ratt}[^T] + \gls{sym:ratt} \hat{\gls{sym:iangvel}} \gls{sym:ratt}[^T] \gls{sym:iattvar}[^T].
-\end{align}
-Using the hat map identity given in~\cref{eq:hatRxR} in~\cref{eq:relative_angular_velocity_variation_2} gives
-\begin{align}\label{eq:relative_angular_velocity_variation_3}
-\parenth{\delta \gls{sym:rangvel}}^\wedge &= \gls{sym:rattvar} \parenth{ \gls{sym:ratt} \gls{sym:iangvel}}^\wedge - \gls{sym:ratt} \gls{sym:iattvar} \hat{\gls{sym:iangvel}} \gls{sym:ratt}[^T] + \gls{sym:ratt} \hat{\gls{sym:iangvel}} \gls{sym:iattvar} \gls{sym:ratt}[^T] + \gls{sym:ratt} \dot{\eta}_r \gls{sym:ratt}[^T] + \parenth{\gls{sym:ratt} \gls{sym:iangvel} }^\wedge \gls{sym:rattvar}[^T].
-\end{align}
-We can further simplify~\cref{eq:relative_angular_velocity_variation_3} by using the following identities which make use of~\cref{eq:relative_attitude_variation,eq:hatRxR}:
-\begin{align}
-    \gls{sym:ratt} \hat{\gls{sym:iangvel}} \gls{sym:iattvar} \gls{sym:ratt}[^T] &= \gls{sym:ratt} \hat{\gls{sym:iangvel}} \gls{sym:ratt}[^T] \gls{sym:ratt} \gls{sym:iattvar} \gls{sym:ratt}[^T] = \parenth{ \gls{sym:ratt} \gls{sym:iangvel}}^\wedge \parenth{ \gls{sym:ratt} \gls{sym:iattvar} \gls{sym:ratt}[^T]} = \parenth{\gls{sym:ratt}\gls{sym:iangvel}}^\wedge \gls{sym:rattvar}, \label{eq:RSeta_identity_1}\\
-    -\gls{sym:ratt} \gls{sym:iattvar} \hat{\gls{sym:iangvel}} \gls{sym:ratt}[^T] &= -\gls{sym:ratt} \gls{sym:iattvar} \gls{sym:ratt}[^T] \gls{sym:ratt} \hat{\gls{sym:iangvel}} \gls{sym:ratt}[^T] = - \parenth{\gls{sym:ratt}\gls{sym:iattvar}\gls{sym:ratt}[^T]} \parenth{\gls{sym:ratt} \gls{sym:iangvel}}^\wedge = -\gls{sym:rattvar} \parenth{ \gls{sym:ratt} \gls{sym:iangvel}}^\wedge. \label{eq:RSeta_identity_2}
-\end{align}
-Substituting~\cref{eq:RSeta_identity_1,eq:RSeta_identity_2} into~\cref{eq:relative_angular_velocity_variation_3} gives
-\begin{align}\label{eq:relative_angular_velocity_variation_4}
-    \parenth{\delta \gls{sym:rangvel}}^\wedge &= \gls{sym:rattvar} \parenth{\gls{sym:ratt}\gls{sym:iangvel}}^\wedge - \gls{sym:rattvar} \parenth{\gls{sym:ratt}\gls{sym:iangvel}}^\wedge + \parenth{\gls{sym:ratt}\gls{sym:iangvel}}^\wedge + \gls{sym:ratt}\dot{\gls{sym:iattvar}}\gls{sym:ratt}[^T] + \parenth{\gls{sym:ratt}\gls{sym:iangvel}}^\wedge \gls{sym:rattvar}[^T] ,\nonumber \\
-                                              &= \gls{sym:ratt} \dot{\gls{sym:iattvar}} \gls{sym:ratt}[^T] .
-\end{align}
-We now need to define \( \dot{\gls{sym:iattvar}}\) in terms of the reduced variables.
-From~\cref{eq:relative_attitude} and the product rule we can define
-\begin{align}\label{eq:relative_attitude_derivative_1}
-    \dot{R}_r = \dot{R}_A^T R + R_A^T \dot{R}.
-\end{align}
-From the kinematic equation for the rotation matrix we have
-\begin{subequations}\label{eq:attitude_kinematics_derivative}
-\begin{align}
-    \dot{R}_A &= R_A \hat{\Omega}_A, \\
-    \dot{R} &= R \hat{\Omega} = R \parenth{\gls{sym:ratt}[^T]\gls{sym:rangvel}}^\wedge, 
-\end{align}
-\end{subequations}
-where we used~\cref{eq:relative_angular_velocity}.
-Applying~\cref{eq:attitude_kinematics_derivative,eq:hatRxR} into~\cref{eq:relative_attitude_derivative_1} gives
-\begin{align}
-    \dot{R}_r &= \hat{\Omega}_A^T R_A^T \gls{sym:iatt} + \gls{sym:Ra}[^T] \gls{sym:iatt} \parenth{\gls{sym:ratt}[^T] \gls{sym:rangvel}}^\wedge, \nonumber \\
-              &= \hat{\Omega}_A^T R_A^T \gls{sym:iatt} + \gls{sym:Ra}[^T] \gls{sym:iatt} \gls{sym:ratt}[^T] \hat{\Omega}_r \gls{sym:ratt}, \nonumber \\
-              &= - \hat{\Omega}_A \gls{sym:ratt} + \hat{\Omega}_r \gls{sym:ratt}. \label{eq:relative_attitude_derivative}
-\end{align}
-From~\cref{eq:relative_attitude_variation} and the product rule, the time derivative of \( \gls{sym:rattvar} \) is given by
-\begin{align}\label{eq:relative_attitude_variation_derivative}
-    \dot{\eta}_r = \dot{R}_r \gls{sym:iattvar} \gls{sym:ratt}[^T] + \gls{sym:ratt}\dot{\gls{sym:iattvar}}\gls{sym:ratt}[^T] + \gls{sym:ratt}\gls{sym:iattvar}\dot{R}_r^T 
-\end{align}
-Substituting~\cref{eq:relative_attitude_derivative} into~\cref{eq:relative_attitude_variation_derivative} gives
-\begin{align}\label{eq:relative_attitude_variation_derivative_2}
-    \dot{\eta}_r &= \braces{-\hat{\Omega}_A \gls{sym:ratt} + \hat{\Omega}_r \gls{sym:ratt}}\gls{sym:iattvar}\gls{sym:ratt}[^T] + \gls{sym:ratt}\dot{\gls{sym:iattvar}}\gls{sym:ratt}[^T] + \gls{sym:ratt}\gls{sym:iattvar}\braces{\gls{sym:ratt}[^T] \hat{\Omega}_A - \gls{sym:ratt}[^T] \hat{\Omega}_r}.
-\end{align}
-Inverting~\cref{eq:relative_attitude_variation_derivative_2} and solving for \( \gls{sym:ratt} \dot{\gls{sym:iattvar}} \gls{sym:ratt}[^T] \) gives
-\begin{align}\label{eq:eta_dot}
-    \gls{sym:ratt} \dot{\gls{sym:iattvar}} \gls{sym:ratt}[^T] &= \braces{\Omega_A - \hat{\Omega}_r} \gls{sym:rattvar} + \gls{sym:rattvar} \braces{\hat{\Omega}_r - \hat{\Omega}_A} + \dot{\eta}_r .
-\end{align}
-Finally, we can now substitute~\cref{eq:eta_dot} into~\cref{eq:relative_angular_velocity_variation_4} to arrive at
-\begin{align}\label{eq:relative_angular_velocity_variation}
-    \parenth{\delta \gls{sym:rangvel}}^\wedge &= \gls{sym:ratt} \dot{\gls{sym:iattvar}} \gls{sym:ratt}[^T] = \dot{\eta}_r - \hat{\Omega}_r \gls{sym:rattvar} + \hat{\Omega}_A \gls{sym:rattvar} +\gls{sym:rattvar} \hat{\Omega}_r - \gls{sym:rattvar} \hat{\Omega}_A, \nonumber \\
-                                              &= \dot{\eta}_r + \gls{sym:rattvar}\braces{\hat{\Omega}_r - \hat{\Omega}_A} + \braces{\hat{\Omega}_A - \hat{\Omega}_r}\gls{sym:rattvar} . 
-\end{align}
-
-\subsubsection{Relative velocity variation}
-The variation of the relative linear velocity is computed from~\cref{eq:relative_velocity} as
-\begin{align}\label{eq:relative_velocity_variation_1}
-    \delta \gls{sym:rvel} &= \left. \diff{}{\epsilon} \right|_{\epsilon=0} \gls{sym:Ra}[^T] \dot{x}^\epsilon , \nonumber \\
-                          &= R_A^T \delta \dot{\gls{sym:ipos}},
-\end{align}
-since we assume that the asteroid is in a constant rate of rotation.
-We can redefine~\cref{eq:relative_velocity_variation_1} in terms of the relative variables by finding the derivative of~\cref{eq:relative_position_variation} as
-\begin{align}\label{eq:relative_position_variation_derivative_1}
-    \delta \dot{x}_r &= \dot{R}_A^T \delta \gls{sym:ipos} + \gls{sym:Ra}[^T] \parenth{\delta \dot{\gls{sym:ipos}}}, \nonumber \\
-                     &= \parenth{\gls{sym:Ra} \hat{\Omega}_A}^T \delta\gls{sym:ipos} + \gls{sym:Ra}[^T] \parenth{\delta \dot{\gls{sym:ipos}}}.
-\end{align}
-Rearranging~\cref{eq:relative_position_variation_derivative_1} for \(\delta \dot{\gls{sym:ipos}} \) and substituting into~\cref{eq:relative_velocity_variation_1} gives
-\begin{align}\label{eq:relative_velocity_variation}
-    \delta \gls{sym:rvel} = \delta \dot{x}_r + \hat{\Omega}_A \delta \gls{sym:rpos}.
-\end{align}
-
-\subsubsection{Summary: Relative Variations}
-In summary, the variation of the relative variables are defined as
-\begin{align}
-    \delta \gls{sym:rpos} &= \gls{sym:Ra}[^T] \delta \gls{sym:ipos}, \\
-    \delta \gls{sym:ratt} &= \gls{sym:rattvar} \gls{sym:ratt} ,\\
-    \parenth{\delta \gls{sym:rangvel}}^\wedge&= \dot{\eta}_r - \hat{\Omega}_r \gls{sym:rattvar} + \hat{\Omega}_A \gls{sym:rattvar} + \gls{sym:rattvar} \hat{\Omega}_R - \gls{sym:rattvar} \hat{\Omega}_A, \\
-    \delta \gls{sym:rvel} &= \dot{x}_r + \hat{\Omega}_A \delta \gls{sym:rpos} .
-\end{align}
 \subsection{Variation of relative Lagrangian}\label{ssec:var_rel_lagrangian}
+
+In a process similar to~\cref{sec:inertial_dumbbell_eoms} we use Hamilton's principle to derive the relative equations of motion, in the asteroid fixed frame, by finding the variation of~\cref{eq:relative_lagrangian}.
+Ensuring that the action integral is stationary for all possible variations leads to the equations of motion.
+A key difference is that the variations of the relative variables must be careful chosen to respect the geometry of the configuration manifold.
+Furthermore, the relative variations must also obey the constraints of the inertial variations.
+The derivation of the variation of the relative Lagrangian is shown in~\cref{proof:relative_dumbbell_eoms}.
 
 The variation of the reduced kinetic energy, shown in~\cref{eq:relative_kinetic}, is given by
 \begin{align}\label{eq:relative_kinetic_variation}
