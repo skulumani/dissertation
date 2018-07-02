@@ -501,18 +501,19 @@ From~\cref{eq:relative_attitude_variation} and the product rule, the time deriva
     \dot{\eta}_r = \dot{R}_r \gls{sym:iattvar} \gls{sym:ratt}[^T] + \gls{sym:ratt}\dot{\gls{sym:iattvar}}\gls{sym:ratt}[^T] + \gls{sym:ratt}\gls{sym:iattvar}\dot{R}_r^T 
 \end{align}
 Substituting~\cref{eq:relative_attitude_derivative} into~\cref{eq:relative_attitude_variation_derivative} gives
-\begin{align}
-    \dot{\eta}_r &= \braces{}\gls{sym:iattvar}\gls{sym:ratt}[^T]
+\begin{align}\label{eq:relative_attitude_variation_derivative_2}
+    \dot{\eta}_r &= \braces{-\hat{\Omega}_A \gls{sym:ratt} + \hat{\Omega}_r \gls{sym:ratt}}\gls{sym:iattvar}\gls{sym:ratt}[^T] + \gls{sym:ratt}\dot{\gls{sym:iattvar}}\gls{sym:ratt}[^T] + \gls{sym:ratt}\gls{sym:iattvar}\braces{\gls{sym:ratt}[^T] \hat{\Omega}_A - \gls{sym:ratt}[^T] \hat{\Omega}_r}.
 \end{align}
-Now we invert this relationship to define \( \vb{R} \dot{\hat{\eta}}_1 \vb{R}^T \) as
+Inverting~\cref{eq:relative_attitude_variation_derivative_2} and solving for \( \gls{sym:ratt} \dot{\gls{sym:iattvar}} \gls{sym:ratt}[^T] \) gives
 \begin{align}\label{eq:eta_dot}
-    \vb{R} \hat{\eta}_1 \vb{R}^T &= \braces{\hat{\Omega}_A - \hat{\Omega}} \hat{\eta} - \hat{\eta} \braces{\hat{\Omega}_A - \hat{\Omega}} + \dot{\hat{\eta}} .
+    \gls{sym:ratt} \dot{\gls{sym:iattvar}} \gls{sym:ratt}[^T] &= \braces{\Omega_A - \hat{\Omega}_r} \gls{sym:rattvar} + \gls{sym:rattvar} \braces{\hat{\Omega}_r - \hat{\Omega}_A} + \dot{\eta}_r .
 \end{align}
-Finally, we now substitute~\cref{eq:eta_dot} into~\cref{eq:relative_angular_velocity_variation_3} to arrive at
-\begin{align}\label{eq:rel_ang_vel_var}
-    (\delta \vecbf{\Omega})^\wedge &= \dot{\hat{\eta}} - \hat{\Omega} \hat{\eta} + \hat{\Omega}_A \hat{\eta} + \hat{\eta} \hat{\Omega} - \hat{\eta} \hat{\Omega}_A , \\
-                                   &= \dot{\hat{\eta}} + \braces{\hat{\Omega}_A - \hat{\Omega}} - \hat{\eta} \braces{\hat{\Omega}_A - \hat{\Omega}} . 
+Finally, we can now substitute~\cref{eq:eta_dot} into~\cref{eq:relative_angular_velocity_variation_4} to arrive at
+\begin{align}\label{eq:relative_angular_velocity_variation}
+    \parenth{\delta \gls{sym:rangvel}}^\wedge &= \gls{sym:ratt} \dot{\gls{sym:iattvar}} \gls{sym:ratt}[^T] = \dot{\eta}_r - \hat{\Omega}_r \gls{sym:rattvar} + \hat{\Omega}_A \gls{sym:rattvar} +\gls{sym:rattvar} \hat{\Omega}_r - \gls{sym:rattvar} \hat{\Omega}_A, \nonumber \\
+                                              &= \dot{\eta}_r + \gls{sym:rattvar}\braces{\hat{\Omega}_r - \hat{\Omega}_A} + \braces{\hat{\Omega}_A - \hat{\Omega}_r}\gls{sym:rattvar} . 
 \end{align}
+
 \subsubsection{Relative velocity variation}
 The variation of the relative linear velocity is computed from 
 \begin{align}\label{eq:delV_1}
