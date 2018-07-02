@@ -144,15 +144,14 @@ In summary, the variation of the relative variables are defined as
 \section{Variation of the Relative Kinetic Energy}\label{sec:relative_kinetic_energy_variation}
 The variation of the kinetic energy follows a similar process as that shown in~\cref{sec:inertial_kinetic_energy_variation}.
 The variation of the reduced kinetic energy, shown in~\cref{eq:relative_kinetic_energy}, is given by
-\begin{align}\label{eq:relative_kinetic_variation}
-    \delta T &= \left. \diff{}{\epsilon} \right|_{\epsilon=0} T(\vb{V} + \epsilon \delta \vb{V}, \vb{\Omega} + \epsilon \delta \vb{\Omega}) , \nonumber \\
-    &= \left. \diff{}{\epsilon} \right|_{\epsilon=0} \bracket{\frac{1}{2} m \norm{\vb{V} + \epsilon \delta \vb{V}} \frac{1}{2} \tr{ S(\vb{\Omega} + \epsilon \delta \vb{\Omega} ) J_{d_{R}} S(\vb{\Omega} + \epsilon \delta \vb{\Omega})^T } } , \nonumber\\
-    &= \left. \diff{}{\epsilon} \right|_{\epsilon=0} \bracket{ \frac{1}{2} m \parenth{\vb{V}^T \vb{V} \epsilon \vb{V}^T \delta \vb{V} + \epsilon \delta \vb{V}^T \vb{V} + \epsilon^2 \delta \vb{V}^T \delta \vb{V}} + \frac{1}{2}\tr{ S(\vb{\Omega} + \epsilon \delta \vb{\Omega} ) J_{d_{R}} S(\vb{\Omega} + \epsilon \delta \vb{\Omega})^T } } , \nonumber \\
-    &= m \vb{V}^T \delta \vb{V} + \frac{1}{2} \tr{ S(\delta \vb{\Omega}) J_{d_{R}} S(\vb{\Omega})^T + S(\vb{\Omega}) J_{d_{R}} S(\delta \vb{\Omega})^T} .
+\begin{align}\label{eq:relative_kinetic_energy_variation_1}
+    \delta T &= \left. \diff{}{\epsilon} \right|_{\epsilon=0} T(\gls{sym:rvel} + \epsilon \delta \gls{sym:rvel}, \gls{sym:rangvel} + \epsilon \delta \gls{sym:rangvel}) , \nonumber \\
+             &= m \gls{sym:rvel}[^T] \delta \gls{sym:rvel} + \frac{1}{2} \tr{ \parenth{\delta \gls{sym:rangvel}}^\wedge J_{d_{R}} \hat{\Omega}_r^T   + \hat{\Omega}_r J_{d_{R}} \parenth{\delta \gls{sym:rangvel}}^{\wedge T}},
 \end{align}
-Now, we can substitute~\cref{eq:rel_ang_vel_var} into the second term to get
+where we substituted~\cref{eq:relative_velocity_variation}.
+Now, we can substitute~\cref{eq:relative_angular_velocity} into the second term of~\cref{eq:relative_kinetic_energy_variation_1} to get
 \begin{align*}
-    \frac{1}{2} \mathrm{tr} \left[ \braces{\dot{\hat{\eta}} - \vecbf{\hat\Omega} \hat{\eta} + \hat{\eta} \vecbf{\hat{\Omega}} +  \vecbf{\hat{\Omega}}_A \hat{\eta} - \hat{\eta} \vecbf{\hat{\Omega}}_A } J_{d_{R}} \vb{\hat{\Omega}}^T + \vb{\hat{\Omega}} J_{d_{R}} \braces{-\dot{\hat{\eta}} - \hat{\eta} \vecbf{\hat{\Omega}} + \vecbf{\hat{\Omega}} \hat{\eta} + \hat{\eta} \vecbf{\hat{\Omega}}_A -  \vecbf{\hat{\Omega}}_A \hat{\eta}} \right]
+    \frac{1}{2} \mathrm{tr} \left[ \braces{\dot{\eta}_r J_{d_{r}} } J_{d_{R}} \vb{\hat{\Omega}}^T + \vb{\hat{\Omega}} J_{d_{R}} \braces{-\dot{\hat{\eta}} - \hat{\eta} \vecbf{\hat{\Omega}} + \vecbf{\hat{\Omega}} \hat{\eta} + \hat{\eta} \vecbf{\hat{\Omega}}_A -  \vecbf{\hat{\Omega}}_A \hat{\eta}} \right]
 \end{align*}
 Expanding this equation and collecting terms gives the following
 \begin{align*}
