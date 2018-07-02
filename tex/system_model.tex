@@ -515,21 +515,20 @@ Finally, we can now substitute~\cref{eq:eta_dot} into~\cref{eq:relative_angular_
 \end{align}
 
 \subsubsection{Relative velocity variation}
-The variation of the relative linear velocity is computed from 
-\begin{align}\label{eq:delV_1}
-    \delta \vecbf{V} &= \delta R_A^T \dot{\vecbf{x}_1} + R_A^T \delta \dot{\vecbf{x}}_1 , \nonumber \\
-    &= R_A^T \delta \dot{\vecbf{x}}_1 ,
+The variation of the relative linear velocity is computed from~\cref{eq:relative_velocity} as
+\begin{align}\label{eq:relative_velocity_variation_1}
+    \delta \gls{sym:rvel} &= \left. \diff{}{\epsilon} \right|_{\epsilon=0} \gls{sym:Ra}[^T] \dot{x}^\epsilon , \nonumber \\
+                          &= R_A^T \delta \dot{\gls{sym:ipos}},
 \end{align}
 since we assume that the asteroid is in a constant rate of rotation.
-We can redefine this variation in terms of the relative variables by using
-\begin{align}\label{eq:Xdot}
-    \dot{\vecbf{\chi}} &= \dot{R}_A^T \delta \vecbf{x}_1 + R_A^T \delta \dot{\vecbf{x}}_1 , \nonumber \\
-    &= -S(\vecbf{\Omega}_A) R_A^T \delta \vecbf{x} + R_A^T \delta \dot{\vecbf{x}}_1 ,\nonumber \\
-    &= -S(\vecbf{\Omega}_A) \vecbf{\chi} + R_A^T \delta \dot{\vecbf{x}}_1 .
+We can redefine~\cref{eq:relative_velocity_variation_1} in terms of the relative variables by finding the derivative of~\cref{eq:relative_position_variation} as
+\begin{align}\label{eq:relative_position_variation_derivative_1}
+    \delta \dot{x}_r &= \dot{R}_A^T \delta \gls{sym:ipos} + \gls{sym:Ra}[^T] \parenth{\delta \dot{\gls{sym:ipos}}}, \nonumber \\
+                     &= \parenth{\gls{sym:Ra} \hat{\Omega}_A}^T \delta\gls{sym:ipos} + \gls{sym:Ra}[^T] \parenth{\delta \dot{\gls{sym:ipos}}}.
 \end{align}
-Rearranging~\cref{eq:Xdot} in terms of \( \delta \dot{\vecbf{x}}_1\) and substituting into~\cref{eq:delV_1} gives
+Rearranging~\cref{eq:relative_position_variation_derivative_1} for \(\delta \dot{\gls{sym:ipos}} \) and substituting into~\cref{eq:relative_velocity_variation_1} gives
 \begin{align}\label{eq:relative_velocity_variation}
-    \delta \vecbf{V} = \dot{\vecbf{\chi}} + S(\vecbf{\Omega}_A) \vecbf{\chi} .
+    \delta \gls{sym:rvel} = \delta \dot{x}_r + \hat{\Omega}_A \delta \gls{sym:rpos}.
 \end{align}
 
 \subsubsection{Summary: Relative Variations}
