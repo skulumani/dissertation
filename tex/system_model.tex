@@ -339,6 +339,13 @@ The system momenta is related to the velocities by the transformations
     \ilinmom &= \parenth{m_1 + m_2} \ivel , \\
     \iangmom & = J \iangvel.
 \end{align}
+The continuous inerital equations of motion in Hamiltonian form are defined as
+\begin{align}
+    \dot \ipos &= \frac{\ilinmom}{m_1 + m_2}, \label{eq:inertial_position_dynamics_hamiltonian}\\
+    \dot \ilinmom &= - m_1 \aatt \deriv{U}{\apos_1} - m_2 \aatt \deriv{U}{\apos_2}, \label{eq:inertial_velocity_dynamics_hamiltonian}\\
+    \dot \iatt &= R \parenth{J^{-1} \iangmom}^\wedge, \label{eq:inertial_attitude_dynamics_hamiltonian}\\
+    \dot\iangmom  + \hat{\iangvel} \iangmom &= m_1 \hat{\spos}_1 \iatt^T \aatt \deriv{U}{\apos_1} + m_2 \hat{\spos}_2 \iatt^T \aatt \deriv{U}{\apos_2}. \label{eq:inertial_angvel_dynamics_hamiltonian}
+\end{align}
 
 \subsection{Asteroid Frame Equations of Motion}
 The complete motion of rigid bodies under the influence of their mutual gravity only depends on the relative position and relative attitude of the bodies~\cite{lee2007a}.
