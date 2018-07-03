@@ -1,9 +1,6 @@
 % !TEX root = ../dissertation.tex
 
 \chapter{Asteroid Shape Reconstruction and Refinement}\label{chap:shape_reconstruction}
-
-
-
 This chapter is devoted to introducing the application of computational geometry to asteroid shape reconstruction.
 The polyhedron potential model is the standard approach for missions operating around small-bodies.
 As a result, the determination of an accurate shape is critical for both the gravitational model as well as any low-altitude operations.
@@ -39,15 +36,6 @@ A consideration of the topology of the model is crucial, and features such as ho
 A \gls{polyhedron} is an arrangement of \glspl{polygon} such that two and only two \glspl{polygon} meet at an edge~\cite{mortenson1997}.
 Furthermore, it is possible to travese the surface of the \gls{polyhedron} by crossing it's edges to eventually cross each face in a continuous path.
 
-% TODO Present incremental shape reconstruction
-
-% TODO Cost function to decide on which piont to measure
-
-% TODO Metric to measure goodness of reconstruction (volume)
-
-% TODO Show examples of shape reconstruction (Castalia, using C++ code for speed)
-
-% TODO Come up with some consistent notation
 \subsection{Small Body Shape Modeling}
 % TODO Describe asteroid shape representation
 
@@ -294,6 +282,15 @@ Platonic solids
 \end{itemize}
 
 \section{Incremental Radius modification}
+% TODO Present incremental shape reconstruction
+
+% TODO Cost function to decide on which piont to measure
+
+% TODO Metric to measure goodness of reconstruction (volume)
+
+% TODO Show examples of shape reconstruction (Castalia, using C++ code for speed)
+
+% TODO Come up with some consistent notation
  
 Here we present a simple algorithm to incrementally update a polygonal mesh with new data points.
 In addition, we then demonstrate it's use with two numerical examples.
