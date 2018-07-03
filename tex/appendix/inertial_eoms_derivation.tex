@@ -107,9 +107,37 @@ With the appropriate variations of the kinetic and potential energies given in~\
     &+ \sum_{i=1}^2 \braces{ \bracket{m_i \deriv{U}{\apos_i}^T \aatt^T } \delta \ipos + \tr{ \iattvar \parenth{ \spos_i \deriv{U}{\apos_i}^T \aatt^T \iatt } }}
 \end{align}
 Hamilton's principle states that the variation of the action integral is zero for all possible variations, in other words the following
-\begin{align}\label{eq:inertial_hamiltons_principle}
+\begin{align}\label{eq:inertial_hamiltons_principle_1}
     \delta \mathcal{G} &= \int_{t_0}^{t_f} \braces{ \parenth{m_1 + m_2} \dot \ipos^T \delta \dot{\ipos} + m_1 \deriv{U}{\apos_1}^T \aatt^T \delta \ipos + m_2 \deriv{U}{\apos}^T \aatt^T \delta \ipos} dt \nonumber \\
-                       &+ \int_{t_0}^{t_f} \left\{ \frac{1}{2} \tr{- \dot{\iattvar} \parenth{J \hat{\iangvel} } + \iattvar \parenth{ \hat{\iangvel} J \iangvel}^\wedge} \right. \\
+                       &+ \int_{t_0}^{t_f} \left\{ \frac{1}{2} \tr{- \dot{\iattvar} \parenth{J \iangvel}^\wedge + \iattvar \parenth{ \hat{\iangvel} J \iangvel}^\wedge} \right. \\
                        &\left.+ m_1 \tr{ \iattvar \spos_1 \deriv{U}{\apos_1}^T \aatt^T \iatt} + m_2 \tr{ \iattvar \spos_2 \deriv{U}{\apos_2}^T \aatt^T \iatt}\right\} dt
 \end{align}
 is true for all \( \delta \ipos : \bracket{t_0, t_f} \to \R^3 \) and \( \iattvar : \bracket{t_0, t_f} \to \so \) with stationary end points.
+Using integration by parts, the variation of the action integral becomes
+\begin{align}\label{eq:inertial_hamiltons_principle}
+    \delta \mathcal{G} &= \int_{t_0}^{t_f} \braces{ -\parenth{m_1 + m_2} \ddot \ipos^T \delta \ipos + m_1 \deriv{U}{\apos_1}^T \aatt^T \delta \ipos + m_2 \deriv{U}{\apos}^T \aatt^T \delta \ipos} dt \nonumber \\
+                       &+ \int_{t_0}^{t_f}  \frac{1}{2} \tr{ \iattvar \braces{\parenth{J \dot{\iangvel}}^\wedge +  \parenth{ \hat{\iangvel} J \iangvel}^\wedge}} dt  \nonumber\\
+                       &+ \int_{t_0}^{t_f} \frac{1}{2} \tr{ \iattvar \braces{2 m_1 \spos_1 \deriv{U}{\apos_1}^T \aatt^T \iatt+ 2 m_2 \spos_2 \deriv{U}{\apos_2}^T \aatt^T \iatt}} dt.
+\end{align}
+In order for~\cref{eq:inertial_hamiltons_principle} to be zero for all variations, the expression in the first brace should be zero and the expression in the last two braces should by symmetric since \( \iattvar \in \so \) is skew-symmetric.
+As a result the translational equations of motion in the inertial frame are
+\begin{align*}
+    \parenth{m_1 + m_2} \dot{\ivel} = - \sum_{i=1}^n m_i \aatt \deriv{U}{\apos_i} + u_f,
+\end{align*}
+where \( u_f \in \R^3 \) is an applied force that the system can generate, e.g.\ thrusters.
+
+The attitude dynamics are found by applyging~\cref{eq:trPQ} which gives
+\begin{align}
+    -\parenth{J \dot{\iangvel}}^\wedge - \parenth{ \hat{\iangvel} J \iangvel}^\wedge + \sum_{i=1}^{2} \parenth{m_i \apos_i \deriv{U}{\apos_i}^T \aatt^T \iatt }^T - \parenth{m_i \apos_i \deriv{U}{\apos_i}^T \aatt^T \iatt  } = 0.
+\end{align}
+Using~\cref{eq:hatxy} gives
+\begin{align}
+    -\parenth{J \dot{\iangvel}}^\wedge - \parenth{ \hat{\iangvel} J \iangvel}^\wedge + \sum_{i=1}^2 \parenth{m_i \hat{\spos}_i \iatt^T \aatt \deriv{U}{\apos_i}}^\wedge  = 0.
+\end{align}
+In summary, the continuous inertial equations of motion in Lagrangian form are given by
+\begin{align}
+    \dot{\ipos} &= \ivel, \\
+    \parenth{m_1 + m_2} \dot{\ivel} &= - \sum_{i=0}^2 m_i \aatt \deriv{U}{\apos_i}, \\
+    \dot{\iatt} &= \iatt \iangvel, \\
+    J \dot{\iangvel} + \hat{\iangvel} J \iangvel &= \sum_{i=0}^2 m_i \hat{\spos}_i \iatt^T \aatt \deriv{U}{\apos_i} .
+\end{align}
