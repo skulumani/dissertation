@@ -278,86 +278,26 @@ Hamilton's principle states that the variation of the action integral
 \begin{align}\label{eq:action_integral}
     \mathcal{G} = \int_{t_0}^{t_f} T(\dot{\vc{q}}) - V(\vc{q}) dt,
 \end{align}
-is stationary with fixed endpoints. 
+is stationary with for all possible variations with fixed endpoints. 
 In other words, 
 \begin{align}\label{eq:hamiltons_principle}
     \delta \mathcal{G}  = \int_{t_0}^{t_f} \delta T - \delta V dt = 0.
 \end{align}
-Substituting~\cref{eq:dumbbell_potential_energy_variation,eq:dumbbell_kinetic_energy_variation} into~\cref{eq:hamiltons_principle} and evaluating for two masses gives
-\begin{align}\label{eq:action_integral_full}
-    \delta \mathcal{G} &= \int_{t_0}^{t_f} \braces{ \parenth{m_1 + m_2 }\dot{\vecbf{x}}^T \delta \dot{\vecbf{x}}  + \bracket{m_1 \deriv{U}{\vecbf{z}_1}^T R_A^T + m_2 \deriv{U}{\vecbf{z}_2}^T R_A^T } \delta \vecbf{x}} dt \nonumber\\
-                        &+ \int_{t_0}^{t_f} \braces{\frac{1}{2} \tr{-\dot{\eta} \parenth{J \vc{\Omega}}^\wedge + \eta \parenth{\vh{\Omega}J\vc{\Omega} }^\wedge } } dt  \nonumber\\
-                        &- \int_{t_0}^{t_f} \braces{\tr{ \eta \parenth{m_1 R^T \deriv{U}{\vecbf{z}_1} \parenth{R_A^T \vecbf{\rho}_1}^T + m_2 R^T \deriv{U}{\vecbf{z}_2} \parenth{R_A^T \vecbf{\rho}_2}^T}} } dt.
-\end{align}
-Using integration by parts allows one to remove the derivative terms from~\cref{eq:action_integral_full} as follows
-\begin{subequations}\label{eq:action_integral_integration_by_parts}
-    \begin{align}
-        \int_{t_0}^{t_f} \braces{ \parenth{m_1 + m_2 } \dot{\vc{x}}^T \delta \dot{\vc{x}} } dt  &= \left. \parenth{m_1 + m_2} \dot{\vc{x}}^T \delta \vc{x} \right|_{t_0}^{t_f} - \int_{t_0}^{t_f} \parenth{m_1 + m_2} \ddot{\vc{x}}^T \delta \vc{x} dt, \label{eq:action_integral_integration_by_parts_translation}\\
-            \int_{t_0}^{t_f} \frac{1}{2} \tr{ - \dot{\vc{\eta}} \parenth{J \vc{\Omega}}^\wedge } dt &= \left. \frac{1}{2} \tr{ - \vc{\eta} \parenth{J \vc{\Omega}}^\wedge } \right|_{t_0}^{t_f} - \int_{t_0}^{t_f} \frac{1}{2} \tr{- \vc{\eta} \parenth{J \dot{\vc{\Omega}} }^\wedge } dt. \label{eq:action_integral_integration_by_parts_attitude}
-    \end{align}
-\end{subequations}     
-The variations \( \delta \vc{x}, \vc{\eta}\) vanish at the endpoints \( t_0, t_f \) and the terms outside of the integrals in~\cref{eq:action_integral_integration_by_parts} become zero.
-As a result, using~\cref{eq:action_integral_integration_by_parts} in~\cref{eq:action_integral_full} gives the following for \( \delta \mathcal{G} \),
-\begin{align}\label{eq:action_integral_stationary}
-    \delta \mathcal{G} = \int_{t_0}^{t_f} & \left\{  \parenth{m_1 + m_2} \ddot{\vc{x}}^T + \bracket{m_1 \deriv{U}{\vecbf{z}_1}^T R_A^T + m_2 \deriv{U}{\vecbf{z}_2}^T R_A^T } \right\} \delta\vc{x} dt \nonumber\\
-    + \int_{t_0}^{t_f} &\left\{ \frac{1}{2} \tr{\vc{\eta} \parenth{J \dot{\vc{\Omega}}}^\wedge + \vc{\eta} \parenth{\vh{\Omega} J \vc{\Omega}}^\wedge } \right. \nonumber \\
-    + & \left.  \tr{ \eta \parenth{m_1 R^T \deriv{U}{\vecbf{z}_1} \parenth{R_A^T \vecbf{\rho}_1}^T + m_2 R^T \deriv{U}{\vecbf{z}_2} \parenth{R_A^T \vecbf{\rho}_2}^T}} \right\} dt.
-\end{align}
-Hamilton's principle states that the variation of the action integral should be zero for all possible variations, \( \delta \vc{x} : \bracket{t_0, t_f} \to \R^3 \) and \( \eta : \bracket{t_0, t_f} \to \so \)~\cite{lanczos1970}.
-Therefore, the first expression inside to brace should be zero, which leads directly to the translational equations of motion.
-\begin{align}\label{eq:translational_eoms}
-    -\parenth{m_1 +m_2} \ddot{\vecbf{x}}^T + m_1 \deriv{U}{\vecbf{z}_1} R_A^T + m_2 \deriv{U}{\vecbf{z}_2}^T R_A^T = 0 .
-\end{align}
-Since, \( \eta \in \so \) is skew-symmetric we have by~\cref{eq:trPQ} that the second expression in braces should by symmetric.
-The second expression in braces is rewritten as
+Following the derivation presented in~\cref{proof:inertial_dumbbell_eoms} gives the inerital equations of motion in Lagrangian form as
 \begin{align}
-    \tr{ \eta \braces{ \parenth{ J \dot{\vc{\Omega}}}^\wedge - 2 m_1 R^T \deriv{U}{\vecbf{z}_1} \parenth{R_A^T \vecbf{\rho}_1}^T - 2 m_2 R^T \deriv{U}{\vecbf{z}_2} \parenth{R_A^T \vecbf{\rho}_2}^T + \parenth{\vh{\Omega}J \vc{\Omega} }^\wedge }} \nonumber\\
+    \dot{\ipos} &= \ivel, \label{eq:inertial_position_dynamics}\\
+    \parenth{m_1 + m_2} \dot{\ivel} &= - \sum_{i=0}^2 m_i \aatt \deriv{U}{\apos_i} + u_f, \label{eq:inertial_velocity_dynamics}\\
+    \dot{\iatt} &= \iatt \iangvel, \label{eq:inertial_attitude_dynamics}\\
+    J \dot{\iangvel} + \hat{\iangvel} J \iangvel &= \sum_{i=0}^2 m_i \hat{\spos}_i \iatt^T \aatt \deriv{U}{\apos_i} + u_m. \label{eq;inertial_angvel_dynamics}
 \end{align}
-Applying~\cref{eq:trPQ} gives
+The vectors \( \apos_i \) define the position of the dumbbell mass \( m_i \) in the asteroid fixed frame
 \begin{align}
-    &\parenth{J \dot{\vecbf{\Omega}} + \vh{\Omega} J \vecbf{\Omega}}^\wedge - 2 m_1 R^T \deriv{U}{\vecbf{z}_1} \parenth{R_A^T \vecbf{\rho}_1}^T - 2 m_2 R^T \deriv{U}{\vecbf{z}_2} \parenth{R_A^T \vecbf{\rho}_2}^T \nonumber\\
-    =& {\parenth{J \dot{\vecbf{\Omega}} + \vh{\Omega}  J \vecbf{\Omega}}^{\wedge}}^T - 2 m_1 \parenth{R_A^T \vecbf{\rho}_1} \deriv{U}{\vecbf{z}_1}^T R  - 2 m_2 \parenth{R_A^T \vecbf{\rho}_2} \deriv{U}{\vecbf{z}_2}^T R .
+    \apos_i &= \aatt^T \parenth{\ipos + \iatt \spos_i},
 \end{align}
-Using~\cref{eq:hatx} leads to
-\begin{align}
-    \parenth{J \dot{\vecbf{\Omega}} + \vecbf{\Omega} \times J \vecbf{\Omega}}^\wedge =& - m_1 \parenth{R_A^T \vecbf{\rho}_1} \deriv{U}{\vecbf{z}_1}^T R  - m_2 \parenth{R_A^T \vecbf{\rho}_2} \deriv{U}{\vecbf{z}_2}^T R \nonumber \\
-    &+ m_1 R^T \deriv{U}{\vecbf{z}_1} \parenth{R_A^T \vecbf{\rho}_1}^T + m_2 R^T \deriv{U}{\vecbf{z}_2} \parenth{R_A^T \vecbf{\rho}_2}^T
-\end{align}
-The gravitational moment can be redefined using the properties of the hat map.
-To begin, the right hand side is defined as
-\begin{align}
-    \vh{M}_i &= m_i \parenth{R^T \deriv{U}{\vecbf{z}_i} \parenth{R_A^T \vecbf{\rho}_i}^T - \parenth{R_A^T \vecbf{\rho}_i} \deriv{U}{\vecbf{z}_i}^T R} ,\\
-             &= m_i \parenth{ y x^T - x y^T} = m_i \parenth{\vh{x}\vc{y}}^\wedge
-\end{align}
-where the vectors \( x, y\) are defined as
-\begin{align*}
-    x &= R_A^T \vb{\rho}_i , \\
-    y &= R^T \deriv{U}{\vb{z}_i} .
-\end{align*}
-As a result, the external moment on the dumbbell is given as
-\begin{align}
-    \vc{M}_{ext} = \sum_{i}^2 \vc{M}_i , 
-\end{align}
-where the gravitational moment  due to \( m_i \) is
-\begin{align}
-    \vb{M}_i = m_i \parenth{R_A^T \vb{\rho}_i}^\wedge R^T \deriv{U}{\vb{z}_i}.
-\end{align}
-Hhe Legendre transformation allows for the same dynamics to be expressed in an equivalent form as Hamilton's equations~\cite{lanczos1970}.
-In summary, the inertial equations of motion of a dumbbell spacecraft influenced by a polyhedron potential model are given as
-\begin{align}
-    \dot{\vb{x}} &= \vb{v}, \label{eq:position_kinematics}\\
-    \parenth{m_1 + m_2} \dot{\vecbf{v}} &= m_1 R_A \deriv{U}{\vecbf{z}_1} + m_2 R_A \deriv{U}{\vecbf{z}_2} + \vecbf{u}_f, \label{eq:translational_dynamics}\\
-    \dot{R} &= R S(\vb{\Omega}) , \label{eq:attitude_kinematics}\\
-    J \dot{\vecbf{\Omega}} + \vecbf{\Omega} \times J \vecbf{\Omega} &= \vecbf{M}_1 + \vecbf{M}_2 + \vecbf{u}_m. \label{eq:attitude_dynamics}
-\end{align}
-The vectors \( \vecbf{z}_1 \) and \( \vecbf{z}_2\) define the position of the dumbbell masses as represented in the asteroid fixed frame and are defined as
-\begin{align}
-    \vecbf{z}_1 &= R_A^T \parenth{\vecbf{x} + R \vecbf{\rho}_1} , \\
-    \vecbf{z}_2 &= R_A^T \parenth{\vecbf{x} + R \vecbf{\rho}_2}, 
-\end{align}
-where \( \vb{\rho}_i \) defines the position of each mass in the spacecraft fixed body frame.
-The control inputs to the spacecraft are defined by \( \vb{u}_f, \vb{u}_m \) which define the control force represented in the inertial frame and the control moment represented in the spacecraft frame, respectively. 
+where \( \spos_i \) defines the position of each mass in the spacecraft fixed body frame.
+The control inputs to the spacecraft are defined by \( u_f, u_m \in \R^3 \) which define the control force represented in the inertial frame and the control moment represented in the spacecraft frame, respectively. 
 % TODO Ensure that \eta is not bold (it's a matrix) also all vectors should be bold and lower case
+
 \subsection{Asteroid Frame Equations of Motion}
 The complete motion of rigid bodies under the influence of their mutual gravity only depends on the relative position and relative attitude of the bodies~\cite{lee2007a}.
 This is a consequence of the fact that the gravitational potential can be described using only the relative position.
