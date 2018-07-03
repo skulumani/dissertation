@@ -48,8 +48,6 @@
 %------------------------------------------
 \usepackage[noabbrev,capitalize]{cleveref} % get fancy referencing
 
-\usepackage[left]{showlabels} % show labels for referencing
-\usepackage{refcheck} % check for unused references/labels
 
 \usepackage{pgf}
 % TIKZ
@@ -97,3 +95,7 @@
   \node at ($#1+(#2+#3/2:#6)$) {#5};
 }
 \tdplotsetmaincoords{60}{125} % view angle in spherical coordinates
+
+% These packages should come last for real
+\usepackage{refcheck} % check for unused references/labels
+\usepackage[left]{showlabels} % show labels for referencing
