@@ -393,28 +393,35 @@ Using~\cref{eq:hatRxR} it can be shown that \( J_{d_R} \) also satisfies a simil
 where \( J_R = \gls{sym:ratt} J \gls{sym:ratt}[^T] \in \R^{3 \times 3}\) is the standard moment of inertia matrix of the spacecraft expressed with respect to the asteroid fixed frame.
 Using this definition the relative kinetic energy is given as
 \begin{align}\label{eq:relative_kinetic_energy}
-    T &= \frac{1}{2} \parenth{m_1 + m_2} \norm{\gls{sym:rvel}}^2 + \frac{1}{2} \tr{\hat{\gls{sym:rangvel}} J_{d_R} \hat{\glsentrytext{sym:rangvel}}^T}.
+    T_r &= \frac{1}{2} \parenth{m_1 + m_2} \norm{\gls{sym:rvel}}^2 + \frac{1}{2} \tr{\hat{\gls{sym:rangvel}} J_{d_R} \hat{\glsentrytext{sym:rangvel}}^T}.
 \end{align}
 
 The potential energy is already defined in terms of the relative position of the dumbbell with respect to the asteroid.
 Using the relative kinematics given in~\cref{eq:relative_position,eq:relative_attitude} gives
 \begin{align}\label{eq:relative_potential_energy}
-    V = -m_1 U( \gls{sym:rpos} + \gls{sym:ratt} \vc{\rho}_1) - m_2 U(\gls{sym:rpos} + \gls{sym:ratt} \vc{\rho}_2).
+    V_r = -m_1 U( \gls{sym:rpos} + \gls{sym:ratt} \vc{\rho}_1) - m_2 U(\gls{sym:rpos} + \gls{sym:ratt} \vc{\rho}_2).
 \end{align}
 Using~\cref{eq:relative_kinetic_energy,eq:relative_potential_energy}, the reduced Langrangian is expressed in terms of the relative kinematics as 
 \begin{align}\label{eq:relative_lagrangian}
-    L = T-V =& \frac{1}{2} \parenth{m_1 + m_2} \norm{\gls{sym:rvel}}^2 + \frac{1}{2} \tr{\hat{\gls{sym:rangvel}} J_{d_R} \hat{\glsentrytext{sym:rangvel}}^T} \nonumber \\
+    L_r = T_r-V_r =& \frac{1}{2} \parenth{m_1 + m_2} \norm{\gls{sym:rvel}}^2 + \frac{1}{2} \tr{\hat{\gls{sym:rangvel}} J_{d_R} \hat{\glsentrytext{sym:rangvel}}^T} \nonumber \\
              &+m_1 U(\gls{sym:rpos} + \gls{sym:ratt} \vc{\rho}_1) + m_2 U(\gls{sym:rpos} + \gls{sym:ratt} \vc{\rho}_2) .
 \end{align}
-
-\subsection{Variation of relative Lagrangian}\label{ssec:var_rel_lagrangian}
-
 In a process similar to~\cref{sec:inertial_dumbbell_eoms} we use Hamilton's principle to derive the relative equations of motion, in the asteroid fixed frame, by finding the variation of~\cref{eq:relative_lagrangian}.
 Ensuring that the action integral is stationary for all possible variations leads to the equations of motion.
-A key difference is that the variations of the relative variables must be careful chosen to respect the geometry of the configuration manifold.
-Furthermore, the relative variations must also obey the constraints of the inertial variations.
-The derivation of the variation of the relative Lagrangian is shown in~\cref{proof:relative_dumbbell_eoms}.
 
+\paragraph{Variation of the relative variables}\label{ssec:var_rel_lagrangian}
+
+One key difference is that the variations of the relative variables must be careful chosen to respect the geometry of the configuration manifold.
+Furthermore, the relative variations must also obey the constraints of the inertial variations.
+The detailed derivation of the variations of the relative variables is given in~\cref{sec:relative_variations} and summarized as follows:
+\begin{align}
+    \delta \rpos &= \aatt^T \delta \rpos,\label{eq:relative_position_variation} \\
+    \delta \gls{sym:ratt} &= \gls{sym:rattvar} \gls{sym:ratt},\label{eq:relative_attitude_variation}\\
+    \parenth{\delta \gls{sym:rangvel}}^\wedge&= \dot{\eta}_r - \hat{\Omega}_r \gls{sym:rattvar} + \hat{\Omega}_A \gls{sym:rattvar} + \gls{sym:rattvar} \hat{\Omega}_R - \gls{sym:rattvar} \hat{\Omega}_A, \label{eq:relative_angvel_variation}\\
+    \delta \gls{sym:rvel} &= \dot{x}_r + \hat{\Omega}_A \delta \gls{sym:rpos}.\label{eq:relative_velocity_variation}
+\end{align}
+
+The derivation of the variation of the relative Lagrangian is shown in~\cref{proof:relative_dumbbell_eoms}.
 
 The variation of the reduced potential energy, shown in~\cref{eq:relative_potential}, is given by
 \begin{align}\label{eq:relative_potential_variation_1}

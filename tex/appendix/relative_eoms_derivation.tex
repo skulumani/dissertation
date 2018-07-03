@@ -16,7 +16,7 @@ The kinetic and potential energy of the dumbbell model is duplicated from~\cref{
     V &= -m_1 U( \gls{sym:rpos} + \gls{sym:ratt} \vc{\rho}_1) - m_2 U(\gls{sym:rpos} + \gls{sym:ratt} \vc{\rho}_2).
 \end{align*}
 
-\section{Relative variations}\label{ssec:relative_variations}
+\section{Relative variations}\label{sec:relative_variations}
 In~\cref{proof:inertial_dumbbell_eoms} the variations of the inertial configuration variables were derived.
 Following a similar process the variations of the reduced variables must be derived such that they also satisfy the variations of the inertial variables.
 These variations must be defined precisely to ensure that the configuration space is preserved properly. 
@@ -134,12 +134,12 @@ Rearranging~\cref{eq:relative_position_variation_derivative_1} for \(\delta \dot
 \end{align}
 
 In summary, the variation of the relative variables are defined as
-\begin{align}
+\begin{align*}
     \delta \gls{sym:rpos} &= \gls{sym:Ra}[^T] \delta \gls{sym:ipos}, \\
     \delta \gls{sym:ratt} &= \gls{sym:rattvar} \gls{sym:ratt} ,\\
     \parenth{\delta \gls{sym:rangvel}}^\wedge&= \dot{\eta}_r - \hat{\Omega}_r \gls{sym:rattvar} + \hat{\Omega}_A \gls{sym:rattvar} + \gls{sym:rattvar} \hat{\Omega}_R - \gls{sym:rattvar} \hat{\Omega}_A, \\
     \delta \gls{sym:rvel} &= \dot{x}_r + \hat{\Omega}_A \delta \gls{sym:rpos} .
-\end{align}
+\end{align*}
 
 \section{Variation of the Relative Kinetic Energy}\label{sec:relative_kinetic_energy_variation}
 The variation of the kinetic energy follows a similar process as that shown in~\cref{sec:inertial_kinetic_energy_variation}.
