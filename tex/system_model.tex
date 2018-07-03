@@ -267,8 +267,8 @@ However, the first step is to determine the varations of \( T, V \).
 These variations must be carefully constructed such that the variations of the configuration variables do not violate the nonlinear manifold.
 The next step is to define the variations of the kinetic and potential energy to derive the equations of motion, which are given as
 \begin{align} 
-    \delta V &= \sum_{i=1}^2 \braces{ \bracket{m_i \deriv{U}{\vecbf{z}_i}^T R_A^T } \delta \vecbf{x} - \tr{ \vc{\eta} \bracket{m_i R^T \deriv{U}{\vecbf{z}_i} \parenth{R_A^T \vecbf{\rho}_i}^T}} },\label{eq:dumbbell_kinetic_energy_variation} \\ 
-    \delta T &= \parenth{m_1 + m_2} \dot{\vc{x}}^T \delta \dot{\vc{x}} + \frac{1}{2} \tr{- \dot{\vc{\eta}} \parenth{J \vc{\Omega}}^\wedge + \vc{\eta} \parenth{\vh{\Omega} J \vc{\Omega}}^\wedge }. \label{eq:dumbbell_potential_energy_variation} ,
+    \delta T &= \parenth{m_1 + m_2} \dot{\vc{x}}^T \delta \dot{\vc{x}} + \frac{1}{2} \tr{- \dot{\vc{\eta}} \parenth{J \vc{\Omega}}^\wedge + \vc{\eta} \parenth{\vh{\Omega} J \vc{\Omega}}^\wedge }. \label{eq:dumbbell_kinetic_energy_variation} ,\\
+    \delta V &= - \sum_{i=1}^2 \braces{ \bracket{m_i \deriv{U}{\apos_i}^T \aatt^T } \delta \ipos +  \tr{\iattvar \parenth{\spos_i \deriv{U}{\apos_i}^T \aatt^T \iatt } }},\label{eq:dumbbell_potential_energy_variation}
 \end{align}
 where \( \vc{z}_i = R_A^T \parenth{\vc{x} + R \vc{\rho}} \) and defines the position of \( m_i \) in the asteroid fixed frame.
 The derivation of~\cref{eq:dumbbell_potential_energy_variation,eq:dumbbell_kinetic_energy_variation} is provided in~\cref{proof:inertial_dumbbell_eoms}.
