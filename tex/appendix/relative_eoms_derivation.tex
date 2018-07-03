@@ -174,17 +174,8 @@ where
     B &= \hat{\Omega}_A \gls{sym:rattvar} \gls{sym:Jdr} \hat{\Omega}_r^T - \gls{sym:rattvar} \hat{\Omega}_A \gls{sym:Jdr} \hat{\Omega}_r^T  + \hat{\Omega}_r \gls{sym:Jdr} \gls{sym:rattvar} \hat{\Omega}_A - \hat{\Omega}_r \gls{sym:Jdr} \hat{\Omega}_A \gls{sym:rattvar}.\label{eq:relative_kinetic_energy_B_1}
 \end{align}
 \end{subequations}     
-We can now simplify~\cref{eq:relative_kinetic_energy_A_1} using the following transformations
-\begin{subequations}\label{eq:relative_kinetic_energy_A_simplification}
-\begin{align}
-    \tr{ \gls{sym:rattvar} \hat{\Omega}_r \gls{sym:Jdr} \hat{\Omega}_r^T} &= \tr{-\gls{sym:rattvar} \hat{\Omega}_r \gls{sym:Jdr} \hat{\Omega}_r } , \\
-    \tr{ - \hat{\Omega}_r \gls{sym:Jdr} \gls{sym:rattvar} \hat{\Omega}_r  } &= \tr{ -\gls{sym:rattvar}  \hat{\Omega}_r  \hat{\Omega}_r \gls{sym:Jdr} } , \\
-    \tr{-\hat{\Omega}_r \gls{sym:rattvar} \gls{sym:Jdr}  \hat{\Omega}_r^T} &= \tr{ \gls{sym:rattvar} \gls{sym:Jdr}  \hat{\Omega}_r \hat{\Omega}_r} , \\
-    \tr{ \hat{\Omega}_r\gls{sym:Jdr} \hat{\Omega}_r\gls{sym:rattvar}} &= \tr{\gls{sym:rattvar} \hat{\Omega}_r\gls{sym:Jdr} \hat{\Omega}_r},
-\end{align}
-\end{subequations}     
-where we made use of~\cref{eq:trABC,eq:hatxT}.
-Similarly, we can perform a similar operation for~\cref{eq:relative_kinetic_energy_B_1} 
+From the properties of the trace we can show that~\cref{eq:relative_kinetic_energy_A_1} goes to zero.
+Consider~\cref{eq:relative_kinetic_energy_B_1}, we utilize the following substitutions
 \begin{subequations}\label{eq:relative_kinetic_energy_B_simplification}
 \begin{align}
     \tr{ - \gls{sym:rattvar} \hat{\Omega}_A \gls{sym:Jdr}  \hat{\Omega}_r^T} &= \tr{\gls{sym:rattvar}  \hat{\Omega}_A \gls{sym:Jdr}  \hat{\Omega}_r} , \\
@@ -194,23 +185,18 @@ Similarly, we can perform a similar operation for~\cref{eq:relative_kinetic_ener
 \end{align}
 \end{subequations}     
 
-Substituting~\cref{eq:relative_kinetic_energy_A_simplification} into~\cref{eq:relative_kinetic_energy_A_1} and~\cref{eq:relative_kinetic_energy_B_simplification} into~\cref{eq:relative_kinetic_energy_B_1} gives:
+Substituting~\cref{eq:relative_kinetic_energy_B_simplification} into~\cref{eq:relative_kinetic_energy_B_1} gives:
 \begin{align}
-    A &= \frac{1}{2} \tr{-\gls{sym:rattvar} \hat{\Omega}_r\parenth{\gls{sym:Jdr} \hat{\Omega}_r +  \hat{\Omega}_r \gls{sym:Jdr}} + \gls{sym:rattvar} \parenth{ \gls{sym:Jdr} \hat{\Omega}_r +  \hat{\Omega}_r\gls{sym:Jdr}} \hat{\Omega}_r }, \label{eq:relative_kinetic_energy_A_2}\\
     B &= \frac{1}{2} \tr{\gls{sym:rattvar} \hat{\Omega}_A\parenth{\gls{sym:Jdr} \hat{\Omega}_r+ \hat{\Omega}_r\gls{sym:Jdr}} - \gls{sym:rattvar}\parenth{\gls{sym:Jdr} \hat{\Omega}_r+ \hat{\Omega}_r\gls{sym:Jdr}}  \hat{\Omega}_A}. \label{eq:relative_kinetic_energy_B_2}
 \end{align}
-Using~\cref{eq:moi_relative_hat_prop,eq:hatxy} leads to the following simplifications of~\cref{eq:relative_kinetic_energy_A_2,eq:relative_kinetic_energy_B_2} as follows:
-\begin{subequations}\label{eq:relative_kinetic_energy_A_and_B_final}
+Using~\cref{eq:moi_relative_hat_prop,eq:hatxy} leads to the following simplifications of~\cref{eq:relative_kinetic_energy_B_2} as follows:
 \begin{align}
-    A &= \frac{1}{2} \tr{-\gls{sym:rattvar}\parenth{ \hat{\Omega}_r\parenth{\gls{sym:Jr} \hat{\Omega}_r}}^\wedge} , \\
-    B &= \frac{1}{2} \tr{\gls{sym:rattvar}\parenth{ \hat{\Omega}_A\parenth{\gls{sym:Jr}  \hat{\Omega}_r}}^\wedge} .
+    B &= \frac{1}{2} \tr{\gls{sym:rattvar}\parenth{ \hat{\Omega}_A\parenth{\gls{sym:Jr}  \hat{\Omega}_r}}^\wedge}. \label{eq:relative_kinetic_energy_B_final}
 \end{align}
-\end{subequations}     
-Finally, substituting~\cref{eq:relative_kinetic_energy_A_and_B_final} into~\cref{eq:relative_kinetic_energy_b_2} and then into~\cref{eq:relative_kinetic_energy_variation_1} along with using~\cref{eq:moi_relative_hat_prop} gives the final variation of the relative kinetic energy as
+Finally, substituting~\cref{eq:relative_kinetic_energy_B_final} into~\cref{eq:relative_kinetic_energy_b_2} and then into~\cref{eq:relative_kinetic_energy_variation_1} along with using~\cref{eq:moi_relative_hat_prop} gives the final variation of the relative kinetic energy as
 \begin{align}\label{eq:relative_kinetic_energy_variation}
     \delta T =& (m_1 + m_2) \gls{sym:rvel}[^T] \parenth{\delta \dot{x}_r +  \hat{\Omega}_A \delta \gls{sym:rpos}} + \frac{1}{2} \tr{ -\dot{\hat{\eta}}\parenth{\gls{sym:Jr}  \hat{\Omega}_r }} \\
-             &+ \frac{1}{2} \tr{-\gls{sym:rattvar}\parenth{ \hat{\Omega}_r\parenth{\gls{sym:Jr} \hat{\Omega}_r}}^\wedge} +
-    \frac{1}{2} \tr{\gls{sym:rattvar}\parenth{ \hat{\Omega}_A\parenth{\gls{sym:Jr}  \hat{\Omega}_r}}^\wedge} .
+             &+\frac{1}{2} \tr{\gls{sym:rattvar}\parenth{ \hat{\Omega}_A\parenth{\gls{sym:Jr}  \hat{\Omega}_r}}^\wedge} .
 \end{align}
 
 
