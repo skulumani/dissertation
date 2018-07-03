@@ -104,12 +104,32 @@ Committee Member
 % TODO Look at using Bib2gls and modify latexmk to take care of it. May also need to modify the thesis class
 % TODO Also link abbreviations to a longer explanation in the glossary terms section
 % glossary  terms
-\loadglsentries{\string~/texmf/tex/latex/local/glossaries_terms.tex}
+\loadglsentries{tex/glossaries_terms.tex}
 % abbreviations
-\loadglsentries{\string~/texmf/tex/latex/local/glossaries_abbreviations.tex}
+\loadglsentries{tex/glossaries_abbreviations.tex}
 % symbols
-\loadglsentries{\string~/texmf/tex/latex/local/glossaries_symbols.tex}
+\loadglsentries{tex/glossaries_symbols.tex}
 % Some abstract text
 \abstract{
-    Abstract
+\begin{itemize}
+    \item 3-4 Sentences on defining the problem.
+        Simple english and to the point.
+    \item Detail on why the problem (above) is hard.
+        \begin{itemize}
+            \item What has eluded us in solving it?
+            \item What does the literature say about solving this problem?
+            \item What are the obstacles/challenges? Why is it non-trivial?
+        \end{itemize}
+    \item What is my approach to solving this problem?
+        \begin{itemize}
+            \item How did I solve this problem?
+            \item Claim all the fancy stuff that my dissertation will later prove/demonstrate.
+        \end{itemize}
+    \item What is the consequence of my approach?
+        \begin{itemize}
+            \item What is the impact?
+            \item What are the benefits of my approach?
+            \item What things does this work enable, new missions/ideas.
+        \end{itemize}
+\end{itemize}
 }

@@ -1,0 +1,139 @@
+% ---------------------- GLOSSARY TERMS --------------------------------
+
+\newglossaryentry{linux}{
+    name=Linux,
+    description={is a generic term referring to the family of Unix-like computer operating systems that use the Linux kernel},
+    plural=Linuces
+}
+
+\newglossaryentry{matrix}{
+    name={matrix},
+    plural={matrices},
+    description={rectangular array of quanttities}
+}
+
+\newglossaryentry{frustum}{
+    name={frustum},
+    plural={frusta},
+    description={In geometry: defined as the portion of a solid, normally a cone or pyramid, that lies between two parallel planes.
+    In computer graphics: the viewing frustum is the three-dimensional region which is visible on screen.}
+}
+
+\newglossaryentry{point_cloud}{
+    name={point cloud},
+    plural={point clouds},
+    description={A set of points in some reference system.
+        In a three dimension corrdination system, the points typical represent the cartesian position of the external surface of an object.
+    Frequently generated from a 3D scanning process, these points are rarely used directly but rather converted into a surface representation, such as a polygonal mesh.}
+}
+
+\newglossaryentry{implicit_shape}{
+    name={implicit shape},
+    plural={implicit shapes},
+    description={In mathematics: an implicit shape or surface is the surface in Euclidean space defined by an equation \( F(x, y, z) = 0\).
+    The implicit surface is the zero set of the function \( F \), and is termed \textit{implicit} as the function is not solved for \( x, y, \text{ or } z \).}
+}
+
+\newglossaryentry{polygon}{
+    name={polygon},
+    plural={polygons},
+    description={The area of a plane bounded by straight segments, called edges, which intersect only at their endpoints, called vertices.
+    Each vertex belongs to exactly two edges and similarly each edge has exactly two vertices.}
+}
+
+\newglossaryentry{polyhedron}{
+    name={polyhedron},
+    plural={polyhedra},
+    description={A solid in three dimensions with flat polygonal faces and straigth edges meeting at vertices.},
+    see={polygon}
+}
+
+\newglossaryentry{MAT}{
+    name={medial axis transform},
+    description={The medial axis is the set of all point shaving more than one closest point on the objects boundary.
+    The medial axis along with the associated radius function of the maximally inscribed discs is called the medial axis transform.}
+}
+
+\newglossaryentry{CAD}{
+    name={computer aided design},
+    description={The use of computer software to create mechanical design drawings}
+}
+
+\newglossaryentry{pdsg}{
+    name={PDS},
+    description={The Planetary Data System (PDS) archives and distributes scientific data from NASA planetary missions, astronomical observations, and laboratory measurements.}
+}
+
+\longnewglossaryentry{stlg}{
+    name={STL}
+}
+{%
+Stereolithography (STL) is a file format native to 3D CAD software.
+It is also sometimes referred to as Standard Triangle Language or Standard Tesselation Language, and not to be confused with the Standard Template Library.
+The file format is commonly used to describe the shape of objects for fabrication and 3D printing.
+Many software libraries exist to produce and convert STL files~\cite{botsch2002,cignoni2008,blenderfoundation1995--2017,libigl2017}.
+}
+
+\longnewglossaryentry{objg}{
+    name={OBJ}
+}
+{
+    OBJ is a file format originally developed by Wavefront technologies.
+    The format is now open and has been adopted by many 3D graphics programs.
+    The OBJ file format is a simple ASCII text file which represents the object geometry alone.
+}
+
+\longnewglossaryentry{offg}{
+    name={OFF}
+    see={objg}
+}
+{%
+Object file format describing the geometry of a 3D object.
+It is a ASCII text file which lists the coordinates of the vertices followed by the indices, zero based, of vertices which compose each face.
+The file format is very similar to that of the \gls{obj} format.
+}
+
+\longnewglossaryentry{raycasting}{
+    name={raycasting},
+    see={raytracing}
+}
+{%
+    A rendering technique which determines the object in a three-dimensional scene that is visible for each pixel of an image.
+
+    Suppose that we are given a three dimensional scene consisting of several objects, a light source, and a view point.
+    In order to generate an image of the scene, we must determine for each pixel of the image, for example \( 1280 \times 1024\) pixels, which object is visible at that pixel, and second the intensity of the light that is reflected from the object to particular view point.
+    Raycasting is concerned with determining the intersection of a ray from the view point towards the objects of the scene.
+    The first object that this ray intersects is the visible object.
+    Raytracing is a complementary procedure concerned with determining the intensity and properties of the reflected light from the object.
+}
+
+\newglossaryentry{raytracing}{
+    name={raytracing},
+    see={raycasting},
+    description={A rendering technique for generating an image by tracing the path of light from a source and it's interaction with virtual objects of a scene.
+    Sometimes used interchangeably with raycasting.}
+}
+
+\longnewglossaryentry{kinematics}{
+    name={kinematics},
+}
+{
+    The study of the motions of particles and rigid bodies, disregarding the forces associated with these motions.
+    It is purely mathematical in nature and does not involve any physical laws, such as Newton's laws~\cite{greenwood1988}.
+}
+\longnewglossaryentry{homeomorphism}{
+    name={homeomorphism},
+    see={topological space}
+}
+{
+   A continuous function between topological spaces that has a continuous inverse function.
+   Roughly speaking, a homeomorphism is a continous stretching or bending of an object, without tearing, into a new shape. 
+   So a circle and a square are homemorphic to one another, while a circle and an annulus is not~\cite{morris1989}.
+}
+
+\longnewglossaryentry{topological space}{
+    name={topological space},
+}
+{
+    A set of points, along with a set of neighborhoods for each point, which satisfy a set of axioms relating points and neighborhoods~\cite{morris1989}.
+}

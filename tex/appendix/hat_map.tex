@@ -1,0 +1,68 @@
+% !TEX root = ../../dissertation.tex
+
+\chapter{Properties of the Hat Map}\label{chap:hat_map}
+
+
+The \textit{hat map} $\wedge :\R^{3}\rightarrow\so$ represents the transformation of a vector in $\R^{3}$ to a $3\times 3$ skew-symmetric matrix such that $\hat x y = x\times y$ for any $x,y\in\R^{3}$~\cite{bullo2004}. 
+The vector space of skew-symmetric matrices in \( \R^{3 \times 3 } \) is denoted by \( \so \) and is the Lie algebra of \( \SO \)~\cite{hall2015}.
+More explicitly, we denote the hat map as
+\begin{align*}
+    \so = \braces{ \hat x \in \R^{3 \times 3} | \hat x^T = - \hat x }.
+\end{align*}
+The inverse of the hat map is denoted by the \textit{vee} map $\vee:\so\rightarrow\R^{3}$. 
+We use the notation \( \hat{x}\) and \( \parenth{x}^\wedge\) interchangeably.
+In particular, we use the latter form when the expression for the argument of the \textit{hat map} is complicated. 
+
+Consider two vectors \( \vb{x}, \vb{y} \in \R^3\) where
+\begin{align*}
+    \vb{x} &= \begin{bmatrix} x_1 & x_2 & x_3 \end{bmatrix}^T , \\
+    \vb{y} &= \begin{bmatrix} y_1 & y_2 & y_3 \end{bmatrix}^T .
+\end{align*}
+The cross product of \( \vb{x} \) and \( \vb{y} \) is defined as
+\begin{align}
+    \vb{x} \times \vb{y} = 
+    \begin{bmatrix} 
+        x_2 y_3 - x_3 y_2 \\
+        x_3 y_1 - x_1 y_3 \\
+        x_1 y_2 - x_2 y_1 
+    \end{bmatrix}
+    = 
+    \begin{bmatrix} 0 & -x_3 & x_2 \\ x_3 & 0 & -x_1 \\ -x_2 & x_1 & 0\end{bmatrix}
+    \begin{bmatrix} y_1 \\ y_2 \\ y_3 \end{bmatrix}
+    = \hat{\vb{x}} \vb{y}.
+\end{align}
+The hat map is defined as the skew symmetric matrix given by
+\begin{align}
+    \hat x = \begin{bmatrix} 0 & -x_3 & x_2 \\ x_3 & 0 & -x_1 \\ -x_2 & x_1 & 0\end{bmatrix} 
+    = - \hat{\vb{x}}^T \in \so ,
+\end{align}
+for $\vb{x}=[x_1,x_2,x_3]^T\in\R^{3}$. 
+
+Several properties of the hat map are summarized below.
+\begin{gather}
+    \hat{x} x = 0, \\
+    \parenth{\hat x} ^T = - \hat x,\label{eq:hatxT} \\
+    \parenth{\hat{x}^2}^T = \hat x ^2, \\
+    \hat x y = x\times y = - y\times x = - \hat y x, \label{eqn:cross_product}\\
+    \widehat{x\times y} = \hat x \hat y -\hat y \hat x = yx^T-xy^T,\label{eq:hatxy}\\
+    x\cdot \hat y z = y\cdot \hat z x,\quad \hat x\hat y z = (x\cdot z) y - (x\cdot y ) z\label{eqn:STP},\\
+    \hat x\hat y z = (x\cdot z) y - (x\cdot y ) z,\label{eqn:VTP}\\
+    \hat{x}^2 = - \norm{x}^2 I + x x^T, \\
+    \hat{x}^3 = -\norm{x}^2 \hat x, \\
+    % C^TC=-C^T\hat e_3^2 C = I_2,  \\
+    \hat x^T \hat x = (x^T x) I - x x^T, \label{eq:xTx} \\
+    \hat x \hat y \hat x=-(y^Tx)\hat x,\\
+    -\frac{1}{2}\tr{\hat x \hat y} = x^T y,\\
+    \parenth{A x \times A y}^\wedge = A\parenth{x \times y}^\wedge A^T, \\
+    A \hat x A^T = \det{A}, \\
+    \tr{A\hat x }=\frac{1}{2}\tr{\hat x (A-A^T)}=-x^T (A-A^T)^\vee,\label{eqn:hat1}\\
+    \widehat{Ax} = \hat x \parenth{\frac{1}{2}\tr{A}I-A} + \parenth{\frac{1}{2}\tr{A}I-A}^T \hat x,\\
+    \hat x  A+A^T\hat x=(\braces{\tr{A}I_{3\times 3}-A}x)^{\wedge}, \label{eqn:xAAx} \\
+    R\hat x R^T = (Rx)^\wedge,\quad , \label{eq:hatRxR} \\
+    R(x\times y) = Rx\times Ry\label{eqn:RxR} , \\
+    \parenth{R x}^\wedge = R \hat x R^T, \\
+\end{gather}
+for any $x,y,z\in\R^{3}$, $A\in\R^{3\times 3}$ and $R\in\SO$. 
+
+Throughout this work, the dot product of two vectors is denoted by $x\cdot y = x^T y$ for any $x,y\in\R^n$ and the maximum eigenvalue and the minimum eigenvalue of $J$ are denoted by $\lambda_M$ and $\lambda_m$, respectively. 
+The 2-norm of a matrix \( A \) is denoted by \( \norm{A} \), and its Frobenius norm is denoted by \( \norm{A} \leq \norm{A}_F = \sqrt{\tr{A^T A}} \leq \sqrt{\text{rank}(A)} \norm{A} \).
