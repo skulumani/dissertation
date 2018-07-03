@@ -418,10 +418,16 @@ The detailed derivation of the variations of the relative variables is given in~
     \delta \rpos &= \aatt^T \delta \rpos,\label{eq:relative_position_variation} \\
     \delta \gls{sym:ratt} &= \gls{sym:rattvar} \gls{sym:ratt},\label{eq:relative_attitude_variation}\\
     \parenth{\delta \gls{sym:rangvel}}^\wedge&= \dot{\eta}_r - \hat{\Omega}_r \gls{sym:rattvar} + \hat{\Omega}_A \gls{sym:rattvar} + \gls{sym:rattvar} \hat{\Omega}_R - \gls{sym:rattvar} \hat{\Omega}_A, \label{eq:relative_angvel_variation}\\
-    \delta \gls{sym:rvel} &= \dot{x}_r + \hat{\Omega}_A \delta \gls{sym:rpos}.\label{eq:relative_velocity_variation}
+    \delta \gls{sym:rvel} &= \dot{x}_r + \hat{\Omega}_A \delta \gls{sym:rpos},\label{eq:relative_velocity_variation}
 \end{align}
+where \( \gls{sym:rattvar} : \bracket{t_0, t_f} \to \so \) and \( \delta \rpos : \bracket{t_0, t_f} \to \R^3 \) are variations of the relative variables which vanish at the endpoints.
+These reduced variations are developed on the nonlinear manifold, \( \SE \), and are key to the subsequent development of the relative equations of motion.
 
-The derivation of the variation of the relative Lagrangian is shown in~\cref{proof:relative_dumbbell_eoms}.
+\paragraph{Relative Equations of Motion: Lagrangian Form}
+The relative equations of motion are computed using the relative Lagrangian in~\cref{eq:relative_lagrangian} and the reduced Hamilton's principle.
+The variations of the relative variables, given in~\cref{eq:relative_position_variation,eq:relative_attitude_variation,eq:relative_angvel_variation,eq:relative_angvel_variation}, are constrained to obey the inertial frame variations and are used to find the variation of the relative Lagrangian.
+The detailed derivation is presented in~\cref{proof:relative_dumbbell_eoms}.
+The key developments are summarized in this section.
 
 The variation of the reduced potential energy, shown in~\cref{eq:relative_potential}, is given by
 \begin{align}\label{eq:relative_potential_variation_1}
