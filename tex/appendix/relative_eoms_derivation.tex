@@ -201,3 +201,55 @@ Finally, substituting~\cref{eq:relative_kinetic_energy_B_final} into~\cref{eq:re
 
 
 \section{Variation of the Relative Potential Energy}\label{sec:relative_potential_energy}
+The variation of the relative potential energy is found defined by finding the variation of~\cref{eq:relative_potential_energy} as
+\begin{align}\label{eq:relative_potential_energy_variation_1}
+    \delta V &= \left. \diff{}{\epsilon} \right|_{\epsilon=0} V(\gls{sym:rpos} + \epsilon \delta \gls{sym:rpos}, \gls{sym:ratt} + \epsilon \delta \gls{sym:ratt}).
+\end{align}
+Substituting the variations given by~\cref{eq:relative_position_variation,eq:relative_attitude_variation} gives the variation of the potential energy
+\begin{align}\label{eq:relative_potential_energy_variation}
+    \delta V &= -m_1 \deriv{U}{z_1}^T \delta \gls{sym:rpos} - m_1 \deriv{U}{z_2}^T \delta \gls{sym:rpos} - m_1 \tr{ \gls{sym:rattvar} \gls{sym:ratt} \rho_1 \deriv{U}{z_1}^T} - m_2 \tr{\gls{sym:rattvar} \gls{sym:ratt} \rho_2 \deriv{U}{z_2}^T}.
+\end{align}
+
+\section{Hamilton's Principle}\label{sec:relative_hamiltons_principle}
+
+Given the reduced variations of the kinetic and potential energies given in~\cref{eq:relative_kinetic_energy_variation,eq:relative_potential_energy_variation} the variation of the reduced Lagrangian is given by
+\begin{align}\label{eq:relative_lagrangian_variation}
+    \delta L =& (m_1 + m_2) \gls{sym:rvel}[^T] \parenth{\delta \dot{x}_r +  \hat{\Omega}_A \delta \gls{sym:rpos}} + \frac{1}{2} \tr{ -\dot{\hat{\eta}}\parenth{\gls{sym:Jr}  \hat{\Omega}_r }} \nonumber\\
+    &+\frac{1}{2} \tr{\gls{sym:rattvar}\parenth{ \hat{\Omega}_A\parenth{\gls{sym:Jr}  \hat{\Omega}_r}}^\wedge} -m_1 \deriv{U}{z_1}^T \delta \gls{sym:rpos} - m_1 \deriv{U}{z_2}^T \delta \gls{sym:rpos} \nonumber\\
+    &- m_1 \tr{ \gls{sym:rattvar} \gls{sym:ratt} \rho_1 \deriv{U}{z_1}^T} - m_2 \tr{\gls{sym:rattvar} \gls{sym:ratt} \rho_2 \deriv{U}{z_2}^T}.
+\end{align}
+Hamilton's principle states that the variation of the action integral is zero for all possible variations, in other words the following
+\begin{align}\label{eq:relative_hamiltons_principle_1}
+    \delta \mathcal{G} =& \int_{t_0}^{t_f} \left\{\parenth{m_1+m_2} \gls{sym:rvel}[^T] \delta \dot{x}_r + \parenth{m_1 + m_2} \gls{sym:rvel}[^T] \hat{\Omega}_A \delta \gls{sym:rpos}\right. \nonumber\\
+                        & \left.+ m_1 \deriv{U}{z_1}^T \delta \gls{sym:rpos} + m_2 \deriv{U}{z_2}^T \delta \gls{sym:rpos} \right\} dt \nonumber\\
+                        & +\int_{t_0}^{t_f} \left\{ \frac{1}{2} \tr{-\dot{\eta}_r \parenth{\gls{sym:Jr} \gls{sym:rangvel}}^\wedge }  + \frac{1}{2} \tr{\gls{sym:rattvar} \parenth{\hat{\Omega}_A \parenth{\gls{sym:Jr}\gls{sym:rangvel}}}^\wedge}\right. \nonumber\\
+                        & \left.+ m_1 \tr{\gls{sym:rattvar}\gls{sym:ratt}\rho_1\deriv{U}{z_1}^T} + m_2 \tr{\gls{sym:rattvar}\gls{sym:ratt}\rho_2\deriv{U}{z_2}^T}\right\} dt = 0,
+\end{align}
+for all \( \delta \gls{sym:rpos} : \bracket{t_0, t_f} \to \R^3 \) and \( \gls{sym:rattvar} : \bracket{t_0, t_f} \to \so \) with stationary end points.
+Using integration by parts, and noting that the variations at the end point are stationary gives
+\begin{align}\label{eq:relative_hamiltons_principle}
+    \delta \mathcal{G} =& \int_{t_0}^{t_f} \left\{-\parenth{m_1+m_2} \dot{v}_r^T + \parenth{m_1 + m_2} \gls{sym:rvel}[^T] \hat{\Omega}_A + m_1 \deriv{U}{z_1}^T + m_2 \deriv{U}{z_2}^T \right\}\delta \dot{x}_r  dt \nonumber\\
+                        & +\int_{t_0}^{t_f} \frac{1}{2} \tr{\dot{\eta}_r \braces{\dot{\widehat{\parenth{\gls{sym:Jr} \gls{sym:rangvel}}}} + \parenth{\hat{\Omega}_A \parenth{\gls{sym:Jr}\gls{sym:rangvel}}}^\wedge }} dt \\
+                        & + \int_{t_0}^{t_f}  \frac{1}{2} \tr{\gls{sym:rattvar} \braces{2 m_1\gls{sym:ratt}\rho_1\deriv{U}{z_1}^T + 2 m_2 \gls{sym:ratt}\rho_2\deriv{U}{z_2}^T}} dt.
+\end{align}
+In order for~\cref{eq:relative_hamiltons_principle} to be stationary for all possible variations, the expression in the first brace should be zero and the expressions in the last two braces should be symmetric since \( \gls{sym:rattvar} \in \so \) is skew-symmetric.
+As a result, the translational equations of relative motion are 
+\begin{align}
+    \parenth{m_1 + m_2} \dot{v}_r + \parenth{m_1 + m_2} \hat{\Omega}_A \gls{sym:rvel} + m_1 \deriv{U}{z_1} + m_2 \deriv{U}{z_2} = 0.
+\end{align}
+The rotational equations of motion are found by applying~\cref{eq:trPQ} to find
+\begin{align}
+    - \dot{\widehat{\parenth{\gls{sym:Jr} \gls{sym:rangvel}}}} &- \parenth{\hat{\Omega}_A \parenth{\gls{sym:Jr} \gls{sym:rangvel}}}^\wedge + m_1 \deriv{U}{z_1} \rho_1^T \gls{sym:ratt}[^T] - m_1 \gls{sym:ratt}\rho_1\deriv{U}{z_1}^T \nonumber \\
+    &+ m_2 \deriv{U}{z_2} \rho_2^T \gls{sym:ratt}[^T] - m_2 \gls{sym:ratt} \deriv{U}{z_2}^T = 0
+\end{align}
+Using the property~\cref{eq:hatxy} gives
+\begin{align}
+    \dot{\gls{sym:Jr} \gls{sym:rangvel}} + \hat{\Omega}_A \parenth{\gls{sym:Jr} \gls{sym:rangvel}} = m_1 \parenth{\gls{sym:ratt} \rho_1}^\wedge \deriv{U}{z_1} + m_2 \parenth{\gls{sym:ratt} \rho_2}^\wedge \deriv{U}{z_2}.
+\end{align}
+In summary, the equation of relative motion of a dumbbell spacecraft, in Lagrangian form, are
+\begin{align}
+    \dot{x}_r &= \gls{sym:rvel} - \hat{\Omega}_A \gls{sym:rpos}, \\
+    \parenth{m_1 + m_2} \dot{v}_r  &= -\parenth{m_1 + m_2} \hat{\Omega}_A \gls{sym:rvel} + m_1 \deriv{U}{z_1} + m_2 \deriv{U}{z_2}, \\
+    \dot{R}_r &= \hat{\Omega}_r \gls{sym:ratt} - \hat{\Omega}_A \gls{sym:ratt}, \\
+    \dot{\gls{sym:Jr} \gls{sym:rangvel}} + \hat{\Omega}_A \parenth{\gls{sym:Jr} \gls{sym:rangvel}} &= m_1 \parenth{\gls{sym:ratt} \rho_1}^\wedge \deriv{U}{z_1} + m_2 \parenth{\gls{sym:ratt} \rho_2}^\wedge \deriv{U}{z_2}.
+\end{align}
