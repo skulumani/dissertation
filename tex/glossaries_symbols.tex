@@ -58,101 +58,106 @@
 
 \newglossaryentry{sym:Ra}{
     type=symbols,
-    name={\ensuremath{R_A}},
+    text={\aatt},
+    name={\(\aatt \in \R^{3\times3}\)},
     description={Attitude of the asteroid. This rotation matrix transforms vectors from the asteroid fixed frame to the inertial frame.},
     nonumberlist=true
 }
 
 \newglossaryentry{sym:ipos}{
     type=symbols,
-    name={\ensuremath{\vc{x}}},
+    text={\ipos},
+    name={\(\ipos \in \R^3\)},
     sort=X,
-    description={Inertial position of the spacecraft center of mass expressed in the inertial frame, \( \vc{x} \in \R^3 \).},
+    description={Inertial position of the spacecraft center of mass expressed in the inertial frame.},
     nonumberlist=true
 }
 
 \newglossaryentry{sym:ivel}{
     type=symbols,
-    name={\ensuremath{\vc{v}}},
+    text={\ivel},
+    name={\(\ivel \in \R^3\)},
     sort=V,
-    description={Inertial velocity vector of spacecraft with respect to the inertial frame and expressed in the inertial frame, \( \vc{v} \in \R^3\).},
+    description={Inertial velocity vector of spacecraft with respect to the inertial frame and expressed in the inertial frame.},
     nonumberlist=true
 }
 
 \newglossaryentry{sym:iatt}{
     type=symbols,
-    name={\ensuremath{R}},
+    text={\iatt},
+    name={\( \iatt \in \R^{3 \times 3}\)},
     sort=R,
-    description={Inertial attitude of the spacecraft with respect to the inertial frame. This rotation matrix, \( R \in \SO \), transforms vectors from the spacecraft fixed frame to the inertial frame.},
+    description={Inertial attitude of the spacecraft with respect to the inertial frame. This rotation matrix transforms vectors from the spacecraft fixed frame to the inertial frame.},
     nonumberlist=true
 }
 
 \newglossaryentry{sym:iangvel}{
     type=symbols,
-    name={\ensuremath{\vc{\Omega}}},
+    text={\iangvel},
+    name={\( \iangvel \in \R^3 \)},
     sort=W,
-    description={Angular velocity, \( \vc{\Omega} \in \R^3\), of the spacecraft with respect to the inertial frame and expressed in the spacecraft fixed frame.},
+    description={Angular velocity of the spacecraft with respect to the inertial frame and expressed in the spacecraft fixed frame.},
     nonumberlist=true
 }
+
 \newglossaryentry{sym:rpos} {
     type=symbols,
-    name={\ensuremath{\vc{x}_r}},
+    text={\rpos},
+    name={\( \rpos \in \R^3 \)},
     sort=X,
-    description={Relative position vector, \( \vc{x}_r \), of spacecraft with respect to asteroid and expressed in the asteroid fixed frame.},
+    description={Relative position vector of spacecraft with respect to asteroid and expressed in the asteroid fixed frame.},
     nonumberlist=true
 }
 
 \newglossaryentry{sym:rvel}{
     type=symbols,
-    name={\ensuremath{\vc{v}_r}},
+    text={\rvel},
+    name={\( \rvel \in \R^3 \)},
     sort=V,
-    description={Relative velocity vector, \( \vc{v}_r \), of spacecraft with respect to asteroid and expressed in the asteroid fixed frame.},
+    description={Relative velocity vector of spacecraft with respect to asteroid and expressed in the asteroid fixed frame.},
     nonumberlist=true
 }
 
 \newglossaryentry{sym:ratt}{
     type=symbols,
-    name={\ensuremath{R_r}},
+    text={\ratt},
+    name={\( \ratt \in \R^{3 \times 3} \)},
     sort=R,
-    description={Relative attitude, \( R_r \in \SO\), of the spacecraft with respect to the asteroid. This rotation matrix converts vectors in the spacecraft fixed frame to the asteroid fixed frame.},
+    description={Relative attitude of the spacecraft with respect to the asteroid. This rotation matrix converts vectors in the spacecraft fixed frame to the asteroid fixed frame.},
     nonumberlist=true
 }
 
 \newglossaryentry{sym:rangvel}{
     type=symbols,
-    name={\ensuremath{\Omega_r}},
+    text={\rangvel},
+    name={\( \rangvel \in \R^3 \)},
     sort=W,
-    description={Angular velocity, \( \Omega_r \in \R^3\), of the spacecraft with respect to the inertial frame and expressed in the asteroid fixed frame.},
-    nonumberlist=true
-}
-
-\newglossaryentry{sym:rposvar}{
-    type=symbols,
-    name={\ensuremath{\mathsf{\chi}}},
-    sort=X,
-    description={Reduced variation of the relative spacecraft position.},
+    description={Angular velocity of the spacecraft with respect to the inertial frame and expressed in the asteroid fixed frame.},
     nonumberlist=true
 }
 
 \newglossaryentry{sym:rattvar}{
     type=symbols,
-    name={\ensuremath{\eta_r}},
+    text={\rattvar},
+    name={\( \rattvar \in \so\)},
     sort=N,
-    description={The reduced variation of the relative attitude \( \eta_r \in \so\)},
+    description={The reduced variation of the relative attitude.}
     nonumberlist=true
 }
 
 \newglossaryentry{sym:iattvar}{
     type=symbols,
-    name={\ensuremath{\eta}},
+    text={\iattvar},
+    name={\( \iattvar \in \so \)},
     sort=N,
-    description={The variation of the inertial attitude \( \eta \in \so \) },
+    description={The variation of the inertial attitude.},
     nonumberlist=true
 }
 
 \newglossaryentry{sym:Jdr}{
     type=symbols,
-    name={\ensuremath{J_{d_r}}},
+    text={\Jdr},
+    name={\( \Jdr \in \R^{3 \times 3} \)},
     sort=J,
     description={Nonstandard moment of inertia matrix expressed in the asteroid fixed frame.},
     nonumberlist=true
@@ -160,7 +165,8 @@
 
 \newglossaryentry{sym:Jr}{
     type=symbols,
-    name={\ensuremath{J_r}},
+    text={\Jr},
+    name={\( \Jr \in \R^{3 \times 3}\)},
     sort=J,
     description={Standard moment of inertia matrix expressed in the asteroid fixed frame.},
     nonumberlist=true
@@ -168,7 +174,8 @@
 
 \newglossaryentry{sym:J}{
     type=symbols,
-    name={\ensuremath{J}},
+    text={\Ji},
+    name={\( \Ji \in \R^{3 \times 3}\)},
     sort=J,
     description={Standard moment of inertia matrix expressed in the spacecraft body fixed frame.},
     nonumberlist=true
@@ -176,7 +183,8 @@
 
 \newglossaryentry{sym:Jd}{
     type=symbols,
-    name={\ensuremath{J_d}},
+    text={\Jdi},
+    name={\( \Jdi \in \R^{3 \times 3}\)},
     sort=J,
     description={Nonstandard moment of inertia matrix expressed in the spacecraft body fixed frame.},
     nonumberlist=true
