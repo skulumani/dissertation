@@ -325,7 +325,60 @@ Given many measurements, \( \vc{p}_i \), of the asteroid surface we can efficien
 \Cref{fig:lidar_example} shows asteroid 4769 Castalia and a representation of several LIDAR measurements. 
 The spacecraft measures the range between itself and the asteroid surface to several points within the field of view of the sensor. 
 These measurements provide a collection of points which lie on the surface of the asteroid, and by combining many points, a so called ``point cloud'', allows us to reconstruct the shape.
+% TODO Discuss point cloud reconstruction approaches (all computational exspensive and designed for unknown surfaces)
 
+Our algorithm applies a Bayesian framework to radially modify each vertex \( \vc{v}_i \in \R^3\) of the shape estimate based on measurement \( \vc{p}_i \R^3 \). 
+This approach alleviates much of complexity of incorporating new vertices or surface triangulation common in surface reconstruction methods~\cite{berg2008}.
+This assumption means that the total number of vertices of the shape model is fixed.
+However, additional detail, in the form of additional vertices, is possible by using standard mesh subdivision algorithms~\cite{orourke1998}, which we demonstrate in a subsequent section.
+
+The radial distance of each vertex, \( v_i = \norm{\vc{v}_i}\), is assumed to be distributed according to the Gaussian distribution
+\begin{align*}
+    v_i \sim \mathcal{N}(r_i, w_i^2)
+\end{align*}
+where \( r_i \) is the initial estimate of the radial distance of vertex \( \vb{v}_i\) and \( w_i \) is the initial variance, or confidence, in the radial distance.
+The radial distance of each measurement, \( p_{j,i} = \norm{\vb{p}_j}\), is also assumed to be distributed according to the Gaussian distribution
+\begin{align*}
+    p_{j,i} \sim \mathcal{N}(r_{j,i}, w_{j,i}^2)
+\end{align*}
+where \( r_{j,i} = \norm{\vb{p}_{j,i}} \) defines the radial distance of the surface vector measurement and \( w_{j, i}\) defines the variance of the measurement with respect to vertex \( \vb{v}_i\).
+Each measurement is defined by the index \( j \) while the associated vertex is defined by \( i \). 
+As a result, the measurement \( p_{j, i} \) defines the distribution of measurement \( j \) with respect to vertex \( i \). 
+A given measurement may be used to update one or several vertices.
+
+The variance for each measurement vector is assumed to be related to the ``distance'' from the measurement to vertex \( \vb{v}_i \).
+Here we use the geodesic distance to parameterize the difference, and hence  uncertainty, of associating the measurement with a given vertex.
+From spherical trigonometry the central angle between measurement \( \vb{p}_i \) and vertex \( \vb{v}_i \) of the shape estimate is
+\begin{align}
+    \Delta \sigma_{j,i} = \arctan \parenth{\frac{\norm{\vb{p}_j \times \vb{v}_i}}{\vb{p}_j \cdot \vb{v}_i }}.
+\end{align}
+The variance of measurement \( \vb{p}_i \) with respect to vertex \( \vb{v}_i \) is then defined as the arc length as
+\begin{align}
+    w_{j, i} = \norm{\vb{p}_j} \Delta \sigma_{j,i} .
+\end{align}
+This approach relates the uncertainty of the measurement, \( \vb{p}_j \) with the geodesic distance to a given vertex, \( \vb{v}_i \).
+As a result, measurements which are far from a vertex, where \( \Delta \sigma \) is large, will tend to have a larger variance and hence uncertainty. 
+From Bayes' theorem, the posterior probability is
+\begin{align}
+    p(v_i | p_{j, i}) = \frac{p(p_{j, i} | v_i) p(v_i)}{p( p_{j, i})} \propto p(p_{j,i} | v_i) p(v_i).
+\end{align}
+From the properties of a Gaussian, the posterior probability given a measurement is also distributed according to a Gaussian distribution~\cite{bishop2006} and given by
+\begin{align}\label{eq:posterior_probability}
+    \mathcal{N} \parenth{\frac{w_{j, i}^2 r_i + w_i^2 r_{j, i}}{w_i^2 + w_{j, i}^2} , \frac{w_i^2  w_{j, i}^2}{w_i^2 +  w_{j, i}^2}} .
+\end{align}
+From~\cref{eq:posterior_probability}, the posterior probability conditioned on the measurement is the weighted average of the prior knowledge and the measurement. 
+Measurements that are far from the vertex will have a high uncertainty or variance and will have a reduced impact on the radial position of the vertex.
+Additional measurements are incorporated using a weighted average of prior belief and the measurement uncertainty.
+
+In order to improve the computational efficiency measurement updates are assumed to be local in nature.
+Instead of applying a measurement to all vertices of the mesh, the measurement is only applied to the vertices which are within a specified region of the measurement. 
+We define a region of interest, \( \Delta S \), about each measurement which defines the surface area over which the measurement will affect the mesh estimate.
+We relate \( \Delta S \) to an equivalent angular constraint using
+\begin{align}
+    \Delta \sigma_{max} = \sqrt \frac{\Delta S}{r_b^2}
+\end{align}
+where \( r_b \) defines the Brillouin  sphere radius, or the radius of the circumscribing sphere of the asteroid.
+Only vertices which satisfy \( \Delta \sigma_i \leq \Delta \sigma_{max} \) are considered in the Bayesian update shown in~\cref{eq:posterior_probability}.
 Here we present a simple algorithm to incrementally update a polygonal mesh with new data points.
 In addition, we then demonstrate it's use with two numerical examples.
 We begin by assuming we have an initial model of the asteroid in the form of a triangular mesh.
