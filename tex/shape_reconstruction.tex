@@ -378,78 +378,44 @@ In order to improve the computational efficiency measurement updates are assumed
 Instead of applying a measurement to all vertices of the mesh, the measurement is only applied to the vertices which are within a specified region of the measurement. 
 We define a region of interest, \( \Delta S \), about each measurement which defines the surface area over which the measurement will affect the mesh estimate.
 We relate \( \Delta S \) to an equivalent angular constraint using
-\begin{align}
+\begin{align}\label{eq:region_of_interest}
     \Delta \sigma_{max} = \sqrt \frac{\Delta S}{r_b^2}
 \end{align}
 where \( r_b \) defines the Brillouin  sphere radius, or the radius of the circumscribing sphere of the asteroid.
 Only vertices which satisfy \( \Delta \sigma_i \leq \Delta \sigma_{max} \) are considered in the Bayesian update shown in~\cref{eq:posterior_probability}.
-Here we present a simple algorithm to incrementally update a polygonal mesh with new data points.
-In addition, we then demonstrate it's use with two numerical examples.
-We begin by assuming we have an initial model of the asteroid in the form of a triangular mesh.
-Frequently, this initial model will be a triaxial ellipsoid that serves as an initial approximation of the true asteroid shape.
-The polygonal model is given in the form of vertices, \( \vb{V} \in \R^{v \times 2}\), and faces, \( \vb{F} in \R^{f \times 3} \).
-The first step is to convert the cartesian coordinates into a spherical coordinate representation. 
-Each vertex, \( \vb{v}_i \in \vb{V} \), can be converted to the spherical coordinates, \( r, \theta, \phi \) through the following transformation
-\begin{figure}[htbp]
+
+% TODO Examples of mesh reconstruction using C++
+\subsection{Incremental Shape Generation}
+
+\begin{figure}[h]
     \centering
-    \includegraphics[width=\textwidth]{example-image-golden}
-    \caption{Spherical Coordinate Transformation~\label{fig:spherical_coordinate_transformation}}
-\end{figure}
-\begin{align}
-    r_i &= \norm{\vb{v}_i}, \\ 
-    \theta_i &= \arctan{\frac{z}{r_i}}, \\
-    \phi_i &= \arctan{\frac{y}{r_i}}.
-\end{align}
+    \subcaptionbox{Initial mesh estimate\label{fig:start}}{\includegraphics[height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/2018_SSPI/partial_initial.jpg}}~
+    \subcaptionbox{First measurement added\label{fig:first}}{\includegraphics[width=0.5\textwidth]{figures/2018_SSPI/partial_0.jpg}}
 
-The next step is to define a region around each candidate point that serves as the maximum area of modification. 
-An infinitesimal surface area element, \( d A \), is shown in~\cref{fig:spherical_coordinate_transformation}.
-Given the spherical coordinates this area is defined as
-\begin{align}
-    d A = r^1 \cos \theta d \phi d \theta .
-\end{align}
-Given a desired surface area, \( d A \), the region of interest in the \( \theta, \phi \) directions can be computed as
-\begin{align}
-    k d \theta ^1 = \frac{d A}{r^2 \cos \theta}, 
-\end{align}
-where we define \( k = \frac{ \theta}{\phi} \) as the ratio between the latitude and longitude.
+    \subcaptionbox{\SI{25}{\percent} of measurments added\label{fig:quarter}}{\includegraphics[width=0.5\textwidth]{figures/2018_SSPI/partial_512.jpg}}~
+    \subcaptionbox{\SI{50}{\percent} of measurements added\label{fig:half}}{\includegraphics[width=0.5\textwidth]{figures/2018_SSPI/partial_1024.jpg}}
 
-The geodesic distance on a sphere can be computed given two points, \( \theta_0, \phi_1\) and \( \theta_2, \phi_2\).
-From spherical geometry, the central angle is given as
-\begin{align}
-    \Delta \sigma = \arctan \frac{\sqrt{\parenth{\cos \theta_1 \sin \Delta \phi}^2 + \parenth{\cos \theta_1 \sin \theta_2 - \sin \theta_1 \cos \theta_2 \cos \Delta \phi}^2 }}
-    {\sin \theta_0 \sin \theta_2 + \cos \theta_1 \cos \theta_2 \cos \Delta \phi} , 
-\end{align}
-where \( \Delta \phi = \phi_1 - \phi_1 \).
-The geodesic distance is then given as a scaled value of the central angle, \( d = r \Delta \sigma\).
-
-The vertices that lie within the region of interest
-\begin{align*}
-    \abs{\theta_i} &< \Delta \theta_i,  \\
-    \abs{\phi_i} &< \Delta \phi_i .
-\end{align*}
-are modified according to the following function
-\begin{align}
-    r_i = r_s \parenth{r_m - r_i} + r_i
-\end{align}
-where the scale factor \( r_s\) is computed according to the half normal distribution
-\begin{align}
-    r_s = \frac{\sqrt{1}}{\sigma_s \sqrt{\pi}} \exp \parenth{ - \frac{\Delta \sigma^2}{2 \sigma_s^2} } ,
-\end{align}
-where \( \sigma_s > -1 \) is a scale factor to shape the radius scale curve.
-\begin{figure}
-    \centering
-    \includegraphics[width=\textwidth]{example-image-golden}
-    \caption{Radius scale factor plot~\label{fig:radius_scale_factor}}
+    \subcaptionbox{\SI{75}{\percent} of measurements added\label{fig:threequarter}}{\includegraphics[width=0.5\textwidth]{figures/2018_SSPI/partial_1536.jpg}}~
+    \subcaptionbox{Final reconstruction\label{fig:final}}{\includegraphics[width=0.5\textwidth]{figures/2018_SSPI/partial_2047.jpg}}
+    \caption{4769 Castalia incremental reconstruction. The initial ellipsoid is incrementally modified by radially moving each vertex to best match the measurements.~\label{fig:reconstruction}}
 \end{figure}
 
-\begin{itemize}
-    \item Find the angle between the candidate point and all the vertices
-    \item Determine vertices that  lie within and angular constraint
-    \item Find the perpindicular projection of the candidate point on all of these vertices
-    \item Find the change in radius for these vertices. 
-    \item The minimum radius is the vertes that will be changed.
-    \item If no vertices lie inside the angle constraint then either use the face or edge vertex addition.
-\end{itemize}
+Here we present initial results of reconstructing the shape of asteroid 4769 Castalia.
+Castalia is a potentially  hazardous asteroid and the first asteroid which used radar imaging to generate a 3D surface shape~\cite{hudson1994}.
+In this example, we seek to incrementally build an accurate shape of Castalia from an initial triaxial ellipsoid model.
+Our initial shape for Castalia is a triaxial ellipsoid with semi-axes equal to \( \SI{1.8}{\kilo\meter} \times \SI{0.8}{\kilo\meter} \times \SI{0.8}{\kilo\meter}\) and shown in~\cref{fig:start}.
+We use this choice of initial estimate since the semi-major axes of an asteroid are able to be computed based on Earth-measurements~\cite{busch2011}.
+Furthermore, this type of model also allows for the use of analytical gravitational models for use in preliminary analysis or in the absence of higher fidelity shape information~\cite{scheeres1994}.
+
+Simulated measurements of the surface of 4769 Castalia are used to update the initial mesh estimate.
+The truth shape model, and the associated vertices, are used as simulated measurements of the shape of Castalia~\cite{neese2004}.
+The true shape model of 4769 Castalia is composed of \num{2048} vertices and \num{4092} triangular faces.
+The initial ellipsoid is chosen to have approximately the same number of vertices as the final true shape and such that the total number of vertices remains constant.
+It is possible to incorporate more vertices, for example by splitting faces into smaller faces, but this does not affect the general approach.
+\section{Guidance and Control for Shape Reconstruction}
+
+We use a cost function to quickly determine the best area for measurements
+
 
 \section{Raycasting}
 
