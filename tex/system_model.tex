@@ -418,71 +418,63 @@ The detailed derivation of the variations of the relative variables is given in~
     \delta \rpos &= \aatt^T \delta \rpos,\label{eq:relative_position_variation} \\
     \delta \gls{sym:ratt} &= \gls{sym:rattvar} \gls{sym:ratt},\label{eq:relative_attitude_variation}\\
     \parenth{\delta \gls{sym:rangvel}}^\wedge&= \dot{\eta}_r - \hat{\Omega}_r \gls{sym:rattvar} + \hat{\Omega}_A \gls{sym:rattvar} + \gls{sym:rattvar} \hat{\Omega}_R - \gls{sym:rattvar} \hat{\Omega}_A, \label{eq:relative_angvel_variation}\\
-    \delta \gls{sym:rvel} &= \dot{x}_r + \hat{\Omega}_A \delta \gls{sym:rpos}.\label{eq:relative_velocity_variation}
+    \delta \gls{sym:rvel} &= \dot{x}_r + \hat{\Omega}_A \delta \gls{sym:rpos},\label{eq:relative_velocity_variation}
+\end{align}
+where \( \gls{sym:rattvar} : \bracket{t_0, t_f} \to \so \) and \( \delta \rpos : \bracket{t_0, t_f} \to \R^3 \) are variations of the relative variables which vanish at the endpoints.
+These reduced variations are developed on the nonlinear manifold, \( \SE \), and are key to the subsequent development of the relative equations of motion.
+
+\paragraph{Relative Equations of Motion: Lagrangian Form}
+The relative equations of motion are computed using the relative Lagrangian in~\cref{eq:relative_lagrangian} and the reduced Hamilton's principle.
+The variations of the relative variables, given in~\cref{eq:relative_position_variation,eq:relative_attitude_variation,eq:relative_angvel_variation,eq:relative_angvel_variation}, are constrained to obey the inertial frame variations and are used to find the variation of the relative Lagrangian.
+The detailed derivation is presented in~\cref{proof:relative_dumbbell_eoms}.
+The key developments are summarized in this section.
+
+The variation of the reduced potential energy, shown in~\cref{eq:relative_potential_energy}, is given by
+\begin{align}\label{eq:relative_potential_energy_variation}
+    \delta V &= \bracket{-m_1 \deriv{U}{z_1}^T - m_1 \deriv{U}{z_2}^T} \delta \gls{sym:rpos} - m_1 \tr{ \gls{sym:rattvar} \gls{sym:ratt} \rho_1 \deriv{U}{z_1}^T} - m_2 \tr{\gls{sym:rattvar} \gls{sym:ratt} \rho_2 \deriv{U}{z_2}^T},
+\end{align}
+while the variation of the reduced kinetic energy, shown in~\cref{eq:relative_kinetic_energy}, is given by
+\begin{align}\label{eq:relative_kinetic_energy_variation}
+    \delta T =& (m_1 + m_2) \gls{sym:rvel}[^T] \parenth{\delta \dot{x}_r +  \hat{\Omega}_A \delta \gls{sym:rpos}} + \frac{1}{2} \tr{ -\dot{\hat{\eta}}\parenth{\gls{sym:Jr}  \hat{\Omega}_r }} \nonumber\\
+             &+\frac{1}{2} \tr{\gls{sym:rattvar}\parenth{ \hat{\Omega}_A\parenth{\gls{sym:Jr}  \hat{\Omega}_r}}^\wedge} .
 \end{align}
 
-The derivation of the variation of the relative Lagrangian is shown in~\cref{proof:relative_dumbbell_eoms}.
-
-The variation of the reduced potential energy, shown in~\cref{eq:relative_potential}, is given by
-\begin{align}\label{eq:relative_potential_variation_1}
-    \delta U &= -m_1 \deriv{U}{\vecbf{z}_1} \delta \vecbf{z}_1 - m_2 \deriv{U}{\vecbf{z}_2} \delta \vecbf{z}_2 ,
+Combining~\cref{eq:relative_potential_energy_variation,eq:relative_kinetic_energy_variation} allows us to compute the variation of the reduced Lagrangian as
+\begin{align}\label{eq:relative_lagrangian_variation}
+    \delta L_r =& (m_1 + m_2) \gls{sym:rvel}[^T] \parenth{\delta \dot{x}_r +  \hat{\Omega}_A \delta \gls{sym:rpos}} + \frac{1}{2} \tr{ -\dot{\hat{\eta}}\parenth{\gls{sym:Jr}  \hat{\Omega}_r }} \nonumber\\
+    &+\frac{1}{2} \tr{\gls{sym:rattvar}\parenth{ \hat{\Omega}_A\parenth{\gls{sym:Jr}  \hat{\Omega}_r}}^\wedge} -m_1 \deriv{U}{z_1}^T \delta \gls{sym:rpos} - m_1 \deriv{U}{z_2}^T \delta \gls{sym:rpos} \nonumber\\
+    &- m_1 \tr{ \gls{sym:rattvar} \gls{sym:ratt} \rho_1 \deriv{U}{z_1}^T} - m_2 \tr{\gls{sym:rattvar} \gls{sym:ratt} \rho_2 \deriv{U}{z_2}^T}.
 \end{align}
-where \( \delta \vecbf{z}_1 \) and \( \delta \vecbf{z}_2\) are defined similar to those used in~\cref{sec:inertial_eoms} as 
-\begin{align}\label{eq:relative_z}
-    \delta \vecbf{z}_1 &= \delta \vecbf{\chi} + \delta R \vecbf{\rho}_1 , \\
-    \delta \vecbf{z}_2 &= \delta \vecbf{\chi} + \delta R \vecbf{\rho}_2 .
+Using~\cref{eq:relative_lagrangian_variation} in the action integral, along with integration by parts and noting that the variations \( \delta \rpos, \rattvar\) are zero at the end points gives 
+\begin{align}\label{eq:relative_hamiltons_principle}
+    \delta \mathcal{G} =& \int_{t_0}^{t_f} \left\{-\parenth{m_1+m_2} \dot{v}_r^T + \parenth{m_1 + m_2} \gls{sym:rvel}[^T] \hat{\Omega}_A + m_1 \deriv{U}{z_1}^T + m_2 \deriv{U}{z_2}^T \right\}\delta \dot{x}_r  dt \nonumber\\
+                        & +\int_{t_0}^{t_f} \frac{1}{2} \tr{\dot{\eta}_r \braces{\dot{\widehat{\parenth{\gls{sym:Jr} \gls{sym:rangvel}}}} + \parenth{\hat{\Omega}_A \parenth{\gls{sym:Jr}\gls{sym:rangvel}}}^\wedge }} dt \\
+                        & + \int_{t_0}^{t_f}  \frac{1}{2} \tr{\gls{sym:rattvar} \braces{2 m_1\gls{sym:ratt}\rho_1\deriv{U}{z_1}^T + 2 m_2 \gls{sym:ratt}\rho_2\deriv{U}{z_2}^T}} dt.
 \end{align}
-Substituting~\cref{eq:relative_z} into~\cref{eq:relative_potential_variation_1} and simplifying gives
-\begin{align}\label{eq:relative_potential_varation}
-    \delta U &= -m_1 \deriv{U}{\vecbf{z}_1}^T \vecbf{\chi} - m_2 \deriv{U}{\vecbf{z}_2} \vecbf{\chi} - m_1 \tr{\eta R \deriv{U}{\vecbf{z}_1} \vecbf{\rho}_1^T} - m_2 \tr{\eta R \deriv{U}{\vecbf{z}_2} \vecbf{\rho}_2^T} .
-\end{align}
-
-Combining~\cref{eq:relative_potential_varation,eq:relative_kinetic_variation} in the variation of the action integral is given by
-\begin{align}\label{eq:relative_variation_action_integral}
-    \delta I =& \int_{t_1}^{t_2} \parenth{m_1 + m_2} \delta \vecbf{V} \parenth{\dot{\vecbf{\chi}} + S(\vecbf{\Omega}_A) \vecbf{\chi}} + \frac{1}{2} \tr{- \dot{\eta} S(J_R \vecbf{\Omega}) + \eta S(\vecbf{\Omega}_A \times J_R \vecbf{\Omega})} \nonumber\\
-    &+m_1 \deriv{U}{\vecbf{z}_1}^T \vecbf{\chi} + m_2 \deriv{U}{\vecbf{z}_2} \vecbf{\chi} + m_1 \tr{\eta R \deriv{U}{\vecbf{z}_1} \vecbf{\rho}_1^T} + m_2 \tr{\eta R \deriv{U}{\vecbf{z}_2} \vecbf{\rho}_2^T} \, dt , \nonumber\\
-    =& \int_{t_1}^{t_2} \parenth{m_1 + m_2} \dot{\vecbf{V}}^T \vecbf{\chi} + \parenth{m_1 + m_2} \vecbf{V}^T S(\vecbf{\Omega}_A) \vecbf{\chi} \nonumber \\
-    &+ \frac{1}{2} \tr{\eta \braces{S(\dot{J_R \vecbf{\Omega}}) + S(\vecbf{\Omega}_A \times J_R \vecbf{\Omega})}} + m_1 \deriv{U}{\vecbf{z}_1}^T \vecbf{\chi} + m_2 \deriv{U}{\vecbf{z}_2}^T \vecbf{\chi} \nonumber\\
-    &+ m_1 \tr{\eta R \deriv{U}{\vecbf{z}_1} \vecbf{\rho}_1^T} m_2 \tr{\eta R \deriv{U}{\vecbf{z}_2} \vecbf{\rho}_2^T} \, dt ,
-\end{align}
-where we used integration by parts to simplify integral
-\begin{align*}
-    \int \parenth{m_1 + m_2} \vecbf{V}^T \dot{\vecbf{\chi}} \, dt &= \left. \parenth{m_1 + m_2 } \vecbf{\chi} \right|_{t_0}^{t_f} - \int \parenth{m_1 +m_2} \dot{\vecbf{V}}^T \vecbf{\chi} \, dt , \\
-    \int \frac{1}{2} \tr{- \dot{\eta} S(J_R \vecbf{\Omega}) + \eta S(\vecbf{\Omega}_A \times J_R \vecbf{\Omega})} &= \left. \frac{1}{2} \tr{-\eta S(J_R \vecbf{\Omega})} \right|_{t_0}^{t_f} - \int \frac{1}{2} \tr{-\eta S(\dot{J_R \vecbf{\Omega}})} \, dt.
-\end{align*}
-Since~\cref{eq:relative_variation_action_integral} must be zero for all admissable variations the  equations of motion are given by
-\begin{align}\label{eq:relative_eoms}
-    \parenth{m_1 +m_2} \dot{\vecbf{V}} + \parenth{m_1 + m_2} S(\vecbf{\Omega}_A) \vecbf{V} &= m_1 \deriv{U}{\vecbf{z}_1} + m_2 \deriv{U}{\vecbf{z}_2} , \\
-    S(\dot{J_R \vecbf{\Omega}}) + S(\vecbf{\Omega}_A \times J_R \vecbf{\Omega}) &= m_1 \vecbf{\rho}_1 \deriv{U}{\vecbf{z}_1}^T R^T - m_1 R \deriv{U}{\vecbf{z}_1} \vecbf{\rho}_1^T + m_2 \vecbf{\rho}_2 \deriv{U}{\vecbf{z}_2} R^T - m_2 R \deriv{U}{\vecbf{z}_2} \vecbf{\rho}_2^T .
-\end{align}
-Using a similar process as~\cref{sec:inertial_eoms} we can redefine the external moment due to gravity as
+Since, \( \delta \mathcal{G} = 0 \) for all possible variations which satisfy the constraints, the expression in the first brace should be zero and the expressions in the last two braces should be symmetric since \( \rattvar \in so \) is skew-symmetric.
+Following a procedure analogous to~\cref{sec:inertial_dumbbell_eoms} we obtain the relative equations of motion in Lagrangian form:
 \begin{align}
-    M_1 &= m_1 \parenth{\vecbf{r}_1 \times \vecbf{u}_1 + \vecbf{r}_2 \times \vecbf{u}_2 + \vecbf{r}_3 \times \vecbf{u}_3} , \\
-    M_2 &= m_1 \parenth{\vecbf{r}_\alpha \times \vecbf{u}_\alpha + \vecbf{r}_\beta \times \vecbf{u}_\beta + \vecbf{r}_\gamma \times \vecbf{u}_\gamma} , 
+    \dot{x}_r &= \gls{sym:rvel} - \hat{\Omega}_A \gls{sym:rpos}, \label{eq:relative_position_dynamics}\\
+    \parenth{m_1 + m_2} \dot{v}_r  &= -\parenth{m_1 + m_2} \hat{\Omega}_A \gls{sym:rvel} + m_1 \deriv{U}{z_1} + m_2 \deriv{U}{z_2}, \label{eq:relative_velocity_dynamics} \\
+    \dot{R}_r &= \hat{\Omega}_r \gls{sym:ratt} - \hat{\Omega}_A \gls{sym:ratt}, \label{eq:relative_attitude_dynamics}\\
+    \dot{\gls{sym:Jr} \gls{sym:rangvel}} + \hat{\Omega}_A \parenth{\gls{sym:Jr} \gls{sym:rangvel}} &= m_1 \parenth{\gls{sym:ratt} \rho_1}^\wedge \deriv{U}{z_1} + m_2 \parenth{\gls{sym:ratt} \rho_2}^\wedge \deriv{U}{z_2}.\label{eq:relative_angvel_dynamics}
 \end{align}
-where the vectors \( \vecbf{r}_i \) and \( \vecbf{u}_i \) are defined as
-\begin{align*}
-    R = \begin{bmatrix} \vecbf{r}_1 \\ \vecbf{r}_2 \\ \vecbf{r}_3 \end{bmatrix} = \begin{bmatrix} \vecbf{r}_\alpha \\ \vecbf{r}_\beta \\ \vecbf{r}_\gamma \end{bmatrix} \quad
-    \vecbf{\rho}_1 \deriv{U}{\vecbf{z}_1}^T = \begin{bmatrix} \vecbf{u}_1 \\ \vecbf{u}_2 \\ \vecbf{u}_3 \end{bmatrix}, \vecbf{\rho}_2 \deriv{U}{\vecbf{z}_2}^T = \begin{bmatrix} \vecbf{u}_\alpha \\ \vecbf{u}_\beta \\ \vecbf{u}_\gamma \end{bmatrix} .
-\end{align*}
-The time derivative \( \dot{J_R}\) is computed from
-\begin{align*}
-    \dot{J}_R &= \dot{R} J_1 R^T + R J_1 \dot{R}^T , \\
-    &= \parenth{S(\vecbf{\Omega})R - S(\vecbf{\Omega}_2) R)} J_1 R^T + R J_1 \parenth{R^T S(\vecbf{\Omega}_2 - R^T S(\vecbf{\Omega}) } \\
-    &= S(\vecbf{\Omega}) R J_1 R^T - S(\vecbf{\Omega}_2) R J_1 R^T + R J_1 R^T S(\vecbf{\Omega}_2) - R J_1 R^T S(\vecbf{\Omega}) \\
-    &=  \parenth{S(\vecbf{\Omega}) - S(\vecbf{\Omega}_2)} R J_1 R^T + R J_1 R^T \parenth{S(\vecbf{\Omega}_2) - S(\vecbf{\Omega})} .
-\end{align*}
-Using this relatipnship the term \( \dot{\parenth{J_R \vecbf{\Omega}}}\) is given by
-\begin{align*}
-    \dot{\parenth{J_R \vecbf{\Omega}}} &= \dot{J}_R \vecbf{\Omega} + J_R \dot{\vecbf{\Omega}} \\
-    &= \bracket{\parenth{S(\vecbf{\Omega}) - S(\vecbf{\Omega}_2)} R J_1 R^T + R J_1 R^T \parenth{S(\vecbf{\Omega}_2) - S(\vecbf{\Omega})}} \vecbf{\Omega} + J_R \dot{\vecbf{\Omega}} .
-\end{align*}
-In summary, the relative equations of motion are given as
+
+\paragraph{Relative Equations of motion: Hamiltonian Form}
+Following a similar procedure as introduced in~\cref{sec:inertial_dumbbell_eoms} allows for the equations of motion to be represented in terms of the relative momenta.
+This has the obvious benefit of replacing the second order differential equations with first order equations.
+Furthermore, in the specific case of~\cref{eq:relative_angvel_dynamics} the Hamiltonian form alleviates the need to evaluate the angular momentum term \( \dot{\parenth{\Jr \rangvel}}\).
+The relative linear, \( \rlinmom \in \R^3 \), and angular momentum, \( \rangmom \in \R^3 \), are defined as
 \begin{align}
-    \dot{\vecbf{\chi}} + \vecbf{\Omega}_A \times \vecbf{\chi} &= \vecbf{V} ,\\
-    \dot{R} &= S(\vecbf{\Omega}) R - S(\vecbf{\Omega}_A ) R , \\
-    J_R \dot{\Omega} &= M_1 + M_2 - \vecbf{\Omega}_A \times J_R \vecbf{\Omega} -\bracket{\parenth{S(\vecbf{\Omega}) - S(\vecbf{\Omega}_2)} R J_1 R^T + R J_1 R^T \parenth{S(\vecbf{\Omega}_2) - S(\vecbf{\Omega})}} \vecbf{\Omega} , \\
-    \parenth{m_1 + m_2} \dot{\vecbf{V}} &= m_1 \deriv{U}{\vecbf{z}_1} + m_2 \deriv{U}{\vecbf{z}_2} - \parenth{m_1 +m_2} S(\vecbf{\Omega}_A) \vecbf{V} .
+    \rlinmom &= \parenth{m_1 + m_2} \rvel, \label{eq:relative_linear_momentum}\\ 
+    \rangmom &= \Jr \rangvel. \label{eq:relative_angular_momentum}
+\end{align}
+The relative equations of motion in Hamiltonian form are then defined as
+\begin{align}
+    \dot \rpos &= \frac{\rlinmom}{m_1 + m_2}, \label{eq:relative_position_dynamics_hamiltonian},\\
+    \dot \rlinmom + \ahangvel \rlinmom &= - m_1 \deriv{U}{\apos_1} - m_2 \deriv{U}{\apos_2}, \label{eq:relative_velocity_dynamics_hamiltonian}\\
+    \rdatt &= - \ahangvel \ratt +\rhangvel \ratt, \label{eq:relative_attitude_dynamics_hamiltonian}\\
+    \rdangmom + \ahangvel \rangmom &= m_1 \parenth{\ratt \spos_1}^\wedge \deriv{U}{\apos_1} + m_2 \parenth{\ratt \spos_2}^\wedge \deriv{U}{\apos_2}. \label{eq:relative_angvel_dynamics_hamiltonian}
 \end{align}
 
 \section{Gravitational Models around Small-Bodies}\label{sec:gravitational_models}

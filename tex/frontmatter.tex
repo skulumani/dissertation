@@ -20,7 +20,7 @@
 
 % PhD degree commands
 % Committee
-% \showcommitteepage % hide this page if you're doing a MS thesis
+\showcommitteepage % hide this page if you're doing a MS thesis
 \committee{ %
 Taeyoung Lee, Associate Professor of Engineering and Applied Science,\\ 
 Dissertation Director\\ % remember to add a space between committee members
@@ -29,7 +29,15 @@ Michael Keidar, A. James Clark Professor of Engineering, \\
 Committee Member\\
 
 Chung Hyuk Park, Assistant Professor,\\
-Committee Member
+Committee Member \\
+
+Islam Hussein, Senior Aerospace Research and Development Engineer, \\
+Applied Defense Solutions, \\
+Commitee Member
+
+Tupper Hyde, Chief, Mission Engineering and Systems Analysis Division,\\
+NASA Goddard Space Flight Center,\\
+Commitee Member 
 }
 
 % Chair must be entered separately for formatting reasons.
@@ -44,10 +52,10 @@ Committee Member
 \year=2018
 
 % Copyright page
-%\copyrightholder{Someone else}
+\copyrightholder{Shankar Kulumani}
 
 % Dedication
-\dedication[8]{ %
+\dedication{ %
 \textit{Some cool dedication}
 }
 
@@ -77,14 +85,14 @@ Committee Member
 
 % commands to show or hide front matter pages
 
-\hidecopyright
-\hideabstract
-\hidecommitteepage
-\hidededication
-\hideacknowledgments
+\showcopyright
+\showabstract
+\showcommitteepage
+\showdedication
+\showacknowledgments
 \hidepreface
 \hideprologue
-\hideforeword
+\showforeword
 % ------------ TABLE OF CONTENTS ----------------------
 % Commands to hide or show lists of figures, tables, etc.
 \showlistoffigures
