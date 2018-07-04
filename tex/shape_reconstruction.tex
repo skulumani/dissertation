@@ -383,15 +383,8 @@ Look at miller2002 for more detail and discuss that here
 \end{itemize}
 
 \section{Incremental Radius modification}
-% TODO Present incremental shape reconstruction
 
-% TODO Cost function to decide on which piont to measure
 
-% TODO Metric to measure goodness of reconstruction (volume)
-
-% TODO Show examples of shape reconstruction (Castalia, using C++ code for speed)
-
-% TODO Come up with some consistent notation
 
 One of the first main tasks for any spacecraft mission to an asteroid is to generate an estimate of the asteroid shape.
 This shape model is used for a variety of purposes, such as the polyhedron potential model, like that presented in~\cref{sec:polyhedron_potential} or landing site section and guidance.
@@ -484,17 +477,39 @@ We relate \( \Delta S \) to an equivalent angular constraint using
 \end{align}
 where \( r_b \) defines the Brillouin  sphere radius, or the radius of the circumscribing sphere of the asteroid.
 Only vertices which satisfy \( \Delta \sigma_i \leq \Delta \sigma_{max} \) are considered in the Bayesian update shown in~\cref{eq:posterior_probability}.
+\section{Autonomous Surface Mapping}
+
+% TODO Cost function to decide on which piont to measure
+Want to enable autonomous exploration.
+
+Need to determine next state to move and where to measure
+
+Each vertex of shape model has an associated uncertainty.
+
+Goal is to minimize the uncertainty
+
+Too expensive to use a global optimization scheme and solve the optimal control problem
+
+Cost function is weighted sum of: distance, uncertainty, control cost
+
+Once we have a state we can manuever spacecraft there using \( \SE \) control and point at asteroid
+
 
 \subsection{Landing Area Selection and Refinement}
 
 Select a specific landing site and refine the area
 
-\section{Guidance and Control for Shape Reconstruction}
+Several metrics can be used to determine and appropriate landing site
 
-We use a cost function to quickly determine the best area for measurements
+Surface slope (gravity vector from scheeres paper)
+
+Uncertainty
+
+Estimated science value. Real mission would require much more extensive mapping but this approach demonstrates that autonmous mapping is possible
+
+Use mesh refinement to subdivide a specific area and then take more measurements
 
 \section{Shape Reconstruction Examples}
-
 \subsection{Kinematics based reconstruction}
 \begin{figure}[h]
     \centering
@@ -521,6 +536,12 @@ The truth shape model, and the associated vertices, are used as simulated measur
 The true shape model of 4769 Castalia is composed of \num{2048} vertices and \num{4092} triangular faces.
 The initial ellipsoid is chosen to have approximately the same number of vertices as the final true shape and such that the total number of vertices remains constant.
 It is possible to incorporate more vertices, for example by splitting faces into smaller faces, but this does not affect the general approach.
+
+% TODO Metric to measure goodness of reconstruction (volume and uncertainty plots}
+
+% TODO Show examples of shape reconstruction (Castalia, using C++ code for speed)
+
+% TODO Show the dynamic exploration and reconstruction of Castlia and 52760
 
 \subsection{Dynamic Simulation}
 
