@@ -499,13 +499,57 @@ The initial shape estimate is chosen to have approximately the same number of ve
     \subcaptionbox{Final reconstruction\label{fig:final}}{\includegraphics[width=0.5\textwidth]{figures/2018_SSPI/partial_2047.jpg}}
     \caption{4769 Castalia incremental reconstruction. The initial ellipsoid is incrementally modified by radially moving each vertex to best match the measurements.~\label{fig:reconstruction}}
 \end{figure}
-\section{Autonomous Surface Mapping}\label{sec:explore_asteroid}
-
+\section{Autonomous Guidance}\label{sec:explore_asteroid}
 
 The mesh update algorithm presented in~\cref{sec:radius_update} does not offer a method to determine which portion of the surface needs to be updated. 
 In this section, we present a computationally efficient approach to surface mapping and trajectory generation.
 Utilizing the nonlinear controllers developed in~\cref{sec:se3_control} allows the spacecraft to manuever to the best location that will update the shape estimate.
 Utilizing this approach enables autonomous operations at the asteroid. 
+
+The ideal guidance approach involves solving a global optimal control problem which satisfies the system dynamics from~\cref{sec:dumbbell_model} while minimizing the shape uncertainty.
+There are a wide variety of optimal control techniques which may be utilized to solve the problem, such as indirect methods~\cite{kirk2012,bryson1975}.
+However, regardless of the method an optimal control formulation will result in a more computationally demanding algorithm.
+Since the \gls{lidar} will be operating at upwards of \SI{1}{\hertz} efficient processing of the measurement and computation of the guidance commands is critical.
+
+We define a cost associated with each vertex \( \vc{v}_i \) of the shape estimateas
+\begin{align}
+    J_i (\ipos) = \alpha_w J_{w_i} + \alpha_d J_{d_i}(\ipos) + \alpha_c J_{c_i}(\ipos)
+\end{align}
+where the weighting factors \( \alpha_w, \alpha_d, \alpha_c \in \R^1 \) are chosen such that \( \alpha_w + \alpha_d + \alpha_c = 1 \).
+The term \( J_{w_i} \in \R^1 \) represents the cost associated with the uncertainty of vertex \( i \) as
+\begin{align}
+    J_{w_i} &= - \frac{w_i}{w_m}
+\end{align}
+where \( w_i \) is the uncertainty of vertex \( i \) and \( w_m \) is a maximum uncertainty used to scale the values.
+The term \( J_{d_i} \) represents the scaled geodesic distance between the current state of the spacecraft and vertex \( i \),
+\begin{align}
+    J_{d_i}(\ipos) &= \frac{1}{\pi} \arctan \parenth{ \frac{\norm{\ipos \times \vc{v}_i}}{\ipos \cdot \vc{v}_i}}.
+\end{align}
+
+Finally, a control component is included in the cost function which penalizes vertices that are difficult to reach.
+Consider, the current position of the spacecraft in the asteroid fixed frame as \( \rpos\) and a desired vertex \( \vc{v}_i \) of the shape estimate.
+We can define a normal vector to the plane spanned by \( \rpos, \vc{v}_i \) as
+\begin{align}\label{eq:normal_to_plane}
+    \vc{n}_i = \frac{\rpos \times \vc{v}_i}{\norm{\rpos} \norm{\vc{v}_i}}.
+\end{align}
+Then a trajectory \( x_d(\theta) \) as
+\begin{align}\label{eq:spherical_waypoint}
+    x_d(\theta) = r_d \exp{\parenth{\theta \hat{\vc{n}_i}} } \frac{\rpos}{\norm{\rpos}},
+\end{align}
+where \( \theta : \bracket{0, \frac{\rpos \cdot \vc{v}_i}{\norm{\rpos}\norm{\vc{v}_i}}} \to \R^1\) parameterizes the desired trajectory.
+\Cref{eq:spherical_waypoint} simply describes a portion of a great circle trajectory between the current state, \( \rpos \), and the desired vertex \( \vc{v}_i \)~\cite{chen2016}.
+The altitude of the spacecraft, \( r_d \in \R \), can be chosen based on sensor characterisitics of safety concerns.
+For example, \( r_d \) can be chosen as the distance of the Biroullin sphere with an additional safety margin to mitigate any surface collision.
+The translational controller presented in~\cref{eq:translational_control} is used to determine the magnitude of the control to follow \( x_d\).
+We assume that the tracking errors are small, such that \( e_x, e_v \) are negligible, therefore the control becomes
+\begin{align}\label{eq:tracking_control_cost}
+    u_f(\theta) = -F_{ext}(x_d(\theta)), 
+\end{align}
+where the external force is defined by the polyhedron potential model given in
+\begin{align}
+    J_{c_i}(\rpos) = \int_{\theta_0}^{\theta_f} u_f(\theta)^T R u_f(\theta) d\theta.
+\end{align}
+This term penalizes vertices that would require a large control input in order to reach.
 
 % TODO Cost function to decide on which piont to measure
 Want to enable autonomous exploration.
