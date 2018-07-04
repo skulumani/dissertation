@@ -297,8 +297,15 @@ This shape model is used for a variety of purposes, such as the polyhedron poten
 We assume that upon arrival at a target body, the spacecraft contains an initial estimate for the shape of the asteroid.
 This shape can be a coarse estimate computed from ground measurements or it can be a triaxial ellipsoid based on the semimajor axes of the asteroid, such as that shown in~\cref{fig:start} which represents the maximum axes for asteroid Castalia.
 Additionally, we assume that the shape estimate is closed and a triangular faceted surface mesh, emulating those used in practice to represent asteroids.
-Furthermore, the number of vertices in the estimate can be scaled according to the resulting acccuracy or computational capabilities. 
+Furthermore, the number of vertices in the estimate can be scaled according to the resulting acccuracy or computational capabilities.
+For example,~\cref{fig:uniform_mesh} demonstrates two surface mesh representation for a triaxial ellipsoid at varying levels of detail. 
 A wide variety of algorithms are available to generate a near uniformly spaced mesh for an arbitrary surface~\cite{persson2004,boissonnat2005}.
+\begin{figure}[htbp]
+    \centering
+    \subcaptionbox{Coarse Uniform Mesh\label{fig:coarse_uniform_mesh}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/uniform_mesh_coarse.jpg}}~
+    \subcaptionbox{Fine Uniform Meesh\label{fig:fine_uniform_mesh}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/uniform_mesh_fine.jpg}}
+    \caption{Examples of Resolution of Uniform Meshes of Triaxial Ellipsoid~\label{fig:uniform_mesh}}
+\end{figure}
 
 \begin{figure}
     \centering
@@ -307,10 +314,17 @@ A wide variety of algorithms are available to generate a near uniformly spaced m
 \end{figure}
 We assume the spacecraft contains a range sensor, such as LIDAR, that allows for the accurate measurement of the relative distance between the spacecraft and asteroid~\cite{zuber1997,zuber2000}.
 This type of sensor measures the round-trip time for a pulse of energy to leave the spacecraft, reflect off the surface, and return to a collector on board.
-Given the time total time of flight, the distance can be accurately computed using \( d = \frac{\Delta TOF}{2 c} \) where \( c \) is the constant speed of light.
+Given the time total time of flight, the distance can be accurately computed using \( d = \frac{\Delta TOF}{2 c} \) where \gls{sym:c} is the constant speed of light.
 Assuming accurate knowledge of the pointing direction of the spacecraft we can compute a direction from the spacecraft to the measurement location on the surface.
-The output of this sensor is a vector, \( \vb{d}_i \), defined in the spacecraft fixed frame which gives the direction to a measurement point on the surface of the asteroid. 
+The output of this sensor is a vector, \( \vc{d}_i \), defined in the spacecraft fixed frame which gives the direction to a measurement point on the surface of the asteroid. 
 Using the state of the asteroid, we can transform this measurement to the asteroid fixed frame using the simple transformation
+\begin{align*}
+    \vb{p}_i = R_A^T R \vb{d}_i .
+\end{align*}
+Given many measurements, \( \vc{p}_i \), of the asteroid surface we can efficiently update our initial shape estimate to that of the true surface.
+\Cref{fig:lidar_example} shows asteroid 4769 Castalia and a representation of several LIDAR measurements. 
+The spacecraft measures the range between itself and the asteroid surface to several points within the field of view of the sensor. 
+These measurements provide a collection of points which lie on the surface of the asteroid, and by combining many points, a so called ``point cloud'', allows us to reconstruct the shape.
 
 Here we present a simple algorithm to incrementally update a polygonal mesh with new data points.
 In addition, we then demonstrate it's use with two numerical examples.
