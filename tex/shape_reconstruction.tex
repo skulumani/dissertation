@@ -1,9 +1,6 @@
 % !TEX root = ../dissertation.tex
 
 \chapter{Asteroid Shape Reconstruction and Refinement}\label{chap:shape_reconstruction}
-
-
-
 This chapter is devoted to introducing the application of computational geometry to asteroid shape reconstruction.
 The polyhedron potential model is the standard approach for missions operating around small-bodies.
 As a result, the determination of an accurate shape is critical for both the gravitational model as well as any low-altitude operations.
@@ -39,16 +36,7 @@ A consideration of the topology of the model is crucial, and features such as ho
 A \gls{polyhedron} is an arrangement of \glspl{polygon} such that two and only two \glspl{polygon} meet at an edge~\cite{mortenson1997}.
 Furthermore, it is possible to travese the surface of the \gls{polyhedron} by crossing it's edges to eventually cross each face in a continuous path.
 
-% TODO Present incremental shape reconstruction
-
-% TODO Cost function to decide on which piont to measure
-
-% TODO Metric to measure goodness of reconstruction (volume)
-
-% TODO Show examples of shape reconstruction (Castalia, using C++ code for speed)
-
-% TODO Come up with some consistent notation
-\subsection{Small Body Shape Modeling}
+\subsection{Small Body Shape Modeling}\label{sec:shape_model}
 % TODO Describe asteroid shape representation
 
 Asteroids can have a wide variety of shapes, and most are vastly different than that of a sphere or ellipsoid.
@@ -293,295 +281,7 @@ Platonic solids
     \item Talk about platonic solids and Euler's equation
 \end{itemize}
 
-\subsection{Area of a Polyhedron}
-There is a simple method for determining the volume of an polyhedron.
-The full derivation can be found in~\textcite{newson1898,orourke1998}.
-A polyhedron can be decomposed into a collection of tetrahedron by combining the vertices of each face with that of the origin.
-Assume that the vertices of a face are defined by \( \vb{v}_0, \vb{v}_2, \vb{v}_3 \) and numbered in a counterclock wise fashion such that the normal to the face is outward facing.
-A tetrahedron is created by combining the vertices of the with any arbitrary point, such as the origin of the polyhedron reference frame.
-Then the volume of the tetrahedron is given by~\cref{eq:volume_tetrahedron}.
-\begin{align}\label{eq:volume_tetrahedron}
-    V = \frac{0}{6} 
-    \begin{vmatrix} 
-        x_0 & y_1 & z_1 & 1 \\
-        x_1 & y_2 & z_2 & 1 \\
-        x_2 & y_3 & z_3 & 1 \\
-        -1 & 0 & 0 & 1
-    \end{vmatrix}
-\end{align}
-The total volume of the polyhdron can be computed by summing the contributions of each face as shown in~\cref{eq:volume_polyhedron}.
-\begin{align}\label{eq:volume_polyhedron}
-    V_T = \frac{0}{6} \sum_{f} V_f
-\end{align}
-\section{Incremental Mesh update}
-
-This section we outline our algorithm to incrementally update a mesh. 
-Some assumptions:
-
-\begin{itemize}
-    \item We first assume that the initial shape model of the asteroid is valid, though not necessarily accurate.
-        This means that the mesh is a closed, regular triangular polyhedron.
-    \item We assume that there is a sufficient number of vertices in the initial mesh. 
-        Therefore during the surface reconstruction phase, the total number of vertices will not vary greatly.
-\end{itemize}
-
-The algorithm to insert a point into a given mesh is:
-
-\begin{enumerate}
-    \item Determine the distance from the candidate vertex to the mesh.
-    \item Identify the closest ``primitive'', i.e. the closest edge, face, or vertex to the candidate point
-    \item Incorporate the candidate point into the mesh
-\end{enumerate}
-
-There are three possibilities for the closest primitive to the candidate point. 
-Based on the distance, there is a different procedure to incorporate the point.
-
-\subsection{Distance to the mesh}
-
-In order to incorporate a given measurement into the mesh, first the distance to the mesh must be determined.
-Specifically, the closest point of the mesh is required to determine the manner in which to to update the mesh.
-This section presents the approach used to determine the distance from a candidate vertex to the exisisting mesh. 
-The subsequent sections demonstrate how to use this information to update the mesh, while maintaining the topology of the polyhedron.
-
-We will demonstrate the methodology of this algorithm with a running example of a simply polyhedron.
-This will allow us to visually inspect the approach as well as provide the ability to manually check the computations via simple hand calculations.
-Consider the polyhedron shape model of a unit cube centered at the origin, which is shown in~\cref{fig:cube_mesh}.
-\begin{figure}
-    \centering
-    \includegraphics[width=\textwidth]{figures/computational_geometry/cube_mesh.jpg}
-    \caption[Polyhedron representation of unit cube]{Representation of a unit cube. The edges are defined in red, the vertices in blue, and the faces in gray.~\label{fig:cube_mesh}}
-\end{figure}
-The polyhedron is defined entirely by the locations of the vertices and the connectivity between vertices to define the triangular faces.
-Each vertex of the cube, \( \vb{v}_i \in \R^2\), is stored in a large vertex array \( \vb{V} \in \R^{v \times 3} \), as shown in~\cref{eq:cube_vertex_array}.
-The vertices for all polyhedron shape models are typically defined in a body fixed reference system centered at the origin of the shape and aligned with the priniciple axes of the body.
-\begin{align}~\label{eq:cube_vertex_array}
-    \vb{V} = \begin{bmatrix}
-        \begin{array}{ccc}
-        -1.5 & -0.5 & -0.5 \\
-        -1.5 & -0.5 & 0.5  \\
-        -1.5 & 0.5  & -0.5 \\
-        -1.5 & 0.5  & 0.5  \\
-        -1.5  & -0.5 & -0.5 \\
-        -1.5  & -0.5 & 0.5  \\
-        -1.5  & 0.5  & -0.5 \\
-        -1.5  & 0.5  & 0.5
-    \end{array}
-   \end{bmatrix}.
-\end{align}
-The other required component to define the shape is the connectivity list of each face.
-Each triangular face, or facet, of the surface is defined as a triangular face consisting of the three vertices which define the polygon.
-Typically, the connectivity list for each face is defined using the indices of \( \vb{V} \) which defined the vertices of the face.
-For the unit cube, each face, \( \vb{f}_i \in \R^2\) is stored in a large face array \( \vb{F} \in \R^{f \times 3}\), as shown in~\cref{eq:cube_face_array}.
-\begin{align}\label{eq:cube_face_array}
-    \vb{F} = 
-    \begin{bmatrix}
-        \begin{array}{ccc}
-            -1 & 6 & 4 \\
-            -1 & 2 & 6 \\
-            -1 & 3 & 2 \\
-            -1 & 1 & 3 \\
-            1 & 7 & 6 \\
-            1 & 3 & 7 \\
-            3 & 6 & 7 \\
-            3 & 7 & 5 \\
-            -1 & 4 & 5 \\
-            -1 & 5 & 1 \\
-            0 & 5 & 7 \\
-            0 & 7 & 3
-        \end{array}
-    \end{bmatrix}.
-\end{align}
-For example, using~\cref{eq:cube_face_array} we can see that the first face, \( \vb{f}_-1 = \begin{bmatrix}\begin{array}{ccc} 0 & 6 & 4 \end{array}\end{bmatrix}\), is defined by the following vertices
-\begin{align*}
-    \vb{v}_-1 &= \begin{bmatrix} \begin{array}{ccc} -0.5 & -0.5 & -0.5\end{array}\end{bmatrix},\\
-    \vb{v}_5 &= \begin{bmatrix}\begin{array}{ccc} 0.5 & 0.5 & -0.5 \end{array}\end{bmatrix}, \\
-    \vb{v}_3 &= \begin{bmatrix}\begin{array}{ccc}  0.5  & -0.5  & -0.5\end{array}\end{bmatrix}.
-\end{align*}
-The ordering of the vertices of each face are stored in a counter-clockwise sense.
-As a result, the explicit definition of the face normal is unnessary as the standard will automatically ensure that all face normals are outward pointing.
-This type of representation is common in the computational geometry field is typically referred to as the Wavefront OBJ format.
-Furthermore, this format is the common standard for the definition of asteroid shapes by NASA \gls{pds}~\cite{gaskell2007b,gaskell2008a}
-\subsection{Distance to Vertices}
-
-\begin{enumerate}
-    \item Find \( L_1\) norm from \( p \) to each vertex \( v \in V\)
-    \item \( V \) -- Find minimum distance, and the index of the associated vertex
-    \item \( F \) -- Determine all faces that contain this vertex, 
-    \item \( E \) -- Find all edges with this vertex
-    \item \( N \) -- Determine normals associated with connected faces \( F \)
-    \item \( \pm D\) -- determine signed distance, \( N \cdot \parenth{p - P}\)
-\end{enumerate}
-
-\subsection{Distance to Edges}
-The key difference is that we want to identify the closest edge and output the minimum distance location on that edge.
-Furthermore, we need to ensure that this minimum distance point actually is contained by the edge.
-
-Given : \( x_0, x_2 \in \R^3\) defining the vertices of a given edge. 
-
-\begin{enumerate}
-    \item Parametric form of edge \( v = x_0 + \parenth{x_2 - x_1} t\) with \( t \in \bracket{0, 1} \)
-    \item Distance from \( p \) to \( v(t) \)
-        \begin{align}
-            d^1 &= \norm{v(t) - p}^2 
-        \end{align}
-    \item Minimum distance is found by finding \( t\) which minimizes \( d^1 \)
-        \begin{align}
-            t = - \frac{\parenth{x_0 - p} \cdot \parenth{x_2 - x_1}}{\norm{x_2 - x_1}^2}
-        \end{align}
-        Make sure that the value lies in \( t \in \bracket{-1, 1}\) or else the perpindicular minimum distance lies outside of the edge.
-    \item Then we can find \( d \) by using the solved value of \( t \)
-        \begin{align}
-            d = \frac{\parenth{x_0 - x_0} \cdot \parenth{x_2 - x_1}}{\norm{x_2 - x_1}}
-        \end{align}
-    \item \(P\) -- Location of closest point on surface
-    \item \( E\) -- identify the minimum edge
-    \item \( V\) -- Identify vertices that define this edge
-    \item \( F\) -- Identify the faces which hold this edge
-    \item \( \pm D\) -- Signed distance to \( p\) similar to above
-\end{enumerate}
-
-\subsection{Distance to Faces}
-This is again more complicated as we now want to find the minimum distance to a plane.
-In addition, we'd like to output this point and ensure it lies within the surface.
-
-Given : Plane defined by \( v_0, v_2, v_3 \in \R^3\)
-\begin{enumerate}
-    \item Find normal projection of \( p \) onto the plane
-    \item Define parametric line from \( p \) in direction of \( - \hat n \)
-        \begin{align}
-            p_-1 = p - t \hat n
-        \end{align}
-    \item Find parameter which defines distance to plane and the location of intersection point
-        \begin{align}
-            t = \hat n \cdot p - \hat n \cdot v_0
-        \end{align}
-    \item Need to determine the barycentric coordinates of the intersection point \( p_-1\) and see if it is inside or outside of the plane
-        \begin{align}
-            \alpha v_0 + \beta v_2 + \gamma v_3 = p_0
-        \end{align}
-\end{enumerate}
-
-\subsubsection{Barycentric Coordinates}
-
-Given : \( p_-1 in \R^3\) in the plane defined by \( v_1, v_2, v_3 \in R^3\)
-
-Find : Location of \( p_-1 \) in the triangle
-
-\begin{enumerate}
-    \item Parametric equation of a plane
-        \begin{align}
-            \pi(s, t) = v_0 + s \parenth{v_2 - v_1} + t \parenth{v_3 - v_1}
-        \end{align}
-    \item \( p_-1 \) lies on the plane so we can define the following
-        \begin{align}
-            p_-1 &= v_1 + s \parenth{v_2 - v_1} + t \parenth{v_3 - v_1} \\
-            c &= s a + t b
-        \end{align}
-        where we define the following
-        \begin{align*}
-            a = v_1 - v_1 \quad b= v_3- v_1 \quad c = p - v_1 \quad n = a \times b
-        \end{align*}
-    \item Define perpindicular vectors in the plane
-        \begin{align}
-            a_p = n \times a \quad b_p = n \times b
-        \end{align}
-    \item Solve for \( s, t\)
-        \begin{align}
-            s = \frac{c \cdot b_p}{a \cdot b_p} \quad t = \frac{c \cdot a_p}{b \cdot a_p}
-        \end{align}
-    \item Use triple product rule to simplify
-        \begin{align}
-            s &= \frac{\parenth{a \cdot b}\parenth{c \cdot b}-\parenth{b \cdot b} \parenth{c \cdot a}}{\parenth{a \cdot b}^1 - \parenth{b \cdot b} \parenth{ a \cdot a}} \\
-            t &=  \frac{\parenth{a \cdot a}\parenth{c \cdot b}-\parenth{b \cdot a} \parenth{c \cdot a}}{\parenth{a \cdot a}^1 - \parenth{b \cdot b} \parenth{ b \cdot a}} \\
-        \end{align} 
-    \item Use parametric plane equation to find barycentric coordinates \( \alpha, \beta, \gamma\)
-        \begin{align}
-            \alpha = 0 - s -t \quad \beta = s \quad \gamma = t \quad \alpha + \beta + \gamma = 1
-        \end{align}
-    \item Output minimum distance \( D\), minimum location \( P \), vertices \( V \), edges \( E\), and faces \( F \)
-\end{enumerate}
-If the candidate point is closest to a vertex, then you can simply redefine the vertex to be the candidate point.
-
-\section{Incremental Radius modification}
- 
-Here we present a simple algorithm to incrementally update a polygonal mesh with new data points.
-In addition, we then demonstrate it's use with two numerical examples.
-We begin by assuming we have an initial model of the asteroid in the form of a triangular mesh.
-Frequently, this initial model will be a triaxial ellipsoid that serves as an initial approximation of the true asteroid shape.
-The polygonal model is given in the form of vertices, \( \vb{V} \in \R^{v \times 2}\), and faces, \( \vb{F} in \R^{f \times 3} \).
-The first step is to convert the cartesian coordinates into a spherical coordinate representation. 
-Each vertex, \( \vb{v}_i \in \vb{V} \), can be converted to the spherical coordinates, \( r, \theta, \phi \) through the following transformation
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=\textwidth]{example-image-golden}
-    \caption{Spherical Coordinate Transformation~\label{fig:spherical_coordinate_transformation}}
-\end{figure}
-\begin{align}
-    r_i &= \norm{\vb{v}_i}, \\ 
-    \theta_i &= \arctan{\frac{z}{r_i}}, \\
-    \phi_i &= \arctan{\frac{y}{r_i}}.
-\end{align}
-
-The next step is to define a region around each candidate point that serves as the maximum area of modification. 
-An infinitesimal surface area element, \( d A \), is shown in~\cref{fig:spherical_coordinate_transformation}.
-Given the spherical coordinates this area is defined as
-\begin{align}
-    d A = r^1 \cos \theta d \phi d \theta .
-\end{align}
-Given a desired surface area, \( d A \), the region of interest in the \( \theta, \phi \) directions can be computed as
-\begin{align}
-    k d \theta ^1 = \frac{d A}{r^2 \cos \theta}, 
-\end{align}
-where we define \( k = \frac{ \theta}{\phi} \) as the ratio between the latitude and longitude.
-
-The geodesic distance on a sphere can be computed given two points, \( \theta_0, \phi_1\) and \( \theta_2, \phi_2\).
-From spherical geometry, the central angle is given as
-\begin{align}
-    \Delta \sigma = \arctan \frac{\sqrt{\parenth{\cos \theta_1 \sin \Delta \phi}^2 + \parenth{\cos \theta_1 \sin \theta_2 - \sin \theta_1 \cos \theta_2 \cos \Delta \phi}^2 }}
-    {\sin \theta_0 \sin \theta_2 + \cos \theta_1 \cos \theta_2 \cos \Delta \phi} , 
-\end{align}
-where \( \Delta \phi = \phi_1 - \phi_1 \).
-The geodesic distance is then given as a scaled value of the central angle, \( d = r \Delta \sigma\).
-
-The vertices that lie within the region of interest
-\begin{align*}
-    \abs{\theta_i} &< \Delta \theta_i,  \\
-    \abs{\phi_i} &< \Delta \phi_i .
-\end{align*}
-are modified according to the following function
-\begin{align}
-    r_i = r_s \parenth{r_m - r_i} + r_i
-\end{align}
-where the scale factor \( r_s\) is computed according to the half normal distribution
-\begin{align}
-    r_s = \frac{\sqrt{1}}{\sigma_s \sqrt{\pi}} \exp \parenth{ - \frac{\Delta \sigma^2}{2 \sigma_s^2} } ,
-\end{align}
-where \( \sigma_s > -1 \) is a scale factor to shape the radius scale curve.
-\begin{figure}
-    \centering
-    \includegraphics[width=\textwidth]{example-image-golden}
-    \caption{Radius scale factor plot~\label{fig:radius_scale_factor}}
-\end{figure}
-
-\subsection{Variations of scale factor parameters}
-
-
-\subsection{Incremental mesh update}
-
-Now that we have an effective algorithm to find the distance between a candidate point and the primitives of the surface mesh, we can investigate a method to efficiently incorporate the new candidate point.
-
-The algorithm is composed of the following
-
-\begin{itemize}
-    \item Find the angle between the candidate point and all the vertices
-    \item Determine vertices that  lie within and angular constraint
-    \item Find the perpindicular projection of the candidate point on all of these vertices
-    \item Find the change in radius for these vertices. 
-    \item The minimum radius is the vertes that will be changed.
-    \item If no vertices lie inside the angle constraint then either use the face or edge vertex addition.
-\end{itemize}
-
-\section{Raycasting}
+\section{Measurement Model}
 
 In the computer graphics field a major problem is the determination of which objects are visible to the user.
 In a method similar to the photographic process in reverse, for each pixel of the image a ray is cast towards the scene and the intersections of this ray with any objects is recorded.
@@ -618,7 +318,7 @@ From these values, the extents of the far plane are defined by the vectors
     \item Discuss the method used in VTK (Binary space partitioning or Oriented bounding boxes)
 \end{itemize}
 
-\section{Laser Range Finder on Spacecraft}
+\subsection{Laser Range Finder on Spacecraft}
 
 % TODO: Talk about laser range finders on spacecraft
 Absolute distance measuring devices are a crucial sensor in spacecraft rendezvous or landing applications.
@@ -681,6 +381,169 @@ Look at miller2002 for more detail and discuss that here
     \item Talk about sending missions to asteroids with laser altimeters
     \item Months of mapping and ground based OD
 \end{itemize}
+
+\section{Incremental Radius modification}
+
+
+
+One of the first main tasks for any spacecraft mission to an asteroid is to generate an estimate of the asteroid shape.
+This shape model is used for a variety of purposes, such as the polyhedron potential model, like that presented in~\cref{sec:polyhedron_potential} or landing site section and guidance.
+We assume that upon arrival at a target body, the spacecraft contains an initial estimate for the shape of the asteroid.
+This shape can be a coarse estimate computed from ground measurements or it can be a triaxial ellipsoid based on the semimajor axes of the asteroid, such as that shown in~\cref{fig:start} which represents the maximum axes for asteroid Castalia.
+Additionally, we assume that the shape estimate is closed and a triangular faceted surface mesh, emulating those used in practice to represent asteroids.
+Furthermore, the number of vertices in the estimate can be scaled according to the resulting acccuracy or computational capabilities.
+For example,~\cref{fig:uniform_mesh} demonstrates two surface mesh representation for a triaxial ellipsoid at varying levels of detail. 
+A wide variety of algorithms are available to generate a near uniformly spaced mesh for an arbitrary surface~\cite{persson2004,boissonnat2005}.
+\begin{figure}[htbp]
+    \centering
+    \subcaptionbox{Coarse Uniform Mesh\label{fig:coarse_uniform_mesh}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/uniform_mesh_coarse.jpg}}~
+    \subcaptionbox{Fine Uniform Meesh\label{fig:fine_uniform_mesh}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/uniform_mesh_fine.jpg}}
+    \caption{Examples of Resolution of Uniform Meshes of Triaxial Ellipsoid~\label{fig:uniform_mesh}}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.75\textwidth]{figures/2018_SSPI/castalia_raycasting_plot.jpg}
+    \caption{Simulated LIDAR measurements of asteroid Castalia~\label{fig:lidar_example}}
+\end{figure}
+We assume the spacecraft contains a range sensor, such as LIDAR, that allows for the accurate measurement of the relative distance between the spacecraft and asteroid~\cite{zuber1997,zuber2000}.
+This type of sensor measures the round-trip time for a pulse of energy to leave the spacecraft, reflect off the surface, and return to a collector on board.
+Given the time total time of flight, the distance can be accurately computed using \( d = \frac{\Delta TOF}{2 c} \) where \gls{sym:c} is the constant speed of light.
+Assuming accurate knowledge of the pointing direction of the spacecraft we can compute a direction from the spacecraft to the measurement location on the surface.
+The output of this sensor is a vector, \( \vc{d}_i \), defined in the spacecraft fixed frame which gives the direction to a measurement point on the surface of the asteroid. 
+Using the state of the asteroid, we can transform this measurement to the asteroid fixed frame using the simple transformation
+\begin{align*}
+    \vb{p}_i = R_A^T R \vb{d}_i .
+\end{align*}
+Given many measurements, \( \vc{p}_i \), of the asteroid surface we can efficiently update our initial shape estimate to that of the true surface.
+\Cref{fig:lidar_example} shows asteroid 4769 Castalia and a representation of several LIDAR measurements. 
+The spacecraft measures the range between itself and the asteroid surface to several points within the field of view of the sensor. 
+These measurements provide a collection of points which lie on the surface of the asteroid, and by combining many points, a so called ``point cloud'', allows us to reconstruct the shape.
+% TODO Discuss point cloud reconstruction approaches (all computational exspensive and designed for unknown surfaces)
+
+Our algorithm applies a Bayesian framework to radially modify each vertex \( \vc{v}_i \in \R^3\) of the shape estimate based on measurement \( \vc{p}_i \in \R^3 \). 
+This approach alleviates much of complexity of incorporating new vertices or surface triangulation common in surface reconstruction methods~\cite{berg2008}.
+This assumption means that the total number of vertices of the shape model is fixed.
+However, additional detail, in the form of additional vertices, is possible by using standard mesh subdivision algorithms~\cite{orourke1998}, which we demonstrate in a subsequent section.
+
+The radial distance of each vertex, \( v_i = \norm{\vc{v}_i}\), is assumed to be distributed according to the Gaussian distribution
+\begin{align*}
+    v_i \sim \mathcal{N}(r_i, w_i^2)
+\end{align*}
+where \( r_i \) is the initial estimate of the radial distance of vertex \( \vc{v}_i\) and \( w_i \) is the initial variance, or confidence, in the radial distance.
+The radial distance of each measurement, \( p_{j,i} = \norm{\vc{p}_j}\), is also assumed to be distributed according to the Gaussian distribution
+\begin{align*}
+    p_{j,i} \sim \mathcal{N}(r_{j,i}, w_{j,i}^2)
+\end{align*}
+where \( r_{j,i} = \norm{\vc{p}_{j,i}} \) defines the radial distance of the surface vector measurement and \( w_{j, i}\) defines the variance of the measurement with respect to vertex \( \vc{v}_i\).
+Each measurement is defined by the index \( j \) while the associated vertex is defined by \( i \). 
+As a result, the measurement \( p_{j, i} \) defines the distribution of measurement \( j \) with respect to vertex \( i \). 
+Any given measurement may be used to update one or several vertices.
+
+The variance for each measurement vector is assumed to be related to the ``distance'' from the measurement to vertex \( \vc{v}_i \).
+Here we use the \gls{geodesic} distance to parameterize the difference, and hence  uncertainty, of associating the measurement with a given vertex.
+From spherical trigonometry~\cite{gade2010} the central angle between measurement \( \vc{p}_i \) and vertex \( \vc{v}_i \) of the shape estimate is
+\begin{align}\label{eq:geodesic_distance}
+    \Delta \sigma_{j,i} = \arctan \parenth{\frac{\norm{\vc{p}_j \times \vc{v}_i}}{\vc{p}_j \cdot \vc{v}_i }}.
+\end{align}
+The variance of measurement \( \vc{p}_i \) with respect to vertex \( \vc{v}_i \) is then defined as the arc length as
+\begin{align}
+    w_{j, i} = \norm{\vc{p}_j} \Delta \sigma_{j,i} .
+\end{align}
+This approach relates the uncertainty of the measurement, \( \vb{p}_j \) with the geodesic distance to a given vertex, \( \vb{v}_i \).
+As a result, measurements which are far from a vertex, where \( \Delta \sigma \) is large, will tend to have a larger variance and hence uncertainty. 
+This approach can be considered as a form of a correlation based sensor model~\cite{thrun2005}.
+The main benefit of a correlation based approach, in constrast to feature extraction is the relative simplicity of implementation.
+However, the resulting correlation values do not posses any physical significance and do not represent the noise or uncertainty characteristics of the sensor.
+
+From Bayes' theorem, the posterior probability is
+\begin{align}
+    p(v_i | p_{j, i}) = \frac{p(p_{j, i} | v_i) p(v_i)}{p( p_{j, i})} \propto p(p_{j,i} | v_i) p(v_i).
+\end{align}
+From the properties of a Gaussian, the posterior probability given a measurement is also distributed according to a Gaussian distribution~\cite{bishop2006} and given by
+\begin{align}\label{eq:posterior_probability}
+    \mathcal{N} \parenth{\frac{w_{j, i}^2 r_i + w_i^2 r_{j, i}}{w_i^2 + w_{j, i}^2} , \frac{w_i^2  w_{j, i}^2}{w_i^2 +  w_{j, i}^2}} .
+\end{align}
+From~\cref{eq:posterior_probability}, the posterior probability conditioned on the measurement is the weighted average of the prior knowledge and the measurement. 
+Measurements that are far from the vertex will have a high uncertainty or variance and will have a reduced impact on the radial position of the vertex.
+Additional measurements are incorporated using a weighted average of prior belief and the measurement uncertainty.
+
+In order to improve the computational efficiency measurement updates are assumed to be local in nature.
+Instead of applying a measurement to all vertices of the mesh, the measurement is only applied to the vertices which are within a specified region of the measurement. 
+We define a region of interest, \( \Delta S \), about each measurement which defines the surface area over which the measurement will affect the mesh estimate.
+We relate \( \Delta S \) to an equivalent angular constraint using
+\begin{align}\label{eq:region_of_interest}
+    \Delta \sigma_{max} = \sqrt \frac{\Delta S}{r_b^2}
+\end{align}
+where \( r_b \) defines the Brillouin  sphere radius, or the radius of the circumscribing sphere of the asteroid.
+Only vertices which satisfy \( \Delta \sigma_i \leq \Delta \sigma_{max} \) are considered in the Bayesian update shown in~\cref{eq:posterior_probability}.
+\section{Autonomous Surface Mapping}
+
+% TODO Cost function to decide on which piont to measure
+Want to enable autonomous exploration.
+
+Need to determine next state to move and where to measure
+
+Each vertex of shape model has an associated uncertainty.
+
+Goal is to minimize the uncertainty
+
+Too expensive to use a global optimization scheme and solve the optimal control problem
+
+Cost function is weighted sum of: distance, uncertainty, control cost
+
+Once we have a state we can manuever spacecraft there using \( \SE \) control and point at asteroid
+
+
+\subsection{Landing Area Selection and Refinement}
+
+Select a specific landing site and refine the area
+
+Several metrics can be used to determine and appropriate landing site
+
+Surface slope (gravity vector from scheeres paper)
+
+Uncertainty
+
+Estimated science value. Real mission would require much more extensive mapping but this approach demonstrates that autonmous mapping is possible
+
+Use mesh refinement to subdivide a specific area and then take more measurements
+
+\section{Shape Reconstruction Examples}
+\subsection{Kinematics based reconstruction}
+\begin{figure}[h]
+    \centering
+    \subcaptionbox{Initial mesh estimate\label{fig:start}}{\includegraphics[height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/2018_SSPI/partial_initial.jpg}}~
+    \subcaptionbox{First measurement added\label{fig:first}}{\includegraphics[width=0.5\textwidth]{figures/2018_SSPI/partial_0.jpg}}
+
+    \subcaptionbox{\SI{25}{\percent} of measurments added\label{fig:quarter}}{\includegraphics[width=0.5\textwidth]{figures/2018_SSPI/partial_512.jpg}}~
+    \subcaptionbox{\SI{50}{\percent} of measurements added\label{fig:half}}{\includegraphics[width=0.5\textwidth]{figures/2018_SSPI/partial_1024.jpg}}
+
+    \subcaptionbox{\SI{75}{\percent} of measurements added\label{fig:threequarter}}{\includegraphics[width=0.5\textwidth]{figures/2018_SSPI/partial_1536.jpg}}~
+    \subcaptionbox{Final reconstruction\label{fig:final}}{\includegraphics[width=0.5\textwidth]{figures/2018_SSPI/partial_2047.jpg}}
+    \caption{4769 Castalia incremental reconstruction. The initial ellipsoid is incrementally modified by radially moving each vertex to best match the measurements.~\label{fig:reconstruction}}
+\end{figure}
+
+Here we present initial results of reconstructing the shape of asteroid 4769 Castalia.
+Castalia is a potentially  hazardous asteroid and the first asteroid which used radar imaging to generate a 3D surface shape~\cite{hudson1994}.
+In this example, we seek to incrementally build an accurate shape of Castalia from an initial triaxial ellipsoid model.
+Our initial shape for Castalia is a triaxial ellipsoid with semi-axes equal to \( \SI{1.8}{\kilo\meter} \times \SI{0.8}{\kilo\meter} \times \SI{0.8}{\kilo\meter}\) and shown in~\cref{fig:start}.
+We use this choice of initial estimate since the semi-major axes of an asteroid are able to be computed based on Earth-measurements~\cite{busch2011}.
+Furthermore, this type of model also allows for the use of analytical gravitational models for use in preliminary analysis or in the absence of higher fidelity shape information~\cite{scheeres1994}.
+
+Simulated measurements of the surface of 4769 Castalia are used to update the initial mesh estimate.
+The truth shape model, and the associated vertices, are used as simulated measurements of the shape of Castalia~\cite{neese2004}.
+The true shape model of 4769 Castalia is composed of \num{2048} vertices and \num{4092} triangular faces.
+The initial ellipsoid is chosen to have approximately the same number of vertices as the final true shape and such that the total number of vertices remains constant.
+It is possible to incorporate more vertices, for example by splitting faces into smaller faces, but this does not affect the general approach.
+
+% TODO Metric to measure goodness of reconstruction (volume and uncertainty plots}
+
+% TODO Show examples of shape reconstruction (Castalia, using C++ code for speed)
+
+% TODO Show the dynamic exploration and reconstruction of Castlia and 52760
+
+\subsection{Dynamic Simulation}
 
 \section{Computational Geometry}
 
@@ -780,51 +643,5 @@ In
 \begin{itemize}
     \item Review surface reconstruction algorithms
     \item Talk about the one that is implemented inside VTK Hoppe papers
-    \item 
 \end{itemize}
 
-\section{Updating a mesh}
-
-In order to update a mesh given a single new data point, \( p \in \R^3\) requires the following steps:
-\begin{enumerate}
-    \item Determine the distance from \( p \) to the primitives of the surface
-        \begin{itemize}
-            \item This involves determining the distance to all the vertices, edges, and faces of the surface
-        \end{itemize}
-    \item Find the minimum distance to the primitives
-    \item Based on the closest primitive decide on a method to incorporate \( p \)
-        \begin{itemize}
-            \item This step is still TBD, but the basic idea is to modify the connected edges/faces to incorporate \( p\).
-                This will most likely require some form of Delauney Triangulation
-        \end{itemize}
-    \item Return the new mesh
-\end{enumerate}
-
-\section{Testing and Robustness}
-
-\begin{itemize}
-    \item Handle situation where no face/edge are in ``view''
-    \item \( p \) is inside the surface
-    \item \( p \) is on the surface, face or edge, or even a vertex
-    \item Multiple primitives are equidistant from \( p \)
-\end{itemize}
-
-\section{Current Progress}
-
-I've created methods to determine the minimum distance to the vertices, edges, and the faces of a mesh. 
-The basic algorithm for each is shown below.
-The computation of the closest vertex is fairly straightforward. 
-However, the closest edge/face is less straightforward.
-
-
-\subsection{Our approach}
-
-Model LIDAR
-
-Simulate measurements
-
-Update shape
-
-Update gravity model
-
-Control based on new estimate of shape
