@@ -499,7 +499,7 @@ The initial shape estimate is chosen to have approximately the same number of ve
     \subcaptionbox{Final reconstruction\label{fig:final}}{\includegraphics[width=0.5\textwidth]{figures/2018_SSPI/partial_2047.jpg}}
     \caption{4769 Castalia incremental reconstruction. The initial ellipsoid is incrementally modified by radially moving each vertex to best match the measurements.~\label{fig:reconstruction}}
 \end{figure}
-\section{Autonomous Guidance}\label{sec:explore_asteroid}
+\section{Autonomous Mapping Guidance}\label{sec:explore_asteroid}
 
 The mesh update algorithm presented in~\cref{sec:radius_update} does not offer a method to determine which portion of the surface needs to be updated. 
 In this section, we present a computationally efficient approach to surface mapping and trajectory generation.
@@ -560,7 +560,7 @@ The vertex which minimizes~\cref{eq:explore_cost}
 is determined and used to determine the desired position of the spacecraft in the asteroid fixed frame.
 The terminal state is transformed into the inertial frame and chosen as a point above \( \vc{v}_{min} \) as
 \begin{align}
-    \rpos = r_d \att \vc{v}_{min}, 
+    \rpos = r_d \aatt \vc{v}_{min}, 
 \end{align}
 where \( r_d \) is again chosen to ensure a safety margin above the surface.
 The desired attitude command, \( R_d\), is chosen such that the spacecraft camera axis, \( \vc{b}_1 \), is directed along the nadir towards the asteroid.
@@ -575,22 +575,100 @@ R_d &= \begin{bmatrix} \vb{b}_{1d} & \vb{b}_{2d} & \vb{b}_{3d} \end{bmatrix} .
 \end{align}
 The camera axis is aligned with the spacecraft \( \vb{b}_ 1 \) axis, which is direted towards the asteroid, throughout the trajectory.
 
-\subsection{Landing Area Selection and Refinement}
+\subsection{Landing Area Refinement}\label{sec:landing_refinement}
+The shape update approach presented in~\cref{sec:radius_update} is designed with autonomous operations in mind. 
+It is based on an initial coarse shape estimate that is iteratively updated with range measurements of the surface.
+Furthermore, the original mesh is uniformly distributed and as a result many small topological features such as rocks or small craters are not be captured by the shape model. 
+However, these small features are critical for surface operations and safe landings.
+In addition, it would be computationaly prohibitive to have a uniformly high resolution mesh.
+In this section, we extend the previous shape update approach to enable a much higher fidelity in a specific location.
 
-Select a specific landing site and refine the area
+Mixed resolution surface meshes are routinely used in finite element and geometric modeling applications~\cite{botsch2010}.
+As shown in~\cite{mcmahon2017}, utilizing mixed resolution shape models for asteroid missions offers the potential of reduced computational demands.
+The computational cost of the polyhedron potential model given by~\cref{eq:potential} is roughly proporitional to the number of faces in the shape model.
+As a result, a uniformly high resolution shape would quickly become intractable for realtime operations.
+However, utilizing a mixed resolution approach allows for a high fidelity in a smaller mission critical area, such as a landing site, with a limited impact on the computational cost.
 
-Several metrics can be used to determine and appropriate landing site
+The selection of a landing site will typically require a vast quantity of data and weigh a multitude of possible metrics, such as scientific value, hardware constraints, timing and communication limits, or safety considerations. 
+In our analysis we consider the surface slope, the distance to the surface, and a fictitious science metric in order to determine the best landing site based on the complete shape estimate.
+This approach allows for a spacecraft to autonomously select and land on an asteroid.
 
-Surface slope (gravity vector from scheeres paper)
+The surface slope is computed according to the method developed in~\cite{scheeres1996}.
+Due to the small size, and therefore low gravitational attraction, the force at each point on the surface is a combination of the gravitational attraction and the centripital acceleration.
+At the center of each face, \( f_i = \begin{bmatrix} f_x & f_y & f_z \end{bmatrix} \), we compute a modified surface acceleration as
+\begin{align}\label{eq:surface_force}
+    U_m = \omega^2 \begin{bmatrix} f_x \\ f_y \\ 0 \end{bmatrix} + \begin{bmatrix} U_x \\ U_y \\ U_z \end{bmatrix},
+\end{align}
+where \( \omega \in \R^1 \) is the angular velocity of the asteroid and \( U_i \) is computed from~\cref{eq:attraction}.
+Then the surface slope can be computed from
+\begin{align}\label{eq:surface_slope}
+    \cos \parenth{ \pi - \phi } = \frac{\vc{n}_f \cdot U_m}{\norm{U_m}},
+\end{align}
+where \( \phi \in \R^1 \) is the surface slope defines the angle between the surface normal \( \vc{n}_f \in \R^3 \) and the force vector at the surface.
+If \( \phi = \SI{0}{\degree} \) then the force vector and the surface normal are anti-parallel, while \( \phi > \SI{90}{\degree} \) means that a particle on the surface would be thrown off the body as the centripetal force is larger than the gravitational attraction.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{example-image-golden}
+    \caption[Estimate Surface slope of 4769 Castalia]{Estimated surface slope of asteroid 4769 Castalia~\label{fig:surface_slope_castalia}}
+\end{figure}
+Additionally, we compute the distance, using~\cref{eq:geodesic_distance}, between the spacecraft state and each face of the asteroid. 
+Finally, we also assign a random science value to the surface in the form of two dimensional Gaussian.
+Utilizing these metric, a landing site is chosen to minimize the surface cost given as
+\begin{align}\label{eq:surface_cost}
+    J_l =  J_{\text{distance}} - J_{\text{science}},
+\end{align}
+where the surface slope is considered a hard constraint such that any candidate landing site must satisify \( \phi \leq \phi_m \).
+Graphically, we can combine~\cref{fig:surface_slope_castalia,fig:surface_distance_castalia,fig:surface_science_castalia} to generate a single graphical representation fo of the cost function~\cref{eq:surface_cost}.
 
-Uncertainty
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{example-image-golden}
+    \caption[Distance to Surface]{Estimated distance to surface asteroid 4769 Castalia~\label{fig:surface_distance_castalia}}
+\end{figure}
 
-Estimated science value. Real mission would require much more extensive mapping but this approach demonstrates that autonmous mapping is possible
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{example-image-golden}
+    \caption[Science Value]{Science Value over the surface~\label{fig:surface_science_castalia}}
+\end{figure}
 
-Use mesh refinement to subdivide a specific area and then take more measurements
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{example-image-golden}
+    \caption[Total Surface Landing Cost]{Total Landing Cost~\label{fig:surface_total_castalia}}
+\end{figure}
+
+\paragraph{Mesh Refinement}\label{sec:refinement}
+Once a suitable landing site is selected the surround area is isolated and refined by adding new vertices and faces in the specified area.
+The goal of refinement, or more generally remeshing, is given a mesh ( or a portion of it), compute another mesh whose elements satisfy some quality metrics while suitabably approximating the original mesh.
+In this work, we utilize the isotropic remeshing algorithm implemented in \gls{cgal}.
+This algorithm uses an iterative method which repeatedly splits long edges, collapses short edges, and relocates vertices until all edges are approximately the desired target edge length.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{example-image-golden}
+    \caption[Isotropic Remeshing]{LOOK IN PMP 101 Local remeshing operations.(Image duplicated from~\cite{botsch2010})\label{fig:isotropic_remeshing}}
+\end{figure}
+For example,~\cref{fig:cube_remesh} shows the isotropic remeshing result for the selected faces of a cube.
+Each of the new triangular faces of the mesh have approximately equal edge lengths and the surface tangent is preserved.
+\begin{figure}[htbp]
+    \centering
+    \subcaptionbox{Original Cube\label{fig:cube_original_mesh}}{\includegraphics[width=0.5\textwidth]{example-image-golden}}~
+    \subcaptionbox{Remeshed Cube\label{fig:cube_refine_mesh}}{\includegraphics[width=0.5\textwidth]{example-image-golden}}
+    \caption{Example of Isotropic remeshing of a face of a cube\label{fig:cube_remesh}}
+\end{figure}
+
+The true shape model of asteroid Castalia is generated from radar imagery.
+As a result, the shape model is not highly detailed as it does not contain small craters or surface features.
+In order to apply the landing refinement process we agument a small portion of the mesh with some additional features and utilize the mesh update scheme in~\cref{sec:radius_update} to measure the surface.
+The augmented model of Castalia is shown in~\cref{fig:bumpy_castalia}.
+\begin{figure}[htbp]
+    \centering
+    \subcaptionbox{Original  Castalia\label{fig:orig_castalia}}{\includegraphics[width=0.5\textwidth]{example-image-golden}}~
+    \subcaptionbox{Bumpy Castalia\label{fig:bump_castalia}}{\includegraphics[width=0.5\textwidth]{example-image-golden}}
+    \caption{Original and Bumpy Castalia with landing features~\label{fig:bumpy_castalia}}
+\end{figure}
 
 \section{Shape Reconstruction Examples}
-\subsection{Kinematics based reconstruction}
 
 % TODO Metric to measure goodness of reconstruction (volume and uncertainty plots}
 
@@ -598,7 +676,6 @@ Use mesh refinement to subdivide a specific area and then take more measurements
 
 % TODO Show the dynamic exploration and reconstruction of Castlia and 52760
 
-\subsection{Dynamic Simulation}
 
 \section{Computational Geometry}
 
