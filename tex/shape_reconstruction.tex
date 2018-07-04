@@ -291,7 +291,27 @@ Platonic solids
 % TODO Show examples of shape reconstruction (Castalia, using C++ code for speed)
 
 % TODO Come up with some consistent notation
- 
+
+One of the first main tasks for any spacecraft mission to an asteroid is to generate an estimate of the asteroid shape.
+This shape model is used for a variety of purposes, such as the polyhedron potential model, like that presented in~\cref{sec:polyhedron_potential} or landing site section and guidance.
+We assume that upon arrival at a target body, the spacecraft contains an initial estimate for the shape of the asteroid.
+This shape can be a coarse estimate computed from ground measurements or it can be a triaxial ellipsoid based on the semimajor axes of the asteroid, such as that shown in~\cref{fig:start} which represents the maximum axes for asteroid Castalia.
+Additionally, we assume that the shape estimate is closed and a triangular faceted surface mesh, emulating those used in practice to represent asteroids.
+Furthermore, the number of vertices in the estimate can be scaled according to the resulting acccuracy or computational capabilities. 
+A wide variety of algorithms are available to generate a near uniformly spaced mesh for an arbitrary surface~\cite{persson2004,boissonnat2005}.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.75\textwidth]{figures/2018_SSPI/castalia_raycasting_plot.jpg}
+    \caption{Simulated LIDAR measurements of asteroid Castalia~\label{fig:lidar_example}}
+\end{figure}
+We assume the spacecraft contains a range sensor, such as LIDAR, that allows for the accurate measurement of the relative distance between the spacecraft and asteroid~\cite{zuber1997,zuber2000}.
+This type of sensor measures the round-trip time for a pulse of energy to leave the spacecraft, reflect off the surface, and return to a collector on board.
+Given the time total time of flight, the distance can be accurately computed using \( d = \frac{\Delta TOF}{2 c} \) where \( c \) is the constant speed of light.
+Assuming accurate knowledge of the pointing direction of the spacecraft we can compute a direction from the spacecraft to the measurement location on the surface.
+The output of this sensor is a vector, \( \vb{d}_i \), defined in the spacecraft fixed frame which gives the direction to a measurement point on the surface of the asteroid. 
+Using the state of the asteroid, we can transform this measurement to the asteroid fixed frame using the simple transformation
+
 Here we present a simple algorithm to incrementally update a polygonal mesh with new data points.
 In addition, we then demonstrate it's use with two numerical examples.
 We begin by assuming we have an initial model of the asteroid in the form of a triangular mesh.
