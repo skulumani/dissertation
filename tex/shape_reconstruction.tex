@@ -327,7 +327,7 @@ The spacecraft measures the range between itself and the asteroid surface to sev
 These measurements provide a collection of points which lie on the surface of the asteroid, and by combining many points, a so called ``point cloud'', allows us to reconstruct the shape.
 % TODO Discuss point cloud reconstruction approaches (all computational exspensive and designed for unknown surfaces)
 
-Our algorithm applies a Bayesian framework to radially modify each vertex \( \vc{v}_i \in \R^3\) of the shape estimate based on measurement \( \vc{p}_i \R^3 \). 
+Our algorithm applies a Bayesian framework to radially modify each vertex \( \vc{v}_i \in \R^3\) of the shape estimate based on measurement \( \vc{p}_i \in \R^3 \). 
 This approach alleviates much of complexity of incorporating new vertices or surface triangulation common in surface reconstruction methods~\cite{berg2008}.
 This assumption means that the total number of vertices of the shape model is fixed.
 However, additional detail, in the form of additional vertices, is possible by using standard mesh subdivision algorithms~\cite{orourke1998}, which we demonstrate in a subsequent section.
@@ -336,28 +336,32 @@ The radial distance of each vertex, \( v_i = \norm{\vc{v}_i}\), is assumed to be
 \begin{align*}
     v_i \sim \mathcal{N}(r_i, w_i^2)
 \end{align*}
-where \( r_i \) is the initial estimate of the radial distance of vertex \( \vb{v}_i\) and \( w_i \) is the initial variance, or confidence, in the radial distance.
-The radial distance of each measurement, \( p_{j,i} = \norm{\vb{p}_j}\), is also assumed to be distributed according to the Gaussian distribution
+where \( r_i \) is the initial estimate of the radial distance of vertex \( \vc{v}_i\) and \( w_i \) is the initial variance, or confidence, in the radial distance.
+The radial distance of each measurement, \( p_{j,i} = \norm{\vc{p}_j}\), is also assumed to be distributed according to the Gaussian distribution
 \begin{align*}
     p_{j,i} \sim \mathcal{N}(r_{j,i}, w_{j,i}^2)
 \end{align*}
-where \( r_{j,i} = \norm{\vb{p}_{j,i}} \) defines the radial distance of the surface vector measurement and \( w_{j, i}\) defines the variance of the measurement with respect to vertex \( \vb{v}_i\).
+where \( r_{j,i} = \norm{\vc{p}_{j,i}} \) defines the radial distance of the surface vector measurement and \( w_{j, i}\) defines the variance of the measurement with respect to vertex \( \vc{v}_i\).
 Each measurement is defined by the index \( j \) while the associated vertex is defined by \( i \). 
 As a result, the measurement \( p_{j, i} \) defines the distribution of measurement \( j \) with respect to vertex \( i \). 
-A given measurement may be used to update one or several vertices.
+Any given measurement may be used to update one or several vertices.
 
-The variance for each measurement vector is assumed to be related to the ``distance'' from the measurement to vertex \( \vb{v}_i \).
-Here we use the geodesic distance to parameterize the difference, and hence  uncertainty, of associating the measurement with a given vertex.
-From spherical trigonometry the central angle between measurement \( \vb{p}_i \) and vertex \( \vb{v}_i \) of the shape estimate is
-\begin{align}
-    \Delta \sigma_{j,i} = \arctan \parenth{\frac{\norm{\vb{p}_j \times \vb{v}_i}}{\vb{p}_j \cdot \vb{v}_i }}.
+The variance for each measurement vector is assumed to be related to the ``distance'' from the measurement to vertex \( \vc{v}_i \).
+Here we use the \gls{geodesic} distance to parameterize the difference, and hence  uncertainty, of associating the measurement with a given vertex.
+From spherical trigonometry~\cite{gade2010} the central angle between measurement \( \vc{p}_i \) and vertex \( \vc{v}_i \) of the shape estimate is
+\begin{align}\label{eq:geodesic_distance}
+    \Delta \sigma_{j,i} = \arctan \parenth{\frac{\norm{\vc{p}_j \times \vc{v}_i}}{\vc{p}_j \cdot \vc{v}_i }}.
 \end{align}
-The variance of measurement \( \vb{p}_i \) with respect to vertex \( \vb{v}_i \) is then defined as the arc length as
+The variance of measurement \( \vc{p}_i \) with respect to vertex \( \vc{v}_i \) is then defined as the arc length as
 \begin{align}
-    w_{j, i} = \norm{\vb{p}_j} \Delta \sigma_{j,i} .
+    w_{j, i} = \norm{\vc{p}_j} \Delta \sigma_{j,i} .
 \end{align}
 This approach relates the uncertainty of the measurement, \( \vb{p}_j \) with the geodesic distance to a given vertex, \( \vb{v}_i \).
 As a result, measurements which are far from a vertex, where \( \Delta \sigma \) is large, will tend to have a larger variance and hence uncertainty. 
+This approach can be considered as a form of a correlation based sensor model~\cite{thrun2005}.
+The main benefit of a correlation based approach, in constrast to feature extraction is the relative simplicity of implementation.
+However, the resulting correlation values do not posses any physical significance and do not represent the noise or uncertainty characteristics of the sensor.
+
 From Bayes' theorem, the posterior probability is
 \begin{align}
     p(v_i | p_{j, i}) = \frac{p(p_{j, i} | v_i) p(v_i)}{p( p_{j, i})} \propto p(p_{j,i} | v_i) p(v_i).
