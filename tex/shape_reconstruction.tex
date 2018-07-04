@@ -382,7 +382,7 @@ Look at miller2002 for more detail and discuss that here
     \item Months of mapping and ground based OD
 \end{itemize}
 
-\section{Incremental Radius modification}
+\section{Incremental Radius modification}\label{sec:radius_update}
 
 
 
@@ -477,41 +477,17 @@ We relate \( \Delta S \) to an equivalent angular constraint using
 \end{align}
 where \( r_b \) defines the Brillouin  sphere radius, or the radius of the circumscribing sphere of the asteroid.
 Only vertices which satisfy \( \Delta \sigma_i \leq \Delta \sigma_{max} \) are considered in the Bayesian update shown in~\cref{eq:posterior_probability}.
-\section{Autonomous Surface Mapping}
 
-% TODO Cost function to decide on which piont to measure
-Want to enable autonomous exploration.
+The approach presented in~\cref{sec:radius_update} allows one to update the shape of an asteroid given a single range measurement of the surface.
+A sequential process can be used to iteratively update the shape estimate given many measurements of the surface. 
+For example,~\cref{fig:reconstruction} illustrates the process of updating an initial shape estimate of asteroid 4769 Castalia.
+The initial shape for Castalia is a triaxial ellipsoid with semi-axes equal to \( \SI{1.8}{\kilo\meter} \times \SI{0.8}{\kilo\meter} \times \SI{0.8}{\kilo\meter}\) and shown in~\cref{fig:start}.
 
-Need to determine next state to move and where to measure
-
-Each vertex of shape model has an associated uncertainty.
-
-Goal is to minimize the uncertainty
-
-Too expensive to use a global optimization scheme and solve the optimal control problem
-
-Cost function is weighted sum of: distance, uncertainty, control cost
-
-Once we have a state we can manuever spacecraft there using \( \SE \) control and point at asteroid
-
-
-\subsection{Landing Area Selection and Refinement}
-
-Select a specific landing site and refine the area
-
-Several metrics can be used to determine and appropriate landing site
-
-Surface slope (gravity vector from scheeres paper)
-
-Uncertainty
-
-Estimated science value. Real mission would require much more extensive mapping but this approach demonstrates that autonmous mapping is possible
-
-Use mesh refinement to subdivide a specific area and then take more measurements
-
-\section{Shape Reconstruction Examples}
-\subsection{Kinematics based reconstruction}
-\begin{figure}[h]
+Simulated measurements of the surface of 4769 Castalia are used to update the initial mesh estimate.
+The truth shape model, and the associated vertices, are used as simulated measurements of the shape of Castalia~\cite{neese2004}.
+The true shape model of 4769 Castalia is composed of \num{2048} vertices and \num{4092} triangular faces.
+The initial shape estimate is chosen to have approximately the same number of vertices as the final true shape and such that the total number of vertices remains constant.
+\begin{figure}[htbp]
     \centering
     \subcaptionbox{Initial mesh estimate\label{fig:start}}{\includegraphics[height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/2018_SSPI/partial_initial.jpg}}~
     \subcaptionbox{First measurement added\label{fig:first}}{\includegraphics[width=0.5\textwidth]{figures/2018_SSPI/partial_0.jpg}}
@@ -523,19 +499,176 @@ Use mesh refinement to subdivide a specific area and then take more measurements
     \subcaptionbox{Final reconstruction\label{fig:final}}{\includegraphics[width=0.5\textwidth]{figures/2018_SSPI/partial_2047.jpg}}
     \caption{4769 Castalia incremental reconstruction. The initial ellipsoid is incrementally modified by radially moving each vertex to best match the measurements.~\label{fig:reconstruction}}
 \end{figure}
+\section{Autonomous Mapping Guidance}\label{sec:explore_asteroid}
 
-Here we present initial results of reconstructing the shape of asteroid 4769 Castalia.
-Castalia is a potentially  hazardous asteroid and the first asteroid which used radar imaging to generate a 3D surface shape~\cite{hudson1994}.
-In this example, we seek to incrementally build an accurate shape of Castalia from an initial triaxial ellipsoid model.
-Our initial shape for Castalia is a triaxial ellipsoid with semi-axes equal to \( \SI{1.8}{\kilo\meter} \times \SI{0.8}{\kilo\meter} \times \SI{0.8}{\kilo\meter}\) and shown in~\cref{fig:start}.
-We use this choice of initial estimate since the semi-major axes of an asteroid are able to be computed based on Earth-measurements~\cite{busch2011}.
-Furthermore, this type of model also allows for the use of analytical gravitational models for use in preliminary analysis or in the absence of higher fidelity shape information~\cite{scheeres1994}.
+The mesh update algorithm presented in~\cref{sec:radius_update} does not offer a method to determine which portion of the surface needs to be updated. 
+In this section, we present a computationally efficient approach to surface mapping and trajectory generation.
+Utilizing the nonlinear controllers developed in~\cref{sec:se3_control} allows the spacecraft to manuever to the best location that will update the shape estimate.
+Utilizing this approach enables autonomous operations at the asteroid. 
 
-Simulated measurements of the surface of 4769 Castalia are used to update the initial mesh estimate.
-The truth shape model, and the associated vertices, are used as simulated measurements of the shape of Castalia~\cite{neese2004}.
-The true shape model of 4769 Castalia is composed of \num{2048} vertices and \num{4092} triangular faces.
-The initial ellipsoid is chosen to have approximately the same number of vertices as the final true shape and such that the total number of vertices remains constant.
-It is possible to incorporate more vertices, for example by splitting faces into smaller faces, but this does not affect the general approach.
+The ideal guidance approach involves solving a global optimal control problem which satisfies the system dynamics from~\cref{sec:dumbbell_model} while minimizing the shape uncertainty.
+There are a wide variety of optimal control techniques which may be utilized to solve the problem, such as indirect methods~\cite{kirk2012,bryson1975}.
+However, regardless of the method an optimal control formulation will result in a more computationally demanding algorithm.
+Since the \gls{lidar} will be operating at upwards of \SI{1}{\hertz} efficient processing of the measurement and computation of the guidance commands is critical.
+
+We define a cost associated with each vertex \( \vc{v}_i \) of the shape estimateas
+\begin{align}\label{eq:explore_cost}
+    J_i (\ipos) = \alpha_w J_{w_i} + \alpha_d J_{d_i}(\ipos) + \alpha_c J_{c_i}(\ipos)
+\end{align}
+where the weighting factors \( \alpha_w, \alpha_d, \alpha_c \in \R^1 \) are chosen such that \( \alpha_w + \alpha_d + \alpha_c = 1 \).
+The term \( J_{w_i} \in \R^1 \) represents the cost associated with the uncertainty of vertex \( i \) as
+\begin{align}\label{eq:weight_cost}
+    J_{w_i} &= - \frac{w_i}{w_m}
+\end{align}
+where \( w_i \) is the uncertainty of vertex \( i \) and \( w_m \) is a maximum uncertainty used to scale the values.
+The term \( J_{d_i} \) represents the scaled geodesic distance between the current state of the spacecraft and vertex \( i \),
+\begin{align}\label{eq:distance_cost}
+    J_{d_i}(\ipos) &= \frac{1}{\pi} \arctan \parenth{ \frac{\norm{\ipos \times \vc{v}_i}}{\ipos \cdot \vc{v}_i}}.
+\end{align}
+
+Finally, a control component is included in the cost function which penalizes vertices that are difficult to reach.
+Consider, the current position of the spacecraft in the asteroid fixed frame as \( \rpos\) and a desired vertex \( \vc{v}_i \) of the shape estimate.
+We can define a normal vector to the plane spanned by \( \rpos, \vc{v}_i \) as
+\begin{align}\label{eq:normal_to_plane}
+    \vc{n}_i = \frac{\rpos \times \vc{v}_i}{\norm{\rpos} \norm{\vc{v}_i}}.
+\end{align}
+Then a trajectory \( x_d(\theta) \) as
+\begin{align}\label{eq:spherical_waypoint}
+    x_d(\theta) = r_d \exp{\parenth{\theta \hat{\vc{n}_i}} } \frac{\rpos}{\norm{\rpos}},
+\end{align}
+where \( \theta : \bracket{0, \frac{\rpos \cdot \vc{v}_i}{\norm{\rpos}\norm{\vc{v}_i}}} \to \R^1\) parameterizes the desired trajectory.
+\Cref{eq:spherical_waypoint} simply describes a portion of a great circle trajectory between the current state, \( \rpos \), and the desired vertex \( \vc{v}_i \)~\cite{chen2016}.
+The altitude of the spacecraft, \( r_d \in \R \), can be chosen based on sensor characterisitics of safety concerns.
+For example, \( r_d \) can be chosen as the distance of the Biroullin sphere with an additional safety margin to mitigate any surface collision.
+The translational controller presented in~\cref{eq:translational_control} is used to determine the magnitude of the control to follow \( x_d\).
+We assume that the tracking errors are small, such that \( e_x, e_v \) are negligible, therefore the control becomes
+\begin{align}\label{eq:tracking_control_cost}
+    u_f(\theta) = -F_{ext}(x_d(\theta)), 
+\end{align}
+where the external force is defined by the polyhedron potential model given in~\cref{eq:inertial_velocity_dynamics}.
+The control cost is then defined as the integral over the desired trajectory~\cref{eq:spherical_waypoint} between the current state and the desired vertex as
+\begin{align}\label{eq:control_cost}
+    J_{c_i}(\rpos) = \frac{1}{u_m} \int_{\theta_0}^{\theta_f} u_f(\theta)^T R u_f(\theta) d\theta,
+\end{align}
+where \( u_m \) is used to normalize and scale \( J_{c_i} \).
+\Cref{eq:control_cost} is numerically integrated over the trajectory \( x_d(t) \) and used to penalize vertices which have a larger cost.
+
+The vertex which minimizes~\cref{eq:explore_cost} 
+\begin{align*}
+    \vc{v}_{min} = \min_{\vc{v}_i} J,
+\end{align*}
+is determined and used to determine the desired position of the spacecraft in the asteroid fixed frame.
+The terminal state is transformed into the inertial frame and chosen as a point above \( \vc{v}_{min} \) as
+\begin{align}
+    \rpos = r_d \aatt \vc{v}_{min}, 
+\end{align}
+where \( r_d \) is again chosen to ensure a safety margin above the surface.
+The desired attitude command, \( R_d\), is chosen such that the spacecraft camera axis, \( \vc{b}_1 \), is directed along the nadir towards the asteroid.
+It is sufficient to define two orthogonal vectors to uniquely determine the attitude of the spacecraft.
+The \( \vc{b}_{3d} \) vector is chosen to lie in the plane spanned by \(\vc{b}_{1d} \) and \( \vc{e}_3 = \vc{f}_3 \).
+The desired attitude command is defined as
+\begin{align}
+    \vb{b}_{1d} &= - \frac{\vb{x}}{\norm{\vb{x}}} , \\
+    \vb{b}_{3d} &= \frac{\vb{f}_3 - \parenth{\vb{f}_3 \cdot \vb{b}_{1d}} \vb{b}_{1d}}{\norm{\vb{f}_3 - \parenth{\vb{f}_3 \cdot \vb{b}_{1d}} \vb{b}_{1d}}}, \\
+    \vb{b}_{2d} &= \vb{b}_{3d} \times \vb{b}_{1d} , \\
+R_d &= \begin{bmatrix} \vb{b}_{1d} & \vb{b}_{2d} & \vb{b}_{3d} \end{bmatrix} .
+\end{align}
+The camera axis is aligned with the spacecraft \( \vb{b}_ 1 \) axis, which is direted towards the asteroid, throughout the trajectory.
+
+\subsection{Landing Area Refinement}\label{sec:landing_refinement}
+The shape update approach presented in~\cref{sec:radius_update} is designed with autonomous operations in mind. 
+It is based on an initial coarse shape estimate that is iteratively updated with range measurements of the surface.
+Furthermore, the original mesh is uniformly distributed and as a result many small topological features such as rocks or small craters are not be captured by the shape model. 
+However, these small features are critical for surface operations and safe landings.
+In addition, it would be computationaly prohibitive to have a uniformly high resolution mesh.
+In this section, we extend the previous shape update approach to enable a much higher fidelity in a specific location.
+
+Mixed resolution surface meshes are routinely used in finite element and geometric modeling applications~\cite{botsch2010}.
+As shown in~\cite{mcmahon2017}, utilizing mixed resolution shape models for asteroid missions offers the potential of reduced computational demands.
+The computational cost of the polyhedron potential model given by~\cref{eq:potential} is roughly proporitional to the number of faces in the shape model.
+As a result, a uniformly high resolution shape would quickly become intractable for realtime operations.
+However, utilizing a mixed resolution approach allows for a high fidelity in a smaller mission critical area, such as a landing site, with a limited impact on the computational cost.
+
+The selection of a landing site will typically require a vast quantity of data and weigh a multitude of possible metrics, such as scientific value, hardware constraints, timing and communication limits, or safety considerations. 
+In our analysis we consider the surface slope, the distance to the surface, and a fictitious science metric in order to determine the best landing site based on the complete shape estimate.
+This approach allows for a spacecraft to autonomously select and land on an asteroid.
+
+The surface slope is computed according to the method developed in~\cite{scheeres1996}.
+Due to the small size, and therefore low gravitational attraction, the force at each point on the surface is a combination of the gravitational attraction and the centripital acceleration.
+At the center of each face, \( f_i = \begin{bmatrix} f_x & f_y & f_z \end{bmatrix} \), we compute a modified surface acceleration as
+\begin{align}\label{eq:surface_force}
+    U_m = \omega^2 \begin{bmatrix} f_x \\ f_y \\ 0 \end{bmatrix} + \begin{bmatrix} U_x \\ U_y \\ U_z \end{bmatrix},
+\end{align}
+where \( \omega \in \R^1 \) is the angular velocity of the asteroid and \( U_i \) is computed from~\cref{eq:attraction}.
+Then the surface slope can be computed from
+\begin{align}\label{eq:surface_slope}
+    \cos \parenth{ \pi - \phi } = \frac{\vc{n}_f \cdot U_m}{\norm{U_m}},
+\end{align}
+where \( \phi \in \R^1 \) is the surface slope defines the angle between the surface normal \( \vc{n}_f \in \R^3 \) and the force vector at the surface.
+If \( \phi = \SI{0}{\degree} \) then the force vector and the surface normal are anti-parallel, while \( \phi > \SI{90}{\degree} \) means that a particle on the surface would be thrown off the body as the centripetal force is larger than the gravitational attraction.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{example-image-golden}
+    \caption[Estimate Surface slope of 4769 Castalia]{Estimated surface slope of asteroid 4769 Castalia~\label{fig:surface_slope_castalia}}
+\end{figure}
+Additionally, we compute the distance, using~\cref{eq:geodesic_distance}, between the spacecraft state and each face of the asteroid. 
+Finally, we also assign a random science value to the surface in the form of two dimensional Gaussian.
+Utilizing these metric, a landing site is chosen to minimize the surface cost given as
+\begin{align}\label{eq:surface_cost}
+    J_l =  J_{\text{distance}} - J_{\text{science}},
+\end{align}
+where the surface slope is considered a hard constraint such that any candidate landing site must satisify \( \phi \leq \phi_m \).
+Graphically, we can combine~\cref{fig:surface_slope_castalia,fig:surface_distance_castalia,fig:surface_science_castalia} to generate a single graphical representation fo of the cost function~\cref{eq:surface_cost}.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{example-image-golden}
+    \caption[Distance to Surface]{Estimated distance to surface asteroid 4769 Castalia~\label{fig:surface_distance_castalia}}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{example-image-golden}
+    \caption[Science Value]{Science Value over the surface~\label{fig:surface_science_castalia}}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{example-image-golden}
+    \caption[Total Surface Landing Cost]{Total Landing Cost~\label{fig:surface_total_castalia}}
+\end{figure}
+
+\paragraph{Mesh Refinement}\label{sec:refinement}
+Once a suitable landing site is selected the surround area is isolated and refined by adding new vertices and faces in the specified area.
+The goal of refinement, or more generally remeshing, is given a mesh ( or a portion of it), compute another mesh whose elements satisfy some quality metrics while suitabably approximating the original mesh.
+In this work, we utilize the isotropic remeshing algorithm implemented in \gls{cgal}.
+This algorithm uses an iterative method which repeatedly splits long edges, collapses short edges, and relocates vertices until all edges are approximately the desired target edge length.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{example-image-golden}
+    \caption[Isotropic Remeshing]{LOOK IN PMP 101 Local remeshing operations.(Image duplicated from~\cite{botsch2010})\label{fig:isotropic_remeshing}}
+\end{figure}
+For example,~\cref{fig:cube_remesh} shows the isotropic remeshing result for the selected faces of a cube.
+Each of the new triangular faces of the mesh have approximately equal edge lengths and the surface tangent is preserved.
+\begin{figure}[htbp]
+    \centering
+    \subcaptionbox{Original Cube\label{fig:cube_original_mesh}}{\includegraphics[width=0.5\textwidth]{example-image-golden}}~
+    \subcaptionbox{Remeshed Cube\label{fig:cube_refine_mesh}}{\includegraphics[width=0.5\textwidth]{example-image-golden}}
+    \caption{Example of Isotropic remeshing of a face of a cube\label{fig:cube_remesh}}
+\end{figure}
+
+The true shape model of asteroid Castalia is generated from radar imagery.
+As a result, the shape model is not highly detailed as it does not contain small craters or surface features.
+In order to apply the landing refinement process we agument a small portion of the mesh with some additional features and utilize the mesh update scheme in~\cref{sec:radius_update} to measure the surface.
+The augmented model of Castalia is shown in~\cref{fig:bumpy_castalia}.
+\begin{figure}[htbp]
+    \centering
+    \subcaptionbox{Original  Castalia\label{fig:orig_castalia}}{\includegraphics[width=0.5\textwidth]{example-image-golden}}~
+    \subcaptionbox{Bumpy Castalia\label{fig:bump_castalia}}{\includegraphics[width=0.5\textwidth]{example-image-golden}}
+    \caption{Original and Bumpy Castalia with landing features~\label{fig:bumpy_castalia}}
+\end{figure}
+
+\section{Shape Reconstruction Examples}
 
 % TODO Metric to measure goodness of reconstruction (volume and uncertainty plots}
 
@@ -543,105 +676,5 @@ It is possible to incorporate more vertices, for example by splitting faces into
 
 % TODO Show the dynamic exploration and reconstruction of Castlia and 52760
 
-\subsection{Dynamic Simulation}
-
-\section{Computational Geometry}
-
-This section can discuss some background in computational geometry.
-
-The majority of computational geometry algorithms are developed for simple planar \glspl{polygon}.
-
-The surface of an object is described as the union of the surfaces of the polygons which define it.
-
-
-\subsection{Surface Reconstruction}
-One of the main mission objectives for asteroid operations is to generate the three-dimensional shape of an asteroid.
-This shape generation is a subset of a larger class of methods called surface reconstruction.
-The goal of surface reconstruction is stated as follows: Given a set of sample points \( X\) assumed to lie on /near the surface \( U \), create a surface model \( S \) approximating \( U \).
-Surface reconstruction is a well-researched field and widely applied in the industrial and computer vision fields.
-The generation of a surface from an object is important in reverse engineering, product design and medical product construction~\cite{amenta2001}.
-The surface reconstruction problem is applied in a variety of fields in science and engineering including 3D scanning, surface reconstruction from contours and surface sketching~\cite{hoppe1992}.
-
-Surface reconstruction, or sometimes referred to as 3D scanning, is the generation of accurate models of real world objects.
-Surface Reconstruction techniques are frequently used to digitize sculptures/architecture, machine parts, archaeological artifacts, or terrain.
-There are a variety of methods to digitize objects, such as laser range finding, mechanical touch probes, or computer vision techniques, i.e. depth from stereo.
-From these digitization methods, a large collection, often times on the order of \( 10^6 - 10^9\), of points are generated.
-From this \gls{point_cloud}, the goal is to construct a surface representation which is faithful to the original data, and the underlying object of interest.
-This process of generating the surface should ideally have the following properties:
-\begin{itemize}
-    \item Fast - low computational cost
-    \item Low memory - storing/operating on large collection of points is frequently memory constrained. Also for use in constrained enviornments
-    \item Robustness - Algorithm must be robust to holes, noisy data, varying or low sample density
-    \item Accuracy - the method should approximate the shape based on the data rather than interpolating between data points
-    \item Features - ability to capture sharp edges or features
-\end{itemize}
-
-% TODO Describe different methods of surface reconstruction
-
-The \gls{implicit_shape} representation allows for a complex shape to be defined by a single equation.
-This approach has the additional benefit of unifying both the surface and volume rendering to a single equation.
-The main advantage associated with implicit surface approach is handling sparse or scattered data.
-It is possible to repair or edit the shape using standard implicit modeling operations.
-For example, given two implicit surfaces
-\begin{align*}
-    F_1(x, y, z) &= 0, \\
-    F_2(x, y, z) &= 0 ,
-\end{align*}
-one can define a new surface as
-\begin{align*}
-    F(x, y, z) = \mu F_1(x, y, z) + (1-\mu) F_2(x,y,z) = 0,
-\end{align*}
-where \( \mu \in \bracket{0, 1}\) is a design parameters defining the blending between the two input surfaces.
-This blending allows one to use primitive shapes/models to create complex surfaces.
-% TODO Find citation for this (blending of implicit shapes)
-However, this implicit representation makes it difficult to modify the local shape of the surface. 
-Examples of this approach include~\cite{bolitho2009,hoppe1992,ohtake2005}.
-% TODO Describe in more detail the difference, drawbacks/advantages, of each implicit surface approach.
-
-Surface reconstruction was first addressed in the early 80's~\cite{uselton1983,uselton1981}.
-The main goal of this early work was focused on developing methods to accurately and efficiently display three dimensional data on a computing system.
-The resulting work developed a computational algorithm to construct the three-dimensional polygonal representation of an object from the collection of points describing the surface.
-The determination of a polygonal surface through a series of points is a relatively straightforward problem, as there an infinite number of solutions.
-However, determining the ``best'' surface is a more challenging problem.
-As the original surface is typically not available, hence the need for measurement and digitization, the quality of the resulting surface must be computed using the measurement points.
-
-Another approach is to use the sculpting of delauney triangulation~\cite{boissonnat1984}.
-Further refinements came with the notion of \( \alpha \) shapes~\cite{edelsbrunner1994}.
-The notion of a signed distance function and the implicit shape representation proposed~\cite{hoppe1992}.
-A modification of this approach extended it to a voxel grid~\cite{curless1996}.
-Ball pivoting allows for a relatively simple method of determining the surface~\cite{bernardini1999}.
-Next, another method seeks to project sample points, with neighbors onto a plane then lift the local two dimensional delauney triangulation to reconstruct the surface~\cite{gopi2000}.
-
-Our overarching goal for the surface reconstruction is to develop an efficient algorithm which allows for online, or near realtime, surface reconstruction from a sparse point cloud.
-Furthermore, this method should allow for an incremental update given a new partial point cloud.
-For example, given an initial coarse point cloud representing the initial guess of the surface, new, high density data, is acquired in a specific location on the surface.
-Instead of processing the entire point cloud, and recomputing the global mesh, an incremental update would allow for modification of only the local neighborhood of the additional data.
-Another useful requirment would be the ability to easily combine two overlapping point clouds into a single surface mesh.
-Finally, the resulting surface should be topologically valid and without holes, i.e. a polyhedron mesh with triangular facets.
-
-\subsubsection{Watertight surface mesh}
-
-There are two main approaches to generate water tight surface meshes.
-The powercrust algorithm seeks to approximate the \gls{MAT} of a three-dimensional object~\cite{amenta2001}.
-Then the inverse map is used to produce a watertight boundary.
-
-Another approach is the tight cocone algorithm~\cite{dey2006}.
-This reduced the complexity of powercrust and uses a post processing method to fill any holes.
-
-\subsubsection{3D Scanning}
-There are several different approches to acquire shape information of an object.
-The computer vision field several approaches exist to determine the shape of an object.
-In feature correspondance, landmarks are registered and compared across several different  views of an object. 
-The shape of the surface is inferred given the known motion of the camera system~\cite{szeliski2010}.
-Another approach is based on the different surface reflectivity of the surface, called shape from shading~\cite{szeliski2010}.
-
-% TODO Mechanical scanning using a probe or laser scanner 
-% TODO Range images are generated with distances to the surface. Assume known motion of camera (SLAM) if not known
-
-In 
-% TODO Talk about how we construct a mesh given a point cloud
-\begin{itemize}
-    \item Review surface reconstruction algorithms
-    \item Talk about the one that is implemented inside VTK Hoppe papers
-\end{itemize}
+% TODO First exploration, then refinement, then landing
 
