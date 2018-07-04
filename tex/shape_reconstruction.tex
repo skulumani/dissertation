@@ -512,17 +512,17 @@ However, regardless of the method an optimal control formulation will result in 
 Since the \gls{lidar} will be operating at upwards of \SI{1}{\hertz} efficient processing of the measurement and computation of the guidance commands is critical.
 
 We define a cost associated with each vertex \( \vc{v}_i \) of the shape estimateas
-\begin{align}
+\begin{align}\label{eq:explore_cost}
     J_i (\ipos) = \alpha_w J_{w_i} + \alpha_d J_{d_i}(\ipos) + \alpha_c J_{c_i}(\ipos)
 \end{align}
 where the weighting factors \( \alpha_w, \alpha_d, \alpha_c \in \R^1 \) are chosen such that \( \alpha_w + \alpha_d + \alpha_c = 1 \).
 The term \( J_{w_i} \in \R^1 \) represents the cost associated with the uncertainty of vertex \( i \) as
-\begin{align}
+\begin{align}\label{eq:weight_cost}
     J_{w_i} &= - \frac{w_i}{w_m}
 \end{align}
 where \( w_i \) is the uncertainty of vertex \( i \) and \( w_m \) is a maximum uncertainty used to scale the values.
 The term \( J_{d_i} \) represents the scaled geodesic distance between the current state of the spacecraft and vertex \( i \),
-\begin{align}
+\begin{align}\label{eq:distance_cost}
     J_{d_i}(\ipos) &= \frac{1}{\pi} \arctan \parenth{ \frac{\norm{\ipos \times \vc{v}_i}}{\ipos \cdot \vc{v}_i}}.
 \end{align}
 
@@ -545,26 +545,27 @@ We assume that the tracking errors are small, such that \( e_x, e_v \) are negli
 \begin{align}\label{eq:tracking_control_cost}
     u_f(\theta) = -F_{ext}(x_d(\theta)), 
 \end{align}
-where the external force is defined by the polyhedron potential model given in
-\begin{align}
-    J_{c_i}(\rpos) = \int_{\theta_0}^{\theta_f} u_f(\theta)^T R u_f(\theta) d\theta.
+where the external force is defined by the polyhedron potential model given in~\cref{eq:inertial_velocity_dynamics}.
+The control cost is then defined as the integral over the desired trajectory~\cref{eq:spherical_waypoint} between the current state and the desired vertex as
+\begin{align}\label{eq:control_cost}
+    J_{c_i}(\rpos) = \frac{1}{u_m} \int_{\theta_0}^{\theta_f} u_f(\theta)^T R u_f(\theta) d\theta,
 \end{align}
-This term penalizes vertices that would require a large control input in order to reach.
+where \( u_m \) is used to normalize and scale \( J_{c_i} \).
+\Cref{eq:control_cost} is numerically integrated over the trajectory \( x_d(t) \) and used to penalize vertices which have a larger cost.
 
-% TODO Cost function to decide on which piont to measure
-Want to enable autonomous exploration.
+The vertex which minimizes~\cref{eq:explore_cost} 
+\begin{align*}
+    \vc{v}_{min} = \min_{\vc{v}_i} J,
+\end{align*}
+is determined and used to determine the desired position of the spacecraft in the asteroid fixed frame.
+The terminal state is transformed into the inertial frame and chosen as a point above \( \vc{v}_{min} \) as
+\begin{align}
+    \rpos_f = r_d \frac{\vc{v}_{min}}{\norm{\vc{v}_{min}}}.
+\end{align}
 
-Need to determine next state to move and where to measure
+Pick vertex which minimizes J
 
-Each vertex of shape model has an associated uncertainty.
-
-Goal is to minimize the uncertainty
-
-Too expensive to use a global optimization scheme and solve the optimal control problem
-
-Cost function is weighted sum of: distance, uncertainty, control cost
-
-Once we have a state we can manuever spacecraft there using \( \SE \) control and point at asteroid
+Point spacecraft at surface for simplicity
 
 
 \subsection{Landing Area Selection and Refinement}
