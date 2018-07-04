@@ -560,13 +560,20 @@ The vertex which minimizes~\cref{eq:explore_cost}
 is determined and used to determine the desired position of the spacecraft in the asteroid fixed frame.
 The terminal state is transformed into the inertial frame and chosen as a point above \( \vc{v}_{min} \) as
 \begin{align}
-    \rpos_f = r_d \frac{\vc{v}_{min}}{\norm{\vc{v}_{min}}}.
+    \rpos = r_d \att \vc{v}_{min}, 
 \end{align}
-
-Pick vertex which minimizes J
-
-Point spacecraft at surface for simplicity
-
+where \( r_d \) is again chosen to ensure a safety margin above the surface.
+The desired attitude command, \( R_d\), is chosen such that the spacecraft camera axis, \( \vc{b}_1 \), is directed along the nadir towards the asteroid.
+It is sufficient to define two orthogonal vectors to uniquely determine the attitude of the spacecraft.
+The \( \vc{b}_{3d} \) vector is chosen to lie in the plane spanned by \(\vc{b}_{1d} \) and \( \vc{e}_3 = \vc{f}_3 \).
+The desired attitude command is defined as
+\begin{align}
+    \vb{b}_{1d} &= - \frac{\vb{x}}{\norm{\vb{x}}} , \\
+    \vb{b}_{3d} &= \frac{\vb{f}_3 - \parenth{\vb{f}_3 \cdot \vb{b}_{1d}} \vb{b}_{1d}}{\norm{\vb{f}_3 - \parenth{\vb{f}_3 \cdot \vb{b}_{1d}} \vb{b}_{1d}}}, \\
+    \vb{b}_{2d} &= \vb{b}_{3d} \times \vb{b}_{1d} , \\
+R_d &= \begin{bmatrix} \vb{b}_{1d} & \vb{b}_{2d} & \vb{b}_{3d} \end{bmatrix} .
+\end{align}
+The camera axis is aligned with the spacecraft \( \vb{b}_ 1 \) axis, which is direted towards the asteroid, throughout the trajectory.
 
 \subsection{Landing Area Selection and Refinement}
 
