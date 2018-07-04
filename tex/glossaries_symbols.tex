@@ -6,6 +6,14 @@
     description={a \gls{matrix}}
 }
 
+\newglossaryentry{sym:c}{
+    type=symbols,
+    name={\( c \in \R^1 \)},
+    text={\ensuremath{c} },
+    sort=C,
+    description={The constant speed of light in a vacuum. Defined as \SI{299792458}{\meter\per\second}}
+}
+
 \newglossaryentry{F}{
     type=symbols,
     name={\ensuremath{F}},
@@ -54,4 +62,138 @@
     name={\ensuremath{\beta}},
     sort=B,
     description={Vertical sensor field of view}
+}
+
+\newglossaryentry{sym:Ra}{
+    type=symbols,
+    text={\aatt},
+    name={\(\aatt \in \R^{3\times3}\)},
+    description={Attitude of the asteroid. This rotation matrix transforms vectors from the asteroid fixed frame to the inertial frame.},
+    nonumberlist=true
+}
+
+\newglossaryentry{sym:ipos}{
+    type=symbols,
+    text={\ipos},
+    name={\(\ipos \in \R^3\)},
+    sort=X,
+    description={Inertial position of the spacecraft center of mass expressed in the inertial frame.},
+    nonumberlist=true
+}
+
+\newglossaryentry{sym:ivel}{
+    type=symbols,
+    text={\ivel},
+    name={\(\ivel \in \R^3\)},
+    sort=V,
+    description={Inertial velocity vector of spacecraft with respect to the inertial frame and expressed in the inertial frame.},
+    nonumberlist=true
+}
+
+\newglossaryentry{sym:iatt}{
+    type=symbols,
+    text={\iatt},
+    name={\( \iatt \in \R^{3 \times 3}\)},
+    sort=R,
+    description={Inertial attitude of the spacecraft with respect to the inertial frame. This rotation matrix transforms vectors from the spacecraft fixed frame to the inertial frame.},
+    nonumberlist=true
+}
+
+\newglossaryentry{sym:iangvel}{
+    type=symbols,
+    text={\iangvel},
+    name={\( \iangvel \in \R^3 \)},
+    sort=W,
+    description={Angular velocity of the spacecraft with respect to the inertial frame and expressed in the spacecraft fixed frame.},
+    nonumberlist=true
+}
+
+\newglossaryentry{sym:rpos} {
+    type=symbols,
+    text={\rpos},
+    name={\( \rpos \in \R^3 \)},
+    sort=X,
+    description={Relative position vector of spacecraft with respect to asteroid and expressed in the asteroid fixed frame.},
+    nonumberlist=true
+}
+
+\newglossaryentry{sym:rvel}{
+    type=symbols,
+    text={\rvel},
+    name={\( \rvel \in \R^3 \)},
+    sort=V,
+    description={Relative velocity vector of spacecraft with respect to asteroid and expressed in the asteroid fixed frame.},
+    nonumberlist=true
+}
+
+\newglossaryentry{sym:ratt}{
+    type=symbols,
+    text={\ratt},
+    name={\( \ratt \in \R^{3 \times 3} \)},
+    sort=R,
+    description={Relative attitude of the spacecraft with respect to the asteroid. This rotation matrix converts vectors in the spacecraft fixed frame to the asteroid fixed frame.},
+    nonumberlist=true
+}
+
+\newglossaryentry{sym:rangvel}{
+    type=symbols,
+    text={\rangvel},
+    name={\( \rangvel \in \R^3 \)},
+    sort=W,
+    description={Angular velocity of the spacecraft with respect to the inertial frame and expressed in the asteroid fixed frame.},
+    nonumberlist=true
+}
+
+\newglossaryentry{sym:rattvar}{
+    type=symbols,
+    text={\rattvar},
+    name={\( \rattvar \in \so\)},
+    sort=N,
+    description={The reduced variation of the relative attitude.}
+    nonumberlist=true
+}
+
+\newglossaryentry{sym:iattvar}{
+    type=symbols,
+    text={\iattvar},
+    name={\( \iattvar \in \so \)},
+    sort=N,
+    description={The variation of the inertial attitude.},
+    nonumberlist=true
+}
+
+\newglossaryentry{sym:Jdr}{
+    type=symbols,
+    text={\Jdr},
+    name={\( \Jdr \in \R^{3 \times 3} \)},
+    sort=J,
+    description={Nonstandard moment of inertia matrix expressed in the asteroid fixed frame.},
+    nonumberlist=true
+}
+
+\newglossaryentry{sym:Jr}{
+    type=symbols,
+    text={\Jr},
+    name={\( \Jr \in \R^{3 \times 3}\)},
+    sort=J,
+    description={Standard moment of inertia matrix expressed in the asteroid fixed frame.},
+    nonumberlist=true
+}
+
+\newglossaryentry{sym:J}{
+    type=symbols,
+    text={\Ji},
+    name={\( \Ji \in \R^{3 \times 3}\)},
+    sort=J,
+    description={Standard moment of inertia matrix expressed in the spacecraft body fixed frame.},
+    nonumberlist=true
+}
+
+\newglossaryentry{sym:Jd}{
+    type=symbols,
+    text={\Jdi},
+    name={\( \Jdi \in \R^{3 \times 3}\)},
+    sort=J,
+    description={Nonstandard moment of inertia matrix expressed in the spacecraft body fixed frame.},
+    nonumberlist=true
 }
