@@ -706,6 +706,31 @@ In addition, we compute the volume of the estimate shape throughout the simulati
 Discoved in \num{1951}, Geographos is a potentially hazardous asteroid which passes sufficiently close to the Earth to present a hazard.
 \Cref{fig:geographos_reconstruction} shows the shape reconstruction for asteroid Geographos at several distinct points during the process.
 Comparing~\cref{fig:geographos_partial_100, fig:geographos_truth} shows that the final shape closely matches the true radar model.
+In~\cref{fig:geographos_metrics} we display the vertex uncertainty and mesh volume as a function of time.
+The plots show the the reconstruction achieves an accurate shape estimate with a total volume which closesly matches the true volume.
+
+\num{6489} Golevka is a small angular shaped asteroid of the Apollo group.
+Discoved in \num{1995}, Golevka is a potentially hazardous asteroid which passes sufficiently close to the Earth to present a hazard.
+\Cref{fig:golevka_reconstruction} shows the shape reconstruction for asteroid Geographos at several distinct points during the process.
+Comparing~\cref{fig:golevka_partial_100, fig:golevka_truth} shows that the final shape closely matches the true radar model.
+In~\cref{fig:golevka_metrics} we display the vertex uncertainty and mesh volume as a function of time.
+The plots show the the reconstruction achieves an accurate shape estimate with a total volume which closesly matches the true volume.
+It is interesting to note that the reconstruction of Golevka achieves an accurate shape reconstruction in a much smaller amount of time as compared to Geographos.
+This is primarily due to the smaller size of Golevka and the relatively spherical shape of the body in contrast to the highly elliptical shape of Geographos.
+
+\begin{figure}[htbp]
+    \centering
+    \subcaptionbox{Initial Shape Estimate\label{fig:golevka_partial_0}}{\includegraphics[height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/mesh_update/golevka/partial_0.jpg}}~
+    \subcaptionbox{\SI{25}{\percent} of measurements added\label{fig:golevka_partial_25}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/golevka/partial_1321.jpg}}
+
+    \subcaptionbox{\SI{50}{\percent} of measurments added\label{fig:golevka_partial_50}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/golevka/partial_2643.jpg}}~
+    \subcaptionbox{\SI{75}{\percent} of measurements added\label{fig:golevka_partial_75}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/golevka/partial_3964.jpg}}
+
+    \subcaptionbox{\SI{100}{\percent} of measurements added\label{fig:golevka_partial_100}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/golevka/partial_5285.jpg}}~
+    \subcaptionbox{True Shape Model\label{fig:golevka_truth}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/golevka/truth.jpg}}
+    \caption[Asteroid Golevka Incremental Reconstruction]{Incremental Reconstruction of asteroid Golevka~\label{fig:golevka_reconstruction}}
+\end{figure}
+
 \begin{figure}[htbp]
     \centering
     \subcaptionbox{Initial Shape Estimate\label{fig:geographos_partial_0}}{\includegraphics[height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/mesh_update/geographos/partial_0.jpg}}~
@@ -719,8 +744,13 @@ Comparing~\cref{fig:geographos_partial_100, fig:geographos_truth} shows that the
     \caption[Asteroid Geographos Incremental Reconstruction]{Incremental Reconstruction of asteroid Geographos~\label{fig:geographos_reconstruction}}
 \end{figure}
 
-In~\cref{fig:geographos_metrics} we display the vertex uncertainty and mesh volume as a function of time.
-The plots show the the reconstruction achieves an accurate shape estimate with a total volume which closesly matches the true volume.
+\begin{figure}[htbp]
+    \centering
+    \subcaptionbox{Normalized Uncertainty\label{fig:golevka_uncertainty}}{\includegraphics[width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/mesh_update/golevka/uncertainty.pdf}}~
+    \subcaptionbox{Volume Percent Error\label{fig:golevka_volume}}{\includegraphics[width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/mesh_update/golevka/volume.pdf}}
+    \caption{Normalized uncertainty and volume percent error for Golevka\label{fig:golevka_metrics}}
+\end{figure}
+
 \begin{figure}[htbp]
     \centering
     \subcaptionbox{Normalized Uncertainty\label{fig:geographos_uncertainty}}{\includegraphics[width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/mesh_update/geographos/uncertainty.pdf}}~
@@ -728,44 +758,11 @@ The plots show the the reconstruction achieves an accurate shape estimate with a
     \caption{Normalized uncertainty and volume percent error for Geographos\label{fig:geographos_metrics}}
 \end{figure}
 
-% TODO Golevka
-
 
 
 \subsection{Full Dynamic Model }\label{sec:dynamic_exploration}
 Asteroid (\num{52760}) \num{1998} \(\text{ML}_{14}\) was discovered in \num{1998} and is near Earth asteroid of the Apollo group and classified as a potentially hazardous body.
 The asteroid is roughly spherical with a mean radius of approximately \SI{1}{\kilo\meter}.
-\begin{figure}[htbp]
-    \centering
-    \subcaptionbox{Initial Shape Estimate\label{fig:52760_partial_0}}{\includegraphics[height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/mesh_update/52760/partial_0}}~
-    \subcaptionbox{\SI{25}{\percent} of measurements added\label{fig:52760_partial_25}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/52760/partial_258}}
-
-    \subcaptionbox{\SI{50}{\percent} of measurments added\label{fig:52760_partial_50}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/52760/partial_517.jpg}}~
-    \subcaptionbox{\SI{75}{\percent} of measurements added\label{fig:52760_partial_75}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/52760/partial_775.jpg}}
-
-    \subcaptionbox{\SI{100}{\percent} of measurements added\label{fig:52760_partial_100}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/52760/partial_1033.jpg}}~
-    \subcaptionbox{True Shape Model\label{fig:52760_truth}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/52760/truth.jpg}}
-    \caption[Asteroid 52760 Incremental Reconstruction]{Incremental Reconstruction of asteroid 52760~\label{fig:52760_reconstruction}}
-\end{figure}
-
-% \begin{figure}[htbp]
-%     \centering
-%     \input{figures/computational_geometry/mesh_update/golevka/volume.pgf}
-% \end{figure}
-
-
-\begin{figure}[htbp]
-    \centering
-    \subcaptionbox{Initial Shape Estimate\label{fig:52760_partial_0}}{\includegraphics[height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/mesh_update/52760/partial_0}}~
-    \subcaptionbox{\SI{25}{\percent} of measurements added\label{fig:52760_partial_25}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/52760/partial_258}}
-
-    \subcaptionbox{\SI{50}{\percent} of measurments added\label{fig:52760_partial_50}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/52760/partial_517.jpg}}~
-    \subcaptionbox{\SI{75}{\percent} of measurements added\label{fig:52760_partial_75}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/52760/partial_775.jpg}}
-
-    \subcaptionbox{\SI{100}{\percent} of measurements added\label{fig:52760_partial_100}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/52760/partial_1033.jpg}}~
-    \subcaptionbox{True Shape Model\label{fig:52760_truth}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/52760/truth.jpg}}
-    \caption[Asteroid 52760 Incremental Reconstruction]{Incremental Reconstruction of asteroid 52760~\label{fig:52760_reconstruction}}
-\end{figure}
 % TODO Show examples of shape reconstruction (Castalia, using C++ code for speed)
 Show exploration
 Show exploration, refinement, and landing
