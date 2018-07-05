@@ -683,6 +683,14 @@ The simulations use a kinematics only model that neglects the effect of gravity 
 In addition, we do not implement the nonlinear geometric controllers of~\cref{sec:se3_control} but instead assume the spacecraft and sensor can be positioned arbitrarily.
 We utilize radar shape models of asteroids \num{4769} Castalia, (\num{52760}) \num{1998} \(\text{ML}_{14}\), \num{1620} Geographos, and 6489 Golevka~\cite{neese2004}.
 The asteroids exhibit a wide range of shapes and demonstrate the effectiveness of the mesh update approach.
+The simulations begin with an triaxial ellipsoid triangular mesh that is sized to match the semi-major axes of the asteroids.
+The number of vertices is chosen to be approximatly equal to that of the radar shape model.
+\Gls{lidar} measurements are generated until the total uncertainty
+\begin{align*}
+    \sum_i w_i,
+\end{align*}
+is sufficiently small.
+In addition, we compute the volume of the estimate shape throughout the simulation using the algorithm presented in~\cref{proof:polyhedron_volume}.
 
 Asteroid (\num{52760}) \num{1998} \(\text{ML}_{14}\) was discovered in \num{1998} and is near Earth asteroid of the Apollo group and classified as a potentially hazardous body.
 The asteroid is roughly spherical with a mean radius of approximately \SI{1}{\kilo\meter}.
@@ -699,7 +707,15 @@ The asteroid is roughly spherical with a mean radius of approximately \SI{1}{\ki
     \caption[Asteroid 52760 Incremental Reconstruction]{Incremental Reconstruction of asteroid 52760~\label{fig:52760_reconstruction}}
 \end{figure}
 
-% TODO Metric to measure goodness of reconstruction (volume and uncertainty plots}
+\begin{figure}[htbp]
+    \centering
+    \input{figures/computational_geometry/mesh_update/golevka/volume.pgf}
+\end{figure}
+%TODO Castalia
+
+% TODO Geographos
+
+% TODO Golevka
 
 \subsection{Asteroid 52760}\label{sec:52760_results}
 % TODO Show examples of shape reconstruction (Castalia, using C++ code for speed)
