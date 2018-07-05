@@ -704,17 +704,28 @@ In addition, we compute the volume of the estimate shape throughout the simulati
 
 \num{1620} Geographos is a highly elongated stony asteroid of the Apollo group.
 Discoved in \num{1951}, Geographos is a potentially hazardous asteroid which passes sufficiently close to the Earth to present a hazard.
+\Cref{fig:geographos_reconstruction} shows the shape reconstruction for asteroid Geographos at several distinct points during the process.
+Comparing~\cref{fig:geographos_partial_100, fig:geographos_truth} shows that the final shape closely matches the true radar model.
 \begin{figure}[htbp]
     \centering
     \subcaptionbox{Initial Shape Estimate\label{fig:geographos_partial_0}}{\includegraphics[height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/mesh_update/geographos/partial_0.jpg}}~
     \subcaptionbox{\SI{25}{\percent} of measurements added\label{fig:geographos_partial_25}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/geographos/partial_1872.jpg}}
 
-    \subcaptionbox{\SI{50}{\percent} of measurments added\label{fig:52760_partial_50}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/52760/partial_517.jpg}}~
-    \subcaptionbox{\SI{75}{\percent} of measurements added\label{fig:52760_partial_75}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/52760/partial_775.jpg}}
+    \subcaptionbox{\SI{50}{\percent} of measurments added\label{fig:geographos_partial_50}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/geographos/partial_3745.jpg}}~
+    \subcaptionbox{\SI{75}{\percent} of measurements added\label{fig:geographos_partial_75}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/geographos/partial_5617.jpg}}
 
-    \subcaptionbox{\SI{100}{\percent} of measurements added\label{fig:52760_partial_100}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/52760/partial_1033.jpg}}~
-    \subcaptionbox{True Shape Model\label{fig:52760_truth}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/52760/truth.jpg}}
-    \caption[Asteroid 52760 Incremental Reconstruction]{Incremental Reconstruction of asteroid 52760~\label{fig:52760_reconstruction}}
+    \subcaptionbox{\SI{100}{\percent} of measurements added\label{fig:geographos_partial_100}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/geographos/partial_7489.jpg}}~
+    \subcaptionbox{True Shape Model\label{fig:geographos_truth}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/geographos/truth.jpg}}
+    \caption[Asteroid Geographos Incremental Reconstruction]{Incremental Reconstruction of asteroid Geographos~\label{fig:geographos_reconstruction}}
+\end{figure}
+
+In~\cref{fig:geographos_metrics} we display the vertex uncertainty and mesh volume as a function of time.
+The plots show the the reconstruction achieves an accurate shape estimate with a total volume which closesly matches the true volume.
+\begin{figure}[htbp]
+    \centering
+    \subcaptionbox{Normalized Uncertainty\label{fig:geographos_uncertainty}}{\includegraphics[width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/mesh_update/geographos/uncertainty.pdf}}~
+    \subcaptionbox{Volume Percent Error\label{fig:geographos_volume}}{\includegraphics[width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/mesh_update/geographos/volume.pdf}}
+    \caption{Normalized uncertainty and volume percent error for Geographos\label{fig:geographos_metrics}}
 \end{figure}
 
 % TODO Golevka
