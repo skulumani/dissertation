@@ -16,13 +16,11 @@ ytick={-0.2,0,0.2,0.4,0.6,0.8,1,1.2},
 yticklabels={−0.2,0.0,0.2,0.4,0.6,0.8,1.0,1.2},
 tick align=outside,
 tick pos=left,
-xmajorgrids,
 x grid style={white!80.0!black},
-ymajorgrids,
 y grid style={white!80.0!black},
-axis line style={white!80.0!black}
+axis line style={darkgray!60.0!black}
 ]
-\addplot [very thick, color0, forget plot]
+\addplot [semithick, color0, forget plot]
 table {%
 0 1
 0.000968054211035818 0.995259531662131
@@ -1059,16 +1057,16 @@ table {%
 0.999031945788964 3.24171532842825e-06
 1 3.09371017920058e-06
 };
-\path [draw=white!80.0!black, fill opacity=0] (axis cs:0,-0.0499967516043118)
+\path [draw=darkgray!60.0!black, fill opacity=0] (axis cs:0,-0.0499967516043118)
 --(axis cs:0,1.04999984531449);
 
-\path [draw=white!80.0!black, fill opacity=0] (axis cs:1,-0.0499967516043118)
+\path [draw=darkgray!60.0!black, fill opacity=0] (axis cs:1,-0.0499967516043118)
 --(axis cs:1,1.04999984531449);
 
-\path [draw=white!80.0!black, fill opacity=0] (axis cs:0,0)
+\path [draw=darkgray!60.0!black, fill opacity=0] (axis cs:0,0)
 --(axis cs:1,0);
 
-\path [draw=white!80.0!black, fill opacity=0] (axis cs:0,1)
+\path [draw=darkgray!60.0!black, fill opacity=0] (axis cs:0,1)
 --(axis cs:1,1);
 
 \end{axis}
