@@ -1,6 +1,6 @@
 % !TEX root = ../dissertation.tex
 
-\chapter{Asteroid Shape Reconstruction and Refinement}\label{chap:shape_reconstruction}
+\chapter{Asteroid Shape Reconstruction and Refinement}\label{sec:shape_reconstruction}
 This chapter is devoted to introducing the application of computational geometry to asteroid shape reconstruction.
 The polyhedron potential model is the standard approach for missions operating around small-bodies.
 As a result, the determination of an accurate shape is critical for both the gravitational model as well as any low-altitude operations.
@@ -669,11 +669,43 @@ The augmented model of Castalia is shown in~\cref{fig:bumpy_castalia}.
 \end{figure}
 
 \section{Shape Reconstruction Examples}
+In this section, we demonstrate the use of the results presented in~\cref{sec:se3_control,sec:shape_reconstruction} with several numerical examples.
+\Cref{sec:kinematic_exploration} focuses on the application of the incremental mesh update scheme of~\cref{sec:radius_update} for several different asteroids.
+The results utilize a kinematics only model of the spacecraft and dynamics instead of the full dynamic simulation. 
+\Cref{sec:52760_results} incorporates the full dynamic model on \( \SE \) of a dumbbell spacecraft given in~\cref{sec:inertial_dumbbell_eoms}, the polyhedron potential model from~\cref{sec:polyhedron_potential}, and the mesh update and guidance scheme presented in~\cref{sec:radius_update}.
+Finally,~\cref{sec:castalia_results} includes a full dynamic simulation and the landing area refinement approach presented in~\cref{sec:landing_refinement}.
+
+\subsection{Incremental Mesh Update Examples}\label{sec:kinematic_exploration}
+
+The incremental mesh update approach from~\cref{sec:radius_update} is used to iteratively update an initial shape estimate with range measurements of the surface.
+The results presented in this section are based on a simplified model to demonstrate the application and the computational efficiency of the approach.
+The simulations use a kinematics only model that neglects the effect of gravity and the motion of the asteroid. 
+In addition, we do not implement the nonlinear geometric controllers of~\cref{sec:se3_control} but instead assume the spacecraft and sensor can be positioned arbitrarily.
+We utilize radar shape models of asteroids \num{4769} Castalia, (\num{52760}) \num{1998} \(\text{ML}_{14}\), \num{1620} Geographos, and 6489 Golevka~\cite{neese2004}.
+The asteroids exhibit a wide range of shapes and demonstrate the effectiveness of the mesh update approach.
+
+Asteroid (\num{52760}) \num{1998} \(\text{ML}_{14}\) was discovered in \num{1998} and is near Earth asteroid of the Apollo group and classified as a potentially hazardous body.
+The asteroid is roughly spherical with a mean radius of approximately \SI{1}{\kilo\meter}.
+\begin{figure}[htbp]
+    \centering
+    \subcaptionbox{Initial Shape Estimate\label{fig:52760_partial_0}}{\includegraphics[height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/mesh_update/52760/partial_0}}~
+    \subcaptionbox{\SI{25}{\percent} of measurements added\label{fig:52760_partial_25}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/52760/partial_258}}
+
+    \subcaptionbox{\SI{50}{\percent} of measurments added\label{fig:52760_partial_50}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/52760/partial_517.jpg}}~
+    \subcaptionbox{\SI{75}{\percent} of measurements added\label{fig:52760_partial_75}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/52760/partial_775.jpg}}
+
+    \subcaptionbox{\SI{100}{\percent} of measurements added\label{fig:52760_partial_100}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/52760/partial_1033.jpg}}~
+    \subcaptionbox{True Shape Model\label{fig:52760_truth}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/52760/truth.jpg}}
+    \caption[Asteroid 52760 Incremental Reconstruction]{Incremental Reconstruction of asteroid 52760~\label{fig:52760_reconstruction}}
+\end{figure}
 
 % TODO Metric to measure goodness of reconstruction (volume and uncertainty plots}
 
+\subsection{Asteroid 52760}\label{sec:52760_results}
 % TODO Show examples of shape reconstruction (Castalia, using C++ code for speed)
-
+Show exploration
+\subsection{4769 Castalia}\label{sec:castalia_results}
+Show exploration, refinement, and landing
 % TODO Show the dynamic exploration and reconstruction of Castlia and 52760
 
 % TODO First exploration, then refinement, then landing
