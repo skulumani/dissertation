@@ -3,6 +3,8 @@ language: generic
 matrix:
   include:
   - os: linux
+git:
+  depth: false
 cache:
   directories:
   - "/tmp/texlive"
