@@ -778,22 +778,44 @@ The control inputs are duplicated from~\cref{sec:se3_control} as
     \vc{u}_m &= -k_R e_R - k_\Omega e_\Omega + \Omega \times J \Omega - M_{ext}.
 \end{align*}
 We consider two simulations about asteroids \num{52760} and Castalia.
-The asteroids are assumed to constantly rotate about the \( \vc{f}_3 = \vc{e}_3\) axis according to the parameters given in~\cref{tab:dynamic_asteroids}
+The asteroids are assumed to constantly rotate about the \( \vc{f}_3 = \vc{e}_3\) axis according to the parameters given in~\cref{tab:dynamic_asteroids}.
+Furthermore, the state of the asteroid, namely the rotation matrix \( \aatt \), is assumed to be known based on ground measurements or previous data.
 \begin{table}[htbp]
     \centering
     \begin{tabular}{lccccc}
         \toprule
-        Asteroid & Semi-major axes (\si{\kilo\meter}) & Rotational Period (\si{\hour}) & Density & Vertices & Faces\\
+        Asteroid & Semi-major axes (\si{\kilo\meter}) & Rotational Period (\si{\hour}) & Density ( \si{\gram\per\centi\meter^3})  & Vertices & Faces\\
         \midrule
+        \num{4769} Castalia & \( 0.8065 \times 0.4905 \times 0.413 \) & \num{4.095} & 2.1 & 2048 & 4092 \\
+        (\num{52760}) \num{1998} \(\text{ML}_{14}\) & \( 1.1 \times 1.1 \times 1.1 \) & \num{14.98} & 2.1 & 8192 & 16320  \\
         \bottomrule
     \end{tabular} 
     \caption{Asteroid properties for dynamic exploration~\label{tab:dynamic_asteroids}}
 \end{table}
+At the beginning of the simulation the spacecraft is assumed to lie on the inertial \( e_1 \) axis, i.e.\ \( \ipos(0) = \begin{bmatrix} x_0 & 0 & 0 \end{bmatrix} \si{\kilo\meter} \).
+In addition, at the initial state the spacecraft is orientated such that the \( b_1 \) axis is aligned with the inertial \( e_2 \) axis.
+In other words the initial orientation is given by \( \iatt(0) = \exp(\frac{\pi}{2} \hat{e}_3)\).
+The shape reconstruction phase of the simulation is simulation over \SI{15000}{\second}, over which time the spacecraft will take \gls{lidar} measurements of the surface at \SI{1}{\hertz}.
+Once the total uncertainty has been reduced sufficiently the spacecraft manuevers to a ''home`` position aligned with the \( f_1 \) axis of the asteroid.
 
+\paragraph{Asteroid 52760 Reconstruction}
 % TODO 52760 asteroid - show reconstruction, state trajectory, uncertainty and volume
 Asteroid (\num{52760}) \num{1998} \(\text{ML}_{14}\) was discovered in \num{1998} and is near Earth asteroid of the Apollo group and classified as a potentially hazardous body.
 The asteroid is roughly spherical with a mean radius of approximately \SI{1}{\kilo\meter}.
-% TODO Show examples of shape reconstruction (Castalia, using C++ code for speed)
+The initial shape estimate is assumed to be spherical with approximately the same number of vertices as the truth model.
+
+\begin{figure}[htbp]
+    \centering
+    \subcaptionbox{Initial Shape Estimate\label{fig:52760_partial_0}}{\includegraphics[height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/52760/partial_1.jpg}}~
+    \subcaptionbox{\SI{25}{\percent} of measurements added\label{fig:52760_partial_25}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/dynamic_exploration/52760/partial_3749.jpg}}
+
+    \subcaptionbox{\SI{50}{\percent} of measurments added\label{fig:52760_partial_50}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/dynamic_exploration/52760/partial_7499.jpg}}~
+    \subcaptionbox{\SI{75}{\percent} of measurements added\label{fig:52760_partial_75}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/dynamic_exploration/52760/partial_11249.jpg}}
+
+    \subcaptionbox{\SI{100}{\percent} of measurements added\label{fig:52760_partial_100}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/dynamic_exploration/52760/partial_14998.jpg}}~
+    \subcaptionbox{True Shape Model\label{fig:52760_truth}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/52760/truth.jpg}}
+    \caption[Asteroid 52760 Incremental Reconstruction]{Incremental Reconstruction of asteroid 52760~\label{fig:52760_reconstruction}}
+\end{figure}
 Show exploration
 Show exploration, refinement, and landing
 %TODO Castalia
