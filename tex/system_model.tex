@@ -94,14 +94,6 @@ where \( R \in \SO\) is a \( 3 \times 3 \) real matrix with determinant of \( +1
 
 % TODO show example of the update operation 
 
-By expressing the motion of the spacecraft directly on the special euclidean group, we avoid the issues inherent in using other kinematic representations which fail to preserve the geometric properties of the configuration space.
-The kinematics of the spacecraft and asteroid are described in the inertial frame by
-\begin{itemize}
-    \item \( \gls{sym:ipos} \in \R^3 \): the position of the center of mass of the spacecraft represented in the inertial frame \( \evec{i} \),
-    \item \( \gls{sym:iatt} \in \SO\): the rotation matrix which transforms vectors defined in the spacecraft fixed frame, \( \bvec{i} \), to the inertial frame, \( \evec{i} \)
-    \item \( \gls{sym:iangvel} \in \R^3 \): the angular velocity of the spacecraft body fixed frame relative to the inertial frame and represented in the spacecraft body fixed frame \( \bvec{i} \)
-    \item \( \gls{sym:aatt} \in \SO \): the rotation matrix which transforms vectors defined in the asteroid fixed frame, \( \fvec{i} \), to the inertial frame, \( \vecbf{e}_i \)
-\end{itemize}
 
 In this work, we assume that the asteroid is much more massive than the spacecraft and its motion is not affected by that of the spacecraft.
 This assumption allows us to treat the motion of the vehicle independently from that of the asteroid, instead of treating the more complicated full-body problem. 
@@ -228,6 +220,14 @@ In addition, the following equation is also satisfied for any \( \vc{\Omega} \in
 where \( J_{xy} = \int_{\mathcal{B}} xy dm \in \R \) and the other terms are defined simarily.
 
 \subsection{Inertial Frame Equations of Motion}\label{sec:inertial_dumbbell_eoms}
+By expressing the motion of the spacecraft directly on the special euclidean group, we avoid the issues inherent in using other kinematic representations which fail to preserve the geometric properties of the configuration space.
+The kinematics of the spacecraft and asteroid are described in the inertial frame by
+\begin{itemize}
+    \item \( \gls{sym:ipos} \in \R^3 \): the position of the center of mass of the spacecraft represented in the inertial frame \( \evec{i} \),
+    \item \( \gls{sym:iatt} \in \SO\): the rotation matrix which transforms vectors defined in the spacecraft fixed frame, \( \bvec{i} \), to the inertial frame, \( \evec{i} \)
+    \item \( \gls{sym:iangvel} \in \R^3 \): the angular velocity of the spacecraft body fixed frame relative to the inertial frame and represented in the spacecraft body fixed frame \( \bvec{i} \)
+    \item \( \gls{sym:aatt} \in \SO \): the rotation matrix which transforms vectors defined in the asteroid fixed frame, \( \fvec{i} \), to the inertial frame, \( \vecbf{e}_i \)
+\end{itemize}
 
 \paragraph{Kinetic Energy of Dumbbell}\label{sec:inertial_kinetic_energy}
 The kinetic energy of the spacecraft begins with the kinematics defined in~\cref{ssec:dumbbell_eoms_reference_frames} as
