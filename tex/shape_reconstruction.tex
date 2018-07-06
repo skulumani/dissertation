@@ -648,12 +648,17 @@ This algorithm uses an iterative method which repeatedly splits long edges, coll
     \includegraphics[width=\textwidth]{example-image-golden}
     \caption[Isotropic Remeshing]{LOOK IN PMP 101 Local remeshing operations.(Image duplicated from~\cite{botsch2010})\label{fig:isotropic_remeshing}}
 \end{figure}
-For example,~\cref{fig:cube_remesh} shows the isotropic remeshing result for the selected faces of a cube.
-Each of the new triangular faces of the mesh have approximately equal edge lengths and the surface tangent is preserved.
+For example,~\cref{fig:cube_remesh} shows the isotropic remeshing result for the selected faces of a unit cube.
+The original unit cube is composed of \num{8} vertices and \num{12} faces.
+The two triangular faces of the visible side of the cube are selected for the isotropic remeshing operation as shown in~\cref{cube_original_mesh}.
+A target edge length of \num{0.1} is selected for these faces and used to generate~\cref{fig:cube_refine_mesh}.
+The two large triangular faces are divided into a number of smaller triangular faces.
+Furtheremore, the addiitonal faces are all approximatley the same size and preserve the original surface of the cube.
+After the isotropic remeshing operation the number of vertices has increased from \num{8} to \num{140}.
 \begin{figure}[htbp]
     \centering
-    \subcaptionbox{Original Cube\label{fig:cube_original_mesh}}{\includegraphics[width=0.5\textwidth]{example-image-golden}}~
-    \subcaptionbox{Remeshed Cube\label{fig:cube_refine_mesh}}{\includegraphics[width=0.5\textwidth]{example-image-golden}}
+    \subcaptionbox{Original Cube\label{fig:cube_original_mesh}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/isotropic/original_cube.jpg}}~
+    \subcaptionbox{Remeshed Cube\label{fig:cube_refine_mesh}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/isotropic/remesh_cube.jpg}}
     \caption{Example of Isotropic remeshing of a face of a cube\label{fig:cube_remesh}}
 \end{figure}
 
