@@ -31,12 +31,19 @@
 \graphicspath{{./figures/}}% path to images
 
 %------------- CITATION PACKAGES------------------------------
-\usepackage[style=numeric,backend=bibtex8]{biblatex}
+\usepackage[style=numeric,backend=biber]{biblatex}
+\addbibresource{library.bib}
+\ExecuteBibliographyOptions{}
+\AtEveryBibitem{%
+\clearfield{url}%
+\clearfield{doi}%
+\clearfield{issn}%
+\clearfield{isbn}%
+}
 \usepackage{color}
-\definecolor{darkblue}{rgb}{0.0,0.0,0.3}
 \usepackage[]{hyperref} % links to stuff
 \hypersetup{
-  colorlinks   = true, %Colours links instead of ugly boxes
+  colorlinks   = false, %Colours links instead of ugly boxes
   urlcolor     = blue, %Colour for external hyperlinks
   linkcolor    = red, %Colour of internal links
   citecolor   = green %Colour of citations
@@ -48,10 +55,9 @@
 %------------------------------------------
 \usepackage[noabbrev,capitalize]{cleveref} % get fancy referencing
 
-
+% TIKZ
 \usepackage{pgfplots}
 \usepackage{pgf}
-% TIKZ
 \usepackage{tikz}
 \usepackage{environ}
 \usetikzlibrary{decorations.markings,decorations.pathreplacing,calc}
@@ -95,6 +101,7 @@
   \drawarcdelta{#1}{#2}{#3}{#4}
   \node at ($#1+(#2+#3/2:#6)$) {#5};
 }
+% TODO  This should be placed in the figure so it's not global
 \tdplotsetmaincoords{60}{125} % view angle in spherical coordinates
 
 % These packages should come last for real
