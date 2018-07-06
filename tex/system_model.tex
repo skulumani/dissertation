@@ -64,35 +64,37 @@ There are three reference frames of interest for this problem:
 \end{figure}
 
 With the appropriate reference frames, the configuration space of the spacecraft motion is now defined to enable the derivation of the equations of motion.
-From classical mechanics, the parameters which are used to define the motion of the system are called generalized coordinates, and the vector space defined by these coordinates is called the configuration space of the physical system.
+From classical mechanics, the parameters which are used to define the motion of the system are called generalized coordinates and represented by \( \vc{q} \).
+The vector space defined by these coordinates is called the configuration space, \( \mathsf{Q} \), of the physical system.
 Frequently, the physical parameters of the system must also satisfy some mathematical constraints, which then define a configuration manifold of all generalized coordinates within the configuration space which satisfy the constraints.
 For example, the motion of a particle in three-dimensional Euclidean space can be defined by the typical generalized coordinates in the form of a vector
 \begin{align*}
-    \vb{r} = \begin{bmatrix}
+    \vc{r} = \begin{bmatrix}
         x_1 & x_2 & x_3
     \end{bmatrix}^T.
 \end{align*}
-Therefore the configuration space is then the set of all real three dimensional vectors or equivalently, \(\vb{r} \in \R^3\).
+Therefore the configuration space is then the set of all real three dimensional vectors or equivalently, \(\vc{r} \in \gls{sym:real_vector_space}[^3]\).
 
-If we further assume that the point is constrained to the surface of a sphere, for example in the case of a spherical pendulum, then the configuration space becomes the subset of \( \R^3 \) which also define points the on sphere, \( \S^2 \).
+If we further assume that the point is constrained to the surface of a sphere, for example in the case of a spherical pendulum, then the configuration space becomes the subset of \( \R^3 \) which also define points the on sphere, \( \gls{sym:n_sphere} \).
 If the particle is an extended body rather than a point mass then the orientation becomes an additional configuration parameter.
 The orientation of any rigid body can be defined as the orientation of a body fixed reference frame with respect to an inertial frame. 
 As a result, the configuration space for the general motion of a rigid body is defined by at a minimum of three coordinates to represent translation and three coordinates to represent the orientation.
-This configuration space is the semi-direct product, \(\SE = \R^3 \times \SO \), or the special euclidean group.
+This configuration space is the semi-direct product, \( \gls{sym:special_euclidean_group} = \R^3 \times \gls{sym:special_orthogonal_group} \), or the special euclidean group.
 The special euclidean group is the group of all possible rigid body motions and defines the six degrees of freedom possible by our system.
 An element of the special euclidean group can be expressed using the homogenous representation as
 \begin{align*}
     \begin{bmatrix}
-        R & \vb{x} \\
+        R & \vc{x} \\
         0 & 1,
     \end{bmatrix}
 \end{align*}
 where \( R \in \SO\) is a \( 3 \times 3 \) real matrix with determinant of \( +1\) and \( \vb{x} \in \R^{3 \times 1}\) is a column vector.
 
 % TODO Discuss the group update operation as a homogenous transformation on R^4
+
 % TODO show example of the update operation 
-The variations should be carefully constructed such that they respect the geometry of the configuration space.
-By expressing the motion of the dumbbell directly on the special euclidean group, we avoid the issues inherent in using other kinematic representations which fail to preserve the geometric properties of the configuration space.
+
+By expressing the motion of the spacecraft directly on the special euclidean group, we avoid the issues inherent in using other kinematic representations which fail to preserve the geometric properties of the configuration space.
 The kinematics of the dumbbell and asteroid are described in the inertial frame by
 \begin{itemize}
     \item \( \vecbf{x} \in \R^3 \): the position of the center of mass of the dumbbell spacecraft represented in the inertial frame \( \vecbf{e}_i\)
