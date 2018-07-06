@@ -669,6 +669,10 @@ The augmented model of Castalia is shown in~\cref{fig:bumpy_castalia}.
 \end{figure}
 
 \section{Shape Reconstruction Examples}
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
 In this section, we demonstrate the use of the results presented in~\cref{sec:dumbbell_model,sec:se3_control,sec:shape_reconstruction} with several numerical examples.
 The incremental mesh update approach from~\cref{sec:radius_update} is used to iteratively reconstruct the shape of several asteroid given \gls{lidar} measurements.
 We utilize radar shape models of asteroids \num{4769} Castalia, (\num{52760}) \num{1998} \(\text{ML}_{14}\), \num{1620} Geographos, and 6489 Golevka~\cite{neese2004}.
@@ -758,15 +762,42 @@ This is primarily due to the smaller size of Golevka and the relatively spherica
     \caption{Normalized uncertainty and volume percent error for Geographos\label{fig:geographos_metrics}}
 \end{figure}
 
-
-
 \subsection{Full Dynamic Model }\label{sec:dynamic_exploration}
+In this section, we simulate a dumbbell spacecraft in motion around asteroid \num{52760} and asteroid Castalia.
+The dynamic simulation utilizes the inertial equations of motion from~\cref{sec:inertial_dumbbell_eoms} and are given as
+\begin{align*}
+    \dot{\ipos} &= \ivel, \\
+    \parenth{m_1 + m_2} \dot{\ivel} &= - \sum_{i=0}^2 m_i \aatt \deriv{U}{\apos_i} + u_f, \\
+    \dot{\iatt} &= \iatt \iangvel, \label{eq:inertial_attitude_dynamics}\\
+    J \dot{\iangvel} + \hat{\iangvel} J \iangvel &= \sum_{i=0}^2 m_i \hat{\spos}_i \iatt^T \aatt \deriv{U}{\apos_i} + u_m. 
+\end{align*}
+The nonlinear controllers described in~\cref{sec:se3_control} are used to control both the translational and rotational states of the vehicle.
+The control inputs are duplicated from~\cref{sec:se3_control} as
+\begin{align*}
+    \vc{u}_f &= -k_x e_x - k_v e_v - F_{ext} + m \ddot{x}_d . \\
+    \vc{u}_m &= -k_R e_R - k_\Omega e_\Omega + \Omega \times J \Omega - M_{ext}.
+\end{align*}
+We consider two simulations about asteroids \num{52760} and Castalia.
+The asteroids are assumed to constantly rotate about the \( \vc{f}_3 = \vc{e}_3\) axis according to the parameters given in~\cref{tab:dynamic_asteroids}
+\begin{table}[htbp]
+    \centering
+    \begin{tabular}{lccccc}
+        \toprule
+        Asteroid & Semi-major axes (\si{\kilo\meter}) & Rotational Period (\si{\hour}) & Density & Vertices & Faces\\
+        \midrule
+        \bottomrule
+    \end{tabular} 
+    \caption{Asteroid properties for dynamic exploration~\label{tab:dynamic_asteroids}}
+\end{table}
+
+% TODO 52760 asteroid - show reconstruction, state trajectory, uncertainty and volume
 Asteroid (\num{52760}) \num{1998} \(\text{ML}_{14}\) was discovered in \num{1998} and is near Earth asteroid of the Apollo group and classified as a potentially hazardous body.
 The asteroid is roughly spherical with a mean radius of approximately \SI{1}{\kilo\meter}.
 % TODO Show examples of shape reconstruction (Castalia, using C++ code for speed)
 Show exploration
 Show exploration, refinement, and landing
 %TODO Castalia
+%TODO Castalia show refinemetn and create some good landing plots
 % TODO Show the dynamic exploration and reconstruction of Castlia and 52760
 
 % TODO First exploration, then refinement, then landing
