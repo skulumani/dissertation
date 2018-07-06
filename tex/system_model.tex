@@ -1,10 +1,18 @@
 % !TEX root = ../dissertation.tex
 
-\chapter{Mathematical Background}
-This is some text
-\section{Dumbbell Spacecraft Equations of Motion}\label{sec:dumbbell}
+\chapter{Mathematical Background}\label{sec:mathematical_background}
+This chapeter defines and derives the mathematical models that are used throughout the reminder of this work.
+Furthermore, this chapeter also provided the mathematical background in astrodynamic, geometric dynamics and control, topology, and computational geometry that are critical for the subsequent developments.
+This chapter does not provide a complete treatment but rather highlights and derives the results which will be used in future chapters.
 
-In this section we derive the equations of motion of a rigid spacecraft under the influence of the gravitational attraction of a homogenous asteroid.
+In~\cref{sec:dumbbell}, the equations of motion of a rigid dumbbell are derived in both the inertial frame and the rotating asteroid frame.
+In addition, the equations of motion are each presented in the both the Lagrangian and Hamiltonian forms for a total for four seperate equations of motion.
+The dynamics equations of motion are crucial for the geometric controller design of~\cref{sec:se3_control} and dynamic simulations around asteroids of~\cref{sec:shape_reconstruction}.
+\Cref{sec:small_body_modeling} presents the the shape and gravitational models used to represent the asteroids considered in this study. 
+
+\section{Spacecraft Dynamic Models}\label{sec:dumbbell}
+
+In this section, we derive the equations of motion of a rigid spacecraft under the influence of the gravitational attraction of a homogenous asteroid.
 The motion of a spacecraft around an asteroid is markedly different than that of Earth orbiting vehicles.
 First, the gravitational field around an asteroid is highly irregular and complex. 
 The usual assumption of a spherical potential is not valid for small or irregular shaped bodies.
@@ -477,7 +485,9 @@ The relative equations of motion in Hamiltonian form are then defined as
     \rdangmom + \ahangvel \rangmom &= m_1 \parenth{\ratt \spos_1}^\wedge \deriv{U}{\apos_1} + m_2 \parenth{\ratt \spos_2}^\wedge \deriv{U}{\apos_2}. \label{eq:relative_angvel_dynamics_hamiltonian}
 \end{align}
 
-\section{Gravitational Models around Small-Bodies}\label{sec:gravitational_models}
+\section{Small-Body Modeling}\label{sec:small_body_modeling}
+Discuss both gravity and shape modeling
+\subsection{Gravitational Models around Small-Bodies}\label{sec:gravitational_models}
 Due to the irregular shape of small-bodies, the gravitational field around these bodies is equally irregular.
 Furthermore, the relative size of the spacecraft in comparison with the orbital radius and small-body creates a much larger coupling between the translational and rotational states of the spacecraft.
 In addition, spacecraft will tend to operate in very close proximity to the surface.
