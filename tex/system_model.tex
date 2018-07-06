@@ -95,17 +95,18 @@ where \( R \in \SO\) is a \( 3 \times 3 \) real matrix with determinant of \( +1
 % TODO show example of the update operation 
 
 By expressing the motion of the spacecraft directly on the special euclidean group, we avoid the issues inherent in using other kinematic representations which fail to preserve the geometric properties of the configuration space.
-The kinematics of the dumbbell and asteroid are described in the inertial frame by
+The kinematics of the spacecraft and asteroid are described in the inertial frame by
 \begin{itemize}
-    \item \( \vecbf{x} \in \R^3 \): the position of the center of mass of the dumbbell spacecraft represented in the inertial frame \( \vecbf{e}_i\)
-    \item \( R \in \SO\): the rotation matrix which transforms vectors defined in the spacecraft fixed frame, \( \vecbf{b}_i \), to the inertial frame, \( \vecbf{e}_i \)
-    \item \( \vecbf{\Omega} \in \R^3 \): the angular velocity of the spacecraft body fixed frame relative to the inertial frame and represented in the dumbbell body fixed frame \( \vecbf{b}_i \)
-    \item \( R_A \in \SO \): the rotation matrix which transforms vectors defined in the asteroid fixed frame, \( \vecbf{f}_i \), to the inertial frame, \( \vecbf{e}_i \)
+    \item \( \gls{sym:ipos} \in \R^3 \): the position of the center of mass of the spacecraft represented in the inertial frame \( \evec{i} \),
+    \item \( \gls{sym:iatt} \in \SO\): the rotation matrix which transforms vectors defined in the spacecraft fixed frame, \( \bvec{i} \), to the inertial frame, \( \evec{i} \)
+    \item \( \gls{sym:iangvel} \in \R^3 \): the angular velocity of the spacecraft body fixed frame relative to the inertial frame and represented in the spacecraft body fixed frame \( \bvec{i} \)
+    \item \( \gls{sym:aatt} \in \SO \): the rotation matrix which transforms vectors defined in the asteroid fixed frame, \( \fvec{i} \), to the inertial frame, \( \vecbf{e}_i \)
 \end{itemize}
+
 In this work, we assume that the asteroid is much more massive than the spacecraft and its motion is not affected by that of the spacecraft.
 This assumption allows us to treat the motion of the vehicle independently from that of the asteroid, instead of treating the more complicated full-body problem. 
-In~\cref{sec:dumbbell_model} we present the dumbbell model of our spacecraft.
-Using the model, the coupled dynamics of the spacecraft are derived in both the inertial, in~\cref{sec:inertial_dumbbell_eoms} and asteroid fixed frames~\cref{sec:asteroid_dumbbell_eoms}.
+In~\cref{sec:dumbbell_model}, the configuration and mass properties of the spacecraft model are explicitly defined.
+Using the model, the coupled dynamics of the spacecraft are derived in the inertial frame~\cref{sec:inertial_dumbbell_eoms} and asteroid fixed frames in~\cref{sec:asteroid_dumbbell_eoms}.
 
 \subsection{Dumbbell Spacecraft Model}\label{sec:dumbbell_model}
 
@@ -366,7 +367,7 @@ The continuous inerital equations of motion in Hamiltonian form are defined as
     \dot\iangmom  + \hat{\iangvel} \iangmom &= m_1 \hat{\spos}_1 \iatt^T \aatt \deriv{U}{\apos_1} + m_2 \hat{\spos}_2 \iatt^T \aatt \deriv{U}{\apos_2}. \label{eq:inertial_angvel_dynamics_hamiltonian}
 \end{align}
 
-\subsection{Asteroid Frame Equations of Motion}
+\subsection{Asteroid Frame Equations of Motion}\label{sec:asteroid_dumbbell_eoms}
 The complete motion of rigid bodies under the influence of their mutual gravity only depends on the relative position and relative attitude of the bodies~\cite{lee2007a}.
 This is a consequence of the fact that the gravitational potential can be described using only the relative position.
 Physically, this is due to the fact that the total linear and angular momentum of the system is conserved.
