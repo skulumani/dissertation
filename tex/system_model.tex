@@ -10,7 +10,7 @@ In addition, the equations of motion are each presented in the both the Lagrangi
 The dynamics equations of motion are crucial for the geometric controller design of~\cref{sec:se3_control} and dynamic simulations around asteroids of~\cref{sec:shape_reconstruction}.
 \Cref{sec:small_body_modeling} presents the the shape and gravitational models used to represent the asteroids considered in this study. 
 
-\section{Spacecraft Dynamic Models}\label{sec:dumbbell}
+\section{Spacecraft Dynamic Model}\label{sec:dumbbell}
 
 In this section, we derive the equations of motion of a rigid spacecraft under the influence of the gravitational attraction of a homogenous asteroid.
 The motion of a spacecraft around an asteroid is markedly different than that of Earth orbiting vehicles.
@@ -31,6 +31,8 @@ References~\cite{elmasri2005} and~\cite{sanyal2004} investigated the coupling of
 With these insights, we seek to develop the complete coupled equations of motion of a spacecraft around an asteroid.
 The equations of motion should explicitly consider the interaction of the translational and rotational dynamics.
 Furthermore, the equations should be defined in a global and coordinate-free representation to allow for a single global representation of the motion of the spacecraft and asteroid.
+We restrict the developments to a rigid spacecraft composed of two spherical masses connected by a massless rigid link.
+This dumbbell model for a spacecraft can readily be extended to a system of particles to more faithfully represent  any arbitrary rigid body.
 
 \subsection{Reference Frames}\label{ssec:dumbbell_eoms_reference_frames}
 
