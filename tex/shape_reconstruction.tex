@@ -902,12 +902,22 @@ Areas which violate the slope constraint of \( \phi < \SI{5}{\degree} \) are exc
 The next metric is related to the distance from the current spacecraft position to all candidate landing sites on the surface.
 We utilize~\cref{eq:geodesic_distance} to compute a distance metric to the surface.
 Landing sites which are closely will be considered preferentially over those at a larger distance.
+\Cref{fig:distance_castlia_both} shows a surface plot of the distance to the surface. 
+The area immediately beneath the spacecraft has a small cost while those on the opposite side of the asteroid have a much larger cost.
 \begin{figure}[htbp]
     \centering
-    \subcaptionbox{Surface slope of Castalia\label{fig:surface_slope_castalia}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/dynamic_exploration/castalia/refine/slope.pdf}}~
-    \subcaptionbox{Masked surface slope with areas \( \phi > \SI{5}{\degree}\) excluded\label{fig:surface_slope_castalia_masked}}{\includegraphics[width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/castalia/refine/slope_masked.pdf}}
-    \caption{Surface Slope of Asteroid Castalia\label{fig:surface_slope_castalia_both}}
+    \subcaptionbox{Surface Distance to surface of Castalia\label{fig:surface_distance_castalia}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/dynamic_exploration/castalia/refine/dist.pdf}}~
+    \subcaptionbox{Masked distance to surface with areas \( \phi > \SI{5}{\degree}\) excluded\label{fig:surface_slope_castalia_masked}}{\includegraphics[width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/castalia/refine/dist_masked.pdf}}
+    \caption{Distance to surface of Asteroid Castalia\label{fig:distance_castalia_both}}
 \end{figure}
+We can combine~\cref{fig:distance_castalia_both,fig:surface_slope_castalia_both} to determine the best landing site. 
+The combination of the two is shown in~\cref{fig:landing_site_cost} with the desired landing site shown by the blue marker.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/castalia/refine/cost.pdf}
+    \caption{Total Cost for surface Landing based on surface slope and distance\label{fig:landing_site_cost}}
+\end{figure}
+After selecting the appropriate landing site we then prepare for landing by collecting more measurements in the region around the landing area.
 
 \paragraph{Castalia Landing Site Refinement}
 One key benefit of an in-situ spacecraft is the ability to measure surface features at a much higher resolution than is possible from the ground. 
@@ -916,6 +926,17 @@ In order to emulate this in the simulation we augment the shape model of Castali
 However, these small features would be difficult to capture with the current low resolution shape model of approximately \num{4000} faces.
 The lower number of faces is useful for the evaluation of the polyhedron potential model, it is not ideal for the capture of minute surface features. 
 As a result, we utilize the isotropic remeshing operation described previously to selectively increase the fidelity in the region about the desired landing site.
+\Cref{fig:castalia_refine_density} shows that the vertex density increases by approximately an order of magnitude in region immediately surround the landing site.
+\begin{figure}[htbp]
+    \centering
+    \subcaptionbox{Original vertex density of the initial shape estimate\label{fig:intial_vertex_density}}{\includegraphics[width=1.0\textwidth]{figures/computational_geometry/dynamic_exploration/castalia/refine/density.pdf}}
+
+    \subcaptionbox{Vertex density after refinement  around landing site\label{fig:refine_vertex_density}}{\includegraphics[width=1.0\textwidth]{figures/computational_geometry/dynamic_exploration/castalia/land/density.pdf}}
+    \caption{Vertex density before and after refinement at asteroid Catalia\label{fig:castalia_refine_density}}
+\end{figure}
+
+The increased number of faces and vertices in the landing area allows for the capture of the small surface features.
+\Cref{fig:castalia_bump_est} shows that given \gls{lidar} measurements alone and the algorithm presented in~\cref{sec:radius_update} the small craters and features are effectively estimated.
 \begin{figure}[htbp]
     \centering
     \subcaptionbox{True Shape model with surface features\label{fig:castalia_bump_true}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/dynamic_exploration/castalia_bump_true.jpg}}~
@@ -924,3 +945,9 @@ As a result, we utilize the isotropic remeshing operation described previously t
 \end{figure}
 
 \paragraph{Castalia Vertical Descent}
+The final phase of the simulation is to utilize the mixed resolution model and vertically descend to the desired landing site. 
+This is accomplished using the closed loop control of~\cref{sec:se3_control} and a trajectory which transitions from the home postion to the surface over \SI{3600}{\second}.
+
+Show state trajectory plots and a 3d plots of trajectory from landing
+
+Some small kind of conclusion wrapping it all up
