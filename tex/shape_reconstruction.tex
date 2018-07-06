@@ -669,7 +669,10 @@ The augmented model of Castalia is shown in~\cref{fig:bumpy_castalia}.
 \end{figure}
 
 \section{Shape Reconstruction Examples}
+<<<<<<< HEAD
+=======
 
+>>>>>>> master
 In this section, we demonstrate the use of the results presented in~\cref{sec:dumbbell_model,sec:se3_control,sec:shape_reconstruction} with several numerical examples.
 The incremental mesh update approach from~\cref{sec:radius_update} is used to iteratively reconstruct the shape of several asteroid given \gls{lidar} measurements.
 We utilize radar shape models of asteroids \num{4769} Castalia, (\num{52760}) \num{1998} \(\text{ML}_{14}\), \num{1620} Geographos, and 6489 Golevka~\cite{neese2004}.
@@ -775,24 +778,176 @@ The control inputs are duplicated from~\cref{sec:se3_control} as
     \vc{u}_m &= -k_R e_R - k_\Omega e_\Omega + \Omega \times J \Omega - M_{ext}.
 \end{align*}
 We consider two simulations about asteroids \num{52760} and Castalia.
-The asteroids are assumed to constantly rotate about the \( \vc{f}_3 = \vc{e}_3\) axis according to the parameters given in~\cref{tab:dynamic_asteroids}
+The asteroids are assumed to constantly rotate about the \( \vc{f}_3 = \vc{e}_3\) axis according to the parameters given in~\cref{tab:dynamic_asteroids}.
+Furthermore, the state of the asteroid, namely the rotation matrix \( \aatt \), is assumed to be known based on ground measurements or previous data.
 \begin{table}[htbp]
     \centering
     \begin{tabular}{lccccc}
         \toprule
-        Asteroid & Semi-major axes (\si{\kilo\meter}) & Rotational Period (\si{\hour}) & Density & Vertices & Faces\\
+        Asteroid & Semi-major axes (\si{\kilo\meter}) & Rotational Period (\si{\hour}) & Density ( \si{\gram\per\centi\meter^3})  & Vertices & Faces\\
         \midrule
+        \num{4769} Castalia & \( 0.8065 \times 0.4905 \times 0.413 \) & \num{4.095} & 2.1 & 2048 & 4092 \\
+        (\num{52760}) \num{1998} \(\text{ML}_{14}\) & \( 1.1 \times 1.1 \times 1.1 \) & \num{14.98} & 2.1 & 8192 & 16320  \\
         \bottomrule
     \end{tabular} 
     \caption{Asteroid properties for dynamic exploration~\label{tab:dynamic_asteroids}}
 \end{table}
+At the beginning of the simulation the spacecraft is assumed to lie on the inertial \( e_1 \) axis, i.e.\ \( \ipos(0) = \begin{bmatrix} x_0 & 0 & 0 \end{bmatrix} \si{\kilo\meter} \).
+In addition, at the initial state the spacecraft is orientated such that the \( b_1 \) axis is aligned with the inertial \( e_2 \) axis.
+In other words the initial orientation is given by \( \iatt(0) = \exp(\frac{\pi}{2} \hat{e}_3)\).
+The shape reconstruction phase of the simulation is simulation over \SI{15000}{\second}, over which time the spacecraft will take \gls{lidar} measurements of the surface at \SI{1}{\hertz}.
+Once the total uncertainty has been reduced sufficiently the spacecraft manuevers to a ''home`` position aligned with the \( f_1 \) axis of the asteroid.
 
+\paragraph{Asteroid 52760 Reconstruction}
 % TODO 52760 asteroid - show reconstruction, state trajectory, uncertainty and volume
 Asteroid (\num{52760}) \num{1998} \(\text{ML}_{14}\) was discovered in \num{1998} and is near Earth asteroid of the Apollo group and classified as a potentially hazardous body.
 The asteroid is roughly spherical with a mean radius of approximately \SI{1}{\kilo\meter}.
-%TODO Castalia show refinemetn and create some good landing plots
+The initial shape estimate is assumed to be spherical with approximately the same number of vertices as the truth model.
+\Cref{fig:52760_reconstruction,fig:52760_weights_reconstruction} show the shape reconstruction at several discrete points during the simulation.
+Due to the roughly spherical shape of the asteorid large portions of the surface are quickly modified to match the measurements.
+In addition~\cref{fig:52760_weights_reconstruction} displays the vertex uncertainty \( w_i \) as a colormap on the surface. 
+Areas of high uncertainty are denoted in yellow while areas of low uncertainty are in purple/blue.
 
-% TODO Show the dynamic exploration and reconstruction of Castlia and 52760
+\begin{figure}[htbp]
+    \centering
+    \subcaptionbox{Initial Shape Estimate\label{fig:52760_partial_0}}{\includegraphics[height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/52760/partial_1.jpg}}~
+    \subcaptionbox{\SI{25}{\percent} of measurements added\label{fig:52760_partial_25}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/dynamic_exploration/52760/partial_3749.jpg}}
 
-% TODO First exploration, then refinement, then landing
+    \subcaptionbox{\SI{50}{\percent} of measurments added\label{fig:52760_partial_50}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/dynamic_exploration/52760/partial_7499.jpg}}~
+    \subcaptionbox{\SI{75}{\percent} of measurements added\label{fig:52760_partial_75}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/dynamic_exploration/52760/partial_11249.jpg}}
 
+    \subcaptionbox{\SI{100}{\percent} of measurements added\label{fig:52760_partial_100}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/dynamic_exploration/52760/partial_14998.jpg}}~
+    \subcaptionbox{True Shape Model\label{fig:52760_truth}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/52760/truth.jpg}}
+    \caption[Asteroid 52760 Incremental Reconstruction]{Incremental Reconstruction of asteroid 52760~\label{fig:52760_reconstruction}}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \subcaptionbox{Initial Shape Estimate\label{fig:52760_partial_weights_0}}{\includegraphics[height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/52760/partial_weights_1.jpg}}~
+    \subcaptionbox{\SI{25}{\percent} of measurements added\label{fig:52760_partial_weights_25}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/dynamic_exploration/52760/partial_weights_3749.jpg}}
+
+    \subcaptionbox{\SI{50}{\percent} of measurments added\label{fig:52760_partial_weights_50}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/dynamic_exploration/52760/partial_weights_7499.jpg}}~
+    \subcaptionbox{\SI{75}{\percent} of measurements added\label{fig:52760_partial_weights_75}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/dynamic_exploration/52760/partial_weights_11249.jpg}}
+
+    \subcaptionbox{\SI{100}{\percent} of measurements added\label{fig:52760_partial_weights_100}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/dynamic_exploration/52760/partial_weights_14998.jpg}}~
+    \subcaptionbox{True Shape Model\label{fig:52760_weights_truth}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/52760/truth.jpg}}
+    \caption[Asteroid 52760 Shape Reconstruction with Uncertainty]{Incremental Reconstruction of asteroid 52760. The images colored according to the shape uncertainty. Areas of high uncertainty are in yellow while ares of low uncertainty are in purple.~\label{fig:52760_weights_reconstruction}}
+\end{figure}
+\Cref{fig:52760_metrics} shows the total normalized uncertainty and percent error for the volume estimate. 
+The plots show that the reconstruction  converges to an accurate shape estimate after approximately \SI{8000}{\second}.
+\begin{figure}[htbp]
+    \centering
+    \subcaptionbox{Normalized Uncertainty\label{fig:52760_uncertainty}}{\includegraphics[width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/52760/uncertainty.pdf}}~
+    \subcaptionbox{Volume Percent Error\label{fig:52760_volume}}{\includegraphics[width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/52760/volume.pdf}}
+    \caption{Normalized uncertainty and volume percent error for 52760\label{fig:52760_metrics}}
+\end{figure}
+
+\paragraph{Asteroid 4769 Castalia Reconstruction}
+Asteroic 4769 Castalia is a small near Earth asteroid of the Apollo group.
+In addition, it is classified as a potentially hazardous object with a closed approach distance of less than \SI{0.05}{\astronomicalunit}.
+Castalia was discoved in \num{1989} and is the first asteroid to be modeled using radar imagery~\cite{hudson1994}.
+Castalia is composed of two distinct lobes suggesting that it is a contact binary of two smaller objects held together by their mutal gravity.
+\Cref{fig:castalia_reconstruction,fig:castalia_weights_reconstruction} show the shape reconstruction at several discrete points during the simulation.
+In addition~\cref{fig:castalia_weights_reconstruction} displays the vertex uncertainty \( w_i \) as a colormap on the surface. 
+Areas of high uncertainty are denoted in yellow while areas of low uncertainty are in purple/blue.
+Within \SI{50}{\percent} of the simulation span the spacecraft is able to achieve an accurate estimate of the true shape of Castalia.
+\begin{figure}[htbp]
+    \centering
+    \subcaptionbox{Initial Shape Estimate\label{fig:castalia_partial_0}}{\includegraphics[height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/castalia/partial_1.jpg}}~
+    \subcaptionbox{\SI{25}{\percent} of measurements added\label{fig:castalia_partial_25}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/dynamic_exploration/castalia/partial_3749.jpg}}
+
+    \subcaptionbox{\SI{50}{\percent} of measurments added\label{fig:castalia_partial_50}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/dynamic_exploration/castalia/partial_7499.jpg}}~
+    \subcaptionbox{\SI{75}{\percent} of measurements added\label{fig:castalia_partial_75}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/dynamic_exploration/castalia/partial_11249.jpg}}
+
+    \subcaptionbox{\SI{100}{\percent} of measurements added\label{fig:castalia_partial_100}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/dynamic_exploration/castalia/partial_14998.jpg}}~
+    \subcaptionbox{True Shape Model\label{fig:castalia_truth}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/castalia/truth.jpg}}
+    \caption[Asteroid Castalia Incremental Reconstruction]{Incremental Reconstruction of asteroid Castalia~\label{fig:castalia_reconstruction}}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \subcaptionbox{Initial Shape Estimate\label{fig:castalia_partial_weights_0}}{\includegraphics[height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/castalia/partial_weights_1.jpg}}~
+    \subcaptionbox{\SI{25}{\percent} of measurements added\label{fig:castalia_partial_weights_25}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/dynamic_exploration/castalia/partial_weights_3749.jpg}}
+
+    \subcaptionbox{\SI{50}{\percent} of measurments added\label{fig:castalia_partial_weights_50}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/dynamic_exploration/castalia/partial_weights_7499.jpg}}~
+    \subcaptionbox{\SI{75}{\percent} of measurements added\label{fig:castalia_partial_weights_75}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/dynamic_exploration/castalia/partial_weights_11249.jpg}}
+
+    \subcaptionbox{\SI{100}{\percent} of measurements added\label{fig:castalia_partial_weights_100}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/dynamic_exploration/castalia/partial_weights_14998.jpg}}~
+    \subcaptionbox{True Shape Model\label{fig:castalia_weights_truth}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/castalia/truth.jpg}}
+    \caption[Asteroid Castalia Shape Reconstruction with Uncertainty]{Incremental Reconstruction of asteroid Castalia. The images colored according to the shape uncertainty. Areas of high uncertainty are in yellow while ares of low uncertainty are in purple.~\label{fig:castalia_weights_reconstruction}}
+\end{figure}
+
+\Cref{fig:castalia_metrics} shows the total normalized uncertainty and percent error for the volume estimate. 
+The plots show that the reconstruction converges to an accurate shape estimate after approximately \SI{8000}{\second}.
+In addition, the volume estimate is initially a much larger value but quickly converges to the true value.
+\begin{figure}[htbp]
+    \centering
+    \subcaptionbox{Normalized Uncertainty\label{fig:castalia_uncertainty}}{\includegraphics[width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/castalia/uncertainty.pdf}}~
+    \subcaptionbox{Volume Percent Error\label{fig:castalia_volume}}{\includegraphics[width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/castalia/volume.pdf}}
+    \caption{Normalized uncertainty and volume percent error for Castalia\label{fig:castalia_metrics}}
+\end{figure}
+\paragraph{Castalia Landing Site Selection}
+With an appropriate shape estimate, the spacecraft can autonomously transition from a shape reconstruction to a landing mode.
+Based on the shape estimate we seek to determine the best location to land. 
+In reality, any landing site selection would be based on a wide variety of factors and constraints, however we highlight a few which can be determined autonomously and from the shape estimate.
+The first metric is related to the surface slope which is computed using the completed shape estimate and~\cref{eq:surface_slope}.
+Areas which violate the slope constraint of \( \phi < \SI{5}{\degree} \) are excluded from further consideration.
+\begin{figure}[htbp]
+    \centering
+    \subcaptionbox{Surface slope of Castalia\label{fig:surface_slope_castalia}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/dynamic_exploration/castalia/refine/slope.pdf}}~
+    \subcaptionbox{Masked surface slope with areas \( \phi > \SI{5}{\degree}\) excluded\label{fig:surface_slope_castalia_masked}}{\includegraphics[width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/castalia/refine/slope_masked.pdf}}
+    \caption{Surface Slope of Asteroid Castalia\label{fig:surface_slope_castalia_both}}
+\end{figure}
+
+The next metric is related to the distance from the current spacecraft position to all candidate landing sites on the surface.
+We utilize~\cref{eq:geodesic_distance} to compute a distance metric to the surface.
+Landing sites which are closely will be considered preferentially over those at a larger distance.
+\Cref{fig:distance_castlia_both} shows a surface plot of the distance to the surface. 
+The area immediately beneath the spacecraft has a small cost while those on the opposite side of the asteroid have a much larger cost.
+\begin{figure}[htbp]
+    \centering
+    \subcaptionbox{Surface Distance to surface of Castalia\label{fig:surface_distance_castalia}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/dynamic_exploration/castalia/refine/dist.pdf}}~
+    \subcaptionbox{Masked distance to surface with areas \( \phi > \SI{5}{\degree}\) excluded\label{fig:surface_slope_castalia_masked}}{\includegraphics[width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/castalia/refine/dist_masked.pdf}}
+    \caption{Distance to surface of Asteroid Castalia\label{fig:distance_castalia_both}}
+\end{figure}
+We can combine~\cref{fig:distance_castalia_both,fig:surface_slope_castalia_both} to determine the best landing site. 
+The combination of the two is shown in~\cref{fig:landing_site_cost} with the desired landing site shown by the blue marker.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/castalia/refine/cost.pdf}
+    \caption{Total Cost for surface Landing based on surface slope and distance\label{fig:landing_site_cost}}
+\end{figure}
+After selecting the appropriate landing site we then prepare for landing by collecting more measurements in the region around the landing area.
+
+\paragraph{Castalia Landing Site Refinement}
+One key benefit of an in-situ spacecraft is the ability to measure surface features at a much higher resolution than is possible from the ground. 
+This detail provides a much higher fidelity data source than ground based measurements. 
+In order to emulate this in the simulation we augment the shape model of Castalia with several small craters and outcroppings as shown in~\cref{fig:castalia_bump_true}.
+However, these small features would be difficult to capture with the current low resolution shape model of approximately \num{4000} faces.
+The lower number of faces is useful for the evaluation of the polyhedron potential model, it is not ideal for the capture of minute surface features. 
+As a result, we utilize the isotropic remeshing operation described previously to selectively increase the fidelity in the region about the desired landing site.
+\Cref{fig:castalia_refine_density} shows that the vertex density increases by approximately an order of magnitude in region immediately surround the landing site.
+\begin{figure}[htbp]
+    \centering
+    \subcaptionbox{Original vertex density of the initial shape estimate\label{fig:intial_vertex_density}}{\includegraphics[width=1.0\textwidth]{figures/computational_geometry/dynamic_exploration/castalia/refine/density.pdf}}
+
+    \subcaptionbox{Vertex density after refinement  around landing site\label{fig:refine_vertex_density}}{\includegraphics[width=1.0\textwidth]{figures/computational_geometry/dynamic_exploration/castalia/land/density.pdf}}
+    \caption{Vertex density before and after refinement at asteroid Catalia\label{fig:castalia_refine_density}}
+\end{figure}
+
+The increased number of faces and vertices in the landing area allows for the capture of the small surface features.
+\Cref{fig:castalia_bump_est} shows that given \gls{lidar} measurements alone and the algorithm presented in~\cref{sec:radius_update} the small craters and features are effectively estimated.
+\begin{figure}[htbp]
+    \centering
+    \subcaptionbox{True Shape model with surface features\label{fig:castalia_bump_true}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/dynamic_exploration/castalia_bump_true.jpg}}~
+    \subcaptionbox{Estimated Shape model after refinement\label{fig:castalia_bump_est}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/dynamic_exploration/castalia_bump_est.jpg}}
+    \caption{Asteroid Castalia with augmented with additional surface features~\label{fig:castalia_refinement}}
+\end{figure}
+
+\paragraph{Castalia Vertical Descent}
+The final phase of the simulation is to utilize the mixed resolution model and vertically descend to the desired landing site. 
+This is accomplished using the closed loop control of~\cref{sec:se3_control} and a trajectory which transitions from the home postion to the surface over \SI{3600}{\second}.
+
+Show state trajectory plots and a 3d plots of trajectory from landing
+
+Some small kind of conclusion wrapping it all up
