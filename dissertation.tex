@@ -2,7 +2,13 @@
 
 \usepackage{dissertation_packages}
 \addbibresource{library.bib}
-
+\ExecuteBibliographyOptions{}
+\AtEveryBibitem{%
+\clearfield{url}%
+\clearfield{doi}%
+\clearfield{issn}%
+\clearfield{isbn}%
+}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 % CUSTOM MACROS
 %%%%%%%%%%%%%%%%%%%%%%%%%
