@@ -887,6 +887,21 @@ In addition, the volume estimate is initially a much larger value but quickly co
     \subcaptionbox{Volume Percent Error\label{fig:castalia_volume}}{\includegraphics[width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/castalia/volume.pdf}}
     \caption{Normalized uncertainty and volume percent error for Castalia\label{fig:castalia_metrics}}
 \end{figure}
+
+The spacecraft autonomously navigates around asteroid Castalia to best minimize the cost function in~\cref{eq:control_cost}.
+The state trajectory is visualized in the asteroid frame in~\cref{fig:castalia_explore_trajectory}.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{figures/computational_geometry/dynamic_exploration/castalia/state/asteroid_trajectory.jpg}
+    \caption{Spacecraft trajectory in the rotating asteroid frame~\label{fig:castalia_explore_trajectory}}
+\end{figure}
+The component plots of the trajectory are shown in~\cref{fig:castalia_explore_components}.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{figures/computational_geometry/dynamic_exploration/52760/state/ast_comp.pdf}
+    \caption{Components of spacecraft trajectory\label{fig:castlia_explore_components}}
+\end{figure}
+
 \paragraph{Castalia Landing Site Selection}
 With an appropriate shape estimate, the spacecraft can autonomously transition from a shape reconstruction to a landing mode.
 Based on the shape estimate we seek to determine the best location to land. 
@@ -948,7 +963,9 @@ The increased number of faces and vertices in the landing area allows for the ca
 \paragraph{Castalia Vertical Descent}
 The final phase of the simulation is to utilize the mixed resolution model and vertically descend to the desired landing site. 
 This is accomplished using the closed loop control of~\cref{sec:se3_control} and a trajectory which transitions from the home postion to the surface over \SI{3600}{\second}.
-
-Show state trajectory plots and a 3d plots of trajectory from landing
-
-Some small kind of conclusion wrapping it all up
+The landing trajectory, using the estimated shape, is visualized in the asteroid frame in~\cref{fig:castalia_landing}.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{figures/computational_geometry/dynamic_exploration/castalia/land/asteroid_trajectory.jpg}
+    \caption{Vertical descent onto 4769 Castalia~\label{fig:castalia_landing}}
+\end{figure}
