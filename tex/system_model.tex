@@ -12,12 +12,13 @@ The dynamics equations of motion are crucial for the geometric controller design
 
 \section{Spacecraft Dynamic Model}\label{sec:dumbbell}
 
+%TODO Some of these paragraphs can be moved to the introduction instead
 In this section, we derive the equations of motion of a rigid spacecraft under the influence of the gravitational attraction of a homogenous asteroid.
 The motion of a spacecraft around an asteroid is markedly different than that of Earth orbiting vehicles.
 First, the gravitational field around an asteroid is highly irregular and complex. 
 The usual assumption of a spherical potential is not valid for small or irregular shaped bodies.
 Furthermore, since the magnitude of the gravitational attraction is relatively small, non-gravitational effects, such as solar radiation pressure or third-body effects, become much more significant.
-As a result, the orbital environment is generally quite complex and it is difficult to generate analytical insights, such as the Keplerian two-body solution.
+As a result, the orbital environment is generally quite complex and it is difficult to generate analytical insights, such as those used in the Keplerian two-body solution.
 
 A second key consideration is the coupling between rotational and translational states around the asteroid.
 The coupling is induced due to the different gravitational forces experienced on various parts of the spacecraft.
@@ -37,19 +38,25 @@ This dumbbell model for a spacecraft can readily be extended to a system of part
 \subsection{Reference Frames}\label{ssec:dumbbell_eoms_reference_frames}
 
 The first step in deriving the equations of motion is to first define the \gls{kinematics} of the spacecraft motion.
-This kinematical description will be used in subsequent sections to simulation the motion and define the sensor measurements and asteroid reconstruction.
+This kinematical description will be used in subsequent sections to derive the equations of motion, compute the control inputs, and simulate the motion.
 There are three reference frames of interest for this problem:
 \begin{enumerate}
-    \item \( \vecbf{e}_i \) : The inertial reference frame is assumed to be fixed in space. 
+    \item \( \gls{sym:evec}[_i] \in \R^3 \) : The standard basis vectors of the inertial reference frame.
+        The inertial reference frame is assumed to be fixed with respect to the stars. 
         The origin of the frame is chosen to coincide with the center of mass of the asteroid.
-        The standard orthornormal basis, \( \vb{e}_1, \vb{e}_2, \vb{e}_3\) are fixed with respect to the stars.
-    \item \( \vb{f}_i \) : The asteroid fixed frame is a rotating reference frame which is fixed to the surface of the asteroid.
+        The standard inertial basis vectors are given as:
+        \begin{align*}
+            \evec{1} &= \begin{bmatrix} 1 & 0 & 0 \end{bmatrix}^T, \\
+            \evec{2} &= \begin{bmatrix} 0 & 1 & 0 \end{bmatrix}^T, \\
+            \evec{3} &= \begin{bmatrix} 0 & 0 & 1 \end{bmatrix}^T.
+        \end{align*}
+    \item \( \gls{sym:fvec}[_i] \in \R^3 \) : The standard basis vectors for asteroid fixed frame.
         The reference frame originates at the center of mass of the asteroid and the basis vectors are aligned with the principle motments of inertia of the asteroid.
         In addition, we assume that at the beginning of any simulation that the asteroid and inertial frames are initially aligned.
-    \item \( \vb{b}_i \) : The spacecraft fixed reference frame is attached to the spacecraft and aligned with the principle moments of inertia.
-        The frame originates at the center of mass of the spacecraft.
+    \item \( \gls{sym:bvec}[_i] \) : The standard basis vectors for the spacecraft fixed frame.
+        The frame originates at the center of mass of the spacecraft and is aligned with the principle moments of inertia of the body.
 \end{enumerate}
-The reference frames are also shown in~\cref{fig:reference_frames}.
+\Cref{fig:reference_frames} shows the reference frames in use throughout this work.
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{example-image-golden}
