@@ -325,7 +325,6 @@ The vectors \( \apos_i \) define the position of the dumbbell mass \( m_i \) in 
 \end{align}
 where \( \spos_i \) defines the position of each mass in the spacecraft fixed body frame.
 The control inputs to the spacecraft are defined by \( u_f, u_m \in \R^3 \) which define the control force represented in the inertial frame and the control moment represented in the spacecraft frame, respectively. 
-% TODO Ensure that \eta is not bold (it's a matrix) also all vectors should be bold and lower case
 
 \paragraph{Inertial Equations of motion: Hamiltonian Form}\label{sec:inertial_hamiltonian_form}
 % TODO Check hte legendre transformation is correct
@@ -334,36 +333,33 @@ Hamilton's equations are derivable direclty from the Lagrangian through the use 
 \begin{align}\label{eq:legendre_transform}
 	p_i = \deriv{L}{\dot{q}}
 \end{align}
-The Legendre transformation is useful for variational equations
+The Legendre transformation is useful for variational equations of the form
 \begin{align*}
-	df &= u dx + v dy \\
+	df &= u dx + v dy, \\
+	u &= \deriv{f}{x},\quad v = \deriv{f}{y}.
 \end{align*}
-where
+To change from \( \left( x, y\right) \rightarrow \left(u,y \right) \) on can use the transformation
 \begin{align*}
-	u &= \deriv{f}{x} \quad v &= \deriv{f}{y}
-\end{align*}
-To change from \( \left( x, y\right) \rightarrow \left(u,y \right) \)
-\begin{align*}
-	g &= f - u x\\
-	dg &= df - u dx - x du\\
-	dg &= v dy - x du \\
-	x&= -\deriv{g}{u} \\
-    v&= \deriv{g}{y}
+	g &= f - u x,\\
+	dg &= df - u dx - x du, \\
+	dg &= v dy - x du, \\
+	x&= -\deriv{g}{u}, \\
+    v&= \deriv{g}{y}.
 \end{align*}
 
 In the continuous time case, one can define the Hamiltonian in terms of the Lagrangian as
 \begin{align}\label{eq:hamiltonian}
 	H &= \sum_{i = 1}^N p_i \dot{q}_i - L \left( q_i,\dot{q}_i, t \right)
 \end{align}
-Applying~\cref{eq:legendre_transform} and taking the variation of~\cref{eq:hamiltonian} allows us to derive the equations of motion in Hamiltonian form
+Applying~\cref{eq:legendre_transform} and taking the variation of~\cref{eq:hamiltonian} allows us to derive the equations of motion in Hamiltonian form as
 \begin{align}\label{eq:hamilton_eq}
-	\dot{q}_i &= \deriv{H}{p_i} \\
-	\dot{p}_i &= - \deriv{H}{q_i} + Q_i \\
-	\deriv{L}{t} &= -\deriv{H}{t}
+	\dot{q}_i &= \deriv{H}{p_i}, \\
+	\dot{p}_i &= - \deriv{H}{q_i} + Q_i, \\
+	\deriv{L}{t} &= -\deriv{H}{t}.
 \end{align}
 Again we are left with \( 2n \) first order differential equations that describe the system dynamics in terms of the generalized position and momenta \( q_i \) and \( p_i\), respectively.
-For the inertial equations of motion, we define the linear and angular momentum of the spacecraft as \( \ilinmom \in \R^3\) and \( \iangmom \in \R^3 \), respectively.
-The system momenta is related to the velocities by the transformations
+For the inertial equations of motion, we define the linear and angular momentum of the spacecraft as \( \gls{sym:ilinmom} \in \R^3\) and \( \gls{sym:iangmom} \in \R^3 \), respectively.
+The system momenta are related to the velocities by the transformations
 \begin{align}
     \ilinmom &= \parenth{m_1 + m_2} \ivel , \\
     \iangmom & = J \iangvel.
