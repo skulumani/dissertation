@@ -178,7 +178,7 @@ where \( \vc{\zeta}_i \) is the position of \( m_i \) in the spacecraft fixed fr
 \Cref{eq:dumbbell_moment_of_inertia} is consistent with the well-known parallel-axis theorem~\cite{greenwood1988}.
 
 %TODO Nonstandard moment of inertia matrix
-\paragraph{Nonstandard Moment of Inertia Matrix}
+\paragraph{Nonstandard Moment of Inertia Matrix}\label{sec:nonstandard_moi}
 The standard moment of inertia \( J \in \R^{3 \times 3} \) of a rigid body is given by
 \begin{align}\label{eq:standard_moment_of_inertia}
     J = \int_{\mathcal{B}} \vh{\rho}^T \vh{\rho} dm 
@@ -189,7 +189,7 @@ The standard moment of inertia \( J \in \R^{3 \times 3} \) of a rigid body is gi
         -zx & yz & x^2 + y^2
     \end{bmatrix} dm, 
 \end{align}
-where \( \vc{\rho} = \begin{bmatrix} x & y & z \end{bmatrix}\).
+where \( \vc{\rho} = \begin{bmatrix} x & y & z \end{bmatrix}^T\).
 A nonstandard moment of inertia matrix \( J_d \in \R^{3 \times 3 } \) is defined as
 \begin{align} \label{eq:nonstandard_moment_of_inertia}
     J_d = \int_{\mathcal{B}} \vc{\rho} \vc{\rho}^T dm = \int_{\mathcal{B}} 
@@ -202,15 +202,15 @@ A nonstandard moment of inertia matrix \( J_d \in \R^{3 \times 3 } \) is defined
 Using~\cref{eq:xTx} and the properties of the outer product, it can be shown that
 \begin{subequations}\label{eq:moi_transformation}
     \begin{align}
-        J &= \tr{J_d} I - J_d, \\
-        J_d &= \frac{1}{2} \tr{J} I - J.
+        J &= \tr{J_d} I - J_d, \label{eq:moi_ns2s}\\
+        J_d &= \frac{1}{2} \tr{J} I - J.\label{eq:moi_s2ns}
     \end{align}
 \end{subequations}     
 In addition, the following equation is also satisfied for any \( \vc{\Omega} \in \R^3 \)
 \begin{align}\label{eq:moi_hat_prop}
     \parenth{J \vc{\Omega}}^\wedge = \vh{\Omega} J_d + J_d \vh{\Omega}.
 \end{align}
-\Cref{eq:moi_hat_prop} is easy to prove by substituting \( \vc{\Omega} = \begin{bmatrix} \Omega_1 & \Omega_2 & \Omega_3 \end{bmatrix} \) and expanding both sides of~\cref{eq:moi_hat_prop} to
+\Cref{eq:moi_hat_prop} is easy to prove by substituting \( \vc{\Omega} = \begin{bmatrix} \Omega_1 & \Omega_2 & \Omega_3 \end{bmatrix}^T \) and expanding both sides of~\cref{eq:moi_hat_prop} to
 \begin{align*}
     \begin{bmatrix}
         \parenth{J_{yy} + J_{zz}} \Omega_1 - J_{xy} \Omega_2 - J_{zx} \Omega_3 \\
@@ -218,7 +218,7 @@ In addition, the following equation is also satisfied for any \( \vc{\Omega} \in
         -J_{zx}\Omega_1 - J_{yz}\Omega_2 + \parenth{J_{xx} + J_{yy}} \Omega_3
     \end{bmatrix}^\wedge,
 \end{align*}
-where \( J_{xy} = \int_{\mathcal{B}} xy dm \in \R \) and the other terms are defined simarily.
+where \( J_{xy} = \int_{\mathcal{B}} xy dm \in \R \) and the other terms are defined similarly.
 
 \subsection{Inertial Frame Equations of Motion}\label{sec:inertial_dumbbell_eoms}
 By expressing the motion of the spacecraft directly on the special euclidean group, we avoid the issues inherent in using other kinematic representations which fail to preserve the geometric properties of the configuration space.
