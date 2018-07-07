@@ -108,6 +108,20 @@
     description={External Force}
 }
 
+\newglossaryentry{sym:G}{
+    type=symbols,
+    name={\( G = \SI{6.673e-20}{\kilo\meter\per\kilo\gram\per\second\squared}\)},
+    text={\ensuremath{G}},
+    description={Newtonian constant of gravitation.}
+}
+
+\newglossaryentry{sym:sigma}{
+    type=symbols,
+    name={\( \sigma \in \R^1 \)},
+    text={\ensuremath{\sigma}},
+    description={Density of the body in \si{\gram\per\centi\meter\cubed}.}
+}
+
 \newglossaryentry{rho}{
     type=symbols,
     name={\ensuremath{\vec \rho}},
@@ -313,4 +327,53 @@
     sort=J,
     description={Nonstandard moment of inertia matrix expressed in the spacecraft body fixed frame.},
     nonumberlist=true
+}
+
+% polyhedron potential model
+\newglossaryentry{sym:h}{
+    type=symbols,
+    name={\( \vc{h} \in \R^3\)},
+    text={\ensuremath{\vc{h}}},
+    sort=H,
+    description={Halfedge originating at \( \vc{v}_i \) and extending to \( \vc{v}_{i+1}\)}
+}
+
+\newglossaryentry{sym:nf}{
+    type=symbols,
+    name={\( \vc{n}_f \in \R^3\)},
+    text={\ensuremath{\vc{n}_f}},
+    sort=N,
+    description={Normal vector to the face \( f \).}
+}
+
+\newglossaryentry{sym:nh}{
+    type=symbols,
+    name={\( \vc{n}_i^f \in \R^3\)},
+    text={\ensuremath{\vc{n}_i^f}},
+    sort=N,
+    description={Outward facing normal vector orthongonal to both the face \( f \) and halfedge \( i \)}
+}
+
+\newglossaryentry{sym:Ff}{
+    type=symbols,
+    name={\( F_f \in \R^{3 \times 3}\)},
+    text={\ensuremath{F_f}},
+    sort=F,
+    description={Face dyad associated with face \( f \).}
+}
+
+\newglossaryentry{sym:Ee}{
+    type=symbols,
+    name={\( E_{ij} \in \R^{3 \times 3}\)},
+    text={\ensuremath{E_{12}}},
+    sort=E,
+    description={Edge dyad associated with the halfedge between vertices \( i \) and \( j\).}
+}
+
+\newglossaryentry{sym:Le}{
+    type=symbols,
+    name={\( L_e \in \R^1 \)},
+    text={\ensuremath{L_e}},
+    sort=L,
+    description={Scalar edge factor which requires knowledge of the field point.}
 }

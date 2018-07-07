@@ -6,9 +6,9 @@ Furthermore, this chapeter also provided the mathematical background in astrodyn
 This chapter does not provide a complete treatment but rather highlights and derives the results which will be used in future chapters.
 
 In~\cref{sec:dumbbell}, the equations of motion of a rigid dumbbell are derived in both the inertial frame and the rotating asteroid frame.
-In addition, the equations of motion are each presented in the both the Lagrangian and Hamiltonian forms for a total for four seperate equations of motion.
+In addition, the equations of motion are each presented in the both the Lagrangian and Hamiltonian forms for a total for four separate equations of motion.
 The dynamics equations of motion are crucial for the geometric controller design of~\cref{sec:se3_control} and dynamic simulations around asteroids of~\cref{sec:shape_reconstruction}.
-\Cref{sec:small_body_modeling} presents the the shape and gravitational models used to represent the asteroids considered in this study. 
+\Cref{sec:small_body_modeling} presents the shape and gravitational models used to represent the asteroids considered in this study. 
 
 \section{Spacecraft Dynamic Model}\label{sec:dumbbell}
 
@@ -509,57 +509,58 @@ There are several approaches to describe both the gravitational field and the sh
 We summarize several of the most common approaches and present a summary of the polyhedron potential model which is used throughout the thesis.
 
 \subsection{Gravitational Models around Small-Bodies}\label{sec:gravitational_models}
-Due to the irregular shape of small-bodies, the gravitational field around these bodies is equally irregular.
-Furthermore, the relative size of the spacecraft in comparison with the orbital radius and small-body creates a much larger coupling between the translational and rotational states of the spacecraft.
+The defining characteristic of small-bodies is their irregular shape.
+The small bodies lack sufficient mass to form themselves into a spherical shape.
+As a result the gravitational field around small-bodies is also equally irregular.
+Furthermore, the relative size of the spacecraft in comparison with the orbital radius creates a much larger coupling between the translational and rotational states of the spacecraft.
 In addition, spacecraft will tend to operate in very close proximity to the surface.
 As a result, accurate computation of the gravitational field around these irregular bodies is critical to safe and effective operations.
 The classic approach to determining the gravitational force is to apply Newton's law of Universal gravitation.
 The force due to gravity between two point masses is defined as
 \begin{align}\label{eq:newton_universal_gravitation}
-    \vb{F}_g =  - G \frac{m_1 m_2}{r^2} \frac{\vb{r}}{r},
+    \vc{F}_g =  - G \frac{m_1 m_2}{r^2} \frac{\vc{r}}{\norm{\vc{r}}},
 \end{align}
-where \( G \) is the universal gravitational constant, \( \vb{r} \) is the relative position vector between the points of mass \( m_1, m_2\), respectively.
+where \( \gls{sym:G} \) is the universal gravitational constant, \( \vc{r} \) is the relative position vector between the points of mass \( m_1, m_2\), respectively.
 
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{example-image-golden}
-    \caption{Newton's Law of Unviversal Gravitation~\label{fig:universal_gravity}}
+    \caption{Newton's Law of Universal Gravitation~\label{fig:universal_gravity}}
 \end{figure}
-
-This gravitational model is defined if point masses or bodies which can be modeled as point masses, such as spherically symmetric planets.
-However, it is not possible to model an irregular asteroid, or an orbiting spacecraft, as point masses.
+This gravitational model is defined for point masses or bodies which can be modeled as point masses, such as spherically symmetric planets.
+However, it is not possible to model an irregular asteroid, or an extended orbiting spacecraft, as a point mass.
 Instead, one must treat both bodies as extended objects and compute the gravitational force from the potential function as an integral over the entire body, \( \mathcal{B}\),
 \begin{align}\label{eq:volume_integral_potential}
-\vb{F}_g ( \vb{r}) = \nabla U = G \int_{\mathcal{B}} \frac{1}{\norm{\vb{r} - \vb{\rho} }} dm (\vb{\rho}),
+    \vc{F}_g ( \vb{r}) = \nabla U = G \int_{\mathcal{B}} \frac{1}{\norm{\vc{r} - \vc{\rho} }} dm (\vc{\rho}),
 \end{align}
-where \( \vb{r} \) is the position of the field point, \( \vb{\rho} \) is the position of the differential mass element of the body and \( \nabla U \) is defined as the gradient of \( U \) with respect to the standard cartesian basis vectors
+where \( \vc{r} \) is the position of the field point, \( \vc{\rho} \) is the position of the differential mass element of the body and \( \nabla U \) is defined as the gradient of \( U \) with respect to the standard cartesian basis vectors
 \begin{align*}
-    \nabla = \deriv{}{x} \hat{\vb{i}} + \deriv{}{y} \hat{\vb{j}} + \deriv{}{z} \hat{\vb{k}}.
+    \nabla = \deriv{}{x} \vc{i} + \deriv{}{y} \vc{j} + \deriv{}{z} \vc{k}.
 \end{align*}
 
-The first approach, sometimes termed the \textit{mass-concentration}, or \textit{mascon} method, approximates the integral using an infinite sum of point masses \( m_i\) located at \( \vb{r}_i \).
+The first approach, sometimes termed the \textit{mass-concentration}, or \textit{mascon} method, approximates the integral using an infinite sum of point masses \( m_i\) located at \( \vc{r}_i \).
 The potential on our object of interest then becomes the summation of the potential caused by each mass \( m_i \) as shown in~\cref{eq:mass_con_potential}.
 \begin{align}\label{eq:mass_con_potential}
-    U = G \sum_{i=0}^{\infty} \frac{m_i}{\norm{\vb{r} - \vb{\rho}_i}}
+    U = G \sum_{i=0}^{\infty} \frac{m_i}{\norm{\vc{r} - \vc{\rho}_i}}
 \end{align}
-The method distributes a colleciton of point masses uniformly throughout the body such that the total mass is equal to the body.
+The method distributes a collection of point masses uniformly throughout the body such that the total mass is equal to the body.
 While conceptually simple, and relatively straight forward to numerically implement, the mascon approach has several drawbacks~\cite{scheeres2012a}.
 First, the mascon approach does not provide any method to determine if the object of interest is inside or outside of the body.
 As a result, any numerical simulation making use of the mascon approach will require a secondary operation to determine if the spacecraft has collided with the surface.
-Additionaly, it has been shown that the mascon approach is more computationaly demanding than other methods, namely the spherical harmonic or polyhedron potential method~\cite{werner1996}.
-Finally, while the mascon method will provide the true gravity field in the limit as the number of invidual point masses becomes large, there are significant errors in the direction of the force vector~\cite{werner1996}.
+Additionally, it has been shown that the mascon approach is more computationally demanding than other methods, namely the spherical harmonic or polyhedron potential method~\cite{werner1996}.
+Finally, while the mascon method will provide the true gravity field in the limit as the number of individual point masses becomes large, there are significant errors in the direction of the force vector~\cite{werner1996}.
 
 It can be shown that the gravitational potential will satisfy Laplace's equation outside of the body
-\begin{align}
+\begin{align}\label{eq:laplace_equation}
     \nabla^2 U = 0
 \end{align}
 and Poisson's equation inside of the body
-\begin{align}
+\begin{align}\label{eq:poisson_equation}
     \nabla^2 U = - 4 \pi G \sigma
 \end{align}
-where \( \sigma \) is the local density of the body.
-Laplace's equation can be solved using a seperation of variables in terms of spherical coordinates~\cite{scheeres2012a}.
-The transformation between cartesian, \( \vb{r} = x \hat{\vb{x}} + y \hat{\vb{y}} + z \hat{\vb{z}}\),  and spherical coordinates, is given by
+where \( \gls{sym:sigma} \) is the local density of the body.
+Laplace's equation can be solved using a separation of variables in terms of spherical coordinates~\cite{scheeres2012a}.
+The transformation between cartesian, \( \vc{r} = \begin{bmatrix} x & y & z \end{bmatrix}\) and spherical coordinates is given by
 \begin{subequations}
     \begin{align*}
         r &= \sqrt{x^2 + y^2 + z^2}, \\
@@ -587,18 +588,18 @@ The spherical harmonic coefficients have been determined for many planetary bodi
 
 % TODO Continue with the drawbacks of spherical harmonic
 The spherical harmonic gravity model is not applicable in all situations.
-A implicit assumption of the spherical harmonic expansion are that the series converge to the true gravitational field.
+An implicit assumption of the spherical harmonic expansion is that the series converges to the true gravitational field.
 It can be shown that the expansion will diverge when applied to a point within the maximum circumscribing sphere of the body~\cite{scheeres2012a}.
 A typical remedy is to derive two different expansions, the first:
 \begin{align}
-    U = \frac{1}{V} \int_{\mathcal{B}} \parenth{ \frac{\rho}{r}}^i P_{i0} \parenth{ \frac{\vb{r} \cdot \vb{\rho}}{ r \rho}} dV, 
+    U = \frac{1}{V} \int_{\mathcal{B}} \parenth{ \frac{\rho}{r}}^i P_{i0} \parenth{ \frac{\vc{r} \cdot \vc{\rho}}{ r \rho}} dV, 
 \end{align}
-is only valid when \( \norm{\rho} < r \) and is not defined at \( \norm{\vb{\rho}} = r\).
-A second expansion can be derived for the case \(\norm{\vb{\rho}} > r \) as
+is only valid when \( \norm{\rho} < r \) and is not defined at \( \norm{\vc{\rho}} = r\).
+A second expansion can be derived for the case \(\norm{\vc{\rho}} > r \) as
 \begin{align}
-    U = \frac{1}{V} \int_{\mathcal{B}} \parenth{ \frac{r}{\rho}}^i P_{i0} \parenth{ \frac{\vb{r} \cdot \vb{\rho}}{ r \rho}} dV. 
+    U = \frac{1}{V} \int_{\mathcal{B}} \parenth{ \frac{r}{\rho}}^i P_{i0} \parenth{ \frac{\vc{r} \cdot \vc{\rho}}{ r \rho}} dV. 
 \end{align}
-If a finite density is assumed, then the gravitational field will vanish at \( \norm{\vb{\rho}} = r \).
+If a finite density is assumed, then the gravitational field will vanish at \( \norm{\vc{\rho}} = r \).
 As a result of this discontinuity, the expansion coefficients become a function of the radius of the body and must be recomputed as the body changes.
 These limitations mean that in practice the spherical harmonic expansion model cannot be used for the gravity model when operating around an irregular body.
 The divergence of the expansion causes the gravitational field to become meaningless when close to the surface and make the use of the spherical harmonic model worthless for dynamic computations.
@@ -637,12 +638,12 @@ The triaxial ellipsoid has semi-major axes \( \gamma \leq \beta \leq \alpha\) an
 Using this model, the gravitational potential outside the body is given by
 \begin{subequations}
 \begin{align}
-    U (\vb{r}) &= - \frac{3 \mu}{4} \int_{\lambda{\vb{r}}}^{\infty} \frac{\phi ( \vb{r},  u) }{ \Delta(u)} du, \\
-    \phi(\vb{r}, u) &= \frac{x^2}{\alpha^2 + u} + \frac{y^2}{\beta^2 + u} + \frac{z^2}{\gamma^2 + u} - 1 , \\
+    U (\vc{r}) &= - \frac{3 \mu}{4} \int_{\lambda( \vc{r} )}^{\infty} \frac{\phi ( \vb{r},  u) }{ \Delta(u)} du, \\
+    \phi(\vc{r}, u) &= \frac{x^2}{\alpha^2 + u} + \frac{y^2}{\beta^2 + u} + \frac{z^2}{\gamma^2 + u} - 1 , \\
     \Delta(u) &= \sqrt{\parenth{\alpha^2 + u} \parenth{\beta^2 + u} \parenth{\gamma^2 + u}},
 \end{align}
-where \( \lambda(\vb{r}) \) is defined by \( \phi(\vb{r}, \lambda) = 0 \).
-The position vector should be transformed into the principle axis frame, such that the \( \hat{\vb{x}} \) axis is aligned along the long axis \( \alpha \), \( \hat{\vb{y}} \) is aligned with the intermediate axis \( \beta \), and \( \hat{\vb{z}} \) is aligned along the short axis \( \gamma \).
+where \( \lambda(\vc{r}) \) is defined by \( \phi(\vc{r}, \lambda) = 0 \).
+The position vector should be transformed into the principle axis frame, such that the \( x \) axis is aligned along the long axis \( \alpha \), \( y \) is aligned with the intermediate axis \( \beta \), and \( z \) is aligned along the short axis \( \gamma \).
 A straightforward application of Leibniz's rule allows one to compute the Jacobian and Hessian of \( U \)~\cite{scheeres2012a}.
 \end{subequations}  
 
@@ -671,65 +672,70 @@ In this section we summarize the polyhedron potential model based on the derivat
 We additionally present some of the implementation details in our model and the adaptions for use with the \texttt{Surface\_mesh} data structure presented  in~\cref{sec:polyhedron_data_structures}.
 
 % TODO Add a link to the section that talks about polyhedrons
-This model is composed of a polyhedron, which is a three-dimensional solid body, that is defined by a series of vectors in the asteroid fixed frame.
+This model is composed of a \gls{polyhedron}, which is a three-dimensional solid body, that is defined by a series of vectors in the asteroid fixed frame.
 The vectors define vertices in the asteroid fixed frame and combinations of these vertices then define planar faces which compose the surface of the asteroid.
 Additionally, we assume that each face is a triangle composed of three vertices and three edges.
 As a result, only two faces meet at each edge while three faces meet at each vertex.
 Only the body-fixed vectors, and their associated topology, is required to define the exterior gravitational model.
 
 % TODO Need a picture of the edges/faces/halfedges
-Consider three vectors \( \vecbf{v}_1, \vecbf{v}_2, \vecbf{v}_3 \in \R^{3 \times 1} \), assumed to be ordered in a counterclockwise direction about an outward facing normal vector, which define a face.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{example-image-golden}
+    \caption{Polyhedon Faces\label{fig:polyhedron_face}}
+\end{figure}
+Consider three vectors \( \vc{v}_1, \vc{v}_2, \vc{v}_3 \in \R^{3 \times 1} \), assumed to be ordered in a counterclockwise direction about an outward facing normal vector, which define a face.
 It is easy to define the three halfedges of each face as
 \begin{align}\label{eq:edges}
-    \vecbf{h}_{i} = \vecbf{v}_{i+1} - \vecbf{v}_i \in \R^{3 \times 1 },
+    \gls{sym:h}[_i] = \vc{v}_{i+1} - \vc{v}_i \in \R^{3 \times 1 },
 \end{align}
 where the index \( i \in \parenth{1,2,3} \) is used to permute all vertices of each face.
 Each halfedge has an opposing or inverse which is a member of the adjacent face and orientated in the opposite direction.
 We can also define the outward normal vector to each face \( f \) as
 \begin{align}\label{eq:face_normal}
-    \hat{\vecbf{n}}_f &= \parenth{\vb{h}_2} \times \parenth{\vb{h}_1} \in \R^{3 \times 1},
+    \gls{sym:nf} &= \vc{h}_2 \times \vc{h}_1 \in \R^{3 \times 1},
 \end{align}
 and the outward facing normal vector to each halfedge as
 \begin{align}\label{eq:edge_normal}
-    \hat{\vecbf{n}}_{i}^f &= - \parenth{\vb{h}_i} \times \hat{\vecbf{n}}_f \in \R^{3 \times 1}.
+    \gls{sym:nh} &=  \vc{h}_i \times \vc{n}_f \in \R^{3 \times 1}.
 \end{align}
-For each face, we define the face dyad \( \vecbf{F}_f \) as
+For each face, we define the face dyad \( F_f \) as
 \begin{align}\label{eq:face_dyad}
-    \vecbf{F}_f &= \hat{\vecbf{n}}_f \hat{\vecbf{n}}_f \in \R^{3 \times 3}.
+    \gls{sym:Ff} &= \vc{n}_f \vc{n}_f \in \R^{3 \times 3}.
 \end{align}
 Each edge is a member of two faces and has an outward pointing edge normal vector, given in~\cref{eq:edge_normal}, perpendicular to both the edge and the face normal.
-For the edge connecting the vectors \( \vecbf{v}_1 \) and \( \vecbf{v}_2 \), which are shared between the faces \(A\) and \( B\), the per edge dyad is given by
+For the edge connecting the vertices \( \vc{v}_1 \) and \( \vc{v}_2 \), which are shared between the faces \(A\) and \( B\), the per edge dyad is given by
 \begin{align}\label{eq:edge_dyad}
-    \vecbf{E}_{12} = \hat{\vecbf{n}}_A \hat{\vecbf{n}}_{12}^A + \hat{\vecbf{n}}_B \hat{\vecbf{n}}_{21}^B \in \R^{3 \times 3}.
+    \gls{sym:Ee} = \vc{n}_A \vc{n}_{12}^A + \vc{n}_B \vc{n}_{21}^B \in \R^{3 \times 3}.
 \end{align}
-The edge dyad \( \vecbf{E}_e  \), is defined for each edge and is a function of the two adjacent faces meeting at that edge.
-The face dyad \( \vecbf{F}_f \), is defined for each face and is a function of the face normal vectors.
+The edge dyad \( E_e  \), is defined for each edge and is a function of the two adjacent faces meeting at that edge.
+The face dyad \( F_f \), is defined for each face and is a function of the face normal vectors.
 
-Let \( \vecbf{r}_i \in \R^{3 \times 1} \) be the vector from the spacecraft to the vertex \( \vecbf{v}_i \) and it's length is given by \( r_i = \norm{\vecbf{r}_i} \in \R^{1} \).
-The per-edge factor \( L_e \in \R^{1}\), for the edge connecting vertices \( \vecbf{v}_i \) and \( \vecbf{v}_j \), with a constant length \( e_{ij} = \norm{\vecbf{e}_{ij}} \in \R^1\) is
+Let \( \vc{r}_i \in \R^{3 \times 1} \) be the vector from the spacecraft to the vertex \( \vc{v}_i \) and it's length is given by \( \norm{\vc{r}_i} \in \R^{1} \).
+The per-edge factor \( L_e \in \R^{1}\), for the edge connecting vertices \( \vc{v}_i \) and \( \vc{v}_j \), with a constant length \( \norm{\vc{e}_{ij}} \in \R^1\) is
 \begin{align}\label{eq:edge_factor}
-    L_e &= \ln \frac{r_i + r_j + e_{ij}}{r_i + r_j - e_{ij}}.
+    \gls{sym:Le} &= \ln \frac{\norm{r_i} + \norm{r_j} + \norm{e_{ij}}}{\norm{r_i} + \norm{r_j} - \norm{e_{ij}}}.
 \end{align}
-For the face defined by the vertices \( \vecbf{v}_i, \vecbf{v}_j, \vecbf{v}_k \) the per-face factor \( \omega_f \in \R^{1} \) is
+For the face defined by the vertices \( \vc{v}_i, \vc{v}_j, \vc{v}_k \) the per-face factor \( \omega_f \in \R^{1} \) is
 \begin{align}\label{eq:face_factor}
-    \omega_f &= 2 \arctan \frac{\vecbf{r}_i \cdot \vecbf{r}_j \times \vecbf{r}_k}{r_i r_j r_k + r_i \parenth{\vecbf{r}_j \cdot \vecbf{r}_k} + r_j \parenth{\vecbf{r}_k \cdot \vecbf{r}_i} + r_k \parenth{\vecbf{r}_i \cdot \vecbf{r}_j}}.
+    \omega_f &= 2 \arctan \frac{\vc{r}_i \cdot \vc{r}_j \times \vc{r}_k}{\norm{r_i} \norm{r_j} \norm{r_k} + \norm{r_i} \parenth{\vc{r}_j \cdot \vc{r}_k} + \norm{r_j} \parenth{\vc{r}_k \cdot \vc{r}_i} + \norm{r_k} \parenth{\vc{r}_i \cdot \vc{r}_j}}.
 \end{align}
 The gravitational potential due to a constant density polyhedron is then given as
 \begin{align}\label{eq:potential}
-    U(\vecbf{r}) &= \frac{1}{2} G \sigma \sum_{e \in \text{edges}} \vecbf{r}_e \cdot \vecbf{E}_e \cdot \vecbf{r}_e \cdot L_e - \frac{1}{2}G \sigma \sum_{f \in \text{faces}} \vecbf{r}_f \cdot \vecbf{F}_f \cdot \vecbf{r}_f \cdot \omega_f \in \R^1,
+    U(\vc{r}) &= \frac{1}{2} G \sigma \sum_{e \in \text{edges}} \vc{r}_e \cdot E_e \cdot \vc{r}_e \cdot L_e - \frac{1}{2}G \sigma \sum_{f \in \text{faces}} \vc{r}_f \cdot F_f \cdot \vc{r}_f \cdot \omega_f \in \R^1,
 \end{align}
-where \( \vecbf{r}_e\) and \(\vecbf{r}_f \) are the vectors from the spacecraft to any point on the respective edge or face, \( G\) is the universal gravitational constant, and \( \sigma \) is the constant density of the asteroid.
+where \( \vc{r}_e\) and \(\vc{r}_f \) are the vectors from the spacecraft to any point on the respective edge or face, \( \gls{sym:G}\) is the universal gravitational constant, and \( \gls{sym:sigma} \) is the constant density of the asteroid.
 Furthermore, we can use these definitions to define the attraction, gravity gradient matrix, and Laplacian as
 \begin{align}
-    \nabla U ( \vecbf{r} ) &= -G \sigma \sum_{e \in \text{edges}} \vecbf{E}_e \cdot \vecbf{r}_e \cdot L_e + G \sigma \sum_{f \in \text{faces}} \vecbf{F}_f \cdot \vecbf{r}_f \cdot \omega_f \in \R^{3 \times 1} , \label{eq:attraction}\\
-    \nabla \nabla U ( \vecbf{r} ) &= G \sigma \sum_{e \in \text{edges}} \vecbf{E}_e  \cdot L_e - G \sigma \sum_{f \in \text{faces}} \vecbf{F}_f \cdot \omega_f \in \R^{3 \times 3}, \label{eq:gradient_matrix}\\
+    \nabla U ( \vc{r} ) &= -G \sigma \sum_{e \in \text{edges}} E_e \cdot \vc{r}_e \cdot L_e + G \sigma \sum_{f \in \text{faces}} F_f \cdot \vc{r}_f \cdot \omega_f \in \R^{3 \times 1} , \label{eq:attraction}\\
+    \nabla \nabla U ( \vc{r} ) &= G \sigma \sum_{e \in \text{edges}} E_e  \cdot L_e - G \sigma \sum_{f \in \text{faces}} F_f \cdot \omega_f \in \R^{3 \times 3}, \label{eq:gradient_matrix}\\
     \nabla^2 U &= -G \sigma \sum_{f \in \text{faces}}  \omega_f \in \R^1.\label{eq:laplacian}
 \end{align}
 
 One interesting thing to note is that both~\cref{eq:face_dyad,eq:edge_dyad} can be precomputed without knowledge of the position of the satellite.
 They are both solely functions of the vertices and edges of the polyhedral shape model and are computed once and stored.
-Once a position vector \( \vecbf{r} \) is defined, the scalars given in~\cref{eq:edge_factor,eq:face_factor} can be computed for each face and edge.
-Finally,~\cref{eq:potential} is used to compute the gravitational potential at any point \( \vb{r} \) in the asteroid fixed frame.
+Once a position vector \( \vc{r} \) is defined, the scalars given in~\cref{eq:edge_factor,eq:face_factor} can be computed for each face and edge.
+Finally,~\cref{eq:potential} is used to compute the gravitational potential at any point \( \vc{r} \) in the asteroid fixed frame.
 The Laplacian, defined in~\cref{eq:laplacian}, gives a simple method to determine if the spacecraft has collided with the body~\cite{werner1996}. 
 For all points outside the body~\cref{eq:laplacian} is equal to zero and becomes \( 4 \pi \) when inside the body.
 
