@@ -274,43 +274,45 @@ where we applied the non-standard moment of inertia defined in~\cref{eq:nonstand
 \paragraph{Potential Energy of Dumbbell}
 The potential energy of the dumbbell is a function of the asteroid potential model.
 There are a number of possible models as shown in~\cref{sec:gravitational_models}.
-For a rigid body composed of several spherical point masses, the total potential becomes
+For a rigid body composed of several spherical point masses, the total potential is defined as
 \begin{align}\label{eq:inertial_potential_energy}
     V(\vc{x}, R, R_A) = \sum_{i}^n - m_i U \parenth{R_A^T \parenth{\vc{x} + R \vc{\rho}_i}},
 \end{align}
 where \( \vc{x} \in \R^3\) is the position of the center of mass, \( R \in \SO\) is the rotation matrix which transforms vectors from the spacecraft frame to the inertial frame, and \( R_A \in \SO \) is the rotation matrix which transforms vectors from the asteroid frame to the inertial frame.
+The exterior gravitational potential of the body is defined by \( U \in \R^1 \).
 
 Using our kinematic variables we can define the kinetic and potential energy of the dumbbell using~\cref{eq:inertial_kinetic_energy,eq:inertial_potential_energy} as
 \begin{subequations}\label{eq:dumbbell_kinetic_and_potential_energy}
 \begin{align}
-    T &= \frac{1}{2} m \norm{\dot{\vb{x}}}^2 + \frac{1}{2} \tr{\vh{\Omega} J_d \vh{\Omega}^T} , \label{eq:dumbbell_kinetic_energy}\\
-    V( \vecbf{x}, R ) &=  - m_1 U \parenth{R_A^T \parenth{\vecbf{x} + R \vecbf{\rho}_1}} - m_2 U \parenth{R_A^T \parenth{\vecbf{x} + R \vecbf{\rho}_2}} , \label{eq:dumbbell_potential_energy}
+    T &= \frac{1}{2} m \norm{\dot{\vc{x}}}^2 + \frac{1}{2} \tr{\vh{\Omega} J_d \vh{\Omega}^T} , \label{eq:dumbbell_kinetic_energy}\\
+    V( \vecbf{x}, R ) &=  - m_1 U \parenth{R_A^T \parenth{\vc{x} + R \vc{\rho}_1}} - m_2 U \parenth{R_A^T \parenth{\vc{x} + R \vc{\rho}_2}}. \label{eq:dumbbell_potential_energy}
 \end{align}
 \end{subequations}     
-where we utilize the polyhedron potential is defined in~\cref{sec:polyhedron_potential}.
+In this work we will utilize the polyhedron potential model defined in~\cref{sec:polyhedron_potential}.
 The position of each mass \(m_i\) of the dumbbell is defined in the dumbbell fixed frame by the vector \(\vc{\rho}_i\). 
-With~\cref{eq:dumbbell_kinetic_and_potential_energy} one can then use Hamilton's principle to derive the equations of motion.
-However, the first step is to determine the varations of \( T, V \).
-These variations must be carefully constructed such that the variations of the configuration variables do not violate the nonlinear manifold.
-The next step is to define the variations of the kinetic and potential energy to derive the equations of motion, which are given as
+With~\cref{eq:dumbbell_kinetic_and_potential_energy} one can then use Hamilton's principle  and the variation of the action integral to derive the equations of motion.
+However, the first step is to determine the variation of the kinetic and potential energies.
+These variations must be carefully constructed such that the variations of the configuration variables do not violate the geometric properties of the configuration space.
+The variations of~\cref{eq:dumbbell_kinetic_and_potential_energy} are given by
 \begin{align} 
     \delta T &= \parenth{m_1 + m_2} \ivel^T \delta \dot{\ipos} + \frac{1}{2} \tr{- \dot{\iattvar} \parenth{J \iangvel}^\wedge + \iattvar \parenth{\hat{\iangvel} J \iangvel}^\wedge }, \label{eq:dumbbell_kinetic_energy_variation} \\
     \delta V &= - \sum_{i=1}^2 \braces{ \bracket{m_i \deriv{U}{\apos_i}^T \aatt^T } \delta \ipos +  \tr{\iattvar \parenth{\spos_i \deriv{U}{\apos_i}^T \aatt^T \iatt } }},\label{eq:dumbbell_potential_energy_variation}
 \end{align}
-where \( \apos_i = \aatt^T \parenth{\ipos + \iatt \spos_i} \) and defines the position of \( m_i \) in the asteroid fixed frame.
-The derivation of~\cref{eq:dumbbell_potential_energy_variation,eq:dumbbell_kinetic_energy_variation} is provided in~\cref{proof:inertial_dumbbell_eoms}.
+where \( \apos_i = \aatt^T \parenth{\ipos + \iatt \spos_i} \) defines the position of \( m_i \) in the asteroid fixed frame.
+The detailed derivation of~\cref{eq:dumbbell_potential_energy_variation,eq:dumbbell_kinetic_energy_variation} is provided in~\cref{proof:inertial_dumbbell_eoms}.
 
-Using the variations of the kinetic and potential energy we can derive the equations of motion of the dumbbell spacecraft about an asteroid using Hamilton's principle. 
+Using the variation of the Lagrangian, we can derive the equations of motion of the dumbbell spacecraft about an asteroid using Hamilton's principle. 
 Hamilton's principle states that the variation of the action integral
 \begin{align}\label{eq:action_integral}
     \mathcal{G} = \int_{t_0}^{t_f} T(\dot{\vc{q}}) - V(\vc{q}) dt,
 \end{align}
-is stationary with for all possible variations with fixed endpoints. 
+is stationary for all possible variations with fixed endpoints. 
 In other words, 
 \begin{align}\label{eq:hamiltons_principle}
     \delta \mathcal{G}  = \int_{t_0}^{t_f} \delta T - \delta V dt = 0.
 \end{align}
-Following the derivation presented in~\cref{proof:inertial_dumbbell_eoms} gives the inerital equations of motion in Lagrangian form as
+The detailed derivation is presented in~\cref{proof:inertial_dumbbell_eoms}.
+The inertial equations of motion can be written in Lagrangian form as
 \begin{align}
     \dot{\ipos} &= \ivel, \label{eq:inertial_position_dynamics}\\
     \parenth{m_1 + m_2} \dot{\ivel} &= - \sum_{i=0}^2 m_i \aatt \deriv{U}{\apos_i} + u_f, \label{eq:inertial_velocity_dynamics}\\
@@ -318,7 +320,7 @@ Following the derivation presented in~\cref{proof:inertial_dumbbell_eoms} gives 
     J \dot{\iangvel} + \hat{\iangvel} J \iangvel &= \sum_{i=0}^2 m_i \hat{\spos}_i \iatt^T \aatt \deriv{U}{\apos_i} + u_m. \label{eq:inertial_angvel_dynamics}
 \end{align}
 The vectors \( \apos_i \) define the position of the dumbbell mass \( m_i \) in the asteroid fixed frame
-\begin{align}
+\begin{align}\label{eq:mass_asteroid_frame}
     \apos_i &= \aatt^T \parenth{\ipos + \iatt \spos_i},
 \end{align}
 where \( \spos_i \) defines the position of each mass in the spacecraft fixed body frame.
