@@ -66,7 +66,7 @@ This assumption allows us to treat the motion of the vehicle independently from 
 % The spacecraft model is the same as that defined in 
 
 In this section, we develop a coupled control system to track a desired trajectory.
-We assume that the desired trajectory, \( R_d(t), \vb{x}_d(t) \), are defined as the rotation matrix of the spacecraft body frame with respect to the inertial frame and the relative position of the spacecraft center of mass with respect to the asteorid and defined in the inertial frame, respectively.
+We assume that the desired trajectory, \( R_d(t), \vc{x}_d(t) \), are defined as the rotation matrix of the spacecraft body frame with respect to the inertial frame and the relative position of the spacecraft center of mass with respect to the asteorid and defined in the inertial frame, respectively.
 In contrast to controller derived for quadrotor \gls{uav}, the attitude and translational motion is only lightly coupled in the spacecraft scenario.
 From the dynamic equations of motion, the coupling between the translational and rotational dynamics is due to the gravitational moment on the spacecraft.
 Furthermore, we assume that we have a fully actuated spacecraft such that we can apply a torque about all three rotational axes and a force in all three directions.
@@ -113,7 +113,8 @@ An arbitrary smooth attitude tracking command \( R_d (t) \in \SO \in \R^3 \) are
 The corresponding angular velocity command is obtained using the attitude kinematics equation, \( \hat{\Omega}_d = R_d^T \dot{R}_d \).
 With the desired attitude command, \( R_d(t), \Omega_d(t) \), we then define the errors associated with the attitude and angular velocity.
 The attitude and angular velocity tracking errors must be careful chosen to remain on the tangent bundle of \SO.
-\begin{prop}{Attitude Configuration Error Function}\label{prop:attitude_control_configuration_error}
+\begin{prop}[ Attitude Configuration Error Function ]\label{prop:attitude_control_configuration_error}
+
 First, an attitude error function \(A : \SO \times \SO  \to \R \), an attitude error vector \( e_R : \SO \times \SO \to \R \), and an angular velocity error \( e_\Omega : \SO \times \R^3 \times \SO \times \R^3 \) are defined as
 \begin{subequations}\label{eq:attitude_error_function}
 \begin{align}
@@ -168,7 +169,11 @@ With the appropriate attitude configuration error we now present the error dynam
 
 \subsubsection{Attitude Control without Disturbance}
 With the appropriate attitude configuration error we now present an attitude controller for attitude stabailization and tracking. 
-This controller assumes that there is no disturbances on the attitude dynamics, i.e.\ \( \Delta = 0 \).
+This controller assumes that there is no disturbances on the attitude dynamics, i.e.\ \( \Delta = 0 \) for
+\begin{align*}
+    J\dot{\Omega} + \hat{\Omega} J \Omega = u_m + \Delta.
+\end{align*}
+
 \begin{prop}[Attitude Control]\label{prop:att_control}
 	Given a desired attitude command \( \parenth{R_d, \Omega_d = 0} \) and positive constants \( k_R, k_\Omega \in \R \) we define a control input \( u \in \R^3 \) as follows
 	\begin{gather}
@@ -188,7 +193,7 @@ These systems require retargeting while avoiding direct exposure to sunlight or 
 In addition, many ground based attitude testing environments, such as air bearing platforms, must operate in the presence of physical obstructions.
 Determining a satisfactory attitude control maneuver in the presence of state constraints is a challenging task.
 The removal of constrained regions from the rotational configuration space results in a \textit{nonconvex} region.
-The attitude control problem in the feasible configuration space has been extensively studied~\cite{bullo2004,MayTeePaCC11,LEEITAC15}.
+The attitude control problem in the feasible configuration space has been extensively studied~\cite{bullo2004,mayhew2011,lee2015}.
 However, the attitude control problem in the presence of constraints has received much less attention.
 
 % discuss how previous papers (mcinnes and lee/meshabi) have short comings
