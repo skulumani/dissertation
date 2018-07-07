@@ -237,6 +237,7 @@ The challenge is increased for multiple spacecraft operating in close proximity 
 Coupling the ability for continuous low-thrust propulsion between measurements increases the measurement association complexity.
 Computing the reachability set given estimated states and control authorities allows one to better correlate subsequent measurements or determine sensor pointing regions in the event of a lost spacecraft. 
 
+
 \subsection{Optimal Control Formulation}\label{sec:optimal_control}
 In this paper, we seek to approximate the reachability set on a \Poincare section by solving a related optimal control problem. 
 We choose our \Poincare section in a similar manner to those used previously for the design of transfers via invariant manifolds.
@@ -924,3 +925,186 @@ This approach allows for a larger class of potential transfers which leverage th
 We are able to achieve a transfer that is not possible via the standard invariant manifold approach. 
 In addition, this example illustrates a straightforward method to depart from the natural dynamics and transfer to a large region of the phase space that is not accessible via invariant manifolds alone.
 \subsection{4769 Castalia Examples}
+In this section, we extend the results developed in the planar three body problem to the higher dimensional space around an asteroid.
+As shown in~\cref{sec:sc_eoms}, the translational dynamics of a point mass around an asteroid asteroid are similar to that of the three body problem.
+Similar to~\cref{sec:periodic_orbit_transfer}, a \Poincare section is defined and the reachability set is approximated on this space. 
+This lower dimensional space is used to design a transfer trajectory to move the vehicle between equatorial orbits of asteroid Castalia.
+
+We apply the \Poincare map with a surface of section chosen to be normal to the position \( y = 0 \).
+The \Poincare map is then defined as the map between successive transversal crossings of the surface of section.
+To ensure a transverse crossing of the section we also require that \( \dot{y} \neq 0 \) when \( y = 0 \).
+With this definition of the \Poincare map, it is possible to remove the two variables \( y \) and \( \dot{y} \) from consideration and create a four-dimensional map from the \Poincare section to itself.
+The \Poincare section, represented by \( \Sigma \), then becomes
+\begin{align}\label{eq:poincare_section}
+    \Sigma = \braces{\parenth{x, \dot{x}, z, \dot{z}} | y(t_f) = 0 }.
+\end{align}
+We use this section to compute periodic orbits that serve as the initial and target states of our transfer.
+In addition, this section serves as a lower dimensional space upon which we approximate the reachability set.
+
+The cost function is given by~\cref{eq:cost}, but modified for the extra dimensions in this problem.
+We use the matrix \( Q = \text{diag} \bracket{1~\>0~\> 1~\> 1~\>0~\>1 } \in \R^{6 \times 6}\) to represent the mapping onto \( \Sigma \).
+Maximization of the distance between \( \vc{x}_n \) and \(\vc{x} \), on the \Poincare section defined in~\cref{eq:poincare_section}, is equivalent to the minimization of \( J \) defined in~\cref{eq:cost}.
+We ensure that the trajectories intersect the \Poincare section through the use of terminal constraints.
+In addition, we use the terminal constraints to define a specific direction along which we seek to minimize the cost~\cref{eq:cost}.
+Since the \Poincare section is four-dimensional, we parameterize a direction in \( \R^4 \)  using three angles \( \phi_1, \phi_2 , \phi_3 \).
+The terminal constraints are given in terms of these angles as
+\begin{align}\label{eq:terminal_constraints}
+    \begin{split}
+        m_1 &= y = 0 , \\
+        m_2 &= \parenth{\sin \phi_{1_{d}}} \parenth{ x_1^2 + x_2^2 + x_3^2 + x_4^2} - x_1^2 = 0, \\
+        m_3 &= \parenth{\sin \phi_{2_{d}}} \parenth{ x_2^2 + x_3^2 + x_4^2} - x_2^2 = 0, \\
+        m_4 &= \parenth{\sin \phi_{3_{d}}} \parenth{ 2 x_3^2 + 2 x_3 \sqrt{x_4^2 + 2 x_4^2}} - x_3 - \sqrt{x_4^2 + x_3^2} = 0 ,
+    \end{split}
+\end{align}
+where we make use of the difference states \( \parenth{x_1, x_2 ,x_3, x_4 }\) defined as
+\begin{align}\label{eq:diff_states}
+    \begin{split}
+        x_1 &= x(t_f) - x_n(t_f) , \\
+        x_2 &= z(t_f) - z_n(t_f) , \\
+        x_3 &= \dot{x}(t_f) - \dot{x}_n(t_f) , \\
+        x_4 &= \dot{z}(t_f) - \dot{z}_n(t_f) . \\
+    \end{split}
+\end{align}
+We select the terminal time, \( t_f \), from the time required for the uncontrolled trajectory to return back to the \Poincare section.
+The constraint \( m_1 = 0 \) ensures that the terminal state lies on the \Poincare section.
+The constraints \( m_2, m_3, m_4 \) are used to define a direction on the \Poincare section.
+\Cref{eq:diff_states} represents the difference between our controlled and uncontrolled trajectory on the \Poincare section.
+We approximate the entire reachable set by discretization  over the space of angles \(\phi_1, \phi_2, \phi_3 \).
+By convention we assume that the angles lie in the following range
+\begin{align*}
+    \phi_1, \phi_2 &\in [ 0, \pi ) ,\\
+    \phi_3 &\in [ 0 , 2 \pi ) ,
+\end{align*}
+such that we parameterize all directions on the three sphere, \(\S^3\).
+Finally, we also incorporate the control acceleration magnitude constraint as
+\begin{align}\label{eq:control_constraint}
+    c(\vc{u}) = \vc{u}^T \vc{u} - u_m^2 \leq 0 ,
+\end{align}
+where \( u_m \) is the maximum acceleration possible by the propulsion system.
+This constraint assumes that the control acceleration may be orientated in any direction yet the acceleration magnitude is variable but bounded.
+The goal is to determine the control history \( \vc{u}(t) \) such that the cost function~\cref{eq:cost} is minimized while subject to the equations of motion~\cref{eq:body_eoms} and the constraints~\cref{eq:control_constraint,eq:terminal_constraints}.
+
+We present an example transfer of a spacecraft about the asteroid 4769 Castalia. 
+Our equations of motion, given by~\cref{eq:eoms}, are an idealized version of the dynamics of a spacecraft.
+For example, the model does not include the effect of mass transfer from propellant usage. 
+We instead model the control input as a generic acceleration vector in the body-fixed asteroid frame. 
+The acceleration magnitude constraint in~\cref{eq:control_constraint} is chosen to emulate a physically realizable thruster system.
+In this analysis, we assume \( u_m = \SI{0.1}{\milli\meter\per\second\squared}\) which is equivalent to a thrust of approximately \SI{100}{\milli\newton} for a \SI{1000}{\kilo\gram} spacecraft.
+This amount of thrust is typical of many current ion or hall effect thrusters~\cite{goebel2008,choueiri2009}.
+
+The objective is to transfer the spacecraft between two periodic equatorial orbits about Castalia.
+The initial and target orbits are periodic solutions about Castlia computed using the method introduced by Reference~\cite{scheeres2003}.
+The initial conditions for both orbits are defined in the body-fixed frame as
+\begin{align}\label{sec:initial_transfer}
+    \vc{x}_i = 
+    \begin{bmatrix}
+        1.4973 \\ 0 \\ 0.0061 \\ 0\\ -0.0009 \\ 0
+    \end{bmatrix} ,
+    \quad
+    \vc{x}_t =
+    \begin{bmatrix}
+        6.1175 \\ 0 \\ 0.0001 \\ 0\\ -0.0025 \\ 0
+    \end{bmatrix} .
+\end{align}
+\Cref{fig:initial_transfer} shows the initial, \( \vc{x}_i \), and target, \( \vc{x}_t\), periodic orbits which lie in the equatorial plane of Castalia.
+Our goal is to transfer from a lower altitude to a higher altitude while remaining in the equatorial plane of the asteroid.
+This type of scenario would occur frequently during mapping and observation missions to asteroids.
+\begin{figure}[htbp]
+    \centering 
+    \begin{subfigure}[htbp]{0.45\textwidth} 
+        \includegraphics[width=\textwidth]{figures/2016_AAS/initial_transfer} 
+        \caption{Equatorial View} \label{fig:eq_initial_transfer} 
+    \end{subfigure}~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. %(or a blank line to force the subfigure onto a new line) 
+    \begin{subfigure}[htbp]{0.45\textwidth} 
+        \includegraphics[width=\textwidth]{figures/2016_AAS/initial_transfer_3d} 
+        \caption{3D view} \label{fig:initial_transfer_3d} 
+    \end{subfigure} ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. %(or a blank line to force the subfigure onto a new line) 
+    \caption{Initial and target periodic orbits}
+    \label{fig:initial_transfer} 
+\end{figure}
+In this transfer example we also have used a reduced model of Castalia.
+Rather than using the full \num{4092} face model we reduce the number of faces to \num{1024} using the Matlab function \verb+reducepatch+. 
+This greatly speeds up the computation with only a small difference in the gravitational field.
+
+We first compute the reachability set originating from the initial periodic orbit at \( \vecbf{x}_i\) for a fixed time of flight and bounded control magnitude as defined previously.
+The reachability set is computed by solving the two-point boundary value problem using a multiple shooting algorithm to satisfy the necessary conditions in~\cref{eq:necc_conditions}.
+The reachability set is generated on the lower dimensional \Poincare section and is composed of the terminal states in the \( \parenth{x,z,\dot{x},\dot{z} } \) space.
+We approximate the reachability set by discretization of each of the angles \( \phi_1, \phi_2 , \phi_3 \) into ten discrete steps. 
+This results in a total of \(10^3\) trajectories which approximate the reachability set on the \Poincare section.
+
+We visualize the section using the two figures in~\cref{fig:poincare_section}.
+\begin{figure}[htbp]
+    \centering 
+    \begin{subfigure}[htbp]{0.45\textwidth} 
+        \includegraphics[width=\textwidth]{figures/2016_AAS/poincare_xvsxdot.pdf} 
+        \caption{\( x \) vs. \( \dot{x} \) \Poincare section} \label{fig:poincare_xvsxdot} 
+    \end{subfigure}~
+    \begin{subfigure}[htbp]{0.45\textwidth} 
+        \includegraphics[width=\textwidth]{figures/2016_AAS/poincare_zvszdot.pdf} 
+        \caption{\( z \) vs. \( \dot{z} \) \Poincare section} \label{fig:poincare_zvszdot} 
+    \end{subfigure}
+    \caption{\Poincare section visualization \label{fig:poincare_section}}
+\end{figure}
+These two-dimensional sections allow us to visualize the four-dimensional \Poincare section defined by~\cref{eq:poincare_section}.
+The first stage of the transfer is represented by the magenta markers in~\cref{fig:poincare_section}.
+From~\cref{fig:poincare_xvsxdot}, we can see that the reachability set has grown in the \( \dot{x} \) dimension but has not been enlarged much in the \( x \) direction.
+Similarly,~\cref{fig:poincare_zvszdot} shows an increase in the \( \dot{z} \) component.
+From the reachability set, we chose a trajectory and terminal state which minimizes a distance metric \( d(\vecbf{x}_f,\vecbf{x}_t) \) to the desired target
+\begin{align}\label{eq:reach_dist}
+    d = \sqrt{k_x \parenth{x_f - x_t }^2 + k_z \parenth{z_f - z_t }^2 + k_{\dot{x}}\parenth{\dot{x}_f - \dot{x}_t }^2 + k_{\dot{z}}\parenth{\dot{z}_f - \dot{z}_t }^2} ,
+\end{align}
+where \( k_x, k_z, k_{\dot{x}}, k_{\dot{z}} \) are used to weight the relative importance of each of the components of the \Poincare section.
+\Cref{fig:phi_distance} shows the distance to the target for the chosen discretization of \( \phi_i \).
+\begin{figure}[htbp] 
+    \centering 
+    \begin{subfigure}[htbp]{0.3\textwidth} 
+        \includegraphics[width=\textwidth]{figures/2016_AAS/phi1.pdf} 
+        \caption{ \( \phi_1 \)} \label{fig:phi1} 
+    \end{subfigure}~
+    \begin{subfigure}[htbp]{0.3\textwidth} 
+        \includegraphics[width=\textwidth]{figures/2016_AAS/phi2.pdf} 
+        \caption{\( \phi_2 \)} \label{fig:phi2} 
+    \end{subfigure}~
+    \begin{subfigure}[htbp]{0.3\textwidth} 
+        \includegraphics[width=\textwidth]{figures/2016_AAS/phi3.pdf} 
+        \caption{\( \phi_3 \)} \label{fig:phi3} 
+    \end{subfigure} 
+    \caption{Variation of \(d(\vecbf{x}_f,\vecbf{x}_t)\) due to \( \phi_i\)}
+    \label{fig:phi_distance} 
+\end{figure}
+
+The trajectory which minimizes \( d \) is indicated by the red circular markers in~\cref{fig:poincare_section,fig:phi_distance}.
+Since the first reachability set does not include the target we use the minimum state from the first stage to initialize another reachability computation.
+Once again we compute the reachability set by discretization of the angles \( \phi_i \) on the \Poincare section.
+This second stage, represented by the cyan markers in~\cref{fig:poincare_section,fig:phi_distance}, further increases the \( x, z\) components but does not reach the target orbit.
+As a result, a third and forth stage are generated in a similar manner and shown by the green and blue markers in~\cref{fig:poincare_section,fig:phi_distance}, respectively.
+We can see in~\cref{fig:poincare_section} that the reachability set of the forth stage includes both the \( x \) and \( z\) components of the target periodic orbit.
+At the same time there is a relatively large difference between the \( \dot{x} \), \( \dot{z} \), and \( z \) components of the forth stage and the target orbit.
+In practice, this is not a large concern as we have direct control over the spacecraft velocity via the control input and the equatorial plane still remains within the reachability set of the transfer.
+
+With the reachability set encompassing the target orbit, we can generate a final transfer to the target.
+We use the minimum state calculated from the final stage to serve as the initial condition of the transfer.
+A final optimal transfer is computed to satisfy the fixed terminal state \( \vc{x}(t_f) = \vc{x}_t \) and the bounded control magnitude constraint.
+\Cref{fig:trajectory} shows the entire transfer trajectory, from the four reachable set trajectories as well as the final transfer to the target.
+\begin{figure}[htbp] 
+    \centering 
+    \begin{subfigure}[htbp]{0.45\textwidth} 
+        \includegraphics[width=\textwidth]{figures/2016_AAS/trajectory.pdf} 
+        \caption{Equatorial view of transfer} \label{fig:trajectory_up} 
+    \end{subfigure}~
+    \begin{subfigure}[htbp]{0.45\textwidth} 
+        \includegraphics[width=\textwidth]{figures/2016_AAS/trajectory_3d.pdf} 
+        \caption{Out of plane view} \label{fig:trajectory_3d} 
+    \end{subfigure}~ 
+    \caption{Complete transfer trajectory}
+    \label{fig:trajectory} 
+\end{figure}
+It is interesting to note that while both the initial and target periodic orbit lie in the equatorial plane, the reachability trajectories show a relatively large out of plane component during the transfers.
+In spite of this out of plane movement, the reachability set approaches and meets the target orbit. 
+\begin{figure}
+    \centering
+    \includegraphics[width=0.45\textwidth]{figures/2016_AAS/control.pdf}
+    \caption{Control history \label{fig:control}}
+\end{figure}
+\Cref{fig:control} shows the control input required during the maneuver.
+We can see that the control constraint in~\cref{eq:control_constraint} is satisfied over the entire trajectory.
