@@ -62,7 +62,7 @@ There exists a single integral, or constant of motion for the three-body problem
 This energy constant is analogous to the total mechanical energy, however it is a non-physical quantity arising from the problem formulation~\cite{szebehely1967}.
 Also known as the Jacobi constant, it is defined as a function of the position and velocity in the rotating frame and given by
 \begin{equation}
-        E\left( \vecbf{r} , \vecbf{v} \right) = \frac{1}{2}\left( \dot{x}^2 + \dot{y}^2\right) - U\left(x,y \right) \, .
+        E\left( \vc{r} , \vc{v} \right) = \frac{1}{2}\left( \dot{x}^2 + \dot{y}^2\right) - U\left(x,y \right) \, .
         \label{eq:jacobi}
 \end{equation}
 \Cref{eq:jacobi} divides the phase space into distinct regions of allowable motion based on the energy level of the spacecraft.
@@ -75,8 +75,8 @@ These equilibrium, or Lagrange points, are labeled \( L_i, i = 1, \hdots, 5 \) a
 The Jacobi integral is a valuable invariant property of the three-body system that allows for greater insight into the motion of the spacecraft.
 \begin{figure}[htbp]
         \centering
-        \includegraphics[width=0.5\textwidth]{./figures/2017_JAS/energy_contours.pdf}
-        \caption{Contour plot of Jacobi integral: Zero velocity curves of constant Jacobi integral. A particle with fixed energy level cannot cross the contour lines and is therefore limited to specific regions of the phase space. }
+        \includegraphics[width=0.75\textwidth]{./figures/2017_JAS/energy_contours.pdf}
+        \caption[Jacobi integral]{Contour plot of Jacobi integral: Zero velocity curves of constant Jacobi integral. A particle with fixed energy level cannot cross the contour lines and is therefore limited to specific regions of the phase space. }
         \label{fig:energy_contour}
 \end{figure} 
 
@@ -91,8 +91,8 @@ These invariant manifolds only exist as a result of the dynamic formulation of t
 Invariant manifolds serve as a higher dimensional generalization of the concept of seperatrices from linear systems as applied to the case of nonlinear systems. 
 
 \Poincare maps are a useful tool in the analysis of the flow near periodic orbits in the three-body problem.
-We let \( \Sigma \) define a hypersurface of section chosen such that all trajectories in the vicinity of a state \( \vecbf{q} \in \Sigma \) cross \( \Sigma \) transversely and in the same direction.
-A \Poincare map, \( P(\vecbf{q}) = \phi(T;\vecbf{q}) \), maps the state of a trajectory from one intersection to the next.
+We let \( \Sigma \) define a hypersurface of section chosen such that all trajectories in the vicinity of a state \( \vc{q} \in \Sigma \) cross \( \Sigma \) transversely and in the same direction.
+A \Poincare map, \( P(\vc{q}) = \phi(T;\vc{q}) \), maps the state of a trajectory from one intersection to the next.
 Choosing a section in this manner results in a \Poincare section as shown in~\cref{fig:poincare_map}.
 In~\cref{fig:poincare_map} we show two examples of periodic trajectories intersecting the \Poincare section. 
 Periodic solutions will appear as fixed points on the section, such as \( q_0, q_1 \) in~\cref{fig:poincare_map}, while stable or unstable trajectories become clearly visible by viewing successive intersections of the section.
@@ -102,6 +102,7 @@ These dynamic features have been shown to play a vital role in the movement of n
 \begin{figure}
         \centering
         \begin{scaletikzpicturetowidth}{0.5\textwidth}
+            \tdplotsetmaincoords{60}{125} % view angle in spherical coordinates
     \begin{tikzpicture}[tdplot_main_coords,
       poincare/.style={opacity=.2,very thick,fill=blue},
       orbit/.style={very thick,black},
@@ -195,7 +196,8 @@ In practice, the reachable set will be of a general shape and also higher dimens
 \begin{figure}
         \centering
 %       \includegraphics[width=0.5\textwidth]{reachability_set_hand}
-        \begin{scaletikzpicturetowidth}{0.5\textwidth}
+        \begin{scaletikzpicturetowidth}{0.6\textwidth}
+          \tdplotsetmaincoords{60}{125} % view angle in spherical coordinates
         \begin{tikzpicture}[tdplot_main_coords,
           poincare/.style={opacity=.2,very thick,fill=blue},
           orbit/.style={very thick,black},
@@ -259,7 +261,7 @@ We seek to compliment these results with the addition of low thrust propulsion t
 Placing our section at \( y = 0\) ensures that all trajectories will intersect our section.
 An optimal control problem is defined by a  cost function
 \begin{equation}
-        J = -\frac{1}{2} \left( \vecbf{x}(N) - \vecbf{x}_{n}(N)\right)^T 
+        J = -\frac{1}{2} \left( \vc{x}(N) - \vc{x}_{n}(N)\right)^T 
         \left[
         \begin{array}{cccc}
                 1 & 0& 0& 0 \\
@@ -268,23 +270,23 @@ An optimal control problem is defined by a  cost function
                  0 & 0& 0& 0
         \end{array}
         \right]
-        \left( \vecbf{x}(N) - \vecbf{x}_{n}(N)\right) = \phi(\vecbf{x}(N),\vecbf{x}_n(N)) \, .
+        \left( \vc{x}(N) - \vc{x}_{n}(N)\right) = \phi(\vc{x}(N),\vc{x}_n(N)) \, .
         \label{eq:cost}
 \end{equation}
-The term \( \vecbf{x}_n(N) \) is the final state of a control-free trajectory while the term \( \vecbf{x}(N)\) is the final state under the influence of the control input.
-Maximization of the distance between \( \vecbf{x}_n \) and \(\vecbf{x} \), on the \Poincare section defined in~\cref{eqn:poincare_section} at the terminal time \( t_f = N \), is equivalent to the minimization of \( J \) defined in~\cref{eq:cost}.
+The term \( \vc{x}_n(N) \) is the final state of a control-free trajectory while the term \( \vc{x}(N)\) is the final state under the influence of the control input.
+Maximization of the distance between \( \vc{x}_n \) and \(\vc{x} \), on the \Poincare section defined in~\cref{eqn:poincare_section} at the terminal time \( t_f = N \), is equivalent to the minimization of \( J \) defined in~\cref{eq:cost}.
 The \Poincare section is defined through the use of appropriate terminal constraints given by
 \begin{subequations}
 \begin{align}
-    v_1( \vecbf{x}(N) ) &= y(N) = 0 \, , \\ 
-    v_2 ( \vecbf{x}(N) )&=  \frac{\dot{x}(N) - \dot{x}_n(N) }{x(N) -x_n(N) } - \tan{\theta_d} = 0\, , \\
-         0 &\geq\vecbf{u}^T \vecbf{u} - u_{max}^2 \, ,
+    v_1( \vc{x}(N) ) &= y(N) = 0 \, , \\ 
+    v_2 ( \vc{x}(N) )&=  \frac{\dot{x}(N) - \dot{x}_n(N) }{x(N) -x_n(N) } - \tan{\theta_d} = 0\, , \\
+         0 &\geq\vc{u}^T \vc{u} - u_{max}^2 \, ,
 \end{align}
     \label{eq:constraints}
 \end{subequations}
 where the angle \( \theta_d\) defines a direction in which we wish to maximize the reachability set on the \Poincare section.
 The maximum control thrust magnitude is defined by \( u_{max} \) and is non-dimensionalized by the characteristic units of length, mass, and time.
-The goal is to determine the control input \( \vecbf{u}_k\) such that the cost function~\cref{eq:cost} is minimized subject to the state equations of motion~\cref{eq:discrete_eoms} and constraints~\cref{eq:constraints}.
+The goal is to determine the control input \( \vc{u}_k\) such that the cost function~\cref{eq:cost} is minimized subject to the state equations of motion~\cref{eq:discrete_eoms} and constraints~\cref{eq:constraints}.
 
 Application of the Euler-Lagrange equations allows us to derive the necessary conditions for optimality~\cite{bryson1975}.
 The discrete variational integrator in~\cref{eq:discrete_eoms} is used rather than the continuous time counterpart. 
