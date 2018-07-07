@@ -148,9 +148,8 @@ In this paper, we formulate an optimal control problem to generate the reachable
 We compute the reachable set on an appropriate \Poincare section and use this to design a transfer trajectory.
 
 % TODO Generalize this description to be applicable to both the PCRTBP and Asteroid examples
-\section{Asteroid EOMS}
 
-\subsection{Spacecraft Equations of Motion}\label{sec:sc_eoms}
+\section{Transfer Design around Asteroids}\label{sec:sc_eoms}
 
 The motion of a massless particle, or spacecraft, about an asteroid shares many similarities with that of the three-body problem.
 As is typical in the three-body problem, the equations of motion are usually represented in a uniformly rotating frame aligned with the two primaries.
@@ -158,15 +157,17 @@ Similarly, the equations of motion about an asteroid are also defined in a body-
 In this reference frame, the gravitational potential field is time invariant and only a function of the position of the particle.
 In addition, since the rotational rate of the asteroid is constant, the equations of motion are time invariant.
 Finally, the use of the rotating reference frame allows for much greater insight into the dynamic structure of the behavior around the asteroid.
+Here we consider a simplified form of the relative equations of motion about an asteroid.
+We only treat the translational motion of the spacecraft with respect to the asteroid instead of the full coupled equations of motion introduced in~\cref{sec:asteroid_dumbbell_eoms}.
 
 We define a reference frame originating at the center of mass of the asteroid.
-The body-fixed reference frame is composed of the unit vectors \( \hat{\vecbf{x}} , \hat{\vecbf{y}}, \hat{\vecbf{z}} \), which are aligned along the principal axes of smallest, intermediate, and largest moment of inertia, respectively.
+The body-fixed reference frame is composed of the unit vectors \( \hat{\vc{x}} , \hat{\vc{y}}, \hat{\vc{z}} \), which are aligned along the principal axes of smallest, intermediate, and largest moment of inertia, respectively.
 The body-fixed equations of motion of a massless particle about an arbitrarily rotating asteroid are given by
 \begin{align}\label{eq:body_eoms}
-    \ddot{\vecbf{r}} + 2 \vecbf{\Omega} \times \dot{\vecbf{r}} + \vecbf{\Omega} \times \parenth{ \vecbf{\Omega} \times \vecbf{r} } + \dot{\vecbf{\Omega}} \times \vecbf{r} = \nabla U(\vecbf{r}) ,
+    \ddot{\vc{r}} + 2 \vc{\Omega} \times \dot{\vc{r}} + \vc{\Omega} \times \parenth{ \vc{\Omega} \times \vc{r} } + \dot{\vc{\Omega}} \times \vc{r} = \nabla U(\vc{r}) ,
 \end{align}
-where \( \vecbf{\Omega} \in \R^{3 \times 1}\) is the instantaneous angular velocity vector of the asteroid represented in the body-fixed frame, \( \vecbf{r} \) is the position of the particle in the body-fixed frame, and \( \nabla U(\vecbf{r}) \) is the gradient of the gravitational potential~\cite{scheeres2012a}.
-We assume that the asteroid rotates at a uniform rate, \( \norm{\vecbf{\Omega}} = \omega \in \R^1 \), about the axis of the maximum moment of inertia, i.e.\ \( \vecbf{\Omega} = \omega \hat{\vecbf{z} }\).
+where \( \vc{\Omega} \in \R^{3 \times 1}\) is the instantaneous angular velocity vector of the asteroid represented in the body-fixed frame, \( \vc{r} \) is the position of the particle in the body-fixed frame, and \( \nabla U(\vc{r}) \) is the gradient of the gravitational potential~\cite{scheeres2012a}.
+We assume that the asteroid rotates at a uniform rate, \( \norm{\vc{\Omega}} = \omega \in \R^1 \), about the axis of the maximum moment of inertia, i.e.\ \( \vc{\Omega} = \omega \hat{\vc{z} }\).
 As a result, we can represent the equations of motion in scalar form as
 \begin{align} \label{eq:eoms}
     \begin{split}
@@ -176,25 +177,25 @@ As a result, we can represent the equations of motion in scalar form as
     \end{split}
 \end{align}
 
-In this situation, the state is defined as \( \vecbf{x} = \bracket{\vecbf{r}~\>\vecbf{v}}^T \in \R^{6 \times 1}\) with \(\vecbf{r} = \bracket{x~\>y~\>z}^T \in \R^{3\times1}\) and \(\vecbf{v}= \bracket{ \dot{x}~\>\dot{y}~\>\dot{z} }^T \in \R^{3\times1}\) representing the position and velocity with respect to the body-fixed frame, respectively.
-We further assume that our spacecraft is capable of exerting a translational acceleration, \( \vecbf{u} \in \R^{3\times1} \), in any direction, while subject to a maximum magnitude constraint, \( \norm{\vecbf{u}} \leq u_m \).
+In this situation, the state is defined as \( \vc{x} = \bracket{\vc{r}~\>\vc{v}}^T \in \R^{6 \times 1}\) with \(\vc{r} = \bracket{x~\>y~\>z}^T \in \R^{3\times1}\) and \(\vc{v}= \bracket{ \dot{x}~\>\dot{y}~\>\dot{z} }^T \in \R^{3\times1}\) representing the position and velocity with respect to the body-fixed frame, respectively.
+We further assume that our spacecraft is capable of exerting a translational acceleration, \( \vc{u} \in \R^{3\times1} \), in any direction, while subject to a maximum magnitude constraint, \( \norm{\vc{u}} \leq u_m \).
 This is typical of many spacecraft which offer full rotational freedom and can direct a potentially varying force or acceleration in any direction.
 The equations of motion may be rewritten in state space form as
 \begin{align}\label{eq:state_space_eoms}
-    \begin{bmatrix} \dot{\vecbf{r}} \\ \dot{\vecbf{v}} \end{bmatrix} &=
-    \begin{bmatrix}\vecbf{v} \\ \vecbf{g} \parenth{\vecbf{r}} + \vecbf{h}\parenth{\vecbf{v}} + \vecbf{u} \end{bmatrix} ,
+    \begin{bmatrix} \dot{\vc{r}} \\ \dot{\vc{v}} \end{bmatrix} &=
+    \begin{bmatrix}\vc{v} \\ \vc{g} \parenth{\vc{r}} + \vc{h}\parenth{\vc{v}} + \vc{u} \end{bmatrix} ,
 \end{align}
-where the terms \(\vecbf{g} \parenth{\vecbf{r}} \) and \( \vecbf{h}\parenth{\vecbf{v}} \) are given by
+where the terms \(\vc{g} \parenth{\vc{r}} \) and \( \vc{h}\parenth{\vc{v}} \) are given by
 \begin{align}\label{eq:state_space_terms}
-    \vecbf{g}\parenth{\vecbf{r}} = \begin{bmatrix}  U_x + \omega^2 x \\ U_y + \omega^2 y \\ U_z \end{bmatrix} ,\quad
-    \vecbf{h}\parenth{\vecbf{r}} = \begin{bmatrix} 2 \omega \dot{y} \\ -2 \omega \dot{x} \\ 0 \end{bmatrix} .
+    \vc{g}\parenth{\vc{r}} = \begin{bmatrix}  U_x + \omega^2 x \\ U_y + \omega^2 y \\ U_z \end{bmatrix} ,\quad
+    \vc{h}\parenth{\vc{r}} = \begin{bmatrix} 2 \omega \dot{y} \\ -2 \omega \dot{x} \\ 0 \end{bmatrix} .
 \end{align}
 
 Since Castalia is a uniformly rotating asteroid, the equations of motion are time invariant when represented in the body-fixed frame.
 In addition, there exists an integral of motion, or a conserved quantity, that is constant for all motion of a particle.
-The Jacobi constant, \( J (\vecbf{r} , \vecbf{v} ) \), is given by
+The Jacobi constant, \( J (\vc{r} , \vc{v} ) \), is given by
 \begin{align}\label{eq:jacobi}
-    J \parenth{\vecbf{r}, \vecbf{v}} = \frac{1}{2} \omega^2 \parenth{x^2 + y^2} + U(\vecbf{r}) - \frac{1}{2} \parenth{\dot{x}^2 + \dot{y}^2 + \dot{z}^2} .
+    J \parenth{\vc{r}, \vc{v}} = \frac{1}{2} \omega^2 \parenth{x^2 + y^2} + U(\vc{r}) - \frac{1}{2} \parenth{\dot{x}^2 + \dot{y}^2 + \dot{z}^2} .
 \end{align}
 The Jacobi constant functions in a similar manner as used in three-body problem~\cite{szebehely1967}.
 We can define zero-velocity surfaces using the Jacobi constant by fixing the value to a desired constant.
@@ -202,6 +203,7 @@ The zero-velocity surfaces are the locus of points where the kinetic energy and 
 Just as in the three-body problem, the Jacobi constant in~\cref{eq:jacobi} divides the phase space into distinct realms of possible motion.
 Similarly, there exist, in general, four equilibrium points and also their associated stable and unstable manifolds~\cite{scheeres1996,scheeres1994}.
 The properties of these manifolds play a critical role in the dynamics of trajectories in their vicinity.
+
 \section{Optimal Control Formulation for Reachability Set}\label{sec:optimal_control}
 % introduce method
 In this section, an optimal control formulation is presented to determine and design transfers within the three-body problem.
