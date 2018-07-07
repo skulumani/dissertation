@@ -286,50 +286,34 @@ The \Poincare section is defined through the use of appropriate terminal constra
 \end{subequations}
 where the angle \( \theta_d\) defines a direction in which we wish to maximize the reachability set on the \Poincare section.
 The maximum control thrust magnitude is defined by \( u_{max} \) and is non-dimensionalized by the characteristic units of length, mass, and time.
-The goal is to determine the control input \( \vc{u}_k\) such that the cost function~\cref{eq:cost} is minimized subject to the state equations of motion~\cref{eq:discrete_eoms} and constraints~\cref{eq:constraints}.
+The goal is to determine the control input \( \vc{u}_k\) such that the cost function~\cref{eq:cost} is minimized subject to the state equations of motion~\cref{eqn:cont_dyn} and constraints~\cref{eq:constraints}.
 
 Application of the Euler-Lagrange equations allows us to derive the necessary conditions for optimality~\cite{bryson1975}.
-The discrete variational integrator in~\cref{eq:discrete_eoms} is used rather than the continuous time counterpart. 
-This results in a discrete optimal control problem and the discrete necessary conditions are given as
+This results in an optimal control problem and the necessary conditions are given as
 \begin{subequations}\label{eq:necc_cond}
 \begin{align}
-        \vecbf{\lambda}_{k+1}^T &= \vecbf{\lambda}_k^T  \parenth{\deriv{\vecbf{f}_k}{\vecbf{x}_k}}^{-1} \, , \\
-        0 &=  \deriv{H_k}{\vecbf{u}_k} \, , \label{eqn:control_necc_cond}\\
-        0 &= \deriv{\phi}{\vecbf{x}_k}^T + \deriv{\vecbf{v}}{\vecbf{x}_k}^T \vecbf{\beta}  - \vecbf{\lambda}^T(N) \, ,  
+    \dot{\vc{\lambda}} &= - \deriv{H}{\vc{x}}, \\
+        0 &=  \deriv{H}{\vc{u}} \, , \label{eqn:control_necc_cond}\\
+        0 &= \deriv{\phi}{\vc{x}}^T + \deriv{\vc{v}}{\vc{x}}^T \vc{\beta}  - \vc{\lambda}^T(N) \, ,  
 \end{align}
 \end{subequations}
 where the Hamiltonian \(H\) is defined as
 \begin{equation}
-        H_k = \vecbf{\lambda}_k^T \vecbf{f}(\vecbf{x}_k, \vecbf{u}_k) \, ,
+        H = \vc{\lambda}^T \vc{f}(\vc{x}, \vc{u}) \, ,
         \label{eq:hamiltonian_opt}
 \end{equation}
-and \( \vecbf{\lambda} \in \R^{4 \times 1} \) is the costate and \(\vecbf{\beta} \in \R^{2 \times 1} \) are the additional Lagrange multipliers associated with the terminal constraints in~\cref{eq:constraints}.
-The state dynamics are represented by \( \vecbf{f}(\vecbf{x}_k, \vecbf{\lambda}_k ) \) after substituting~\cref{eqn:control_necc_cond} into~\cref{eq:discrete_eoms}.
+and \( \vc{\lambda} \in \R^{4 \times 1} \) is the costate and \(\vecbf{\beta} \in \R^{2 \times 1} \) are the additional Lagrange multipliers associated with the terminal constraints in~\cref{eq:constraints}.
+The state dynamics are represented by \( \vc{f}(\vc{x}_k, \vc{\lambda}_k ) \) after substituting~\cref{eqn:control_necc_cond} into~\cref{eqn:cont_dyn}.
 This indirect optimal control formulation leads to a two point boundary value problem with split boundary conditions. 
 By sweeping the angle \( \theta_d \) one can approximate the reachable set on the \Poincare section subject to the bounded control input. 
 
-The costate equation of motion requires the Jacobian of~\cref{eq:discrete_eoms} and is given by
-\begin{align}\label{eq:costate_eom}
-        \vecbf{\lambda}_{k+1}^T = \vecbf{\lambda}_k^T
-        \begin{bmatrix} 
-                f_{1_x} & f_{1_y} & f_{1_{\dot{x}}} & f_{1_{\dot{y}}} \\
-                f_{2_x} & f_{2_y} & f_{2_{\dot{x}}} & f_{2_{\dot{y}}} \\
-                f_{3_x} & f_{3_y} & f_{3_{\dot{x}}} & f_{3_{\dot{y}}} \\
-                f_{4_x} & f_{4_y} & f_{4_{\dot{x}}} & f_{4_{\dot{y}}}
-        \end{bmatrix} ^ {-1} \, .
-\end{align}
-The derivation of~\cref{eq:costate_eom} is given in Appendix A.
-In addition, the computation of~\cref{eq:costate_eom} requires inversion of the Jacobian matrix.
-This is a computationally expensive operation that is prone to numerical error and instability.
-We use Gauss-Jordan elimination to avoid this inversion in~\cref{eq:costate_eom} and determine an explicit update map \( \vecbf{\lambda}_k \to \vecbf{\lambda}_{k+1} \).
-
-The optimal control formulation presented in this section results in a two point boundary value problem (TPBVP). 
-There exist many methods to solve TPBVPs such as gradient, quasilinearization, and shooting methods~\cite{bryson1975,kirk2012}.
+The optimal control formulation presented in this section results in a \gls{tpbvp}. 
+There exist many methods to solve \glspl{tpbvp} such as gradient, quasilinearization, and shooting methods~\cite{bryson1975,kirk2012}.
 Shooting methods are common in astrodynamic trajectory design problems and relatively simple to implement.
 In the shooting method, initial conditions are varied such that a terminal constraint is satisfied, similar to the way an archer modifies the bow in order to more accurately strike a target. 
-Consider the vector of initial conditions, \( \vecbf{\chi} = \braces{\vecbf{x}_0, \vecbf{\lambda}_0}\), which is varied to satisfy some terminal constraints of the form \( \vecbf{G}(\vecbf{\chi}) = \braces{\vecbf{x}_t - \vecbf{x}_n} = 0 \).
-The free variables at the terminal time are computed by propagation of \( \vecbf{\chi} \) over the selected time horizon. 
-At the terminal time, the constraint vector is calculated and if not satisfied \( \vecbf{\chi}\) is varied.
+Consider the vector of initial conditions, \( \vc{\chi} = \braces{\vc{x}_0, \vc{\lambda}_0}\), which is varied to satisfy some terminal constraints of the form \( \vc{G}(\vc{\chi}) = \braces{\vc{x}_t - \vc{x}_n} = 0 \).
+The free variables at the terminal time are computed by propagation of \( \vc{\chi} \) over the selected time horizon. 
+At the terminal time, the constraint vector is calculated and if not satisfied \( \vc{\chi}\) is varied.
 Rather than numerical integration over the entire time interval, multiple shooting segments the interval into several smaller sub-arcs~\cite{stoer2013}.
 This multiple shooting approach incorporates additional interior constraints but reduces the sensitivity of the costates along each sub-arc.
 The use of the multiple shooting method reduces the sensitivity of changes in the initial costate at the expense of additional design variables, but has been shown to provide more stable and robust solutions~\cite{ozimek2010a}.
@@ -340,7 +324,7 @@ The use of the multiple shooting method reduces the sensitivity of changes in th
                 \begin{tikzpicture}[scale=\tikzscale]
                     % \draw[help lines] (0,0) grid (20,5) ; %grid
 
-                    \node[label=west:\(\vecbf{x}\)] (x0m) at (0,5) {};
+                    \node[label=west:\(\vc{x}\)] (x0m) at (0,5) {};
                     \node[] (x1m) at (5,5) {};
                     \node[] (x2m) at (10,5) {};
                     \node[] (x3m) at (15,5) {};
@@ -353,29 +337,29 @@ The use of the multiple shooting method reduces the sensitivity of changes in th
                     \node[label=below:\(k_n\)] (tn) at (20,0) {};
 
                     % nodes for each subsegment
-                    \node[label=left:\(\vecbf{x}_0\)] (x0) at (0,1) {\pgfuseplotmark{*}};
-                    \node[label=below left:\(\vecbf{\lambda}_0\)] at (x0) {};
+                    \node[label=left:\(\vc{x}_0\)] (x0) at (0,1) {\pgfuseplotmark{*}};
+                    \node[label=below left:\(\vc{\lambda}_0\)] at (x0) {};
 
-                    \node[label=right:\(\vecbf{x}_1^{-}\)] (x1minus) at (5,2) {\pgfuseplotmark{*}};
-                    \node[label=below right:\(\vecbf{\lambda}_1^{-}\)] at (x1minus) {};
+                    \node[label=right:\(\vc{x}_1^{-}\)] (x1minus) at (5,2) {\pgfuseplotmark{*}};
+                    \node[label=below right:\(\vc{\lambda}_1^{-}\)] at (x1minus) {};
 
-                    \node[label=above left:\(\vecbf{x}_1^{+}\)] (x1plus) at (5,3) {\pgfuseplotmark{o}};
-                    \node[label=left:\(\vecbf{\lambda}_1^{+}\)] at (x1plus) {};
+                    \node[label=above left:\(\vc{x}_1^{+}\)] (x1plus) at (5,3) {\pgfuseplotmark{o}};
+                    \node[label=left:\(\vc{\lambda}_1^{+}\)] at (x1plus) {};
 
-                    \node[label=right:\(\vecbf{x}_2^{-}\)] (x2minus) at (10,2) {\pgfuseplotmark{*}};
-                    \node[label=below right:\(\vecbf{\lambda}_2^{-}\)] at (x2minus) {};
+                    \node[label=right:\(\vc{x}_2^{-}\)] (x2minus) at (10,2) {\pgfuseplotmark{*}};
+                    \node[label=below right:\(\vc{\lambda}_2^{-}\)] at (x2minus) {};
 
-                    \node[label=above left:\(\vecbf{x}_2^{+}\)] (x2plus) at (10,3) {\pgfuseplotmark{o}};
-                    \node[label=left:\(\vecbf{\lambda}_2^{+}\)] at (x2plus) {};
+                    \node[label=above left:\(\vc{x}_2^{+}\)] (x2plus) at (10,3) {\pgfuseplotmark{o}};
+                    \node[label=left:\(\vc{\lambda}_2^{+}\)] at (x2plus) {};
 
-                    \node[label=right:\(\vecbf{x}_{n-1}^{-}\)] (x3minus) at (15,2) {\pgfuseplotmark{*}};
-                    \node[label=below right:\(\vecbf{\lambda}_{n-1}^{-}\)] at (x3minus) {};
+                    \node[label=right:\(\vc{x}_{n-1}^{-}\)] (x3minus) at (15,2) {\pgfuseplotmark{*}};
+                    \node[label=below right:\(\vc{\lambda}_{n-1}^{-}\)] at (x3minus) {};
 
-                    \node[label=above left:\(\vecbf{x}_{n-1}^{+}\)] (x3plus) at (15,3) {\pgfuseplotmark{o}};
-                    \node[label=left:\(\vecbf{\lambda}_{n-1}^{+}\)] at (x3plus) {};
+                    \node[label=above left:\(\vc{x}_{n-1}^{+}\)] (x3plus) at (15,3) {\pgfuseplotmark{o}};
+                    \node[label=left:\(\vc{\lambda}_{n-1}^{+}\)] at (x3plus) {};
 
-                    \node[label=right:\(\vecbf{x}_n\)] (xnminus) at (20,3) {\pgfuseplotmark{*}};
-                    \node[label=below right:\(\vecbf{\lambda}_n\)] at (xnminus) {};
+                    \node[label=right:\(\vc{x}_n\)] (xnminus) at (20,3) {\pgfuseplotmark{*}};
+                    \node[label=below right:\(\vc{\lambda}_n\)] at (xnminus) {};
                     % draw axes
                     \draw [<->,thick] (tn.center) -- (t0.center) -- (x0m.center);
 
@@ -405,33 +389,24 @@ In~\cref{fig:multiple shooting}, we show a schematic representation of the multi
 We split the optimal control horizon into equal length subsegments such that the length of each segment is \( \frac{k}{n} \), where \( k, n \) are the total number of steps and number of stages, respectively.
 Similarly, we divide the state and costate trajectories into \( n \) equal segments. 
 To ensure continuity, additional interior constraints are incorporated as
-\begin{subequations}
 \begin{align}\label{eq:interior_constraints}
-        \vecbf{x}_1^{-} - \vecbf{x}_1^{+} &= 0 , \\ 
-        \vecbf{\lambda}_1^{-} - \vecbf{\lambda}_1^{+} &= 0 , \\
-        \vecbf{x}_2^{-} - \vecbf{x}_2^{+} &= 0 , \\ 
-        \vecbf{\lambda}_2^{-} - \vecbf{\lambda}_2^{+} &= 0 , \\
-        &\vdots \nonumber \\
-        \vecbf{x}_{n-1}^{-} - \vecbf{x}_{n-1}^{+} &= 0 , \\ 
-        \vecbf{\lambda}_{n-1}^{-} - \vecbf{\lambda}_{n-1}^{+} &= 0.
+        \vc{x}_1^{-} - \vc{x}_1^{+} &= 0 , \nonumber\\ 
+        \vc{\lambda}_1^{-} - \vc{\lambda}_1^{+} &= 0 , \nonumber\\
+        \vc{x}_2^{-} - \vc{x}_2^{+} &= 0 , \nonumber\\ 
+        \vc{\lambda}_2^{-} - \vc{\lambda}_2^{+} &= 0 , \nonumber\\
+        &\vdots \nonumber \nonumber\\
+        \vc{x}_{n-1}^{-} - \vc{x}_{n-1}^{+} &= 0 , \nonumber\\ 
+        \vc{\lambda}_{n-1}^{-} - \vc{\lambda}_{n-1}^{+} &= 0.
 \end{align}
-\end{subequations}
-Using the multiple shooting method reduces the sensitivity of the terminal states, \( \vecbf{x}_i^{+}, \vecbf{\lambda}_i^{+}\), to variations of the initial states, \(\vecbf{x}_{i-1}^{-}, \vecbf{\lambda}_{i-1}^{-}\).
-As a result, the design vector \( \vecbf{\chi} \) is augmented with the additional interior initial conditions, \( \vecbf{x}_i^{-}, \vecbf{\lambda}^{-}\).
+Using the multiple shooting method reduces the sensitivity of the terminal states, \( \vc{x}_i^{+}, \vc{\lambda}_i^{+}\), to variations of the initial states, \(\vc{x}_{i-1}^{-}, \vc{\lambda}_{i-1}^{-}\).
+As a result, the design vector \( \vc{\chi} \) is augmented with the additional interior initial conditions, \( \vc{x}_i^{-}, \vc{\lambda}^{-}\).
 Similarly, the constraint vector is augmented with the additional interior constraints defined in~\cref{eq:interior_constraints}.
 Based on experimentation, we use four stages in our multiple shooting method.
 This provided the best performance and convergence stability while minimizing the difficulties in additional interior constraints.
-The multiple shooting algorithm now varies the design vector \( \vecbf{\chi}\) to ensure that the constraints in \( \vecbf{G}(\vecbf{\chi}) \) are satisfied.
+The multiple shooting algorithm now varies the design vector \( \vc{\chi}\) to ensure that the constraints in \( \vc{G}(\vc{\chi}) \) are satisfied.
 In this work, we use the Matlab nonlinear solver \texttt{fsolve} to solve the system of nonlinear equations defined by the multiple shooting algorithm with a convergence tolerance of \num{1e-5}.
 Within \texttt{fsolve}, we use the trust-region dogleg solver which makes use of the Powell dogleg procedure for computing a step direction and magnitude to minimize successive iterations of the solver.
-All numerical integration is performed using the discrete variational integrator described in~\cref{sec:discrete_var}.
 The numerical results are specific to the choice of nonlinear solver, and different tolerances or software tools may result in slight changes.
-% tpbvp is solved using a shooting method (fsolve in matlab)
-% determine a design vector X of variables we need to determine
-% define a constraint vector G(X) that we need to satisfy
-% multiple shooting has interior points of continuity constraints
-% sensitivity of terminal state is used to correct the initial condition (cite a book/paper)
-% plot of multiple shooting ( stages)
 
 % TODO Add numerical examples of the three-body problem
 \section{Numerical Example}\label{sec:simulation}
