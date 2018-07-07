@@ -108,8 +108,8 @@ Typically, spacecraft have mass concentrated in a central structure, referred to
 In addition, comparatively light-weight solar panels extend from the bus to provide electrical energy from solar radiation. 
 As a result, the distributed mass of the spacecraft is captured with the dumbbell representation.
 
-The dumbbell is defined by two spherical masses of radius \( r_1, r_2 \in \R \) with masses \( m_1, m_2 \in \R\).
-The masses are seperated by a massless rod of length \( l \) and attached to the centers of each mass.
+The dumbbell is defined by two spherical masses of radius \( \radius{1}, \radius{2} \in \R \) with masses \( \mass{1}, \mass{2} \in  \R\).
+The masses are seperated by a massless rod of length \( \length{} \) and attached to the centers of each mass.
 \Cref{fig:dumbbell_sc} shows the model and associated parameters.
 \begin{figure}[htbp]
     \centering
@@ -118,52 +118,54 @@ The masses are seperated by a massless rod of length \( l \) and attached to the
     \label{fig:dumbbell_sc}
 \end{figure}
 The spacecraft body fixed frame is centered at the center of mass of the vehicle.
-The \( \vh{b}_1 \) is axis is aligned with the connecting rod while the \( \vh{b}_2, \vh{b}_3 \) axes span the plane orthogonal to the axis of symmetry of the dumbbell.
-The distance from the center of mass to each mass is defined as
+The \( \bvec{1} \)  axis is aligned with the connecting rod and directed along the axis of symmetry.
+The \( \bvec{2}, \bvec{3} \) axes span the plane orthogonal to the axis of symmetry of the dumbbell.
+The distance from the center of mass to each spherical mass is defined as
 \begin{align}\label{eq:dumbbell_mass_distances}
-    l_1 &= \frac{m_2}{m_1 + m_2} l, \\
-    l_2 &= l - l_1.
+    \length{1} &= \frac{\mass{2}}{\mass{1} + \mass{2}} \length{}, \\
+    \length{2} &= \length{} - \length{1}.
 \end{align}
 
 \paragraph{Moment of Inertia Derivation}\label{sec:moment_of_inertia}
 The inertia tensor/matrix of a rigid body is defined~\cite{greenwood1988} as
-\begin{align}
-    J_I = \int_{\mathcal{B}} \bracket{ \parenth{\vb{\rho}^T \vb{\rho} }I - \vb{\rho}\vb{\rho}^T} dm, 
+\begin{align}\label{eq:moi_definition}
+    J_I = \int_{\mathcal{B}} \bracket{ \parenth{\brho{}^T \brho{} }I - \brho{}\brho{}^T} dm, 
 \end{align}
 where \( \vb{\rho} \in \R^3 \) is the position of a mass element \( dm \) in the body fixed frame of the spacecraft.
 One can also use~\cref{eq:xTx} to define the inertia matrix in several other equivalent forms
 \begin{align*}
-    J_I &= \int_{\mathcal{B}} \bracket{ \parenth{\vb{\rho}^T \vb{\rho} }I - \vb{\rho}\vb{\rho}^T} dm, \\
-        &= \int_{\mathcal{B}} \tr{\vb{\rho}\vb{\rho}^T} I - \vb{\rho}\vb{\rho}^T, \\
+    J_I &= \int_{\mathcal{B}} \bracket{ \parenth{\vc{\rho}^T \vc{\rho} }I - \vc{\rho}\vc{\rho}^T} dm, \\
+        &= \int_{\mathcal{B}} \tr{\vc{\rho}\vc{\rho}^T} I - \vc{\rho}\vc{\rho}^T, \\
         &= \int_{\mathcal{B}} \vh{\rho}^T \vh{\rho} dm.
 \end{align*}
 The location of an infinitesimal mass element \( dm \) can be decomposed into
 \begin{align}\label{eq:mass_element_position}
     \vc{\rho}_i = \vc{\zeta} + \vc{\eta}_i, 
 \end{align}
-where \( \vb{\zeta} \) is the location of the center of \( m_i \) in the spacecraft fixed frame while \( \vc{\eta} \) the position of \( dm \) with respect to the center of \( m_i \) and expressed in the spacecraft fixed frame.
+where \( \vc{\zeta} \) is the location of the center of \( m_i \) in the spacecraft fixed frame while \( \vc{\eta} \) the position of \( dm \) with respect to the center of \( m_i \) and expressed in the spacecraft fixed frame.
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=\textwidth]{figures/dumbbell_pos_vector.png}
     \caption{Decomposition of mass element positon vector}
     \label{fig:dumbbell_moi_mass_element_position}
 \end{figure}
-Using~\cref{eq:mass_element_position} the moment of inertia can be expanded as
+Using~\cref{eq:mass_element_position}, the moment of inertia can be expanded as
 \begin{align*}
-    J_I &= \sum_i^n \int_{\mathcal{B}_i} \parenth{\vc{\zeta}_i + \vb{\eta}_i}^T \parenth{\vc{\zeta}_i + \vc{\eta}_i } I  - \parenth{\vc{\zeta}_i + \vc{\eta}_i} \parenth{\vc{\zeta}_i + \vc{\eta}_i}^T dm .
+    J_I &= \sum_i^n \int_{\mathcal{B}_i} \parenth{\vc{\zeta}_i + \vc{\eta}_i}^T \parenth{\vc{\zeta}_i + \vc{\eta}_i } I  - \parenth{\vc{\zeta}_i + \vc{\eta}_i} \parenth{\vc{\zeta}_i + \vc{\eta}_i}^T dm .
 \end{align*}
 Further expansion leads to
 \begin{align*}
-    J_I = \sum_i^n \int_{\mathcal{B}_i} \parenth{\vc{\zeta}_i^T \vc{\zeta}_i}I - \vc{\zeta}_i \vc{\zeta}_i^T + \vc{\eta}_i^T \vc{\eta}_i I - \vc{\eta}_i \vc{\eta}_i^T dm, 
+    J_I = \sum_i^n \int_{\mathcal{B}_i} \parenth{\vc{\zeta}_i^T \vc{\zeta}_i}I - \vc{\zeta}_i \vc{\zeta}_i^T + \vc{\eta}_i^T \vc{\eta}_i I - \vc{\eta}_i \vc{\eta}_i^T dm.
 \end{align*}
-since the cross terms include an integration over the constant density sphere goes to zero:
+Since the cross terms include an integration over the constant density sphere, the terms of the form
 \begin{align*}
-    \int_{\mathcal{B}_i} \vc{\eta}_i dm = 0 .
+    \int_{\mathcal{B}_i} \vc{\eta}_i dm = 0,
 \end{align*}
-The integration is now split into two components: an integration within each sphere, \( \vc{\eta}_i \) terms, and and integration involving the location of the sphere, \( \vc{\zeta}_i \) terms.
+all become zero.
+The integration is now split into two components: an integration within each sphere consisting of \( \vc{\eta}_i \) terms and an integration involving the location of the sphere in the spacecraft fixed frame consisting of \( \vc{\zeta}_i \) terms.
 As a result, the final moment of inertia of a system of rigid spherical masses is 
 \begin{align}\label{eq:dumbbell_moment_of_inertia}
-    J_I = \sum_i J_i + m_i \parenth{\vc{\zeta}_i^T \vc{\zeta}_i I - \vc{\zeta}_i \vc{\zeta}_i^T} , 
+    J_I = \sum_i^n J_i + m_i \parenth{\vc{\zeta}_i^T \vc{\zeta}_i I - \vc{\zeta}_i \vc{\zeta}_i^T} , 
 \end{align}
 where \( \vc{\zeta}_i \) is the position of \( m_i \) in the spacecraft fixed frame and the moment of inertia of each sphere is
 \begin{align}\label{eq:sphere_moment_of_inertia}
@@ -173,7 +175,7 @@ where \( \vc{\zeta}_i \) is the position of \( m_i \) in the spacecraft fixed fr
         0 & 0 & \frac{2}{5} m_i r_i^2 
     \end{bmatrix}.
 \end{align}
-\Cref{eq:dumbbell_moment_of_inertia} is consitent with the well-known parallel-axis theorem~\cite{greenwood1988}.
+\Cref{eq:dumbbell_moment_of_inertia} is consistent with the well-known parallel-axis theorem~\cite{greenwood1988}.
 
 %TODO Nonstandard moment of inertia matrix
 \paragraph{Nonstandard Moment of Inertia Matrix}
