@@ -765,18 +765,39 @@ The general approach to solving computational geometric problem is based on two 
 The first is a deep understanding of the geometric properties of the problem and the second is the proper application of efficient algorithms and/or data structures.
 In this chapter, we use several algorithms and approaches from computational geometry to simulate a spacecraft mounted \gls{lidar} sensor around an asteroid.
 The first task is to simulate the measurement from the \gls{lidar} of the surface of the asteroid.
-This will utilize the well known method of \gls{raycasting} to find the intersection of a mesurement ray with the surface.
-Given the surface intersection, these measurements will be incrementally incoprorated into the asteroid shape model while maintaining the required topological constraints.
+This will utilize the well known method of \gls{raycasting} to find the intersection of a measurement ray with the surface.
+Given the surface intersection, these measurements will be incrementally incorporated into the asteroid shape model while maintaining the required topological constraints.
 
-\subsection{Polyhedra}\label{sec:polyhedra}
+\subsection{Polyhedra and Small-body shape modeling}\label{sec:shape_model}
 
-A polyhedron is a generalization of a two-dimensional polygon to three-dimensions.
+The polyhedron potential model, shown in~\cref{sec:polyhedron_potential}, is the standard approach for missions around asteroids~\cite{werner1994,werner1996}.
+As a result, an understanding of the properties of polyhedron and the methods to construct them are critical.
+The construction and update of the asteroid shape model must produce a valid three-dimensional model.
+For example, the geometric model must not contain any dangling edges or surfaces~\cite{mortenson1997}.
+A consideration of the topology of the model is crucial, and features such as homogeneity and connectivity are important properties to consider.
+A polyhedron is an arrangement of \glspl{polygon} such that two and only two polygons meet at an edge~\cite{mortenson1997}.
+Furthermore, it is possible to traverse the surface of the polyhedron by crossing it's edges to eventually cross each face in a continuous path.
+In this section, we define the notion of the polyhedron and some specifics of the format used in the astrodynamics community.
+
+Asteroids can have a wide variety of shapes, and most are vastly different than that of a sphere or ellipsoid.
+\Cref{fig:irregular_asteroids} shows two examples of small solar system bodies that have highly irregular shapes.
+As a result of these highly variable shapes, an adaptable format is required to represent the wide variety of surface shapes and surface features.
+\begin{figure}[h]
+    \centering
+    \subcaptionbox{Asteroid Itokawa\label{fig:itokawa}}{\includegraphics[height=0.3\textheight,width=0.5\textwidth, keepaspectratio]{figures/mathematical_background/eso1405b.jpg}}~
+    \subcaptionbox{Comet 67/Churyumov-Gerasimenko\label{fig:67p}}{\includegraphics[height=0.3\textheight,width=0.5\textwidth,keepaspectratio]{figures/mathematical_background/comet67pcgin.jpg}}
+    \caption[Irregularly Shaped Asteroids]{Examples of the non-ellipsoidal shapes of small solar system bodies. Both asteroids and comets will tend to have vastly irregular shapes due to their low mass and violent histories of impacts and collisions~\label{fig:irregular_asteroids}}
+\end{figure}
+The scientific community describes asteroid shape using the facet-vertex model.
+This approach is an efficient representation of the more general notion of a polyhedron from geometry.
+
+A polyhedron is a generalization of a two-dimensional polygon to three-dimensions~\cite{orourke1998}.
 It is the region of space with a boundary defined by a surface of a finite number of polygonal faces.
 The surface of the polyhedron is composed of three types of primitive objects: zero-dimensional points called vertices, one-dimensional segments called edges, and two-dimensional polygons called faces or facets.
-Furthermore, without any loss of generality, we assume each face is a convex polygon since any nonconvex face can be divided into smaller convex faces.
-A valid polyhedron in the context of asteroid shape models must satisfy several constraints.
+Furthermore, without any loss of generality we assume each face is a convex polygon since any nonconvex face can be divided into smaller convex faces.
+A valid polyhedron, in the context of asteroid shape models, must satisfy several constraints.
 These constraints define the relationship between each of the types of primitives which make up the polyhedron surface.
-The primitives must intersect ``properly'', the local and global topology must be ``proper''.
+The primitives must intersect ``properly'' and the local and global topology must be ``proper''.
 For asteroid shape model we further assume that each face is a triangular polygon. 
 Again, this does not limit generality as any polygon can be divided into a series of planar triangles.
 
@@ -786,21 +807,26 @@ The intersection of each face must be one of the following:
     \item the faces meet at a single vertex, or
     \item the faces share two vertices and a common edge.
 \end{itemize}
-This constraint automatically ensures that all edges and vertices intersect properly.
-Improper intersection would penetrating faces and faces that intersect improperly. 
-Such as an edge not extending across an entire face.
+These intersection constraints automatically ensures that all edges and vertices intersect properly.
+For example, edges that do not extend across an entire face or faces with penetrate would be improper and invalid.
+Some examples of invalid polyhedron are shown in~\cref{fig:improper_polyhedrons}.
+\begin{figure}[h]
+    \centering
+    \subcaptionbox{Point lies on two surfaces\label{fig:two_surfaces}}{\includegraphics[width=.33\textwidth]{figures/computational_geometry/hanging_face.png}}~
+    \subcaptionbox{The neighborhood around this point is not homeomorphic to a disk\label{fig:knotted_polyhedron}}{\includegraphics[width=.33\textwidth]{figures/computational_geometry/pinched.png}}~
+    \subcaptionbox{The surface is not closed\label{fig:open_polyhedron}}{\includegraphics[width=.33\textwidth]{figures/computational_geometry/open.png}}
+    \caption{Three example objects which are not polyhedra. For each example, the neighborhood about each point is not homeomorphic to an open disk.~\label{fig:improper_polyhedrons}}
+\end{figure}
 
-The second constraint is related to the local topology around each point of the polyhedron.
+The second constraint is related to the local topology around each point on the surface of the polyhedron.
 In order to be locally proper, the neighborhood about any point on the surface of the polyhedron should be homeomorphic to a two-dimensional disk.
 A neighborhood about any point on the surface is defined as an arbitrarily small subset or region of the surface which surrounds the point.
 Every point on the surface should have a neighborhood which is topologically equivalent to a two dimensional disk.
-The notion of equivalence is mathematically captured using the property of \gls{homeomorphism}.
+The notion of equivalence is mathematically captured using the property of homeomorphism.
 A homeomorphism between two regions is a continuous stretching or bending, without tearing or cutting, from one shape to another.
 For example, it is possible to turn a circle into a square by a continuous stretching and bending of the shape.
 However, it is not possible to transform a sphere into a torus, as this would require a hole to be created in the surface of the sphere.
-This constraint will exclude objects that are not proper polyhedrons, for example those shown in~\cref{fig:improper_polyhedrons}.
-
-In a neighborhood about any point on the surface of the polyhedron should be equivalent to that of a two-dimensional disk.
+The neighborhood about any point on the surface of the polyhedron should be equivalent to that of a two-dimensional disk.
 A surface where this true for all points is called a \textit{two-manifold}, of a which the surface of a polyhedron is a subset.
 
 The final constraint is related to the global structure of the surface in contrast to the local neighborhood of a point.
@@ -810,55 +836,15 @@ As a result, this will rule out any shapes with non-connected faces, such as a c
 For example, on the outer surface of the cube it is not possible to reach a point on the interior surface. 
 Combined with an assumption that there are a finite number of faces automatically ensures a closed and bounded surface. 
 Note that these conditions do not in general rule out the possibility of holes passing completely through the object.
-For example, a torus, or a donute shape, is also considered a polyhedron.
+For example, a torus, or a donut shape, is also considered a polyhedron.
 The key difference between a hole and a cavity is that there are no disconnected surfaces and as a result a polyhedron can have any number of such holes. 
 In practice, we tend to limit our analysis to polyhedron with no holes, or with a genus of zero.
 
-\begin{itemize}
-    \item Talk about 1-manifold and homeomorphism to a disk
-    \item Define neighborhood of each point (open adn closed balls)
-\end{itemize}
-
-Global topology
-\begin{itemize}
-    \item Connected closed and bounded
-    \item talk about closed holes (torus) and the genus of a polyhedron
-    \item Give precise definitions about connected and topological spaces.
-    \item Look in ~\cite{morris1988,hatcher2002}
-\end{itemize}
-
-Platonic solids
-\begin{itemize}
-    \item Talk about platonic solids and Euler's equation
-\end{itemize}
-
-\subsection{Small Body Shape Modeling}\label{sec:shape_model}
-% TODO Describe asteroid shape representation
-The \gls{polyhedron} potential model, shown in~\cref{sec:polyhedron_potential}, is the standard approach for missions around asteroids~\cite{werner1994,werner1996}.
-As a result, an understanding of the properties of \glspl{polyhedron} and the methods to construct them are critical.
-The construction and update of the asteroid shape model must produce a valid three-dimensional model.
-For example, the geometric model must not contain any dangling edges or surfaces~\cite{mortenson1997}.
-A consideration of the topology of the model is crucial, and features such as homogenity and connectivity are important properties to consider.
-A \gls{polyhedron} is an arrangement of \glspl{polygon} such that two and only two \glspl{polygon} meet at an edge~\cite{mortenson1997}.
-Furthermore, it is possible to travese the surface of the \gls{polyhedron} by crossing it's edges to eventually cross each face in a continuous path.
-
-Asteroids can have a wide variety of shapes, and most are vastly different than that of a sphere or ellipsoid.
-\Cref{fig:irregular_asteroids} shows two examples of small solar system bodies that have highly irregular shapes.
-As a result of these highly variable shapes, an adaptable format is required to represent the wide variety of surface shapes and surface features.
-\begin{figure}[h]
-    \centering
-    \subcaptionbox{Asteroid Itokawa\label{fig:itokawa}}{\includegraphics[height=0.3\textheight,width=0.5\textwidth, keepaspectratio]{figures/mathematical_background/eso1405b.jpg}}~
-    \subcaptionbox{Comet 67/Churyumov-Gerasimenko\label{fig:67p}}{\includegraphics[height=0.3\textheight,width=0.5\textwidth,keepaspectratio]{figures/mathematical_background/comet67pcgin.jpg}}
-    \caption{Examples of the non-ellipsoidal shapes of small solar system bodies. Both asteroids and comets will tend to have vastly irregular shapes due to their low mass and violent histories of impacts and collisions~\label{fig:irregular_asteroids}}
-\end{figure}
-The scientific community describes asteroid shape using the facet-vertex model.
-This approach is an efficient representation of the more general notion of a polyhedron from geometry.
-In this section, we define the notion of the polyhedron and some specifics of the format used in the astrodynamics community.
-
+% TODO Euler's constant description
 
 \subsection{Polyhedron Data Structures}\label{sec:polyhedron_data_structures}
 While the shape of the asteroid will be represented mathematically as a polyhedron, we are still left with the issue of representing this shape in digital form. 
-The eventual computational efficiency and memory consumption of the subesequent sections is heavily dependent on the underlying data structure used to represent the surface.
+The eventual computational efficiency and memory consumption of the subsequent sections is heavily dependent on the underlying data structure used to represent the surface.
 In this section, we review some of the basic requirements and features of any data structure.
 In addition, we summarize the ones most popular in the astrodynamics community and the halfedge data structure which we use in this work.
 
@@ -878,7 +864,7 @@ Each vertex will duplicated as many times as the degree of the vertex.
 This redundancy can be eliminated by storing a list of vertices, and to define the vertices of each face as an index/reference into this vertex list.
 This results in the so called \textit{indexed face set} or \textit{shared-vertex} data structure.
 In the case of triangular meshes and using double precision values, each vertex will require \(\SI{192}{\bit} = \SI{24}{\byte}\).
-Vertex indices of each face can be stored using single precision, \( \SI{32}{\bit} = \SI{4}{\byte}\), values which resuts in a storage requirement of \( \SI{96}{\bit} = \SI{12}{\byte}\) per triangle.
+Vertex indices of each face can be stored using single precision, \( \SI{32}{\bit} = \SI{4}{\byte}\), values which results in a storage requirement of \( \SI{96}{\bit} = \SI{12}{\byte}\) per triangle.
 This type of representation will therefore require on average approximately \( \SI{60}{\byte} \) per vertex, which is half the requirement of the \textit{face-set} data structure.
 \begin{figure}
     \centering
@@ -897,7 +883,7 @@ The vast of majority of computational geometry algorithms will require as a mini
     \item Given an edge one must determine the two vertices which define the endpoints.
     \item Given a vertex one must determine all neighboring faces.
 \end{itemize}
-As a result, any application making use a face based data structure will need to store additional connectivity information in a seperate data structure.
+As a result, any application making use a face based data structure will need to store additional connectivity information in a separate data structure.
 
 In contrast to face-based structures, edge-based data structures store the connectivity information in the edges or halfedges~\cite{botsch2010,orourke1998,berg2008}.
 By splitting each unorientated edge into two orientated halfedges, the halfedge data structure, or also known as the doubly-connected edge list, provides an efficient data structure for mesh based operations.
@@ -913,29 +899,24 @@ In addition, each halfedge will also store a reference to:
 In addition, each face stores the reference to one of its halfedges, while each vertex stores an outgoing halfedge. 
 The halfedge data structure will require more memory in contrast to face based approaches it offers several advantages which make it ideal for computational geometry operations.
 
-\subsubsection{Halfedge Data Structure}\label{sec:halfedge_data_structure}
+\paragraph{Halfedge Data Structure}\label{sec:halfedge_data_structure}
 A halfedge data structure allows us to iterate through all elements, vertices, edge, halfedge, or face, in a simple manner.
-In addition, the halfge edge data structure can store arbitrary polygon meshes.
+In addition, the halfedge data structure can store arbitrary polygon meshes.
 Furthermore, additional data can be attached to the elements as each is store explicitly.
 Finally, the halfedge data structure allows for simple manipulation and modification of the underlying mesh, enabling operations such as mesh subdivision or simplification.
-There are a number of publicly avaiable implementations of the halfedge data structure~\cite{cgalproject2018,botsch2002}.
+There are a number of publicly available implementations of the halfedge data structure~\cite{cgalproject2018,botsch2002}.
 We utilize the \texttt{Surface\_mesh} data structure implemented within the Computational Geometry Algorithms Library~\cite{sieger2011}.
-This provides a well defined and highly optimzed data structure for the representation of the polyhedron shape of the asteroid.
-Furthermore, the ability to incorporate additional properties enables us to efficently compute the polyheron potential model.
+This provides a well defined and highly optimized data structure for the representation of the polyhedron shape of the asteroid.
+Furthermore, the ability to incorporate additional properties enables us to efficiently compute the polyhedron potential model.
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{example-image-golden}
     \caption{Halfedge data structure look in PMP Fig3.4~\label{fig:halfedge_data_structure}}
 \end{figure}
 
-\begin{figure}
-    \centering
-    \includegraphics[width=\textwidth]{example-image-golden}
-    \caption{Iterating over 1 ring of a vertex}
-\end{figure}
 % TODO Describe the halfedge data structure and Surface_mesh in more detail
 
-\subsubsection{Wavefront OBJ files}
+\paragraph{Wavefront OBJ files}
 The OBJ format is a geometry definition file format used for a variety of computer modeling applications, and is regularly used by the asteroid community~\cite{neese2004}.
 The basic format of the file is an ASCII file where the first \( N_v\) lines begin with \texttt{v} and define the three components of a vertex in the body fixed reference frame.
 The following \( N_f\) lines begin with \texttt{f} and define the three indices of the vertices that make up the face.
@@ -970,3 +951,5 @@ It is composed of \num{1579014} vertices and \num{3145728} faces and is able to 
         The ground based model can capture the rough ellipsoidal shape but does not capture fine surface details.}
 \end{figure}
 From this simple example, it is clear that prior to the arrival of a spacecraft the shape and surface knowledge of an asteroid is limited.
+
+
