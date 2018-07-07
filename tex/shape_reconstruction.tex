@@ -25,32 +25,33 @@ Our problem is of a similar nature to that of the computer graphics domain.
 Given the model of an asteroid, its shape model, we wish to first simulate measurements of the surface. 
 In order to simulate these methods, we must also implement a ray casting algorithm that will find the intersection of a measurement from the spacecraft to the surface. 
 
-We assume that the spacecraft is located at \gls{rho} in the asteroid fixed frame.
+We assume that the spacecraft is located at \(\rpos\) in the asteroid fixed frame.
 The camera/sensor is aligned with \gls{view_axis} in the spacecraft fixed frame.
-An additional vector, defined as the up axis \gls{up_axis}, finally the standard basis is completed with \( \gls{view_axis} \times \gls{up_axis} \) which defines a reference frame attached to the image plane of the sensor.
+An additional vector, defined as the up axis \gls{up_axis}, finally the standard basis is completed with \(  \gls{right_axis} = \gls{view_axis} \times \gls{up_axis} \) which defines a reference frame attached to the image plane of the sensor.
 Furthermore, we model the the laser ranging sensor as having a fixed field of view defined by the angles \( \gls{fov_h}, \gls{fov_v}\), defining the vertical and horizontal fields of view.
-In order to simulate depth measurements we need to compute the vectors associated with image sensor in the asteroid frame. 
+In order to simulate depth measurements we need to determine the transformation of locations in the image frame to the asteroid frame. 
 Given the view axis, and a chosen distance \gls{view_distance}, we can define a viewing \gls{frustum} associated with the sensor. 
 We can compute the vectors associated with the maximum extents of the far plane as follows.
 The half height and width of the far plane, at a distance \( d \), is computed as
-\begin{align}
+\begin{align*}
     H = d \tan \frac{\alpha}{2} , \\
     W = d \tan \frac{\beta}{2} .
-\end{align}
+\end{align*}
 From these values, the extents of the far plane are defined by the vectors
-\begin{align}
-    A = \hat d + H \hat u - W \hat r , \\
-    B = \hat d + H \hat u + W \hat r, \\
-    C = \hat d - H \hat  u + W \hat r, \\
-    D = \hat d - H \hat u - W \hat r.
-\end{align}
-
-% TODO: Explain more about ray casting
-\begin{itemize}
-    \item Give some background on raycasting and where it is used
-    \item Discuss the method used in VTK (Binary space partitioning or Oriented bounding boxes)
-\end{itemize}
-
+\begin{align*}
+    A = \vc{c}_1 + H \vc{c}_3 - W \vc{c}_2 , \\
+    B = \vc{c}_1 + H \vc{c}_3 + W \vc{c}_2, \\
+    C = \vc{c}_1 - H \vc{c}_3 + W \vc{c}_2, \\
+    D = \vc{c}_1 - H \vc{c}_3 - W \vc{c}_2.
+\end{align*}
+The view frustrum is visualized in~\cref{fig:view_frustrum} and allows for any vector in the field of view to befined as a linear combination of the extents of the far plane.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{example-image-golden}
+    \caption{View Frustrum for Spacecraft sensor modeling\label{fig:view_frustrum}}
+\end{figure}
+We utilize the 3D Fast intersection functionality of \gls{cgal}~\cite{cgalproject2018}.
+The library implements 
 \subsection{Laser Range Finder on Spacecraft}
 
 % TODO: Talk about laser range finders on spacecraft
