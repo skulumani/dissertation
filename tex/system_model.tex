@@ -752,3 +752,18 @@ For these reasons, the polyhedron potential model is implemented using a halfedg
 
 
 % TODO add shape model stuff to this section
+
+\section{Computational Geometry}\label{sec:computational_geometry}
+
+Computational geometry is defined as the systematic study of algorithms and data structures for geometric objects~\cite{berg2008}.
+A specific focus is on exact algorithms that are asymptotically fast.
+Computational geometry emerged from the fields of computer science in the late 1969s.
+Since that time, the field has grown considerably and has found applications in a large variety of domains, suchs as computer graphics, \gls{gis}, robotics, \gls{CAD}, computer vision, and others.
+
+The general approach to solving computational geometric problem is based on two key components.
+The first is a deep understanding of the geometric properties of the problem and the second is the proper application of efficient algorithms and/or data structures.
+In this chapter, we use several algorithms and approaches from computational geometry to simulate a spacecraft mounted \gls{lidar} sensor around an asteroid.
+The first task is to simulate the measurement from the \gls{lidar} of the surface of the asteroid.
+This will utilize the well known method of \gls{raycasting} to find the intersection of a mesurement ray with the surface.
+Given the surface intersection, these measurements will be incrementally incoprorated into the asteroid shape model while maintaining the required topological constraints.
+
