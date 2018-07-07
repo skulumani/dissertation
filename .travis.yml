@@ -3,6 +3,8 @@ language: generic
 matrix:
   include:
   - os: linux
+git:
+  depth: false
 cache:
   directories:
   - "/tmp/texlive"
@@ -12,6 +14,8 @@ before_install:
 - export PATH="/tmp/texlive/bin/x86_64-linux:$PATH"
 script:
 - latexmk -pdf -interaction=nonstopmode -halt-on-error dissertation.tex
+# - bash ./utilities/word_count.sh && cd utilities && latexmk -pdf word_count.tex
+# - cd ..
 after_success:
 # - bash ./utilities/deploy.sh
 deploy:

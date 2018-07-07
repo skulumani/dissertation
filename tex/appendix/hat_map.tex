@@ -1,6 +1,6 @@
 % !TEX root = ../../dissertation.tex
 
-\chapter{Properties of the Hat Map}
+\chapter{Properties of the Hat Map}\label{chap:hat_map}
 
 
 The \textit{hat map} $\wedge :\R^{3}\rightarrow\so$ represents the transformation of a vector in $\R^{3}$ to a $3\times 3$ skew-symmetric matrix such that $\hat x y = x\times y$ for any $x,y\in\R^{3}$~\cite{bullo2004}. 
@@ -41,16 +41,16 @@ for $\vb{x}=[x_1,x_2,x_3]^T\in\R^{3}$.
 Several properties of the hat map are summarized below.
 \begin{gather}
     \hat{x} x = 0, \\
-    \parenth{\hat x} ^T = - \hat x, \\
+    \parenth{\hat x} ^T = - \hat x,\label{eq:hatxT} \\
     \parenth{\hat{x}^2}^T = \hat x ^2, \\
     \hat x y = x\times y = - y\times x = - \hat y x, \label{eqn:cross_product}\\
-    \widehat{x\times y} = \hat x \hat y -\hat y \hat x = yx^T-xy^T,\label{eqn:hatxy}\\
+    \widehat{x\times y} = \hat x \hat y -\hat y \hat x = yx^T-xy^T,\label{eq:hatxy}\\
     x\cdot \hat y z = y\cdot \hat z x,\quad \hat x\hat y z = (x\cdot z) y - (x\cdot y ) z\label{eqn:STP},\\
     \hat x\hat y z = (x\cdot z) y - (x\cdot y ) z,\label{eqn:VTP}\\
     \hat{x}^2 = - \norm{x}^2 I + x x^T, \\
     \hat{x}^3 = -\norm{x}^2 \hat x, \\
     % C^TC=-C^T\hat e_3^2 C = I_2,  \\
-    \hat x^T \hat x = (x^T x) I - x x^T,\\
+    \hat x^T \hat x = (x^T x) I - x x^T, \label{eq:xTx} \\
     \hat x \hat y \hat x=-(y^Tx)\hat x,\\
     -\frac{1}{2}\tr{\hat x \hat y} = x^T y,\\
     \parenth{A x \times A y}^\wedge = A\parenth{x \times y}^\wedge A^T, \\
@@ -58,7 +58,7 @@ Several properties of the hat map are summarized below.
     \tr{A\hat x }=\frac{1}{2}\tr{\hat x (A-A^T)}=-x^T (A-A^T)^\vee,\label{eqn:hat1}\\
     \widehat{Ax} = \hat x \parenth{\frac{1}{2}\tr{A}I-A} + \parenth{\frac{1}{2}\tr{A}I-A}^T \hat x,\\
     \hat x  A+A^T\hat x=(\braces{\tr{A}I_{3\times 3}-A}x)^{\wedge}, \label{eqn:xAAx} \\
-    R\hat x R^T = (Rx)^\wedge,\quad , \\
+    R\hat x R^T = (Rx)^\wedge,\quad , \label{eq:hatRxR} \\
     R(x\times y) = Rx\times Ry\label{eqn:RxR} , \\
     \parenth{R x}^\wedge = R \hat x R^T, \\
 \end{gather}

@@ -2,7 +2,6 @@
 % CUSTOM MACROS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
 \newcommand{\linearize}[3]{\ensuremath{\left. \frac{\partial #1}{\partial #2} \right|_{#3} \delta #2}}
 \newcommand{\norm}[1]{\ensuremath{\left\| #1 \right\|}}
 \newcommand{\abs}[1]{\ensuremath{\left| #1 \right|}}
@@ -47,9 +46,12 @@
 \newcommand{\g}{\ensuremath{\mathfrak{g}}}
 \newcommand{\Hess}[1]{\ensuremath{\mathrm{Hess} \, #1}}
 \newcommand{\refprop}[1]{Proposition~\ref{prop:#1}}
+
+% TODO Add a \vec macro that I use for all vectors in the paper
+\newcommand{\vc}[1]{\ensuremath{#1}}
+\newcommand{\vh}[1]{\hat{\vc{#1}}}
 \newcommand{\vecbf}[1]{\bm{#1}}
 \newcommand{\vb}[1]{\bm{#1}}
-\newcommand{\vh}[1]{\hat{\bm{#1}}}
 \newcommand{\slfrac}[2]{\left.#1\middle/#2\right.}
 
 % SI UNITS
@@ -118,6 +120,51 @@
 \newcommand{\ftwoyd}{\ensuremath{f_{2_{\dot y}}}}
 \newcommand{\fthreeyd}{\ensuremath{f_{3_{\dot y}}}}
 \newcommand{\ffouryd}{\ensuremath{f_{4_{\dot y}}}}
+
+% reference frame macros
+\newcommand{\evec}[1]{\ensuremath{\vc{e}_{#1}}} % inertial reference frame
+\newcommand{\fvec}[1]{\ensuremath{\vc{f}_{#1}}}
+\newcommand{\bvec}[1]{\ensuremath{\vc{b}_{#1}}}
+
+% Macros for derivartion of full body equations of motion
+\newcommand{\ipos}{\ensuremath{x}}
+\newcommand{\ivel}{\ensuremath{v}}
+\newcommand{\iatt}{\ensuremath{R}}
+\newcommand{\iangvel}{\ensuremath{\Omega}}
+\newcommand{\iattvar}{\ensuremath{\eta}}
+\newcommand{\ilinmom}{\ensuremath{p}}
+\newcommand{\iangmom}{\ensuremath{\Pi}}
+
+\newcommand{\apos}{\ensuremath{z}}
+\newcommand{\aatt}{\ensuremath{R_A}}
+\newcommand{\ahangvel}{\ensuremath{\hat{\Omega}_A}}
+
+\newcommand{\spos}{\ensuremath{\rho}}
+
+% relative macros
+\newcommand{\rpos}{\ensuremath{x_r}}
+\newcommand{\rvel}{\ensuremath{v_r}}
+\newcommand{\ratt}{\ensuremath{R_r}}
+\newcommand{\rdatt}{\ensuremath{\dot{R}_r}}
+\newcommand{\rangvel}{\ensuremath{\Omega_r}}
+\newcommand{\rhangvel}{\ensuremath{\hat{\Omega}_r}}
+
+\newcommand{\rattvar}{\ensuremath{\eta_r}}
+
+\newcommand{\rlinmom}{\ensuremath{p_r}}
+\newcommand{\rangmom}{\ensuremath{\Pi_r}}
+\newcommand{\rdangmom}{\ensuremath{\dot{\Pi}_r}}
+
+% moment of inertia
+\newcommand{\Jdr}{\ensuremath{J_{d_r}}}
+\newcommand{\Jr}{\ensuremath{J_r}}
+\newcommand{\Ji}{\ensuremath{J}}
+\newcommand{\Jdi}{\ensuremath{J_d}}
+
+\newcommand{\mass}[1]{\ensuremath{m_{#1}}}
+\newcommand{\radius}[1]{\ensuremath{r_{#1}}}
+\newcommand{\length}[1]{\ensuremath{l_{#1}}}
+\newcommand{\brho}[1]{\ensuremath{\vc{\rho}_{#1}}}
 
 % edit cref citations for IEEE format
 \crefformat{equation}{(#2#1#3)} % no abbreviation for equation numbers
