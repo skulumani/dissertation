@@ -1,15 +1,12 @@
-\documentclass[thesis]{thesis-gwu}[2016/09/24]
+\documentclass[thesis]{thesis-gwu}[2018/05/21]
 
 \usepackage{dissertation_packages}
-\addbibresource{library.bib}
 %%%%%%%%%%%%%%%%%%%%%%%%%
 % CUSTOM MACROS
 %%%%%%%%%%%%%%%%%%%%%%%%%
 \input{dissertation_macros}
-
 \input{tex/frontmatter}
 
-\includeonly{tex/shape_reconstruction}
 %% DOCUMENT AREA
 \begin{document}
 
@@ -32,6 +29,7 @@
 \include{tex/shape_reconstruction}
 
 % TODO Conclusion and future work
+\include{tex/conclusion}
 
 % \include{tex/asteroid_dumbbell_derivation}
 % \include{tex/dynamics}
@@ -51,7 +49,11 @@
 % appendices must appear after
 \appendix
 \include{tex/appendix/hat_map}
+\include{tex/appendix/trace}
 \include{tex/appendix/se3_control_appendix}
+\include{tex/appendix/inertial_eoms_derivation}
+\include{tex/appendix/relative_eoms_derivation}
+\include{tex/appendix/polyhedron_algorithms}
 % \include{tex/appendix/appendix}
 % \include{tex/appendix/2015_AAS_appendix}
 % \include{tex/appendix/2016_ACC_appendix}
