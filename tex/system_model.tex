@@ -221,7 +221,8 @@ In addition, the following equation is also satisfied for any \( \vc{\Omega} \in
 where \( J_{xy} = \int_{\mathcal{B}} xy dm \in \R \) and the other terms are defined similarly.
 
 \subsection{Inertial Frame Equations of Motion}\label{sec:inertial_dumbbell_eoms}
-By expressing the motion of the spacecraft directly on the special euclidean group, we avoid the issues inherent in using other kinematic representations which fail to preserve the geometric properties of the configuration space.
+By expressing the motion of the spacecraft directly on the special euclidean group, we avoid the issues inherent in using other kinematic representations.
+It has been shown the all attitude parameterizations fail to preserve the geometric properties of the configuration space~\cite{chaturvedi2011a}.
 The kinematics of the spacecraft and asteroid are described in the inertial frame by
 \begin{itemize}
     \item \( \gls{sym:ipos} \in \R^3 \): the position of the center of mass of the spacecraft represented in the inertial frame \( \evec{i} \),
@@ -229,6 +230,11 @@ The kinematics of the spacecraft and asteroid are described in the inertial fram
     \item \( \gls{sym:iangvel} \in \R^3 \): the angular velocity of the spacecraft body fixed frame relative to the inertial frame and represented in the spacecraft body fixed frame \( \bvec{i} \)
     \item \( \gls{sym:aatt} \in \SO \): the rotation matrix which transforms vectors defined in the asteroid fixed frame, \( \fvec{i} \), to the inertial frame, \( \vecbf{e}_i \)
 \end{itemize}
+
+The motion of a rigid body spacecraft under the influence of gravity can be described by Lagrangian and Hamiltonian dynamics.
+The Lagrangian function \( L : \T \Q^n \to \R^1 \) is a function of the configuration variables and their time derivatives.
+The Lagrangian is defined as the system kinetic energy minus the system potential energy.
+As a result, we derive the we first derive the kinetic and potential energy of the spacecraft, then apply the calculus of variations to determine the equations of motion.
 
 \paragraph{Kinetic Energy of Dumbbell}\label{sec:inertial_kinetic_energy}
 The kinetic energy of the spacecraft begins with the kinematics defined in~\cref{ssec:dumbbell_eoms_reference_frames} as
@@ -244,7 +250,7 @@ T = \frac{1}{2} \int_{\mathcal{B}}  \norm{\dot{\vc{x}}}^2 + 2 \dot{\vc{x}}^T \do
 \begin{align*}
     \int_{\mathcal{B}} \vc{\rho} dm = 0,
 \end{align*}
-and from using the kinematics \( \dot{R} = \R \vh{\Omega} \) for \( \vc{\Omega} \in \R^3 \) 
+and from using the attitude kinematics \( \dot{R} = \iatt \vh{\Omega} \) for \( \vc{\Omega} \in \R^3 \) 
 \begin{align*}
     \norm{\dot{R} \vc{\rho} }^2 &= \vc{\rho}\dot{R}^T \dot{R} \vc{\rho} , \\
                                 &=  \vc{\rho}^T \vh{\Omega}^T \vh{\Omega} \vc{\rho} , \\
@@ -256,10 +262,10 @@ which results in the following expression for the kinetic energy
 \end{align}
 The second term \( \norm{\vh{\Omega}\vc{\rho}}^2 \) is simplified to
 \begin{align}
-    \norm{ \vh{\Omega}\vc{\rho} }^2 &= \parenth{ \vh{\Omega}\vc{\rho}}^T \parenth{\vh{\Omega}\vc{\rho}} , \\
-                                    &= \tr{ \vh{\Omega} \vc{\rho} \vc{\rho}^T \vh{\Omega}^T }.
+    \norm{ \vh{\Omega}\vc{\rho} }^2 &= \parenth{ \vh{\Omega}\vc{\rho}}^T \parenth{\vh{\Omega}\vc{\rho}} , \nonumber\\
+                                    &= \tr{ \vh{\Omega} \vc{\rho} \vc{\rho}^T \vh{\Omega}^T }.\label{eq:omegarhosquared}
 \end{align}
-Applying this to~\cref{eq:inertial_KE_3} results in the final form of the kinetic energy as
+Applying~\cref{eq:omegarhosquared} to~\cref{eq:inertial_KE_3} results in the final form of the kinetic energy as
 \begin{align}\label{eq:inertial_kinetic_energy}
     T = \frac{1}{2} m \norm{\dot{\vc{x}}}^2 + \frac{1}{2} \tr{ \vh{\Omega}J_d \vh{\Omega^T } }, 
 \end{align}
