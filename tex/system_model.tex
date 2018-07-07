@@ -403,22 +403,22 @@ As a result, the motion of the asteroid is unaffected by that of the spacecraft.
 
 The kinetic energy defined in the inertial frame is given by~\cref{eq:inertial_kinetic_energy} and is transformed using~\cref{eq:relative_position,eq:relative_angular_velocity} as
 \begin{align}\label{eq:relative_kinetic_energy_1}
-    T &= \frac{1}{2} \parenth{m_1 + m_2} \parenth{\rvel \gls{sym:aatt}[^T] \gls{sym:aatt} \rvel} + \frac{1}{2} \tr{\parenth{\ratt^T \rangvel}^\wedge J_d \parenth{\ratt^T \rangvel }^{\wedge T}}. 
+    T &= \frac{1}{2} \parenth{m_1 + m_2} \parenth{\rvel \aatt^T \aatt \rvel} + \frac{1}{2} \tr{\parenth{\ratt^T \rangvel}^\wedge J_d \parenth{\ratt^T \rangvel }^{\wedge T}}. 
 \end{align}
 Using~\cref{eq:hatRxR,eq:trABC} in~\cref{eq:relative_kinetic_energy_1} results in
 \begin{align}\label{eq:relative_kinetic_energy_2}
     T = \frac{1}{2} \parenth{m_1 + m_2} \norm{\rvel}^2 + \frac{1}{2} \tr{\rhangvel \ratt J_d \ratt^T \rhangvel^T}.
 \end{align}
-The term \( \ratt J_d \ratt^T = J_{d_R}\) is the expression of the nonstandard moment of inertia tensor of the dumbbell expressed in the asteroid fixed frame. 
+The term \( \ratt \Jdi \ratt^T = \Jdr\) is the expression of the nonstandard moment of inertia tensor of the dumbbell expressed in the asteroid fixed frame. 
 It is now a time varying inertia matrix as the relative attitude \( \ratt \) is a function of time.
-Using~\cref{eq:hatRxR} it can be shown that \( J_{d_R} \) also satisfies a similar property as~\cref{eq:moi_hat_prop}, 
+Using~\cref{eq:hatRxR} it can be shown that \( \Jdr \) also satisfies a similar property as~\cref{eq:moi_hat_prop}, 
 \begin{align}\label{eq:moi_relative_hat_prop}
-    \parenth{J_R \rangvel}^\wedge = \rhangvel J_{d_R} + J_{d_R}\rhangvel,
+    \parenth{\Jr \rangvel}^\wedge = \rhangvel \Jdr + \Jdr\rhangvel,
 \end{align}
-where \( J_R = \ratt J \ratt^T \in \R^{3 \times 3}\) is the standard moment of inertia matrix of the spacecraft expressed with respect to the asteroid fixed frame.
+where \( \Jr = \ratt \Ji \ratt^T \in \R^{3 \times 3}\) is the standard moment of inertia matrix of the spacecraft expressed with respect to the asteroid fixed frame.
 Using this definition the relative kinetic energy is given as
 \begin{align}\label{eq:relative_kinetic_energy}
-    T_r &= \frac{1}{2} \parenth{m_1 + m_2} \norm{\rvel}^2 + \frac{1}{2} \tr{\rhangvel J_{d_R} \rhangvel^T}.
+    T_r &= \frac{1}{2} \parenth{m_1 + m_2} \norm{\rvel}^2 + \frac{1}{2} \tr{\rhangvel \Jdr \rhangvel^T}.
 \end{align}
 
 The potential energy is already defined in terms of the relative position of the dumbbell with respect to the asteroid.
@@ -428,7 +428,7 @@ Using the relative kinematics given in~\cref{eq:relative_position,eq:relative_at
 \end{align}
 Using~\cref{eq:relative_kinetic_energy,eq:relative_potential_energy}, the reduced Langrangian is expressed in terms of the relative kinematics as 
 \begin{align}\label{eq:relative_lagrangian}
-    L_r = T_r-V_r =& \frac{1}{2} \parenth{m_1 + m_2} \norm{\rvel}^2 + \frac{1}{2} \tr{\rhangvel J_{d_R} \rhangvel^T} \nonumber \\
+    L_r = T_r-V_r =& \frac{1}{2} \parenth{m_1 + m_2} \norm{\rvel}^2 + \frac{1}{2} \tr{\rhangvel \Jdr \rhangvel^T} \nonumber \\
              &+m_1 U(\rpos + \ratt \vc{\rho}_1) + m_2 U(\rpos + \ratt \vc{\rho}_2) .
 \end{align}
 In a process similar to~\cref{sec:inertial_dumbbell_eoms} we use Hamilton's principle to derive the relative equations of motion, in the asteroid fixed frame, by finding the variation of~\cref{eq:relative_lagrangian}.
@@ -442,7 +442,7 @@ The detailed derivation of the variations of the relative variables is given in~
 \begin{align}
     \delta \rpos &= \aatt^T \delta \rpos,\label{eq:relative_position_variation} \\
     \delta \ratt &= \gls{sym:rattvar} \ratt,\label{eq:relative_attitude_variation}\\
-    \parenth{\delta \rangvel}^\wedge&= \dot{\eta}_r - \hat{\Omega}_r \gls{sym:rattvar} + \hat{\Omega}_A \gls{sym:rattvar} + \gls{sym:rattvar} \hat{\Omega}_R - \gls{sym:rattvar} \hat{\Omega}_A, \label{eq:relative_angvel_variation}\\
+    \parenth{\delta \rangvel}^\wedge&= \dot{\eta}_r - \hat{\Omega}_r \rattvar + \hat{\Omega}_A \rattvar + \rattvar \hat{\Omega}_R - \rattvar \hat{\Omega}_A, \label{eq:relative_angvel_variation}\\
     \delta \rvel &= \dot{x}_r + \hat{\Omega}_A \delta \rpos,\label{eq:relative_velocity_variation}
 \end{align}
 where \( \gls{sym:rattvar} : \bracket{t_0, t_f} \to \so \) and \( \delta \rpos : \bracket{t_0, t_f} \to \R^3 \) are variations of the relative variables which vanish at the endpoints.
@@ -450,46 +450,46 @@ These reduced variations are developed on the nonlinear manifold, \( \SE \), and
 
 \paragraph{Relative Equations of Motion: Lagrangian Form}
 The relative equations of motion are computed using the relative Lagrangian in~\cref{eq:relative_lagrangian} and the reduced Hamilton's principle.
-The variations of the relative variables, given in~\cref{eq:relative_position_variation,eq:relative_attitude_variation,eq:relative_angvel_variation,eq:relative_angvel_variation}, are constrained to obey the inertial frame variations and are used to find the variation of the relative Lagrangian.
+The variations of the relative variables, given in~\cref{eq:relative_position_variation,eq:relative_attitude_variation,eq:relative_angvel_variation,eq:relative_velocity_variation}, are constrained to obey the inertial frame variations and are used to find the variation of the relative Lagrangian.
 The detailed derivation is presented in~\cref{proof:relative_dumbbell_eoms}.
 The key developments are summarized in this section.
 
 The variation of the reduced potential energy, shown in~\cref{eq:relative_potential_energy}, is given by
 \begin{align}\label{eq:relative_potential_energy_variation}
-    \delta V &= \bracket{-m_1 \deriv{U}{z_1}^T - m_1 \deriv{U}{z_2}^T} \delta \rpos - m_1 \tr{ \gls{sym:rattvar} \ratt \rho_1 \deriv{U}{z_1}^T} - m_2 \tr{\gls{sym:rattvar} \ratt \rho_2 \deriv{U}{z_2}^T},
+    \delta V &= \bracket{-m_1 \deriv{U}{z_1}^T - m_1 \deriv{U}{z_2}^T} \delta \rpos - m_1 \tr{ \rattvar \ratt \rho_1 \deriv{U}{z_1}^T} \nonumber\\
+             &- m_2 \tr{\rattvar \ratt \rho_2 \deriv{U}{z_2}^T},
 \end{align}
 while the variation of the reduced kinetic energy, shown in~\cref{eq:relative_kinetic_energy}, is given by
 \begin{align}\label{eq:relative_kinetic_energy_variation}
-    \delta T =& (m_1 + m_2) \rvel^T \parenth{\delta \dot{x}_r +  \hat{\Omega}_A \delta \rpos} + \frac{1}{2} \tr{ -\dot{\hat{\eta}}\parenth{\gls{sym:Jr}  \hat{\Omega}_r }} \nonumber\\
-             &+\frac{1}{2} \tr{\gls{sym:rattvar}\parenth{ \hat{\Omega}_A\parenth{\gls{sym:Jr}  \hat{\Omega}_r}}^\wedge} .
+    \delta T =& (m_1 + m_2) \rvel^T \parenth{\delta \dot{x}_r +  \hat{\Omega}_A \delta \rpos} + \frac{1}{2} \tr{ -\dot{\hat{\eta}}\parenth{\Jr  \hat{\Omega}_r }} \nonumber\\
+             &+\frac{1}{2} \tr{\rattvar \parenth{ \hat{\Omega}_A\parenth{\Jr  \hat{\Omega}_r}}^\wedge} .
 \end{align}
-
 Combining~\cref{eq:relative_potential_energy_variation,eq:relative_kinetic_energy_variation} allows us to compute the variation of the reduced Lagrangian as
 \begin{align}\label{eq:relative_lagrangian_variation}
-    \delta L_r =& (m_1 + m_2) \rvel \parenth{\delta \dot{x}_r +  \hat{\Omega}_A \delta \rpos} + \frac{1}{2} \tr{ -\dot{\hat{\eta}}\parenth{\gls{sym:Jr}  \hat{\Omega}_r }} \nonumber\\
-    &+\frac{1}{2} \tr{\gls{sym:rattvar}\parenth{ \hat{\Omega}_A\parenth{\gls{sym:Jr}  \hat{\Omega}_r}}^\wedge} -m_1 \deriv{U}{z_1}^T \delta \rpos - m_1 \deriv{U}{z_2}^T \delta \rpos \nonumber\\
-    &- m_1 \tr{ \gls{sym:rattvar} \ratt \rho_1 \deriv{U}{z_1}^T} - m_2 \tr{\gls{sym:rattvar} \ratt \rho_2 \deriv{U}{z_2}^T}.
+    \delta L_r =& (m_1 + m_2) \rvel \parenth{\delta \dot{x}_r +  \hat{\Omega}_A \delta \rpos} + \frac{1}{2} \tr{ -\dot{\hat{\eta}}\parenth{\Jr  \hat{\Omega}_r }} \nonumber\\
+    &+\frac{1}{2} \tr{\rattvar \parenth{ \hat{\Omega}_A\parenth{\Jr  \hat{\Omega}_r}}^\wedge} -m_1 \deriv{U}{z_1}^T \delta \rpos - m_1 \deriv{U}{z_2}^T \delta \rpos \nonumber\\
+    &- m_1 \tr{ \rattvar  \ratt \rho_1 \deriv{U}{z_1}^T} - m_2 \tr{\rattvar  \ratt \rho_2 \deriv{U}{z_2}^T}.
 \end{align}
 Using~\cref{eq:relative_lagrangian_variation} in the action integral, along with integration by parts and noting that the variations \( \delta \rpos, \rattvar\) are zero at the end points gives 
 \begin{align}\label{eq:relative_hamiltons_principle}
     \delta \mathcal{G} =& \int_{t_0}^{t_f} \left\{-\parenth{m_1+m_2} \dot{v}_r^T + \parenth{m_1 + m_2} \rvel \hat{\Omega}_A + m_1 \deriv{U}{z_1}^T + m_2 \deriv{U}{z_2}^T \right\}\delta \dot{x}_r  dt \nonumber\\
-                        & +\int_{t_0}^{t_f} \frac{1}{2} \tr{\dot{\eta}_r \braces{\dot{\widehat{\parenth{\gls{sym:Jr} \rangvel}}} + \parenth{\hat{\Omega}_A \parenth{\gls{sym:Jr}\rangvel}}^\wedge }} dt \\
-                        & + \int_{t_0}^{t_f}  \frac{1}{2} \tr{\gls{sym:rattvar} \braces{2 m_1\ratt \rho_1\deriv{U}{z_1}^T + 2 m_2 \ratt \rho_2\deriv{U}{z_2}^T}} dt.
+                        & +\int_{t_0}^{t_f} \frac{1}{2} \tr{\dot{\eta}_r \braces{\dot{\widehat{\parenth{\Jr \rangvel}}} + \parenth{\hat{\Omega}_A \parenth{\Jr \rangvel}}^\wedge }} dt \nonumber\\
+                        & + \int_{t_0}^{t_f}  \frac{1}{2} \tr{\rattvar  \braces{2 m_1\ratt \rho_1\deriv{U}{z_1}^T + 2 m_2 \ratt \rho_2\deriv{U}{z_2}^T}} dt.
 \end{align}
-Since, \( \delta \mathcal{G} = 0 \) for all possible variations which satisfy the constraints, the expression in the first brace should be zero and the expressions in the last two braces should be symmetric since \( \rattvar \in so \) is skew-symmetric.
-Following a procedure analogous to~\cref{sec:inertial_dumbbell_eoms} we obtain the relative equations of motion in Lagrangian form:
+Since, \( \delta \mathcal{G} = 0 \) for all possible variations which satisfy the constraints, the expression in the first brace should be zero and the expressions in the last two braces should be symmetric since \( \rattvar \in \so \) is skew-symmetric.
+Following a procedure analogous to~\cref{sec:inertial_dumbbell_eoms} we obtain the relative equations of motion in Lagrangian form as
 \begin{align}
     \dot{x}_r &= \rvel - \hat{\Omega}_A \rpos, \label{eq:relative_position_dynamics}\\
     \parenth{m_1 + m_2} \dot{v}_r  &= -\parenth{m_1 + m_2} \hat{\Omega}_A \rvel + m_1 \deriv{U}{z_1} + m_2 \deriv{U}{z_2}, \label{eq:relative_velocity_dynamics} \\
     \dot{R}_r &= \hat{\Omega}_r \ratt  - \hat{\Omega}_A \ratt , \label{eq:relative_attitude_dynamics}\\
-    \dot{\gls{sym:Jr} \rangvel} + \hat{\Omega}_A \parenth{\gls{sym:Jr} \rangvel} &= m_1 \parenth{\ratt  \rho_1}^\wedge \deriv{U}{z_1} + m_2 \parenth{\ratt  \rho_2}^\wedge \deriv{U}{z_2}.\label{eq:relative_angvel_dynamics}
+    \dot{\parenth{\Jr  \rangvel}} + \hat{\Omega}_A \parenth{\Jr  \rangvel} &= m_1 \parenth{\ratt  \rho_1}^\wedge \deriv{U}{z_1} + m_2 \parenth{\ratt  \rho_2}^\wedge \deriv{U}{z_2}.\label{eq:relative_angvel_dynamics}
 \end{align}
 
 \paragraph{Relative Equations of motion: Hamiltonian Form}
 Following a similar procedure as introduced in~\cref{sec:inertial_dumbbell_eoms} allows for the equations of motion to be represented in terms of the relative momenta.
 This has the obvious benefit of replacing the second order differential equations with first order equations.
 Furthermore, in the specific case of~\cref{eq:relative_angvel_dynamics} the Hamiltonian form alleviates the need to evaluate the angular momentum term \( \dot{\parenth{\Jr \rangvel}}\).
-The relative linear, \( \rlinmom \in \R^3 \), and angular momentum, \( \rangmom \in \R^3 \), are defined as
+The relative linear, \( \gls{sym:rlinmom} \in \R^3 \), and angular momentum, \( \gls{sym:rangmom} \in \R^3 \), are defined as
 \begin{align}
     \rlinmom &= \parenth{m_1 + m_2} \rvel, \label{eq:relative_linear_momentum}\\ 
     \rangmom &= \Jr \rangvel. \label{eq:relative_angular_momentum}
