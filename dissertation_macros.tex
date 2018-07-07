@@ -48,10 +48,10 @@
 \newcommand{\refprop}[1]{Proposition~\ref{prop:#1}}
 
 % TODO Add a \vec macro that I use for all vectors in the paper
+\newcommand{\vc}[1]{\ensuremath{#1}}
+\newcommand{\vh}[1]{\hat{\vc{#1}}}
 \newcommand{\vecbf}[1]{\bm{#1}}
 \newcommand{\vb}[1]{\bm{#1}}
-\newcommand{\vh}[1]{\hat{\bm{#1}}}
-\newcommand{\vc}[1]{\bm{#1}}
 \newcommand{\slfrac}[2]{\left.#1\middle/#2\right.}
 
 % SI UNITS
@@ -121,6 +121,11 @@
 \newcommand{\fthreeyd}{\ensuremath{f_{3_{\dot y}}}}
 \newcommand{\ffouryd}{\ensuremath{f_{4_{\dot y}}}}
 
+% reference frame macros
+\newcommand{\evec}[1]{\ensuremath{\vc{e}_{#1}}} % inertial reference frame
+\newcommand{\fvec}[1]{\ensuremath{\vc{f}_{#1}}}
+\newcommand{\bvec}[1]{\ensuremath{\vc{b}_{#1}}}
+
 % Macros for derivartion of full body equations of motion
 \newcommand{\ipos}{\ensuremath{x}}
 \newcommand{\ivel}{\ensuremath{v}}
@@ -155,6 +160,11 @@
 \newcommand{\Jr}{\ensuremath{J_r}}
 \newcommand{\Ji}{\ensuremath{J}}
 \newcommand{\Jdi}{\ensuremath{J_d}}
+
+\newcommand{\mass}[1]{\ensuremath{m_{#1}}}
+\newcommand{\radius}[1]{\ensuremath{r_{#1}}}
+\newcommand{\length}[1]{\ensuremath{l_{#1}}}
+\newcommand{\brho}[1]{\ensuremath{\vc{\rho}_{#1}}}
 
 % edit cref citations for IEEE format
 \crefformat{equation}{(#2#1#3)} % no abbreviation for equation numbers

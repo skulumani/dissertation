@@ -1,4 +1,91 @@
 % -------------------- SYMBOLS ---------------------------------
+
+% reference frames
+\newglossaryentry{sym:evec}{
+    type=symbols,
+    name={\ensuremath{ \evec{i} \in \R^3}},
+    text={\ensuremath{\vc{e}}},
+    sort=E,
+    description={The standard basis vectors for the inertial frame.}
+}
+
+\newglossaryentry{sym:fvec}{
+    type=symbols,
+    name={\ensuremath{ \fvec{i} \in \R^3}},
+    text={\ensuremath{\vc{f}}},
+    sort=F,
+    description={The standard basis vectors for the rotating frame.}
+}
+
+\newglossaryentry{sym:bvec}{
+    type=symbols,
+    name={\ensuremath{ \bvec{i} \in \R^3}},
+    text={\ensuremath{\vc{b}}},
+    sort=B,
+    description={The standard basis vectors for the spacecraft fixed frame.}
+}
+
+\newglossaryentry{sym:real_vector_space}{
+    type=symbols,
+    name={\ensuremath{\R^n}},
+    text={\ensuremath{\R}},
+    sort=R,
+    description={The set of of all \( n \)-tuples of real numbers.}
+}
+
+\newglossaryentry{sym:n_sphere}{
+    type=symbols,
+    name={ \( \S^n = \braces{ x \in \R^{n+1} | \norm{x} = 1 }\)},
+    text={\ensuremath{\S}},
+    sort=S,
+    description={The set of of \( n+1 \)-tuples that lie on the surface of a hypersphere in \( n+1\) dimensions. }
+}
+
+\newglossaryentry{sym:special_euclidean_group}{
+    type=symbols,
+    name={\ensuremath{ \SE} },
+    text={\ensuremath{\SE}},
+    sort=S,
+    description={The space of all possible rigid body motions.}
+}
+
+\newglossaryentry{sym:special_orthogonal_group}{
+    type=symbols,
+    name={\ensuremath{\SO}},
+    text={\ensuremath{\SO}},
+    sort=S,
+    description={The space of all possible rotations of a rigid body.}
+}
+
+% dumbell properties
+\newglossaryentry{sym:mass}{
+    type=symbols,
+    name={\( m \in \R \)},
+    text={\ensuremath{m}},
+    description={Mass of dumbbell.}
+}
+
+\newglossaryentry{sym:radius}{
+    type=symbols,
+    name={\( r \in \R \)},
+    text={\ensuremath{r}},
+    description={Radius of dumbbell mass.}
+}
+
+\newglossaryentry{sym:length}{
+    type=symbols,
+    name={\( l in \R \)},
+    text={\ensuremath{l}},
+    description={Distance from total center of mass to center of dumbbell mass.}
+}
+
+\newglossaryentry{sym:mass_element_pos}{
+    type=symbols,
+    name={\( \vc{\rho} \in \R^3 \)},
+    text={\ensuremath{\vc{\rho}}},
+    description={Position of infitisemal mass element in the spacecraft fixed frame.}
+}
+
 \newglossaryentry{M}{
     type=symbols,
     name={\ensuremath{M}},
@@ -19,6 +106,20 @@
     name={\ensuremath{F}},
     sort=F,
     description={External Force}
+}
+
+\newglossaryentry{sym:G}{
+    type=symbols,
+    name={\( G = \SI{6.673e-20}{\kilo\meter\per\kilo\gram\per\second\squared}\)},
+    text={\ensuremath{G}},
+    description={Newtonian constant of gravitation.}
+}
+
+\newglossaryentry{sym:sigma}{
+    type=symbols,
+    name={\( \sigma \in \R^1 \)},
+    text={\ensuremath{\sigma}},
+    description={Density of the body in \si{\gram\per\centi\meter\cubed}.}
 }
 
 \newglossaryentry{rho}{
@@ -64,7 +165,7 @@
     description={Vertical sensor field of view}
 }
 
-\newglossaryentry{sym:Ra}{
+\newglossaryentry{sym:aatt}{
     type=symbols,
     text={\aatt},
     name={\(\aatt \in \R^{3\times3}\)},
@@ -106,6 +207,22 @@
     sort=W,
     description={Angular velocity of the spacecraft with respect to the inertial frame and expressed in the spacecraft fixed frame.},
     nonumberlist=true
+}
+
+\newglossaryentry{sym:ilinmom}{
+    type=symbols,
+    name={\( \ilinmom \in \R^3 \)},
+    text={\ensuremath{\ilinmom}},
+    sort=P,
+    description={Linear momentum of the spacecraft expressed in the inertial frame.}
+}
+
+\newglossaryentry{sym:iangmom}{
+    type=symbols,
+    name={\( \iangmom \in \R^3 \)},
+    text={\ensuremath{\iangmom}},
+    sort=P,
+    description={Angular momentum of the spacecraft expressed in the body frame}
 }
 
 \newglossaryentry{sym:rpos} {
@@ -153,6 +270,20 @@
     nonumberlist=true
 }
 
+\newglossaryentry{sym:rlinmom}{
+    type=symbols,
+    name={\( \rlinmom \in \R^3 \)},
+    text={\ensuremath{\rlinmom}},
+    description={Relative linear momentum of the spacecraft expressed in the asteroid frame.}
+}
+
+\newglossaryentry{sym:rangmom}{
+    type=symbols,
+    name={\( \rangmom \in \R^3 \)},
+    text={\ensuremath{\rangmom}},
+    description={Relative angular momentum of the spacecraft expressed in the asteroid frame.}
+}
+
 \newglossaryentry{sym:iattvar}{
     type=symbols,
     text={\iattvar},
@@ -196,4 +327,93 @@
     sort=J,
     description={Nonstandard moment of inertia matrix expressed in the spacecraft body fixed frame.},
     nonumberlist=true
+}
+
+% polyhedron potential model
+\newglossaryentry{sym:h}{
+    type=symbols,
+    name={\( \vc{h} \in \R^3\)},
+    text={\ensuremath{\vc{h}}},
+    sort=H,
+    description={Halfedge originating at \( \vc{v}_i \) and extending to \( \vc{v}_{i+1}\)}
+}
+
+\newglossaryentry{sym:nf}{
+    type=symbols,
+    name={\( \vc{n}_f \in \R^3\)},
+    text={\ensuremath{\vc{n}_f}},
+    sort=N,
+    description={Normal vector to the face \( f \).}
+}
+
+\newglossaryentry{sym:nh}{
+    type=symbols,
+    name={\( \vc{n}_i^f \in \R^3\)},
+    text={\ensuremath{\vc{n}_i^f}},
+    sort=N,
+    description={Outward facing normal vector orthongonal to both the face \( f \) and halfedge \( i \)}
+}
+
+\newglossaryentry{sym:Ff}{
+    type=symbols,
+    name={\( F_f \in \R^{3 \times 3}\)},
+    text={\ensuremath{F_f}},
+    sort=F,
+    description={Face dyad associated with face \( f \).}
+}
+
+\newglossaryentry{sym:Ee}{
+    type=symbols,
+    name={\( E_{ij} \in \R^{3 \times 3}\)},
+    text={\ensuremath{E_{12}}},
+    sort=E,
+    description={Edge dyad associated with the halfedge between vertices \( i \) and \( j\).}
+}
+
+\newglossaryentry{sym:Le}{
+    type=symbols,
+    name={\( L_e \in \R^1 \)},
+    text={\ensuremath{L_e}},
+    sort=L,
+    description={Scalar edge factor which requires knowledge of the field point.}
+}
+
+\newglossaryentry{sym:wf}{
+    type=symbols,
+    name={\( \omega_f \in \R^1 \)},
+    text={\ensuremath{\omega_f}},
+    sort=W,
+    description={Scalar face factor which requires knowledge of the field point.}
+}
+
+\newglossaryentry{sym:U}{
+    type=symbols,
+    name={\( U(\vc{r}) \in \R^1\)},
+    text={\ensuremath{U(\vc{r})}},
+    sort=U,
+    description={Gravitational potential from polyhedron potential model.}
+}
+
+\newglossaryentry{sym:Ugrad}{
+    type=symbols,
+    name={\(\nabla U(\vc{r}) \in \R^{3\times1}\)},
+    text={\ensuremath{\nabla U(\vc{r})}},
+    sort=U,
+    description={Gravitational attraction from the polyhedron potential model.}
+}
+
+\newglossaryentry{sym:Ugradmat}{
+    type=symbols,
+    name={\(\nabla\nabla U(\vc{r}) \in \R^{3 \times 3}\)},
+    text={\ensuremath{\nabla \nabla U(\vc{r})}},
+    sort=U,
+    description={Gravity gradient matrix from the polyhedron potential model.}
+}
+
+\newglossaryentry{sym:Ulaplace}{
+    type=symbols,
+    name={\(\nabla^2 U \in \R^1 \)},
+    text={\ensuremath{\nabla^2 U}},
+    sort=U,
+    description={Laplacian of the polyhedron potential model.}
 }
