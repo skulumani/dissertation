@@ -15,11 +15,11 @@ This paper provides a discrete optimal control formulation to generate the reach
 
 \section{Planar Circular Restricted Three Body Problem}\label{sec:pcrtbp}
 % discuss some of the pros/cons of using PCRTBP model
-We utilize the planar circular restricted three body problem~(PCRTBP) as the basis of our system definition. 
+We utilize the \gls{pcrtbp} as the basis of our system definition. 
 It is a popular model in the preliminary analysis of multibody spacecraft trajectories. 
-In the context of Earth based mission, the PCRTBP affords a relatively simple dynamic model while still capturing the major third body perturbation of the Moon.
+In the context of Earth based mission, the \gls{pcrtbp} affords a relatively simple dynamic model while still capturing the major third body perturbation of the Moon.
 In addition, this model allows for a systematic process to define and exploit \Poincare sections.
-Furthermore, the 2D solutions afforded by the PCRTBP are frequently used to gain a qualitative understanding of the trade space of transfers in the Earth-Moon system.
+Furthermore, the 2D solutions afforded by the \gls{pcrtbp} are frequently used to gain a qualitative understanding of the trade space of transfers in the Earth-Moon system.
 The PCRTBP approach offers insight into the fundamental dynamical structure while capturing the major dynamic properties of the planar motion.
 As a result, this approach is best suited for preliminary trajectories which do not require large plane changes.
 
@@ -43,8 +43,8 @@ where the distances \( r_1, r_2 \in \R \) define the distance from the spacecraf
 \end{align}
 Following a straightforward application of the Euler-Lagrange equations, a more detailed derivation is provided in~\cite{szebehely1967}, results in the following equations of motion defined in the rotating reference frame
 \begin{equation}\label{eqn:cont_dyn}
-        \left[\begin{array}{c} \dot{\vecbf{r}} \\ \dot{\vecbf{v}} \end{array} \right] = 
-        \left[ \begin{array}{c} \vecbf{v} \\ A \vecbf{v} + \nabla U + \vecbf{u} \end{array} \right] = f\left( t,\vecbf{x}, \vecbf{u}\right) \, ,
+        \left[\begin{array}{c} \dot{\vc{r}} \\ \dot{\vc{v}} \end{array} \right] = 
+        \left[ \begin{array}{c} \vc{v} \\ A \vc{v} + \nabla U + \vc{u} \end{array} \right] = f\left( t,\vc{x}, \vc{u}\right) \, ,
 \end{equation}
 where the matrix \( A \) and pseudo gravitational potential gradient \( \nabla U\) are
 \begin{align}
@@ -54,8 +54,8 @@ where the matrix \( A \) and pseudo gravitational potential gradient \( \nabla U
                                                                                         - \frac{ \left(1 - \mu\right) z}{r_1^3} - \frac{\mu z}{r_2^3}\end{array}\right]
                                         = \left[\begin{array}{c} U_x \\ U_y \\ U_z\end{array} \right] , \label{eq:grav_pot}
 \end{align}
-and the control input is defined as \( \vecbf{u} = \begin{bmatrix} u_x & u_y \end{bmatrix}^T \in \R^{2\times1} \) and assumed to be continuously variable but bounded in magnitude, i.e. \( \vecbf{u}^T \vecbf{u} \leq u_{max}^2 \).
-The state is defined as \( \vecbf{x} = \begin{bmatrix}\vecbf{r} &\vecbf{v} \end{bmatrix}^T\) with \(\vecbf{r} = \begin{bmatrix} x & y \end{bmatrix}^T \in \R^{2\times1}\) and \(\vecbf{v}= \begin{bmatrix} \dot{x} & \dot{y} \end{bmatrix}^T \in \R^{2\times1}\) representing the position and velocity with respect to the system barycenter, respectively.
+and the control input is defined as \( \vc{u} = \begin{bmatrix} u_x & u_y \end{bmatrix}^T \in \R^{2\times1} \) and assumed to be continuously variable but bounded in magnitude, i.e. \( \vc{u}^T \vc{u} \leq u_{max}^2 \).
+The state is defined as \( \vc{x} = \begin{bmatrix}\vc{r} &\vc{v} \end{bmatrix}^T\) with \(\vc{r} = \begin{bmatrix} x & y \end{bmatrix}^T \in \R^{2\times1}\) and \(\vc{v}= \begin{bmatrix} \dot{x} & \dot{y} \end{bmatrix}^T \in \R^{2\times1}\) representing the position and velocity with respect to the system barycenter, respectively.
 
 \subsection{Jacobi Integral}\label{sec:jacobi}
 There exists a single integral, or constant of motion for the three-body problem~\cite{szebehely1967,lanczos1970}.
