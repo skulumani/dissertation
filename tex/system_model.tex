@@ -718,18 +718,18 @@ The per-edge factor \( L_e \in \R^{1}\), for the edge connecting vertices \( \vc
 \end{align}
 For the face defined by the vertices \( \vc{v}_i, \vc{v}_j, \vc{v}_k \) the per-face factor \( \omega_f \in \R^{1} \) is
 \begin{align}\label{eq:face_factor}
-    \omega_f &= 2 \arctan \frac{\vc{r}_i \cdot \vc{r}_j \times \vc{r}_k}{\norm{r_i} \norm{r_j} \norm{r_k} + \norm{r_i} \parenth{\vc{r}_j \cdot \vc{r}_k} + \norm{r_j} \parenth{\vc{r}_k \cdot \vc{r}_i} + \norm{r_k} \parenth{\vc{r}_i \cdot \vc{r}_j}}.
+    \gls{sym:wf} &= 2 \arctan \frac{\vc{r}_i \cdot \vc{r}_j \times \vc{r}_k}{\norm{r_i} \norm{r_j} \norm{r_k} + \norm{r_i} \parenth{\vc{r}_j \cdot \vc{r}_k} + \norm{r_j} \parenth{\vc{r}_k \cdot \vc{r}_i} + \norm{r_k} \parenth{\vc{r}_i \cdot \vc{r}_j}}.
 \end{align}
 The gravitational potential due to a constant density polyhedron is then given as
 \begin{align}\label{eq:potential}
-    U(\vc{r}) &= \frac{1}{2} G \sigma \sum_{e \in \text{edges}} \vc{r}_e \cdot E_e \cdot \vc{r}_e \cdot L_e - \frac{1}{2}G \sigma \sum_{f \in \text{faces}} \vc{r}_f \cdot F_f \cdot \vc{r}_f \cdot \omega_f \in \R^1,
+    \gls{sym:U} &= \frac{1}{2} G \sigma \sum_{e \in \text{edges}} \vc{r}_e \cdot E_e \cdot \vc{r}_e \cdot L_e - \frac{1}{2}G \sigma \sum_{f \in \text{faces}} \vc{r}_f \cdot F_f \cdot \vc{r}_f \cdot \omega_f \in \R^1,
 \end{align}
 where \( \vc{r}_e\) and \(\vc{r}_f \) are the vectors from the spacecraft to any point on the respective edge or face, \( \gls{sym:G}\) is the universal gravitational constant, and \( \gls{sym:sigma} \) is the constant density of the asteroid.
 Furthermore, we can use these definitions to define the attraction, gravity gradient matrix, and Laplacian as
 \begin{align}
-    \nabla U ( \vc{r} ) &= -G \sigma \sum_{e \in \text{edges}} E_e \cdot \vc{r}_e \cdot L_e + G \sigma \sum_{f \in \text{faces}} F_f \cdot \vc{r}_f \cdot \omega_f \in \R^{3 \times 1} , \label{eq:attraction}\\
-    \nabla \nabla U ( \vc{r} ) &= G \sigma \sum_{e \in \text{edges}} E_e  \cdot L_e - G \sigma \sum_{f \in \text{faces}} F_f \cdot \omega_f \in \R^{3 \times 3}, \label{eq:gradient_matrix}\\
-    \nabla^2 U &= -G \sigma \sum_{f \in \text{faces}}  \omega_f \in \R^1.\label{eq:laplacian}
+    \gls{sym:Ugrad} &= -G \sigma \sum_{e \in \text{edges}} E_e \cdot \vc{r}_e \cdot L_e + G \sigma \sum_{f \in \text{faces}} F_f \cdot \vc{r}_f \cdot \omega_f \in \R^{3 \times 1} , \label{eq:attraction}\\
+    \gls{sym:Ugradmat} &= G \sigma \sum_{e \in \text{edges}} E_e  \cdot L_e - G \sigma \sum_{f \in \text{faces}} F_f \cdot \omega_f \in \R^{3 \times 3}, \label{eq:gradient_matrix}\\
+    \gls{sym:Ulaplace} &= -G \sigma \sum_{f \in \text{faces}}  \omega_f \in \R^1.\label{eq:laplacian}
 \end{align}
 
 One interesting thing to note is that both~\cref{eq:face_dyad,eq:edge_dyad} can be precomputed without knowledge of the position of the satellite.
