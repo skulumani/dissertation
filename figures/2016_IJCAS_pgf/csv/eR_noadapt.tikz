@@ -1,36 +1,30 @@
 \begin{tikzpicture}[baseline]
-\begin{axis}[
-    ylabel={$e_{R_1}$},
-    name={eR1},
+    \begin{groupplot}[
+        group style={
+            group name={eR_noadapt},
+            group size=1 by 3,
+            xlabels at=edge bottom,
+            ylabels at=edge left,
+            xticklabels at=edge bottom,
+            vertical sep=0pt,
+        },
+        xlabel={$t~(\si{\second})$},
+        ymin=-1.5, ymax=1.5,
     ]
+    \nextgroupplot[ylabel={$ e_{R_1}$}]
     \addplot [blue, mark=none] table [x=TIME, y=eR_1, col sep=comma] {noadapt.csv};
-    \addplot [red] coordinates {
+    \addplot [red, mark=none, dashed] coordinates {
         (0.0, 0.0) (10.0, 0.0) 
     };
-    \end{axis}
-
-    \begin{axis}[
-        ylabel={$e_{R_2}$},
-        name={eR2},
-        at=(eR1.below south west),
-        anchor=north west,
-        ]
+    \nextgroupplot[ylabel={$ e_{R_2}$}]
         \addplot [blue, mark=none] table [x=TIME, y=eR_2, col sep=comma] {noadapt.csv};
-        \addplot [red] coordinates {
+        \addplot [red, mark=none, dashed] coordinates {
             (0.0, 0.0) (10.0, 0.0) 
         };
-    \end{axis}
-
-    \begin{axis}[
-        xlabel={$t~(\si{\second})$},
-        ylabel={$e_{R_3}$},
-        name={eR3},
-        at=(eR2.below south west),
-        anchor=north west,
-        ]
+    \nextgroupplot[ylabel={$ e_{R_3}$}]
         \addplot [blue, mark=non] table [x=TIME, y=eR_3, col sep=comma] {noadapt.csv};
-        \addplot [red] coordinates {
+        \addplot [red, mark=none, dashed] coordinates {
             (0.0, 0.0) (10.0, 0.0) 
         };
-    \end{axis}
+\end{groupplot}
 \end{tikzpicture}
