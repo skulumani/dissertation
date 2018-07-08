@@ -1,139 +1,191 @@
 % !TEX root = ../dissertation.tex
 
 \chapter{Introduction}
+% Motivation for missions/studying asteroids
+Small solar system bodies, such as asteroids and comets, continue to remain a focus of scientific study.
+The small size of these bodies prevents the formation of large internal pressures and temperatures which helps to preserve the early chemistry of the solar system.
+This insight offers additional detail into the formation of the Earth and also of the probable formation of other extrasolar planetary bodies.
+Of particular interest are those near-Earth asteroids (NEA) which inhabit heliocentric orbits in the vicinity of the Earth. 
+These easily accessible bodies provide attractive targets to support space industrialization, mining operations, and scientific missions.
+In spite of the significant interest, and the extensive research by the community, the operation of spacecraft near small bodies remains a challenging problem.
 
-\section{Title}
-\begin{itemize}
-    \item Precise set of words that people will eventually google
-    \item No more than 7-8 words. The keywords from teh abstract
-\end{itemize}
-
-\begin{itemize}
-    \item Motivation the problem and state my hypothesis
-        \begin{itemize}
-            \item Tell a story
-            \item Use concrete examples (or a running example) and lots of figures
-            \item Quote data sources, case studies or real missions
-            \item Introduce all the terminology
-            \item Why this work is important
-            \item What makes it special and good
-        \end{itemize}
-    \item Literature review and past contributions
-        \begin{itemize}
-            \item Talk about previous research.
-            \item Try to highlight areas where topics were lacking, that my work will fill
-        \end{itemize}
-    \item Current contributions
-        \begin{itemize}
-            \item Explicit contributions of the current disseration
-            \item State all \emph{assumptions} and \emph{limitations}
-            \item All the \emph{requirements}/\emph{constraints} of this approach
-            \item Concrete \emph{validation} of the plan, experiments/simulation
-            \item Define the \emph{scope}
-        \end{itemize}
-    \item Dissertation Overview
-        \begin{itemize}
-            \item Introduce each subsequent section
-            \item Talk about how they all fit together
-            \item Sequence of 2-3 distinct top conference papers
-            \item Natural progression from each chapter (conference paper)
-        \end{itemize}
-
-        
-\end{itemize}
-
-\section{Prensenting the thesis}
-\begin{itemize}
-    \item Explain why I picked this approach
-    \item Philosophy/thought process that lead to this approach
-    \item What other approaches were considered and discarded? Why
-    \item \emph{How did I know I was done?}
-    \item \emph{When is the problem solved?}
-    \item \emph{If you had to do it all over again would you do it differently?}
-\end{itemize}
-
-\begin{enumerate}
-    \item Introduction
-        \begin{itemize}
-            \item Overall goal is to enable autonomous mapping and control about an asteroid using LIDAR
-        \end{itemize}
-    \item Mathematical background
-        \begin{itemize}
-            \item Three body dynamics
-            \item Motion around an asteroid
-            \item Polyhedron potential models
-            \item Variational Integrators
-            \item Geometric control
-            \item Rigid body dynamics
-        \end{itemize}
-    \item Orbital transfers using reachability
-    \item Geometric control for coupled motion
-    \item Asteroid shape estimation and generation
-    \item End-to-end mission examples
-    \item Conclusions
-        \begin{itemize}
-            \item Areas for future research
-        \end{itemize}
-\end{enumerate}
+% impact threat from asteroids
+Furthermore, these asteroids are of keen interest for more practical purposes.
+The recent meteor explosions in 2002 over Tagish Lake, Canada or over Chelyabinsk, Russia in 2013 are clear evidence of the risk of asteroid impacts on the Earth.
+These asteroids, which released an energy equivalent to \SI{5}{\kilo\tonne} of TNT, are estimated to strike the Earth on average every year~\cite{brown2002}.
+Larger bodies, such as the \SI{60}{\meter} object that exploded over Tunguska, Russia in 1908, release the energy equivalent to \SI{10}{\mega\tonne} of TNT and will occur on average every \num{1000} years.
+Asteroids and comets are the greatest threat to future civilizations and as a result there is a focused effort to mitigate these risks~\cite{wie2008}.
+A wide variety of strategies, including nuclear standoff detonation, mass drivers, kinetic-energy projectiles, and low-thrust deflection via electric propulsion or solar sails, have been proposed to deal with the technically challenging asteroid mitigation problem~\cite{adams2004}.
+In spite of the significant interest in asteroid deflection, and the extensive research by the community, the operation of spacecraft in their vicinity remains a challenging problem.
 
 
-\section{Each thesis chapter}
-\begin{itemize}
-    \item Introduction
-        \begin{itemize}
-            \item What is the chapter about?
-            \item What sub-problem/issue is this chapter addressing?
-            \item How does chapter fit within the overall story of the thesis?
-        \end{itemize}
-    \item The meat of the chapter
-        \begin{itemize}
-            \item Rigorous approach to the sub-problem or detailed explanation of issue
-            \item Assumptions underlying this subproblem
-            \item Validation: design, theory, implementation, graphs, figures
-        \end{itemize}
+% Overall thesis. Development of autonomous methods to operate around small bodies.
 
-    \item Summary
-        \begin{itemize}
-            \item Repeat the highlights of the chapter
-            \item Transition to the next chapter. 
-                How the chapter fits with the next one.
-        \end{itemize}
-\end{itemize}
+% Benefits and contribution of our approach
+In short, this paper presents a method to incrementally update the shape  model of an asteroid from range measurements. 
+Our approach alleviates the need for a dedicated mapping phase as the spacecraft is able to update its shape model in real time and without expensive computations.
+This type of approach allows for the spacecraft to maneuver and land on the asteroid immediately upon arrival rather than spending several months mapping the surface.
+This updated shape model is then used to in a nonlinear controller to track a desired state trajectory for the dynamics of a rigid body spacecraft.
+The dynamics are developed on the nonlinear manifold of rigid body motions, namely the special euclidean group.
+This formulation is based on an intrinsic geometric description of the motion and accurately captures the coupling between orbit and attitude dynamics. 
+The presented approach allows for a spacecraft to transition directly from arrival to the surface while reconstructing the surface shape in real time.
 
-\section{Summary/Slides}
-\begin{itemize}
-    \item Problem statement/hypothesis
-    \item Why this is a hard/difficult problem?
-    \item Approach/Methodology
-    \item Why is this innovative/new?
-    \item Assumptions/constraints?
-    \item Initial results
-    \item  Validation plan
-    \item Limitations and applicability
-    \item Expected contributions
-    \item What's beyond  this thesis?
-    \item Roadmap for the thesis
-\end{itemize}
-
-be able to answer the following questions
-\begin{itemize}
-    \item Why will work change the world?
-    \item What would be done differently if I could start over?
-    \item How will you know when success is reached?
-    \item How much of the work can be generalized?
-    \item Which part was research and which was engineering?
-\end{itemize}
+\section{Motivation}
 
 
-\section{Computational Geometry}
+\section{Literature Review}
 
-This section can discuss some background in computational geometry.
+\subsection{Low thrust reachability}
+% Motivation for missions/studying asteroids
+Small solar system bodies, such as asteroids and comets, continue to remain a focus of scientific study.
+The small size of these bodies prevents the formation of large internal pressures and temperatures which helps to preserve the early chemistry of the solar system.
+This insight offers additional detail into the formation of the Earth and also of the probable formation of other extrasolar planetary bodies.
+Of particular interest are those near-Earth asteroids (NEA) which inhabit heliocentric orbits in the vicinity of the Earth. 
+These easily accessible bodies provide attractive targets to support space industrialization, mining operations, and scientific missions.
+In spite of the significant interest, and the extensive research by the community, the operation of spacecraft near small bodies remains a challenging problem.
 
-The majority of computational geometry algorithms are developed for simple planar \glspl{polygon}.
+% dynamics are difficult around asteroids
+The dynamic environment around asteroids is strongly perturbed and challenging for analysis and mission operations~\cite{scheeres2012}.
+Due to their low mass, which in turn causes a low gravitational attraction, asteroids may have irregular shapes.
+Furthermore, asteroids may also have a chaotic spin state due to the absorption and emittance of solar radiation~\cite{rubincam2000}.
+As a result, approaches utilizing an inverse square gravitational model do not capture the  true dynamic environment.
+In addition, the vast majority of asteroids are difficult to track and characterize using ground based sensors.
+Due to their small size, frequently with a maximum radius less than \SI{1}{\kilo\meter}, and low albedo, the reflected energy of these asteroids is insufficient for reliable detection or tracking.
+Therefore, the dynamics model of the asteroid is relatively coarse prior to in situ measurements from a dedicated spacecraft.
+As a result, any spacecraft mission to an asteroid must include the ability to update the dynamic model given in situ measurements and remain robust to unmodelled forces.
 
-The surface of an object is described as the union of the surfaces of the polygons which define it.
+Another key dynamic consideration is the coupling between rotational and translational states around the asteroid.
+The coupling is induced due to the different gravitational forces experienced on various portions of the spacecraft. 
+The effect of the gravitational coupling is related to the ratio of the spacecraft size and orbital radius~\cite{hughes2004}.
+For operations around asteroids, the ratio is relatively large which causes a much larger coupling between the translational and rotational states.
+References~\textcite{elmasri2005} and~\textcite{sanyal2004a} investigated the coupling of an elastic dumbbell spacecraft in orbit about a central body, but only considered the case of a spherically symmetric central body.
+Furthermore, the spacecraft model is assumed to remain in a planar orbit.
+As a result, these developments are not directly applicable to motion about an asteroid, which experiences highly non-Keplerian motion.
+Reference~\textcite{misra2015b} investigated the effect of coupled motion on long term trajectories around asteroids.
+However, the analysis only considered a second order spherical harmonic gravitational potential model. 
+Therefore, these results are only valid when far from the asteroid surface and will diverge when used within the Brillouin sphere.
+
+% Gravity model is important and dependent on shape
+An accurate gravitational potential model is critical for performing low altitude and/or surface operations around asteroids.
+Due to the irregular shape, trajectories will pass within the Brillouin sphere, where the typical spherical harmonic model diverges from the true gravitational potential.
+The standard approach for asteroid missions is to compute the gravitational potential using a polyhedron potential model~\cite{werner1996}.
+The polyhedron potential model provides the exact gravitational potential, and subsequently the gravitational acceleration, for a given triangular faceted shape model of an asteroid.
+The method provides the exact potential at any point outside the body for a given shape model.
+As a result, the accuracy of the gravitational potential is primarily dependent on the accuracy with which the shape model represents the true surface.
+A high fidelity shape, which necessarily has many vertices and faces, is required for an accurate computation of the gravitational acceleration and enabling low altitude operations.
+
+% Challenges involved in operation near asteroids (gravity, shape, distance)
+% generating the shape from the ground is difficult
+Prior to the arrival of a spacecraft at an asteroid, Earth-based sensors are used to characterize the body.
+Using both optical and radar sensors allows for the precise orbit of the asteroid to be determined.
+Another vital task is the determination of the asteroid shape from radar data~\cite{hudson1994,busch2011}.
+This is a challenging problem as it requires the simultaneous estimation of the asteroid spin state and shape.
+Furthermore, determining the shape from radar is currently the only Earth-based technique that can produce detailed three-dimensional shape information of near-Earth objects~\cite{greenberg2015}.
+The current approach is based on an estimation scheme which iteratively perturbs a shape to match given radar data.
+This computationally intensive approach is only able to capture the gross size and shape and is unable to capture the small surface features of the asteroid.
+Frequently, only a coarse model is possible from the ground and an accurate shape must be determined only after a spacecraft has rendezvoused with the asteroid.
+As a result, upon arrival the gravitational environment near the asteroid is poorly modeled as the shape of the asteroid is not accurate.
+Therefore, the polyhedron potential model is not appropriate immediately upon arrival but rather only after the shape has been determined.
+
+% on arrival spacecraft spend long periods mapping, and depending on mission this might be unallocable
+On approach to an asteroid, spacecraft navigation and guidance is primarily based on ground measurements.
+After arrival, a spacecraft will generally spend months or years in a mapping mission phase~\cite{kubota2003,cole1998}.
+During this period, spacecraft sensors, such as on board optical telescopes or Light radio Detection and Ranging (LIDAR), are used to characterize the asteroid.
+The resulting imagery and range data is transmitted to the ground and the resulting asteroid shape and motion is estimated. 
+During this mapping phase the spacecraft must remain in a quiescent state devoted entirely to mapping the surface.
+Depending on the mission type, this long period of mapping is crucial to the mission, such as sample collection~\cite{gates2015}. 
+However, other missions, such as asteroid mitigation, may be severely limited by the time and ground resources required to generate a surface shape.
+Furthermore, the long distances involved necessitate on-board autonomy to enable to spacecraft to operate without ground communications.
+Similarly, during landing the spacecraft will require the ability to sense and model the surface topography in order to safely land in an unknown environment.
+The dependency on expensive ground-based shape reconstruction techniques limits the ability of spacecraft to autonomously operate at asteroids.
+Mitigation of this ground based surface modeling will greatly expand the range of missions possible.
+
+% we want to generate the shape in real time and then use this shape for updated and better control
+In this paper, we develop a method to compute the surface shape of an asteroid from range measurements.
+Our approach is able to operate in real time and incrementally update the shape model of an asteroid as new range measurements are collected.
+This approach allows for the shape to be continually updated as range measurements are used to locally modify the shape estimate.
+Furthermore, this updated shape is then used in a nonlinear controller to enable the tracking of a landing trajectory to the surface.
+In contrast to previous work, we explicitly consider the gravitational coupling between orbit and attitude dynamics.
+Furthermore, instead of computationally expensive surface reconstruction methods, we present a straightforward and conceptually simple method to enable real time shape updates. 
 
 
+% our approach for paper. Real time method to update asteroid shape model and use updated model in closed loop control
+
+% Benefits and contribution of our approach
+In short, this paper presents a method to incrementally update the shape  model of an asteroid from range measurements. 
+Our approach alleviates the need for a dedicated mapping phase as the spacecraft is able to update its shape model in real time and without expensive computations.
+This type of approach allows for the spacecraft to maneuver and land on the asteroid immediately upon arrival rather than spending several months mapping the surface.
+This updated shape model is then used to in a nonlinear controller to track a desired state trajectory for the dynamics of a rigid body spacecraft.
+The dynamics are developed on the nonlinear manifold of rigid body motions, namely the special euclidean group.
+This formulation is based on an intrinsic geometric description of the motion and accurately captures the coupling between orbit and attitude dynamics. 
+The presented approach allows for a spacecraft to transition directly from arrival to the surface while reconstructing the surface shape in real time.
+
+
+
+\subsection{Nonlinear Control}
+% dynamics are difficult around asteroids
+The dynamic environment around asteroids is strongly perturbed and challenging for analysis and mission operations~\cite{scheeres2012}.
+Due to their low mass, which in turn causes a low gravitational attraction, asteroids may have irregular shapes.
+Furthermore, asteroids may also have a chaotic spin state due to the absorption and emittance of solar radiation~\cite{rubincam2000}.
+As a result, approaches utilizing an inverse square gravitational model do not capture the  true dynamic environment.
+In addition, the vast majority of asteroids are difficult to track and characterize using ground based sensors.
+Due to their small size, frequently with a maximum radius less than \SI{1}{\kilo\meter}, and low albedo, the reflected energy of these asteroids is insufficient for reliable detection or tracking.
+Therefore, the dynamics model of the asteroid is relatively coarse prior to in situ measurements from a dedicated spacecraft.
+As a result, any spacecraft mission to an asteroid must include the ability to update the dynamic model given in situ measurements and remain robust to unmodelled forces.
+
+Another key dynamic consideration is the coupling between rotational and translational states around the asteroid.
+The coupling is induced due to the different gravitational forces experienced on various portions of the spacecraft. 
+The effect of the gravitational coupling is related to the ratio of the spacecraft size and orbital radius~\cite{hughes2004}.
+For operations around asteroids, the ratio is relatively large which causes a much larger coupling between the translational and rotational states.
+References~\textcite{elmasri2005} and~\textcite{sanyal2004a} investigated the coupling of an elastic dumbbell spacecraft in orbit about a central body, but only considered the case of a spherically symmetric central body.
+Furthermore, the spacecraft model is assumed to remain in a planar orbit.
+As a result, these developments are not directly applicable to motion about an asteroid, which experiences highly non-Keplerian motion.
+Reference~\textcite{misra2015b} investigated the effect of coupled motion on long term trajectories around asteroids.
+However, the analysis only considered a second order spherical harmonic gravitational potential model. 
+Therefore, these results are only valid when far from the asteroid surface and will diverge when used within the Brillouin sphere.
+
+% Gravity model is important and dependent on shape
+An accurate gravitational potential model is critical for performing low altitude and/or surface operations around asteroids.
+Due to the irregular shape, trajectories will pass within the Brillouin sphere, where the typical spherical harmonic model diverges from the true gravitational potential.
+The standard approach for asteroid missions is to compute the gravitational potential using a polyhedron potential model~\cite{werner1996}.
+The polyhedron potential model provides the exact gravitational potential, and subsequently the gravitational acceleration, for a given triangular faceted shape model of an asteroid.
+The method provides the exact potential at any point outside the body for a given shape model.
+As a result, the accuracy of the gravitational potential is primarily dependent on the accuracy with which the shape model represents the true surface.
+A high fidelity shape, which necessarily has many vertices and faces, is required for an accurate computation of the gravitational acceleration and enabling low altitude operations.
+
+% Challenges involved in operation near asteroids (gravity, shape, distance)
+% generating the shape from the ground is difficult
+Prior to the arrival of a spacecraft at an asteroid, Earth-based sensors are used to characterize the body.
+Using both optical and radar sensors allows for the precise orbit of the asteroid to be determined.
+Another vital task is the determination of the asteroid shape from radar data~\cite{hudson1994,busch2011}.
+This is a challenging problem as it requires the simultaneous estimation of the asteroid spin state and shape.
+Furthermore, determining the shape from radar is currently the only Earth-based technique that can produce detailed three-dimensional shape information of near-Earth objects~\cite{greenberg2015}.
+The current approach is based on an estimation scheme which iteratively perturbs a shape to match given radar data.
+This computationally intensive approach is only able to capture the gross size and shape and is unable to capture the small surface features of the asteroid.
+Frequently, only a coarse model is possible from the ground and an accurate shape must be determined only after a spacecraft has rendezvoused with the asteroid.
+As a result, upon arrival the gravitational environment near the asteroid is poorly modeled as the shape of the asteroid is not accurate.
+Therefore, the polyhedron potential model is not appropriate immediately upon arrival but rather only after the shape has been determined.
+
+% on arrival spacecraft spend long periods mapping, and depending on mission this might be unallocable
+On approach to an asteroid, spacecraft navigation and guidance is primarily based on ground measurements.
+After arrival, a spacecraft will generally spend months or years in a mapping mission phase~\cite{kubota2003,cole1998}.
+During this period, spacecraft sensors, such as on board optical telescopes or Light radio Detection and Ranging (LIDAR), are used to characterize the asteroid.
+The resulting imagery and range data is transmitted to the ground and the resulting asteroid shape and motion is estimated. 
+During this mapping phase the spacecraft must remain in a quiescent state devoted entirely to mapping the surface.
+Depending on the mission type, this long period of mapping is crucial to the mission, such as sample collection~\cite{gates2015}. 
+However, other missions, such as asteroid mitigation, may be severely limited by the time and ground resources required to generate a surface shape.
+Furthermore, the long distances involved necessitate on-board autonomy to enable to spacecraft to operate without ground communications.
+Similarly, during landing the spacecraft will require the ability to sense and model the surface topography in order to safely land in an unknown environment.
+The dependency on expensive ground-based shape reconstruction techniques limits the ability of spacecraft to autonomously operate at asteroids.
+Mitigation of this ground based surface modeling will greatly expand the range of missions possible.
+
+% we want to generate the shape in real time and then use this shape for updated and better control
+In this paper, we develop a method to compute the surface shape of an asteroid from range measurements.
+Our approach is able to operate in real time and incrementally update the shape model of an asteroid as new range measurements are collected.
+This approach allows for the shape to be continually updated as range measurements are used to locally modify the shape estimate.
+Furthermore, this updated shape is then used in a nonlinear controller to enable the tracking of a landing trajectory to the surface.
+In contrast to previous work, we explicitly consider the gravitational coupling between orbit and attitude dynamics.
+Furthermore, instead of computationally expensive surface reconstruction methods, we present a straightforward and conceptually simple method to enable real time shape updates. 
 \subsection{Surface Reconstruction}
 One of the main mission objectives for asteroid operations is to generate the three-dimensional shape of an asteroid.
 This shape generation is a subset of a larger class of methods called surface reconstruction.
@@ -225,6 +277,8 @@ In
     \item Talk about the one that is implemented inside VTK Hoppe papers
 \end{itemize}
 
+
+
 \subsection{Attitude Parameterizations}\label{ssec:attitude_parameterization}
 % TODO Think about moving this section to the introduction
 % Discuss the benefits of using this geometric representation as compared to Euler angles or quaternions
@@ -272,3 +326,43 @@ Furthermore, all Euler angle sequences will exhibit a similar singularity at eit
 Therefore simply switching the sequence does not alleviate the issue, but rather only moves the singularity.
 As a result, Euler angles are not appropriate for systems which experience large angular rotations, such as those demonstrated in~\cref{fig:adapt}, or control systems which rely on the angular velocities \( \theta_i \).
 % discuss the unwinding phenomenon with quaternions
+
+
+
+\section{Contributions and Outline}
+\begin{itemize}
+    \item Motivation the problem and state my hypothesis
+        \begin{itemize}
+            \item Tell a story
+            \item Use concrete examples (or a running example) and lots of figures
+            \item Quote data sources, case studies or real missions
+            \item Introduce all the terminology
+            \item Why this work is important
+            \item What makes it special and good
+        \end{itemize}
+    \item Literature review and past contributions
+        \begin{itemize}
+            \item Talk about previous research.
+            \item Try to highlight areas where topics were lacking, that my work will fill
+        \end{itemize}
+    \item Current contributions
+        \begin{itemize}
+            \item Explicit contributions of the current disseration
+            \item State all \emph{assumptions} and \emph{limitations}
+            \item All the \emph{requirements}/\emph{constraints} of this approach
+            \item Concrete \emph{validation} of the plan, experiments/simulation
+            \item Define the \emph{scope}
+        \end{itemize}
+    \item Dissertation Overview
+        \begin{itemize}
+            \item Introduce each subsequent section
+            \item Talk about how they all fit together
+            \item Sequence of 2-3 distinct top conference papers
+            \item Natural progression from each chapter (conference paper)
+        \end{itemize}
+
+        
+\end{itemize}
+
+
+
