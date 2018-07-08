@@ -1,20 +1,22 @@
 \chapter{Nonlinear Geometric Controller Proofs}
+This appendix presents the detailed proofs of the propositions given in~\cref{sec:se3_control}..
+
 \section{Proof of~\Cref{prop:attitude_control_configuration_error}}\label{proof:attitude_config_error}
 
-\subsection{Proof of~\Cref{item:prop_psi_psd} and~\Cref{item:prop_er}}\label{proof:prop_psi_psd}
+\subsection{Proof of~\Cref{item:prop_A_psd} and~\Cref{item:prop_eRA}}\label{proof:prop_psi_psd}
 To prove~\cref{item:prop_psi_psd}, we first seek to show that \( A(R_d) \) is a critical point by showing that the first derivative is zero at \( R_d \).
 The infinitesimal variation of a rotation matrix is defined as
 \begin{align*}
     \delta R = \left. \diff{}{\epsilon} \right|_{\epsilon=0} R \exp{\epsilon \hat{\eta}} = R \hat{\eta}.
 \end{align*}
-Using this, the variation of~\cref{eqn:psi} is taken with respect to \( R \) as
+Using this, the variation of~\cref{eq:A} is taken with respect to \( R \) as
 \begin{align}\label{eq:dirDiff_A}
-	\dirDiff{\Psi}{R} &= \eta \cdot \frac{1}{2} \left( G R_d^T R - R^T R_d G\right)^\vee ,
+	\dirDiff{A}{R} &= \eta \cdot \frac{1}{2} \left( G R_d^T R - R^T R_d G\right)^\vee ,
 %	&= -\frac{1}{2} \tr{G R_d^T \left( R \hat{\eta}\right)} \\
 \end{align}
 where we used~\cref{eqn:hat1} to achieve the simplified form.
-\Cref{eq:dirDiff_A} also proves~\cref{item:prop_er}.
-Evaluating~\cref{eq:dirDiff_A} at \( R = R_d \) demonstrates that \( R_d \) is a critical point of \( \Psi \)
+\Cref{eq:dirDiff_A} also proves~\cref{item:prop_eRA}.
+Evaluating~\cref{eq:dirDiff_A} at \( R = R_d \) demonstrates that \( R_d \) is a critical point of \( A \).
 Next, the second derivative of \( A \) is computed as
 \begin{align*}
     \dirDiff{\parenth{\dirDiff{A}{R}}}{R} &= \eta \cdot \frac{1}{2}\parenth{G R_d^T \delta R - \delta R^T R_d G}^\vee  \\
@@ -27,12 +29,12 @@ Evaluating the Hessian at \( R = R_d \)
 \begin{align}\label{eq:A_hessian}
     \Hess(A)\cdot (\delta R,\delta R)\big|_{R=R_d} = \eta \cdot \frac{1}{2} \parenth{\tr{G}I -  G} \eta 
 \end{align}
-shows that the Hessian is positive definite at \( R_d \) and therefore the critical point is a minimum for any variation \( \eta \) and proves~\cite{item:prop_psi_psd}.
+shows that the Hessian is positive definite at \( R_d \) and therefore the critical point is a minimum for any variation \( \eta \) and proves~\cref{item:prop_A_psd}.
 
-\subsection{Proof of~\Cref{item:prop_critical_points}}\label{proof:prop_critical_points}
-To prove~\cref{item:prop_critical_points} we must first determine the critical points of~\cref{eq:er}.
+\subsection{Proof of~\Cref{item:prop_A_critical_points}}\label{proof:prop_A_critical_points}
+To prove~\cref{item:prop_critical_points} we must first determine the critical points of~\cref{eq:eRA}.
 The derivations are originally presented in~\cite{bullo2004,chaturvedi2011a} and we present and expand on their original descriptions.
-We define the relative attitude error as \( Q = R_d^T R \) and expand~\cref{eq:er} as
+We define the relative attitude error as \( Q = R_d^T R \) and expand~\cref{eq:eRA} as
 \begin{align*}
     e_{R_A} &= \frac{1}{2} \parenth{G Q - Q^T G} ^ \vee, \\
             &= \frac{1}{2} \parenth{%
@@ -123,49 +125,49 @@ These critical points correspond to additional rotations of \SI{180}{\degree} ab
     R_\gamma &= R_d \begin{bmatrix} -1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & 0 & -1 \end{bmatrix}.
 \end{align}
 
-\subsection{Proof of~\Cref{item:prop_psi_quadratic}}\label{proof:prop_psi_quadratic}
+\subsection{Proof of~\Cref{item:prop_A_quadratic}}\label{proof:prop_A_quadratic}
 
 The original proof for~\cref{item:prop_psi_quadratic} is presented in~\cite{lee2011a} and summarized in this section.
-Define \( Q = R_d^T R = \exp \hat{\vb{x}} \in \SO \) for any \( \vb{x} \in \R^3 \) from Rodrigues' formula
+Define \( Q = R_d^T R = \exp \hat{\vc{x}} \in \SO \) for any \( \vc{x} \in \R^3 \) from Rodrigues' formula
 \begin{align}\label{eq:rodrigues_formula}
-    Q = = \exp{\theta \hat{\vb{x}}} = I + \sin \theta \vh{x} + \parenth{1 - \cos \theta} \vh{x}^2 \in \SO.
+    Q = \exp{\theta \hat{\vc{x}}} = I + \sin \theta \vh{x} + \parenth{1 - \cos \theta} \vh{x}^2 \in \SO.
 \end{align}
 Using a symbolic computation tool one can then find
 \begin{align}\label{eq:psi_rodrigues}
-    A &= \frac{1 - \cos \norm \vb{x}}{2\norm{\vb{x}^2}} \sum_{\parenth{i, j, k} \in \mathcal{C}} \parenth{g_i + g_j} x_k^2, \\
-    \norm{e_{R_A}}^2 &= \frac{\parenth{1 - \cos \norm{\vb{x}}^2} }{4 \norm{\vb{x}}^2}  \sum_{\parenth{i, j, k} \in \mathcal{C}} \\parenth{g_i - g_j}^2 x_i^2 x_j^2 + \frac{\sin^2 \norm{\vb{x}}}{4 \norm{\vb{x}}^2} \sum_{\parenth{i, j, k} \in \mathcal{C}} \parenth{g_i + g_j}^2 x_k^2,
+    A &= \frac{1 - \cos \norm \vc{x}}{2\norm{\vc{x}^2}} \sum_{\parenth{i, j, k} \in \mathcal{C}} \parenth{g_i + g_j} x_k^2, \\
+    \norm{e_{R_A}}^2 &= \frac{\parenth{1 - \cos \norm{\vc{x}}^2} }{4 \norm{\vc{x}}^4}  \sum_{\parenth{i, j, k} \in \mathcal{C}} \parenth{g_i - g_j}^2 x_i^2 x_j^2 + \frac{\sin^2 \norm{\vc{x}}}{4 \norm{\vc{x}}^2} \sum_{\parenth{i, j, k} \in \mathcal{C}} \parenth{g_i + g_j}^2 x_k^2,
 \end{align}
 where \( \mathcal{C} = \braces{ \parenth{1, 2, 3} , \parenth{2, 3, 1} , \parenth{3, 1, 2} } \).
 Using~\cref{eq:psi_rodrigues} one can show
 \begin{align}
     \frac{\norm{e_{R_A}}^2}{A} \leq \frac{h_2 + h_3}{h_1} , \quad \frac{A}{\norm{e_{R_A}}^2} \leq \frac{h_1 h_4}{h_5 \parenth{h_1 - \psi} } ,
 \end{align}
-which proves~\cref{item:prop_psi_quadratic}.
+which proves~\cref{item:prop_A_quadratic}.
 
-\subsection{Proof of~\Cref{prop:attractive_error_dynamics}}\label{proof:attractive_error_dynamics}
-From the kinematics~\cref{eqn:Rdot}, and noting that \( \dot{R}_d = 0 \) the time derivative of \( R_d^T R \) is given as
+\section{Proof of~\Cref{prop:attractive_error_dynamics}}\label{proof:attractive_error_dynamics}
+From the kinematics \( \dot{R} = R \hat{\Omega}\), and noting that \( \dot{R}_d = 0 \) the time derivative of \( R_d^T R \) is given as
 \begin{gather*}
 	\diff{}{t} \parenth{R_d^T R} = R_d^T R \hat{e}_\Omega.
 \end{gather*}
-Applying this to the time derivative of~\cref{eqn:A} gives
+Applying this to the time derivative of~\cref{eq:A} gives
 \begin{gather*}
 	\diff{}{t} (A) = -\frac{1}{2} \tr{G R_d^T R \hat{e}_\Omega}.
 \end{gather*}
-Applying~\cref{eqn:hat1} into this shows~\cref{eqn:A_dot}.
+Applying~\cref{eqn:hat1} into this shows~\cref{eq:A_dot}.
 
 The time derivative of the attractive attitude error vector, \( e_{R_A} \), is given by
 \begin{gather*}
 	\diff{}{t} ( e_{R_A}) = \frac{1}{2} \parenth{\hat{e}_\Omega R^T R_d G + (R^T R_d G)^T \hat{e}_\Omega}^\vee.
 \end{gather*}
-Using the hat map property given in~\cref{eqn:xAAx} this is further reduced to~\cref{eqn:eRA_dot,eqn:E}.
+Using the hat map property given in~\cref{eqn:xAAx} this is further reduced to~\cref{eq:eRA_dot,eq:E}.
 
 % TODO Add link to dynamics that includes both external force and a disturbance
-We show~\cref{eqn:eW_dot} by rearranging~\cref{eqn:Wdot} as 
+We show~\cref{eq:eW_dot} by rearranging~\cref{eq:Wdot} as 
 \begin{align*}
     \diff{}{t} e_\Omega = \dot{\Omega} = J^{-1} \parenth{u - \Omega \times J \Omega + W(R,\Omega) \Delta +M_{ext}}.
 \end{align*}
 
-\subsection{Proof of~\Cref{prop:att_control}}\label{proof:att_control}
+\section{Proof of~\Cref{prop:att_control}}\label{proof:att_control}
 Consider the following Lyapunov function:
 \begin{gather*}%\label{eqn:v_nodist}
 	\mathcal{V} = \frac{1}{2} e_\Omega \cdot J e_\Omega + k_R \Psi(R,R_d). 
@@ -188,7 +190,7 @@ Furthermore, since \( \dot{\mathcal{V}} \leq 0 \) the Lyapunov function is unifo
 \end{align*}
 
 \section{Proof of~\Cref{prop:repulsive_configuration_error}}\label{proof:repulsive_configuration_error}
-To prove~\cref{item:prop_psi_psd} we note that~\cref{eqn:A} is a positive definite function about \( R = R_d \)~\cite{bullo2004}, which is shown in~\cref{proof:prop_psi_psd}.
+To prove~\cref{item:prop_psi_psd} we note that~\cref{eq:A} is a positive definite function about \( R = R_d \)~\cite{bullo2004}, which is shown in~\cref{proof:prop_psi_psd}.
 The constraint angle is assumed \( \ang{0} \leq \theta \leq \ang{90} \) such that \( 0 \leq \cos \theta \).
 The term \( r^T R^T v \) represents the cosine of the angle between the body fixed vector \( r \) and the inertial vector \( v \). 
 It follows that
@@ -196,7 +198,7 @@ It follows that
 	0 \leq  \frac{\cos \theta -  r^T R^T v}{1 + \cos \theta} \leq 1 ,
 \end{align*}
 for all \( R \in \SO \). 
-As a result, its negative logarithm is always positive and from~\cref{eqn:B}, \(1 < B\).
+As a result, its negative logarithm is always positive and from~\cref{eq:B}, \(1 < B\).
 The error function \( \Psi = A B \) is composed of two positive terms and is therefore also positive definite, and it is minimized at \( R = R_d \).
 
 A straightforward application of the chain and product rules of differentiation allows us to show~\cref{item:prop_erb} as
@@ -247,7 +249,7 @@ The domain \( D \) is an open neighborhood of the desired attitude \( R_d \), an
 Therefore, the only critical point of the error function $\Psi$ in the domain $D$ corresponds to the desired attitude $R=R_d$ with $e_R=0$ and $\Psi=0$. 
 Therefore, in \( D \) the configuration error function is quadratic and the bounds in~\cref{item:prop_psi_quadratic} are valid according to~\cite[Proposition 6.30]{bullo2004}.
 
-\section{Proof of~\Cref{prop:repulsive_configuration_error}}\label{proof:repulsive_configuration_error}
+\section{Proof of~\Cref{prop:repulsive_error_dynamics}}\label{proof:repulsive_error_dynamics}
 The time derivative of the repulsive error function is given by
 \begin{gather*}
 	\diff{}{t} (B) = \frac{r^T \parenth{\hat{\Omega} R^T} v}{\alpha \parenth{r^T R^T v - \cos \theta}}.
@@ -272,10 +274,10 @@ We show the time derivative of the configuration error function as
 A straightforward substitution of~\cref{eq:A_dot,eq:B_dot,eq:A,eq:B} into this and applying~\cref{eq:eR} shows~\cref{eq:psi_dot}.
 
 	
-\subsection{Proof of~\Cref{prop:eR_dot_bound}}\label{proof:eR_dot_bound}
+\section{Proof of~\Cref{prop:eR_dot_bound}}\label{proof:eR_dot_bound}
 
 Consider the open neighborhood $D$ of $R=R_d$ defined in~\Cref{prop:repulsive_configuration_error}.
-The proof of the upper bound of \( A(R) \) is given in~\cref{proof:prop_psi_quadratic}.
+The proof of the upper bound of \( A(R) \) is given in~\cref{proof:prop_A_quadratic}.
 The selected domain ensures that the configuration error function is bounded \( \Psi < \psi \).
 This implies that that both \( A(R) \) and \( B(R) \) are bounded by constants \( c_A c_B < \psi < h_1\).
 Furthermore, since \( \norm{B} > 1 \) this ensures that \( c_A, c_B < \psi\) and shows~\cref{eqn:AB_bound}.
@@ -331,14 +333,14 @@ Expanding and collecting like terms gives
 	\tr{c^T c } = \frac{1 - 2\parenth{v^T R r}^2 + \parenth{v^T R r}^4}{\parenth{r^T R^T v - \cos \theta}^2}. 
 \end{gather*}
 Using the given domain \( r^T R^T v \leq \beta \) gives the upper bound~\cref{eqn:F_bound}.
-The bound on \( e_{R_A} \) is given in~\cref{proof:prop_psi_quadratic} while \( e_{R_B} \) arises from the definition of the cross product \( \norm{a \times b} = \norm{a} \norm{b} \sin \theta \).
+The bound on \( e_{R_A} \) is given in~\cref{proof:prop_A_quadratic} while \( e_{R_B} \) arises from the definition of the cross product \( \norm{a \times b} = \norm{a} \norm{b} \sin \theta \).
 Finally, we can find the upper bound~\cref{eq:eR_dot} as
 \begin{gather*}
 	\norm{\dot{e}_R} \leq \parenth{\norm{B} \norm{E} + 2 \norm{e_{R_A}} \norm{e_{R_B}} + \norm{A}\norm{F}} \norm{e_\Omega} \,.
 \end{gather*}
 Using~\cref{eqn:AB_bound} to \cref{eqn:eRB_bound} one can define \( H \) in terms of known values.
 
-\subsection{Proof of~\Cref{prop:adaptive_control}}\label{proof:adaptive_control}
+\section{Proof of~\Cref{prop:adaptive_control}}\label{proof:adaptive_control}
 Consider the Lyapunov function \( \mathcal{V} \) given by
 \begin{align*}
 	\mathcal{V} = \frac{1}{2} e_\Omega \cdot J e_\Omega + k_R \Psi + c J e_\Omega \cdot e_R + \frac{1}{2 k_\Delta} e_\Delta \cdot e_\Delta , %\label{eqn:v_adapt}
@@ -412,8 +414,8 @@ This implies that $\mathcal{V}$ is positive definite and decrescent, and $\dot{\
 \section{Proof of~\Cref{prop:translational_control}}\label{proof:translational_control}
 The translational dynamics can be defined as
 \begin{align}\label{eq:translation_dynamics_simple}
-    \dot{x} = v , \\
-    m \dot{v} = F_{ext} + u_f ,
+    \dot{x} &= v , \\
+    m \dot{v} &= F_{ext} + u_f ,
 \end{align}
 where \( m \in \R \) is defined as the total mass of the vehicle while \( F_{ext} \) is the total external force.
 
@@ -436,7 +438,7 @@ The time derivative of~\cref{eq:translational_lyapunov} can then be defined as
 \begin{align}\label{eq:translation_lyapunov_derivative}
     \dot{\mathcal{V} } = - \parenth{k_v - c} e_v^T e_v - \frac{k_x c}{m} e_x^T e_x - \frac{k_v c}{m} e_x^T e_v, 
 \end{align}
-where we used~\cref{eq:translational_control,eq:translational_dynamics,eq:translation_error_dynamics}.
+where we used~\cref{eq:translational_control,eq:translation_error_variables,eq:translation_error_dynamics}.
 \Cref{eq:translation_lyapunov_derivative} can also be redefined as
 \begin{align}\label{eq:translational_lyapunov_derivative_matrix}
     \dot{\mathcal{V}} = - z^T W_2 z, 
