@@ -515,15 +515,16 @@ This form is equivalent to an integral control term which penalizes deviations f
 The first term of~\cref{eqn:delta_dot} has the effect of increasing the proportional gain of the control system, since the time derivative of the attitude error vector, \( \dot{e}_{R} \), is linear with respect to the angular velocity error vector \( e_\Omega\).
 
 % TODO Make these better using PGFplots
-\begin{figure}[t]
-    \centering 
-    \subcaptionbox{Attitude error vector \(e_R\) components \label{fig:eR_con}}{\input{figures/2016_IJCAS_pgf/eR_noadapt.pgf}}~
-    \subcaptionbox{Configuration error \( \Psi \) \label{fig:Psi_con}}{\input{figures/2016_IJCAS_pgf/Psi_noadapt.pgf}}
+\begin{figure}[htbp]
+    \centering
+    \subcaptionbox{Attitude error vector \( e_R \) components\label{fig:eRcon}}{\includegraphics[width=\textwidth,height=0.1\textheight]{tikz/eR_noadapt.tikz}}
 
-   \subcaptionbox{Angle to each constraint \label{fig:con_angles_con}}{\input{figures/2016_IJCAS_pgf/ang_con_noadapt.pgf}}~
-    \caption{Attitude stabilization without adaptive update law}
-    \label{fig:con} 
+    \subcaptionbox{Configuration error \( \Psi \)\label{fig:Psi_con}}{\includegraphics[width=\textwidth,height=0.3\textwidth]{tikz/Psi_noadapt.tikz}}
+
+    \subcaptionbox{Angle to each constraint \label{fig:con_angles_con}}{\includegraphics[width=\textwidth,height=0.3\textwidth]{tikz/ang_con_noadapt.tikz}}
+    \caption{Attitud Stabilization without adaptive update\label{fig:con}}
 \end{figure}
+
 Simulation results without the adaptive update law are shown in~\cref{fig:con}.
 \Cref{fig:eR_con} shows each component of the attitude error vector,~\cref{eq:eR}, over the simulation time span.
 \Cref{fig:Psi_con} shows the  magnitude of the combined error function,~\cref{eq:psi}.
