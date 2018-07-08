@@ -231,94 +231,30 @@ However, determining the ``best'' surface is a more challenging problem.
 As the original surface is typically not available, hence the need for measurement and digitization, the quality of the resulting surface must be computed using the measurement points.
 
 \section{Contributions and Outline}
-%-------------------- OBJECTIVES OF THIS WORK-----------------------------%
-% SYSTEMATIC DESIGN TO AVOID DIFFICULTIES IN CHOOSING A GOOD INITIAL GUESS
-% CAPTURE LONG TERM EFFECTS OF LOW THRUST ACCURATELY IN NUMERICAL SIMULATION
-In this paper, we propose a systematic design method which enables low-thrust transfers in the planar circular restricted three-body problem.
+
+\paragraph{Low thrust orbital transfers}
+In this dissertation, we present a complete approach for the operation of a spacecraft around a small body. 
+First, a systematic design method which enables low-thrust transfers is developed.
 Our approach avoids the difficulties in selecting an appropriate initial guess for optimization.
-Instead, we utilize the concept of the reachability set to enable a simple methodology of selecting initial conditions to achieve general orbital transfers. 
-In addition, through the use of geometric integrators we accurately capture the effects of low thrust on the system dynamics in the numerical simulation. 
-This approach avoids the instability and dissipative effects of conventional integration schemes.
-With this proposed method, the previous research on control-free trajectories will be generalized with the addition of low thrust propulsion systems.
-
-% HIGH LEVEL TECHNICAL DESCRIPTION OF APPROACH
-% Generalization of invariant manifold transfers  
-% Use reachability set to determine transfer opportunities with low thrust control input
-
 To achieve these objectives, an optimal control problem is formulated to determine the reachability set on a \Poincare section.
 Given an initial condition and fixed time horizon, the reachable set is the set of states attainable, subject to the operational constraints of the spacecraft. 
-Generation of this reachability set allows for the extension of the previous methods based on invariant manifolds in the three-body problem.
+Generation of this reachability set allows for the extension of the previous methods based on invariant manifolds to be extended with the use of the low thrust control.
 In addition, the generation of the reachable set allows for a more systematic method of determining initial conditions and eases the burden on the designer. 
 The \Poincare section reduces the dimensionality of the system dyanmics to the study of a related discrete update map.  
-This allows for the study of the complex dynamics of the three-body problem on a lower dimensional space.
-Rather than relying on intuition or insight into the problem, states are chosen which minimize the distance towards the target on an appropriate \Poincare section.
-This simple methodology allows for extended transfer trajectories which iteratively approach a target region.
-We utilize the low thrust control input to enlarge the reachability set.
-Maximization of the reachability set, on an appropriately chosen \Poincare section, allows for a greater space of potential transfer trajectories.
-The use of the \Poincare section allows for design on a lower dimensional space and simplifies the design process.
-%Once an intersection is determined on the \Poincare section a transfer is calculated.
 
-In order to address the issues associated with conventional numerical integration, we apply computational geometric optimal control techniques. 
-We generalize the previous work of determining orbital transfers using invariant manifolds~\cite{koon2011}.
-We incorporate the effects of continuous low thrust propulsion to enable departure from the system dynamics and enable increased transfer opportunities.
-The dynamics of the three-body system are derived from the discrete Lagrangian, which approximates the integral of the continuous time Lagrangian over a fixed discrete step.
-Application of the discrete Euler-Lagrange equations, or equivalently the discrete Legendre transform, results in the discrete equations of motion.
-This discrete update map, or variational integrator, shares the same geometric properties of the continuous time system and exhibits much better energy behavior than the traditional integration methods, especially over long transfer durations with small magnitude control inputs.
-A discrete optimal control problem is formulated from the discrete equations of motion.
-This approach, where explicit discretization occurs prior to optimization,  is in contrast to the typical method, where the equations of motion are implicitly discretized during the optimization procedure.
-Formulating the problem in this manner results in more stable and accurate optimal solutions. 
-In indirect methods the optimal control problem is expressed as a two-point boundary value problem.
-Optimal solutions are generally sensitive to small variations in the initial multipliers.
-As a result, the numerical stability of sensitivity derivatives is critical to accuracy and computational performance. 
-The use of geometric integrators, which do not suffer the numerical dissipation of conventional integration methods, results in a more robust and efficient solution.
+\paragraph{Coordinate Free Control}
+Second, the complete rigid body dynamics of a spacecraft around a small body are derived and considered.
+An explicit focus is placed on the preservation of the geometric structure of the rigid body dynamics of the spacecaft.
+A control system is then presented which utilizes this geometrically exact dynamic formulation to control the motion of the spacecraft. 
+Utiliizing the polyhedron potential model provides a closed form solution for the gravitational attraction around an arbitrary body. 
+Furth
 
+\paragraph{Efficient Shape Reconstruction}
 
+\subsection{Dissertation Outline}
 
-%---------------------------- EXPLICIT SUMMARY OF CONTRIBUTIONS--------------------------%
-In short, the authors present a systematic method of generating optimal transfer orbits in the three-body problem.
-Previous results in the design of optimal transfers have relied on suboptimal direct optimization methods and conventional integration techniques.
-This paper provides a discrete optimal control formulation to generate the reachability set on a \Poincare section.
-We derive and solve the Euler-Lagrange equations to generate the necessary conditions for an optimal solution.
-This results in an optimal solution rather than the suboptimal solution typical of direct optimal control methods.
-In addition, the use of a geometric integrators ensures numerical stability for long-duration orbit transfers and maintains this behavior with the addition of small magnitude control inputs.
-Our computation of the reachable set allows for a simple metric of defining optimal trajectories.
-We avoid the issues inherent in selecting a valid initial condition for optimization.
-Rather, we choose a state on the reachability set which minimizes the distance toward the desired target.
-We demonstrate these capabilities via two numerical examples simulating transfer trajectories in the Earth-Moon system.
+TIKZ image of outline
 
-\begin{itemize}
-    \item Motivation the problem and state my hypothesis
-        \begin{itemize}
-            \item Tell a story
-            \item Use concrete examples (or a running example) and lots of figures
-            \item Quote data sources, case studies or real missions
-            \item Introduce all the terminology
-            \item Why this work is important
-            \item What makes it special and good
-        \end{itemize}
-    \item Literature review and past contributions
-        \begin{itemize}
-            \item Talk about previous research.
-            \item Try to highlight areas where topics were lacking, that my work will fill
-        \end{itemize}
-    \item Current contributions
-        \begin{itemize}
-            \item Explicit contributions of the current disseration
-            \item State all \emph{assumptions} and \emph{limitations}
-            \item All the \emph{requirements}/\emph{constraints} of this approach
-            \item Concrete \emph{validation} of the plan, experiments/simulation
-            \item Define the \emph{scope}
-        \end{itemize}
-    \item Dissertation Overview
-        \begin{itemize}
-            \item Introduce each subsequent section
-            \item Talk about how they all fit together
-            \item Sequence of 2-3 distinct top conference papers
-            \item Natural progression from each chapter (conference paper)
-        \end{itemize}
-
-        
-\end{itemize}
 
 
 
