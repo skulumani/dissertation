@@ -7,7 +7,6 @@ The small size of these bodies prevents the formation of large internal pressure
 This insight offers additional detail into the formation of the Earth and also of the probable formation of other extrasolar planetary bodies.
 Of particular interest are those near-Earth asteroids (NEA) which inhabit heliocentric orbits in the vicinity of the Earth. 
 These easily accessible bodies provide attractive targets to support space industrialization, mining operations, and scientific missions.
-In spite of the significant interest, and the extensive research by the community, the operation of spacecraft near small bodies remains a challenging problem.
 
 % impact threat from asteroids
 Furthermore, these asteroids are of keen interest for more practical purposes.
@@ -18,20 +17,38 @@ Asteroids and comets are the greatest threat to future civilizations and as a re
 A wide variety of strategies, including nuclear standoff detonation, mass drivers, kinetic-energy projectiles, and low-thrust deflection via electric propulsion or solar sails, have been proposed to deal with the technically challenging asteroid mitigation problem~\cite{adams2004}.
 In spite of the significant interest in asteroid deflection, and the extensive research by the community, the operation of spacecraft in their vicinity remains a challenging problem.
 
-
 % Overall thesis. Development of autonomous methods to operate around small bodies.
-
-% Benefits and contribution of our approach
-In short, this paper presents a method to incrementally update the shape  model of an asteroid from range measurements. 
-Our approach alleviates the need for a dedicated mapping phase as the spacecraft is able to update its shape model in real time and without expensive computations.
-This type of approach allows for the spacecraft to maneuver and land on the asteroid immediately upon arrival rather than spending several months mapping the surface.
-This updated shape model is then used to in a nonlinear controller to track a desired state trajectory for the dynamics of a rigid body spacecraft.
-The dynamics are developed on the nonlinear manifold of rigid body motions, namely the special euclidean group.
-This formulation is based on an intrinsic geometric description of the motion and accurately captures the coupling between orbit and attitude dynamics. 
-The presented approach allows for a spacecraft to transition directly from arrival to the surface while reconstructing the surface shape in real time.
+This dissertation studies the operation of spacecraft around small-bodies with an explicit focus on the accurate representation of the geometric properties of the dynamic enviornment.
+An optimal control formulation is developed to enable the use of low thrust propulsion systems to generate large magnitude orbital transfers.
+Next, the dynamics of a spacecraft are derived with a special focus on the preservation of the geometric properties of the motion.
+Finally, an efficient computational geometry based approach is developed to reconstruct the small-body shape.
+The goal of this work is to develop tools for the autonomous operations of spacecraft around small-bodies.
 
 \section{Motivation}
 
+
+% Add some missions that have gone/will go to asteroids
+The sustained interest in small solar system bodies has resulted in a number of planetary science missions.
+These missions vary in scope from flybys or rendezvous missions to impactors and sample return missions. 
+The first successful rendezvous and landing with a small body was accomplished by \gls{nasa} NEAR-Shoemaker spacecraft at asteroid Eros in \num{2000}~\cite{miller2002}.
+The first sample return was achieved in \num{2005} by \gls{jaxa} Hayabusa spacecraft at asteroid \num{25143} Itokawa~\cite{yoshimitsu2009}.
+In \num{2011}, \gls{nasa} Dawn spacecraft rendezvoused with asteroid  Vesta and then later with Ceres and became the first spacecraf to orbit two distinct bodies within a single mission~\cite{rayman2006}.
+More recently, in \num{2014} the first comet rendezvous and landing was achieved by \gls{esa} Rosetta spacecraft and lander Philae at comet \(67/P\) Churyumov-Gerasimenko~\cite{bibring2015}.
+Currently, the \gls{nasa} OSIRIS-REx mission is enroute to asteroid Bennu with the goal to rendezvous, collect a surface sample, and return to the Earth~\cite{beshore2015}.
+
+
+% orbit transfers using low thrust propulsion
+
+% coupled dynamics and control that correctly describes the geometric structure
+
+% shape reconstruction
+
+
+Mention the long periods of time for mapping
+
+Talk about how the majority use impulsive propulsion, but Dawn (with electric propulsion) was able to visit multiple bodies
+
+highlight the complex dynamic environment
 
 \section{Literature Review}
 
