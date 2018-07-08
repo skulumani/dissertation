@@ -58,6 +58,8 @@
 % TIKZ
 \usepackage{pgfplots}
 \pgfplotsset{compat=newest}
+\usepgfplotslibrary{groupplots}
+\usepackage{tikzscale}
 \usepackage{pgf}
 \usepackage{tikz}
 \usepackage{environ}
@@ -66,6 +68,11 @@
 \usetikzlibrary{plotmarks, positioning}
 \usetikzlibrary{arrows.meta}
 \usepackage{tikz-3dplot}
+
+% externalize tikz plots for speed
+% \usepgfplotslibrary{external}
+% \tikzexternalize
+% \tikzsetexternalprefix{tikz/external/}
 
 \tikzset{help lines/.style={very thin,color=gray!50}} % modify the help lines style
 
