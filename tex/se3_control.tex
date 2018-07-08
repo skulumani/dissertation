@@ -129,7 +129,7 @@ Then the following properties hold:
 		\dirDiff{A}{R} &= \eta \cdot e_{R} ,
 	\end{align}
 	where the notation \( \dirDiff{A}{R} \) represents the directional derivative of $A$ with respect to $R$ along the direction $\delta R$.
-    \item \label{item:prop_critical_points} The critical points of \( A \), where \( e_R = 0 \) are \( \braces{R_d} \cup \braces{R_d \exp(\pi \hat s) } \) for \( s \in \braces{e_1, e_2, e_3}\)
+\item \label{item:prop_A_critical_points} The critical points of \( A \), where \( e_R = 0 \) are \( \braces{R_d} \cup \braces{R_d \exp(\pi \hat s) } \) for \( s \in \braces{e_1, e_2, e_3}\)
     \item \label{item:prop_A_quadratic} \( \Psi \) is a locally quadratic function, which means there exist constants \( 0 < n_1 \leq n_2 \) such that
     \begin{align}\label{eq:A_bound}
         n_1 \norm{e_R}^2 \leq \Psi(R) \leq n_2 \norm{e_R}^2 ,
@@ -342,7 +342,7 @@ We present the dynamics of the combined configuration error function in~\Cref{pr
 	\end{align}
 \end{prop}
 \begin{proof}
-    See~\Cref{proof:repulsive_configuration_error}.
+    See~\Cref{proof:repulsive_error_dynamics}.
 \end{proof}
 
 We extend the results of the controller presented in~\cref{prop:att_control} with the addition of a fixed but unknown disturbance \( \Delta \).
@@ -432,15 +432,19 @@ The method applies standard nonlinear control techniques for systems on Euclidea
 % TODO Mention how our problem is a little simpler since coupling is 'light' but can be extended
 First we define a smooth tracking command \( x_d(t) \in \R^3 \), which defines the desired position of the spacecraft in the inertial frame.
 The tracking error vectors are easier to define as they evolve on a Euclidean space rather than a nonlinear manifold and are given by
-\begin{align}\label{eq:translation_error_variables}
-    e_x = x - x_d ,\\
-    e_v = v - \dot{x}_d.
+\begin{subequations}\label{eq:translation_error_variables}
+\begin{align}
+    e_x &= x - x_d ,\\
+    e_v &= v - \dot{x}_d.
 \end{align}
+\end{subequations}
 The error dynamics are given by
-\begin{align}\label{eq:translation_error_dynamics}
+\begin{subequations}\label{eq:translation_error_dynamics}
+\begin{align}
     \dot{e}_x &= v - \dot{x}_d, \\
     \dot{e}_v &= \dot{v} - \ddot{x}_d .
 \end{align}
+\end{subequations}
 A translational control input is derived to ensure asymptotic trajectory tracking for the spacecraft.
 \begin{prop}[Translational Control]\label{prop:translational_control}
     Given a desired trajectory \( \vc{x}_d \) and positive constants \( k_x, k_v, c \in \R \) we define a control input \( \vc{u}_f \in \R \) as follows:
