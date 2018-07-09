@@ -4,14 +4,6 @@
 Summarize the paper. 
 Highlight all the contributions.
 
-\section{Future work and Conclusions}
-
-Future work
-\begin{itemize}
-    \item Ideas for things to work on if given another year in Phd
-    \item What are 2-3 other PhD dissertations that someone else could do
-\end{itemize}
-
 Conclusion
 \begin{itemize}
     \item What are the lessons learned?
@@ -20,4 +12,18 @@ Conclusion
     \item Don't copy the introduction
 \end{itemize}
 
-Try to estimate shape and asteroid motion/state (SLAM) type problem
+\section{Future work and Conclusions}
+
+The developments in this dissertation we developed with the assumption the location of the spacecraft and the motion of the small body are both accurately known.
+In reality this is far from the norm and both are unknown and subject of stochastic errors from uncertain measurements and dynamics. 
+Developing mapping and control schemes that probablisiticly estimate both the spacecraft and small body motion would be a worthwhile research topic.
+Furthmore, this approach could leverage some of the recent advances in \gls{slam} and extend their use to the space domain.
+A number of recent publications, such as \textcite{cocaud2010,cocaud2012,vassallo2015}, have investigated the use of \gls{slam} techniques around asteroids.
+One key issue for the space domain is that in typical \gls{slam} approaches, such as that for autonomous driving, the terrain is assumed to be fixed.
+
+Extending these methods to consider uncertainty in both measurement and dyanmics would greatly increase the applicability of the approaches presented in this dissertation.
+Careful consideration should be placed on numerical techniques which respect the geometric properties of the dynamic environments.
+Recent work, such as~\textcite{kulumani2017}, have investigated Bayesian estimation schemes on \( \SO \). 
+Extending their use to the full space of rigid body motions would enable a holistic approach to the solution of the full two body problem.
+
+
