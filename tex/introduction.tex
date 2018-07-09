@@ -233,7 +233,8 @@ As the original surface is typically not available, hence the need for measureme
 \section{Contributions and Outline}
 
 In this dissertation, we present a complete approach for the operation of a spacecraft around a small body. 
-
+Specific emphasis is placed on the development of dynamics and control tools which preserve the geometric properties of the configuration space. 
+In addition, the mathematical tools
 \paragraph{Low thrust orbital transfers}
 First, a systematic design method which enables low-thrust transfers is developed.
 Our approach avoids the difficulties in selecting an appropriate initial guess for optimization.
@@ -258,12 +259,39 @@ Local operations instead of global optimization over the whole shape
 
 The efficiency enables closed loop control and estimation
 
-List publications and awards
+\subsection{Publications}
+The contributions in this dissertation have been published in the following manuscripts.
+
+\begin{itemize}
+    \item \fullcite{kulumani2015}
+    \item \fullcite{kulumani2016}
+    \item \fullcite{kulumani2016c}
+    \item \fullcite{kulumani2016d}
+    \item \fullcite{kulumani2017}
+    \item \fullcite{kulumani2017a}
+    \item \fullcite{kulumani2017b}
+    \item \fullcite{kulumani2018}
+    \item \fullcite{kulumani2018a}
+\end{itemize}
 
 \subsection{Dissertation Outline}
 
-TIKZ image of outline
+The overall outline of the dissertation is summarized in~\cref{fig:dissertation_outline}.
+In~\cref{sec:mathematical_background}, the mathematical background for the dynamics of the motion of a spacecraft around a small body are presented. 
+Additional background information is also provided for the gravitational models and computational tools that are developed throughout the dissertation.
+\Cref{sec:lowthrust_transfers} presents a low thrust orbit transfer scheme based on the concept of reachability sets on a lower dimensional \Poincare section.
+Several examples are presented demonstrating the transfer design process in two related dynamic enviornments, namely the three body problem and around an asteroid.
+\Cref{sec:se3_control} derives several nonlinear geometric controllers for the coupled motion of a rigid body around a small body.
+Controllers are developed on the nonlinear manifold of possible rigid body rotations, namely the special orthogonal group \( \SO \).
+A further extension is presented for the closed loop attitude control in the presence of state inequality constraints.
+Finally,~\cref{sec:shape_reconstruction} presents an approach for the efficient shape reconstruction of an asteroid from range measurements of its surface.
+The developments of~\cref{sec:mathematical_background,sec:se3_control} are combined to demonstrate the autonomous control and shape reconstruction around several asteroids.
 
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{example-image-golden}
+    \caption{Dissertation Outline\label{fig:dissertation_outline}}
+\end{figure}
 
 
 
