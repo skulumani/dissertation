@@ -681,7 +681,7 @@ The experimental results are shown in~\Cref{fig:exp}.
     \centering
     \includegraphics[width=0.7\textwidth,height=0.43\textwidth]{tikz/Psi_exp.tikz}
     \caption{Configuration error \( \Psi \) for hexrotor experiment.
-    The desired attitude corresponding to \( \Psi = 0 \) is denoted in red.\label{fig:Psi_adapt}}
+    The desired attitude corresponding to \( \Psi = 0 \) is denoted in red.\label{fig:Psi_exp}}
 \end{figure}
 \Cref{fig:u_exp} shows the magnitude of each component of the control input in \si{\newton\meter}, which is computed from~\cref{eqn:adaptive_control}.
 Finally,~\cref{fig:con_angle_exp} shows the angle between the body-fixed sensor and the obstacle in degrees.
@@ -693,15 +693,15 @@ Finally,~\cref{fig:con_angle_exp} shows the angle between the body-fixed sensor 
 In order to maneuver the system ``close" to the constrained zone we utilize several intermediary set points on either side of the obstacle.
 From the initial attitude the hexrotor rotates to the first set point, pauses, and then continues around the obstacle to the second set point before continuing toward the desired attitude.
 As a result this creates the stepped behavior of the configuration error history as shown in~\cref{fig:Psi_exp}.
-
-The hexrotor avoids the constrained region illustrated by the circular cone in~\cref{fig:traj_exp}, by rotating around the boundary of the constraint. 
-\Cref{fig:con_angle_exp} shows the angle, \( \arccos r^T R^T v \), between the body mounted sensor and the inertially fixed sensor.
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.7\textwidth,height=0.43\textwidth]{tikz/ang_con_exp.tikz}
     \caption{Angle between the sensor view axis and the constraint for hexrotor experiment.
     The attitude controller is able to satisfy the constraint. \label{fig:con_angle_exp}}
 \end{figure}
+
+The hexrotor avoids the constrained region illustrated by the circular cone in~\cref{fig:traj_exp}, by rotating around the boundary of the constraint. 
+\Cref{fig:con_angle_exp} shows the angle, \( \arccos r^T R^T v \), between the body mounted sensor and the inertially fixed sensor.
 The experiment demonstrates that the minimum angular separation is \SI{14}{\degree} which satisfies the constraint of \( \theta = \SI{12}{\degree} \).
 This further validates that the proposed control system exhibits the desired performance in the experimental setting as well. 
 A video clip is available at \url{https://youtu.be/dsmAbwQram4}.
