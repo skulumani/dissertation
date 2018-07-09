@@ -298,10 +298,14 @@ This coordinate system is commonly used to define locations on the Earth in term
 Similarly, the positions of celestial objects are defined on the celestial sphere in terms of right ascension and declination. 
 \begin{figure}[htbp]%
     \centering 
-    \subcaptionbox{Attractive \( A(R) \) \label{fig:attract_error} }{\includegraphics[trim={8mm 2mm 8mm 2mm}, clip, width=0.3\textwidth]{figures/2016_IJCAS/attract_error.pdf}}
-    \subcaptionbox{Repulsive \( B(R) \) \label{fig:avoid_error} }{\includegraphics[trim={8mm 2mm 8mm 2mm}, clip, width=0.3\textwidth]{figures/2016_IJCAS/avoid_error.pdf}}
-    \subcaptionbox{Combined \( \Psi \) \label{fig:combined_error} }{\includegraphics[trim={8mm 2mm 8mm 2mm}, clip, width=0.3\textwidth]{figures/2016_IJCAS/combined_error.pdf}}%
-    \caption{Visualization of Configuration Error Functions using spherical coordinate representation}
+    \subcaptionbox{Attractive attitude error function \( A(R) \) in spherical coordinate representation.\label{fig:attract_error} }{\includegraphics[trim={8mm 2mm 8mm 2mm}, clip, width=0.5\textwidth]{figures/2016_IJCAS/attract_error.pdf}}~
+    \subcaptionbox{Repulsive attitude error function \( B(R) \) spherical coordinate representation.\label{fig:avoid_error} }{\includegraphics[trim={8mm 2mm 8mm 2mm}, clip, width=0.5\textwidth]{figures/2016_IJCAS/avoid_error.pdf}}
+
+    \subcaptionbox{Combined attitude error function \( \Psi \) composed as the product of \( A(R) \) and \( B(R) \).\label{fig:combined_error} }{\includegraphics[trim={8mm 2mm 8mm 2mm}, clip, width=0.5\textwidth]{figures/2016_IJCAS/combined_error.pdf}}%
+    \caption{Visualization of Configuration Error Functions using spherical coordinate representation. 
+    The horizontal axes are representative of angles on the sphere.
+    The height of the surface denotes the value of the error function.
+    The minimum is located at the desired attitude \( R_d \) while the regions around obstacles have large error values.}
     \label{fig:config_error} 
 \end{figure}%
 We apply this concept and parameterize the rotation matrix \( R \in \SO \) in terms of the spherical angles \( \SI{-180}{\degree} \leq \lambda \leq \SI{180}{\degree}  \) and \( \SI{-90}{\degree} \leq \beta \leq \SI{90}{\degree} \). 
@@ -514,34 +518,65 @@ We assume a fixed disturbance of \(\Delta = \begin{bmatrix} 0.2 & 0.2 & 0.2 \end
 This form is equivalent to an integral control term which penalizes deviations from the desired configuration.
 The first term of~\cref{eqn:delta_dot} has the effect of increasing the proportional gain of the control system, since the time derivative of the attitude error vector, \( \dot{e}_{R} \), is linear with respect to the angular velocity error vector \( e_\Omega\).
 
-% TODO Make these better using PGFplots
 \begin{figure}[htbp]
     \centering
-    \subcaptionbox{Attitude error vector \( e_R \) components\label{fig:eRcon}}{\includegraphics[width=\textwidth,height=0.1\textheight]{tikz/eR_noadapt.tikz}}
-
-    \subcaptionbox{Configuration error \( \Psi \)\label{fig:Psi_con}}{\includegraphics[width=\textwidth,height=0.3\textwidth]{tikz/Psi_noadapt.tikz}}
-
-    \subcaptionbox{Angle to each constraint \label{fig:con_angles_con}}{\includegraphics[width=\textwidth,height=0.3\textwidth]{tikz/ang_con_noadapt.tikz}}
-    \caption{Attitud Stabilization without adaptive update\label{fig:con}}
+    \includegraphics[width=0.7\textwidth,height=0.14\textwidth]{tikz/eR_noadapt.tikz}
+    \caption{Attitude error vector \( e_R \) components for attitude control without adaptive update law.
+    The desired attitude corresponding to \( e_R = 0 \) is denoted in red.\label{fig:eRcon}}
 \end{figure}
-
-Simulation results without the adaptive update law are shown in~\cref{fig:con}.
+Simulation results without the adaptive update law are shown in~\cref{fig:eRcon,fig:Psi_con,fig:con_angles_con}.
 \Cref{fig:eR_con} shows each component of the attitude error vector,~\cref{eq:eR}, over the simulation time span.
 \Cref{fig:Psi_con} shows the  magnitude of the combined error function,~\cref{eq:psi}.
 Without the update law, the system does not achieve zero steady state error. 
 \Cref{fig:Psi_con} shows that the configuration error function does not converge to zero and there exist steady state errors.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.7\textwidth,height=0.43\textwidth]{tikz/Psi_noadapt.tikz}
+    \caption{Configuration error \( \Psi \) for attitude control without adaptive update law.
+    The desired attitude corresponding to \( \Psi = 0 \) is denoted in red.\label{fig:Psi_con}}
+\end{figure}
 In spite of the uncompensated disturbance, the system is able to avoid the constrained regions as shown in~\cref{fig:con_angles_con}.
 The angle to each of the constraints, which is measured in degrees and given by \( \arccos(r^T R^T v_i) \), is always greater than the specified angle, \( \theta_i \), in~\Cref{tab:constraints}.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.7\textwidth,height=0.43\textwidth]{tikz/ang_con_noadapt.tikz}
+    \caption{Angle between the sensor view axis and each constraints for attitude control without adaptive update law.
+    The attitude controller is able to satisfy all constraints. \label{fig:con_angles_con}}
+\end{figure}
 
-\Cref{fig:adapt} shows the results with the addition of the adaptive update law.
+\Cref{fig:Psi_adapt,fig:con_angles,fig:delta_adapt,fig:cad_adapt} shows the results with the addition of the adaptive update law.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.7\textwidth,height=0.43\textwidth]{tikz/Psi_adapt.tikz}
+    \caption{Configuration error \( \Psi \) for attitude control with adaptive update law.
+    The desired attitude corresponding to \( \Psi = 0 \) is denoted in red.\label{fig:Psi_adapt}}
+\end{figure}
 \Cref{fig:Psi_adapt,fig:con_angles} are equivalent to~\cref{fig:Psi_con,fig:con_angles_con} with the exception of the addition of the adaptive update law.
 The addition of the adaptive update law allows the system to converge to the desired attitude in the presence of constraints.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.7\textwidth,height=0.43\textwidth]{tikz/ang_con_noadapt.tikz}
+    \caption{Angle between the sensor view axis and each constraints for attitude control with adaptive update law.
+    The attitude controller is able to satisfy all constraints. \label{fig:con_angles}}
+\end{figure}
 The path of the body fixed sensor in the inertial frame, namely \( R r \), is illustrated in~\cref{fig:cad_adapt} by the blue trajectory.
 The rendering of the spacecraft is presented in the desired, or final, orientation of the simulation.
 The inequality constraints from~\Cref{tab:constraints} are depicted as red cones, where the cone half angle is \( \theta \).
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.7\textwidth,height=0.14\textwidth]{tikz/dist_adapt.tikz}
+    \caption{Distance estimate \( \Delta \) components for attitude control with adaptive update law.
+    The controller is able to accurately estimate the constant disturbance\label{fig:delta_adapt}}
+\end{figure}
 The control system is able to asymptotically converge to the desired attitude.
 \Cref{fig:con_angles} shows that the angle, \( \arccos(r^T R^T v_i) \) and measured in degrees, between the body fixed sensor and each constraint is satisfied for the entire maneuver.
 In addition, the estimate of the disturbance converges to the true value as shown in~\cref{fig:delta_adapt}.
+\begin{figure}[htbp]
+  \centering 
+    \subcaptionbox{ Attitude trajectory \label{fig:cad_adapt} }{\includegraphics[trim={10cm 0 10cm 0},clip,width=0.5\textwidth]{figures/2016_IJCAS/cad_adapt} }
+  \caption{Attitude stabilization with adaptive update law trajectory.}
+  \label{fig:adapt} 
+\end{figure}
 
 Both control system are able to automatically avoid the constrained regions. 
 In addition, these results show that it is straightforward to incorporate an arbitrary amount of large constraints.
@@ -549,15 +584,8 @@ In spite of this challenging configuration space, the proposed control system of
 These closed-loop feedback results are computed in real time and offer a significant advantage over typical open-loop planning methods.
 These results show that the proposed geometric adaptive approach is critical to attitude stabilization in the presence of state constraints and disturbances.
 
-\begin{figure} 
-  \centering 
-  \subcaptionbox{ Configuration error \( \Psi \)\label{fig:Psi_adapt} }{\input{figures/2016_IJCAS_pgf/Psi_adapt.pgf}}~
-  \subcaptionbox{ Angle to each constraint \label{fig:con_angles} }{\input{figures/2016_IJCAS_pgf/ang_con_adapt.pgf}}\\
-  \subcaptionbox{ Disturbance estimate \( \bar \Delta \) components \label{fig:delta_adapt} }{\input{figures/2016_IJCAS_pgf/dist_adapt.pgf}}~
-    \subcaptionbox{ Attitude trajectory \label{fig:cad_adapt} }{\includegraphics[trim={10cm 0 10cm 0},clip,width=0.4\columnwidth]{figures/2016_IJCAS/cad_adapt} }
-  \caption{Attitude stabilization with adaptive update law}
-  \label{fig:adapt} 
-\end{figure}
+
+
 
 \subsection{Time-varying Disturbance}\label{ssec:time_varying}
 % TODO Add citation to dynamics that include attitude disturbance term
