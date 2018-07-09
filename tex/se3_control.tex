@@ -584,9 +584,6 @@ In spite of this challenging configuration space, the proposed control system of
 These closed-loop feedback results are computed in real time and offer a significant advantage over typical open-loop planning methods.
 These results show that the proposed geometric adaptive approach is critical to attitude stabilization in the presence of state constraints and disturbances.
 
-
-
-
 \subsection{Time-varying Disturbance}\label{ssec:time_varying}
 % TODO Add citation to dynamics that include attitude disturbance term
 The form of the uncertainty, given in~\cref{eq:Wdot}, is commonly used in the adaptive control literature~\cite{lee2011a,ioannou2012}. 
@@ -609,16 +606,33 @@ We define a constraint in the inertial frame as \( v = [\frac{1}{\sqrt{2}}, \fra
 The initial state is defined as \(R(0) = \exp( \frac{\pi}{2} \hat{e}_3) \), while the desired state is \(R_d =I \).
 The goal is to rotate the vehicle about the \( e_3 \) axis while avoiding the obstacle and compensating for the time-varying disturbance. 
 
-\Cref{fig:tv} demonstrates the ability for the adaptive controller, which is presented in~\Cref{prop:adaptive_control}, to handle time-varying disturbances.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.7\textwidth,height=0.43\textwidth]{tikz/Psi_timevarying.tikz}
+    \caption{Configuration error \( \Psi \) for attitude control with adaptive update law assuming a time varying external disturbance.
+    The desired attitude corresponding to \( \Psi = 0 \) is denoted in red.\label{fig:Psi_tv}}
+\end{figure}
+\Cref{fig:Psi_tv,fig:con_angle_tv,fig:Delta_tv} demonstrates the ability for the adaptive controller, which is presented in~\Cref{prop:adaptive_control}, to handle time-varying disturbances.
 \Cref{fig:Psi_tv} shows the non-dimensional value of the configuration error function and demonstrates that the adaptive controller is able to stabilize the system to the desired attitude configuration.
 In addition,~\cref{fig:con_angle_tv} shows that the constraint is never violated as the angle between the body-fixed sensor \( r \) and the constraint \( v \) is greater than \SI{12}{\degree} over the entire attitude maneuver.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.7\textwidth,height=0.43\textwidth]{tikz/ang_con_timevarying.tikz}
+    \caption{Angle between the sensor view axis and the constraint for attitude control with adaptive update law with a time varying disturbance. \label{fig:con_angle_tv}}
+\end{figure}
 We can see in~\cref{fig:Delta_tv} that that estimate \(\bar \Delta \) for each of the components accurately tracks the true disturbance after approximately~\SI{5}{\second}.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.7\textwidth,height=0.14\textwidth]{tikz/dist_timevarying.tikz}
+    \caption{Distance estimate \( \Delta \) components for attitude control with adaptive update law and time varying disturbance.
+    The controller is able to accurately estimate the varying disturbance\label{fig:Delta_tv}}
+\end{figure}
 
 \subsection{Experiment on Hexrotor UAV}\label{sec:experiment}
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width = 0.50\columnwidth]{2016_IJCAS/hexrotor}
+    \includegraphics[width = 0.7\columnwidth]{2016_IJCAS/hexrotor}
     \caption{Attitude control testbed~\label{fig:hexrotor}}
 \end{figure}
 \vspace{-3mm}
@@ -629,24 +643,7 @@ As a result, these systems are underactuated and unable to impart a force along 
 For example, quadrotor UAVs are unable to translate laterally without first conducting a rotation.
 Conversely, the propeller pairs of the hexrotor are angled relative to one another to allow for a fully actuated rigid body.
 This allows the hexrotor to impart a force in any direction and a moment about any axis. 
-\begin{figure}[htbp]
-    \centering 
-    \subcaptionbox{ {Configuration error \( \Psi \)} \label{fig:Psi_tv} }{\input{figures/2016_IJCAS_pgf/Psi_timevarying.pgf}}~
-    \subcaptionbox{ {Angle to constraint } \label{fig:con_angle_tv} }{\input{figures/2016_IJCAS_pgf/ang_con_timevarying.pgf}}~
-    \subcaptionbox{ {Disturbance estimate \(\bar\Delta\) components} \label{fig:Delta_tv} }{\input{figures/2016_IJCAS_pgf/dist_timevarying.pgf}}
-    \caption{Time-varying external disturbance simulation}
-    \label{fig:tv} 
-\end{figure}
-\begin{figure}[t]
-    \centering 
-    \subcaptionbox{ {Attitude error vector \(e_R\)} components\label{fig:eR_exp} }{\input{figures/2016_IJCAS_pgf/eR_exp.pgf}}~
-    \subcaptionbox{ {Configuration error \( \Psi \)} \label{fig:Psi_exp} }{\input{figures/2016_IJCAS_pgf/Psi_exp.pgf}}~
-    \subcaptionbox{ {Control input \( u\) } components\label{fig:u_exp} }{\input{figures/2016_IJCAS_pgf/u_exp.pgf}}\\
-    \subcaptionbox{ {Attitude Trajectory } \label{fig:traj_exp} }{\includegraphics[width=0.3\columnwidth]{2016_IJCAS/traj_exp} }~
-    \subcaptionbox{ {Angle to constraint } \label{fig:con_angle_exp} }{\input{figures/2016_IJCAS_pgf/ang_con_exp.pgf}}
-    \caption{Constrained Attitude stabilization experiment}
-    \label{fig:exp} 
-\end{figure}
+
 Attitude information is measured by a combination of both on and off board sensor systems.
 The VectorNav VN-100 is a rugged, miniature high-performance inertial measurement unit which provides high frequency angular velocity measurements.
 A Vicon motion capture system is installed within the test environment and used to provide high accuracy attitude measurements. 
@@ -664,18 +661,47 @@ An initial state is defined as \(R(0) = \exp( \frac{\pi}{2} \hat{e}_3) \), while
 This results in the UAV performing a \ang{90} yaw rotation about the vertical axis of the spherical joint and the constrained region is on the shortest path connecting $R_0$ and $R_d$. 
 The attitude control system is identical to the one presented in~\Cref{prop:adaptive_control} with the exception of a gravity moment term, \( M_g = r_{cg} \times m g R^T e_3\) which represents the gravitational moment due to the distance \( r_{cg} \) between the center of mass and the center of rotation. 
 In addition, the following parameters were also modified: \(k_R = 0.4, k_\Omega = 0.7 ,c = 0.1 , \alpha = 8 \text{ and } k_\Delta = 0.05\) to account for the differences in the hardware model of the hexrotor.
+\begin{figure}[t]
+    \centering 
+    \includegraphics[width=0.5\columnwidth]{2016_IJCAS/traj_exp}
+    \caption{ Attitude Trajectory for hexrotor experiment \label{fig:traj_exp} }
+    \label{fig:exp} 
+\end{figure}
 
 The experimental results are shown in~\Cref{fig:exp}.
-\Cref{fig:eR_exp} shows the behavior of each of the components of the attitude error vector, defined by~\cref{eq:eR}, over the experiment time span.
+\Cref{fig:eR_exp,fig:Psi_adapt,fig:eR_exp,fig:u_exp,fig:con_angle_exp} shows the behavior of each of the components of the attitude error vector, defined by~\cref{eq:eR}, over the experiment time span.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.7\textwidth,height=0.14\textwidth]{tikz/eR_exp.tikz}
+    \caption{Attitude error vector \( e_R \) components for hexrotor experiment.
+    The desired attitude corresponding to \( e_R = 0 \) is denoted in red.\label{fig:eR_exp}}
+\end{figure}
 \Cref{fig:Psi_exp} shows the time history of the attitude error function, defined by~\cref{eq:psi}.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.7\textwidth,height=0.43\textwidth]{tikz/Psi_exp.tikz}
+    \caption{Configuration error \( \Psi \) for hexrotor experiment.
+    The desired attitude corresponding to \( \Psi = 0 \) is denoted in red.\label{fig:Psi_adapt}}
+\end{figure}
 \Cref{fig:u_exp} shows the magnitude of each component of the control input in \si{\newton\meter}, which is computed from~\cref{eqn:adaptive_control}.
 Finally,~\cref{fig:con_angle_exp} shows the angle between the body-fixed sensor and the obstacle in degrees.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.7\textwidth,height=0.14\textwidth]{tikz/eR_exp.tikz}
+    \caption{Control input \( u \) components for hexrotor experiment.\label{fig:u_exp}}
+\end{figure}
 In order to maneuver the system ``close" to the constrained zone we utilize several intermediary set points on either side of the obstacle.
 From the initial attitude the hexrotor rotates to the first set point, pauses, and then continues around the obstacle to the second set point before continuing toward the desired attitude.
 As a result this creates the stepped behavior of the configuration error history as shown in~\cref{fig:Psi_exp}.
 
 The hexrotor avoids the constrained region illustrated by the circular cone in~\cref{fig:traj_exp}, by rotating around the boundary of the constraint. 
 \Cref{fig:con_angle_exp} shows the angle, \( \arccos r^T R^T v \), between the body mounted sensor and the inertially fixed sensor.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.7\textwidth,height=0.43\textwidth]{tikz/ang_con_exp.tikz}
+    \caption{Angle between the sensor view axis and the constraint for hexrotor experiment.
+    The attitude controller is able to satisfy the constraint. \label{fig:con_angle_exp}}
+\end{figure}
 The experiment demonstrates that the minimum angular separation is \SI{14}{\degree} which satisfies the constraint of \( \theta = \SI{12}{\degree} \).
 This further validates that the proposed control system exhibits the desired performance in the experimental setting as well. 
 A video clip is available at \url{https://youtu.be/dsmAbwQram4}.
