@@ -2,7 +2,7 @@
 
 % --------- FRONT MATTER PAGES ---------------------
 % Title of the thesis
-\title{Some kind of awesome title}
+\title{Geometric Mechanics for Small Body Missions}
 
 % Author name
 \author{Shankar Kulumani}
@@ -22,7 +22,7 @@
 % Committee
 \showcommitteepage % hide this page if you're doing a MS thesis
 \committee{ %
-Taeyoung Lee, Associate Professor of Engineering and Applied Science,\\ 
+Taeyoung Lee, Associate Professor,\\ 
 George Washington University\\
 Dissertation Director\\ % remember to add a space between committee members
 
@@ -49,8 +49,8 @@ Commitee Member
 % Department
 \department{Mechanical and Aerospace Engineering}
 
-\phdgrad{May 28, 2018}
-\defensedate{May 28, 2018}
+\phdgrad{August 1, 2018}
+\defensedate{July 25, 2018}
 % Year of completion for copyright page and perhaps other places
 \year=2018
 
@@ -59,13 +59,21 @@ Commitee Member
 
 % Dedication
 \dedication{ %
-\textit{Some cool dedication}
+    For Christine.
 }
 
 % Acknowledgments
 \acknowledgments{
-    More cool acknowledgements of allthe people who have helped
+
+    Thank lab mates and being lucky
+
     This research has been supported in part by NSF under the grants CMMI-1243000, CMMI-1335008, and CNS-1337722.
+
+    Hetherington Fellowships
+
+    SSPI Scholarships
+
+    All the useful open and free tools
 }
 
 % -----------------------------------------------------------------
@@ -87,7 +95,6 @@ Commitee Member
 % ----------------------------------------------------------------------
 
 % commands to show or hide front matter pages
-
 \showcopyright
 \showabstract
 \showcommitteepage
@@ -95,7 +102,7 @@ Commitee Member
 \showacknowledgments
 \hidepreface
 \hideprologue
-\showforeword
+\hideforeword
 % ------------ TABLE OF CONTENTS ----------------------
 % Commands to hide or show lists of figures, tables, etc.
 \showlistoffigures
@@ -112,8 +119,6 @@ Commitee Member
 \showglossarieslistofsymbols
 \showglossariesglossaryofterms
 
-% TODO Look at using Bib2gls and modify latexmk to take care of it. May also need to modify the thesis class
-% TODO Also link abbreviations to a longer explanation in the glossary terms section
 % glossary  terms
 \loadglsentries{tex/glossaries_terms.tex}
 % abbreviations

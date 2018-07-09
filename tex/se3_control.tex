@@ -129,7 +129,7 @@ Then the following properties hold:
 		\dirDiff{A}{R} &= \eta \cdot e_{R} ,
 	\end{align}
 	where the notation \( \dirDiff{A}{R} \) represents the directional derivative of $A$ with respect to $R$ along the direction $\delta R$.
-    \item \label{item:prop_critical_points} The critical points of \( A \), where \( e_R = 0 \) are \( \braces{R_d} \cup \braces{R_d \exp(\pi \hat s) } \) for \( s \in \braces{e_1, e_2, e_3}\)
+\item \label{item:prop_A_critical_points} The critical points of \( A \), where \( e_R = 0 \) are \( \braces{R_d} \cup \braces{R_d \exp(\pi \hat s) } \) for \( s \in \braces{e_1, e_2, e_3}\)
     \item \label{item:prop_A_quadratic} \( \Psi \) is a locally quadratic function, which means there exist constants \( 0 < n_1 \leq n_2 \) such that
     \begin{align}\label{eq:A_bound}
         n_1 \norm{e_R}^2 \leq \Psi(R) \leq n_2 \norm{e_R}^2 ,
@@ -298,10 +298,14 @@ This coordinate system is commonly used to define locations on the Earth in term
 Similarly, the positions of celestial objects are defined on the celestial sphere in terms of right ascension and declination. 
 \begin{figure}[htbp]%
     \centering 
-    \subcaptionbox{Attractive \( A(R) \) \label{fig:attract_error} }{\includegraphics[trim={8mm 2mm 8mm 2mm}, clip, width=0.3\textwidth]{figures/2016_IJCAS/attract_error.pdf}}
-    \subcaptionbox{Repulsive \( B(R) \) \label{fig:avoid_error} }{\includegraphics[trim={8mm 2mm 8mm 2mm}, clip, width=0.3\textwidth]{figures/2016_IJCAS/avoid_error.pdf}}
-    \subcaptionbox{Combined \( \Psi \) \label{fig:combined_error} }{\includegraphics[trim={8mm 2mm 8mm 2mm}, clip, width=0.3\textwidth]{figures/2016_IJCAS/combined_error.pdf}}%
-    \caption{Visualization of Configuration Error Functions using spherical coordinate representation}
+    \subcaptionbox{Attractive attitude error function \( A(R) \) in spherical coordinate representation.\label{fig:attract_error} }{\includegraphics[trim={8mm 2mm 8mm 2mm}, clip, width=0.5\textwidth]{figures/2016_IJCAS/attract_error.pdf}}~
+    \subcaptionbox{Repulsive attitude error function \( B(R) \) spherical coordinate representation.\label{fig:avoid_error} }{\includegraphics[trim={8mm 2mm 8mm 2mm}, clip, width=0.5\textwidth]{figures/2016_IJCAS/avoid_error.pdf}}
+
+    \subcaptionbox{Combined attitude error function \( \Psi \) composed as the product of \( A(R) \) and \( B(R) \).\label{fig:combined_error} }{\includegraphics[trim={8mm 2mm 8mm 2mm}, clip, width=0.5\textwidth]{figures/2016_IJCAS/combined_error.pdf}}%
+    \caption{Visualization of Configuration Error Functions using spherical coordinate representation. 
+    The horizontal axes are representative of angles on the sphere.
+    The height of the surface denotes the value of the error function.
+    The minimum is located at the desired attitude \( R_d \) while the regions around obstacles have large error values.}
     \label{fig:config_error} 
 \end{figure}%
 We apply this concept and parameterize the rotation matrix \( R \in \SO \) in terms of the spherical angles \( \SI{-180}{\degree} \leq \lambda \leq \SI{180}{\degree}  \) and \( \SI{-90}{\degree} \leq \beta \leq \SI{90}{\degree} \). 
@@ -342,7 +346,7 @@ We present the dynamics of the combined configuration error function in~\Cref{pr
 	\end{align}
 \end{prop}
 \begin{proof}
-    See~\Cref{proof:repulsive_configuration_error}.
+    See~\Cref{proof:repulsive_error_dynamics}.
 \end{proof}
 
 We extend the results of the controller presented in~\cref{prop:att_control} with the addition of a fixed but unknown disturbance \( \Delta \).
@@ -432,15 +436,19 @@ The method applies standard nonlinear control techniques for systems on Euclidea
 % TODO Mention how our problem is a little simpler since coupling is 'light' but can be extended
 First we define a smooth tracking command \( x_d(t) \in \R^3 \), which defines the desired position of the spacecraft in the inertial frame.
 The tracking error vectors are easier to define as they evolve on a Euclidean space rather than a nonlinear manifold and are given by
-\begin{align}\label{eq:translation_error_variables}
-    e_x = x - x_d ,\\
-    e_v = v - \dot{x}_d.
+\begin{subequations}\label{eq:translation_error_variables}
+\begin{align}
+    e_x &= x - x_d ,\\
+    e_v &= v - \dot{x}_d.
 \end{align}
+\end{subequations}
 The error dynamics are given by
-\begin{align}\label{eq:translation_error_dynamics}
+\begin{subequations}\label{eq:translation_error_dynamics}
+\begin{align}
     \dot{e}_x &= v - \dot{x}_d, \\
     \dot{e}_v &= \dot{v} - \ddot{x}_d .
 \end{align}
+\end{subequations}
 A translational control input is derived to ensure asymptotic trajectory tracking for the spacecraft.
 \begin{prop}[Translational Control]\label{prop:translational_control}
     Given a desired trajectory \( \vc{x}_d \) and positive constants \( k_x, k_v, c \in \R \) we define a control input \( \vc{u}_f \in \R \) as follows:
@@ -510,49 +518,71 @@ We assume a fixed disturbance of \(\Delta = \begin{bmatrix} 0.2 & 0.2 & 0.2 \end
 This form is equivalent to an integral control term which penalizes deviations from the desired configuration.
 The first term of~\cref{eqn:delta_dot} has the effect of increasing the proportional gain of the control system, since the time derivative of the attitude error vector, \( \dot{e}_{R} \), is linear with respect to the angular velocity error vector \( e_\Omega\).
 
-% TODO Make these better using PGFplots
-\begin{figure}[t]
-    \centering 
-    \subcaptionbox{Attitude error vector \(e_R\) components \label{fig:eR_con}}{\input{figures/2016_IJCAS_pgf/eR_noadapt.pgf}}~
-    \subcaptionbox{Configuration error \( \Psi \) \label{fig:Psi_con}}{\input{figures/2016_IJCAS_pgf/Psi_noadapt.pgf}}
-
-   \subcaptionbox{Angle to each constraint \label{fig:con_angles_con}}{\input{figures/2016_IJCAS_pgf/ang_con_noadapt.pgf}}~
-    \caption{Attitude stabilization without adaptive update law}
-    \label{fig:con} 
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.7\textwidth,height=0.14\textwidth]{tikz/eR_noadapt.tikz}
+    \caption{Attitude error vector \( e_R \) components for attitude control without adaptive update law.
+    The desired attitude corresponding to \( e_R = 0 \) is denoted in red.\label{fig:eRcon}}
 \end{figure}
-Simulation results without the adaptive update law are shown in~\cref{fig:con}.
+Simulation results without the adaptive update law are shown in~\cref{fig:eRcon,fig:Psi_con,fig:con_angles_con}.
 \Cref{fig:eR_con} shows each component of the attitude error vector,~\cref{eq:eR}, over the simulation time span.
 \Cref{fig:Psi_con} shows the  magnitude of the combined error function,~\cref{eq:psi}.
 Without the update law, the system does not achieve zero steady state error. 
 \Cref{fig:Psi_con} shows that the configuration error function does not converge to zero and there exist steady state errors.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.7\textwidth,height=0.43\textwidth]{tikz/Psi_noadapt.tikz}
+    \caption{Configuration error \( \Psi \) for attitude control without adaptive update law.
+    The desired attitude corresponding to \( \Psi = 0 \) is denoted in red.\label{fig:Psi_con}}
+\end{figure}
 In spite of the uncompensated disturbance, the system is able to avoid the constrained regions as shown in~\cref{fig:con_angles_con}.
 The angle to each of the constraints, which is measured in degrees and given by \( \arccos(r^T R^T v_i) \), is always greater than the specified angle, \( \theta_i \), in~\Cref{tab:constraints}.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.7\textwidth,height=0.43\textwidth]{tikz/ang_con_noadapt.tikz}
+    \caption{Angle between the sensor view axis and each constraints for attitude control without adaptive update law.
+    The attitude controller is able to satisfy all constraints. \label{fig:con_angles_con}}
+\end{figure}
 
-\Cref{fig:adapt} shows the results with the addition of the adaptive update law.
+\Cref{fig:Psi_adapt,fig:con_angles,fig:delta_adapt,fig:cad_adapt} shows the results with the addition of the adaptive update law.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.7\textwidth,height=0.43\textwidth]{tikz/Psi_adapt.tikz}
+    \caption{Configuration error \( \Psi \) for attitude control with adaptive update law.
+    The desired attitude corresponding to \( \Psi = 0 \) is denoted in red.\label{fig:Psi_adapt}}
+\end{figure}
 \Cref{fig:Psi_adapt,fig:con_angles} are equivalent to~\cref{fig:Psi_con,fig:con_angles_con} with the exception of the addition of the adaptive update law.
 The addition of the adaptive update law allows the system to converge to the desired attitude in the presence of constraints.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.7\textwidth,height=0.43\textwidth]{tikz/ang_con_noadapt.tikz}
+    \caption{Angle between the sensor view axis and each constraints for attitude control with adaptive update law.
+    The attitude controller is able to satisfy all constraints. \label{fig:con_angles}}
+\end{figure}
 The path of the body fixed sensor in the inertial frame, namely \( R r \), is illustrated in~\cref{fig:cad_adapt} by the blue trajectory.
 The rendering of the spacecraft is presented in the desired, or final, orientation of the simulation.
 The inequality constraints from~\Cref{tab:constraints} are depicted as red cones, where the cone half angle is \( \theta \).
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.7\textwidth,height=0.14\textwidth]{tikz/dist_adapt.tikz}
+    \caption{Distance estimate \( \Delta \) components for attitude control with adaptive update law.
+    The controller is able to accurately estimate the constant disturbance\label{fig:delta_adapt}}
+\end{figure}
 The control system is able to asymptotically converge to the desired attitude.
 \Cref{fig:con_angles} shows that the angle, \( \arccos(r^T R^T v_i) \) and measured in degrees, between the body fixed sensor and each constraint is satisfied for the entire maneuver.
 In addition, the estimate of the disturbance converges to the true value as shown in~\cref{fig:delta_adapt}.
+\begin{figure}[htbp]
+  \centering 
+    \subcaptionbox{ Attitude trajectory \label{fig:cad_adapt} }{\includegraphics[trim={10cm 0 10cm 0},clip,width=0.5\textwidth]{figures/2016_IJCAS/cad_adapt} }
+  \caption{Attitude stabilization with adaptive update law trajectory.}
+  \label{fig:adapt} 
+\end{figure}
 
 Both control system are able to automatically avoid the constrained regions. 
 In addition, these results show that it is straightforward to incorporate an arbitrary amount of large constraints.
 In spite of this challenging configuration space, the proposed control system offers a simple method of avoiding constrained regions.
 These closed-loop feedback results are computed in real time and offer a significant advantage over typical open-loop planning methods.
 These results show that the proposed geometric adaptive approach is critical to attitude stabilization in the presence of state constraints and disturbances.
-
-\begin{figure} 
-  \centering 
-  \subcaptionbox{ Configuration error \( \Psi \)\label{fig:Psi_adapt} }{\input{figures/2016_IJCAS_pgf/Psi_adapt.pgf}}~
-  \subcaptionbox{ Angle to each constraint \label{fig:con_angles} }{\input{figures/2016_IJCAS_pgf/ang_con_adapt.pgf}}\\
-  \subcaptionbox{ Disturbance estimate \( \bar \Delta \) components \label{fig:delta_adapt} }{\input{figures/2016_IJCAS_pgf/dist_adapt.pgf}}~
-    \subcaptionbox{ Attitude trajectory \label{fig:cad_adapt} }{\includegraphics[trim={10cm 0 10cm 0},clip,width=0.4\columnwidth]{figures/2016_IJCAS/cad_adapt} }
-  \caption{Attitude stabilization with adaptive update law}
-  \label{fig:adapt} 
-\end{figure}
 
 \subsection{Time-varying Disturbance}\label{ssec:time_varying}
 % TODO Add citation to dynamics that include attitude disturbance term
@@ -576,16 +606,33 @@ We define a constraint in the inertial frame as \( v = [\frac{1}{\sqrt{2}}, \fra
 The initial state is defined as \(R(0) = \exp( \frac{\pi}{2} \hat{e}_3) \), while the desired state is \(R_d =I \).
 The goal is to rotate the vehicle about the \( e_3 \) axis while avoiding the obstacle and compensating for the time-varying disturbance. 
 
-\Cref{fig:tv} demonstrates the ability for the adaptive controller, which is presented in~\Cref{prop:adaptive_control}, to handle time-varying disturbances.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.7\textwidth,height=0.43\textwidth]{tikz/Psi_timevarying.tikz}
+    \caption{Configuration error \( \Psi \) for attitude control with adaptive update law assuming a time varying external disturbance.
+    The desired attitude corresponding to \( \Psi = 0 \) is denoted in red.\label{fig:Psi_tv}}
+\end{figure}
+\Cref{fig:Psi_tv,fig:con_angle_tv,fig:Delta_tv} demonstrates the ability for the adaptive controller, which is presented in~\Cref{prop:adaptive_control}, to handle time-varying disturbances.
 \Cref{fig:Psi_tv} shows the non-dimensional value of the configuration error function and demonstrates that the adaptive controller is able to stabilize the system to the desired attitude configuration.
 In addition,~\cref{fig:con_angle_tv} shows that the constraint is never violated as the angle between the body-fixed sensor \( r \) and the constraint \( v \) is greater than \SI{12}{\degree} over the entire attitude maneuver.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.7\textwidth,height=0.43\textwidth]{tikz/ang_con_timevarying.tikz}
+    \caption{Angle between the sensor view axis and the constraint for attitude control with adaptive update law with a time varying disturbance. \label{fig:con_angle_tv}}
+\end{figure}
 We can see in~\cref{fig:Delta_tv} that that estimate \(\bar \Delta \) for each of the components accurately tracks the true disturbance after approximately~\SI{5}{\second}.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.7\textwidth,height=0.14\textwidth]{tikz/dist_timevarying.tikz}
+    \caption{Distance estimate \( \Delta \) components for attitude control with adaptive update law and time varying disturbance.
+    The controller is able to accurately estimate the varying disturbance\label{fig:Delta_tv}}
+\end{figure}
 
 \subsection{Experiment on Hexrotor UAV}\label{sec:experiment}
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width = 0.50\columnwidth]{2016_IJCAS/hexrotor}
+    \includegraphics[width = 0.7\columnwidth]{2016_IJCAS/hexrotor}
     \caption{Attitude control testbed~\label{fig:hexrotor}}
 \end{figure}
 \vspace{-3mm}
@@ -596,24 +643,7 @@ As a result, these systems are underactuated and unable to impart a force along 
 For example, quadrotor UAVs are unable to translate laterally without first conducting a rotation.
 Conversely, the propeller pairs of the hexrotor are angled relative to one another to allow for a fully actuated rigid body.
 This allows the hexrotor to impart a force in any direction and a moment about any axis. 
-\begin{figure}[htbp]
-    \centering 
-    \subcaptionbox{ {Configuration error \( \Psi \)} \label{fig:Psi_tv} }{\input{figures/2016_IJCAS_pgf/Psi_timevarying.pgf}}~
-    \subcaptionbox{ {Angle to constraint } \label{fig:con_angle_tv} }{\input{figures/2016_IJCAS_pgf/ang_con_timevarying.pgf}}~
-    \subcaptionbox{ {Disturbance estimate \(\bar\Delta\) components} \label{fig:Delta_tv} }{\input{figures/2016_IJCAS_pgf/dist_timevarying.pgf}}
-    \caption{Time-varying external disturbance simulation}
-    \label{fig:tv} 
-\end{figure}
-\begin{figure}[t]
-    \centering 
-    \subcaptionbox{ {Attitude error vector \(e_R\)} components\label{fig:eR_exp} }{\input{figures/2016_IJCAS_pgf/eR_exp.pgf}}~
-    \subcaptionbox{ {Configuration error \( \Psi \)} \label{fig:Psi_exp} }{\input{figures/2016_IJCAS_pgf/Psi_exp.pgf}}~
-    \subcaptionbox{ {Control input \( u\) } components\label{fig:u_exp} }{\input{figures/2016_IJCAS_pgf/u_exp.pgf}}\\
-    \subcaptionbox{ {Attitude Trajectory } \label{fig:traj_exp} }{\includegraphics[width=0.3\columnwidth]{2016_IJCAS/traj_exp} }~
-    \subcaptionbox{ {Angle to constraint } \label{fig:con_angle_exp} }{\input{figures/2016_IJCAS_pgf/ang_con_exp.pgf}}
-    \caption{Constrained Attitude stabilization experiment}
-    \label{fig:exp} 
-\end{figure}
+
 Attitude information is measured by a combination of both on and off board sensor systems.
 The VectorNav VN-100 is a rugged, miniature high-performance inertial measurement unit which provides high frequency angular velocity measurements.
 A Vicon motion capture system is installed within the test environment and used to provide high accuracy attitude measurements. 
@@ -631,15 +661,44 @@ An initial state is defined as \(R(0) = \exp( \frac{\pi}{2} \hat{e}_3) \), while
 This results in the UAV performing a \ang{90} yaw rotation about the vertical axis of the spherical joint and the constrained region is on the shortest path connecting $R_0$ and $R_d$. 
 The attitude control system is identical to the one presented in~\Cref{prop:adaptive_control} with the exception of a gravity moment term, \( M_g = r_{cg} \times m g R^T e_3\) which represents the gravitational moment due to the distance \( r_{cg} \) between the center of mass and the center of rotation. 
 In addition, the following parameters were also modified: \(k_R = 0.4, k_\Omega = 0.7 ,c = 0.1 , \alpha = 8 \text{ and } k_\Delta = 0.05\) to account for the differences in the hardware model of the hexrotor.
+\begin{figure}[t]
+    \centering 
+    \includegraphics[width=0.5\columnwidth]{2016_IJCAS/traj_exp}
+    \caption{ Attitude Trajectory for hexrotor experiment \label{fig:traj_exp} }
+    \label{fig:exp} 
+\end{figure}
 
 The experimental results are shown in~\Cref{fig:exp}.
-\Cref{fig:eR_exp} shows the behavior of each of the components of the attitude error vector, defined by~\cref{eq:eR}, over the experiment time span.
+\Cref{fig:eR_exp,fig:Psi_adapt,fig:eR_exp,fig:u_exp,fig:con_angle_exp} shows the behavior of each of the components of the attitude error vector, defined by~\cref{eq:eR}, over the experiment time span.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.7\textwidth,height=0.14\textwidth]{tikz/eR_exp.tikz}
+    \caption{Attitude error vector \( e_R \) components for hexrotor experiment.
+    The desired attitude corresponding to \( e_R = 0 \) is denoted in red.\label{fig:eR_exp}}
+\end{figure}
 \Cref{fig:Psi_exp} shows the time history of the attitude error function, defined by~\cref{eq:psi}.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.7\textwidth,height=0.43\textwidth]{tikz/Psi_exp.tikz}
+    \caption{Configuration error \( \Psi \) for hexrotor experiment.
+    The desired attitude corresponding to \( \Psi = 0 \) is denoted in red.\label{fig:Psi_exp}}
+\end{figure}
 \Cref{fig:u_exp} shows the magnitude of each component of the control input in \si{\newton\meter}, which is computed from~\cref{eqn:adaptive_control}.
 Finally,~\cref{fig:con_angle_exp} shows the angle between the body-fixed sensor and the obstacle in degrees.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.7\textwidth,height=0.14\textwidth]{tikz/eR_exp.tikz}
+    \caption{Control input \( u \) components for hexrotor experiment.\label{fig:u_exp}}
+\end{figure}
 In order to maneuver the system ``close" to the constrained zone we utilize several intermediary set points on either side of the obstacle.
 From the initial attitude the hexrotor rotates to the first set point, pauses, and then continues around the obstacle to the second set point before continuing toward the desired attitude.
 As a result this creates the stepped behavior of the configuration error history as shown in~\cref{fig:Psi_exp}.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.7\textwidth,height=0.43\textwidth]{tikz/ang_con_exp.tikz}
+    \caption{Angle between the sensor view axis and the constraint for hexrotor experiment.
+    The attitude controller is able to satisfy the constraint. \label{fig:con_angle_exp}}
+\end{figure}
 
 The hexrotor avoids the constrained region illustrated by the circular cone in~\cref{fig:traj_exp}, by rotating around the boundary of the constraint. 
 \Cref{fig:con_angle_exp} shows the angle, \( \arccos r^T R^T v \), between the body mounted sensor and the inertially fixed sensor.

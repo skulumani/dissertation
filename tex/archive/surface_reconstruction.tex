@@ -1,0 +1,17 @@
+
+Another approach is to use the sculpting of delauney triangulation~\cite{boissonnat1984}.
+Further refinements came with the notion of \( \alpha \) shapes~\cite{edelsbrunner1994}.
+The notion of a signed distance function and the implicit shape representation proposed~\cite{hoppe1992}.
+A modification of this approach extended it to a voxel grid~\cite{curless1996}.
+Ball pivoting allows for a relatively simple method of determining the surface~\cite{bernardini1999}.
+Next, another method seeks to project sample points, with neighbors onto a plane then lift the local two dimensional delauney triangulation to reconstruct the surface~\cite{gopi2000}.
+
+Our overarching goal for the surface reconstruction is to develop an efficient algorithm which allows for online, or near realtime, surface reconstruction from a sparse point cloud.
+Furthermore, this method should allow for an incremental update given a new partial point cloud.
+For example, given an initial coarse point cloud representing the initial guess of the surface, new, high density data, is acquired in a specific location on the surface.
+Instead of processing the entire point cloud, and recomputing the global mesh, an incremental update would allow for modification of only the local neighborhood of the additional data.
+Another useful requirment would be the ability to easily combine two overlapping point clouds into a single surface mesh.
+Finally, the resulting surface should be topologically valid and without holes, i.e. a polyhedron mesh with triangular facets.
+
+
+

@@ -1,0 +1,25 @@
+\begin{tikzpicture}[baseline]
+    \begin{groupplot}[
+        group style={
+            group name={dist_adapt},
+            group size=1 by 3,
+            xlabels at=edge bottom,
+            ylabels at=edge left,
+            xticklabels at=edge bottom,
+            vertical sep=0pt,
+        },
+        xlabel={$t~(\si{\second})$},
+    ]
+    \nextgroupplot[ylabel={$ \Delta_1 $}]
+    \addplot [blue, mark=none] table [x=TIME, y=D_1, col sep=comma] {figures/2016_IJCAS_pgf/csv/adapt.csv};
+    \addplot [red, mark=none, dashed] table [x=TIME, y=D_true_1, col sep=comma] {figures/2016_IJCAS_pgf/csv/adapt.csv};
+
+    \nextgroupplot[ylabel={$ \Delta_2 $}]
+    \addplot [blue, mark=none] table [x=TIME, y=D_2, col sep=comma] {figures/2016_IJCAS_pgf/csv/adapt.csv};
+    \addplot [red, mark=none, dashed] table [x=TIME, y=D_true_2, col sep=comma] {figures/2016_IJCAS_pgf/csv/adapt.csv};
+
+    \nextgroupplot[ylabel={$ \Delta_3 $}]
+    \addplot [blue, mark=none] table [x=TIME, y=D_3, col sep=comma] {figures/2016_IJCAS_pgf/csv/adapt.csv};
+    \addplot [red, mark=none, dashed] table [x=TIME, y=D_true_3, col sep=comma] {figures/2016_IJCAS_pgf/csv/adapt.csv};
+\end{groupplot}
+\end{tikzpicture}
