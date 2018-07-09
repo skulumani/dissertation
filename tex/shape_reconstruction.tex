@@ -451,9 +451,6 @@ This is primarily due to the smaller size of Golevka and the relatively spherica
     \caption[Asteroid Golevka Incremental Reconstruction]{Incremental Reconstruction of asteroid Golevka~\label{fig:golevka_reconstruction}}
 \end{figure}
 
-
-
-
 \subsection{Full Dynamic Model }\label{sec:dynamic_exploration}
 In this section, we simulate a dumbbell spacecraft in motion around asteroid \num{52760} and asteroid Castalia.
 The dynamic simulation utilizes the inertial equations of motion from~\cref{sec:inertial_dumbbell_eoms} and are given as
@@ -535,8 +532,8 @@ Areas of high uncertainty are denoted in yellow while areas of low uncertainty a
 The plots show that the reconstruction  converges to an accurate shape estimate after approximately \SI{8000}{\second}.
 \begin{figure}[htbp]
     \centering
-    \subcaptionbox{Normalized Uncertainty\label{fig:52760_uncertainty}}{\includegraphics[width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/52760/uncertainty.pdf}}~
-    \subcaptionbox{Volume Percent Error\label{fig:52760_volume}}{\includegraphics[width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/52760/volume.pdf}}
+    \subcaptionbox{Normalized Uncertainty\label{fig:52760_uncertainty}}{\includegraphics[width=0.5\textwidth,height=0.31\textwidth]{tikz/52760_uncertainty.tikz}}~
+    \subcaptionbox{Volume Percent Error\label{fig:52760_volume}}{\includegraphics[width=0.5\textwidth,heigth=0.31\textwidth]{tikz/52760_volume.tikz}}
     \caption{Normalized uncertainty and volume percent error for 52760\label{fig:52760_metrics}}
 \end{figure}
 
@@ -580,8 +577,8 @@ The plots show that the reconstruction converges to an accurate shape estimate a
 In addition, the volume estimate is initially a much larger value but quickly converges to the true value.
 \begin{figure}[htbp]
     \centering
-    \subcaptionbox{Normalized Uncertainty\label{fig:castalia_uncertainty}}{\includegraphics[width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/castalia/uncertainty.pdf}}~
-    \subcaptionbox{Volume Percent Error\label{fig:castalia_volume}}{\includegraphics[width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/castalia/volume.pdf}}
+    \subcaptionbox{Normalized Uncertainty\label{fig:castalia_uncertainty}}{\includegraphics[width=0.5\textwidth,height=0.31\textwidth]{tikz/castalia_uncertainty.tikz}}~
+    \subcaptionbox{Volume Percent Error\label{fig:castalia_volume}}{\includegraphics[width=0.5\textwidth,height=0.31\textwidth]{tikz/castalia_volume.tikz}}
     \caption{Normalized uncertainty and volume percent error for Castalia\label{fig:castalia_metrics}}
 \end{figure}
 
