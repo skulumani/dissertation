@@ -131,14 +131,16 @@
 
 \newglossaryentry{view_axis}{
     type=symbols,
-    name={\ensuremath{\vec d}},
-    sort=D,
-    description={Sensor optical axis}
+    text={\ensuremath{\vc{c}_1}},
+    name={\( \vc{c}_1 \in \R^3 \)},
+    sort=C,
+    description={Sensor optical axis defined in the spacecraft fixed frame.}
 }
 
 \newglossaryentry{view_distance}{
     type=symbols,
-    name={\ensuremath{d}},
+    text={\ensuremath{d}},
+    name={\( d \in \R^1 \)},
     sort=D,
     description={Distance from the sensor, along the view axis, to the far plane defining the sensor viewing frustum},
     see={frustum,view_axis}
@@ -146,11 +148,19 @@
 
 \newglossaryentry{up_axis}{
     type=symbols,
-    name={\ensuremath{\vec u}},
-    sort=U,
-    description={Sensor up axis}
+    text={\ensuremath{\vc{c}_3}},
+    name={\( \vc{c}_3 \in \R^3\)},
+    sort=C,
+    description={Sensor up axis defined in the spacecraft fixed frame.}
 }
 
+\newglossaryentry{right_axis}{
+    type=symbols,
+    text={\ensuremath{\vc{c}_2}},
+    name={\(\vc{c}_2 \in \R^3\)},
+    sort=C,
+    description={Sensor right axis, completes the orthonormal basis for the image plane defined with respect to the spacecraft body fixed frame.}
+}
 \newglossaryentry{fov_h}{
     type=symbols,
     name={\ensuremath{\alpha}},
