@@ -234,7 +234,8 @@ As the original surface is typically not available, hence the need for measureme
 
 In this dissertation, we present a complete approach for the operation of a spacecraft around a small body. 
 Specific emphasis is placed on the development of dynamics and control tools which preserve the geometric properties of the configuration space. 
-In addition, the mathematical tools
+In addition, the mathematical tools are combined to enable the autonomous operation and shape reconstruction at an asteroid.
+
 \paragraph{Low thrust orbital transfers}
 First, a systematic design method which enables low-thrust transfers is developed.
 Our approach avoids the difficulties in selecting an appropriate initial guess for optimization.
@@ -244,20 +245,18 @@ Generation of this reachability set allows for the extension of the previous met
 In addition, the generation of the reachable set allows for a more systematic method of determining initial conditions and eases the burden on the designer. 
 The \Poincare section reduces the dimensionality of the system dyanmics to the study of a related discrete update map.  
 
-\paragraph{Coordinate Free Control}
-Second, the complete rigid body dynamics of a spacecraft around a small body are derived and considered.
+\paragraph{Coordinate Free Dynamics and Control}
+Second, the complete rigid body dynamics of a spacecraft around a small body are considered.
 An explicit focus is placed on the preservation of the geometric structure of the rigid body dynamics of the spacecaft.
 A control system is then presented which utilizes this geometrically exact dynamic formulation to control the motion of the spacecraft. 
 Utiliizing the polyhedron potential model provides a closed form solution for the gravitational attraction around an arbitrary body. 
 Furth
 
 \paragraph{Efficient Shape Reconstruction}
-
-Efficient shape reconstruction
-
-Local operations instead of global optimization over the whole shape
-
-The efficiency enables closed loop control and estimation
+Finally, and efficient algorithm is presented for the shape reconstruction of an asteroid from range measurements. 
+This approach alleviates the need for extensive mapping prior to spacecraft arrival. 
+Furthermore, it enables a spacecraft to arrive at a poorly unknown body, autonomously measure and map the surface, and use this shape estimate for accurate control to the surface.
+The shape reconstruction differs in previous approaches as it is focused on local shape operations rather than global which greatly improves the computational efficiency.
 
 \subsection{Publications}
 The contributions in this dissertation have been published in the following manuscripts.
