@@ -32,6 +32,13 @@
 
 %------------- CITATION PACKAGES------------------------------
 \usepackage[style=numeric,backend=bibtex8]{biblatex}
+\ExecuteBibliographyOptions{}
+\AtEveryBibitem{%
+    \clearfield{url}%
+    \clearfield{doi}%
+    \clearfield{issn}%
+    \clearfield{isbn}%
+}
 \usepackage{color}
 \usepackage[]{hyperref} % links to stuff
 \hypersetup{
