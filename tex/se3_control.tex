@@ -37,20 +37,11 @@ However, only the translational dynamics of the body was considered and no notio
 Furthermore, relatively simple gravitational models are used which make the results unsuitable for operations near irregular bodies.
 In this chapter, we derive and develop a nonlinear geometric controller for the coupled dynamics of a spacecraft around an asteroid.
 
-An additional layer of complexity is the design of landing trajectories on asteroids.
-Beginning with the first landing of NEAR Shoemaker on asteroid 433 Eros, there has been a concerted effort to develop techniques and methodologies for asteroid landing~\cite{dunham2002, kubota2006}.
-There is already considerable knowledge on the planetary landing problem~\cite{acikmese2007, meditch1964, ingoldby1978}.
-While conceptually similar, the landing of spacecraft on small bodies requires additional consideration. 
-The surface of an asteroid is highly irregular and, as discussed previously, there is a large coupling between the translational and rotational dynamics of the vehicle, which is further exaggerated when close to the surface.
-References~\cite{guelman1994, furfaro2013, zexu2012} consider the soft landing problem on an asteroid.
-These approaches were primarily based on nonlinear control techniques which allowed for the development of closed loop controllers which enable landing.
-However, only the translational dynamics of the body was considered and no notion of the attitude dynamics or it's coupling to the position is considered.
-Furthermore, relatively simple gravitational models are used which make the results unsuitable for operations near irregular bodies.
-\section{Nonlinear Geometric Control}
+\section{Attitude Control}
 
 A wide variety of control schemes have been proposed for asteroid landing missions~\cite{furfaro2013,li2011a}.
 In addition, there are a  variety of controllers developed for systems evolving on \( \SE \)~\cite{lee2010,lee2013}.
-In this paper, we extend their use from quadrotor aerial vehicles into the space domain. 
+In this chapter, we extend their use from quadrotor aerial vehicles into the space domain. 
 This approach addresses many of the issues associated with the related work on asteroid landings.
 The geometric control methods used to develop these nonlinear controllers allow for the development of control systems for dynamic systems which evolve on nonlinear manifolds. 
 By developing the control system directly on the nonlinear manifold, geometric control techniques provide unique advantages as compared to those developed using local coordinate representations.
@@ -58,14 +49,7 @@ Furthermore, the geometric controller avoids the chattering issues inherent in t
 In addition, rather than offering only a bounded stability guarantee, the proposed nonlinear geometric controller guarantees almost global tracking of the attitude and translational states. 
 This stability guarantee is critical for mission operations passing close to the surface over highly irregular terrain.
 Furthermore, the coupled geometric controller explicitly considers the attitude coupling of the body in contrast to many of the previous approaches.
-We briefly summarize the key developments of the \( \SE \) control scheme and leave the detailed derivations to the source manuscripts~\cite{lee2010,lee2013}.
-% TODO Basics of geometric control
 
-% TODO Derive attitude and translation control seperately
-
-% TODO Specifics for use in the asteroid case
-
-\subsection{Spacecraft Dynamic Model}\label{sec:controlled_dynamic_model}
 We consider the controlled motion of a rigid dumbbell spacecraft about a small body.
 % TODO Add some citations for dumbbell for use in spacecraft
 The dumbbell spacecraft consists of two masses connected by a massless rod and is a well-known representation of a multi body spacecraft.
@@ -81,7 +65,7 @@ This assumption allows us to treat the motion of the vehicle independently from 
 % The spacecraft model is the same as that defined in 
 
 In this section, we develop a coupled control system to track a desired trajectory.
-We assume that the desired trajectory, \( R_d(t), \vb{x}_d(t) \), are defined as the rotation matrix of the spacecraft body frame with respect to the inertial frame and the relative position of the spacecraft center of mass with respect to the asteorid and defined in the inertial frame, respectively.
+We assume that the desired trajectory, \( R_d(t), \vc{x}_d(t) \), are defined as the rotation matrix of the spacecraft body frame with respect to the inertial frame and the relative position of the spacecraft center of mass with respect to the asteorid and defined in the inertial frame, respectively.
 In contrast to controller derived for quadrotor \gls{uav}, the attitude and translational motion is only lightly coupled in the spacecraft scenario.
 From the dynamic equations of motion, the coupling between the translational and rotational dynamics is due to the gravitational moment on the spacecraft.
 Furthermore, we assume that we have a fully actuated spacecraft such that we can apply a torque about all three rotational axes and a force in all three directions.
@@ -94,7 +78,6 @@ In these situations, there are a variety of methods to handle the underactuation
 The control system is presented as two seperate controllers, one for the attitude tracking and one for translational tracking. 
 These controllers are computed independently and used to manuever the spacecraft for both asteroid reconstruction and landing.
 
-\subsection{Attitude Control}
 One distinctive feature of the attitude dynamics of rigid bodies is that it evolves on a nonlinear manifold.
 The three-dimensional special orthogonal group, or \( \SO \), is the set of \( 3 \times 3 \) orthogonal matrices whose determinant is one.
 This configuration space is non-Euclidean and yields unique stability properties which are not observable on a linear space.
@@ -128,7 +111,8 @@ An arbitrary smooth attitude tracking command \( R_d (t) \in \SO \in \R^3 \) are
 The corresponding angular velocity command is obtained using the attitude kinematics equation, \( \hat{\Omega}_d = R_d^T \dot{R}_d \).
 With the desired attitude command, \( R_d(t), \Omega_d(t) \), we then define the errors associated with the attitude and angular velocity.
 The attitude and angular velocity tracking errors must be careful chosen to remain on the tangent bundle of \SO.
-\begin{prop}{Attitude Configuration Error Function}\label{prop:attitude_control_configuration_error}
+\begin{prop}[ Attitude Configuration Error Function ]\label{prop:attitude_control_configuration_error}
+
 First, an attitude error function \(A : \SO \times \SO  \to \R \), an attitude error vector \( e_R : \SO \times \SO \to \R \), and an angular velocity error \( e_\Omega : \SO \times \R^3 \times \SO \times \R^3 \) are defined as
 \begin{subequations}\label{eq:attitude_error_function}
 \begin{align}
@@ -145,7 +129,7 @@ Then the following properties hold:
 		\dirDiff{A}{R} &= \eta \cdot e_{R} ,
 	\end{align}
 	where the notation \( \dirDiff{A}{R} \) represents the directional derivative of $A$ with respect to $R$ along the direction $\delta R$.
-    \item \label{item:prop_critical_points} The critical points of \( A \), where \( e_R = 0 \) are \( \braces{R_d} \cup \braces{R_d \exp(\pi \hat s) } \) for \( s \in \braces{e_1, e_2, e_3}\)
+\item \label{item:prop_A_critical_points} The critical points of \( A \), where \( e_R = 0 \) are \( \braces{R_d} \cup \braces{R_d \exp(\pi \hat s) } \) for \( s \in \braces{e_1, e_2, e_3}\)
     \item \label{item:prop_A_quadratic} \( \Psi \) is a locally quadratic function, which means there exist constants \( 0 < n_1 \leq n_2 \) such that
     \begin{align}\label{eq:A_bound}
         n_1 \norm{e_R}^2 \leq \Psi(R) \leq n_2 \norm{e_R}^2 ,
@@ -181,9 +165,13 @@ With the appropriate attitude configuration error we now present the error dynam
     See~\Cref{proof:attractive_error_dynamics}
 \end{proof}
 
-\subsubsection{Attitude Control without Disturbance}
+\subsection{Attitude Control without Disturbance}
 With the appropriate attitude configuration error we now present an attitude controller for attitude stabailization and tracking. 
-This controller assumes that there is no disturbances on the attitude dynamics, i.e.\ \( \Delta = 0 \).
+This controller assumes that there is no disturbances on the attitude dynamics, i.e.\ \( \Delta = 0 \) for
+\begin{align}\label{eq:Wdot}
+    J\dot{\Omega} + \hat{\Omega} J \Omega = u_m + \Delta.
+\end{align}
+
 \begin{prop}[Attitude Control]\label{prop:att_control}
 	Given a desired attitude command \( \parenth{R_d, \Omega_d = 0} \) and positive constants \( k_R, k_\Omega \in \R \) we define a control input \( u \in \R^3 \) as follows
 	\begin{gather}
@@ -203,7 +191,7 @@ These systems require retargeting while avoiding direct exposure to sunlight or 
 In addition, many ground based attitude testing environments, such as air bearing platforms, must operate in the presence of physical obstructions.
 Determining a satisfactory attitude control maneuver in the presence of state constraints is a challenging task.
 The removal of constrained regions from the rotational configuration space results in a \textit{nonconvex} region.
-The attitude control problem in the feasible configuration space has been extensively studied~\cite{bullo2004,MayTeePaCC11,LEEITAC15}.
+The attitude control problem in the feasible configuration space has been extensively studied~\cite{bullo2004,mayhew2011,lee2015}.
 However, the attitude control problem in the presence of constraints has received much less attention.
 
 % discuss how previous papers (mcinnes and lee/meshabi) have short comings
@@ -264,7 +252,7 @@ The objective is to a determine a control input \( u \) that stabilizes the syst
 
 \paragraph{Constrained Attitude Error Function}
 To handle the attitude inequality constraint, we propose a new attitude configuration error function. 
-More explicitly, we extend the trace form used in~\cite{bullo2004,LeeITCST13} and presented in~\Cref{prop:attitude_control_configuration_error} for attitude control on \(\SO\) with the addition of a logarithmic barrier function. 
+More explicitly, we extend the trace form used in~\cite{bullo2004,lee2013b,kulumani2017a} and presented in~\Cref{prop:attitude_control_configuration_error} for attitude control on \(\SO\) with the addition of a logarithmic barrier function. 
 Based on the proposed configuration error function, a nonlinear geometric attitude controller is constructed. 
 A smooth control system is first developed assuming that there is  no disturbance, and then it is extended to include an adaptive update law for stabilization in the presence of unknown disturbances. 
 The proposed attitude configuration error function and several properties are summarized as follows.
@@ -303,7 +291,7 @@ Then, the following properties hold
     See~\Cref{proof:repulsive_configuration_error}
 \end{proof}
 
-\Cref{eqn:psi} is composed of an attractive term, \( A (R) \) toward the desired attitude, and a repulsive term, \( B(R) \) away from the undesired direction \( R^T v \).
+\Cref{eq:psi} is composed of an attractive term, \( A (R) \) toward the desired attitude, and a repulsive term, \( B(R) \) away from the undesired direction \( R^T v \).
 In order to visualize the attitude error function on \( \SO \), we utilize a spherical coordinate representation.
 Recall, that the spherical coordinate system represents the position of a point relative to an origin in terms of a radial distance, azimuth, and elevation.
 This coordinate system is commonly used to define locations on the Earth in terms of a latitude and longitude.
@@ -334,11 +322,11 @@ As \( \alpha \) is increased the impact of \( B(R) \) is reduced away from the c
 The superposition of the attractive and repulsive functions is shown in~\cref{fig:combined_error}.
 The control system is defined such that the attitude trajectory follows the negative gradient of \( \Psi \) toward the minimum at \( R = R_d \), while avoiding the constrained region.
 
-While~\cref{eqn:B} represents a single inequality constraint given as~\cref{eqn:constraint}, it is readily generalized to multiple constraints of an arbitrary orientation. 
+While~\cref{eq:B} represents a single inequality constraint given as~\cref{eqn:constraint}, it is readily generalized to multiple constraints of an arbitrary orientation. 
 For example, the configuration error function can be formulated as $\Psi=A[1+\sum_i C_i]$, where $C_i$ has the form of $C_i=B-1$ for the $i$-th constraint. 
 In this manner, one may enforce multiple state inequality constraints, and we later demonstrate this through numerical simulation. 
 This is in contrast to many previous approaches which are computationally difficult to extend to situations with multiple constraints.
-We present the dynamics of the combined configuration error function in~\Cref{prop:error_dyn}, which are used in the subsequent development of the nonlinear control system.
+We present the dynamics of the combined configuration error function in~\Cref{prop:repulsive_error_dynamics}, which are used in the subsequent development of the nonlinear control system.
 
 \begin{prop}[Constrained Error Dynamics]\label{prop:repulsive_error_dynamics}
 	The attitude error dynamics for \( \Psi, e_R, e_\Omega \) satisfy 
@@ -346,7 +334,7 @@ We present the dynamics of the combined configuration error function in~\Cref{pr
 		\diff{}{t} \parenth{\Psi} = e_R \cdot e_\Omega , \label{eq:psi_dot}\\
 		\diff{}{t} \parenth{e_R} = \dot{e}_{R_A} B + e_{R_A} \dot{B} + \dot{A}e_{R_B} + A \dot{e}_{R_B} , \label{eq:eR_dot} \\
 		\diff{}{t} \parenth{e_{R_B}} = F(R) e_\Omega , \label{eq:eRB_dot} \\
-		\diff{}{t} \parenth{B(R)} = e_{R_B} \cdot e_\Omega , \label{eq:B_dot} \\
+		\diff{}{t} \parenth{B(R)} = e_{R_B} \cdot e_\Omega , \label{eq:B_dot}
 	\end{gather}
 	where the matrix \(F(R) \in \R^{3\times3} \) is given by
 	\begin{align}
@@ -354,7 +342,7 @@ We present the dynamics of the combined configuration error function in~\Cref{pr
 	\end{align}
 \end{prop}
 \begin{proof}
-    See~\Cref{proof:repulsive_configuration_error}.
+    See~\Cref{proof:repulsive_error_dynamics}.
 \end{proof}
 
 We extend the results of the controller presented in~\cref{prop:att_control} with the addition of a fixed but unknown disturbance \( \Delta \).
@@ -373,7 +361,7 @@ Consider the neighborhood \( D \), given in~\cref{prop:repulsive_configuration_e
         where the constant \( b_2\) is given by \( b_2 = \frac{h_1 h_4}{h_5 \parenth{h_1 - \psi}}\) for
         \begin{align*}
             h_4 &= \min\braces{g_1 + g_2, g_2 + g_3 , g_3 + g_1} ,\\
-            h_5 &= \min\braces{\parenth{g_1 + g_2}^2,\parenth{g_2 + g_3}^2 , \parenth{g_3 + g_1}^2}.\\
+            h_5 &= \min\braces{\parenth{g_1 + g_2}^2,\parenth{g_2 + g_3}^2 , \parenth{g_3 + g_1}^2}.
         \end{align*}
     \item \label{item:prop_eR_dot_bound_EF} Upper bounds of \( E(R,R_d) \) and \( F(R) \) are given by
         \begin{gather}
@@ -432,7 +420,53 @@ In addition, the rigorous mathematical proof guarantees stability.
 This is in contrast to many of the previous methods which offer no stability guarantees.
 The presented analysis offers provable bounds on the expected motion, which are critical for hardware implementation or mission critical applications.
 
-\subsection{Numerical Examples of Constrained Attitude Control}\label{sec:constrained_attitude_control_numerical_example}
+\section{Translation Control}
+In order to fully control the spacecraft, we require an additional translational controller.
+In the case of missions about very small bodies, typical orbital transfer and control schemes become impractical as the gravitational attraction is too weak to enable proper Keplerian orbits~\cite{broschart2005}.
+Furthermore, since the gravitational attraction is very small in magnitude the effect of external disturbances, such as solar radiation pressure or differential forces on the body, become much more significant.
+In particular, various approaches have been developed for closed-loop control near small-bodies.
+For example, researchers have developed hovering type schemes~\cite{broschart2005,sawai2002}, sliding mode based approaches for landing~\cite{furfaro2013,liaw2000,zexu2012}, optimal control~\cite{guelman1994,guo2011,lantoine2006,miso1999}, and most recently geometric control~\cite{kulumani2017b,misra2015a}.
+In this section, we present and derive a closed loop control scheme for the translational position of a spacecraft around an asteroid.
+The method applies standard nonlinear control techniques for systems on Euclidean spaces~\cite{khalil1996}.
+
+% TODO Mention how our problem is a little simpler since coupling is 'light' but can be extended
+First we define a smooth tracking command \( x_d(t) \in \R^3 \), which defines the desired position of the spacecraft in the inertial frame.
+The tracking error vectors are easier to define as they evolve on a Euclidean space rather than a nonlinear manifold and are given by
+\begin{subequations}\label{eq:translation_error_variables}
+\begin{align}
+    e_x &= x - x_d ,\\
+    e_v &= v - \dot{x}_d.
+\end{align}
+\end{subequations}
+The error dynamics are given by
+\begin{subequations}\label{eq:translation_error_dynamics}
+\begin{align}
+    \dot{e}_x &= v - \dot{x}_d, \\
+    \dot{e}_v &= \dot{v} - \ddot{x}_d .
+\end{align}
+\end{subequations}
+A translational control input is derived to ensure asymptotic trajectory tracking for the spacecraft.
+\begin{prop}[Translational Control]\label{prop:translational_control}
+    Given a desired trajectory \( \vc{x}_d \) and positive constants \( k_x, k_v, c \in \R \) we define a control input \( \vc{u}_f \in \R \) as follows:
+    \begin{align}\label{eq:translational_control}
+        \vc{u}_f = -k_x e_x - k_v e_v - F_{ext} + m \ddot{x}_d .
+    \end{align}
+    If \( c \) is chosen such that
+    \begin{align}\label{eq:translational_control_gain_bound}
+        0 < c < \min \braces{\sqrt{k_x m}, \frac{4 k_x k_v m}{ k_v \parenth{4 k_x m - k_v} }   }
+    \end{align}
+    then the zero equilibrium of the error vectors~\cref{eq:translation_error_variables} is stable in the sense of Lyapunov.
+    Furthermore, \( e_x, e_v \to 0 \) as \( t \to \infty\).
+\end{prop}
+\begin{proof}
+    See~\cref{proof:translational_control}
+\end{proof}
+
+The control gains are chosen based on the desired closed-loop system response. 
+A variety of techniques are available to choose these gains, but a simple linear analysis offers a straightforward and systematic approach to choosing suitable values. 
+We use the control inputs defined in~\cref{eq:translational_control,eq:nodist_control} and substitute them into the dynamic equations of motion in~\cref{eq:translational_dynamics,eq:attitude_dynamics}.
+
+\section{Numerical Examples}\label{sec:constrained_attitude_control_numerical_example}
 
 We demonstrate the performance of the constrained attitude control system via numerical simulation.
 The inertia tensor of a rigid body is given as
@@ -480,17 +514,20 @@ We assume a fixed disturbance of \(\Delta = \begin{bmatrix} 0.2 & 0.2 & 0.2 \end
 This form is equivalent to an integral control term which penalizes deviations from the desired configuration.
 The first term of~\cref{eqn:delta_dot} has the effect of increasing the proportional gain of the control system, since the time derivative of the attitude error vector, \( \dot{e}_{R} \), is linear with respect to the angular velocity error vector \( e_\Omega\).
 
-\begin{figure}[t]
-    \centering 
-    \subcaptionbox{Attitude error vector \(e_R\) components \label{fig:eR_con}}{\input{figures/2016_IJCAS_pgf/eR_noadapt.pgf}}~
-    \subcaptionbox{Configuration error \( \Psi \) \label{fig:Psi_con}}{\input{figures/2016_IJCAS_pgf/Psi_noadapt.pgf}}~
-   \subcaptionbox{Angle to each constraint \label{fig:con_angles_con}}{\input{figures/2016_IJCAS_pgf/ang_con_noadapt.pgf}}~
-    \caption{Attitude stabilization without adaptive update law}
-    \label{fig:con} 
+% TODO Make these better using PGFplots
+\begin{figure}[htbp]
+    \centering
+    \subcaptionbox{Attitude error vector \( e_R \) components\label{fig:eRcon}}{\includegraphics[width=\textwidth,height=0.1\textheight]{tikz/eR_noadapt.tikz}}
+
+    \subcaptionbox{Configuration error \( \Psi \)\label{fig:Psi_con}}{\includegraphics[width=\textwidth,height=0.3\textwidth]{tikz/Psi_noadapt.tikz}}
+
+    \subcaptionbox{Angle to each constraint \label{fig:con_angles_con}}{\includegraphics[width=\textwidth,height=0.3\textwidth]{tikz/ang_con_noadapt.tikz}}
+    \caption{Attitud Stabilization without adaptive update\label{fig:con}}
 \end{figure}
+
 Simulation results without the adaptive update law are shown in~\cref{fig:con}.
 \Cref{fig:eR_con} shows each component of the attitude error vector,~\cref{eq:eR}, over the simulation time span.
-\Cref{fig:Psi_con} shows the  magnitude of the combined error function,~\cref{eqn:psi}.
+\Cref{fig:Psi_con} shows the  magnitude of the combined error function,~\cref{eq:psi}.
 Without the update law, the system does not achieve zero steady state error. 
 \Cref{fig:Psi_con} shows that the configuration error function does not converge to zero and there exist steady state errors.
 In spite of the uncompensated disturbance, the system is able to avoid the constrained regions as shown in~\cref{fig:con_angles_con}.
@@ -522,53 +559,6 @@ These results show that the proposed geometric adaptive approach is critical to 
   \label{fig:adapt} 
 \end{figure}
 
-\subsection{Attitude Parameterizations}\label{ssec:attitude_parameterization}
-% TODO Think about moving this section to the introduction
-% Discuss the benefits of using this geometric representation as compared to Euler angles or quaternions
-Attitude parameterizations, such as Euler angles and Quaternions, are frequently used in the aerospace and astrodynamics communities~\cite{vallado2007}.
-For example, Euler angle sequences are frequently used to describe the transformation between a variety of reference frames used to describe the position and orientation of the orbit of Earth satellites~\cite{vallado2007}.
-In addition, quaternions were used during the operation of Skylab and the NASA Space Shuttle~\cite{hughes2004}.
-However, the choice of attitude parameterization plays a critical role in control design and the resulting motion of the system.
-
-% singularities and the problems involved with using Euler angles
-Euler angle sequences are a minimum, three-parameter set of angles which describe the transformation between two reference frames.
-Using Euler angles, we can represent any general rotation as a sequence of three intermediate rotations~\cite{shuster1993}.
-By convention, there are \num{24} possible Euler angle sequences for any given rotation.
-In addition, Euler angles are a minimum representation, as only three angles, and the associated sequence, are required to describe the three angular degrees of freedom of the rigid body.
-However, there is great ambiguity in the representation of the attitude as there are many equivalent Euler angle sequences for a given attitude of the system.
-Therefore, great care must be taken in the control system design to ensure that a consistent sequence is used. 
-Furthermore, it has been shown that no minimal attitude representation can describe orientations both globally and without singularities~\cite{hughes2004,bhat2000}.
-These singularities can cause significant difficulties during control design and hardware implementation.
-
-To demonstrate the effect of the kinematic singularities inherent with Euler angles we will represent the attitude of the body fixed reference frame, \( \vecbf{b}_i \), with respect to the inertial frame, \( \vecbf{e}_i\), in terms of the 3-1-3 Euler angle sequence.
-More explicitly, this corresponds to the rotation sequence \( \theta_1 \vecbf{b}_3 , \theta_2 \vecbf{b}_1, \theta_3 \vecbf{b}_3 \).
-The rotation matrix, \( R(\theta_1, \theta_2, \theta_3) \), corresponding to this sequence is 
-\begin{align}\label{eq:euler313}
-    \begin{bmatrix}
-        -s_1 c_2 s_3 + c_3 c_1 & -s_1 c_2 c_3 - s_3 c_1 & s_1s_2 \\
-        c_1 c_2 s_3 + c_3 s_1 & c_1 c_2 c_3 - s_3 s_1 & - c_1 s_2 \\
-        s_2 s_3 & s_2 c_3 & c_2
-    \end{bmatrix} ,
-\end{align}
-where \( s_i, c_i \) represent \( \sin \theta_i, \cos \theta_i \) for \( i = \braces{1,2,3}\).
-Using this representation, the kinematic differential equations for the associated Euler angles are given as
-\begin{align}\label{eq:euler313_diff}
-    \begin{bmatrix}
-        \dot{\theta}_1 \\ \dot{\theta}_2 \\ \dot{\theta}_3 
-    \end{bmatrix}
-    =
-    \begin{bmatrix}
-        \slfrac{\parenth{\Omega_1 s_3 + \Omega_2 c_3}}{s_2} \\
-        \Omega_1 c_3 - \Omega_2 s_3 \\
-        -\slfrac{\parenth{\Omega_1 s_3 + \omega_2 c_3}c_2}{s_2} + \Omega_3
-    \end{bmatrix} .
-\end{align}
-From~\cref{eq:euler313_diff}, it is immediately clear that a singularity exists when \( \sin \theta_2 = 0 \) or equivalently, \( \theta_2 = 0, \pm \pi \). 
-In the vicinity of the singularity, the angular velocities of the Euler angles will tend to approach \( \pm \infty \) and the angular velocities will experience instantaneous sign changes.
-Furthermore, all Euler angle sequences will exhibit a similar singularity at either \( \theta_2 = 0, \pm \pi \) or \( \theta_2 = \pm \frac{\pi}{2}, \pm \frac{3\pi}{2} \).
-Therefore simply switching the sequence does not alleviate the issue, but rather only moves the singularity.
-As a result, Euler angles are not appropriate for systems which experience large angular rotations, such as those demonstrated in~\cref{fig:adapt}, or control systems which rely on the angular velocities \( \theta_i \).
-% discuss the unwinding phenomenon with quaternions
 \subsection{Time-varying Disturbance}\label{ssec:time_varying}
 % TODO Add citation to dynamics that include attitude disturbance term
 The form of the uncertainty, given in~\cref{eq:Wdot}, is commonly used in the adaptive control literature~\cite{lee2011a,ioannou2012}. 
@@ -576,13 +566,13 @@ A wide variety of realistic disturbances, such as gravitational gradients or mal
 In addition, it is possible to represent the uncertainty of a time-varying inertia matrix as an equivalent external disturbance. 
 For example, Euler's law gives the relationship for the rate of change of angular momentum as
 \begin{align*}
-    M_{ext} = \dot{\vecbf{H}} = \dot{J} \vecbf{\Omega} + J \dot{\vecbf{\Omega}} .
+    M_{ext} = \dot{\vc{H}} = \dot{J} \vc{\Omega} + J \dot{\vc{\Omega}} .
 \end{align*}
 Using this, we can see that an instantaneous change in \( J \) is proportional to an external moment.
 Finally, it has been shown that this adaptive control formulation is able to handle time-varying disturbances under some mild assumptions~\cite{ioannou2012}. 
 
 We demonstrate the ability to handle an uncertain time-varying disturbance via numerical example.
-The system is identical to the one presented in~\Cref{sec:numerical_simulation}, however we modify the external disturbance. 
+The system is identical to the one presented in~\Cref{sec:constrained_attitude_control_numerical_example}, however we modify the external disturbance. 
 The external disturbance is the superposition of constant and time-varying terms as
 \begin{align*}
     \Delta = \begin{bmatrix} 0.2 \\ 0.2 \\0.2 \end{bmatrix} + 0.02 \begin{bmatrix} \sin 9 t \\ \cos 9 t \\ \frac{1}{2} \parenth{\sin 9t + \cos 9t}\end{bmatrix} \si{\newton\meter}.
@@ -596,7 +586,7 @@ The goal is to rotate the vehicle about the \( e_3 \) axis while avoiding the ob
 In addition,~\cref{fig:con_angle_tv} shows that the constraint is never violated as the angle between the body-fixed sensor \( r \) and the constraint \( v \) is greater than \SI{12}{\degree} over the entire attitude maneuver.
 We can see in~\cref{fig:Delta_tv} that that estimate \(\bar \Delta \) for each of the components accurately tracks the true disturbance after approximately~\SI{5}{\second}.
 
-\section{Experiment on Hexrotor UAV}\label{sec:experiment}
+\subsection{Experiment on Hexrotor UAV}\label{sec:experiment}
 
 \begin{figure}[htbp]
     \centering
@@ -662,110 +652,3 @@ The experiment demonstrates that the minimum angular separation is \SI{14}{\degr
 This further validates that the proposed control system exhibits the desired performance in the experimental setting as well. 
 A video clip is available at \url{https://youtu.be/dsmAbwQram4}.
 
-\subsection{Translation Control}
-In order to fully control the spacecraft, we require an additional translational controller.
-In the case of missions about very small bodies, typical orbital transfer and control schemes become impractical as the gravitational attraction is too weak to enable proper Keplerian orbits~\cite{broschart2005}.
-Furthermore, since the gravitational attraction is very small in magnitude the effect of external disturbances, such as solar radiation pressure or differential forces on the body, become much more significant.
-In particular, various approaches have been developed for closed-loop control near small-bodies.
-For example, researchers have developed hovering type schemes~\cite{broschart2005,sawai2002}, sliding mode based approaches for landing~\cite{furfaro2013,liaw2000,zexu2012}, optimal control~\cite{guelman1994,guo2011,lantoine2006,miso1999}, and most recently geometric control~\cite{kulumani2017b,misra2015a}.
-In this section, we present and derive a closed loop control scheme for the translational position of a spacecraft around an asteroid.
-The method applies standard nonlinear control techniques for systems on Euclidean spaces~\cite{khalil1996}.
-
-% TODO Mention how our problem is a little simpler since coupling is 'light' but can be extended
-First we define a smooth tracking command \( x_d(t) \in \R^3 \), which defines the desired position of the spacecraft in the inertial frame.
-The tracking error vectors are easier to define as they evolve on a Euclidean space rather than a nonlinear manifold and are given by
-\begin{align}\label{eq:translation_error_variables}
-    e_x = x - x_d ,\\
-    e_v = v - \dot{x}_d.
-\end{align}
-The error dynamics are given by
-\begin{align}\label{eq:translation_error_dynamics}
-    \dot{e}_x &= v - \dot{x}_d, \\
-    \dot{e}_v &= \dot{v} - \ddot{x}_d .
-\end{align}
-A translational control input is derived to ensure asymptotic trajectory tracking for the spacecraft.
-\begin{prop}[Translational Control]\label{prop:translational_control}
-    Given a desired trajectory \( \vb{x}_d \) and positive constants \( k_x, k_v, c \in \R \) we define a control input \( \vb{u}_f \in \R \) as follows:
-    \begin{align}\label{eq:translational_control}
-        \vb{u}_f = -k_x e_x - k_v e_v - F_{ext} + m \ddot{x}_d .
-    \end{align}
-    If \( c \) is chosen such that
-    \begin{align}\label{eq:translational_control_gain_bound}
-        0 < c < \min \braces{\sqrt{k_x m}, \frac{4 k_x k_v m}{ k_v \parenth{4 k_x m - k_v} }   }
-    \end{align}
-    then the zero equilibrium of the error vectors~\cref{eq:translation_error_variables} is stable in the sense of Lyapunov.
-    Furthermore, \( e_x, e_v \to 0 \) as \( t \to \infty\).
-\end{prop}
-\begin{proof}
-    See~\cref{proof:translational_control}
-\end{proof}
-
-The control gains are chosen based on the desired closed-loop system response. 
-A variety of techniques are available to choose these gains, but a simple linear analysis offers a straightforward and systematic approach to choosing suitable values. 
-We use the control inputs defined in~\cref{eq:translational_control,eq:rotational_control} and substitute them into the dynamic equations of motion in~\cref{eq:translational_dynamics,eq:attitude_dynamics}.
-This results in the dynamics of the error variables and the gains are chosen to ensure the error behavior meets desired performance criteria, such as percent overshoot or settling time~\cite{nise2004}.
-% TODO Give examples of choosing controller gains
-
-\section{Numerical Example}
-
-% TODO Disucss numerical implementation
-Typically, spacecraft missions require extensive interaction from ground based human operators. 
-This interaction ranges from system health checks to navigation and hardware commands.
-In addition, there is frequently a large group of analysts in support of any given mission. 
-A wide variety of factors make human in the loop control of spacecraft especially difficult.
-First, the vast distances cause significant time delays which render it impossible to react immediately to events experienced by the spacecraft. 
-Furthermore, deep space missions are designed for continuous mission operations for many years or even decades. 
-It is becoming increasingly difficult to maintain trained and knowledgeable staff for several decades in order to support a single mission.
-In addition, these operators become increasingly scarce as the contemporary hardware and software tools surpass those of these decades old spacecraft. 
-As a result, there is a large focus on completely autonomous spacecraft systems.
-
-We present a numerical simulation of a rigid dumbbell about asteroid Itokawa.
-The dumbbell spacecraft is composed of two equal masses, \( m_1, m_2 = \SI{500}{\kilo\gram} \), seperated by \( l = \SI{3}{\meter} \).
-The dumbbell body frame is defined with the first body fixed axis, \( \vb{b}_1 \), originating at the center of mass of the spacecraft and directed along the vector from \( m_1 \) towards \( m_2 \).
-The other two axes of the spacecraft fixed frame are chosen orthogonal to the \( \vb{b}_1 \) and lie in the plane orthogonal to the dumbbell axis of symmetry. 
-A camera, using the parameters from~\cref{tab:camera_parameters}, is aligned with the \( \vb{b}_1 \) axis and used to feed image data to the ORB-SLAM system.
-A numerical simulation is used to demonstrate the geometric control of the coupled motion of the spacecraft, and the ability to estimate the motion of the spacecraft from monocular imagery.
-
-The initial condition of the spacecraft is defined as
-\begin{align}
-    \vb{x}_0 &= \begin{bmatrix} 0 & -2.550 & 0 \end{bmatrix} \si{\kilo\meter}, \\
-    R_0 &= \exp {\frac{\pi}{2} \vb{e}_3}.
-\end{align}
-The spacecraft begins on the inertial \( \vb{e}_2 \) axis and initially pointing at the asteroid. 
-A tracking command is designed to transition the spacecraft towards the asteroid fixed \( \vb{f}_1  \) axis followed by a vertical descent along towards the asteroid surface.
-The translational command is divided into two stages, a traverse step where the spacecraft follows a trajectory to align itself with the \( \vb{f}_1 \) axis and a landing step where the spacecraft follows a constant velocity descent towards the surface. 
-The desired position command is defined as
-\begin{align}
-    \vb{x}_d = 
-    \begin{cases}
-        2.550 \begin{bmatrix} \sin{\omega t} & -\cos{\omega t} & 0 \end{bmatrix}, & t \leq t_d \\
-        R_A \begin{bmatrix} \frac{2}{t_d} (t - t_d) + 2.550 & 0 & 0 \end{bmatrix}, & t > t_d , 
-    \end{cases}
-\end{align}
-where \( \omega = \frac{\pi}{2 t_d} \), \( t_d \) is the time from the simulation start when the constant velocity descent should begin, and \( t \) is the simulation time step.
-
-The desired attitude command is chosen such that the spacecraft camera axis, \( \vb{b}_1 \), is directed along the nadir towards the asteroid.
-It is sufficient to define two orthogonal vectors to uniquely determine the attitude of the spacecraft.
-The \( \vb{b}_{3d} \) vector is chosen to lie in the plane spanned by \(\vb{b}_{1d} \) and \( \vb{e}_3 = \vb{f}_3 \).
-The desired attitude command is defined as
-\begin{align}
-    \vb{b}_{1d} &= - \frac{\vb{x}}{\norm{\vb{x}}} , \\
-    \vb{b}_{3d} &= \frac{\vb{f}_3 - \parenth{\vb{f}_3 \cdot \vb{b}_{1d}} \vb{b}_{1d}}{\norm{\vb{f}_3 - \parenth{\vb{f}_3 \cdot \vb{b}_{1d}} \vb{b}_{1d}}}, \\
-    \vb{b}_{2d} &= \vb{b}_{3d} \times \vb{b}_{1d} , \\
-R_d &= \begin{bmatrix} \vb{b}_{1d} & \vb{b}_{2d} & \vb{b}_{3d} \end{bmatrix}.
-\end{align}
-The camera axis is aligned with the spacecraft \( \vb{b}_ 1 \) axis, which is direted towards the asteroid, throughout the landing trajectory as the spacecraft moves in the equatorial plane of the asteroid.
-
-The simulation is carried out over \SI{7200}{\second} with the spacecraft following a circular trajectory for the first \SI{3600}{\sec} before vertically descending in the body fixed frame for the last \SI{3600}{\second}.
-\Cref{fig:true_landing_trajectory} shows a view from the positive \( \vb{f}_3 \) pole of the asteroid of the simulated trajectory. 
-The position of the center of mass of the dumbbell is shown in blue, while the pointing direction of the camera axis is defined in red. 
-The attitude of the dumbbell is displayed at several points along the trajectory demonstraiting the pointing of the camera. 
-Furthermore, asteroid Itokawa is shown in its final orientation at the completion of the landing simulation. 
-\Cref{fig:pos_components} shows that the nonlinear controller is able to accurately track the desired translational trajectory for the duration of the simulation.
-\begin{figure}[htbp]
-    \captionsetup[subfigure]{position=b}
-    \centering
-    \subcaptionbox{Planar view of landing trajectory\label{fig:true_landing_trajectory}}{\includegraphics[width=0.7\textwidth]{figures/2017_AAS_fall/traj_fig.pdf}}
-    \subcaptionbox{Position of spacecraft in the inertial frame\label{fig:pos_components}}{\includegraphics[width=0.7\textwidth]{figures/2017_AAS_fall/pos_fig.pdf}}
-    \caption{Landing trajectory to asteroid Itokawa~\label{fig:position}}
-\end{figure}

@@ -22,7 +22,7 @@ deploy:
   provider: releases
   api_key:
     secure: p8466sKdX0tjpYud55vJP51M7G1VK11y0xr/EMBWWd+oLKwOFXf/RzK/SnaLApgXSX7AF3xkjDJC4sXAiW1456ItmhbWnwXkMOrqvodsqkhM/5sG5eUlPeVSLIWmmZx2i8/zYZTc97GFcXG9yD5pKkqpNffHA78qOGdUuAOjP9/ucSwctqXor2/INHaMfaCrTi32VIfbTKGn77ogilLYDYGt70vrV4lBBG4wnYMp9ZhsgRty69ni0/2Gp6thHylKQ6Eds7/F5GSbZ3zvykMx08MnwIlb2BP5xowYwQid27n3TvBqpoOonjVVFvVdX4EqbulPMHpyCphTFcPKfXXsa4z5TTlxh9HcBWTyQwPqgFgNgQylh/fVgD5yt4mGTo/Bus7iZxgey5kDdzH1DtyC0rIBKpHEw0OKZ/yPbH+fLCSDkxhFG/d0Q2yMOmPQCazq5at4Zn7Xdy+EMixqJrI/V6XO30W2MwtJmS/TkJQfL+z0zYywRneFodunQSSaXAUCRffrGpGa7jYpR8weBqVIUmy3lDHKwopmhFhDQWjBMEZ1cqUXNCBFJxJZQK/6cu8VLhbHjOq7QtqNTX1YGO+ewosL92bt8iiOicNxGIhKv7zzDYR20FDNxwHx2B1Zg8ENr60/kRJlhTYYPDxy7pp2Np/jEl586Rrx8LMwcVGuQGg=
-  file: dissertation.pdf utilities/word_count.pdf
+  file: dissertation.pdf
   skip_cleanup: true
   on:
     repo: skulumani/dissertation

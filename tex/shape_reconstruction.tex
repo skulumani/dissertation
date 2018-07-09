@@ -14,313 +14,18 @@ This chapter develops an efficient method for the reconstruction of an asteroid 
 The approach enables a spacecraft to arrive at an asteroid with a very coarse shape model, autonomously measure the surface to rebuild the shape, and finally determine an appropriate landing location and descend to the surface.
 We utilize many concepts and development from computational geometry for a variety of purposes, from simply representing and operating on data structures to efficient computational algorithms.
 
-Computational geometry is defined as the systematic study of algorithms and data structures for geometric objects~\cite{berg2008}.
-A specific focus is on exact algorithms that are asymptotically fast.
-Computational geometry emerged from the fields of computer science in the late 1969s.
-Since that time, the field has grown considerably and has found applications in a large variety of domains, suchs as computer graphics, \gls{gis}, robotics, \gls{CAD}, computer vision, and others.
+Precise relative navigation and landing near asteroids is critically dependent on an accurate knowledge of the shape of the body.
+The fine topological structure of the surface is not possible without a spacecraft in the vicinity of the asteroid.
+From ground  based measurments, such as radar or optical telescopes, it is only possible to achieve a coarse model of asteroid, such as a triaxial ellipsoid representation~\cite{hudson1994}.
+The size and shape of asteroid presents critical information into the thermal and collisional histories and more critically into their internal structure~\cite{cole1998}.
 
-The general approach to solving computational geometric problem is based on two key components.
-The first is a deep understanding of the geometric properties of the problem and the second is the proper application of efficient algorithms and/or data structures.
-In this chapter, we use several algorithms and approaches from computational geometry to simulate a spacecraft mounted \gls{lidar} sensor around an asteroid.
-The first task is to simulate the measurement from the \gls{lidar} of the surface of the asteroid.
-This will utilize the well known method of \gls{raycasting} to find the intersection of a mesurement ray with the surface.
-Given the surface intersection, these measurements will be incrementally incoprorated into the asteroid shape model while maintaining the required topological constraints.
+Typical missions spend months after arrival at an asteorid mapping and measuring the surface.
+During this mapping phase, which requires upwards of \num{6} months, the spacecraft must maintain a specific trajectory and attitude to ensure best measurements of the surface~\cite{cheng2002,barnouin-jha2008}.
+Both the spacecraft orbit and it's attitude is constrained to best satsify the competing requirements of the range measurements, spacecraft power, and Earth based communications.
+These measurements are then sent back to Earth, and combined with the spacecraft orbit determination to simulateously estimate the asteroid shape, mass, gravity field, spin state, and spacecraft state~\cite{miller2002}.
 
-\section{Mathematical Background}
+\section{Range Measurement Model}
 
-The \gls{polyhedron} potential model is the standard approach for missions around asteroids~\cite{werner1994,werner1996}.
-As a result, an understanding of the properties of \glspl{polyhedron} and the methods to construct them are critical.
-The construction and update of the asteroid shape model must produce a valid three-dimensional model.
-For example, the geometric model must not contain any dangling edges or surfaces~\cite{mortenson1997}.
-A consideration of the topology of the model is crucial, and features such as homogenity and connectivity are important properties to consider.
-A \gls{polyhedron} is an arrangement of \glspl{polygon} such that two and only two \glspl{polygon} meet at an edge~\cite{mortenson1997}.
-Furthermore, it is possible to travese the surface of the \gls{polyhedron} by crossing it's edges to eventually cross each face in a continuous path.
-
-\subsection{Small Body Shape Modeling}\label{sec:shape_model}
-% TODO Describe asteroid shape representation
-
-Asteroids can have a wide variety of shapes, and most are vastly different than that of a sphere or ellipsoid.
-\Cref{fig:irregular_asteroids} shows two examples of small solar system bodies that have highly irregular shapes.
-As a result of these highly variable shapes, an adaptable format is required to represent the wide variety of surface shapes and surface features.
-\begin{figure}[h]
-    \centering
-    \subcaptionbox{Asteroid Itokawa\label{fig:itokawa}}{\includegraphics[height=0.3\textheight,width=0.5\textwidth, keepaspectratio]{figures/mathematical_background/eso1405b.jpg}}~
-    \subcaptionbox{Comet 67/Churyumov-Gerasimenko\label{fig:67p}}{\includegraphics[height=0.3\textheight,width=0.5\textwidth,keepaspectratio]{figures/mathematical_background/comet67pcgin.jpg}}
-    \caption{Examples of the non-ellipsoidal shapes of small solar system bodies. Both asteroids and comets will tend to have vastly irregular shapes due to their low mass and violent histories of impacts and collisions~\label{fig:irregular_asteroids}}
-\end{figure}
-The scientific community describes asteroid shape using the facet-vertex model.
-This approach is an efficient representation of the more general notion of a polyhedron from geometry.
-In this section, we define the notion of the polyhedron and some specifics of the format used in the astrodynamics community.
-
-A polyhedron is a generalization of a two-dimensional polygon to three-dimensions~\cite{orourke1998}.
-It is the region of space with a boundary defined by a surface of a finite number of polygonal faces.
-The surface of the polyhedron is composed of three types of primitive objects: zero-dimensional points called vertices, one-dimensional segments called edges, and two-dimensional polygons called faces or facets.
-Furthemore, without any loss of generality we assume each face is a convex polygon since any nonconvex face can be divided into smaller convex faces.
-A valid polyhedron, in the context of asteroid shape models, must satisfy several constraints.
-These constraints define the relationship between each of the types of primitives which make up the polyhedron surface.
-The primitives must intersect ``properly'' and the local and global topology must be ``proper''.
-For asteroid shape model we further assume that each face is a triangular polygon. 
-Again, this does not limit generality as any polygon can be divided into a series of planar triangles.
-
-The intersection of each face must be one of the following:
-\begin{itemize}
-    \item the faces are disjoint and do not intersect, or
-    \item the faces meet at a single vertex, or
-    \item the faces share two vertices and a common edge.
-\end{itemize}
-These intersection constraints automatically ensures that all edgeds and vertices intersect properly.
-For example, edges that do not extend across an entire face or faces with penetrate would be improper and invalid.
-Some examples of invalid polyhedron are shown in~\cref{fig:improper_polyhedrons}.
-\begin{figure}[h]
-    \centering
-    \subcaptionbox{Point lies on two surfaces\label{fig:two_surfaces}}{\includegraphics[width=.33\textwidth]{figures/computational_geometry/hanging_face.png}}~
-    \subcaptionbox{The neighborhood around this point is not homemorphic to a disk\label{fig:knotted_polyhedron}}{\includegraphics[width=.33\textwidth]{figures/computational_geometry/pinched.png}}~
-    \subcaptionbox{The surface is not closed\label{fig:open_polyhedron}}{\includegraphics[width=.33\textwidth]{figures/computational_geometry/open.png}}
-    \caption{Three example objects which are not polyhedra. For each example, the neighborhood about each point is not homeomorphic to an open disk.~\label{fig:improper_polyhedrons}}
-\end{figure}
-
-The second constraint is related to the local topology around each point on the surface of the polyhedron.
-In order to be locally proper, the neighborhood about any point on the surface of the polyhedron should be homeomorphic to a two-dimensional disk.
-A neighborhood about any point on the surface is defined as an arbitrarily small subset or region of the surface which surrounds the point.
-Every point on the surface should have a neighborhood which is topologically equivalent to a two dimensional disk.
-The notion of equivalency is mathematically captured using the property of homeomorphism.
-A homemorphism between two regions is a continous stretching or bending, without tearing or cutting, from one shape to another.
-For example, it is possible to turn a circle into a square by a continuous stretching and bending of the shape.
-However, it is not possible to transform a sphere into a torus, as this would require a hole to be created in the surface of the sphere.
-The neighborhood about any point on the surface of the polyhedron should be equivalent to that of a two-dimensional disk.
-A surface where this true for all points is called a \textit{two-manifold}, of a which the surface of a polyhedron is a subset.
-
-The final constraint is related to the global structure of the surface in contrast to the local neighborhood of a point.
-The surface must be connected, closed, and bounded.
-In this sense, a connected surface is one where it is possible to travel from one point to any other point of the surface without leaving the surface. 
-As a result, this will rule out any shapes with non-connected faces, such as a cube with a hollow interior/surface.
-For example, on the outer surface of the cube it is not possible to reach a point on the interior surface. 
-Combined with an assumption that there are a finite number of faces automatically ensures a closed and bounded surface. 
-Note that these conditions do not in general rule out the possibility of holes passing completely through the object.
-For example, a torus, or a donute shape, is also considered a polyhedron.
-The key difference between a hole and a cavity is that there are no disconnected surfaces and as a result a polyhedron can have any number of such holes. 
-In practice, we tend to limit our analysis to polyhedron with no holes, or with a genus of zero.
-
-% TODO Euler's constant description
-
-\subsection{Polyhedron Data Structures}\label{sec:polyhedron_data_structures}
-While the shape of the asteroid will be represented mathematically as a polyhedron, we are still left with the issue of representing this shape in digital form. 
-The eventual computational efficiency and memory consumption of the subesequent sections is heavily dependent on the underlying data structure used to represent the surface.
-In this section, we review some of the basic requirements and features of any data structure.
-In addition, we summarize the ones most popular in the astrodynamics community and the halfedge data structure which we use in this work.
-
-The requirements for any surface/mesh data structure vary between applications and are designed to satisfy both topological and algorithmic requirements.
-Some examples of topological considerations are the use of triangular/polygonal facets or the ability to represent manifold/non-manifold meshes.
-Examples of algorithmic requirements include a consideration of the types of algorithms/processes that will make use of the data, such as visualization or operations that will modify or additional data to the various faces, edges, and vertices of the mesh.
-The choice, and eventual design, of an appropriate data structure is evaluated on its ability to efficiently enable specific operations, such as distance or modification operations.
-A wide variety of data structures have been developed to represent general polyhedron surfaces and can be classified as either \textit{face-based} or \textit{edge-based}.
-
-The simplest method to represent a surface mesh is composed to storing the individual vertices which define each face of the surface.
-In the specific case of a triangular mesh, this entails storing the three vertex coordinates of each face of the mesh, also called the \textit{face-set}~\cite{botsch2010}.
-By assuming that the vertex coordinates are stored as double precision, or \SI{64}{\bit} values, results in \( 3 \cdot 3 \cdot 64 = \SI{576}{\bit} = \SI{72}{\byte}\) per triangular face.
-% TODO Add reference to euler's formula
-Equivalently, from Euler's formula, there is approximately twice as many faces as vertices, and this \textit{face-set} structure will require on average \SI{144}{\byte} per vertex.
-A simple optimization is possible by reducing the redundancy in the representation.
-Each vertex will duplicated as many times as the degree of the vertex.
-This redundancy can be eliminated by storing a list of vertices, and to define the vertices of each face as an index/reference into this vertex list.
-This results in the so called \textit{indexed face set} or \textit{shared-vertex} data structure.
-In the case of triangular meshes and using double precision values, each vertex will require \(\SI{192}{\bit} = \SI{24}{\byte}\).
-Vertex indices of each face can be stored using single precision, \( \SI{32}{\bit} = \SI{4}{\byte}\), values which resuts in a storage requirement of \( \SI{96}{\bit} = \SI{12}{\byte}\) per triangle.
-This type of representation will therefore require on average approximately \( \SI{60}{\byte} \) per vertex, which is half the requirement of the \textit{face-set} data structure.
-\begin{figure}
-    \centering
-    \includegraphics[width=\textwidth]{example-image-golden}
-    \caption{Face based data structure look in PMP Fig2.3 or 2.4~\label{fig:face_based_data_structure}}
-\end{figure}
-Examples of this type of data structure include the \gls{stl}, \gls{obj}, and \gls{off} file formats.
-
-While conceptually simple the face based data structure has several critical drawbacks.
-It is difficult to determine the connectivity of individual vertices or faces of the mesh, which makes it ill-suited for most algorithms.
-The vast of majority of computational geometry algorithms will require as a minimum~\cite{botsch2010}:
-\begin{itemize}
-    \item Access to individual vertices, edges and faces, as well as random access to any element.
-    \item Enumeration of the edges of a single face.
-    \item Access to the adjacent faces of an edge which enables access to the neighboring faces.
-    \item Given an edge one must determine the two vertices which define the endpoints.
-    \item Given a vertex one must determine all neighboring faces.
-\end{itemize}
-As a result, any application making use a face based data structure will need to store additional connectivity information in a seperate data structure.
-
-In contrast to face-based structures, edge-based data structures store the connectivity information in the edges or halfedges~\cite{botsch2010,orourke1998,berg2008}.
-By splitting each unorientated edge into two orientated halfedges, the halfedge data structure, or also known as the doubly-connected edge list, provides an efficient data structure for mesh based operations.
-Each halfedge is ordered in a clockwise fashion around each face, typically such that the face normal is orientated outwards from the mesh.
-In addition, each halfedge will also store a reference to:
-\begin{itemize}
-    \item The vertex it points to, or its target,
-    \item its adjacent face,
-    \item the next halfedge of the face in a counterclock wise direction,
-    \item the previous halfedge of the face
-    \item the opposite or incident halfedge.
-\end{itemize}
-In addition, each face stores the reference to one of its halfedges, while each vertex stores an outgoing halfedge. 
-The halfedge data structure will require more memory in contrast to face based approaches it offers several advantages which make it ideal for computational geometry operations.
-
-\subsubsection{Halfedge Data Structure}\label{sec:halfedge_data_structure}
-A halfedge data structure allows us to iterate through all elements, vertices, edge, halfedge, or face, in a simple manner.
-In addition, the halfge edge data structure can store arbitrary polygon meshes.
-Furthermore, additional data can be attached to the elements as each is store explicitly.
-Finally, the halfedge data structure allows for simple manipulation and modification of the underlying mesh, enabling operations such as mesh subdivision or simplification.
-There are a number of publicly avaiable implementations of the halfedge data structure~\cite{cgalproject2018,botsch2002}.
-We utilize the \texttt{Surface\_mesh} data structure implemented within the Computational Geometry Algorithms Library~\cite{sieger2011}.
-This provides a well defined and highly optimzed data structure for the representation of the polyhedron shape of the asteroid.
-Furthermore, the ability to incorporate additional properties enables us to efficently compute the polyheron potential model.
-\begin{figure}
-    \centering
-    \includegraphics[width=\textwidth]{example-image-golden}
-    \caption{Halfedge data structure look in PMP Fig3.4~\label{fig:halfedge_data_structure}}
-\end{figure}
-
-\begin{figure}
-    \centering
-    \includegraphics[width=\textwidth]{example-image-golden}
-    \caption{Iterating over 1 ring of a vertex}
-\end{figure}
-% TODO Describe the halfedge data structure and Surface_mesh in more detail
-
-\subsubsection{Wavefront OBJ files}
-The OBJ format is a geometry definition file format used for a variety of computer modeling applications, and is regularly used by the asteroid community~\cite{neese2004}.
-The basic format of the file is an ASCII file where the first \( N_v\) lines begin with \texttt{v} and define the three components of a vertex in the body fixed reference frame.
-The following \( N_f\) lines begin with \texttt{f} and define the three indices of the vertices that make up the face.
-The numbering of the vertices is implicitly defined by the order listed in the file, i.e. the vertices are defined from \( 1 \) to \( N_v\).
-There are two main assumptions used by the asteroid community.
-First, each face is triangular and second, the vertices are numbered in a counterclockwise fashion about each face.
-This allows the outward facing normal to each face to be uniquely defined without any additional data.
-
-This polyhedron model, captured using the OBJ format, allows for a much larger class of potential object shapes. 
-The accuracy of the shape model can be arbitrarily improved by incorporating additional vertices and faces, which increase the resolution of the model in regions of high complexity.
-The polyhedron model can capture arbitrary depressions, ridges, or holes through the asteroid.
-Small bodies typically lack sufficient mass to create regular, spherical shapes, and exhibit a large variety in resulting shapes such as the examples shown in~\cref{fig:asteroid_shape}.
-\begin{figure}
-    \centering
-    \subcaptionbox{4769 Castalia\label{fig:castalia}}{\includegraphics[width=0.33\textwidth]{figures/mathematical_background/castalia_isometric.jpg}}~
-    \subcaptionbox{Geographus\label{fig:geographus}}{\includegraphics[width=0.33\textwidth]{figures/mathematical_background/geographus_isometric.jpg}}~
-    \subcaptionbox{Golevka\label{fig:golevka}}{\includegraphics[width=0.33\textwidth]{figures/mathematical_background/golevka_isometric.jpg}}
-    \caption{Polyhedron Shape Models for several asteroids~\label{fig:asteroid_shape}}
-\end{figure}
-Polyhedron shape models are available for several asteroids~\cite{neese2004,gaskell2008b}.
-The quality and resolution is dependent on the measurement available of the body.
-\Cref{fig:itokawa_radar} shows a polyhedron model of asteroid 25143 Itokawa based on ground radar measurements~\cite{neese2004}.
-This model is composed of \num{6098} vertices and \num{12192} faces and captures the general ellipsoidal shape of the asteroid.
-However, ground based measurements are unable to provide the resolution required to capture the fine details or even the asymmetry of asteroid Itokawa.
-In contrast,~\cref{fig:itokawa_insitu} shows the model derived from in-situ measurements from optical sensor of the Hyabusa spacecraft~\cite{gaskell2008a}.
-It is composed of \num{1579014} vertices and \num{3145728} faces and is able to capture small surface features such as boulders.
-\begin{figure}
-    \centering
-    \subcaptionbox{25143 Itokawa Radar Model\label{fig:itokawa_radar}}{\includegraphics[width=0.5\textwidth]{figures/mathematical_background/itokawa_radar_isometric.jpg}}~
-    \subcaptionbox{25143 Itokawa In-Situ Model\label{fig:itokawa_insitu}}{\includegraphics[width=0.5\textwidth]{figures/mathematical_background/itokawa_isometric.jpg}}
-    \caption[Comparison of Radar and In-situ Itokawa models]{Comparision of polyhedron models of 25143 Itokawa based on ground based radar or in-situ measurements.
-        The ground based model can capture the rough ellipsoidal shape but does not capture fine surface details.}
-\end{figure}
-From this simple example, it is clear that prior to the arrival of a spacecraft the shape and surface knowledge of an asteroid is limited.
-\subsection{Polyhedra}
-
-A polyhedron is a generalization of a two-dimensional polygon to three-dimensions.
-It is the region of space with a boundary defined by a surface of a finite number of polygonal faces.
-The surface of the polyhedron is composed of three types of primitive objects: zero-dimensional points called vertices, one-dimensional segments called edges, and two-dimensional polygons called faces or facets.
-Furthemore, without any loss of generality we assume each face is a convex polygon since any nonconvex face can be divided into smaller convex faces.
-A valid polyhedron in the context of asteroid shape models must satisfy several constraints.
-These constraints define the relationship between each of the types of primitives which make up the polyhedron surface.
-The primitives must intersect ``properly'', the local and global topology must be ``proper''.
-For asteroid shape model we further assume that each face is a triangular polygon. 
-Again, this does not limit generality as any polygon can be divided into a series of planar triangles.
-
-The intersection of each face must be one of the following:
-\begin{itemize}
-    \item the faces are disjoint and do not intersect, or
-    \item the faces meet at a single vertex, or
-    \item the faces share two vertices and a common edge.
-\end{itemize}
-This constraint automatically ensures that all edgeds and vertices intersect properly.
-Improper intersection would penetrating faces and faces that intersect improperly. 
-Such as an edge not extending across an entire face.
-
-The second constraint is related to the local topology around each point of the polyhedron.
-In order to be locally proper, the neighborhood about any point on the surface of the polyhedron should be homeomorphic to a two-dimensional disk.
-A neighborhood about any point on the surface is defined as an arbitrarily small subset or region of the surface which surrounds the point.
-Every point on the surface should have a neighborhood which is topologically equivalent to a two dimensional disk.
-The notion of equivalency is mathematically captured using the property of \gls{homeomorphism}.
-A homemorphism between two regions is a continous stretching or bending, without tearing or cutting, from one shape to another.
-For example, it is possible to turn a circle into a square by a continuous stretching and bending of the shape.
-However, it is not possible to transform a sphere into a torus, as this would require a hole to be created in the surface of the sphere.
-This constraint will exlude objects that are not proper polyhedrons, for example those shown in~\cref{fig:improper_polyhedrons}.
-
-In a neighborhood about any point on the surface of the polyhedron should be equivalent to that of a two-dimensional disk.
-A surface where this true for all points is called a \textit{two-manifold}, of a which the surface of a polyhedron is a subset.
-
-The final constraint is related to the global structure of the surface in contrast to the local neighborhood of a point.
-The surface must be connected, closed, and bounded.
-In this sense, a connected surface is one where it is possible to travel from one point to any other point of the surface without leaving the surface. 
-As a result, this will rule out any shapes with non-connected faces, such as a cube with a hollow interior/surface.
-For example, on the outer surface of the cube it is not possible to reach a point on the interior surface. 
-Combined with an assumption that there are a finite number of faces automatically ensures a closed and bounded surface. 
-Note that these conditions do not in general rule out the possibility of holes passing completely through the object.
-For example, a torus, or a donute shape, is also considered a polyhedron.
-The key difference between a hole and a cavity is that there are no disconnected surfaces and as a result a polyhedron can have any number of such holes. 
-In practice, we tend to limit our analysis to polyhedron with no holes, or with a genus of zero.
-
-\begin{itemize}
-    \item Talk about 1-manifold and homeomorphism to a disk
-    \item Define neighborhood of each point (open adn closed balls)
-\end{itemize}
-
-Global topology
-\begin{itemize}
-    \item Connected closed and bounded
-    \item talk about closed holes (torus) and the genus of a polyhedron
-    \item Give precise definitions about connected and topological spaces.
-    \item Look in ~\cite{morris1988,hatcher2002}
-\end{itemize}
-
-Platonic solids
-\begin{itemize}
-    \item Talk about platonic solids and Euler's equation
-\end{itemize}
-
-\section{Measurement Model}
-
-In the computer graphics field a major problem is the determination of which objects are visible to the user.
-In a method similar to the photographic process in reverse, for each pixel of the image a ray is cast towards the scene and the intersections of this ray with any objects is recorded.
-The first object which intersects the ray is defined as visible while those beyond would be occluded.
-Given this intersection point, the surface normal is computed and surface shading can be determined to render the scene.
-
-Our problem is of a similar nature to that of the computer graphics domain.
-Given the model of an asteroid, its shape model, we wish to first simulate measurements of the surface. 
-In order to simulate these methods, we must also implement a ray casting algorithm that will find the intersection of a measurement from the spacecraft to the surface. 
-
-We assume that the spacecraft is located at \gls{rho} in the asteroid fixed frame.
-The camera/sensor is aligned with \gls{view_axis} in the spacecraft fixed frame.
-An additional vector, defined as the up axis \gls{up_axis}, finally the standard basis is completed with \( \gls{view_axis} \times \gls{up_axis} \) which defines a reference frame attached to the image plane of the sensor.
-Furthermore, we model the the laser ranging sensor as having a fixed field of view defined by the angles \( \gls{fov_h}, \gls{fov_v}\), defining the vertical and horizontal fields of view.
-In order to simulate depth measurements we need to compute the vectors associated with image sensor in the asteroid frame. 
-Given the view axis, and a chosen distance \gls{view_distance}, we can define a viewing \gls{frustum} associated with the sensor. 
-We can compute the vectors associated with the maximum extents of the far plane as follows.
-The half height and width of the far plane, at a distance \( d \), is computed as
-\begin{align}
-    H = d \tan \frac{\alpha}{2} , \\
-    W = d \tan \frac{\beta}{2} .
-\end{align}
-From these values, the extents of the far plane are defined by the vectors
-\begin{align}
-    A = \hat d + H \hat u - W \hat r , \\
-    B = \hat d + H \hat u + W \hat r, \\
-    C = \hat d - H \hat  u + W \hat r, \\
-    D = \hat d - H \hat u - W \hat r.
-\end{align}
-
-% TODO: Explain more about ray casting
-\begin{itemize}
-    \item Give some background on raycasting and where it is used
-    \item Discuss the method used in VTK (Binary space partitioning or Oriented bounding boxes)
-\end{itemize}
-
-\subsection{Laser Range Finder on Spacecraft}
-
-% TODO: Talk about laser range finders on spacecraft
 Absolute distance measuring devices are a crucial sensor in spacecraft rendezvous or landing applications.
 In addition, they are a critical component for spacecraft operating near asteroids.
 Activate ranging devices allow for precise measurments of the surface shape and enable accurate and safe surface landing~\cite{berry2013}.
@@ -331,7 +36,6 @@ The benefit of optical signal is that they can be highly focused to enable high 
 Optical distance measurment, such as laser range finders, can be further divided into three categories based on the method of operation: interferometry, \gls{tof}, or triangulation.
 In this section, we'll briefly summarize the principles of operation of optical distance measurement devices, and highlight their specific uses with respect to spacecraft missions to asteroids.
 
-\subsection{Time of Flight Distance Measurement}
 Originally developed for military and surveying application, the basic principle of laser ranging is based on utilizing the fixed speed of light to measure distance.
 The time required for a pulse of energy to travel from the transmitter to the object and return is measured, \( t_d \). 
 Meausuring this round trip \gls{tof} and using the speed of light, approximately \( c = \SI{30}{\centi\meter\per\nano\second}\), allows one to easily compute the range to the object as
@@ -360,38 +64,49 @@ An array of detectors are aranged to view the surface.
 Each detector only views a portion of the total field of view and the signals are analyzed in the time domain.
 Using this methodology, the system can simulataneously measure distance in multiple directions without any moving parts~\cite{amann2001}.
 
-\subsection{Asteroid Mapping Operations}
+In the computer graphics field a major problem is the determination of which objects are visible to the user.
+In a method similar to the photographic process in reverse, for each pixel of the image a ray is cast towards the scene and the intersections of this ray with any objects is recorded.
+The first object which intersects the ray is defined as visible while those beyond would be occluded.
+Given this intersection point, the surface normal is computed and surface shading can be determined to render the scene.
 
-Precise relative navigation and landing near asteroids is critically dependent on an accurate knowledge of the shape of the body.
-The fine topological structure of the surface is not possible without a spacecraft in the vicinity of the asteroid.
-From ground  based measurments, such as radar or optical telescopes, it is only possible to achieve a coarse model of asteroid, such as a triaxial ellipsoid representation~\cite{hudson1994}.
-The size and shape of asteroid presents critical information into the thermal and collisional histories and more critically into their internal structure~\cite{cole1998}.
+Our problem is of a similar nature to that of the computer graphics domain.
+Given the model of an asteroid, its shape model, we wish to first simulate measurements of the surface. 
+In order to simulate these methods, we must also implement a ray casting algorithm that will find the intersection of a measurement from the spacecraft to the surface. 
 
-Typical missions spend months after arrival at an asteorid mapping and measuring the surface.
-During this mapping phase, which requires upwards of \num{6} months, the spacecraft must maintain a specific trajectory and attitude to ensure best measurements of the surface~\cite{cheng2002,barnouin-jha2008}.
-Both the spacecraft orbit and it's attitude is constrained to best satsify the competing requirements of the range measurements, spacecraft power, and Earth based communications.
-These measurements are then sent back to Earth, and combined with the spacecraft orbit determination to simulateously estimate the asteroid shape, mass, gravity field, spin state, and spacecraft state.
-
-Look at miller2002 for more detail and discuss that here
-
-% TODO Discuss how the shape of an asteroid is determined in pracice currently
-\begin{itemize}
-    \item Talk about ground based imaging and citations (radar/optical)
-    \item tlak about best knowledge of asteroid before arrival is a ellipsoid model (first mometn)
-    \item Talk about sending missions to asteroids with laser altimeters
-    \item Months of mapping and ground based OD
-\end{itemize}
+We assume that the spacecraft is located at \(\rpos\) in the asteroid fixed frame.
+The camera/sensor is aligned with \gls{view_axis} in the spacecraft fixed frame.
+An additional vector, defined as the up axis \gls{up_axis}, finally the standard basis is completed with \(  \gls{right_axis} = \gls{view_axis} \times \gls{up_axis} \) which defines a reference frame attached to the image plane of the sensor.
+Furthermore, we model the the laser ranging sensor as having a fixed field of view defined by the angles \( \gls{fov_h}, \gls{fov_v}\), defining the vertical and horizontal fields of view.
+In order to simulate depth measurements we need to determine the transformation of locations in the image frame to the asteroid frame. 
+Given the view axis, and a chosen distance \gls{view_distance}, we can define a viewing \gls{frustum} associated with the sensor. 
+We can compute the vectors associated with the maximum extents of the far plane as follows.
+The half height and width of the far plane, at a distance \( d \), is computed as
+\begin{align*}
+    H = d \tan \frac{\alpha}{2} , \\
+    W = d \tan \frac{\beta}{2} .
+\end{align*}
+From these values, the extents of the far plane are defined by the vectors
+\begin{align*}
+    A = \vc{c}_1 + H \vc{c}_3 - W \vc{c}_2 , \\
+    B = \vc{c}_1 + H \vc{c}_3 + W \vc{c}_2, \\
+    C = \vc{c}_1 - H \vc{c}_3 + W \vc{c}_2, \\
+    D = \vc{c}_1 - H \vc{c}_3 - W \vc{c}_2.
+\end{align*}
+The view frustrum is visualized in~\cref{fig:view_frustrum} and allows for any vector in the field of view to befined as a linear combination of the extents of the far plane.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{example-image-golden}
+    \caption{View Frustrum for Spacecraft sensor modeling\label{fig:view_frustrum}}
+\end{figure}
 
 \section{Incremental Radius modification}\label{sec:radius_update}
-
-
 
 One of the first main tasks for any spacecraft mission to an asteroid is to generate an estimate of the asteroid shape.
 This shape model is used for a variety of purposes, such as the polyhedron potential model, like that presented in~\cref{sec:polyhedron_potential} or landing site section and guidance.
 We assume that upon arrival at a target body, the spacecraft contains an initial estimate for the shape of the asteroid.
 This shape can be a coarse estimate computed from ground measurements or it can be a triaxial ellipsoid based on the semimajor axes of the asteroid, such as that shown in~\cref{fig:start} which represents the maximum axes for asteroid Castalia.
 Additionally, we assume that the shape estimate is closed and a triangular faceted surface mesh, emulating those used in practice to represent asteroids.
-Furthermore, the number of vertices in the estimate can be scaled according to the resulting acccuracy or computational capabilities.
+Furthermore, the number of vertices in the estimate can be scaled according to the desired final acccuracy or computational capabilities.
 For example,~\cref{fig:uniform_mesh} demonstrates two surface mesh representation for a triaxial ellipsoid at varying levels of detail. 
 A wide variety of algorithms are available to generate a near uniformly spaced mesh for an arbitrary surface~\cite{persson2004,boissonnat2005}.
 \begin{figure}[htbp]
@@ -413,7 +128,7 @@ Assuming accurate knowledge of the pointing direction of the spacecraft we can c
 The output of this sensor is a vector, \( \vc{d}_i \), defined in the spacecraft fixed frame which gives the direction to a measurement point on the surface of the asteroid. 
 Using the state of the asteroid, we can transform this measurement to the asteroid fixed frame using the simple transformation
 \begin{align*}
-    \vb{p}_i = R_A^T R \vb{d}_i .
+    \vc{p}_i = R_A^T R \vc{d}_i .
 \end{align*}
 Given many measurements, \( \vc{p}_i \), of the asteroid surface we can efficiently update our initial shape estimate to that of the true surface.
 \Cref{fig:lidar_example} shows asteroid 4769 Castalia and a representation of several LIDAR measurements. 
@@ -450,7 +165,7 @@ The variance of measurement \( \vc{p}_i \) with respect to vertex \( \vc{v}_i \)
 \begin{align}
     w_{j, i} = \norm{\vc{p}_j} \Delta \sigma_{j,i} .
 \end{align}
-This approach relates the uncertainty of the measurement, \( \vb{p}_j \) with the geodesic distance to a given vertex, \( \vb{v}_i \).
+This approach relates the uncertainty of the measurement, \( \vc{p}_j \) with the geodesic distance to a given vertex, \( \vc{v}_i \).
 As a result, measurements which are far from a vertex, where \( \Delta \sigma \) is large, will tend to have a larger variance and hence uncertainty. 
 This approach can be considered as a form of a correlation based sensor model~\cite{thrun2005}.
 The main benefit of a correlation based approach, in constrast to feature extraction is the relative simplicity of implementation.
@@ -568,10 +283,10 @@ It is sufficient to define two orthogonal vectors to uniquely determine the atti
 The \( \vc{b}_{3d} \) vector is chosen to lie in the plane spanned by \(\vc{b}_{1d} \) and \( \vc{e}_3 = \vc{f}_3 \).
 The desired attitude command is defined as
 \begin{align}
-    \vb{b}_{1d} &= - \frac{\vb{x}}{\norm{\vb{x}}} , \\
-    \vb{b}_{3d} &= \frac{\vb{f}_3 - \parenth{\vb{f}_3 \cdot \vb{b}_{1d}} \vb{b}_{1d}}{\norm{\vb{f}_3 - \parenth{\vb{f}_3 \cdot \vb{b}_{1d}} \vb{b}_{1d}}}, \\
-    \vb{b}_{2d} &= \vb{b}_{3d} \times \vb{b}_{1d} , \\
-R_d &= \begin{bmatrix} \vb{b}_{1d} & \vb{b}_{2d} & \vb{b}_{3d} \end{bmatrix} .
+    \vc{b}_{1d} &= - \frac{\vc{x}}{\norm{\vc{x}}} , \\
+    \vc{b}_{3d} &= \frac{\vc{f}_3 - \parenth{\vc{f}_3 \cdot \vc{b}_{1d}} \vc{b}_{1d}}{\norm{\vc{f}_3 - \parenth{\vc{f}_3 \cdot \vc{b}_{1d}} \vc{b}_{1d}}}, \\
+    \vc{b}_{2d} &= \vc{b}_{3d} \times \vc{b}_{1d} , \\
+    R_d &= \begin{bmatrix} \vc{b}_{1d} & \vc{b}_{2d} & \vc{b}_{3d} \end{bmatrix} .
 \end{align}
 The camera axis is aligned with the spacecraft \( \vb{b}_ 1 \) axis, which is direted towards the asteroid, throughout the trajectory.
 
@@ -606,11 +321,7 @@ Then the surface slope can be computed from
 \end{align}
 where \( \phi \in \R^1 \) is the surface slope defines the angle between the surface normal \( \vc{n}_f \in \R^3 \) and the force vector at the surface.
 If \( \phi = \SI{0}{\degree} \) then the force vector and the surface normal are anti-parallel, while \( \phi > \SI{90}{\degree} \) means that a particle on the surface would be thrown off the body as the centripetal force is larger than the gravitational attraction.
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=\textwidth]{example-image-golden}
-    \caption[Estimate Surface slope of 4769 Castalia]{Estimated surface slope of asteroid 4769 Castalia~\label{fig:surface_slope_castalia}}
-\end{figure}
+
 Additionally, we compute the distance, using~\cref{eq:geodesic_distance}, between the spacecraft state and each face of the asteroid. 
 Finally, we also assign a random science value to the surface in the form of two dimensional Gaussian.
 Utilizing these metric, a landing site is chosen to minimize the surface cost given as
@@ -618,25 +329,6 @@ Utilizing these metric, a landing site is chosen to minimize the surface cost gi
     J_l =  J_{\text{distance}} - J_{\text{science}},
 \end{align}
 where the surface slope is considered a hard constraint such that any candidate landing site must satisify \( \phi \leq \phi_m \).
-Graphically, we can combine~\cref{fig:surface_slope_castalia,fig:surface_distance_castalia,fig:surface_science_castalia} to generate a single graphical representation fo of the cost function~\cref{eq:surface_cost}.
-
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=\textwidth]{example-image-golden}
-    \caption[Distance to Surface]{Estimated distance to surface asteroid 4769 Castalia~\label{fig:surface_distance_castalia}}
-\end{figure}
-
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=\textwidth]{example-image-golden}
-    \caption[Science Value]{Science Value over the surface~\label{fig:surface_science_castalia}}
-\end{figure}
-
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=\textwidth]{example-image-golden}
-    \caption[Total Surface Landing Cost]{Total Landing Cost~\label{fig:surface_total_castalia}}
-\end{figure}
 
 \paragraph{Mesh Refinement}\label{sec:refinement}
 Once a suitable landing site is selected the surround area is isolated and refined by adding new vertices and faces in the specified area.
@@ -648,12 +340,17 @@ This algorithm uses an iterative method which repeatedly splits long edges, coll
     \includegraphics[width=\textwidth]{example-image-golden}
     \caption[Isotropic Remeshing]{LOOK IN PMP 101 Local remeshing operations.(Image duplicated from~\cite{botsch2010})\label{fig:isotropic_remeshing}}
 \end{figure}
-For example,~\cref{fig:cube_remesh} shows the isotropic remeshing result for the selected faces of a cube.
-Each of the new triangular faces of the mesh have approximately equal edge lengths and the surface tangent is preserved.
+For example,~\cref{fig:cube_remesh} shows the isotropic remeshing result for the selected faces of a unit cube.
+The original unit cube is composed of \num{8} vertices and \num{12} faces.
+The two triangular faces of the visible side of the cube are selected for the isotropic remeshing operation as shown in~\cref{fig:cube_original_mesh}.
+A target edge length of \num{0.1} is selected for these faces and used to generate~\cref{fig:cube_refine_mesh}.
+The two large triangular faces are divided into a number of smaller triangular faces.
+Furtheremore, the addiitonal faces are all approximatley the same size and preserve the original surface of the cube.
+After the isotropic remeshing operation the number of vertices has increased from \num{8} to \num{140}.
 \begin{figure}[htbp]
     \centering
-    \subcaptionbox{Original Cube\label{fig:cube_original_mesh}}{\includegraphics[width=0.5\textwidth]{example-image-golden}}~
-    \subcaptionbox{Remeshed Cube\label{fig:cube_refine_mesh}}{\includegraphics[width=0.5\textwidth]{example-image-golden}}
+    \subcaptionbox{Original Cube\label{fig:cube_original_mesh}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/isotropic/original_cube.jpg}}~
+    \subcaptionbox{Remeshed Cube\label{fig:cube_refine_mesh}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/isotropic/remesh_cube.jpg}}
     \caption{Example of Isotropic remeshing of a face of a cube\label{fig:cube_remesh}}
 \end{figure}
 
@@ -663,16 +360,12 @@ In order to apply the landing refinement process we agument a small portion of t
 The augmented model of Castalia is shown in~\cref{fig:bumpy_castalia}.
 \begin{figure}[htbp]
     \centering
-    \subcaptionbox{Original  Castalia\label{fig:orig_castalia}}{\includegraphics[width=0.5\textwidth]{example-image-golden}}~
-    \subcaptionbox{Bumpy Castalia\label{fig:bump_castalia}}{\includegraphics[width=0.5\textwidth]{example-image-golden}}
-    \caption{Original and Bumpy Castalia with landing features~\label{fig:bumpy_castalia}}
+    \subcaptionbox{Augmented shape of Castalia with surface features\label{fig:orig_castalia}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/dynamic_exploration/castalia_bump_true.jpg}}~
+    \subcaptionbox{Estimated shape model after measuring the surface\label{fig:bump_castalia}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/dynamic_exploration/castalia_bump_est.jpg}}
+    \caption{Estimated reconstruction of augmented Castalia with landing features~\label{fig:bumpy_castalia}}
 \end{figure}
 
 \section{Shape Reconstruction Examples}
-<<<<<<< HEAD
-=======
-
->>>>>>> master
 In this section, we demonstrate the use of the results presented in~\cref{sec:dumbbell_model,sec:se3_control,sec:shape_reconstruction} with several numerical examples.
 The incremental mesh update approach from~\cref{sec:radius_update} is used to iteratively reconstruct the shape of several asteroid given \gls{lidar} measurements.
 We utilize radar shape models of asteroids \num{4769} Castalia, (\num{52760}) \num{1998} \(\text{ML}_{14}\), \num{1620} Geographos, and 6489 Golevka~\cite{neese2004}.
@@ -709,14 +402,14 @@ In addition, we compute the volume of the estimate shape throughout the simulati
 \num{1620} Geographos is a highly elongated stony asteroid of the Apollo group.
 Discoved in \num{1951}, Geographos is a potentially hazardous asteroid which passes sufficiently close to the Earth to present a hazard.
 \Cref{fig:geographos_reconstruction} shows the shape reconstruction for asteroid Geographos at several distinct points during the process.
-Comparing~\cref{fig:geographos_partial_100, fig:geographos_truth} shows that the final shape closely matches the true radar model.
+Comparing~\cref{fig:geographos_partial_100,fig:geographos_truth} shows that the final shape closely matches the true radar model.
 In~\cref{fig:geographos_metrics} we display the vertex uncertainty and mesh volume as a function of time.
 The plots show the the reconstruction achieves an accurate shape estimate with a total volume which closesly matches the true volume.
 
 \num{6489} Golevka is a small angular shaped asteroid of the Apollo group.
 Discoved in \num{1995}, Golevka is a potentially hazardous asteroid which passes sufficiently close to the Earth to present a hazard.
 \Cref{fig:golevka_reconstruction} shows the shape reconstruction for asteroid Geographos at several distinct points during the process.
-Comparing~\cref{fig:golevka_partial_100, fig:golevka_truth} shows that the final shape closely matches the true radar model.
+Comparing~\cref{fig:golevka_partial_100,fig:golevka_truth} shows that the final shape closely matches the true radar model.
 In~\cref{fig:golevka_metrics} we display the vertex uncertainty and mesh volume as a function of time.
 The plots show the the reconstruction achieves an accurate shape estimate with a total volume which closesly matches the true volume.
 It is interesting to note that the reconstruction of Golevka achieves an accurate shape reconstruction in a much smaller amount of time as compared to Geographos.
@@ -777,26 +470,32 @@ The control inputs are duplicated from~\cref{sec:se3_control} as
     \vc{u}_f &= -k_x e_x - k_v e_v - F_{ext} + m \ddot{x}_d . \\
     \vc{u}_m &= -k_R e_R - k_\Omega e_\Omega + \Omega \times J \Omega - M_{ext}.
 \end{align*}
+Throughout the simulation the control inputs are computed using the current shape estimate of the asteroid. 
+As measurements are collected, the spacecraft autonomously updates its shape estimate and uses this estimate to compute the control inputs and desired future states.
+
 We consider two simulations about asteroids \num{52760} and Castalia.
 The asteroids are assumed to constantly rotate about the \( \vc{f}_3 = \vc{e}_3\) axis according to the parameters given in~\cref{tab:dynamic_asteroids}.
 Furthermore, the state of the asteroid, namely the rotation matrix \( \aatt \), is assumed to be known based on ground measurements or previous data.
 \begin{table}[htbp]
     \centering
-    \begin{tabular}{lccccc}
+    \begin{tabular}{lcc}
         \toprule
-        Asteroid & Semi-major axes (\si{\kilo\meter}) & Rotational Period (\si{\hour}) & Density ( \si{\gram\per\centi\meter^3})  & Vertices & Faces\\
+        Property & \num{4769} Castalia & (\num{52760}) \num{1998} \(\text{ML}_{14}\) \\
         \midrule
-        \num{4769} Castalia & \( 0.8065 \times 0.4905 \times 0.413 \) & \num{4.095} & 2.1 & 2048 & 4092 \\
-        (\num{52760}) \num{1998} \(\text{ML}_{14}\) & \( 1.1 \times 1.1 \times 1.1 \) & \num{14.98} & 2.1 & 8192 & 16320  \\
+        Semi-major axes(\si{\kilo\meter}) & \( 0.8065 \times 0.4905 \times 0.413 \) & \( 1.1 \times 1.1 \times 1.1 \) \\
+        Rotational Period (\si{\hour}) & \num{4.095} & \num{14.98} \\
+        Density (\si{\gram\per\centi\meter^3}) & \num{2.1} & \num{2.1} \\
+        Vertices & \num{2048}  & \num{8192} \\
+        Faces & \num{4092} & \num{16320} \\
         \bottomrule
-    \end{tabular} 
+    \end{tabular}
     \caption{Asteroid properties for dynamic exploration~\label{tab:dynamic_asteroids}}
 \end{table}
 At the beginning of the simulation the spacecraft is assumed to lie on the inertial \( e_1 \) axis, i.e.\ \( \ipos(0) = \begin{bmatrix} x_0 & 0 & 0 \end{bmatrix} \si{\kilo\meter} \).
 In addition, at the initial state the spacecraft is orientated such that the \( b_1 \) axis is aligned with the inertial \( e_2 \) axis.
 In other words the initial orientation is given by \( \iatt(0) = \exp(\frac{\pi}{2} \hat{e}_3)\).
 The shape reconstruction phase of the simulation is simulation over \SI{15000}{\second}, over which time the spacecraft will take \gls{lidar} measurements of the surface at \SI{1}{\hertz}.
-Once the total uncertainty has been reduced sufficiently the spacecraft manuevers to a ''home`` position aligned with the \( f_1 \) axis of the asteroid.
+Once the total uncertainty has been reduced sufficiently the spacecraft manuevers to a ``home'' position aligned with the \( f_1 \) axis of the asteroid.
 
 \paragraph{Asteroid 52760 Reconstruction}
 % TODO 52760 asteroid - show reconstruction, state trajectory, uncertainty and volume
@@ -886,6 +585,21 @@ In addition, the volume estimate is initially a much larger value but quickly co
     \subcaptionbox{Volume Percent Error\label{fig:castalia_volume}}{\includegraphics[width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/castalia/volume.pdf}}
     \caption{Normalized uncertainty and volume percent error for Castalia\label{fig:castalia_metrics}}
 \end{figure}
+
+The spacecraft autonomously navigates around asteroid Castalia to best minimize the cost function in~\cref{eq:control_cost}.
+The state trajectory is visualized in the asteroid frame in~\cref{fig:castalia_explore_trajectory}.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{figures/computational_geometry/dynamic_exploration/castalia/state/asteroid_trajectory.jpg}
+    \caption{Spacecraft trajectory in the rotating asteroid frame~\label{fig:castalia_explore_trajectory}}
+\end{figure}
+The component plots of the trajectory are shown in~\cref{fig:castalia_explore_components}.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{figures/computational_geometry/dynamic_exploration/52760/state/ast_comp.pdf}
+    \caption{Components of spacecraft trajectory\label{fig:castalia_explore_components}}
+\end{figure}
+
 \paragraph{Castalia Landing Site Selection}
 With an appropriate shape estimate, the spacecraft can autonomously transition from a shape reconstruction to a landing mode.
 Based on the shape estimate we seek to determine the best location to land. 
@@ -902,7 +616,7 @@ Areas which violate the slope constraint of \( \phi < \SI{5}{\degree} \) are exc
 The next metric is related to the distance from the current spacecraft position to all candidate landing sites on the surface.
 We utilize~\cref{eq:geodesic_distance} to compute a distance metric to the surface.
 Landing sites which are closely will be considered preferentially over those at a larger distance.
-\Cref{fig:distance_castlia_both} shows a surface plot of the distance to the surface. 
+\Cref{fig:distance_castalia_both} shows a surface plot of the distance to the surface. 
 The area immediately beneath the spacecraft has a small cost while those on the opposite side of the asteroid have a much larger cost.
 \begin{figure}[htbp]
     \centering
@@ -947,7 +661,9 @@ The increased number of faces and vertices in the landing area allows for the ca
 \paragraph{Castalia Vertical Descent}
 The final phase of the simulation is to utilize the mixed resolution model and vertically descend to the desired landing site. 
 This is accomplished using the closed loop control of~\cref{sec:se3_control} and a trajectory which transitions from the home postion to the surface over \SI{3600}{\second}.
-
-Show state trajectory plots and a 3d plots of trajectory from landing
-
-Some small kind of conclusion wrapping it all up
+The landing trajectory, using the estimated shape, is visualized in the asteroid frame in~\cref{fig:castalia_landing}.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{figures/computational_geometry/dynamic_exploration/castalia/land/asteroid_trajectory.jpg}
+    \caption{Vertical descent onto 4769 Castalia~\label{fig:castalia_landing}}
+\end{figure}

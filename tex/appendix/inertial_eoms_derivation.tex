@@ -42,7 +42,7 @@ The variation of \( \vc{\Omega} \) is computed from the kinematics and~\cref{eq:
 The variation of the kinetic energy is defined as
 \begin{align}
     \delta T &= \left. \diff{}{\epsilon}\right|_{\epsilon=0} T(\dot{\vc{x}} + \epsilon \delta \dot{\vc{x}}, \vc{\Omega} + \epsilon \delta \vc{\Omega}), \nonumber\\
-             &=   \parenth{m_1 + m_2} \dot{\vecbf{x}}^T \delta \dot{\vecbf{x}} + \frac{1}{2} \tr{ (\delta \vc{\Omega} )^\wedge J_d (\delta \vc{\Omega} )^T + (\delta \vc{\Omega})J_d (\delta \vc{\Omega})^T}\label{eq:kinetic_variation}.
+             &=   \parenth{m_1 + m_2} \dot{\vc{x}}^T \delta \dot{\vc{x}} + \frac{1}{2} \tr{ (\delta \vc{\Omega} )^\wedge J_d (\delta \vc{\Omega} )^T + (\delta \vc{\Omega})J_d (\delta \vc{\Omega})^T}\label{eq:kinetic_variation}.
 \end{align}
 Now,~\cref{eq:inertial_ang_vel_variation} is substituted into~\cref{eq:kinetic_variation} to obtain
 \begin{align*}
@@ -64,7 +64,7 @@ Using the trace property~\cref{eq:trAB}, lets us redefine several terms as follo
 \end{subequations}     
 \Cref{eq:inertial_kinetic_energy_substitutions} allows one to combine several similar terms as
 \begin{align}\label{eq:inertial_kinetic_energy_1}
-    \delta T =&\parenth{m_1 + m_2} \dot{\vecbf{x}}^T \delta \dot{\vb{x}} \nonumber\\
+    \delta T =&\parenth{m_1 + m_2} \dot{\vc{x}}^T \delta \dot{\vc{x}} \nonumber\\
               &+ \frac{1}{2} \tr{-\dot{\vc{\eta}} \parenth{J_d \vh{\Omega} + \vh{\Omega} J_d}} + \frac{1}{2} \tr{\vc{\eta} \vh{\Omega} \parenth{J_d \vh{\Omega} + \vh{\Omega} J_d}} \nonumber \\
               &+ \frac{1}{2} \tr{ \vh{\Omega} \vc{\eta} J_d \vh{\Omega}^T - \vh{\Omega} J_d \vh{\Omega} \eta}.
 \end{align}
@@ -76,7 +76,7 @@ The last trace term can be simplified using~\cref{eq:trABC,eq:hatxT} as
 \end{align}
 Using~\cref{eq:inertial_kinetic_nergy_substitution_last_trace} in~\cref{eq:inertial_kinetic_energy_1} gives
 \begin{align}\label{eq:inertial_kinetic_energy_2}
-    \delta T =\parenth{m_1 + m_2} \dot{\vecbf{x}}^T \delta \dot{\vb{x}} &+ \frac{1}{2} \tr{-\dot{\vc{\eta}} \parenth{J_d \vh{\Omega} + \vh{\Omega} J_d}} + \frac{1}{2} \tr{\vc{\eta} \vh{\Omega} \parenth{J_d \vh{\Omega} + \vh{\Omega} J_d}} \nonumber \\
+    \delta T =\parenth{m_1 + m_2} \dot{\vc{x}}^T \delta \dot{\vc{x}} &+ \frac{1}{2} \tr{-\dot{\vc{\eta}} \parenth{J_d \vh{\Omega} + \vh{\Omega} J_d}} + \frac{1}{2} \tr{\vc{\eta} \vh{\Omega} \parenth{J_d \vh{\Omega} + \vh{\Omega} J_d}} \nonumber \\
               &- \frac{1}{2} \tr{ \vc{\eta} \parenth{J_d \vh{\Omega} + \vh{\Omega} J_d }\vh{\Omega}}.
 \end{align}
 Using~\cref{eq:moi_hat_prop} in~\cref{eq:inertial_kinetic_energy_2} gives
