@@ -1,0 +1,39 @@
+\tikzsetnextfilename{poincare_map}
+\tdplotsetmaincoords{60}{125} % view angle in spherical coordinates
+\begin{tikzpicture}[
+    tdplot_main_coords, 
+    poincare/.style={opacity=.2,
+    very thick,
+    fill=blue},
+    orbit/.style={very thick,black},
+    orbit hidden/.style={very thick,dashed}, 
+    grid/.style={very thin,gray!50},
+    axis/.style={->,blue,thick},
+    ]
+
+    % nodes for the poincare section
+    \node[label=above:\(\Sigma\)] (upper_right) at (0,5,5) {}; 
+    \node[] (upper_left) at (0,1,5) {}; 
+    \node[] (lower_left) at (0,1,0) {};
+    \node[] (lower_right) at (0,5,0) {};
+
+        % draw poincare section
+    \draw[poincare] (upper_right.center) -- (upper_left.center) --
+        (lower_left.center) -- (lower_right.center) --
+        (upper_right.center);
+
+        % draw a periodic orbit
+    \coordinate (center) at (0,0,2); 
+    \node[below right] (x0) at (0,2,2) {\(\vecbf{q}_0\)}; 
+    \filldraw (0,2,2) circle (3pt);
+
+    \node[below right] (x1) at (0,3,2) {\(\vecbf{q}_1\)};
+    \filldraw (0,3,2) circle (3pt);
+
+    \tdplotdrawarc[orbit hidden]{(center)}{2}{90}{190}{}{};
+    \tdplotdrawarc[orbit,<-]{(center)}{2}{-170}{90}{}{};
+
+    \tdplotdrawarc[orbit hidden]{(center)}{3}{90}{199}{}{};
+    \tdplotdrawarc[orbit,<-]{(center)}{3}{-161}{90}{}{};
+
+\end{tikzpicture}

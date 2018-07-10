@@ -20,7 +20,7 @@
 *-converted-to.*
 # these rules might exclude image files for figures etc.
 # *.ps
-# *.eps
+*.eps
 # *.pdf
 !figures/*.pdf
 
@@ -123,9 +123,6 @@ acs-*.bib
 
 # knitr
 *-concordance.tex
-# TODO Comment the next line if you want to keep your tikz graphics files
-*.tikz
-*-tikzDictionary
 
 # listings
 *.lol
@@ -251,6 +248,10 @@ Icon
 
 # Thumbnails
 ._*
+
+# Tikz externalize shit
+*.figlist
+*.makefile
 
 # Files that might appear in the root of a volume
 .DocumentRevisions-V100

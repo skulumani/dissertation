@@ -1,0 +1,13 @@
+\tikzsetnextfilename{Psi_adapt}
+\begin{tikzpicture}[baseline]
+    \begin{axis}[
+        name={Psi_adapt},
+        ylabel={$\Psi$},
+        xlabel={$t~(\si{\second})$},
+        ]
+        \addplot [blue, mark=none] table [x=TIME, y=Psi, col sep=comma] {figures/2016_IJCAS_pgf/csv/adapt.csv};
+        \addplot [red, mark=none, dashed] coordinates {
+                (0.0, 0.0) (10.0, 0.0) 
+            };
+    \end{axis}
+\end{tikzpicture}

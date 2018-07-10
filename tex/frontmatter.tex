@@ -2,7 +2,7 @@
 
 % --------- FRONT MATTER PAGES ---------------------
 % Title of the thesis
-\title{Some kind of awesome title}
+\title{Geometric Mechanics and Control for Small Body Missions}
 
 % Author name
 \author{Shankar Kulumani}
@@ -20,16 +20,27 @@
 
 % PhD degree commands
 % Committee
-% \showcommitteepage % hide this page if you're doing a MS thesis
+\showcommitteepage % hide this page if you're doing a MS thesis
 \committee{ %
-Taeyoung Lee, Associate Professor of Engineering and Applied Science,\\ 
+Taeyoung Lee, Associate Professor,\\ 
+George Washington University\\
 Dissertation Director\\ % remember to add a space between committee members
 
 Michael Keidar, A. James Clark Professor of Engineering, \\
+George Washington University\\
 Committee Member\\
 
 Chung Hyuk Park, Assistant Professor,\\
-Committee Member
+George Washington University\\
+Committee Member \\
+
+Islam Hussein, Senior Aerospace Research and Development Engineer, \\
+Applied Defense Solutions, \\
+Commitee Member \\
+
+Tupper Hyde, Chief, Mission Engineering and Systems Analysis Division,\\
+NASA Goddard Space Flight Center,\\
+Commitee Member 
 }
 
 % Chair must be entered separately for formatting reasons.
@@ -38,23 +49,31 @@ Committee Member
 % Department
 \department{Mechanical and Aerospace Engineering}
 
-\phdgrad{May 28, 2018}
-\defensedate{May 28, 2018}
+\phdgrad{August 1, 2018}
+\defensedate{July 25, 2018}
 % Year of completion for copyright page and perhaps other places
 \year=2018
 
 % Copyright page
-%\copyrightholder{Someone else}
+\copyrightholder{Shankar Kulumani}
 
 % Dedication
-\dedication[8]{ %
-\textit{Some cool dedication}
+\dedication{ %
+    \begin{center}For Christine\end{center}
 }
 
 % Acknowledgments
 \acknowledgments{
-    More cool acknowledgements of allthe people who have helped
+
+    Thank lab mates and being lucky
+
     This research has been supported in part by NSF under the grants CMMI-1243000, CMMI-1335008, and CNS-1337722.
+
+    Hetherington Fellowships
+
+    SSPI Scholarships
+
+    All the useful open and free tools
 }
 
 % -----------------------------------------------------------------
@@ -76,12 +95,11 @@ Committee Member
 % ----------------------------------------------------------------------
 
 % commands to show or hide front matter pages
-
-\hidecopyright
-\hideabstract
-\hidecommitteepage
-\hidededication
-\hideacknowledgments
+\showcopyright
+\showabstract
+\showcommitteepage
+\showdedication
+\showacknowledgments
 \hidepreface
 \hideprologue
 \hideforeword
@@ -101,8 +119,6 @@ Committee Member
 \showglossarieslistofsymbols
 \showglossariesglossaryofterms
 
-% TODO Look at using Bib2gls and modify latexmk to take care of it. May also need to modify the thesis class
-% TODO Also link abbreviations to a longer explanation in the glossary terms section
 % glossary  terms
 \loadglsentries{tex/glossaries_terms.tex}
 % abbreviations
@@ -111,5 +127,25 @@ Committee Member
 \loadglsentries{tex/glossaries_symbols.tex}
 % Some abstract text
 \abstract{
-    Abstract
+\begin{itemize}
+    \item 3-4 Sentences on defining the problem.
+        Simple english and to the point.
+    \item Detail on why the problem (above) is hard.
+        \begin{itemize}
+            \item What has eluded us in solving it?
+            \item What does the literature say about solving this problem?
+            \item What are the obstacles/challenges? Why is it non-trivial?
+        \end{itemize}
+    \item What is my approach to solving this problem?
+        \begin{itemize}
+            \item How did I solve this problem?
+            \item Claim all the fancy stuff that my dissertation will later prove/demonstrate.
+        \end{itemize}
+    \item What is the consequence of my approach?
+        \begin{itemize}
+            \item What is the impact?
+            \item What are the benefits of my approach?
+            \item What things does this work enable, new missions/ideas.
+        \end{itemize}
+\end{itemize}
 }

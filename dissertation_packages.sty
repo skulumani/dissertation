@@ -32,21 +32,34 @@
 
 %------------- CITATION PACKAGES------------------------------
 \usepackage[style=numeric,backend=bibtex8]{biblatex}
+\ExecuteBibliographyOptions{}
+\AtEveryBibitem{%
+    \clearfield{url}%
+    \clearfield{doi}%
+    \clearfield{issn}%
+    \clearfield{isbn}%
+}
 \usepackage{color}
-\definecolor{darkblue}{rgb}{0.0,0.0,0.3}
 \usepackage[]{hyperref} % links to stuff
+\hypersetup{
+  colorlinks   = false, %Colours links instead of ugly boxes
+  urlcolor     = blue, %Colour for external hyperlinks
+  linkcolor    = red, %Colour of internal links
+  citecolor   = green %Colour of citations
+}
 
+\usepackage[shortlabels]{enumitem}
 % --------------------------------------
 % MUST BE AFTER HYPERREF!!!!!!!!!
 %------------------------------------------
 \usepackage[noabbrev,capitalize]{cleveref} % get fancy referencing
 
-%\usepackage[final]{showlabels} % show labels for referencing
-
-%\usepackage{refcheck} % check for unused references/labels
-
-\usepackage{pgf}
 % TIKZ
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest}
+\usepgfplotslibrary{groupplots}
+\usepackage{tikzscale}
+\usepackage{pgf}
 \usepackage{tikz}
 \usepackage{environ}
 \usetikzlibrary{decorations.markings,decorations.pathreplacing,calc}
@@ -55,39 +68,71 @@
 \usetikzlibrary{arrows.meta}
 \usepackage{tikz-3dplot}
 
-\tikzset{help lines/.style={very thin,color=gray!50}} % modify the help lines style
+% externalize tikz plots for speed
+\usepgfplotslibrary{external}
+\tikzexternalize[
+prefix=build/,
+mode=list and make,
+optimize=false,
+]
 
-\tikzset{->-/.style={decoration={
-  markings,
-  mark=at position .5 with {\arrow{>}}},postaction={decorate}}}
+% \tikzset{help lines/.style={very thin,color=gray!50}} % modify the help lines style
+
+% \tikzset{->-/.style={decoration={
+%   markings,
+%   mark=at position .5 with {\arrow{>}}},postaction={decorate}}}
   
-\tikzset{decorate sep/.style 2 args=
-{decorate,decoration={shape backgrounds,shape=circle,shape size=#1,shape sep=#2}}}
+% \tikzset{decorate sep/.style 2 args=
+% {decorate,decoration={shape backgrounds,shape=circle,shape size=#1,shape sep=#2}}}
 
-\tikzset{>={Latex[width=3mm,length=3mm]}}
+% \tikzset{>={Latex[width=3mm,length=3mm]}}
 
+% \makeatletter
+% \newsavebox{\measure@tikzpicture}
+% \NewEnviron{scaletikzpicturetowidth}[1]{%
+%   \def\tikz@width{#1}%
+%   \def\tikzscale{1}\begin{lrbox}{\measure@tikzpicture}%
+%   \BODY
+%   \end{lrbox}%
+%   \pgfmathparse{#1/\wd\measure@tikzpicture}%
+%   \edef\tikzscale{\pgfmathresult}%
+%   \BODY
+% }
+% \makeatother
+
+% % Tikz macros
+% % Draw an arc denoting an angle using start and delta angles
+% \newcommand{\drawarcdelta}[4]{
+%   \draw ($#1+(#2:#4)$) arc[start angle=#2, delta angle=#3, radius=#4];
+% }
+
+% % Draw an arc with label denoting an angle using start and delta angles
+% \newcommand{\drawlabeledarcdelta}[6]{
+%   \drawarcdelta{#1}{#2}{#3}{#4}
+%   \node at ($#1+(#2+#3/2:#6)$) {#5};
+% }
+
+% These packages should come last for real
+% \usepackage{refcheck} % check for unused references/labels
+% \usepackage[]{showlabels} % show labels for referencing
+
+% Get refcheck to work with cleveref
 \makeatletter
-\newsavebox{\measure@tikzpicture}
-\NewEnviron{scaletikzpicturetowidth}[1]{%
-  \def\tikz@width{#1}%
-  \def\tikzscale{1}\begin{lrbox}{\measure@tikzpicture}%
-  \BODY
-  \end{lrbox}%
-  \pgfmathparse{#1/\wd\measure@tikzpicture}%
-  \edef\tikzscale{\pgfmathresult}%
-  \BODY
+\newcommand{\refcheckize}[1]{%
+  \expandafter\let\csname @@\string#1\endcsname#1%
+  \expandafter\DeclareRobustCommand\csname relax\string#1\endcsname[1]{%
+    \csname @@\string#1\endcsname{##1}\@for\@temp:=##1\do{\wrtusdrf{\@temp}\wrtusdrf{{\@temp}}}}%
+  \expandafter\let\expandafter#1\csname relax\string#1\endcsname
+}
+\newcommand{\refcheckizetwo}[1]{%
+  \expandafter\let\csname @@\string#1\endcsname#1%
+  \expandafter\DeclareRobustCommand\csname relax\string#1\endcsname[2]{%
+    \csname @@\string#1\endcsname{##1}{##2}\wrtusdrf{##1}\wrtusdrf{{##1}}\wrtusdrf{##2}\wrtusdrf{{##2}}}%
+  \expandafter\let\expandafter#1\csname relax\string#1\endcsname
 }
 \makeatother
 
-% Tikz macros
-% Draw an arc denoting an angle using start and delta angles
-\newcommand{\drawarcdelta}[4]{
-  \draw ($#1+(#2:#4)$) arc[start angle=#2, delta angle=#3, radius=#4];
-}
-
-% Draw an arc with label denoting an angle using start and delta angles
-\newcommand{\drawlabeledarcdelta}[6]{
-  \drawarcdelta{#1}{#2}{#3}{#4}
-  \node at ($#1+(#2+#3/2:#6)$) {#5};
-}
-\tdplotsetmaincoords{60}{125} % view angle in spherical coordinates
+% \refcheckize{\cref}
+% \refcheckize{\Cref}
+% \refcheckizetwo{\crefrange}
+% \refcheckizetwo{\Crefrange}
