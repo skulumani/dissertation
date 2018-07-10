@@ -78,5 +78,9 @@ asin(min(1,max(\sinVis,-1)))}
 % draw from origin to center of m1
 \draw[thick,-Latex] node [below right] {$\zeta$} (0, 0) --  (m1);
 \draw[thick,-Latex] (m1) -- ++(30:\R) node [above right] {$\eta$};
+
+% draw the radiaii of each mass
+% \draw[thick,-Latex] (m1) -- ++(130:\R) node [above right] {$r_1$};
+
 \end{tikzpicture}
 
