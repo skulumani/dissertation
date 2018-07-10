@@ -10,14 +10,13 @@ In addition, the equations of motion are each presented in the both the Lagrangi
 \Cref{sec:gravitational_models} presents the gravitational models most frequently used for small-body missions. 
 Specifically, we summarize the spherical harmonic, constant density ellipsoid, and polyhedron potential gravity models.
 Finally,~\cref{sec:computational_geometry} presents the mathematical and computational background required to represent the wide variety of small-body shapes.
-The dynamic equations of motion are crucial for the low energy orbit transfers in~\cref{sec:lowthrust_transfers}, the geometric controller design of~\cref{sec:se3_control}, and the shape reconstruction scheme of~\cref{sec:shape_reconstruction}.
+The dynamic equations of motion are crucial for the low energy orbit transfers in~\cref{sec:lowthrust_transfers}, the geometric controller design of~\cref{sec:se3_control}, and the shape reconstruction and guidance schemes of~\cref{sec:shape_reconstruction}.
 
 \section{Spacecraft Dynamic Model}\label{sec:dumbbell}
 
-%TODO Some of these paragraphs can be moved to the introduction instead
-In this section, we derive the equations of motion of a rigid spacecraft under the influence of the gravitational attraction of a homogenous asteroid.
-The motion of a spacecraft around an asteroid is markedly different than that of Earth orbiting vehicles.
-First, the gravitational field around an asteroid is highly irregular and complex. 
+In this section, we derive the equations of motion of a rigid spacecraft under the influence of the gravitational attraction of a homogeneous body.
+The motion of a spacecraft around a small-body is markedly different than that of Earth orbiting vehicles.
+First, the gravitational field is highly irregular and complex. 
 The usual assumption of a spherical potential is not valid for small or irregular shaped bodies.
 Furthermore, since the magnitude of the gravitational attraction is relatively small, non-gravitational effects, such as solar radiation pressure or third-body effects, become much more significant.
 As a result, the orbital environment is generally quite complex and it is difficult to generate analytical insights, such as those used in the Keplerian two-body solution.
@@ -28,14 +27,15 @@ The effect of the gravitational coupling is related to the parameter \(\epsilon 
 For Earth based missions, the orbital radius is several orders of magnitude larger than the spacecraft length and \(\epsilon\) is small.
 As a result, the corresponding gravitational moment is weak and can be neglected. 
 Therefore, the translational and rotational equations of motion become decoupled and can be considered separately, significantly simplifying the analysis. 
-However, for operations around an asteroid the orbital radius is much smaller, which leads to much larger values of \(\epsilon\) and much larger influence of the rotational and translational coupling.
-References~\cite{elmasri2005} and~\cite{sanyal2004} investigated the coupling of an elastic dumbbell spacecraft in orbit about a central body, but only considered the case of a spherically symmetric central body.
+However, for operations around small bodies the orbital radius is much smaller, which leads to much larger values of \(\epsilon\) and a much larger coupling between the translational and rotational states of the spacecraft.
+\textcite{elmasri2005,sanyal2004} investigated the coupling of an elastic dumbbell spacecraft in orbit about a central body, but only considered the case of a spherically symmetric central body.
+While the analysis investigated the complex dynamic interaction of the rigid body spacecraft, it is not applicable to operations around small bodies due to the assumption of a spherical central body.
 
-With these insights, we seek to develop the complete coupled equations of motion of a spacecraft around an asteroid.
-The equations of motion should explicitly consider the interaction of the translational and rotational dynamics.
-Furthermore, the equations should be defined in a global and coordinate-free representation to allow for a single global representation of the motion of the spacecraft and asteroid.
-We restrict the developments to a rigid spacecraft composed of two spherical masses connected by a massless rigid link.
-This dumbbell model for a spacecraft can readily be extended to a system of particles to more faithfully represent  any arbitrary rigid body.
+With these insights, we seek to develop the complete coupled equations of motion of a spacecraft around a small body.
+The equations of motion explicitly consider the interaction of the translational and rotational dynamics.
+Furthermore, the equations are defined in a global and coordinate-free representation to allow for a single global representation of the motion of the spacecraft and asteroid.
+We restrict the developments to a rigid spacecraft composed of two spherical masses connected by a massless rigid link, also known as a dumbbell spacecraft model.
+This dumbbell model is a popular model for dynamical analysis of spacecraft and is readily extended to a system of particles to more faithfully represent any arbitrary rigid body.
 
 \subsection{Reference Frames}\label{ssec:dumbbell_eoms_reference_frames}
 
