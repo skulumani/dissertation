@@ -6,6 +6,8 @@ FIGURES = $(wildcare ./figures/* ./tikz/*.tikz)
 all: $(MAIN).pdf
 
 $(MAIN).pdf: $(MAIN).tex $(TEX) $(FIGURES)
+	pdflatex -shell-escape $(MAIN)
+	make -j4 -f $(MAIN).makefile
 	latexmk -pdf $(MAIN)
 
 tikz: $(MAIN).makefile $(FIGURES)
