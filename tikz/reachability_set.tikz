@@ -1,3 +1,4 @@
+\tikzsetnextfilename{reachability_set}
 \tdplotsetmaincoords{60}{125} % view angle in spherical coordinates
 \begin{tikzpicture}[
     tdplot_main_coords,
