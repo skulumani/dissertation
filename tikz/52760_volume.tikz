@@ -1,6 +1,7 @@
+\tikzsetnextfilename{52760_volume}
 \begin{tikzpicture}[]
     \begin{axis}[
-        name={52760_uncertainty},
+        name={52760_volume},
         xlabel={Normalized Time},
         ylabel={Volume Error},
         ]

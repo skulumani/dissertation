@@ -1,6 +1,7 @@
+\tikzsetnextfilename{golevka_uncertainty}
 \begin{tikzpicture}[]
     \begin{axis}[
-        name={Golevka_uncertainty},
+        name={golevka_uncertainty},
         xlabel={Normalized Time},
         ylabel style={align=center},ylabel={Normalized\\Uncertainty},
         ]

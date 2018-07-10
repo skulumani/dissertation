@@ -1,3 +1,4 @@
+\tikzsetnextfilename{eR_noadapt}
 \begin{tikzpicture}[baseline]
     \begin{groupplot}[
         group style={

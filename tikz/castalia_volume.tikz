@@ -1,6 +1,7 @@
+\tikzsetnextfilename{castalia_volume}
 \begin{tikzpicture}[]
     \begin{axis}[
-        name={Castalia_uncertainty},
+        name={castalia_uncertainty},
         xlabel={Normalized Time},
         ylabel={Volume Error},
         ]

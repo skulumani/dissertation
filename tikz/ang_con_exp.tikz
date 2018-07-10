@@ -1,3 +1,4 @@
+\tikzsetnextfilename{ang_con_exp}
 \begin{tikzpicture}
     \begin{axis}[
         name={ang_con_exp},

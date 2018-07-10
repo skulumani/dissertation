@@ -1,4 +1,5 @@
-\begin{tikzpicture}[baseline]
+\tikzsetnextfilename{Psi_timevarying}
+\begin{tikzpicture}[]
     \begin{axis}[
         name={Psi_timevarying},
         ylabel={$\Psi$},

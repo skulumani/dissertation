@@ -1,4 +1,5 @@
-\begin{tikzpicture}[baseline]
+\tikzsetnextfilename{dist_adapt}
+\begin{tikzpicture}[]
     \begin{groupplot}[
         group style={
             group name={dist_adapt},

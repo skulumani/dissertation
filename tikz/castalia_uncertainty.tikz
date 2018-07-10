@@ -1,6 +1,7 @@
+\tikzsetnextfilename{Castalia_uncertainty}
 \begin{tikzpicture}[]
     \begin{axis}[
-        name={Castalia_uncertainty},
+        name={castalia_uncertainty},
         xlabel={Normalized Time},
         ylabel style={align=center},ylabel={Normalized\\Uncertainty},
         ]

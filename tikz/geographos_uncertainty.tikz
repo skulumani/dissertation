@@ -1,6 +1,7 @@
+\tikzsetnextfilename{geographos_uncertainty}
 \begin{tikzpicture}[]
     \begin{axis}[
-        name={Geographos_uncertainty},
+        name={geographos_uncertainty},
         xlabel={Normalized Time},
         ylabel style={align=center},ylabel={Normalized\\Uncertainty},
         ]
