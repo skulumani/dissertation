@@ -69,9 +69,11 @@
 \usepackage{tikz-3dplot}
 
 % externalize tikz plots for speed
-% \usepgfplotslibrary{external}
-% \tikzexternalize
-% \tikzsetexternalprefix{tikz/external/}
+\usepgfplotslibrary{external}
+\tikzexternalize[
+prefix=build/,
+mode=list and make,
+]
 
 \tikzset{help lines/.style={very thin,color=gray!50}} % modify the help lines style
 
