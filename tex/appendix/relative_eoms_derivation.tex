@@ -16,21 +16,21 @@ The kinetic and potential energy of the dumbbell model is duplicated from~\cref{
     V &= -m_1 U( \gls{sym:rpos} + \gls{sym:ratt} \vc{\rho}_1) - m_2 U(\gls{sym:rpos} + \gls{sym:ratt} \vc{\rho}_2).
 \end{align*}
 
-\section{Relative variations}\label{sec:relative_variations}
+\section{Variations of the Relative Variables}\label{sec:relative_variations}
 In~\cref{proof:inertial_dumbbell_eoms} the variations of the inertial configuration variables were derived.
 Following a similar process the variations of the reduced variables must be derived such that they also satisfy the variations of the inertial variables.
 These variations must be defined precisely to ensure that the configuration space is preserved properly. 
 These variations will be critical for the following step of applying the Euler-Lagrage equations and deriving the equations of motion.
 The variations of the reduced variables are obtained from the variations of the original variables given in~\cref{eq:inertial_pos_variation,eq:inertial_vel_variation,eq:inertial_att_variation,eq:inertial_ang_vel_variation} and the definition of the reduced variables given in~\cref{eq:relative_position,eq:relative_velocity,eq:relative_attitude,eq:relative_angular_velocity}.
 
-\subsection{Relative Position Variation}\label{sec:relative_position_variation}
+\subsection{Relative Position}\label{sec:relative_position_variation}
 The variation of the relative position given in~\cref{eq:relative_position} is defined as
 \begin{align}
     \delta \gls{sym:rpos} &= \left. \diff{}{\epsilon} \right|_{\epsilon=0} \gls{sym:aatt}[^T] \gls{sym:ipos}^\epsilon ,\nonumber \\
                         &= \gls{sym:aatt}[^T] \delta \gls{sym:ipos} .\label{eq:relative_position_variation}
 \end{align}
 
-\subsection{Relative Attitude Variation}\label{sec:relative_attitude_variation}
+\subsection{Relative Attitude}\label{sec:relative_attitude_variation}
 The variation of the relative attitude given in~\cref{eq:relative_attitude} is expressed as
 \begin{align}
     \delta \gls{sym:ratt} &= \left. \diff{}{\epsilon} \right|_{\epsilon=0}  \gls{sym:aatt}[^T] \gls{sym:iatt}^\epsilon = \gls{sym:aatt}[^T] \delta \gls{sym:iatt}, \nonumber\\
@@ -51,7 +51,7 @@ Using this, the varation of the relative attitude is derived by substituting~\cr
     \delta \gls{sym:ratt} = \gls{sym:aatt}[^T] \gls{sym:iatt} \gls{sym:iattvar} = \gls{sym:rattvar} \gls{sym:aatt}[^T] \gls{sym:iatt} = \gls{sym:rattvar} \gls{sym:ratt}
 \end{align}
 
-\subsection{Relative Angular Velocity Variation}\label{sec:relative_angular_velocity_variation}
+\subsection{Relative Angular Velocity}\label{sec:relative_angular_velocity_variation}
 The variation of the relative angular velocity is defined as follows:
 \begin{align}\label{eq:relative_angular_velocity_variation_1}
     \parenth{\delta \gls{sym:rangvel}}^\wedge &= \left. \diff{}{\epsilon} \right|_{\epsilon=0} \parenth{ \gls{sym:ratt}[^\epsilon] \gls{sym:iangvel}[^\epsilon] }^\wedge, \nonumber\\
@@ -116,7 +116,7 @@ Finally, we can now substitute~\cref{eq:eta_dot} into~\cref{eq:relative_angular_
                                               &= \dot{\eta}_r + \gls{sym:rattvar}\braces{\hat{\Omega}_r - \hat{\Omega}_A} + \braces{\hat{\Omega}_A - \hat{\Omega}_r}\gls{sym:rattvar} . 
 \end{align}
 
-\subsection{Relative velocity variation}\label{sec:relative_velocity_variation}
+\subsection{Relative Velocity}\label{sec:relative_velocity_variation}
 The variation of the relative linear velocity is computed from~\cref{eq:relative_velocity} as
 \begin{align}\label{eq:relative_velocity_variation_1}
     \delta \gls{sym:rvel} &= \left. \diff{}{\epsilon} \right|_{\epsilon=0} \gls{sym:aatt}[^T] \dot{x}^\epsilon , \nonumber \\
