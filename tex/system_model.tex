@@ -519,18 +519,19 @@ The force due to gravity between two point masses is defined as
 \begin{align}\label{eq:newton_universal_gravitation}
     \vc{F}_g =  - G \frac{m_1 m_2}{r^2} \frac{\vc{r}}{\norm{\vc{r}}},
 \end{align}
-where \( \gls{sym:G} \) is the universal gravitational constant, \( \vc{r} \) is the relative position vector between the points of mass \( m_1, m_2\), respectively.
-
+where \( \gls{sym:G} \) is the universal gravitational constant, \( \vc{r} \) is the relative position vector between the point masses \( m_1, m_2\), respectively.
+\Cref{fig:universal_gravity} illustrates that the law of gravity is an attractive force with a line of action aligned with the relative position vector.
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{example-image-golden}
     \caption{Newton's Law of Universal Gravitation~\label{fig:universal_gravity}}
 \end{figure}
+
 This gravitational model is defined for point masses or bodies which can be modeled as point masses, such as spherically symmetric planets.
 However, it is not possible to model an irregular asteroid, or an extended orbiting spacecraft, as a point mass.
 Instead, one must treat both bodies as extended objects and compute the gravitational force from the potential function as an integral over the entire body, \( \mathcal{B}\),
 \begin{align}\label{eq:volume_integral_potential}
-    \vc{F}_g ( \vb{r}) = \nabla U = G \int_{\mathcal{B}} \frac{1}{\norm{\vc{r} - \vc{\rho} }} dm (\vc{\rho}),
+    \vc{F}_g ( r) = \nabla U = G \int_{\mathcal{B}} \frac{1}{\norm{\vc{r} - \vc{\rho} }} dm (\vc{\rho}),
 \end{align}
 where \( \vc{r} \) is the position of the field point, \( \vc{\rho} \) is the position of the differential mass element of the body and \( \nabla U \) is defined as the gradient of \( U \) with respect to the standard cartesian basis vectors
 \begin{align*}
@@ -538,9 +539,9 @@ where \( \vc{r} \) is the position of the field point, \( \vc{\rho} \) is the po
 \end{align*}
 
 The first approach, sometimes termed the \textit{mass-concentration}, or \textit{mascon} method, approximates the integral using an infinite sum of point masses \( m_i\) located at \( \vc{r}_i \).
-The potential on our object of interest then becomes the summation of the potential caused by each mass \( m_i \) as shown in~\cref{eq:mass_con_potential}.
+The potential on our object of interest then becomes the summation of the potential caused by each mass \( m_i \) as shown in~\cref{eq:mass_con_potential},
 \begin{align}\label{eq:mass_con_potential}
-    U = G \sum_{i=0}^{\infty} \frac{m_i}{\norm{\vc{r} - \vc{\rho}_i}}
+    U = G \sum_{i=0}^{\infty} \frac{m_i}{\norm{\vc{r} - \vc{\rho}_i}}.
 \end{align}
 The method distributes a collection of point masses uniformly throughout the body such that the total mass is equal to the body.
 While conceptually simple, and relatively straight forward to numerically implement, the mascon approach has several drawbacks~\cite{scheeres2012a}.
@@ -551,15 +552,15 @@ Finally, while the mascon method will provide the true gravity field in the limi
 
 It can be shown that the gravitational potential will satisfy Laplace's equation outside of the body
 \begin{align}\label{eq:laplace_equation}
-    \nabla^2 U = 0
+    \nabla^2 U = 0,
 \end{align}
 and Poisson's equation inside of the body
 \begin{align}\label{eq:poisson_equation}
-    \nabla^2 U = - 4 \pi G \sigma
+    \nabla^2 U = - 4 \pi G \sigma,
 \end{align}
 where \( \gls{sym:sigma} \) is the local density of the body.
-Laplace's equation can be solved using a separation of variables in terms of spherical coordinates~\cite{scheeres2012a}.
-The transformation between cartesian, \( \vc{r} = \begin{bmatrix} x & y & z \end{bmatrix}\) and spherical coordinates is given by
+Laplace's equation can be solved using the separation of variables in terms of spherical coordinates~\cite{scheeres2012a}.
+The transformation between cartesian, \( \vc{r} = \begin{bmatrix} x & y & z \end{bmatrix}\), and spherical coordinates is given by
 \begin{subequations}
     \begin{align*}
         r &= \sqrt{x^2 + y^2 + z^2}, \\
@@ -578,7 +579,7 @@ The Legendre functions are given in closed form by~\cite{scheeres2012}
 \begin{subequations}
 \begin{align}
     P_{l, m} \parenth{ \sin \delta} &= \cos^m \phi \sum_{i = 0}^{\text{int}\bracket{l - \frac{m}{2}}} T_{lmi} \sin^{l - m - 2i} \phi ,  \\
-T_{lmi} &= \frac{\parenth{-1}^i\parenth{2l - 2i}!}{2^l i! \parenth{l - i}!\parenth{l - m- 2i}!}.
+T_{lmi} &= \frac{\parenth{-1}^i\parenth{2l - 2i}!}{2^l i! \parenth{l - i}!\parenth{l - m- 2i}!},
 \end{align}
 \end{subequations}
 where \( \text{int}\bracket{x}\) defines the integer portion of \( x \).
@@ -603,23 +604,16 @@ As a result of this discontinuity, the expansion coefficients become a function 
 These limitations mean that in practice the spherical harmonic expansion model cannot be used for the gravity model when operating around an irregular body.
 The divergence of the expansion causes the gravitational field to become meaningless when close to the surface and make the use of the spherical harmonic model worthless for dynamic computations.
 
-% TODO Add picture of biroullion sphere
-% TODO Add glossary entry for biroullion sphere
-% TODO Show picture of point masses and newton's law and add near the equation
-% TODO Add picture of MASCON model (many point masses)
-
 An alternative approach is based on using a specified shape of the body to determine a closed form solution to the gravitational potential.
-Each of these methods are based on a known shape of the body and a strong assumption on the density variation, frequently assuming a homegenous body with constant density.
+Each of these methods are based on a known shape of the body and a strong assumption on the density variation, frequently assuming a homogeneous body with constant density.
 The simplest solution is based on a spherical body with a radially-varying density distribution.
 This type of model is best applicable for centrobaric bodies, such as the Earth and many planetary bodies.
-% TODO Write down the spherical potential for a radially varying distribution from AAE532
 The solutions for the constant density ellipsoid and constant density polyhedron are more useful for operations near small irregular bodies.
 These methods provide exact, closed-form solutions which are valid up to the surface of the body and have been used in the majority of research near the surface of small bodies.
-Here we present the ellipsoid and polyhedron potential models which are commonly used heavily used in research around small bodies.
+Here we present the ellipsoid and polyhedron potential models which are commonly used in research around small bodies.
 
 \subsection{Constant Density Ellipsoid}\label{sec:constant_density_ellipsoid}
 
-% TODO Need to add citations for these statements
 The ellipsoid gravitational model assumes that the small body is accurately represented by a constant density ellipsoid.
 This strong assumption is appropriate for many bodies as they are relatively close to ellipsoidal in shape.
 Furthermore, many asteroids are also well represented with a constant density. 
@@ -628,11 +622,10 @@ The triaxial ellipsoid has semi-major axes \( \gamma \leq \beta \leq \alpha\) an
 \begin{align}
     \parenth{\frac{x}{\alpha}}^2 + \parenth{\frac{y}{\beta}}^2 + \parenth{\frac{z}{\gamma}}^2 \leq 1 . 
 \end{align}
-% TODO Draw a picture of ellipsoid with teh axes labeled
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{example-image-golden}
-    \caption[Triaxial Ellipsoid]{Constant Density Tri-Axial Ellipsoid Model~\label{fig:triaxial_ellipsoid}}
+    \caption[Triaxial Ellipsoid]{Constant density triaxial ellipsoid model with semi-major axes \( \gamma \leq \beta \leq \alpha \).~\label{fig:triaxial_ellipsoid}}
 \end{figure}
 Using this model, the gravitational potential outside the body is given by
 \begin{subequations}
