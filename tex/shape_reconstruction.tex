@@ -399,35 +399,6 @@ With this estimate, measurements are made of the surface and used to reconstruct
 is sufficiently small.
 In addition, we compute the volume of the estimate shape throughout the simulation using the algorithm presented in~\cref{proof:polyhedron_volume}.
 
-\num{1620} Geographos is a highly elongated stony asteroid of the Apollo group.
-Discoved in \num{1951}, Geographos is a potentially hazardous asteroid which passes sufficiently close to the Earth to present a hazard.
-\Cref{fig:geographos_reconstruction} shows the shape reconstruction for asteroid Geographos at several distinct points during the process.
-Comparing~\cref{fig:geographos_partial_100,fig:geographos_truth} shows that the final shape closely matches the true radar model.
-In~\cref{fig:geographos_metrics} we display the vertex uncertainty and mesh volume as a function of time.
-The plots show the the reconstruction achieves an accurate shape estimate with a total volume which closesly matches the true volume.
-
-\num{6489} Golevka is a small angular shaped asteroid of the Apollo group.
-Discoved in \num{1995}, Golevka is a potentially hazardous asteroid which passes sufficiently close to the Earth to present a hazard.
-\Cref{fig:golevka_reconstruction} shows the shape reconstruction for asteroid Geographos at several distinct points during the process.
-Comparing~\cref{fig:golevka_partial_100,fig:golevka_truth} shows that the final shape closely matches the true radar model.
-In~\cref{fig:golevka_metrics} we display the vertex uncertainty and mesh volume as a function of time.
-The plots show the the reconstruction achieves an accurate shape estimate with a total volume which closesly matches the true volume.
-It is interesting to note that the reconstruction of Golevka achieves an accurate shape reconstruction in a much smaller amount of time as compared to Geographos.
-This is primarily due to the smaller size of Golevka and the relatively spherical shape of the body in contrast to the highly elliptical shape of Geographos.
-
-\begin{figure}[htbp]
-    \centering
-    \subcaptionbox{Initial Shape Estimate\label{fig:golevka_partial_0}}{\includegraphics[height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/mesh_update/golevka/partial_0.jpg}}~
-    \subcaptionbox{\SI{25}{\percent} of measurements added\label{fig:golevka_partial_25}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/golevka/partial_1321.jpg}}
-
-    \subcaptionbox{\SI{50}{\percent} of measurments added\label{fig:golevka_partial_50}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/golevka/partial_2643.jpg}}~
-    \subcaptionbox{\SI{75}{\percent} of measurements added\label{fig:golevka_partial_75}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/golevka/partial_3964.jpg}}
-
-    \subcaptionbox{\SI{100}{\percent} of measurements added\label{fig:golevka_partial_100}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/golevka/partial_5285.jpg}}~
-    \subcaptionbox{True Shape Model\label{fig:golevka_truth}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/golevka/truth.jpg}}
-    \caption[Asteroid Golevka Incremental Reconstruction]{Incremental Reconstruction of asteroid Golevka~\label{fig:golevka_reconstruction}}
-\end{figure}
-
 \begin{figure}[htbp]
     \centering
     \subcaptionbox{Initial Shape Estimate\label{fig:geographos_partial_0}}{\includegraphics[height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/mesh_update/geographos/partial_0.jpg}}~
@@ -440,19 +411,44 @@ This is primarily due to the smaller size of Golevka and the relatively spherica
     \subcaptionbox{True Shape Model\label{fig:geographos_truth}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/geographos/truth.jpg}}
     \caption[Asteroid Geographos Incremental Reconstruction]{Incremental Reconstruction of asteroid Geographos~\label{fig:geographos_reconstruction}}
 \end{figure}
-
+\num{1620} Geographos is a highly elongated stony asteroid of the Apollo group.
+Discoved in \num{1951}, Geographos is a potentially hazardous asteroid which passes sufficiently close to the Earth to present a hazard.
+\Cref{fig:geographos_reconstruction} shows the shape reconstruction for asteroid Geographos at several distinct points during the process.
+Comparing~\cref{fig:geographos_partial_100,fig:geographos_truth} shows that the final shape closely matches the true radar model.
+In~\cref{fig:geographos_metrics} we display the vertex uncertainty and mesh volume as a function of time.
 \begin{figure}[htbp]
     \centering
-    \subcaptionbox{Normalized Uncertainty\label{fig:golevka_uncertainty}}{\includegraphics[width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/mesh_update/golevka/uncertainty.pdf}}~
-    \subcaptionbox{Volume Percent Error\label{fig:golevka_volume}}{\includegraphics[width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/mesh_update/golevka/volume.pdf}}
+    \subcaptionbox{Normalized Uncertainty\label{fig:geographos_uncertainty}}{\includegraphics[width=0.5\textwidth,height=0.31\textwidth]{tikz/geographos_uncertainty.tikz}}~
+    \subcaptionbox{Volume Percent Error\label{fig:geographos_volume}}{\includegraphics[width=0.5\textwidth,height=0.31\textwidth]{tikz/geographos_volume.tikz}}
+    \caption{Normalized uncertainty and volume percent error for Geographos\label{fig:geographos_metrics}}
+\end{figure}
+The plots show the the reconstruction achieves an accurate shape estimate with a total volume which closesly matches the true volume.
+
+\num{6489} Golevka is a small angular shaped asteroid of the Apollo group.
+Discoved in \num{1995}, Golevka is a potentially hazardous asteroid which passes sufficiently close to the Earth to present a hazard.
+\Cref{fig:golevka_reconstruction} shows the shape reconstruction for asteroid Geographos at several distinct points during the process.
+Comparing~\cref{fig:golevka_partial_100,fig:golevka_truth} shows that the final shape closely matches the true radar model.
+In~\cref{fig:golevka_metrics} we display the vertex uncertainty and mesh volume as a function of time.
+\begin{figure}[htbp]
+    \centering
+    \subcaptionbox{Normalized Uncertainty\label{fig:golevka_uncertainty}}{\includegraphics[width=0.5\textwidth,height=0.31\textwidth]{tikz/golevka_uncertainty.tikz}}~
+    \subcaptionbox{Volume Percent Error\label{fig:golevka_volume}}{\includegraphics[width=0.5\textwidth,height=0.31\textwidth]{tikz/golevka_volume.tikz}}
     \caption{Normalized uncertainty and volume percent error for Golevka\label{fig:golevka_metrics}}
 \end{figure}
-
+The plots show the the reconstruction achieves an accurate shape estimate with a total volume which closesly matches the true volume.
+It is interesting to note that the reconstruction of Golevka achieves an accurate shape reconstruction in a much smaller amount of time as compared to Geographos.
+This is primarily due to the smaller size of Golevka and the relatively spherical shape of the body in contrast to the highly elliptical shape of Geographos.
 \begin{figure}[htbp]
     \centering
-    \subcaptionbox{Normalized Uncertainty\label{fig:geographos_uncertainty}}{\includegraphics[width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/mesh_update/geographos/uncertainty.pdf}}~
-    \subcaptionbox{Volume Percent Error\label{fig:geographos_volume}}{\includegraphics[width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/mesh_update/geographos/volume.pdf}}
-    \caption{Normalized uncertainty and volume percent error for Geographos\label{fig:geographos_metrics}}
+    \subcaptionbox{Initial Shape Estimate\label{fig:golevka_partial_0}}{\includegraphics[height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/mesh_update/golevka/partial_0.jpg}}~
+    \subcaptionbox{\SI{25}{\percent} of measurements added\label{fig:golevka_partial_25}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/golevka/partial_1321.jpg}}
+
+    \subcaptionbox{\SI{50}{\percent} of measurments added\label{fig:golevka_partial_50}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/golevka/partial_2643.jpg}}~
+    \subcaptionbox{\SI{75}{\percent} of measurements added\label{fig:golevka_partial_75}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/golevka/partial_3964.jpg}}
+
+    \subcaptionbox{\SI{100}{\percent} of measurements added\label{fig:golevka_partial_100}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/golevka/partial_5285.jpg}}~
+    \subcaptionbox{True Shape Model\label{fig:golevka_truth}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/golevka/truth.jpg}}
+    \caption[Asteroid Golevka Incremental Reconstruction]{Incremental Reconstruction of asteroid Golevka~\label{fig:golevka_reconstruction}}
 \end{figure}
 
 \subsection{Full Dynamic Model }\label{sec:dynamic_exploration}
@@ -536,8 +532,8 @@ Areas of high uncertainty are denoted in yellow while areas of low uncertainty a
 The plots show that the reconstruction  converges to an accurate shape estimate after approximately \SI{8000}{\second}.
 \begin{figure}[htbp]
     \centering
-    \subcaptionbox{Normalized Uncertainty\label{fig:52760_uncertainty}}{\includegraphics[width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/52760/uncertainty.pdf}}~
-    \subcaptionbox{Volume Percent Error\label{fig:52760_volume}}{\includegraphics[width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/52760/volume.pdf}}
+    \subcaptionbox{Normalized Uncertainty\label{fig:52760_uncertainty}}{\includegraphics[width=0.5\textwidth,height=0.31\textwidth]{tikz/52760_uncertainty.tikz}}~
+    \subcaptionbox{Volume Percent Error\label{fig:52760_volume}}{\includegraphics[width=0.5\textwidth,heigth=0.31\textwidth]{tikz/52760_volume.tikz}}
     \caption{Normalized uncertainty and volume percent error for 52760\label{fig:52760_metrics}}
 \end{figure}
 
@@ -581,8 +577,8 @@ The plots show that the reconstruction converges to an accurate shape estimate a
 In addition, the volume estimate is initially a much larger value but quickly converges to the true value.
 \begin{figure}[htbp]
     \centering
-    \subcaptionbox{Normalized Uncertainty\label{fig:castalia_uncertainty}}{\includegraphics[width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/castalia/uncertainty.pdf}}~
-    \subcaptionbox{Volume Percent Error\label{fig:castalia_volume}}{\includegraphics[width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/castalia/volume.pdf}}
+    \subcaptionbox{Normalized Uncertainty\label{fig:castalia_uncertainty}}{\includegraphics[width=0.5\textwidth,height=0.31\textwidth]{tikz/castalia_uncertainty.tikz}}~
+    \subcaptionbox{Volume Percent Error\label{fig:castalia_volume}}{\includegraphics[width=0.5\textwidth,height=0.31\textwidth]{tikz/castalia_volume.tikz}}
     \caption{Normalized uncertainty and volume percent error for Castalia\label{fig:castalia_metrics}}
 \end{figure}
 
