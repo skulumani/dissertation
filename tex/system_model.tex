@@ -40,37 +40,38 @@ This dumbbell model is a popular model for dynamical analysis of spacecraft and 
 \subsection{Reference Frames}\label{ssec:dumbbell_eoms_reference_frames}
 
 The first step in deriving the equations of motion is to first define the \gls{kinematics} of the spacecraft motion.
-This kinematical description will be used in subsequent sections to derive the equations of motion, compute the control inputs, and simulate the motion.
+This kinematic description will be used in subsequent sections to derive the equations of motion, compute the control inputs, and simulate the motion.
 There are three reference frames of interest for this problem:
 \begin{enumerate}
     \item \( \gls{sym:evec}[_i] \in \R^3 \) : The standard basis vectors of the inertial reference frame.
         The inertial reference frame is assumed to be fixed with respect to the stars. 
-        The origin of the frame is chosen to coincide with the center of mass of the asteroid.
+        The origin of the frame is chosen to coincide with the center of mass of the small body.
         The standard inertial basis vectors are given as:
         \begin{align*}
             \evec{1} &= \begin{bmatrix} 1 & 0 & 0 \end{bmatrix}^T, \\
             \evec{2} &= \begin{bmatrix} 0 & 1 & 0 \end{bmatrix}^T, \\
             \evec{3} &= \begin{bmatrix} 0 & 0 & 1 \end{bmatrix}^T.
         \end{align*}
-    \item \( \gls{sym:fvec}[_i] \in \R^3 \) : The standard basis vectors for asteroid fixed frame.
-        The reference frame originates at the center of mass of the asteroid and the basis vectors are aligned with the principle motments of inertia of the asteroid.
-        In addition, we assume that at the beginning of any simulation that the asteroid and inertial frames are initially aligned.
+    \item \( \gls{sym:fvec}[_i] \in \R^3 \) : The standard basis vectors for small body fixed frame.
+        The reference frame originates at the center of mass of the body and the basis vectors are aligned with the principle moments of inertia. 
+        In addition, we assume that at the beginning of any simulation that the central body and inertial frames are initially aligned.
     \item \( \gls{sym:bvec}[_i] \in \R^3 \) : The standard basis vectors for the spacecraft fixed frame.
-        The frame originates at the center of mass of the spacecraft and is aligned with the principle moments of inertia of the body.
+        The frame originates at the center of mass of the spacecraft and is aligned with the principle moments of inertia of the spacecraft.
 \end{enumerate}
-\Cref{fig:reference_frames} shows the reference frames in use throughout this work.
+A visual representation of the reference frames of interest is shown in~\cref{fig:reference_frames}.
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{tikz/ref_frames.tikz}
     \caption{Visual representation of the references considered in this dissertation.
-    The inertial frame, \( \vc{e}_i \), is fixed while the asteroid fixed frame, \( \vc{f}_i \), is colocated and rotates at a constant angular rate with the asteroid.
-The spacecraft fixed frame, \( \vc{b}_i \), is attached to the spacecraft.\label{fig:reference_frames}}
+    The inertial frame, \( \vc{e}_i \), is fixed while the small body fixed frame, \( \vc{f}_i \), is co-located and rotates at a constant angular rate with respect to the inertial frame.
+The spacecraft fixed frame, \( \vc{b}_i \), is attached to the spacecraft.
+The \( b_1 \) axis is aligned with the axis of symmetry of the dumbbell.\label{fig:reference_frames}}
 \end{figure}
 
-With the appropriate reference frames, the configuration space of the spacecraft motion is now defined to enable the derivation of the equations of motion.
+With the appropriate reference frames, the configuration space of the spacecraft motion is now defined to derive the equations of motion.
 From classical mechanics, the parameters which are used to define the motion of the system are called generalized coordinates and represented by \( \vc{q} \).
-The vector space defined by these coordinates is called the configuration space, \( \mathsf{Q} \), of the physical system.
-Frequently, the physical parameters of the system must also satisfy some mathematical constraints, which then define a configuration manifold of all generalized coordinates within the configuration space which satisfy the constraints.
+The vector space defined by these coordinates is called the configuration space, \( q \in \mathsf{Q} \), of the physical system.
+Frequently, the physical parameters of the system must also satisfy some mathematical constraints, which then define a configuration manifold of all generalized coordinates within the configuration space which also satisfy the constraints.
 For example, the motion of a particle in three-dimensional Euclidean space can be defined by the typical generalized coordinates in the form of a vector
 \begin{align*}
     \vc{r} = \begin{bmatrix}
@@ -79,29 +80,25 @@ For example, the motion of a particle in three-dimensional Euclidean space can b
 \end{align*}
 Therefore the configuration space is then the set of all real three dimensional vectors or equivalently, \(\vc{r} \in \gls{sym:real_vector_space}[^3]\).
 
-If we further assume that the point is constrained to the surface of a sphere, for example in the case of a spherical pendulum, then the configuration space becomes the subset of \( \R^3 \) which also define points the on sphere, \( \gls{sym:n_sphere} \).
+If we further assume that the point is constrained to the surface of a sphere, for example in the case of a spherical pendulum, then the configuration space becomes the subset of \( \R^3 \) which also define points the on sphere, \( \gls{sym:n_sphere}^2 \).
 If the particle is an extended body rather than a point mass then the orientation becomes an additional configuration parameter.
 The orientation of any rigid body can be defined as the orientation of a body fixed reference frame with respect to an inertial frame. 
 As a result, the configuration space for the general motion of a rigid body is defined by at a minimum of three coordinates to represent translation and three coordinates to represent the orientation.
-This configuration space is the semi-direct product, \( \gls{sym:special_euclidean_group} = \R^3 \times \gls{sym:special_orthogonal_group} \), or the special euclidean group.
+This configuration space is the semi-direct product, \( \gls{sym:special_euclidean_group} = \R^3 \otimes \gls{sym:special_orthogonal_group} \), or the special euclidean group.
 The special euclidean group is the group of all possible rigid body motions and defines the six degrees of freedom possible by our system.
 An element of the special euclidean group can be expressed using the homogenous representation as
 \begin{align*}
     \begin{bmatrix}
         R & \vc{x} \\
-        0 & 1,
-    \end{bmatrix}
+        0 & 1
+    \end{bmatrix},
 \end{align*}
-where \( R \in \SO\) is a \( 3 \times 3 \) real matrix with determinant of \( +1\) and \( \vb{x} \in \R^{3 \times 1}\) is a column vector.
+where \( R \in \SO\) is a \( 3 \times 3 \) real matrix with determinant of \( +1\) and \( \vc{x} \in \R^{3 \times 1}\) is a column vector.
 
-% TODO Discuss the group update operation as a homogenous transformation on R^4
-
-% TODO show example of the update operation 
-
-In this work, we assume that the asteroid is much more massive than the spacecraft and its motion is not affected by that of the spacecraft.
-This assumption allows us to treat the motion of the vehicle independently from that of the asteroid, instead of treating the more complicated full-body problem. 
+In this dissertation, we assume that the central body is much more massive than the spacecraft and its motion is not affected by that of the spacecraft.
+This assumption allows us to treat the motion of the vehicle independently from that of the central body, instead of treating the more involved full-body problem. 
 In~\cref{sec:dumbbell_model}, the configuration and mass properties of the spacecraft model are explicitly defined.
-Using the model, the coupled dynamics of the spacecraft are derived in the inertial frame~\cref{sec:inertial_dumbbell_eoms} and asteroid fixed frames in~\cref{sec:asteroid_dumbbell_eoms}.
+Using the model,~\cref{sec:inertial_dumbbell_eoms} derives the coupled dynamics of the spacecraft in the inertial frame and~\cref{sec:asteroid_dumbbell_eoms} derives the equations of motion in the rotating frame.
 
 \subsection{Dumbbell Spacecraft Model}\label{sec:dumbbell_model}
 
@@ -113,19 +110,12 @@ In addition, comparatively light-weight solar panels extend from the bus to prov
 As a result, the distributed mass of the spacecraft is captured with the dumbbell representation.
 
 The dumbbell is defined by two spherical masses of radius \( \radius{1}, \radius{2} \in \R \) with masses \( \mass{1}, \mass{2} \in  \R\).
-The masses are seperated by a massless rod of length \( \length{} \) and attached to the centers of each mass.
+The masses are separated by a massless rod of length \( \length{} \) and attached to the centers of each mass.
 \Cref{fig:dumbbell_sc} shows the model and associated parameters.
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=\textwidth]{figures/dumbbell.png}
-    \caption{Dumbbell Model of Rigid Spacecraft}
-    \label{fig:dumbbell_sc}
-\end{figure}
-
-\begin{figure}[htbp]
-    \centering
     \includegraphics[width=\textwidth]{tikz/dumbbell.tikz}
-    \caption{Dumbbell Model of Rigid Spacecraft}
+    \caption{Dumbbell Model of Rigid Spacecraft\label{fig:dumbbell_sc}}
 \end{figure}
 The spacecraft body fixed frame is centered at the center of mass of the vehicle.
 The \( \bvec{1} \)  axis is aligned with the connecting rod and directed along the axis of symmetry.
@@ -136,7 +126,7 @@ The distance from the center of mass to each spherical mass is defined as
     \length{2} &= \length{} - \length{1}.
 \end{align}
 
-\paragraph{Moment of Inertia Derivation}\label{sec:moment_of_inertia}
+\paragraph{Moment of Inertia}\label{sec:moment_of_inertia}
 The inertia tensor/matrix of a rigid body is defined~\cite{greenwood1988} as
 \begin{align}\label{eq:moi_definition}
     J_I = \int_{\mathcal{B}} \bracket{ \parenth{\brho{}^T \brho{} }I - \brho{}\brho{}^T} dm, 
@@ -153,17 +143,12 @@ The location of an infinitesimal mass element \( dm \) can be decomposed into
     \vc{\rho}_i = \vc{\zeta} + \vc{\eta}_i, 
 \end{align}
 where \( \vc{\zeta} \) is the location of the center of \( m_i \) in the spacecraft fixed frame while \( \vc{\eta} \) the position of \( dm \) with respect to the center of \( m_i \) and expressed in the spacecraft fixed frame.
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=\textwidth]{figures/dumbbell_pos_vector.png}
-    \caption{Decomposition of mass element positon vector}
-    \label{fig:dumbbell_moi_mass_element_position}
-\end{figure}
+\Cref{fig:dumbbell_sc} shows the configuration of the vectors \( \vc{\zeta}, \vc{\eta} \) in the spacecraft fixed frame.
 Using~\cref{eq:mass_element_position}, the moment of inertia can be expanded as
 \begin{align*}
     J_I &= \sum_i^n \int_{\mathcal{B}_i} \parenth{\vc{\zeta}_i + \vc{\eta}_i}^T \parenth{\vc{\zeta}_i + \vc{\eta}_i } I  - \parenth{\vc{\zeta}_i + \vc{\eta}_i} \parenth{\vc{\zeta}_i + \vc{\eta}_i}^T dm .
 \end{align*}
-Further expansion leads to
+Expanding the product terms leads to
 \begin{align*}
     J_I = \sum_i^n \int_{\mathcal{B}_i} \parenth{\vc{\zeta}_i^T \vc{\zeta}_i}I - \vc{\zeta}_i \vc{\zeta}_i^T + \vc{\eta}_i^T \vc{\eta}_i I - \vc{\eta}_i \vc{\eta}_i^T dm.
 \end{align*}
@@ -187,8 +172,7 @@ where \( \vc{\zeta}_i \) is the position of \( m_i \) in the spacecraft fixed fr
 \end{align}
 \Cref{eq:dumbbell_moment_of_inertia} is consistent with the well-known parallel-axis theorem~\cite{greenwood1988}.
 
-%TODO Nonstandard moment of inertia matrix
-\paragraph{Nonstandard Moment of Inertia Matrix}\label{sec:nonstandard_moi}
+\paragraph{Nonstandard Moment of Inertia}\label{sec:nonstandard_moi}
 The standard moment of inertia \( J \in \R^{3 \times 3} \) of a rigid body is given by
 \begin{align}\label{eq:standard_moment_of_inertia}
     J = \int_{\mathcal{B}} \vh{\rho}^T \vh{\rho} dm 
