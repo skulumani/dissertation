@@ -1,0 +1,67 @@
+\tikzsetnextfilename{multiple_shooting}
+\begin{tikzpicture}[
+    help lines/.style={very thin,color=gray!50},
+    ->-/.style={decoration={
+            markings,
+            mark=at position .5 with {\arrow{>}}},
+            postaction={decorate}},
+     decorate sep/.style 2 args={decorate,
+            decoration={shape backgrounds,shape=circle,shape size=#1,shape sep=#2}},
+    ]
+    % \draw[help lines] (0,0) grid (20,5) ; %grid
+
+    \node[label=west:\(\vc{x}\)] (x0m) at (0,5) {};
+    \node[] (x1m) at (5,5) {};
+    \node[] (x2m) at (10,5) {};
+    \node[] (x3m) at (15,5) {};
+    \node[] (xnm) at (20,5) {};
+
+    \node[label=below:\(k_0\)] (t0) at (0,0) {};
+    \node[label=below:\(k_1\)] (t1) at (5,0) {};
+    \node[label=below:\(k_2\)] (t2) at (10,0) {};
+    \node[label=below:\(k_{n-1}\)] (t3) at (15,0) {};
+    \node[label=below:\(k_n\)] (tn) at (20,0) {};
+
+    % nodes for each subsegment
+    \node[label=left:\(\vc{x}_0\)] (x0) at (0,1) {\pgfuseplotmark{*}};
+    \node[label=below left:\(\vc{\lambda}_0\)] at (x0) {};
+
+    \node[label=right:\(\vc{x}_1^{-}\)] (x1minus) at (5,2) {\pgfuseplotmark{*}};
+    \node[label=below right:\(\vc{\lambda}_1^{-}\)] at (x1minus) {};
+
+    \node[label=above left:\(\vc{x}_1^{+}\)] (x1plus) at (5,3) {\pgfuseplotmark{o}};
+    \node[label=left:\(\vc{\lambda}_1^{+}\)] at (x1plus) {};
+
+    \node[label=right:\(\vc{x}_2^{-}\)] (x2minus) at (10,2) {\pgfuseplotmark{*}};
+    \node[label=below right:\(\vc{\lambda}_2^{-}\)] at (x2minus) {};
+
+    \node[label=above left:\(\vc{x}_2^{+}\)] (x2plus) at (10,3) {\pgfuseplotmark{o}};
+    \node[label=left:\(\vc{\lambda}_2^{+}\)] at (x2plus) {};
+
+    \node[label=right:\(\vc{x}_{n-1}^{-}\)] (x3minus) at (15,2) {\pgfuseplotmark{*}};
+    \node[label=below right:\(\vc{\lambda}_{n-1}^{-}\)] at (x3minus) {};
+
+    \node[label=above left:\(\vc{x}_{n-1}^{+}\)] (x3plus) at (15,3) {\pgfuseplotmark{o}};
+    \node[label=left:\(\vc{\lambda}_{n-1}^{+}\)] at (x3plus) {};
+
+    \node[label=right:\(\vc{x}_n\)] (xnminus) at (20,3) {\pgfuseplotmark{*}};
+    \node[label=below right:\(\vc{\lambda}_n\)] at (xnminus) {};
+    % draw axes
+    \draw [<->,thick] (tn.center) -- (t0.center) -- (x0m.center);
+
+    % draw segement dividers
+    \draw [dashed,thick] (t1.center) -- (x1m.center);
+    \draw [dashed,thick] (t2.center) -- (x2m.center);
+    \draw [dashed,thick] (t3.center) -- (x3m.center);
+    \draw [dashed,thick] (tn.center) -- (xnm.center);
+
+    % draw markers at each subsegment
+
+    % draw the subsegments
+    \draw [->] (x0.center) to [bend left=30] (x1minus.center);
+    \draw [->] (x1plus.center) to [bend left=30] (x2minus.center);
+    % dotted lines here
+    \draw[decorate sep={1mm}{5mm},fill] (x2plus.east) to [bend left=10] (x3minus.west);
+
+    \draw [->] (x3plus.center) to [bend left=30] (xnminus.center);
+\end{tikzpicture}
