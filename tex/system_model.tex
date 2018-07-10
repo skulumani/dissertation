@@ -56,14 +56,16 @@ There are three reference frames of interest for this problem:
     \item \( \gls{sym:fvec}[_i] \in \R^3 \) : The standard basis vectors for asteroid fixed frame.
         The reference frame originates at the center of mass of the asteroid and the basis vectors are aligned with the principle motments of inertia of the asteroid.
         In addition, we assume that at the beginning of any simulation that the asteroid and inertial frames are initially aligned.
-    \item \( \gls{sym:bvec}[_i] \) : The standard basis vectors for the spacecraft fixed frame.
+    \item \( \gls{sym:bvec}[_i] \in \R^3 \) : The standard basis vectors for the spacecraft fixed frame.
         The frame originates at the center of mass of the spacecraft and is aligned with the principle moments of inertia of the body.
 \end{enumerate}
 \Cref{fig:reference_frames} shows the reference frames in use throughout this work.
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{tikz/ref_frames.tikz}
-    \caption{Representation of the three reference frames, inertial, asteroid, and spacecraft, used to describe the kinematics\label{fig:reference_frames}}
+    \caption{Visual representation of the references considered in this dissertation.
+    The inertial frame, \( \vc{e}_i \), is fixed while the asteroid fixed frame, \( \vc{f}_i \), is colocated and rotates at a constant angular rate with the asteroid.
+The spacecraft fixed frame, \( \vc{b}_i \), is attached to the spacecraft.\label{fig:reference_frames}}
 \end{figure}
 
 With the appropriate reference frames, the configuration space of the spacecraft motion is now defined to enable the derivation of the equations of motion.
