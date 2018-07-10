@@ -456,25 +456,25 @@ The key developments are summarized in this section.
 
 The variation of the reduced potential energy, shown in~\cref{eq:relative_potential_energy}, is given by
 \begin{align}\label{eq:relative_potential_energy_variation}
-    \delta V &= \bracket{-m_1 \deriv{U}{z_1}^T - m_1 \deriv{U}{z_2}^T} \delta \rpos - m_1 \tr{ \rattvar \ratt \rho_1 \deriv{U}{z_1}^T} \nonumber\\
-             &- m_2 \tr{\rattvar \ratt \rho_2 \deriv{U}{z_2}^T},
+    \delta V =& \bracket{-m_1 \deriv{U}{z_1}^T - m_1 \deriv{U}{z_2}^T} \delta \rpos - m_1 \tr{ \rattvar \ratt \rho_1 \deriv{U}{z_1}^T} \nonumber\\
+              & {} - m_2 \tr{\rattvar \ratt \rho_2 \deriv{U}{z_2}^T},
 \end{align}
 while the variation of the reduced kinetic energy, shown in~\cref{eq:relative_kinetic_energy}, is given by
 \begin{align}\label{eq:relative_kinetic_energy_variation}
     \delta T =& (m_1 + m_2) \rvel^T \parenth{\delta \dot{x}_r +  \hat{\Omega}_A \delta \rpos} + \frac{1}{2} \tr{ -\dot{\hat{\eta}}\parenth{\Jr  \hat{\Omega}_r }} \nonumber\\
-             &+\frac{1}{2} \tr{\rattvar \parenth{ \hat{\Omega}_A\parenth{\Jr  \hat{\Omega}_r}}^\wedge} .
+              & {} +\frac{1}{2} \tr{\rattvar \parenth{ \hat{\Omega}_A\parenth{\Jr  \hat{\Omega}_r}}^\wedge} .
 \end{align}
 Combining~\cref{eq:relative_potential_energy_variation,eq:relative_kinetic_energy_variation} allows us to compute the variation of the reduced Lagrangian as
 \begin{align}\label{eq:relative_lagrangian_variation}
     \delta L_r =& (m_1 + m_2) \rvel \parenth{\delta \dot{x}_r +  \hat{\Omega}_A \delta \rpos} + \frac{1}{2} \tr{ -\dot{\hat{\eta}}\parenth{\Jr  \hat{\Omega}_r }} \nonumber\\
-    &+\frac{1}{2} \tr{\rattvar \parenth{ \hat{\Omega}_A\parenth{\Jr  \hat{\Omega}_r}}^\wedge} -m_1 \deriv{U}{z_1}^T \delta \rpos - m_1 \deriv{U}{z_2}^T \delta \rpos \nonumber\\
-    &- m_1 \tr{ \rattvar  \ratt \rho_1 \deriv{U}{z_1}^T} - m_2 \tr{\rattvar  \ratt \rho_2 \deriv{U}{z_2}^T}.
+                & {} +\frac{1}{2} \tr{\rattvar \parenth{ \hat{\Omega}_A\parenth{\Jr  \hat{\Omega}_r}}^\wedge} -m_1 \deriv{U}{z_1}^T \delta \rpos - m_1 \deriv{U}{z_2}^T \delta \rpos \nonumber\\
+                & {} - m_1 \tr{ \rattvar  \ratt \rho_1 \deriv{U}{z_1}^T} - m_2 \tr{\rattvar  \ratt \rho_2 \deriv{U}{z_2}^T}.
 \end{align}
 Using~\cref{eq:relative_lagrangian_variation} in the action integral, along with integration by parts and noting that the variations \( \delta \rpos, \rattvar\) are zero at the end points gives 
 \begin{align}\label{eq:relative_hamiltons_principle}
     \delta \mathcal{G} =& \int_{t_0}^{t_f} \left\{-\parenth{m_1+m_2} \dot{v}_r^T + \parenth{m_1 + m_2} \rvel \hat{\Omega}_A + m_1 \deriv{U}{z_1}^T + m_2 \deriv{U}{z_2}^T \right\}\delta \dot{x}_r  dt \nonumber\\
-                        & +\int_{t_0}^{t_f} \frac{1}{2} \tr{\dot{\eta}_r \braces{\dot{\widehat{\parenth{\Jr \rangvel}}} + \parenth{\hat{\Omega}_A \parenth{\Jr \rangvel}}^\wedge }} dt \nonumber\\
-                        & + \int_{t_0}^{t_f}  \frac{1}{2} \tr{\rattvar  \braces{2 m_1\ratt \rho_1\deriv{U}{z_1}^T + 2 m_2 \ratt \rho_2\deriv{U}{z_2}^T}} dt.
+                        & {} +\int_{t_0}^{t_f} \frac{1}{2} \tr{\dot{\eta}_r \braces{\dot{\widehat{\parenth{\Jr \rangvel}}} + \parenth{\hat{\Omega}_A \parenth{\Jr \rangvel}}^\wedge }} dt \nonumber\\
+                        & {} + \int_{t_0}^{t_f}  \frac{1}{2} \tr{\rattvar  \braces{2 m_1\ratt \rho_1\deriv{U}{z_1}^T + 2 m_2 \ratt \rho_2\deriv{U}{z_2}^T}} dt.
 \end{align}
 Since, \( \delta \mathcal{G} = 0 \) for all possible variations which satisfy the constraints, the expression in the first brace should be zero and the expressions in the last two braces should be symmetric since \( \rattvar \in \so \) is skew-symmetric.
 Following a procedure analogous to~\cref{sec:inertial_dumbbell_eoms} we obtain the relative equations of motion in Lagrangian form as
@@ -485,7 +485,7 @@ Following a procedure analogous to~\cref{sec:inertial_dumbbell_eoms} we obtain t
     \dot{\parenth{\Jr  \rangvel}} + \hat{\Omega}_A \parenth{\Jr  \rangvel} &= m_1 \parenth{\ratt  \rho_1}^\wedge \deriv{U}{z_1} + m_2 \parenth{\ratt  \rho_2}^\wedge \deriv{U}{z_2}.\label{eq:relative_angvel_dynamics}
 \end{align}
 
-\paragraph{Relative Equations of motion: Hamiltonian Form}
+\paragraph{Relative Equations of Motion: Hamiltonian Form}
 Following a similar procedure as introduced in~\cref{sec:inertial_dumbbell_eoms} allows for the equations of motion to be represented in terms of the relative momenta.
 This has the obvious benefit of replacing the second order differential equations with first order equations.
 Furthermore, in the specific case of~\cref{eq:relative_angvel_dynamics} the Hamiltonian form alleviates the need to evaluate the angular momentum term \( \dot{\parenth{\Jr \rangvel}}\).
@@ -502,19 +502,19 @@ The relative equations of motion in Hamiltonian form are then defined as
     \rdangmom + \ahangvel \rangmom &= m_1 \parenth{\ratt \spos_1}^\wedge \deriv{U}{\apos_1} + m_2 \parenth{\ratt \spos_2}^\wedge \deriv{U}{\apos_2}. \label{eq:relative_angvel_dynamics_hamiltonian}
 \end{align}
 
-\section{Gravitational Models around Small-Bodies}\label{sec:gravitational_models}
-This section is focused on defining the various models to represent the environment near a small-body.
+\section{Gravitational Models around Small Bodies}\label{sec:gravitational_models}
+This section is focused on defining the various models used to represent the environment near a small body.
 This includes not only the gravitational environment but also the shape of the bodies themselves.
 There are several approaches to describe both the gravitational field and the shape of small bodies.
-We summarize several of the most common approaches and present a summary of the polyhedron potential model which is used throughout the thesis.
+We summarize several of the most common approaches and present a summary of the polyhedron potential model which is used throughout this dissertation.
 
-The defining characteristic of small-bodies is their irregular shape.
+The defining characteristic of small bodies is their irregular shape.
 The small bodies lack sufficient mass to form themselves into a spherical shape.
-As a result the gravitational field around small-bodies is also equally irregular.
+As a result the gravitational field around small bodies is also equally irregular.
 Furthermore, the relative size of the spacecraft in comparison with the orbital radius creates a much larger coupling between the translational and rotational states of the spacecraft.
 In addition, spacecraft will tend to operate in very close proximity to the surface.
 As a result, accurate computation of the gravitational field around these irregular bodies is critical to safe and effective operations.
-The classic approach to determining the gravitational force is to apply Newton's law of Universal gravitation.
+The classic approach to determining the gravitational force is to apply Newton's law of universal gravitation.
 The force due to gravity between two point masses is defined as
 \begin{align}\label{eq:newton_universal_gravitation}
     \vc{F}_g =  - G \frac{m_1 m_2}{r^2} \frac{\vc{r}}{\norm{\vc{r}}},
