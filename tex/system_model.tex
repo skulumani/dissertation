@@ -1,17 +1,16 @@
 % !TEX root = ../dissertation.tex
 
 \chapter{Mathematical Background}\label{sec:mathematical_background}
-This chapeter defines and derives the mathematical models that are used throughout the reminder of this work.
-Furthermore, this chapeter also provided the mathematical background in astrodynamic, geometric dynamics and control, topology, and computational geometry that are critical for the subsequent developments.
+This chapter defines and derives the mathematical models that are used throughout the reminder of this work.
+Furthermore, this chapter also provides the mathematical background in astrodynamics, geometric mechanics and control, topology, and computational geometry that are critical for the subsequent developments.
 This chapter does not provide a complete treatment but rather highlights and derives the results which will be used in future chapters.
 
-In~\cref{sec:dumbbell}, the equations of motion of a rigid dumbbell are derived in both the inertial frame and the rotating asteroid frame.
+In~\cref{sec:dumbbell}, the equations of motion of a rigid dumbbell are derived in both the inertial frame and the rotating frame.
 In addition, the equations of motion are each presented in the both the Lagrangian and Hamiltonian forms for a total for four separate equations of motion.
-The dynamics equations of motion are crucial for the geometric controller design of~\cref{sec:se3_control} and dynamic simulations around asteroids of~\cref{sec:shape_reconstruction}.
-\Cref{sec:small_body_modeling} presents the gravitational models used to represent the asteroids considered in this study. 
-We summarize the spherical harmonic, constant density ellipsoid, and polyhedron potential models.
+\Cref{sec:gravitational_models} presents the gravitational models most frequently used for small-body missions. 
+Specifically, we summarize the spherical harmonic, constant density ellipsoid, and polyhedron potential gravity models.
 Finally,~\cref{sec:computational_geometry} presents the mathematical and computational background required to represent the wide variety of small-body shapes.
-These mathematical tools and data are used throughout the thesis to efficiently determine the asteroid shape.
+The dynamic equations of motion are crucial for the low energy orbit transfers in~\cref{sec:lowthrust_transfers}, the geometric controller design of~\cref{sec:se3_control}, and the shape reconstruction scheme of~\cref{sec:shape_reconstruction}.
 
 \section{Spacecraft Dynamic Model}\label{sec:dumbbell}
 
