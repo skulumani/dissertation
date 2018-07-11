@@ -1,4 +1,4 @@
-\documentclass[]{article}
+\documentclass{standalone}
 
 \usepackage{pgfplots}
 \pgfplotsset{compat=newest}
@@ -6,15 +6,14 @@
 \usepackage{tikzscale}
 \usepackage{tikz-3dplot}
 \usetikzlibrary{decorations.markings,decorations.pathreplacing,calc}
-\usetikzlibrary{decorations.shapes}
+\usetikzlibrary{decorations.shapes,arrows.meta}
 \usepgfplotslibrary{external}
 \usepackage{siunitx}
+\usepackage{graphicx}
 
 \newcommand{\vecbf}[1]{#1}
 \newcommand{\vc}[1]{#1}
+
 \begin{document}
-\begin{figure}
-    \centering
-    \includegraphics[width=0.7\textwidth,height=0.2\textwidth]{eR_noadapt.tikz}
-\end{figure}
+    \includegraphics[width=\textwidth]{multiple_shooting.tikz}
 \end{document}

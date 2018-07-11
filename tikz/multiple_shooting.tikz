@@ -3,10 +3,10 @@
     help lines/.style={very thin,color=gray!50},
     ->-/.style={decoration={
             markings,
-            mark=at position .5 with {\arrow{>}}},
-            postaction={decorate}},
-     decorate sep/.style 2 args={decorate,
-            decoration={shape backgrounds,shape=circle,shape size=#1,shape sep=#2}},
+        mark=at position .5 with {\arrow{>}}},
+    postaction={decorate}},
+    decorate sep/.style 2 args={decorate,
+    decoration={shape backgrounds,shape=circle,shape size=#1,shape sep=#2}},
     ]
     % \draw[help lines] (0,0) grid (20,5) ; %grid
 
@@ -47,7 +47,7 @@
     \node[label=right:\(\vc{x}_n\)] (xnminus) at (20,3) {\pgfuseplotmark{*}};
     \node[label=below right:\(\vc{\lambda}_n\)] at (xnminus) {};
     % draw axes
-    \draw [<->,thick] (tn.center) -- (t0.center) -- (x0m.center);
+    \draw [Latex-Latex,thick] (tn.center) -- (t0.center) -- (x0m.center);
 
     % draw segement dividers
     \draw [dashed,thick] (t1.center) -- (x1m.center);
@@ -58,10 +58,10 @@
     % draw markers at each subsegment
 
     % draw the subsegments
-    \draw [->] (x0.center) to [bend left=30] (x1minus.center);
-    \draw [->] (x1plus.center) to [bend left=30] (x2minus.center);
+    \draw [-Latex] (x0.center) to [bend left=30] (x1minus.center);
+    \draw [-Latex] (x1plus.center) to [bend left=30] (x2minus.center);
     % dotted lines here
     \draw[decorate sep={1mm}{5mm},fill] (x2plus.east) to [bend left=10] (x3minus.west);
 
-    \draw [->] (x3plus.center) to [bend left=30] (xnminus.center);
+    \draw [-Latex] (x3plus.center) to [bend left=30] (xnminus.center);
 \end{tikzpicture}
