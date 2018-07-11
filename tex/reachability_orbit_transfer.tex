@@ -153,27 +153,36 @@ The addition of low-thrust propulsion offers the potential of reduced transit ti
 In this paper, we formulate an optimal control problem to generate the reachable set of the spacecraft.
 We compute the reachable set on an appropriate \Poincare section and use this to design a transfer trajectory.
 
-% TODO Generalize this description to be applicable to both the PCRTBP and Asteroid examples
 
-\section{Transfer Design around Asteroids}\label{sec:sc_eoms}
+\section{Transfer Design around Small Bodies}\label{sec:sc_eoms}
 
-The motion of a massless particle, or spacecraft, about an asteroid shares many similarities with that of the three-body problem.
+The motion of a massless particle, or spacecraft, about small body shares many similarities with that of the three-body problem.
 As is typical in the three-body problem, the equations of motion are usually represented in a uniformly rotating frame aligned with the two primaries.
-Similarly, the equations of motion about an asteroid are also defined in a body-fixed frame with uniform rotation.
+Similarly, the equations of motion about a small body are also defined in a body-fixed frame with uniform rotation.
 In this reference frame, the gravitational potential field is time invariant and only a function of the position of the particle.
-In addition, since the rotational rate of the asteroid is constant, the equations of motion are time invariant.
-Finally, the use of the rotating reference frame allows for much greater insight into the dynamic structure of the behavior around the asteroid.
-Here we consider a simplified form of the relative equations of motion about an asteroid.
-We only treat the translational motion of the spacecraft with respect to the asteroid instead of the full coupled equations of motion introduced in~\cref{sec:asteroid_dumbbell_eoms}.
+In addition, since the rotational rate of the small body is constant, the equations of motion are time invariant.
+Finally, the use of the rotating reference frame allows for much greater insight into the dynamic structure of the behavior around the small body.
+Here we consider another representation of the dynamics of a spacecraft around a small body which is a slight reformulation of the translational motion presented in~\cref{sec:asteroid_dumbbell_eoms}.
+We only treat the translational motion of the spacecraft with respect to the small body instead of the full coupled equations of motion introduced in~\cref{sec:asteroid_dumbbell_eoms}.
+The primary use for low thrust transfers is for large scale orbital transfers.
+When far from the small body the impact of the irregular shape and rotational state of the spacecraft become less critical to the dynamics.
 
-We define a reference frame originating at the center of mass of the asteroid.
-The body-fixed reference frame is composed of the unit vectors \( \hat{\vc{x}} , \hat{\vc{y}}, \hat{\vc{z}} \), which are aligned along the principal axes of smallest, intermediate, and largest moment of inertia, respectively.
-The body-fixed equations of motion of a massless particle about an arbitrarily rotating asteroid are given by
+We utilize the small body fixed frame, \( \fvec{i} \), originating at the center of mass of the small body.
+The body-fixed reference frame is composed of the unit vectors \( \fvec{1} , \fvec{2}, \fvec{3} \), which are aligned along the principal axes of smallest, intermediate, and largest moment of inertia, respectively.
+From~\cref{sec:asteroid_dumbbell_eoms}, the translational equations of relative motion are given as
+\begin{align*}
+    \dot{x}_r &= \rvel - \hat{\Omega}_A \rpos, \\
+     \dot{v}_r  &= \hat{\Omega}_A \rvel +  \deriv{U}{\rpos},
+\end{align*}
+where the relative velocity \( \rvel \) is defined as the representation of the inertial velocity in the small body fixed frame, \( \rvel = \aatt^T \dot{\ipos}\).
+The position of the spacecraft in the inertial frame is given by \( \ipos \) while the position with respect to the small body frame is \( r = \rpos = \aatt^T \ipos \).
+In the \gls{rf2bp}, we consider the time rate of change of the position with respect to the small body frame and define the velocity as \( \dot{r} = \aatt^T \dot{\ipos} - \hat{\Omega}_A r \).
+Using this substitution, the body-fixed equations of motion of a massless particle about an arbitrarily rotating small body are given by
 \begin{align}\label{eq:body_eoms}
-    \ddot{\vc{r}} + 2 \vc{\Omega} \times \dot{\vc{r}} + \vc{\Omega} \times \parenth{ \vc{\Omega} \times \vc{r} } + \dot{\vc{\Omega}} \times \vc{r} = \nabla U(\vc{r}) ,
+    \ddot{\vc{r}} + 2 \vc{\Omega}_A \times \dot{\vc{r}} + \vc{\Omega}_A \times \parenth{ \vc{\Omega}_A \times \vc{r} } + \dot{\vc{\Omega}}_A \times \vc{r} = \nabla U(\vc{r}) ,
 \end{align}
-where \( \vc{\Omega} \in \R^{3 \times 1}\) is the instantaneous angular velocity vector of the asteroid represented in the body-fixed frame, \( \vc{r} \) is the position of the particle in the body-fixed frame, and \( \nabla U(\vc{r}) \) is the gradient of the gravitational potential~\cite{scheeres2012a}.
-We assume that the asteroid rotates at a uniform rate, \( \norm{\vc{\Omega}} = \omega \in \R^1 \), about the axis of the maximum moment of inertia, i.e.\ \( \vc{\Omega} = \omega \hat{\vc{z} }\).
+where \( \vc{\Omega}_A \in \R^{3 \times 1}\) is the instantaneous angular velocity vector of the small body represented in the body-fixed frame, \( \vc{r} \) is the position of the particle in the body-fixed frame, and \( \nabla U(\vc{r}) \) is the gradient of the gravitational potential~\cite{scheeres2012a}.
+We assume that the small body rotates at a uniform rate, \( \norm{\vc{\Omega}_A} = \omega \in \R^1 \), about the axis of the maximum moment of inertia, i.e.\ \( \vc{\Omega}_A = \omega \hat{\fvec{3}}\).
 As a result, we can represent the equations of motion in scalar form as
 \begin{align} \label{eq:eoms}
     \begin{split}
@@ -197,9 +206,9 @@ where the terms \(\vc{g} \parenth{\vc{r}} \) and \( \vc{h}\parenth{\vc{v}} \) ar
     \vc{h}\parenth{\vc{r}} = \begin{bmatrix} 2 \omega \dot{y} \\ -2 \omega \dot{x} \\ 0 \end{bmatrix} .
 \end{align}
 
-Since Castalia is a uniformly rotating asteroid, the equations of motion are time invariant when represented in the body-fixed frame.
+Since we assume that the small body is uniformly rotating, the equations of motion are time invariant when represented in the body-fixed frame.
 In addition, there exists an integral of motion, or a conserved quantity, that is constant for all motion of a particle.
-The Jacobi constant, \( J (\vc{r} , \vc{v} ) \), is given by
+Similar to the three-body problem, the Jacobi constant for the \gls{rf2bp} is given by
 \begin{align}\label{eq:jacobi}
     J \parenth{\vc{r}, \vc{v}} = \frac{1}{2} \omega^2 \parenth{x^2 + y^2} + U(\vc{r}) - \frac{1}{2} \parenth{\dot{x}^2 + \dot{y}^2 + \dot{z}^2} .
 \end{align}
