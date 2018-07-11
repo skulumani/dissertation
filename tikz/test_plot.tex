@@ -1,19 +1,25 @@
-\documentclass{standalone}
+\documentclass{article}
 
 \usepackage{pgfplots}
-\pgfplotsset{compat=newest}
-\usepgfplotslibrary{groupplots}
 \usepackage{tikzscale}
-\usepackage{tikz-3dplot}
-\usetikzlibrary{decorations.markings,decorations.pathreplacing,calc}
-\usetikzlibrary{decorations.shapes,arrows.meta}
-\usepgfplotslibrary{external}
-\usepackage{siunitx}
-\usepackage{graphicx}
+% \usepackage{tikz-3dplot}
+\pgfplotsset{compat=newest}
 
+% \usepgfplotslibrary{groupplots}
+\usepgfplotslibrary{external}
+
+% \usetikzlibrary{decorations.markings,decorations.pathreplacing,calc}
+% \usetikzlibrary{decorations.shapes}
+\usetikzlibrary{arrows.meta}
+
+\usepackage{siunitx}
+\tikzexternalize
 \newcommand{\vecbf}[1]{#1}
 \newcommand{\vc}[1]{#1}
 
 \begin{document}
+\begin{figure}
+    \centering
     \includegraphics[width=\textwidth]{multiple_shooting.tikz}
+\end{figure}
 \end{document}
