@@ -668,11 +668,11 @@ Additionally, we assume that each face is a triangle composed of three vertices 
 As a result, only two faces meet at each edge while three faces meet at each vertex.
 Only the body-fixed vectors, and their associated topology, is required to define the exterior gravitational model.
 
-% TODO Need a picture of the edges/faces/halfedges
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=\textwidth]{example-image-golden}
-    \caption{Polyhedon Faces\label{fig:polyhedron_face}}
+    \includegraphics[width=\textwidth]{tikz/polyhedron_faces.tikz}
+    \caption{Each face of the polyhedron is defined by three vertices and three halfedges.
+    The potential contribution of each face is a function of the face normal and the contribution of each edge is a function of the adjacent face.\label{fig:polyhedron_face}}
 \end{figure}
 Consider three vectors \( \vc{v}_1, \vc{v}_2, \vc{v}_3 \in \R^{3 \times 1} \), assumed to be ordered in a counterclockwise direction about an outward facing normal vector, which define a face.
 It is easy to define the three halfedges of each face as
