@@ -1,18 +1,34 @@
 % !TEX root = ../dissertation.tex
 
-\chapter{Low Thrust Orbital Transfers using Reachability Sets}\label{sec:lowthrust_transfers}
-In this chapter, we propose a systematic design method which enables low-thrust transfers in the planar circular restricted three-body problem as well as an extension for use about asteroids.
+\chapter{Low Thrust Orbital Transfers using Reachability Sets}\label{sec:lowthrust_transfers}%
+
+In this chapter, we propose a systematic design method which enables low-thrust transfers in the rotating frame of the \gls{rtbp} and \gls{rf2bp}.
+The dynamics of a particle around an elongated small body can be modeled using the \gls{rf2bp} which are a slight reformulation of the relative dynamics presented in~\cref{sec:relative_eoms}.
+There are many similarities between the well known \gls{rtbp} and \gls{rf2bp}.
+In both mathematical models, there are are relative equilibirium points, also known as Lagrange points~\cite{szebehely1967,scheeres1994}, as well as periodic orbits around them.
+As in the \gls{rtbp}, two of the equilibirum points around an elongated small body have an unstable saddle-center behavior and therefore the periodic orbits around these points also exhibit stable and unstable invariant manifolds~\cite{hu2002a,koon2011}.
+The theory developed in the \gls{rtbp} is directly applicable to motion around asteroids~\cite{herrera2014}.
+
+% why we need  low thrust transfers
+The invariant manifolds of the \gls{rtbp} have been used previously to develop many low or energy free transfers~\cite{koon2000b,koon2001}.
+In the case of the \gls{rtbp}, the invariant manifolds associated with the periodic orbits only pass close to the secondary body but do not pass near the primary body.
+However, as a result it is not possible to directly utilize the invariant manifolds for orbital transfers for all scenarios, such as those departing from the primary body.
+In the \gls{rf2bp} the invariant manifolds might approach or intersect the body depending on the shape or rotational rate. 
+The manifolds of the \gls{rf2bp} offer additional opportunities for low energy transfers and can even be extended to landing or take off trajectories for sample return missions.
+
+This chapter presents a low energy transfer scheme which leverages the use of low thrust propulsion to design transfer trajectories about the \gls{rtbp} and \gls{rf2bp}.
 We utilize the concept of the reachability set to enable a simple methodology of selecting initial conditions to achieve general orbital transfers. 
 The reachable set, defined as the set of all attainable states subject to the system constraints, allows for the extension of the previous control-free methods based on invariant manifolds.
 Defining the reachable set on a \Poincare section reduces the dimensionality of the system dynamics to the study of a related discrete update map.
 Through the use of low-thrust control input, the reachable set on the \Poincare section is enlarged and enables a larger space of potential transfers.
-By iteratively computing the reachable set, and minimizing the distance to the target on the \Poincare section, we generate general transfer trajectories.
-With this proposed method, the previous research on control-free trajectories will be generalized with the addition of low thrust propulsion systems.
 
-The method is formulated as an extension to the control free method based on invariant manifolds in the three-body problem~\cite{koon2011}.
-Much of the previous work using invariant manifolds has been applied to the planar circular restricted three body problem.
+% low thrust inputs are accumulated (variational integrator)
+The use of low thrust control inputs raises additional complications for numerical analysis.
+kk
+The method is formulated as an extension to the control free method based on invariant manifolds~\cite{koon2011}.
 This paper provides a discrete optimal control formulation to generate the reachability set on a \Poincare section.
 
+% outline of chapter
 \section{Planar Circular Restricted Three Body Problem}\label{sec:pcrtbp}
 % discuss some of the pros/cons of using PCRTBP model
 We utilize the \gls{pcrtbp} as the basis of our system definition. 
