@@ -1,4 +1,4 @@
-\tikzsetnextfilename{reachability_set}
+% \tikzsetnextfilename{reachability_set}
 \tdplotsetmaincoords{60}{125} % view angle in spherical coordinates
 \begin{tikzpicture}[
     tdplot_main_coords,
@@ -8,7 +8,6 @@
     grid/.style={very thin,black},
     axis/.style={->,blue,thick},
     reachability/.style={thick,blue},
-    scale=2,
     ]
 
         % nodes for the poincare section

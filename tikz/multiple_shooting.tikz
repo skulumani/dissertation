@@ -1,9 +1,8 @@
-\tikzsetnextfilename{multiple_shooting}
+% \tikzsetnextfilename{multiple_shooting}
 \begin{tikzpicture}[
     % help lines/.style={very thin,color=gray!50},
     % ->-/.style={decoration={markings, mark=at position .5 with {\arrow{>}}}, postaction={decorate}},
     % decorate sep/.style 2 args={decorate,decoration={shape backgrounds,shape=circle,shape size=#1,shape sep=#2}},
-    scale=1.5,
     ]
     % \draw[help lines] (0,0) grid (20,5) ; %grid
     \pgfmathsetmacro{\kzero}{0};
