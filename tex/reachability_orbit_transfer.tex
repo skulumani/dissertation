@@ -219,21 +219,14 @@ Just as in the three-body problem, the Jacobi constant in~\cref{eq:jacobi} divid
 Similarly, there exist, in general, four equilibrium points and also their associated stable and unstable manifolds~\cite{scheeres1996,scheeres1994}.
 The properties of these manifolds play a critical role in the dynamics of trajectories in their vicinity.
 
-\section{Optimal Control Formulation for Reachability Set}\label{sec:optimal_control}
+\section{Optimal Control Formulation for Reachability Sets}\label{sec:optimal_control}
 % introduce method
-In this section, an optimal control formulation is presented to determine and design transfers within the three-body problem.
-The application of variational integrators to optimal control problems is referred to as computational geometric optimal control.
+In this section, an optimal control formulation is presented to determine the reachability set on a \Poincare section.
+This reachability set is then used to define transfers in both the \gls{pcrtbp} and \gls{rf2bp}.
 Our formulation is based on the concept of the reachability set on a \Poincare section.
 This method allows one to easily determine potential transfer opportunities by finding set intersections on a lower dimensional space and greatly reduces the design process.
 The addition of continuous low thrust propulsion extends the control free design process developed previously and allows for a greater range of potential transfers with a reduced time of flight.
-
-The numerical examples presented in this section are designed in the context of the PCRTBP.
-The dynamic environment has a four dimensional state space and offers a convenient integration constant in the form of the Jacobi integral.
-As a result, there are well defined methods to define and exploit \Poincare sections, which result in straightforward two-dimensional subspaces of the system.
-Our approach uses the \Poincare section to approximate the reachability set on this reduced subspace.
-As a result, this approach is more difficult to apply to three-dimensional transfers in the general three body problem.
-\Poincare sections in the case of the general six dimensional state space are significantly more challenging and typically require more complicated visualization techniques. 
-However, this is an area of active research and some of the authors future research is aimed at implementing this approach for non-planar transfer trajectories~\cite{kulumani2016d}.
+The process is first derived for the \gls{pcrtbp} and then expanded to the higher dimensional case around a small body in the \gls{rf2bp}.
 
 \subsection{Reachability Set}\label{sec:reachability_set}
 % discuss reachability and application to space system
