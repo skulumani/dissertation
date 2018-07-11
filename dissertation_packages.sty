@@ -58,7 +58,6 @@
 \usepackage{pgfplots}
 \pgfplotsset{compat=newest}
 \usepgfplotslibrary{groupplots,external}
-\usepackage{tikzscale}
 \usepackage{tikz-3dplot}
 \usetikzlibrary{decorations.markings,decorations.pathreplacing,calc}
 \usetikzlibrary{decorations.shapes}
@@ -84,18 +83,19 @@ mode=list and make,
 
 % \tikzset{>={Latex[width=3mm,length=3mm]}}
 
-% \makeatletter
-% \newsavebox{\measure@tikzpicture}
-% \NewEnviron{scaletikzpicturetowidth}[1]{%
-%   \def\tikz@width{#1}%
-%   \def\tikzscale{1}\begin{lrbox}{\measure@tikzpicture}%
-%   \BODY
-%   \end{lrbox}%
-%   \pgfmathparse{#1/\wd\measure@tikzpicture}%
-%   \edef\tikzscale{\pgfmathresult}%
-%   \BODY
-% }
-% \makeatother
+\usepackage{environ}
+\makeatletter
+\newsavebox{\measure@tikzpicture}
+\NewEnviron{scaletikzpicturetowidth}[1]{%
+  \def\tikz@width{#1}%
+  \def\tikzscale{1}\begin{lrbox}{\measure@tikzpicture}%
+  \BODY
+  \end{lrbox}%
+  \pgfmathparse{#1/\wd\measure@tikzpicture}%
+  \edef\tikzscale{\pgfmathresult}%
+  \BODY
+}
+\makeatother
 
 % % Tikz macros
 % % Draw an arc denoting an angle using start and delta angles
