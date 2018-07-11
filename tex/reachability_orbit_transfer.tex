@@ -858,26 +858,25 @@ The objective is to transfer the spacecraft between two periodic equatorial orbi
 The initial and target orbits are periodic solutions about Castlia computed using the method introduced by Reference~\cite{scheeres2003}.
 The initial conditions for both orbits are defined in the body-fixed frame as
 \begin{align}\label{sec:initial_transfer}
-    \vc{x}_i = 
+    \vc{x}_i &= 
     \begin{bmatrix}
-        1.4973 \\ 0 \\ 0.0061 \\ 0\\ -0.0009 \\ 0
-    \end{bmatrix} ,
-    \quad
-    \vc{x}_t =
+        1.4973 & 0 & 0.0061 & 0 & -0.0009  & 0
+    \end{bmatrix}^T,\\
+    \vc{x}_t &=
     \begin{bmatrix}
-        6.1175 \\ 0 \\ 0.0001 \\ 0\\ -0.0025 \\ 0
-    \end{bmatrix} .
+        6.1175 & 0 & 0.0001 & 0 & -0.0025 & 0
+    \end{bmatrix}^T.
 \end{align}
 \Cref{fig:initial_transfer} shows the initial, \( \vc{x}_i \), and target, \( \vc{x}_t\), periodic orbits which lie in the equatorial plane of Castalia.
 Our goal is to transfer from a lower altitude to a higher altitude while remaining in the equatorial plane of the asteroid.
 This type of scenario would occur frequently during mapping and observation missions to asteroids.
 \begin{figure}[htbp]
     \centering 
-    \begin{subfigure}[htbp]{0.45\textwidth} 
+    \begin{subfigure}[htbp]{0.5\textwidth} 
         \includegraphics[width=\textwidth]{figures/2016_AAS/initial_transfer} 
         \caption{Equatorial View} \label{fig:eq_initial_transfer} 
     \end{subfigure}~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. %(or a blank line to force the subfigure onto a new line) 
-    \begin{subfigure}[htbp]{0.45\textwidth} 
+    \begin{subfigure}[htbp]{0.5\textwidth} 
         \includegraphics[width=\textwidth]{figures/2016_AAS/initial_transfer_3d} 
         \caption{3D view} \label{fig:initial_transfer_3d} 
     \end{subfigure} ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. %(or a blank line to force the subfigure onto a new line) 
@@ -889,7 +888,7 @@ Rather than using the full \num{4092} face model we reduce the number of faces t
 This greatly speeds up the computation with only a small difference in the gravitational field.
 
 We first compute the reachability set originating from the initial periodic orbit at \( \vecbf{x}_i\) for a fixed time of flight and bounded control magnitude as defined previously.
-The reachability set is computed by solving the two-point boundary value problem using a multiple shooting algorithm to satisfy the necessary conditions in~\cref{eq:necc_conditions}.
+The reachability set is computed by solving the two-point boundary value problem using a multiple shooting algorithm to satisfy the necessary conditions in~\cref{eq:terminal_constraints}.
 The reachability set is generated on the lower dimensional \Poincare section and is composed of the terminal states in the \( \parenth{x,z,\dot{x},\dot{z} } \) space.
 We approximate the reachability set by discretization of each of the angles \( \phi_1, \phi_2 , \phi_3 \) into ten discrete steps. 
 This results in a total of \(10^3\) trajectories which approximate the reachability set on the \Poincare section.
@@ -897,11 +896,11 @@ This results in a total of \(10^3\) trajectories which approximate the reachabil
 We visualize the section using the two figures in~\cref{fig:poincare_section}.
 \begin{figure}[htbp]
     \centering 
-    \begin{subfigure}[htbp]{0.45\textwidth} 
+    \begin{subfigure}[htbp]{0.5\textwidth} 
         \includegraphics[width=\textwidth]{figures/2016_AAS/poincare_xvsxdot.pdf} 
         \caption{\( x \) vs. \( \dot{x} \) \Poincare section} \label{fig:poincare_xvsxdot} 
     \end{subfigure}~
-    \begin{subfigure}[htbp]{0.45\textwidth} 
+    \begin{subfigure}[htbp]{0.5\textwidth} 
         \includegraphics[width=\textwidth]{figures/2016_AAS/poincare_zvszdot.pdf} 
         \caption{\( z \) vs. \( \dot{z} \) \Poincare section} \label{fig:poincare_zvszdot} 
     \end{subfigure}
@@ -919,19 +918,20 @@ where \( k_x, k_z, k_{\dot{x}}, k_{\dot{z}} \) are used to weight the relative i
 \Cref{fig:phi_distance} shows the distance to the target for the chosen discretization of \( \phi_i \).
 \begin{figure}[htbp] 
     \centering 
-    \begin{subfigure}[htbp]{0.3\textwidth} 
+    \begin{subfigure}[htbp]{0.5\textwidth} 
         \includegraphics[width=\textwidth]{figures/2016_AAS/phi1.pdf} 
         \caption{ \( \phi_1 \)} \label{fig:phi1} 
     \end{subfigure}~
-    \begin{subfigure}[htbp]{0.3\textwidth} 
+    \begin{subfigure}[htbp]{0.5\textwidth} 
         \includegraphics[width=\textwidth]{figures/2016_AAS/phi2.pdf} 
         \caption{\( \phi_2 \)} \label{fig:phi2} 
-    \end{subfigure}~
-    \begin{subfigure}[htbp]{0.3\textwidth} 
+    \end{subfigure}
+
+    \begin{subfigure}[htbp]{0.5\textwidth} 
         \includegraphics[width=\textwidth]{figures/2016_AAS/phi3.pdf} 
         \caption{\( \phi_3 \)} \label{fig:phi3} 
     \end{subfigure} 
-    \caption{Variation of \(d(\vecbf{x}_f,\vecbf{x}_t)\) due to \( \phi_i\)}
+    \caption{Variation of \(d(\vc{x}_f,\vc{x}_t)\) due to \( \phi_i\)}
     \label{fig:phi_distance} 
 \end{figure}
 
@@ -950,23 +950,24 @@ A final optimal transfer is computed to satisfy the fixed terminal state \( \vc{
 \Cref{fig:trajectory} shows the entire transfer trajectory, from the four reachable set trajectories as well as the final transfer to the target.
 \begin{figure}[htbp] 
     \centering 
-    \begin{subfigure}[htbp]{0.45\textwidth} 
+    \begin{subfigure}[htbp]{0.5\textwidth} 
         \includegraphics[width=\textwidth]{figures/2016_AAS/trajectory.pdf} 
         \caption{Equatorial view of transfer} \label{fig:trajectory_up} 
     \end{subfigure}~
-    \begin{subfigure}[htbp]{0.45\textwidth} 
+    \begin{subfigure}[htbp]{0.5\textwidth} 
         \includegraphics[width=\textwidth]{figures/2016_AAS/trajectory_3d.pdf} 
         \caption{Out of plane view} \label{fig:trajectory_3d} 
     \end{subfigure}~ 
     \caption{Complete transfer trajectory}
     \label{fig:trajectory} 
 \end{figure}
-It is interesting to note that while both the initial and target periodic orbit lie in the equatorial plane, the reachability trajectories show a relatively large out of plane component during the transfers.
-In spite of this out of plane movement, the reachability set approaches and meets the target orbit. 
+
 \begin{figure}
     \centering
-    \includegraphics[width=0.45\textwidth]{figures/2016_AAS/control.pdf}
+    \includegraphics[width=0.5\textwidth]{figures/2016_AAS/control.pdf}
     \caption{Control history \label{fig:control}}
 \end{figure}
+It is interesting to note that while both the initial and target periodic orbit lie in the equatorial plane, the reachability trajectories show a relatively large out of plane component during the transfers.
+In spite of this out of plane movement, the reachability set approaches and meets the target orbit. 
 \Cref{fig:control} shows the control input required during the maneuver.
 We can see that the control constraint in~\cref{eq:control_constraint} is satisfied over the entire trajectory.
