@@ -61,7 +61,7 @@ There are three reference frames of interest for this problem:
 A visual representation of the reference frames of interest is shown in~\cref{fig:reference_frames}.
 \begin{figure}
     \centering
-    \includegraphics[width=\textwidth]{tikz/ref_frames.tikz}
+    \input{tikz/ref_frames.tikz}
     \caption{Visual representation of the references considered in this dissertation.
     The inertial frame, \( \vc{e}_i \), is fixed while the small body fixed frame, \( \vc{f}_i \), is co-located and rotates at a constant angular rate with respect to the inertial frame.
 The spacecraft fixed frame, \( \vc{b}_i \), is attached to the spacecraft.
@@ -114,7 +114,7 @@ The masses are separated by a massless rod of length \( \length{} \) and attache
 \Cref{fig:dumbbell_sc} shows the model and associated parameters.
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=\textwidth]{tikz/dumbbell.tikz}
+    \input{tikz/dumbbell.tikz}
     \caption{Dumbbell Model of Rigid Spacecraft\label{fig:dumbbell_sc}}
 \end{figure}
 The spacecraft body fixed frame is centered at the center of mass of the vehicle.
@@ -523,7 +523,7 @@ where \( \gls{sym:G} \) is the universal gravitational constant, \( \vc{r} \) is
 \Cref{fig:universal_gravity} illustrates that the law of gravity is an attractive force with a line of action aligned with the relative position vector.
 \begin{figure}
     \centering
-    \includegraphics[width=\textwidth]{tikz/newton_gravity.tikz}
+    \input{tikz/newton_gravity.tikz}
     \caption{Newton's Law of Universal Gravitation~\label{fig:universal_gravity}}
 \end{figure}
 
@@ -624,7 +624,7 @@ The triaxial ellipsoid has semi-major axes \( \gamma \leq \beta \leq \alpha\) an
 \end{align}
 \begin{figure}
     \centering
-    \includegraphics[width=\textwidth,height=0.2\textwidth]{tikz/ellipsoid.tikz}
+    \input{tikz/ellipsoid.tikz}
     \caption{Constant density triaxial ellipsoid model with semi-major axes \( \gamma \leq \beta \leq \alpha \).~\label{fig:triaxial_ellipsoid}}
 \end{figure}
 Using this model, the gravitational potential outside the body is given by
@@ -670,7 +670,7 @@ Only the body-fixed vectors, and their associated topology, is required to defin
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=\textwidth]{tikz/polyhedron_faces.tikz}
+    \input{tikz/polyhedron_faces.tikz}
     \caption{Each face of the polyhedron is defined by three vertices and three halfedges.
     The potential contribution of each face is a function of the face normal and the contribution of each edge is a function of the adjacent face.\label{fig:polyhedron_face}}
 \end{figure}

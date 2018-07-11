@@ -1,4 +1,4 @@
-% \tikzsetnextfilename{multiple_shooting}
+\tikzsetnextfilename{multiple_shooting}
 \begin{tikzpicture}[
     % help lines/.style={very thin,color=gray!50},
     % ->-/.style={decoration={markings, mark=at position .5 with {\arrow{>}}}, postaction={decorate}},
