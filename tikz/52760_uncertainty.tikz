@@ -1,0 +1,10 @@
+\tikzsetnextfilename{52760_uncertainty}
+\begin{tikzpicture}[]
+    \begin{axis}[
+        name={52760_uncertainty},
+        xlabel={Normalized Time},
+        ylabel style={align=center},ylabel={Normalized\\Uncertainty},
+        ]
+    \addplot [blue, mark=none] table [x=NORMALIZED_TIME, y=NORMALIZED_UNCERTAINTY, col sep=comma] {figures/computational_geometry/dynamic_exploration/52760/uncertainty.csv};
+    \end{axis}
+\end{tikzpicture}

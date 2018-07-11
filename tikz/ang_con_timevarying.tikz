@@ -1,0 +1,10 @@
+\tikzsetnextfilename{ang_con_timevarying}
+\begin{tikzpicture}
+    \begin{axis}[
+        name={ang_con_timevarying},
+        ylabel={ $\arccos \parenth{r^T R^T v_i}$},
+        xlabel={$t~(\si{\second})$},
+        ]
+        \addplot +[mark=none] table [x=TIME, y=ang_con, col sep=comma] {figures/2016_IJCAS_pgf/csv/timevarying.csv}; 
+    \end{axis} 
+\end{tikzpicture}

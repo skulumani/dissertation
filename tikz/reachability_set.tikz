@@ -1,0 +1,48 @@
+\tikzsetnextfilename{reachability_set}
+\tdplotsetmaincoords{60}{125} % view angle in spherical coordinates
+\begin{tikzpicture}[
+    tdplot_main_coords,
+    poincare/.style={opacity=.2,very thick,fill=blue},
+    orbit/.style={very thick,black},
+    orbit hidden/.style={very thick,dashed},
+    grid/.style={very thin,black},
+    axis/.style={->,blue,thick},
+    reachability/.style={thick,blue},
+    ]
+
+        % nodes for the poincare section
+    \node[label=above:\(\Sigma\)] (upper_right) at (0,5,5) {};
+    \node[] (upper_left) at (0,1,5) {};
+    \node[] (lower_left) at (0,1,0) {};
+    \node[] (lower_right) at (0,5,0) {};
+
+    % draw poincare section
+    \draw[poincare] (upper_right.center) -- (upper_left.center) -- (lower_left.center) -- (lower_right.center) -- (upper_right.center);
+    
+    % draw a periodic orbit
+    \coordinate (center) at (0,0,2);
+    \node[label=below:\(\vecbf{x}_n\)] (x0) at (0,3,2) {};
+    % \node[label=below:\(\vecbf{x}_n\)] at (x0) {};
+    \filldraw (x0) circle (3pt);
+
+    % \tdplotdrawarc[orbit hidden]{(center)}{3}{90}{200}{}{};
+    \tdplotdrawarc[orbit,<-]{(center)}{3}{-160}{90}{}{};
+
+    % draw reachability set on the poincare section
+    \coordinate (reach) at (0,4.5,2);
+    \tdplotsetthetaplanecoords{90}
+
+    \draw[tdplot_rotated_coords,grid] (x0) -- (reach);
+    \draw[tdplot_rotated_coords,grid] (x0) -- ++(-45:1.5);
+
+    \tdplotdrawarc[tdplot_rotated_coords,grid]{(x0)}{0.5}{-45}{90}{above}{\(\theta_d\)};
+
+    % draw terminal state on reachability set
+    \node[tdplot_rotated_coords,label=above:\(\vecbf{x}_f\)] (xf) at ($ (x0)+(-45:1.5) $) {};
+    \filldraw (xf) circle (3pt);
+
+    \node[tdplot_rotated_coords,label=below:\(J\)] at (xf) {};
+
+    \tdplotdrawarc[tdplot_rotated_coords,reachability]{(x0)}{1.5}{0}{360}{}{};
+        % place
+\end{tikzpicture}

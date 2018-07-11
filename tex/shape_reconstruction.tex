@@ -14,46 +14,18 @@ This chapter develops an efficient method for the reconstruction of an asteroid 
 The approach enables a spacecraft to arrive at an asteroid with a very coarse shape model, autonomously measure the surface to rebuild the shape, and finally determine an appropriate landing location and descend to the surface.
 We utilize many concepts and development from computational geometry for a variety of purposes, from simply representing and operating on data structures to efficient computational algorithms.
 
-\section{Measurement Model}
+Precise relative navigation and landing near asteroids is critically dependent on an accurate knowledge of the shape of the body.
+The fine topological structure of the surface is not possible without a spacecraft in the vicinity of the asteroid.
+From ground  based measurments, such as radar or optical telescopes, it is only possible to achieve a coarse model of asteroid, such as a triaxial ellipsoid representation~\cite{hudson1994}.
+The size and shape of asteroid presents critical information into the thermal and collisional histories and more critically into their internal structure~\cite{cole1998}.
 
-In the computer graphics field a major problem is the determination of which objects are visible to the user.
-In a method similar to the photographic process in reverse, for each pixel of the image a ray is cast towards the scene and the intersections of this ray with any objects is recorded.
-The first object which intersects the ray is defined as visible while those beyond would be occluded.
-Given this intersection point, the surface normal is computed and surface shading can be determined to render the scene.
+Typical missions spend months after arrival at an asteorid mapping and measuring the surface.
+During this mapping phase, which requires upwards of \num{6} months, the spacecraft must maintain a specific trajectory and attitude to ensure best measurements of the surface~\cite{cheng2002,barnouin-jha2008}.
+Both the spacecraft orbit and it's attitude is constrained to best satsify the competing requirements of the range measurements, spacecraft power, and Earth based communications.
+These measurements are then sent back to Earth, and combined with the spacecraft orbit determination to simulateously estimate the asteroid shape, mass, gravity field, spin state, and spacecraft state~\cite{miller2002}.
 
-Our problem is of a similar nature to that of the computer graphics domain.
-Given the model of an asteroid, its shape model, we wish to first simulate measurements of the surface. 
-In order to simulate these methods, we must also implement a ray casting algorithm that will find the intersection of a measurement from the spacecraft to the surface. 
+\section{Range Measurement Model}
 
-We assume that the spacecraft is located at \gls{rho} in the asteroid fixed frame.
-The camera/sensor is aligned with \gls{view_axis} in the spacecraft fixed frame.
-An additional vector, defined as the up axis \gls{up_axis}, finally the standard basis is completed with \( \gls{view_axis} \times \gls{up_axis} \) which defines a reference frame attached to the image plane of the sensor.
-Furthermore, we model the the laser ranging sensor as having a fixed field of view defined by the angles \( \gls{fov_h}, \gls{fov_v}\), defining the vertical and horizontal fields of view.
-In order to simulate depth measurements we need to compute the vectors associated with image sensor in the asteroid frame. 
-Given the view axis, and a chosen distance \gls{view_distance}, we can define a viewing \gls{frustum} associated with the sensor. 
-We can compute the vectors associated with the maximum extents of the far plane as follows.
-The half height and width of the far plane, at a distance \( d \), is computed as
-\begin{align}
-    H = d \tan \frac{\alpha}{2} , \\
-    W = d \tan \frac{\beta}{2} .
-\end{align}
-From these values, the extents of the far plane are defined by the vectors
-\begin{align}
-    A = \hat d + H \hat u - W \hat r , \\
-    B = \hat d + H \hat u + W \hat r, \\
-    C = \hat d - H \hat  u + W \hat r, \\
-    D = \hat d - H \hat u - W \hat r.
-\end{align}
-
-% TODO: Explain more about ray casting
-\begin{itemize}
-    \item Give some background on raycasting and where it is used
-    \item Discuss the method used in VTK (Binary space partitioning or Oriented bounding boxes)
-\end{itemize}
-
-\subsection{Laser Range Finder on Spacecraft}
-
-% TODO: Talk about laser range finders on spacecraft
 Absolute distance measuring devices are a crucial sensor in spacecraft rendezvous or landing applications.
 In addition, they are a critical component for spacecraft operating near asteroids.
 Activate ranging devices allow for precise measurments of the surface shape and enable accurate and safe surface landing~\cite{berry2013}.
@@ -64,7 +36,6 @@ The benefit of optical signal is that they can be highly focused to enable high 
 Optical distance measurment, such as laser range finders, can be further divided into three categories based on the method of operation: interferometry, \gls{tof}, or triangulation.
 In this section, we'll briefly summarize the principles of operation of optical distance measurement devices, and highlight their specific uses with respect to spacecraft missions to asteroids.
 
-\subsection{Time of Flight Distance Measurement}
 Originally developed for military and surveying application, the basic principle of laser ranging is based on utilizing the fixed speed of light to measure distance.
 The time required for a pulse of energy to travel from the transmitter to the object and return is measured, \( t_d \). 
 Meausuring this round trip \gls{tof} and using the speed of light, approximately \( c = \SI{30}{\centi\meter\per\nano\second}\), allows one to easily compute the range to the object as
@@ -93,38 +64,49 @@ An array of detectors are aranged to view the surface.
 Each detector only views a portion of the total field of view and the signals are analyzed in the time domain.
 Using this methodology, the system can simulataneously measure distance in multiple directions without any moving parts~\cite{amann2001}.
 
-\subsection{Asteroid Mapping Operations}
+In the computer graphics field a major problem is the determination of which objects are visible to the user.
+In a method similar to the photographic process in reverse, for each pixel of the image a ray is cast towards the scene and the intersections of this ray with any objects is recorded.
+The first object which intersects the ray is defined as visible while those beyond would be occluded.
+Given this intersection point, the surface normal is computed and surface shading can be determined to render the scene.
 
-Precise relative navigation and landing near asteroids is critically dependent on an accurate knowledge of the shape of the body.
-The fine topological structure of the surface is not possible without a spacecraft in the vicinity of the asteroid.
-From ground  based measurments, such as radar or optical telescopes, it is only possible to achieve a coarse model of asteroid, such as a triaxial ellipsoid representation~\cite{hudson1994}.
-The size and shape of asteroid presents critical information into the thermal and collisional histories and more critically into their internal structure~\cite{cole1998}.
+Our problem is of a similar nature to that of the computer graphics domain.
+Given the model of an asteroid, its shape model, we wish to first simulate measurements of the surface. 
+In order to simulate these methods, we must also implement a ray casting algorithm that will find the intersection of a measurement from the spacecraft to the surface. 
 
-Typical missions spend months after arrival at an asteorid mapping and measuring the surface.
-During this mapping phase, which requires upwards of \num{6} months, the spacecraft must maintain a specific trajectory and attitude to ensure best measurements of the surface~\cite{cheng2002,barnouin-jha2008}.
-Both the spacecraft orbit and it's attitude is constrained to best satsify the competing requirements of the range measurements, spacecraft power, and Earth based communications.
-These measurements are then sent back to Earth, and combined with the spacecraft orbit determination to simulateously estimate the asteroid shape, mass, gravity field, spin state, and spacecraft state.
+We assume that the spacecraft is located at \(\rpos\) in the asteroid fixed frame.
+The camera/sensor is aligned with \gls{view_axis} in the spacecraft fixed frame.
+An additional vector, defined as the up axis \gls{up_axis}, finally the standard basis is completed with \(  \gls{right_axis} = \gls{view_axis} \times \gls{up_axis} \) which defines a reference frame attached to the image plane of the sensor.
+Furthermore, we model the the laser ranging sensor as having a fixed field of view defined by the angles \( \gls{fov_h}, \gls{fov_v}\), defining the vertical and horizontal fields of view.
+In order to simulate depth measurements we need to determine the transformation of locations in the image frame to the asteroid frame. 
+Given the view axis, and a chosen distance \gls{view_distance}, we can define a viewing \gls{frustum} associated with the sensor. 
+We can compute the vectors associated with the maximum extents of the far plane as follows.
+The half height and width of the far plane, at a distance \( d \), is computed as
+\begin{align*}
+    H = d \tan \frac{\alpha}{2} , \\
+    W = d \tan \frac{\beta}{2} .
+\end{align*}
+From these values, the extents of the far plane are defined by the vectors
+\begin{align*}
+    A = \vc{c}_1 + H \vc{c}_3 - W \vc{c}_2 , \\
+    B = \vc{c}_1 + H \vc{c}_3 + W \vc{c}_2, \\
+    C = \vc{c}_1 - H \vc{c}_3 + W \vc{c}_2, \\
+    D = \vc{c}_1 - H \vc{c}_3 - W \vc{c}_2.
+\end{align*}
+The view frustrum is visualized in~\cref{fig:view_frustrum} and allows for any vector in the field of view to befined as a linear combination of the extents of the far plane.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{example-image-golden}
+    \caption{View Frustrum for Spacecraft sensor modeling\label{fig:view_frustrum}}
+\end{figure}
 
-Look at miller2002 for more detail and discuss that here
-
-% TODO Discuss how the shape of an asteroid is determined in pracice currently
-\begin{itemize}
-    \item Talk about ground based imaging and citations (radar/optical)
-    \item tlak about best knowledge of asteroid before arrival is a ellipsoid model (first mometn)
-    \item Talk about sending missions to asteroids with laser altimeters
-    \item Months of mapping and ground based OD
-\end{itemize}
-
-\section{Incremental Radius modification}\label{sec:radius_update}
-
-
+\section{Incremental Radius Modification}\label{sec:radius_update}
 
 One of the first main tasks for any spacecraft mission to an asteroid is to generate an estimate of the asteroid shape.
 This shape model is used for a variety of purposes, such as the polyhedron potential model, like that presented in~\cref{sec:polyhedron_potential} or landing site section and guidance.
 We assume that upon arrival at a target body, the spacecraft contains an initial estimate for the shape of the asteroid.
 This shape can be a coarse estimate computed from ground measurements or it can be a triaxial ellipsoid based on the semimajor axes of the asteroid, such as that shown in~\cref{fig:start} which represents the maximum axes for asteroid Castalia.
 Additionally, we assume that the shape estimate is closed and a triangular faceted surface mesh, emulating those used in practice to represent asteroids.
-Furthermore, the number of vertices in the estimate can be scaled according to the resulting acccuracy or computational capabilities.
+Furthermore, the number of vertices in the estimate can be scaled according to the desired final acccuracy or computational capabilities.
 For example,~\cref{fig:uniform_mesh} demonstrates two surface mesh representation for a triaxial ellipsoid at varying levels of detail. 
 A wide variety of algorithms are available to generate a near uniformly spaced mesh for an arbitrary surface~\cite{persson2004,boissonnat2005}.
 \begin{figure}[htbp]
@@ -146,7 +128,7 @@ Assuming accurate knowledge of the pointing direction of the spacecraft we can c
 The output of this sensor is a vector, \( \vc{d}_i \), defined in the spacecraft fixed frame which gives the direction to a measurement point on the surface of the asteroid. 
 Using the state of the asteroid, we can transform this measurement to the asteroid fixed frame using the simple transformation
 \begin{align*}
-    \vb{p}_i = R_A^T R \vb{d}_i .
+    \vc{p}_i = R_A^T R \vc{d}_i .
 \end{align*}
 Given many measurements, \( \vc{p}_i \), of the asteroid surface we can efficiently update our initial shape estimate to that of the true surface.
 \Cref{fig:lidar_example} shows asteroid 4769 Castalia and a representation of several LIDAR measurements. 
@@ -183,7 +165,7 @@ The variance of measurement \( \vc{p}_i \) with respect to vertex \( \vc{v}_i \)
 \begin{align}
     w_{j, i} = \norm{\vc{p}_j} \Delta \sigma_{j,i} .
 \end{align}
-This approach relates the uncertainty of the measurement, \( \vb{p}_j \) with the geodesic distance to a given vertex, \( \vb{v}_i \).
+This approach relates the uncertainty of the measurement, \( \vc{p}_j \) with the geodesic distance to a given vertex, \( \vc{v}_i \).
 As a result, measurements which are far from a vertex, where \( \Delta \sigma \) is large, will tend to have a larger variance and hence uncertainty. 
 This approach can be considered as a form of a correlation based sensor model~\cite{thrun2005}.
 The main benefit of a correlation based approach, in constrast to feature extraction is the relative simplicity of implementation.
@@ -301,10 +283,10 @@ It is sufficient to define two orthogonal vectors to uniquely determine the atti
 The \( \vc{b}_{3d} \) vector is chosen to lie in the plane spanned by \(\vc{b}_{1d} \) and \( \vc{e}_3 = \vc{f}_3 \).
 The desired attitude command is defined as
 \begin{align}
-    \vb{b}_{1d} &= - \frac{\vb{x}}{\norm{\vb{x}}} , \\
-    \vb{b}_{3d} &= \frac{\vb{f}_3 - \parenth{\vb{f}_3 \cdot \vb{b}_{1d}} \vb{b}_{1d}}{\norm{\vb{f}_3 - \parenth{\vb{f}_3 \cdot \vb{b}_{1d}} \vb{b}_{1d}}}, \\
-    \vb{b}_{2d} &= \vb{b}_{3d} \times \vb{b}_{1d} , \\
-R_d &= \begin{bmatrix} \vb{b}_{1d} & \vb{b}_{2d} & \vb{b}_{3d} \end{bmatrix} .
+    \vc{b}_{1d} &= - \frac{\vc{x}}{\norm{\vc{x}}} , \\
+    \vc{b}_{3d} &= \frac{\vc{f}_3 - \parenth{\vc{f}_3 \cdot \vc{b}_{1d}} \vc{b}_{1d}}{\norm{\vc{f}_3 - \parenth{\vc{f}_3 \cdot \vc{b}_{1d}} \vc{b}_{1d}}}, \\
+    \vc{b}_{2d} &= \vc{b}_{3d} \times \vc{b}_{1d} , \\
+    R_d &= \begin{bmatrix} \vc{b}_{1d} & \vc{b}_{2d} & \vc{b}_{3d} \end{bmatrix} .
 \end{align}
 The camera axis is aligned with the spacecraft \( \vb{b}_ 1 \) axis, which is direted towards the asteroid, throughout the trajectory.
 
@@ -339,11 +321,7 @@ Then the surface slope can be computed from
 \end{align}
 where \( \phi \in \R^1 \) is the surface slope defines the angle between the surface normal \( \vc{n}_f \in \R^3 \) and the force vector at the surface.
 If \( \phi = \SI{0}{\degree} \) then the force vector and the surface normal are anti-parallel, while \( \phi > \SI{90}{\degree} \) means that a particle on the surface would be thrown off the body as the centripetal force is larger than the gravitational attraction.
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=\textwidth]{example-image-golden}
-    \caption[Estimate Surface slope of 4769 Castalia]{Estimated surface slope of asteroid 4769 Castalia~\label{fig:surface_slope_castalia}}
-\end{figure}
+
 Additionally, we compute the distance, using~\cref{eq:geodesic_distance}, between the spacecraft state and each face of the asteroid. 
 Finally, we also assign a random science value to the surface in the form of two dimensional Gaussian.
 Utilizing these metric, a landing site is chosen to minimize the surface cost given as
@@ -351,25 +329,6 @@ Utilizing these metric, a landing site is chosen to minimize the surface cost gi
     J_l =  J_{\text{distance}} - J_{\text{science}},
 \end{align}
 where the surface slope is considered a hard constraint such that any candidate landing site must satisify \( \phi \leq \phi_m \).
-Graphically, we can combine~\cref{fig:surface_slope_castalia,fig:surface_distance_castalia,fig:surface_science_castalia} to generate a single graphical representation fo of the cost function~\cref{eq:surface_cost}.
-
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=\textwidth]{example-image-golden}
-    \caption[Distance to Surface]{Estimated distance to surface asteroid 4769 Castalia~\label{fig:surface_distance_castalia}}
-\end{figure}
-
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=\textwidth]{example-image-golden}
-    \caption[Science Value]{Science Value over the surface~\label{fig:surface_science_castalia}}
-\end{figure}
-
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=\textwidth]{example-image-golden}
-    \caption[Total Surface Landing Cost]{Total Landing Cost~\label{fig:surface_total_castalia}}
-\end{figure}
 
 \paragraph{Mesh Refinement}\label{sec:refinement}
 Once a suitable landing site is selected the surround area is isolated and refined by adding new vertices and faces in the specified area.
@@ -383,7 +342,7 @@ This algorithm uses an iterative method which repeatedly splits long edges, coll
 \end{figure}
 For example,~\cref{fig:cube_remesh} shows the isotropic remeshing result for the selected faces of a unit cube.
 The original unit cube is composed of \num{8} vertices and \num{12} faces.
-The two triangular faces of the visible side of the cube are selected for the isotropic remeshing operation as shown in~\cref{cube_original_mesh}.
+The two triangular faces of the visible side of the cube are selected for the isotropic remeshing operation as shown in~\cref{fig:cube_original_mesh}.
 A target edge length of \num{0.1} is selected for these faces and used to generate~\cref{fig:cube_refine_mesh}.
 The two large triangular faces are divided into a number of smaller triangular faces.
 Furtheremore, the addiitonal faces are all approximatley the same size and preserve the original surface of the cube.
@@ -401,9 +360,9 @@ In order to apply the landing refinement process we agument a small portion of t
 The augmented model of Castalia is shown in~\cref{fig:bumpy_castalia}.
 \begin{figure}[htbp]
     \centering
-    \subcaptionbox{Original  Castalia\label{fig:orig_castalia}}{\includegraphics[width=0.5\textwidth]{example-image-golden}}~
-    \subcaptionbox{Bumpy Castalia\label{fig:bump_castalia}}{\includegraphics[width=0.5\textwidth]{example-image-golden}}
-    \caption{Original and Bumpy Castalia with landing features~\label{fig:bumpy_castalia}}
+    \subcaptionbox{Augmented shape of Castalia with surface features\label{fig:orig_castalia}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/dynamic_exploration/castalia_bump_true.jpg}}~
+    \subcaptionbox{Estimated shape model after measuring the surface\label{fig:bump_castalia}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/dynamic_exploration/castalia_bump_est.jpg}}
+    \caption{Estimated reconstruction of augmented Castalia with landing features~\label{fig:bumpy_castalia}}
 \end{figure}
 
 \section{Shape Reconstruction Examples}
@@ -440,35 +399,6 @@ With this estimate, measurements are made of the surface and used to reconstruct
 is sufficiently small.
 In addition, we compute the volume of the estimate shape throughout the simulation using the algorithm presented in~\cref{proof:polyhedron_volume}.
 
-\num{1620} Geographos is a highly elongated stony asteroid of the Apollo group.
-Discoved in \num{1951}, Geographos is a potentially hazardous asteroid which passes sufficiently close to the Earth to present a hazard.
-\Cref{fig:geographos_reconstruction} shows the shape reconstruction for asteroid Geographos at several distinct points during the process.
-Comparing~\cref{fig:geographos_partial_100, fig:geographos_truth} shows that the final shape closely matches the true radar model.
-In~\cref{fig:geographos_metrics} we display the vertex uncertainty and mesh volume as a function of time.
-The plots show the the reconstruction achieves an accurate shape estimate with a total volume which closesly matches the true volume.
-
-\num{6489} Golevka is a small angular shaped asteroid of the Apollo group.
-Discoved in \num{1995}, Golevka is a potentially hazardous asteroid which passes sufficiently close to the Earth to present a hazard.
-\Cref{fig:golevka_reconstruction} shows the shape reconstruction for asteroid Geographos at several distinct points during the process.
-Comparing~\cref{fig:golevka_partial_100, fig:golevka_truth} shows that the final shape closely matches the true radar model.
-In~\cref{fig:golevka_metrics} we display the vertex uncertainty and mesh volume as a function of time.
-The plots show the the reconstruction achieves an accurate shape estimate with a total volume which closesly matches the true volume.
-It is interesting to note that the reconstruction of Golevka achieves an accurate shape reconstruction in a much smaller amount of time as compared to Geographos.
-This is primarily due to the smaller size of Golevka and the relatively spherical shape of the body in contrast to the highly elliptical shape of Geographos.
-
-\begin{figure}[htbp]
-    \centering
-    \subcaptionbox{Initial Shape Estimate\label{fig:golevka_partial_0}}{\includegraphics[height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/mesh_update/golevka/partial_0.jpg}}~
-    \subcaptionbox{\SI{25}{\percent} of measurements added\label{fig:golevka_partial_25}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/golevka/partial_1321.jpg}}
-
-    \subcaptionbox{\SI{50}{\percent} of measurments added\label{fig:golevka_partial_50}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/golevka/partial_2643.jpg}}~
-    \subcaptionbox{\SI{75}{\percent} of measurements added\label{fig:golevka_partial_75}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/golevka/partial_3964.jpg}}
-
-    \subcaptionbox{\SI{100}{\percent} of measurements added\label{fig:golevka_partial_100}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/golevka/partial_5285.jpg}}~
-    \subcaptionbox{True Shape Model\label{fig:golevka_truth}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/golevka/truth.jpg}}
-    \caption[Asteroid Golevka Incremental Reconstruction]{Incremental Reconstruction of asteroid Golevka~\label{fig:golevka_reconstruction}}
-\end{figure}
-
 \begin{figure}[htbp]
     \centering
     \subcaptionbox{Initial Shape Estimate\label{fig:geographos_partial_0}}{\includegraphics[height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/mesh_update/geographos/partial_0.jpg}}~
@@ -481,19 +411,44 @@ This is primarily due to the smaller size of Golevka and the relatively spherica
     \subcaptionbox{True Shape Model\label{fig:geographos_truth}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/geographos/truth.jpg}}
     \caption[Asteroid Geographos Incremental Reconstruction]{Incremental Reconstruction of asteroid Geographos~\label{fig:geographos_reconstruction}}
 \end{figure}
-
+\num{1620} Geographos is a highly elongated stony asteroid of the Apollo group.
+Discoved in \num{1951}, Geographos is a potentially hazardous asteroid which passes sufficiently close to the Earth to present a hazard.
+\Cref{fig:geographos_reconstruction} shows the shape reconstruction for asteroid Geographos at several distinct points during the process.
+Comparing~\cref{fig:geographos_partial_100,fig:geographos_truth} shows that the final shape closely matches the true radar model.
+In~\cref{fig:geographos_metrics} we display the vertex uncertainty and mesh volume as a function of time.
 \begin{figure}[htbp]
     \centering
-    \subcaptionbox{Normalized Uncertainty\label{fig:golevka_uncertainty}}{\includegraphics[width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/mesh_update/golevka/uncertainty.pdf}}~
-    \subcaptionbox{Volume Percent Error\label{fig:golevka_volume}}{\includegraphics[width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/mesh_update/golevka/volume.pdf}}
+    \subcaptionbox{Normalized Uncertainty\label{fig:geographos_uncertainty}}{\includegraphics[width=0.5\textwidth,height=0.31\textwidth]{tikz/geographos_uncertainty.tikz}}~
+    \subcaptionbox{Volume Percent Error\label{fig:geographos_volume}}{\includegraphics[width=0.5\textwidth,height=0.31\textwidth]{tikz/geographos_volume.tikz}}
+    \caption{Normalized uncertainty and volume percent error for Geographos\label{fig:geographos_metrics}}
+\end{figure}
+The plots show the the reconstruction achieves an accurate shape estimate with a total volume which closesly matches the true volume.
+
+\num{6489} Golevka is a small angular shaped asteroid of the Apollo group.
+Discoved in \num{1995}, Golevka is a potentially hazardous asteroid which passes sufficiently close to the Earth to present a hazard.
+\Cref{fig:golevka_reconstruction} shows the shape reconstruction for asteroid Geographos at several distinct points during the process.
+Comparing~\cref{fig:golevka_partial_100,fig:golevka_truth} shows that the final shape closely matches the true radar model.
+In~\cref{fig:golevka_metrics} we display the vertex uncertainty and mesh volume as a function of time.
+\begin{figure}[htbp]
+    \centering
+    \subcaptionbox{Normalized Uncertainty\label{fig:golevka_uncertainty}}{\includegraphics[width=0.5\textwidth,height=0.31\textwidth]{tikz/golevka_uncertainty.tikz}}~
+    \subcaptionbox{Volume Percent Error\label{fig:golevka_volume}}{\includegraphics[width=0.5\textwidth,height=0.31\textwidth]{tikz/golevka_volume.tikz}}
     \caption{Normalized uncertainty and volume percent error for Golevka\label{fig:golevka_metrics}}
 \end{figure}
-
+The plots show the the reconstruction achieves an accurate shape estimate with a total volume which closesly matches the true volume.
+It is interesting to note that the reconstruction of Golevka achieves an accurate shape reconstruction in a much smaller amount of time as compared to Geographos.
+This is primarily due to the smaller size of Golevka and the relatively spherical shape of the body in contrast to the highly elliptical shape of Geographos.
 \begin{figure}[htbp]
     \centering
-    \subcaptionbox{Normalized Uncertainty\label{fig:geographos_uncertainty}}{\includegraphics[width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/mesh_update/geographos/uncertainty.pdf}}~
-    \subcaptionbox{Volume Percent Error\label{fig:geographos_volume}}{\includegraphics[width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/mesh_update/geographos/volume.pdf}}
-    \caption{Normalized uncertainty and volume percent error for Geographos\label{fig:geographos_metrics}}
+    \subcaptionbox{Initial Shape Estimate\label{fig:golevka_partial_0}}{\includegraphics[height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/mesh_update/golevka/partial_0.jpg}}~
+    \subcaptionbox{\SI{25}{\percent} of measurements added\label{fig:golevka_partial_25}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/golevka/partial_1321.jpg}}
+
+    \subcaptionbox{\SI{50}{\percent} of measurments added\label{fig:golevka_partial_50}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/golevka/partial_2643.jpg}}~
+    \subcaptionbox{\SI{75}{\percent} of measurements added\label{fig:golevka_partial_75}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/golevka/partial_3964.jpg}}
+
+    \subcaptionbox{\SI{100}{\percent} of measurements added\label{fig:golevka_partial_100}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/golevka/partial_5285.jpg}}~
+    \subcaptionbox{True Shape Model\label{fig:golevka_truth}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/golevka/truth.jpg}}
+    \caption[Asteroid Golevka Incremental Reconstruction]{Incremental Reconstruction of asteroid Golevka~\label{fig:golevka_reconstruction}}
 \end{figure}
 
 \subsection{Full Dynamic Model }\label{sec:dynamic_exploration}
@@ -511,26 +466,32 @@ The control inputs are duplicated from~\cref{sec:se3_control} as
     \vc{u}_f &= -k_x e_x - k_v e_v - F_{ext} + m \ddot{x}_d . \\
     \vc{u}_m &= -k_R e_R - k_\Omega e_\Omega + \Omega \times J \Omega - M_{ext}.
 \end{align*}
+Throughout the simulation the control inputs are computed using the current shape estimate of the asteroid. 
+As measurements are collected, the spacecraft autonomously updates its shape estimate and uses this estimate to compute the control inputs and desired future states.
+
 We consider two simulations about asteroids \num{52760} and Castalia.
 The asteroids are assumed to constantly rotate about the \( \vc{f}_3 = \vc{e}_3\) axis according to the parameters given in~\cref{tab:dynamic_asteroids}.
 Furthermore, the state of the asteroid, namely the rotation matrix \( \aatt \), is assumed to be known based on ground measurements or previous data.
 \begin{table}[htbp]
     \centering
-    \begin{tabular}{lccccc}
+    \begin{tabular}{lcc}
         \toprule
-        Asteroid & Semi-major axes (\si{\kilo\meter}) & Rotational Period (\si{\hour}) & Density ( \si{\gram\per\centi\meter^3})  & Vertices & Faces\\
+        Property & \num{4769} Castalia & (\num{52760}) \num{1998} \(\text{ML}_{14}\) \\
         \midrule
-        \num{4769} Castalia & \( 0.8065 \times 0.4905 \times 0.413 \) & \num{4.095} & 2.1 & 2048 & 4092 \\
-        (\num{52760}) \num{1998} \(\text{ML}_{14}\) & \( 1.1 \times 1.1 \times 1.1 \) & \num{14.98} & 2.1 & 8192 & 16320  \\
+        Semi-major axes(\si{\kilo\meter}) & \( 0.8065 \times 0.4905 \times 0.413 \) & \( 1.1 \times 1.1 \times 1.1 \) \\
+        Rotational Period (\si{\hour}) & \num{4.095} & \num{14.98} \\
+        Density (\si{\gram\per\centi\meter^3}) & \num{2.1} & \num{2.1} \\
+        Vertices & \num{2048}  & \num{8192} \\
+        Faces & \num{4092} & \num{16320} \\
         \bottomrule
-    \end{tabular} 
+    \end{tabular}
     \caption{Asteroid properties for dynamic exploration~\label{tab:dynamic_asteroids}}
 \end{table}
 At the beginning of the simulation the spacecraft is assumed to lie on the inertial \( e_1 \) axis, i.e.\ \( \ipos(0) = \begin{bmatrix} x_0 & 0 & 0 \end{bmatrix} \si{\kilo\meter} \).
 In addition, at the initial state the spacecraft is orientated such that the \( b_1 \) axis is aligned with the inertial \( e_2 \) axis.
 In other words the initial orientation is given by \( \iatt(0) = \exp(\frac{\pi}{2} \hat{e}_3)\).
 The shape reconstruction phase of the simulation is simulation over \SI{15000}{\second}, over which time the spacecraft will take \gls{lidar} measurements of the surface at \SI{1}{\hertz}.
-Once the total uncertainty has been reduced sufficiently the spacecraft manuevers to a ''home`` position aligned with the \( f_1 \) axis of the asteroid.
+Once the total uncertainty has been reduced sufficiently the spacecraft manuevers to a ``home'' position aligned with the \( f_1 \) axis of the asteroid.
 
 \paragraph{Asteroid 52760 Reconstruction}
 % TODO 52760 asteroid - show reconstruction, state trajectory, uncertainty and volume
@@ -571,8 +532,8 @@ Areas of high uncertainty are denoted in yellow while areas of low uncertainty a
 The plots show that the reconstruction  converges to an accurate shape estimate after approximately \SI{8000}{\second}.
 \begin{figure}[htbp]
     \centering
-    \subcaptionbox{Normalized Uncertainty\label{fig:52760_uncertainty}}{\includegraphics[width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/52760/uncertainty.pdf}}~
-    \subcaptionbox{Volume Percent Error\label{fig:52760_volume}}{\includegraphics[width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/52760/volume.pdf}}
+    \subcaptionbox{Normalized Uncertainty\label{fig:52760_uncertainty}}{\includegraphics[width=0.5\textwidth,height=0.31\textwidth]{tikz/52760_uncertainty.tikz}}~
+    \subcaptionbox{Volume Percent Error\label{fig:52760_volume}}{\includegraphics[width=0.5\textwidth,height=0.31\textwidth]{tikz/52760_volume.tikz}}
     \caption{Normalized uncertainty and volume percent error for 52760\label{fig:52760_metrics}}
 \end{figure}
 
@@ -616,8 +577,8 @@ The plots show that the reconstruction converges to an accurate shape estimate a
 In addition, the volume estimate is initially a much larger value but quickly converges to the true value.
 \begin{figure}[htbp]
     \centering
-    \subcaptionbox{Normalized Uncertainty\label{fig:castalia_uncertainty}}{\includegraphics[width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/castalia/uncertainty.pdf}}~
-    \subcaptionbox{Volume Percent Error\label{fig:castalia_volume}}{\includegraphics[width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/castalia/volume.pdf}}
+    \subcaptionbox{Normalized Uncertainty\label{fig:castalia_uncertainty}}{\includegraphics[width=0.5\textwidth,height=0.31\textwidth]{tikz/castalia_uncertainty.tikz}}~
+    \subcaptionbox{Volume Percent Error\label{fig:castalia_volume}}{\includegraphics[width=0.5\textwidth,height=0.31\textwidth]{tikz/castalia_volume.tikz}}
     \caption{Normalized uncertainty and volume percent error for Castalia\label{fig:castalia_metrics}}
 \end{figure}
 
@@ -632,7 +593,7 @@ The component plots of the trajectory are shown in~\cref{fig:castalia_explore_co
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=\textwidth]{figures/computational_geometry/dynamic_exploration/52760/state/ast_comp.pdf}
-    \caption{Components of spacecraft trajectory\label{fig:castlia_explore_components}}
+    \caption{Components of spacecraft trajectory\label{fig:castalia_explore_components}}
 \end{figure}
 
 \paragraph{Castalia Landing Site Selection}
@@ -651,7 +612,7 @@ Areas which violate the slope constraint of \( \phi < \SI{5}{\degree} \) are exc
 The next metric is related to the distance from the current spacecraft position to all candidate landing sites on the surface.
 We utilize~\cref{eq:geodesic_distance} to compute a distance metric to the surface.
 Landing sites which are closely will be considered preferentially over those at a larger distance.
-\Cref{fig:distance_castlia_both} shows a surface plot of the distance to the surface. 
+\Cref{fig:distance_castalia_both} shows a surface plot of the distance to the surface. 
 The area immediately beneath the spacecraft has a small cost while those on the opposite side of the asteroid have a much larger cost.
 \begin{figure}[htbp]
     \centering

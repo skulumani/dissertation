@@ -32,7 +32,6 @@
 
 %------------- CITATION PACKAGES------------------------------
 \usepackage[style=numeric,backend=bibtex8]{biblatex}
-\addbibresource{library.bib}
 \ExecuteBibliographyOptions{}
 \AtEveryBibitem{%
     \clearfield{url}%
@@ -57,6 +56,9 @@
 
 % TIKZ
 \usepackage{pgfplots}
+\pgfplotsset{compat=newest}
+\usepgfplotslibrary{groupplots}
+\usepackage{tikzscale}
 \usepackage{pgf}
 \usepackage{tikz}
 \usepackage{environ}
@@ -66,44 +68,52 @@
 \usetikzlibrary{arrows.meta}
 \usepackage{tikz-3dplot}
 
-\tikzset{help lines/.style={very thin,color=gray!50}} % modify the help lines style
+% externalize tikz plots for speed
+\usepgfplotslibrary{external}
+\tikzexternalize[
+prefix=build/,
+mode=list and make,
+optimize=false,
+]
 
-\tikzset{->-/.style={decoration={
-  markings,
-  mark=at position .5 with {\arrow{>}}},postaction={decorate}}}
+% \tikzset{help lines/.style={very thin,color=gray!50}} % modify the help lines style
+
+% \tikzset{->-/.style={decoration={
+%   markings,
+%   mark=at position .5 with {\arrow{>}}},postaction={decorate}}}
   
-\tikzset{decorate sep/.style 2 args=
-{decorate,decoration={shape backgrounds,shape=circle,shape size=#1,shape sep=#2}}}
+% \tikzset{decorate sep/.style 2 args=
+% {decorate,decoration={shape backgrounds,shape=circle,shape size=#1,shape sep=#2}}}
 
-\tikzset{>={Latex[width=3mm,length=3mm]}}
+% \tikzset{>={Latex[width=3mm,length=3mm]}}
 
-\makeatletter
-\newsavebox{\measure@tikzpicture}
-\NewEnviron{scaletikzpicturetowidth}[1]{%
-  \def\tikz@width{#1}%
-  \def\tikzscale{1}\begin{lrbox}{\measure@tikzpicture}%
-  \BODY
-  \end{lrbox}%
-  \pgfmathparse{#1/\wd\measure@tikzpicture}%
-  \edef\tikzscale{\pgfmathresult}%
-  \BODY
-}
-\makeatother
+% \makeatletter
+% \newsavebox{\measure@tikzpicture}
+% \NewEnviron{scaletikzpicturetowidth}[1]{%
+%   \def\tikz@width{#1}%
+%   \def\tikzscale{1}\begin{lrbox}{\measure@tikzpicture}%
+%   \BODY
+%   \end{lrbox}%
+%   \pgfmathparse{#1/\wd\measure@tikzpicture}%
+%   \edef\tikzscale{\pgfmathresult}%
+%   \BODY
+% }
+% \makeatother
 
-% Tikz macros
-% Draw an arc denoting an angle using start and delta angles
-\newcommand{\drawarcdelta}[4]{
-  \draw ($#1+(#2:#4)$) arc[start angle=#2, delta angle=#3, radius=#4];
-}
+% % Tikz macros
+% % Draw an arc denoting an angle using start and delta angles
+% \newcommand{\drawarcdelta}[4]{
+%   \draw ($#1+(#2:#4)$) arc[start angle=#2, delta angle=#3, radius=#4];
+% }
 
-% Draw an arc with label denoting an angle using start and delta angles
-\newcommand{\drawlabeledarcdelta}[6]{
-  \drawarcdelta{#1}{#2}{#3}{#4}
-  \node at ($#1+(#2+#3/2:#6)$) {#5};
-}
+% % Draw an arc with label denoting an angle using start and delta angles
+% \newcommand{\drawlabeledarcdelta}[6]{
+%   \drawarcdelta{#1}{#2}{#3}{#4}
+%   \node at ($#1+(#2+#3/2:#6)$) {#5};
+% }
 
 % These packages should come last for real
-\usepackage{refcheck} % check for unused references/labels
+% \usepackage{refcheck} % check for unused references/labels
 % \usepackage[]{showlabels} % show labels for referencing
 
 % Get refcheck to work with cleveref
@@ -122,7 +132,7 @@
 }
 \makeatother
 
-\refcheckize{\cref}
-\refcheckize{\Cref}
-\refcheckizetwo{\crefrange}
-\refcheckizetwo{\Crefrange}
+% \refcheckize{\cref}
+% \refcheckize{\Cref}
+% \refcheckizetwo{\crefrange}
+% \refcheckizetwo{\Crefrange}

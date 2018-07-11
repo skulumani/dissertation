@@ -1,24 +1,22 @@
 % !TEX root = ../dissertation.tex
 
 \chapter{Mathematical Background}\label{sec:mathematical_background}
-This chapeter defines and derives the mathematical models that are used throughout the reminder of this work.
-Furthermore, this chapeter also provided the mathematical background in astrodynamic, geometric dynamics and control, topology, and computational geometry that are critical for the subsequent developments.
+This chapter defines and derives the mathematical models that are used throughout the reminder of this work.
+Furthermore, this chapter also provides the mathematical background in astrodynamics, geometric mechanics and control, topology, and computational geometry that are critical for the subsequent developments.
 This chapter does not provide a complete treatment but rather highlights and derives the results which will be used in future chapters.
 
-In~\cref{sec:dumbbell}, the equations of motion of a rigid dumbbell are derived in both the inertial frame and the rotating asteroid frame.
+In~\cref{sec:dumbbell}, the equations of motion of a rigid dumbbell are derived in both the inertial frame and the rotating frame.
 In addition, the equations of motion are each presented in the both the Lagrangian and Hamiltonian forms for a total for four separate equations of motion.
-The dynamics equations of motion are crucial for the geometric controller design of~\cref{sec:se3_control} and dynamic simulations around asteroids of~\cref{sec:shape_reconstruction}.
-\Cref{sec:small_body_modeling} presents the gravitational models used to represent the asteroids considered in this study. 
-We summarize the spherical harmonic, constant density ellipsoid, and polyhedron potential models.
+\Cref{sec:gravitational_models} presents the gravitational models most frequently used for small-body missions. 
+Specifically, we summarize the spherical harmonic, constant density ellipsoid, and polyhedron potential gravity models.
 Finally,~\cref{sec:computational_geometry} presents the mathematical and computational background required to represent the wide variety of small-body shapes.
-These mathematical tools and data are used throughout the thesis to efficiently determine the asteroid shape.
+The dynamic equations of motion are crucial for the low energy orbit transfers in~\cref{sec:lowthrust_transfers}, the geometric controller design of~\cref{sec:se3_control}, and the shape reconstruction and guidance schemes of~\cref{sec:shape_reconstruction}.
 
 \section{Spacecraft Dynamic Model}\label{sec:dumbbell}
 
-%TODO Some of these paragraphs can be moved to the introduction instead
-In this section, we derive the equations of motion of a rigid spacecraft under the influence of the gravitational attraction of a homogenous asteroid.
-The motion of a spacecraft around an asteroid is markedly different than that of Earth orbiting vehicles.
-First, the gravitational field around an asteroid is highly irregular and complex. 
+In this section, we derive the equations of motion of a rigid spacecraft under the influence of the gravitational attraction of a homogeneous body.
+The motion of a spacecraft around a small-body is markedly different than that of Earth orbiting vehicles.
+First, the gravitational field is highly irregular and complex. 
 The usual assumption of a spherical potential is not valid for small or irregular shaped bodies.
 Furthermore, since the magnitude of the gravitational attraction is relatively small, non-gravitational effects, such as solar radiation pressure or third-body effects, become much more significant.
 As a result, the orbital environment is generally quite complex and it is difficult to generate analytical insights, such as those used in the Keplerian two-body solution.
@@ -29,47 +27,51 @@ The effect of the gravitational coupling is related to the parameter \(\epsilon 
 For Earth based missions, the orbital radius is several orders of magnitude larger than the spacecraft length and \(\epsilon\) is small.
 As a result, the corresponding gravitational moment is weak and can be neglected. 
 Therefore, the translational and rotational equations of motion become decoupled and can be considered separately, significantly simplifying the analysis. 
-However, for operations around an asteroid the orbital radius is much smaller, which leads to much larger values of \(\epsilon\) and much larger influence of the rotational and translational coupling.
-References~\cite{elmasri2005} and~\cite{sanyal2004} investigated the coupling of an elastic dumbbell spacecraft in orbit about a central body, but only considered the case of a spherically symmetric central body.
+However, for operations around small bodies the orbital radius is much smaller, which leads to much larger values of \(\epsilon\) and a much larger coupling between the translational and rotational states of the spacecraft.
+\textcite{elmasri2005,sanyal2004} investigated the coupling of an elastic dumbbell spacecraft in orbit about a central body, but only considered the case of a spherically symmetric central body.
+While the analysis investigated the complex dynamic interaction of the rigid body spacecraft, it is not applicable to operations around small bodies due to the assumption of a spherical central body.
 
-With these insights, we seek to develop the complete coupled equations of motion of a spacecraft around an asteroid.
-The equations of motion should explicitly consider the interaction of the translational and rotational dynamics.
-Furthermore, the equations should be defined in a global and coordinate-free representation to allow for a single global representation of the motion of the spacecraft and asteroid.
-We restrict the developments to a rigid spacecraft composed of two spherical masses connected by a massless rigid link.
-This dumbbell model for a spacecraft can readily be extended to a system of particles to more faithfully represent  any arbitrary rigid body.
+With these insights, we seek to develop the complete coupled equations of motion of a spacecraft around a small body.
+The equations of motion explicitly consider the interaction of the translational and rotational dynamics.
+Furthermore, the equations are defined in a global and coordinate-free representation to allow for a single global representation of the motion of the spacecraft and asteroid.
+We restrict the developments to a rigid spacecraft composed of two spherical masses connected by a massless rigid link, also known as a dumbbell spacecraft model.
+This dumbbell model is a popular model for dynamical analysis of spacecraft and is readily extended to a system of particles to more faithfully represent any arbitrary rigid body.
 
 \subsection{Reference Frames}\label{ssec:dumbbell_eoms_reference_frames}
 
 The first step in deriving the equations of motion is to first define the \gls{kinematics} of the spacecraft motion.
-This kinematical description will be used in subsequent sections to derive the equations of motion, compute the control inputs, and simulate the motion.
+This kinematic description will be used in subsequent sections to derive the equations of motion, compute the control inputs, and simulate the motion.
 There are three reference frames of interest for this problem:
 \begin{enumerate}
     \item \( \gls{sym:evec}[_i] \in \R^3 \) : The standard basis vectors of the inertial reference frame.
         The inertial reference frame is assumed to be fixed with respect to the stars. 
-        The origin of the frame is chosen to coincide with the center of mass of the asteroid.
+        The origin of the frame is chosen to coincide with the center of mass of the small body.
         The standard inertial basis vectors are given as:
         \begin{align*}
             \evec{1} &= \begin{bmatrix} 1 & 0 & 0 \end{bmatrix}^T, \\
             \evec{2} &= \begin{bmatrix} 0 & 1 & 0 \end{bmatrix}^T, \\
             \evec{3} &= \begin{bmatrix} 0 & 0 & 1 \end{bmatrix}^T.
         \end{align*}
-    \item \( \gls{sym:fvec}[_i] \in \R^3 \) : The standard basis vectors for asteroid fixed frame.
-        The reference frame originates at the center of mass of the asteroid and the basis vectors are aligned with the principle motments of inertia of the asteroid.
-        In addition, we assume that at the beginning of any simulation that the asteroid and inertial frames are initially aligned.
-    \item \( \gls{sym:bvec}[_i] \) : The standard basis vectors for the spacecraft fixed frame.
-        The frame originates at the center of mass of the spacecraft and is aligned with the principle moments of inertia of the body.
+    \item \( \gls{sym:fvec}[_i] \in \R^3 \) : The standard basis vectors for small body fixed frame.
+        The reference frame originates at the center of mass of the body and the basis vectors are aligned with the principle moments of inertia. 
+        In addition, we assume that at the beginning of any simulation that the central body and inertial frames are initially aligned.
+    \item \( \gls{sym:bvec}[_i] \in \R^3 \) : The standard basis vectors for the spacecraft fixed frame.
+        The frame originates at the center of mass of the spacecraft and is aligned with the principle moments of inertia of the spacecraft.
 \end{enumerate}
-\Cref{fig:reference_frames} shows the reference frames in use throughout this work.
+A visual representation of the reference frames of interest is shown in~\cref{fig:reference_frames}.
 \begin{figure}
     \centering
-    \includegraphics[width=\textwidth]{example-image-golden}
-    \caption{Representation of the three reference frames, inertial, asteroid, and spacecraft, used to describe the kinematics\label{fig:reference_frames}}
+    \includegraphics[width=\textwidth]{tikz/ref_frames.tikz}
+    \caption{Visual representation of the references considered in this dissertation.
+    The inertial frame, \( \vc{e}_i \), is fixed while the small body fixed frame, \( \vc{f}_i \), is co-located and rotates at a constant angular rate with respect to the inertial frame.
+The spacecraft fixed frame, \( \vc{b}_i \), is attached to the spacecraft.
+The \( b_1 \) axis is aligned with the axis of symmetry of the dumbbell.\label{fig:reference_frames}}
 \end{figure}
 
-With the appropriate reference frames, the configuration space of the spacecraft motion is now defined to enable the derivation of the equations of motion.
+With the appropriate reference frames, the configuration space of the spacecraft motion is now defined to derive the equations of motion.
 From classical mechanics, the parameters which are used to define the motion of the system are called generalized coordinates and represented by \( \vc{q} \).
-The vector space defined by these coordinates is called the configuration space, \( \mathsf{Q} \), of the physical system.
-Frequently, the physical parameters of the system must also satisfy some mathematical constraints, which then define a configuration manifold of all generalized coordinates within the configuration space which satisfy the constraints.
+The vector space defined by these coordinates is called the configuration space, \( q \in \mathsf{Q} \), of the physical system.
+Frequently, the physical parameters of the system must also satisfy some mathematical constraints, which then define a configuration manifold of all generalized coordinates within the configuration space which also satisfy the constraints.
 For example, the motion of a particle in three-dimensional Euclidean space can be defined by the typical generalized coordinates in the form of a vector
 \begin{align*}
     \vc{r} = \begin{bmatrix}
@@ -78,29 +80,25 @@ For example, the motion of a particle in three-dimensional Euclidean space can b
 \end{align*}
 Therefore the configuration space is then the set of all real three dimensional vectors or equivalently, \(\vc{r} \in \gls{sym:real_vector_space}[^3]\).
 
-If we further assume that the point is constrained to the surface of a sphere, for example in the case of a spherical pendulum, then the configuration space becomes the subset of \( \R^3 \) which also define points the on sphere, \( \gls{sym:n_sphere} \).
+If we further assume that the point is constrained to the surface of a sphere, for example in the case of a spherical pendulum, then the configuration space becomes the subset of \( \R^3 \) which also define points the on sphere, \( \gls{sym:n_sphere}^2 \).
 If the particle is an extended body rather than a point mass then the orientation becomes an additional configuration parameter.
 The orientation of any rigid body can be defined as the orientation of a body fixed reference frame with respect to an inertial frame. 
 As a result, the configuration space for the general motion of a rigid body is defined by at a minimum of three coordinates to represent translation and three coordinates to represent the orientation.
-This configuration space is the semi-direct product, \( \gls{sym:special_euclidean_group} = \R^3 \times \gls{sym:special_orthogonal_group} \), or the special euclidean group.
+This configuration space is the semi-direct product, \( \gls{sym:special_euclidean_group} = \R^3 \otimes \gls{sym:special_orthogonal_group} \), or the special euclidean group.
 The special euclidean group is the group of all possible rigid body motions and defines the six degrees of freedom possible by our system.
 An element of the special euclidean group can be expressed using the homogenous representation as
 \begin{align*}
     \begin{bmatrix}
         R & \vc{x} \\
-        0 & 1,
-    \end{bmatrix}
+        0 & 1
+    \end{bmatrix},
 \end{align*}
-where \( R \in \SO\) is a \( 3 \times 3 \) real matrix with determinant of \( +1\) and \( \vb{x} \in \R^{3 \times 1}\) is a column vector.
+where \( R \in \SO\) is a \( 3 \times 3 \) real matrix with determinant of \( +1\) and \( \vc{x} \in \R^{3 \times 1}\) is a column vector.
 
-% TODO Discuss the group update operation as a homogenous transformation on R^4
-
-% TODO show example of the update operation 
-
-In this work, we assume that the asteroid is much more massive than the spacecraft and its motion is not affected by that of the spacecraft.
-This assumption allows us to treat the motion of the vehicle independently from that of the asteroid, instead of treating the more complicated full-body problem. 
+In this dissertation, we assume that the central body is much more massive than the spacecraft and its motion is not affected by that of the spacecraft.
+This assumption allows us to treat the motion of the vehicle independently from that of the central body, instead of treating the more involved full-body problem. 
 In~\cref{sec:dumbbell_model}, the configuration and mass properties of the spacecraft model are explicitly defined.
-Using the model, the coupled dynamics of the spacecraft are derived in the inertial frame~\cref{sec:inertial_dumbbell_eoms} and asteroid fixed frames in~\cref{sec:asteroid_dumbbell_eoms}.
+Using the model,~\cref{sec:inertial_dumbbell_eoms} derives the coupled dynamics of the spacecraft in the inertial frame and~\cref{sec:asteroid_dumbbell_eoms} derives the equations of motion in the rotating frame.
 
 \subsection{Dumbbell Spacecraft Model}\label{sec:dumbbell_model}
 
@@ -112,13 +110,12 @@ In addition, comparatively light-weight solar panels extend from the bus to prov
 As a result, the distributed mass of the spacecraft is captured with the dumbbell representation.
 
 The dumbbell is defined by two spherical masses of radius \( \radius{1}, \radius{2} \in \R \) with masses \( \mass{1}, \mass{2} \in  \R\).
-The masses are seperated by a massless rod of length \( \length{} \) and attached to the centers of each mass.
+The masses are separated by a massless rod of length \( \length{} \) and attached to the centers of each mass.
 \Cref{fig:dumbbell_sc} shows the model and associated parameters.
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=\textwidth]{figures/dumbbell.png}
-    \caption{Dumbbell Model of Rigid Spacecraft}
-    \label{fig:dumbbell_sc}
+    \includegraphics[width=\textwidth]{tikz/dumbbell.tikz}
+    \caption{Dumbbell Model of Rigid Spacecraft\label{fig:dumbbell_sc}}
 \end{figure}
 The spacecraft body fixed frame is centered at the center of mass of the vehicle.
 The \( \bvec{1} \)  axis is aligned with the connecting rod and directed along the axis of symmetry.
@@ -129,7 +126,7 @@ The distance from the center of mass to each spherical mass is defined as
     \length{2} &= \length{} - \length{1}.
 \end{align}
 
-\paragraph{Moment of Inertia Derivation}\label{sec:moment_of_inertia}
+\paragraph{Moment of Inertia}\label{sec:moment_of_inertia}
 The inertia tensor/matrix of a rigid body is defined~\cite{greenwood1988} as
 \begin{align}\label{eq:moi_definition}
     J_I = \int_{\mathcal{B}} \bracket{ \parenth{\brho{}^T \brho{} }I - \brho{}\brho{}^T} dm, 
@@ -146,17 +143,12 @@ The location of an infinitesimal mass element \( dm \) can be decomposed into
     \vc{\rho}_i = \vc{\zeta} + \vc{\eta}_i, 
 \end{align}
 where \( \vc{\zeta} \) is the location of the center of \( m_i \) in the spacecraft fixed frame while \( \vc{\eta} \) the position of \( dm \) with respect to the center of \( m_i \) and expressed in the spacecraft fixed frame.
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=\textwidth]{figures/dumbbell_pos_vector.png}
-    \caption{Decomposition of mass element positon vector}
-    \label{fig:dumbbell_moi_mass_element_position}
-\end{figure}
+\Cref{fig:dumbbell_sc} shows the configuration of the vectors \( \vc{\zeta}, \vc{\eta} \) in the spacecraft fixed frame.
 Using~\cref{eq:mass_element_position}, the moment of inertia can be expanded as
 \begin{align*}
     J_I &= \sum_i^n \int_{\mathcal{B}_i} \parenth{\vc{\zeta}_i + \vc{\eta}_i}^T \parenth{\vc{\zeta}_i + \vc{\eta}_i } I  - \parenth{\vc{\zeta}_i + \vc{\eta}_i} \parenth{\vc{\zeta}_i + \vc{\eta}_i}^T dm .
 \end{align*}
-Further expansion leads to
+Expanding the product terms leads to
 \begin{align*}
     J_I = \sum_i^n \int_{\mathcal{B}_i} \parenth{\vc{\zeta}_i^T \vc{\zeta}_i}I - \vc{\zeta}_i \vc{\zeta}_i^T + \vc{\eta}_i^T \vc{\eta}_i I - \vc{\eta}_i \vc{\eta}_i^T dm.
 \end{align*}
@@ -180,8 +172,7 @@ where \( \vc{\zeta}_i \) is the position of \( m_i \) in the spacecraft fixed fr
 \end{align}
 \Cref{eq:dumbbell_moment_of_inertia} is consistent with the well-known parallel-axis theorem~\cite{greenwood1988}.
 
-%TODO Nonstandard moment of inertia matrix
-\paragraph{Nonstandard Moment of Inertia Matrix}\label{sec:nonstandard_moi}
+\paragraph{Nonstandard Moment of Inertia}\label{sec:nonstandard_moi}
 The standard moment of inertia \( J \in \R^{3 \times 3} \) of a rigid body is given by
 \begin{align}\label{eq:standard_moment_of_inertia}
     J = \int_{\mathcal{B}} \vh{\rho}^T \vh{\rho} dm 
@@ -192,7 +183,7 @@ The standard moment of inertia \( J \in \R^{3 \times 3} \) of a rigid body is gi
         -zx & yz & x^2 + y^2
     \end{bmatrix} dm, 
 \end{align}
-where \( \vc{\rho} = \begin{bmatrix} x & y & z \end{bmatrix}^T\).
+where \( \vc{\rho} = \begin{bmatrix} x & y & z \end{bmatrix}^T\) and defines the position of the mass element \( dm \) in the body fixed frame.
 A nonstandard moment of inertia matrix \( J_d \in \R^{3 \times 3 } \) is defined as
 \begin{align} \label{eq:nonstandard_moment_of_inertia}
     J_d = \int_{\mathcal{B}} \vc{\rho} \vc{\rho}^T dm = \int_{\mathcal{B}} 
@@ -229,17 +220,17 @@ It has been shown the all attitude parameterizations fail to preserve the geomet
 The kinematics of the spacecraft and asteroid are described in the inertial frame by
 \begin{itemize}
     \item \( \gls{sym:ipos} \in \R^3 \): the position of the center of mass of the spacecraft represented in the inertial frame \( \evec{i} \),
-    \item \( \gls{sym:iatt} \in \SO\): the rotation matrix which transforms vectors defined in the spacecraft fixed frame, \( \bvec{i} \), to the inertial frame, \( \evec{i} \)
+    \item \( \gls{sym:iatt} \in \SO\): the rotation matrix which transforms the representation of vectors defined in the spacecraft fixed frame, \( \bvec{i} \), to the inertial frame, \( \evec{i} \)
     \item \( \gls{sym:iangvel} \in \R^3 \): the angular velocity of the spacecraft body fixed frame relative to the inertial frame and represented in the spacecraft body fixed frame \( \bvec{i} \)
-    \item \( \gls{sym:aatt} \in \SO \): the rotation matrix which transforms vectors defined in the asteroid fixed frame, \( \fvec{i} \), to the inertial frame, \( \vecbf{e}_i \)
+    \item \( \gls{sym:aatt} \in \SO \): the rotation matrix which transforms the representation of vectors defined in the small body fixed frame, \( \fvec{i} \), to the inertial frame, \( \evec{i} \)
 \end{itemize}
 
 The motion of a rigid body spacecraft under the influence of gravity can be described by Lagrangian and Hamiltonian dynamics.
 The Lagrangian function \( L : \T \Q^n \to \R^1 \) is a function of the configuration variables and their time derivatives.
 The Lagrangian is defined as the system kinetic energy minus the system potential energy.
-As a result, we derive the we first derive the kinetic and potential energy of the spacecraft, then apply the calculus of variations to determine the equations of motion.
+As a result, we first derive the kinetic and potential energy of the spacecraft, then apply the calculus of variations to determine the equations of motion.
 
-\paragraph{Kinetic Energy of Dumbbell}\label{sec:inertial_kinetic_energy}
+\paragraph{Kinetic Energy}\label{sec:inertial_kinetic_energy}
 The kinetic energy of the spacecraft begins with the kinematics defined in~\cref{ssec:dumbbell_eoms_reference_frames} as
 \begin{align}\label{eq:inertial_KE_1}
     T = \frac{1}{2} \int_{\mathcal{B}} \norm{ \dot{\vc{x}} + \dot{R} \vc{\rho}}^2 dm,
@@ -274,24 +265,24 @@ Applying~\cref{eq:omegarhosquared} to~\cref{eq:inertial_KE_3} results in the fin
 \end{align}
 where we applied the non-standard moment of inertia defined in~\cref{eq:nonstandard_moment_of_inertia}.
 
-\paragraph{Potential Energy of Dumbbell}
-The potential energy of the dumbbell is a function of the asteroid potential model.
+\paragraph{Potential Energy}
+The potential energy of the dumbbell is a function of the selected potential model.
 There are a number of possible models as shown in~\cref{sec:gravitational_models}.
 For a rigid body composed of several spherical point masses, the total potential is defined as
 \begin{align}\label{eq:inertial_potential_energy}
     V(\vc{x}, R, R_A) = \sum_{i}^n - m_i U \parenth{R_A^T \parenth{\vc{x} + R \vc{\rho}_i}},
 \end{align}
-where \( \vc{x} \in \R^3\) is the position of the center of mass, \( R \in \SO\) is the rotation matrix which transforms vectors from the spacecraft frame to the inertial frame, and \( R_A \in \SO \) is the rotation matrix which transforms vectors from the asteroid frame to the inertial frame.
+where \( \vc{x} \in \R^3\) is the position of the center of mass, \( R \in \SO\) is the rotation matrix which transforms the representation of vectors from the spacecraft frame to the inertial frame, and \( R_A \in \SO \) is the rotation matrix which transforms the representation of vectors from the asteroid frame to the inertial frame.
 The exterior gravitational potential of the body is defined by \( U \in \R^1 \).
 
-Using our kinematic variables we can define the kinetic and potential energy of the dumbbell using~\cref{eq:inertial_kinetic_energy,eq:inertial_potential_energy} as
+Using our kinematic variables, we can define the kinetic and potential energy of the dumbbell using~\cref{eq:inertial_kinetic_energy,eq:inertial_potential_energy} as
 \begin{subequations}\label{eq:dumbbell_kinetic_and_potential_energy}
 \begin{align}
-    T &= \frac{1}{2} m \norm{\dot{\vc{x}}}^2 + \frac{1}{2} \tr{\vh{\Omega} J_d \vh{\Omega}^T} , \label{eq:dumbbell_kinetic_energy}\\
-    V( \vecbf{x}, R ) &=  - m_1 U \parenth{R_A^T \parenth{\vc{x} + R \vc{\rho}_1}} - m_2 U \parenth{R_A^T \parenth{\vc{x} + R \vc{\rho}_2}}. \label{eq:dumbbell_potential_energy}
+    T\parenth{\dot{\ipos}, \iangvel} &= \frac{1}{2} m \norm{\dot{\vc{x}}}^2 + \frac{1}{2} \tr{\vh{\Omega} J_d \vh{\Omega}^T} , \label{eq:dumbbell_kinetic_energy}\\
+    V( \ipos, R ) &=  - m_1 U \parenth{R_A^T \parenth{\vc{x} + R \vc{\rho}_1}} - m_2 U \parenth{R_A^T \parenth{\vc{x} + R \vc{\rho}_2}}. \label{eq:dumbbell_potential_energy}
 \end{align}
 \end{subequations}     
-In this work we will utilize the polyhedron potential model defined in~\cref{sec:polyhedron_potential}.
+In this work we utilize the polyhedron potential model defined in~\cref{sec:polyhedron_potential}.
 The position of each mass \(m_i\) of the dumbbell is defined in the dumbbell fixed frame by the vector \(\vc{\rho}_i\). 
 With~\cref{eq:dumbbell_kinetic_and_potential_energy} one can then use Hamilton's principle  and the variation of the action integral to derive the equations of motion.
 However, the first step is to determine the variation of the kinetic and potential energies.
@@ -314,8 +305,7 @@ In other words,
 \begin{align}\label{eq:hamiltons_principle}
     \delta \mathcal{G}  = \int_{t_0}^{t_f} \delta T - \delta V dt = 0.
 \end{align}
-The detailed derivation is presented in~\cref{proof:inertial_dumbbell_eoms}.
-The inertial equations of motion can be written in Lagrangian form as
+Ensuring the variation is zero and using integration by parts, the inertial equations of motion can be written in Lagrangian form as
 \begin{align}
     \dot{\ipos} &= \ivel, \label{eq:inertial_position_dynamics}\\
     \parenth{m_1 + m_2} \dot{\ivel} &= - \sum_{i=0}^2 m_i \aatt \deriv{U}{\apos_i} + u_f, \label{eq:inertial_velocity_dynamics}\\
@@ -329,19 +319,19 @@ The vectors \( \apos_i \) define the position of the dumbbell mass \( m_i \) in 
 where \( \spos_i \) defines the position of each mass in the spacecraft fixed body frame.
 The control inputs to the spacecraft are defined by \( u_f, u_m \in \R^3 \) which define the control force represented in the inertial frame and the control moment represented in the spacecraft frame, respectively. 
 
-\paragraph{Inertial Equations of motion: Hamiltonian Form}\label{sec:inertial_hamiltonian_form}
-% TODO Check hte legendre transformation is correct
+\paragraph{Inertial Equations of Motion: Hamiltonian Form}\label{sec:inertial_hamiltonian_form}
+
 Hamilton's equations allows for the representation of the second order equations derived using the Euler-Lagrange equation as a system of \( 2n \) first order equations called a hamiltonian system of equations or canonical equations~\cite{arnold1989}.
-Hamilton's equations are derivable direclty from the Lagrangian through the use of the Legendre transformation which is a mapping \( \left( q, \dot{q},t\right) \rightarrow \left(q, p, t \right) \) where \( p_i\) is the generalized momenta,
+Hamilton's equations are derivable directly from the Lagrangian through the use of the Legendre transformation which is a mapping \( \left( q, \dot{q},t\right) \rightarrow \left(q, p, t \right) \) where \( p_i\) is the generalized momenta,
 \begin{align}\label{eq:legendre_transform}
-	p_i = \deriv{L}{\dot{q}}
+	p_i = \deriv{L}{\dot{q}}.
 \end{align}
 The Legendre transformation is useful for variational equations of the form
 \begin{align*}
 	df &= u dx + v dy, \\
 	u &= \deriv{f}{x},\quad v = \deriv{f}{y}.
 \end{align*}
-To change from \( \left( x, y\right) \rightarrow \left(u,y \right) \) on can use the transformation
+To change from \( \left( x, y\right) \rightarrow \left(u,y \right) \) one can use the transformation
 \begin{align*}
 	g &= f - u x,\\
 	dg &= df - u dx - x du, \\
@@ -352,7 +342,7 @@ To change from \( \left( x, y\right) \rightarrow \left(u,y \right) \) on can use
 
 In the continuous time case, one can define the Hamiltonian in terms of the Lagrangian as
 \begin{align}\label{eq:hamiltonian}
-	H &= \sum_{i = 1}^N p_i \dot{q}_i - L \left( q_i,\dot{q}_i, t \right)
+	H &= \sum_{i = 1}^N p_i \dot{q}_i - L \left( q_i,\dot{q}_i, t \right).
 \end{align}
 Applying~\cref{eq:legendre_transform} and taking the variation of~\cref{eq:hamiltonian} allows us to derive the equations of motion in Hamiltonian form as
 \begin{align}\label{eq:hamilton_eq}
@@ -367,7 +357,7 @@ The system momenta are related to the velocities by the transformations
     \ilinmom &= \parenth{m_1 + m_2} \ivel , \\
     \iangmom & = J \iangvel.
 \end{align}
-The continuous inerital equations of motion in Hamiltonian form are defined as
+The continuous inertial equations of motion in Hamiltonian form are defined as
 \begin{align}
     \dot \ipos &= \frac{\ilinmom}{m_1 + m_2}, \label{eq:inertial_position_dynamics_hamiltonian}\\
     \dot \ilinmom &= - m_1 \aatt \deriv{U}{\apos_1} - m_2 \aatt \deriv{U}{\apos_2}, \label{eq:inertial_velocity_dynamics_hamiltonian}\\
@@ -375,34 +365,41 @@ The continuous inerital equations of motion in Hamiltonian form are defined as
     \dot\iangmom  + \hat{\iangvel} \iangmom &= m_1 \hat{\spos}_1 \iatt^T \aatt \deriv{U}{\apos_1} + m_2 \hat{\spos}_2 \iatt^T \aatt \deriv{U}{\apos_2}. \label{eq:inertial_angvel_dynamics_hamiltonian}
 \end{align}
 
-\subsection{Asteroid Frame Equations of Motion}\label{sec:asteroid_dumbbell_eoms}
+\subsection{Rotating Frame Equations of Motion}\label{sec:asteroid_dumbbell_eoms}
 The complete motion of rigid bodies under the influence of their mutual gravity only depends on the relative position and relative attitude of the bodies~\cite{lee2007a}.
 This is a consequence of the fact that the gravitational potential can be described using only the relative position.
 Physically, this is due to the fact that the total linear and angular momentum of the system is conserved.
-In astrodynamics, this fact is typically used to reduce the two body problem to that of the relative two body problem which affords convienent analytical solutions~\cite{vallado2007,bate1971}.
-In this section, the equations of motion of a rigid spacecraft are derived in the asteroid fixed frame.
+In astrodynamics, this fact is typically used to reduce the two body problem to that of the relative two body problem which affords convenient analytical solutions~\cite{vallado2007,bate1971}.
+In addition, defining the motion in a rotating frame often leads to additional insights into the dynamic structure of the system.
+For example, the three body problem describes the motion of a point mass under the influence of two gravitational bodies~\cite{szebehely1967}.
+The three body problem is typically formulated in a rotating frame fixed to the primaries and leads to additional structure of the dynamics~\cite{koon2011}.
+Another famous example is Foucault's pendulum which is frequently used to demonstrate the rotation of the Earth
+
+In this section, the equations of motion of a rigid spacecraft are derived in the rotating small body fixed frame.
+The rotating reference frames provides another equivalent representation of the dynamics.
+In addition, the developments made in the rotating reference frame will be used in~\cref{sec:lowthrust_transfers} for the design of low thrust orbital transfers.
 This derivation can be considered a specific example of the relative full body problem and is readily generalized to multiple bodies~\cite{lee2007a}.
 
-The relative motion of a dumbbell spacecraft with respect to an asteroid are defined by the kinematics:
+The relative motion of a dumbbell spacecraft with respect to the rotating small body frame are defined by the kinematics:
 \begin{align}
     \gls{sym:rpos} &= R_A^T \vc{x}, \label{eq:relative_position} \\
     \gls{sym:rvel} &= R_A^T \dot{\vc{x}}, \label{eq:relative_velocity},
 \end{align}
-where \( \rpos \in \R^3 \) is the relative position of the spacecraft with respect to the asteroid and expressed in the asteroid fixed frame, and \( \rvel \in \R^3 \) is the relative velocity of the spacecraft with respect to the asteroid and expressed in the asteroid fixed frame.
+where \( \rpos \in \R^3 \) is the relative position of the spacecraft with respect to the small body and expressed in the small body fixed frame, and \( \rvel \in \R^3 \) is the relative velocity of the spacecraft with respect to the small body and expressed in the small body fixed frame.
 The relative attitude kinematics are defined by
 \begin{align}
     \gls{sym:ratt} &= R_A^T R, \label{eq:relative_attitude} \\
     \gls{sym:rangvel} &= \ratt  \vc{\Omega}, \label{eq:relative_angular_velocity}
 \end{align}
-where \( \ratt \in \SO \) is the relative attitude of the spacecraft with respect to the asteroid.
-\( \ratt \) transforms vectors from the spacecraft fixed frame to the asteroid fixed frame.
-\( \rangvel \in \R^3 \) is the angular velocity of the spacecraft with respect to the inertial frame and expressed in the asteroid frame.
+where \( \ratt \in \SO \) is the relative attitude of the spacecraft with respect to the small body.
+\( \ratt \) transforms the representation of vectors from the spacecraft fixed frame to the small body fixed frame.
+\( \rangvel \in \R^3 \) is the angular velocity of the spacecraft with respect to the inertial frame and expressed in the small body frame.
 
 As in~\cref{sec:inertial_dumbbell_eoms}, we first seek to define the kinetic and potential energy of the dumbbell in terms of these relative kinematics. 
 Afterwards, the variations are taken to derive the equations of motion.
-In this analysis, it is assumed that the motion of the asteroid is not impacted by that of the dumbbell.
-In other words, the size of the dumbbell spacecraft is significantly less than that of the asteroid. 
-As a result, the motion of the asteroid is unaffected by that of the spacecraft.
+In this analysis, it is assumed that the motion of the small body is not impacted by that of the dumbbell.
+In other words, the size of the dumbbell spacecraft is significantly less than that of the small body. 
+As a result, the motion of the small body is unaffected by that of the spacecraft.
 
 The kinetic energy defined in the inertial frame is given by~\cref{eq:inertial_kinetic_energy} and is transformed using~\cref{eq:relative_position,eq:relative_angular_velocity} as
 \begin{align}\label{eq:relative_kinetic_energy_1}
@@ -410,34 +407,34 @@ The kinetic energy defined in the inertial frame is given by~\cref{eq:inertial_k
 \end{align}
 Using~\cref{eq:hatRxR,eq:trABC} in~\cref{eq:relative_kinetic_energy_1} results in
 \begin{align}\label{eq:relative_kinetic_energy_2}
-    T = \frac{1}{2} \parenth{m_1 + m_2} \norm{\rvel}^2 + \frac{1}{2} \tr{\rhangvel \ratt J_d \ratt^T \rhangvel^T}.
+    T\parenth{\rvel, \rangvel} = \frac{1}{2} \parenth{m_1 + m_2} \norm{\rvel}^2 + \frac{1}{2} \tr{\rhangvel \ratt J_d \ratt^T \rhangvel^T}.
 \end{align}
-The term \( \ratt \Jdi \ratt^T = \Jdr\) is the expression of the nonstandard moment of inertia tensor of the dumbbell expressed in the asteroid fixed frame. 
+The term \( \ratt \Jdi \ratt^T = \Jdr\) is the expression of the nonstandard moment of inertia tensor of the dumbbell expressed in the small body fixed frame. 
 It is now a time varying inertia matrix as the relative attitude \( \ratt \) is a function of time.
 Using~\cref{eq:hatRxR} it can be shown that \( \Jdr \) also satisfies a similar property as~\cref{eq:moi_hat_prop}, 
 \begin{align}\label{eq:moi_relative_hat_prop}
     \parenth{\Jr \rangvel}^\wedge = \rhangvel \Jdr + \Jdr\rhangvel,
 \end{align}
-where \( \Jr = \ratt \Ji \ratt^T \in \R^{3 \times 3}\) is the standard moment of inertia matrix of the spacecraft expressed with respect to the asteroid fixed frame.
-Using this definition the relative kinetic energy is given as
+where \( \Jr = \ratt \Ji \ratt^T \in \R^{3 \times 3}\) is the standard moment of inertia matrix of the spacecraft expressed with respect to the small body fixed frame.
+Using this definition, the relative kinetic energy is given as
 \begin{align}\label{eq:relative_kinetic_energy}
-    T_r &= \frac{1}{2} \parenth{m_1 + m_2} \norm{\rvel}^2 + \frac{1}{2} \tr{\rhangvel \Jdr \rhangvel^T}.
+    T_r\parenth{\rvel, \rangvel} &= \frac{1}{2} \parenth{m_1 + m_2} \norm{\rvel}^2 + \frac{1}{2} \tr{\rhangvel \Jdr \rhangvel^T}.
 \end{align}
 
-The potential energy is already defined in terms of the relative position of the dumbbell with respect to the asteroid.
+The potential energy is already defined in terms of the relative position of the dumbbell.
 Using the relative kinematics given in~\cref{eq:relative_position,eq:relative_attitude} gives
 \begin{align}\label{eq:relative_potential_energy}
-    V_r = -m_1 U( \rpos + \ratt \vc{\rho}_1) - m_2 U(\rpos + \ratt \vc{\rho}_2).
+    V_r\parenth{\rpos, \ratt} = -m_1 U( \rpos + \ratt \vc{\rho}_1) - m_2 U(\rpos + \ratt \vc{\rho}_2).
 \end{align}
-Using~\cref{eq:relative_kinetic_energy,eq:relative_potential_energy}, the reduced Langrangian is expressed in terms of the relative kinematics as 
+Using~\cref{eq:relative_kinetic_energy,eq:relative_potential_energy}, the reduced Lagrangian is expressed in terms of the relative kinematics as 
 \begin{align}\label{eq:relative_lagrangian}
-    L_r = T_r-V_r =& \frac{1}{2} \parenth{m_1 + m_2} \norm{\rvel}^2 + \frac{1}{2} \tr{\rhangvel \Jdr \rhangvel^T} \nonumber \\
+    L_r = T_r\parenth{\rvel, \rangvel} - V_r\parenth{\rpos, \ratt} =& \frac{1}{2} \parenth{m_1 + m_2} \norm{\rvel}^2 + \frac{1}{2} \tr{\rhangvel \Jdr \rhangvel^T} \nonumber \\
              &+m_1 U(\rpos + \ratt \vc{\rho}_1) + m_2 U(\rpos + \ratt \vc{\rho}_2) .
 \end{align}
-In a process similar to~\cref{sec:inertial_dumbbell_eoms} we use Hamilton's principle to derive the relative equations of motion, in the asteroid fixed frame, by finding the variation of~\cref{eq:relative_lagrangian}.
+In a process similar to~\cref{sec:inertial_dumbbell_eoms} we use Hamilton's principle to derive the relative equations of motion, in the small body fixed frame, by finding the variation of~\cref{eq:relative_lagrangian}.
 Ensuring that the action integral is stationary for all possible variations leads to the equations of motion.
 
-\paragraph{Variation of the relative variables}\label{ssec:var_rel_lagrangian}
+\paragraph{Variation of the Relative Variables}\label{ssec:var_rel_lagrangian}
 
 One key difference is that the variations of the relative variables must be careful chosen to respect the geometry of the configuration manifold.
 Furthermore, the relative variations must also obey the constraints of the inertial variations.
@@ -459,25 +456,25 @@ The key developments are summarized in this section.
 
 The variation of the reduced potential energy, shown in~\cref{eq:relative_potential_energy}, is given by
 \begin{align}\label{eq:relative_potential_energy_variation}
-    \delta V &= \bracket{-m_1 \deriv{U}{z_1}^T - m_1 \deriv{U}{z_2}^T} \delta \rpos - m_1 \tr{ \rattvar \ratt \rho_1 \deriv{U}{z_1}^T} \nonumber\\
-             &- m_2 \tr{\rattvar \ratt \rho_2 \deriv{U}{z_2}^T},
+    \delta V =& \bracket{-m_1 \deriv{U}{z_1}^T - m_1 \deriv{U}{z_2}^T} \delta \rpos - m_1 \tr{ \rattvar \ratt \rho_1 \deriv{U}{z_1}^T} \nonumber\\
+              & {} - m_2 \tr{\rattvar \ratt \rho_2 \deriv{U}{z_2}^T},
 \end{align}
 while the variation of the reduced kinetic energy, shown in~\cref{eq:relative_kinetic_energy}, is given by
 \begin{align}\label{eq:relative_kinetic_energy_variation}
     \delta T =& (m_1 + m_2) \rvel^T \parenth{\delta \dot{x}_r +  \hat{\Omega}_A \delta \rpos} + \frac{1}{2} \tr{ -\dot{\hat{\eta}}\parenth{\Jr  \hat{\Omega}_r }} \nonumber\\
-             &+\frac{1}{2} \tr{\rattvar \parenth{ \hat{\Omega}_A\parenth{\Jr  \hat{\Omega}_r}}^\wedge} .
+              & {} +\frac{1}{2} \tr{\rattvar \parenth{ \hat{\Omega}_A\parenth{\Jr  \hat{\Omega}_r}}^\wedge} .
 \end{align}
 Combining~\cref{eq:relative_potential_energy_variation,eq:relative_kinetic_energy_variation} allows us to compute the variation of the reduced Lagrangian as
 \begin{align}\label{eq:relative_lagrangian_variation}
     \delta L_r =& (m_1 + m_2) \rvel \parenth{\delta \dot{x}_r +  \hat{\Omega}_A \delta \rpos} + \frac{1}{2} \tr{ -\dot{\hat{\eta}}\parenth{\Jr  \hat{\Omega}_r }} \nonumber\\
-    &+\frac{1}{2} \tr{\rattvar \parenth{ \hat{\Omega}_A\parenth{\Jr  \hat{\Omega}_r}}^\wedge} -m_1 \deriv{U}{z_1}^T \delta \rpos - m_1 \deriv{U}{z_2}^T \delta \rpos \nonumber\\
-    &- m_1 \tr{ \rattvar  \ratt \rho_1 \deriv{U}{z_1}^T} - m_2 \tr{\rattvar  \ratt \rho_2 \deriv{U}{z_2}^T}.
+                & {} +\frac{1}{2} \tr{\rattvar \parenth{ \hat{\Omega}_A\parenth{\Jr  \hat{\Omega}_r}}^\wedge} -m_1 \deriv{U}{z_1}^T \delta \rpos - m_1 \deriv{U}{z_2}^T \delta \rpos \nonumber\\
+                & {} - m_1 \tr{ \rattvar  \ratt \rho_1 \deriv{U}{z_1}^T} - m_2 \tr{\rattvar  \ratt \rho_2 \deriv{U}{z_2}^T}.
 \end{align}
 Using~\cref{eq:relative_lagrangian_variation} in the action integral, along with integration by parts and noting that the variations \( \delta \rpos, \rattvar\) are zero at the end points gives 
 \begin{align}\label{eq:relative_hamiltons_principle}
     \delta \mathcal{G} =& \int_{t_0}^{t_f} \left\{-\parenth{m_1+m_2} \dot{v}_r^T + \parenth{m_1 + m_2} \rvel \hat{\Omega}_A + m_1 \deriv{U}{z_1}^T + m_2 \deriv{U}{z_2}^T \right\}\delta \dot{x}_r  dt \nonumber\\
-                        & +\int_{t_0}^{t_f} \frac{1}{2} \tr{\dot{\eta}_r \braces{\dot{\widehat{\parenth{\Jr \rangvel}}} + \parenth{\hat{\Omega}_A \parenth{\Jr \rangvel}}^\wedge }} dt \nonumber\\
-                        & + \int_{t_0}^{t_f}  \frac{1}{2} \tr{\rattvar  \braces{2 m_1\ratt \rho_1\deriv{U}{z_1}^T + 2 m_2 \ratt \rho_2\deriv{U}{z_2}^T}} dt.
+                        & {} +\int_{t_0}^{t_f} \frac{1}{2} \tr{\dot{\eta}_r \braces{\dot{\widehat{\parenth{\Jr \rangvel}}} + \parenth{\hat{\Omega}_A \parenth{\Jr \rangvel}}^\wedge }} dt \nonumber\\
+                        & {} + \int_{t_0}^{t_f}  \frac{1}{2} \tr{\rattvar  \braces{2 m_1\ratt \rho_1\deriv{U}{z_1}^T + 2 m_2 \ratt \rho_2\deriv{U}{z_2}^T}} dt.
 \end{align}
 Since, \( \delta \mathcal{G} = 0 \) for all possible variations which satisfy the constraints, the expression in the first brace should be zero and the expressions in the last two braces should be symmetric since \( \rattvar \in \so \) is skew-symmetric.
 Following a procedure analogous to~\cref{sec:inertial_dumbbell_eoms} we obtain the relative equations of motion in Lagrangian form as
@@ -488,7 +485,7 @@ Following a procedure analogous to~\cref{sec:inertial_dumbbell_eoms} we obtain t
     \dot{\parenth{\Jr  \rangvel}} + \hat{\Omega}_A \parenth{\Jr  \rangvel} &= m_1 \parenth{\ratt  \rho_1}^\wedge \deriv{U}{z_1} + m_2 \parenth{\ratt  \rho_2}^\wedge \deriv{U}{z_2}.\label{eq:relative_angvel_dynamics}
 \end{align}
 
-\paragraph{Relative Equations of motion: Hamiltonian Form}
+\paragraph{Relative Equations of Motion: Hamiltonian Form}
 Following a similar procedure as introduced in~\cref{sec:inertial_dumbbell_eoms} allows for the equations of motion to be represented in terms of the relative momenta.
 This has the obvious benefit of replacing the second order differential equations with first order equations.
 Furthermore, in the specific case of~\cref{eq:relative_angvel_dynamics} the Hamiltonian form alleviates the need to evaluate the angular momentum term \( \dot{\parenth{\Jr \rangvel}}\).
@@ -505,35 +502,36 @@ The relative equations of motion in Hamiltonian form are then defined as
     \rdangmom + \ahangvel \rangmom &= m_1 \parenth{\ratt \spos_1}^\wedge \deriv{U}{\apos_1} + m_2 \parenth{\ratt \spos_2}^\wedge \deriv{U}{\apos_2}. \label{eq:relative_angvel_dynamics_hamiltonian}
 \end{align}
 
-\section{Gravitational Models around Small-Bodies}\label{sec:gravitational_models}
-This section is focused on defining the various models to represent the environment near a small-body.
+\section{Gravitational Models around Small Bodies}\label{sec:gravitational_models}
+This section is focused on defining the various models used to represent the environment near a small body.
 This includes not only the gravitational environment but also the shape of the bodies themselves.
 There are several approaches to describe both the gravitational field and the shape of small bodies.
-We summarize several of the most common approaches and present a summary of the polyhedron potential model which is used throughout the thesis.
+We summarize several of the most common approaches and present a summary of the polyhedron potential model which is used throughout this dissertation.
 
-The defining characteristic of small-bodies is their irregular shape.
+The defining characteristic of small bodies is their irregular shape.
 The small bodies lack sufficient mass to form themselves into a spherical shape.
-As a result the gravitational field around small-bodies is also equally irregular.
+As a result the gravitational field around small bodies is also equally irregular.
 Furthermore, the relative size of the spacecraft in comparison with the orbital radius creates a much larger coupling between the translational and rotational states of the spacecraft.
 In addition, spacecraft will tend to operate in very close proximity to the surface.
 As a result, accurate computation of the gravitational field around these irregular bodies is critical to safe and effective operations.
-The classic approach to determining the gravitational force is to apply Newton's law of Universal gravitation.
+The classic approach to determining the gravitational force is to apply Newton's law of universal gravitation.
 The force due to gravity between two point masses is defined as
 \begin{align}\label{eq:newton_universal_gravitation}
     \vc{F}_g =  - G \frac{m_1 m_2}{r^2} \frac{\vc{r}}{\norm{\vc{r}}},
 \end{align}
-where \( \gls{sym:G} \) is the universal gravitational constant, \( \vc{r} \) is the relative position vector between the points of mass \( m_1, m_2\), respectively.
-
+where \( \gls{sym:G} \) is the universal gravitational constant, \( \vc{r} \) is the relative position vector between the point masses \( m_1, m_2\), respectively.
+\Cref{fig:universal_gravity} illustrates that the law of gravity is an attractive force with a line of action aligned with the relative position vector.
 \begin{figure}
     \centering
-    \includegraphics[width=\textwidth]{example-image-golden}
+    \includegraphics[width=\textwidth]{tikz/newton_gravity.tikz}
     \caption{Newton's Law of Universal Gravitation~\label{fig:universal_gravity}}
 \end{figure}
+
 This gravitational model is defined for point masses or bodies which can be modeled as point masses, such as spherically symmetric planets.
 However, it is not possible to model an irregular asteroid, or an extended orbiting spacecraft, as a point mass.
 Instead, one must treat both bodies as extended objects and compute the gravitational force from the potential function as an integral over the entire body, \( \mathcal{B}\),
 \begin{align}\label{eq:volume_integral_potential}
-    \vc{F}_g ( \vb{r}) = \nabla U = G \int_{\mathcal{B}} \frac{1}{\norm{\vc{r} - \vc{\rho} }} dm (\vc{\rho}),
+    \vc{F}_g ( r) = \nabla U = G \int_{\mathcal{B}} \frac{1}{\norm{\vc{r} - \vc{\rho} }} dm (\vc{\rho}),
 \end{align}
 where \( \vc{r} \) is the position of the field point, \( \vc{\rho} \) is the position of the differential mass element of the body and \( \nabla U \) is defined as the gradient of \( U \) with respect to the standard cartesian basis vectors
 \begin{align*}
@@ -541,9 +539,9 @@ where \( \vc{r} \) is the position of the field point, \( \vc{\rho} \) is the po
 \end{align*}
 
 The first approach, sometimes termed the \textit{mass-concentration}, or \textit{mascon} method, approximates the integral using an infinite sum of point masses \( m_i\) located at \( \vc{r}_i \).
-The potential on our object of interest then becomes the summation of the potential caused by each mass \( m_i \) as shown in~\cref{eq:mass_con_potential}.
+The potential on our object of interest then becomes the summation of the potential caused by each mass \( m_i \) as shown in~\cref{eq:mass_con_potential},
 \begin{align}\label{eq:mass_con_potential}
-    U = G \sum_{i=0}^{\infty} \frac{m_i}{\norm{\vc{r} - \vc{\rho}_i}}
+    U = G \sum_{i=0}^{\infty} \frac{m_i}{\norm{\vc{r} - \vc{\rho}_i}}.
 \end{align}
 The method distributes a collection of point masses uniformly throughout the body such that the total mass is equal to the body.
 While conceptually simple, and relatively straight forward to numerically implement, the mascon approach has several drawbacks~\cite{scheeres2012a}.
@@ -554,15 +552,15 @@ Finally, while the mascon method will provide the true gravity field in the limi
 
 It can be shown that the gravitational potential will satisfy Laplace's equation outside of the body
 \begin{align}\label{eq:laplace_equation}
-    \nabla^2 U = 0
+    \nabla^2 U = 0,
 \end{align}
 and Poisson's equation inside of the body
 \begin{align}\label{eq:poisson_equation}
-    \nabla^2 U = - 4 \pi G \sigma
+    \nabla^2 U = - 4 \pi G \sigma,
 \end{align}
 where \( \gls{sym:sigma} \) is the local density of the body.
-Laplace's equation can be solved using a separation of variables in terms of spherical coordinates~\cite{scheeres2012a}.
-The transformation between cartesian, \( \vc{r} = \begin{bmatrix} x & y & z \end{bmatrix}\) and spherical coordinates is given by
+Laplace's equation can be solved using the separation of variables in terms of spherical coordinates~\cite{scheeres2012a}.
+The transformation between cartesian, \( \vc{r} = \begin{bmatrix} x & y & z \end{bmatrix}\), and spherical coordinates is given by
 \begin{subequations}
     \begin{align*}
         r &= \sqrt{x^2 + y^2 + z^2}, \\
@@ -581,7 +579,7 @@ The Legendre functions are given in closed form by~\cite{scheeres2012}
 \begin{subequations}
 \begin{align}
     P_{l, m} \parenth{ \sin \delta} &= \cos^m \phi \sum_{i = 0}^{\text{int}\bracket{l - \frac{m}{2}}} T_{lmi} \sin^{l - m - 2i} \phi ,  \\
-T_{lmi} &= \frac{\parenth{-1}^i\parenth{2l - 2i}!}{2^l i! \parenth{l - i}!\parenth{l - m- 2i}!}.
+T_{lmi} &= \frac{\parenth{-1}^i\parenth{2l - 2i}!}{2^l i! \parenth{l - i}!\parenth{l - m- 2i}!},
 \end{align}
 \end{subequations}
 where \( \text{int}\bracket{x}\) defines the integer portion of \( x \).
@@ -606,23 +604,16 @@ As a result of this discontinuity, the expansion coefficients become a function 
 These limitations mean that in practice the spherical harmonic expansion model cannot be used for the gravity model when operating around an irregular body.
 The divergence of the expansion causes the gravitational field to become meaningless when close to the surface and make the use of the spherical harmonic model worthless for dynamic computations.
 
-% TODO Add picture of biroullion sphere
-% TODO Add glossary entry for biroullion sphere
-% TODO Show picture of point masses and newton's law and add near the equation
-% TODO Add picture of MASCON model (many point masses)
-
 An alternative approach is based on using a specified shape of the body to determine a closed form solution to the gravitational potential.
-Each of these methods are based on a known shape of the body and a strong assumption on the density variation, frequently assuming a homegenous body with constant density.
+Each of these methods are based on a known shape of the body and a strong assumption on the density variation, frequently assuming a homogeneous body with constant density.
 The simplest solution is based on a spherical body with a radially-varying density distribution.
 This type of model is best applicable for centrobaric bodies, such as the Earth and many planetary bodies.
-% TODO Write down the spherical potential for a radially varying distribution from AAE532
 The solutions for the constant density ellipsoid and constant density polyhedron are more useful for operations near small irregular bodies.
 These methods provide exact, closed-form solutions which are valid up to the surface of the body and have been used in the majority of research near the surface of small bodies.
-Here we present the ellipsoid and polyhedron potential models which are commonly used heavily used in research around small bodies.
+Here we present the ellipsoid and polyhedron potential models which are commonly used in research around small bodies.
 
 \subsection{Constant Density Ellipsoid}\label{sec:constant_density_ellipsoid}
 
-% TODO Need to add citations for these statements
 The ellipsoid gravitational model assumes that the small body is accurately represented by a constant density ellipsoid.
 This strong assumption is appropriate for many bodies as they are relatively close to ellipsoidal in shape.
 Furthermore, many asteroids are also well represented with a constant density. 
@@ -631,11 +622,10 @@ The triaxial ellipsoid has semi-major axes \( \gamma \leq \beta \leq \alpha\) an
 \begin{align}
     \parenth{\frac{x}{\alpha}}^2 + \parenth{\frac{y}{\beta}}^2 + \parenth{\frac{z}{\gamma}}^2 \leq 1 . 
 \end{align}
-% TODO Draw a picture of ellipsoid with teh axes labeled
 \begin{figure}
     \centering
-    \includegraphics[width=\textwidth]{example-image-golden}
-    \caption[Triaxial Ellipsoid]{Constant Density Tri-Axial Ellipsoid Model~\label{fig:triaxial_ellipsoid}}
+    \includegraphics[width=\textwidth,height=0.2\textwidth]{tikz/ellipsoid.tikz}
+    \caption{Constant density triaxial ellipsoid model with semi-major axes \( \gamma \leq \beta \leq \alpha \).~\label{fig:triaxial_ellipsoid}}
 \end{figure}
 Using this model, the gravitational potential outside the body is given by
 \begin{subequations}
@@ -661,30 +651,28 @@ Due to these reasons, we instead model the gravitational potential using the pol
 
 \subsection{Polyhedron Potential Model}\label{sec:polyhedron_potential}
 
-% TODO Intro to the potnetial model. Cite some papers. Discuss the benefits
 Robert Werner developed the polyhedron potential model in a series of papers in the mid-1990s~\cite{werner1994,werner1996,werner1997}.
 The method provides a closed form solution for the gravitational potential about any arbitrary constant density polyhedron.
 While the solution is closed form, the implementation requires efficient software to compute the potential as it is dependent on a summation over all faces and edges of the polyhedron.
 There is no requirement on the polyhedron shape and it can incorporate craters, ridges, or even holes through the small body.
 Furthermore, the accuracy of the model is solely dependent on the fidelity of the shape in representing the true body and the constant density assumption.
-For bodies with varying density, it is possible to augument the polyhedron potential model to account for the density variations~\cite{scheeres2000a}.
+For bodies with varying density, it is possible to augment the polyhedron potential model to account for the density variations~\cite{scheeres2000a}.
 This approach alleviates the divergence issue of the spherical harmonic model and is applicable for all points on or above the surface and is ideal for general operations around small bodies.
 The polyhedron potential model has become the defacto standard for small body missions and has been used operationally.
 In this section we summarize the polyhedron potential model based on the derivations of Werner.
-We additionally present some of the implementation details in our model and the adaptions for use with the \texttt{Surface\_mesh} data structure presented  in~\cref{sec:polyhedron_data_structures}.
+We additionally present some of the implementation details in our model and the adaptations for use with the \texttt{Surface\_mesh} data structure presented  in~\cref{sec:polyhedron_data_structures}.
 
-% TODO Add a link to the section that talks about polyhedrons
 This model is composed of a \gls{polyhedron}, which is a three-dimensional solid body, that is defined by a series of vectors in the asteroid fixed frame.
-The vectors define vertices in the asteroid fixed frame and combinations of these vertices then define planar faces which compose the surface of the asteroid.
+The vectors define vertices in the small body fixed frame and combinations of these vertices then define planar faces which compose the surface of the small body.
 Additionally, we assume that each face is a triangle composed of three vertices and three edges.
 As a result, only two faces meet at each edge while three faces meet at each vertex.
 Only the body-fixed vectors, and their associated topology, is required to define the exterior gravitational model.
 
-% TODO Need a picture of the edges/faces/halfedges
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=\textwidth]{example-image-golden}
-    \caption{Polyhedon Faces\label{fig:polyhedron_face}}
+    \includegraphics[width=\textwidth]{tikz/polyhedron_faces.tikz}
+    \caption{Each face of the polyhedron is defined by three vertices and three halfedges.
+    The potential contribution of each face is a function of the face normal and the contribution of each edge is a function of the adjacent face.\label{fig:polyhedron_face}}
 \end{figure}
 Consider three vectors \( \vc{v}_1, \vc{v}_2, \vc{v}_3 \in \R^{3 \times 1} \), assumed to be ordered in a counterclockwise direction about an outward facing normal vector, which define a face.
 It is easy to define the three halfedges of each face as
@@ -749,16 +737,11 @@ The standard method to describe the small body shape is in the OBJ format~\cite{
 Therefore, the additional connectivity information, such as the adjacent faces, opposite halfedges, or unique edges, must be stored in an additional data structure which is accurately traversed.
 For these reasons, the polyhedron potential model is implemented using a halfedge data structure, as implemented in the \texttt{Surface\_mesh} class of CGAL and described in~\cref{sec:halfedge_data_structure}.
 
-
- 
-
-
-% TODO add shape model stuff to this section
-\section{Small-body shape modeling and Computational Geometry}\label{sec:computational_geometry}
+\section{Small-body Shape Modeling and Computational Geometry}\label{sec:computational_geometry}
 
 Computational geometry is defined as the systematic study of algorithms and data structures for geometric objects~\cite{berg2008}.
 A specific focus is on exact algorithms that are asymptotically fast.
-Computational geometry emerged from the fields of computer science in the late 1969s.
+Computational geometry emerged from the fields of computer science in the late 1960s.
 Since that time, the field has grown considerably and has found applications in a large variety of domains, such as computer graphics, \gls{gis}, robotics, \gls{CAD}, computer vision, and others.
 
 The general approach to solving computational geometric problem is based on two key components.
@@ -768,7 +751,7 @@ The first task is to simulate the measurement from the \gls{lidar} of the surfac
 This will utilize the well known method of \gls{raycasting} to find the intersection of a measurement ray with the surface.
 Given the surface intersection, these measurements will be incrementally incorporated into the asteroid shape model while maintaining the required topological constraints.
 
-\subsection{Polyhedra and Small-body shape modeling}\label{sec:shape_model}
+\subsection{Polyhedra and Small-body Shape Modeling}\label{sec:shape_model}
 
 The polyhedron potential model, shown in~\cref{sec:polyhedron_potential}, is the standard approach for missions around asteroids~\cite{werner1994,werner1996}.
 As a result, an understanding of the properties of polyhedron and the methods to construct them are critical.
@@ -776,10 +759,10 @@ The construction and update of the asteroid shape model must produce a valid thr
 For example, the geometric model must not contain any dangling edges or surfaces~\cite{mortenson1997}.
 A consideration of the topology of the model is crucial, and features such as homogeneity and connectivity are important properties to consider.
 A polyhedron is an arrangement of \glspl{polygon} such that two and only two polygons meet at an edge~\cite{mortenson1997}.
-Furthermore, it is possible to traverse the surface of the polyhedron by crossing it's edges to eventually cross each face in a continuous path.
+Furthermore, it is possible to traverse the surface of the polyhedron by crossing its edges to eventually cross each face in a continuous path.
 In this section, we define the notion of the polyhedron and some specifics of the format used in the astrodynamics community.
 
-Asteroids can have a wide variety of shapes, and most are vastly different than that of a sphere or ellipsoid.
+Small bodies can have a wide variety of shapes, and most are vastly different than that of a sphere or ellipsoid.
 \Cref{fig:irregular_asteroids} shows two examples of small solar system bodies that have highly irregular shapes.
 As a result of these highly variable shapes, an adaptable format is required to represent the wide variety of surface shapes and surface features.
 \begin{figure}[h]
@@ -798,7 +781,7 @@ Furthermore, without any loss of generality we assume each face is a convex poly
 A valid polyhedron, in the context of asteroid shape models, must satisfy several constraints.
 These constraints define the relationship between each of the types of primitives which make up the polyhedron surface.
 The primitives must intersect ``properly'' and the local and global topology must be ``proper''.
-For asteroid shape model we further assume that each face is a triangular polygon. 
+In the astrodynamics community, we further assume that each face is a triangular polygon.
 Again, this does not limit generality as any polygon can be divided into a series of planar triangles.
 
 The intersection of each face must be one of the following:
@@ -809,14 +792,6 @@ The intersection of each face must be one of the following:
 \end{itemize}
 These intersection constraints automatically ensures that all edges and vertices intersect properly.
 For example, edges that do not extend across an entire face or faces with penetrate would be improper and invalid.
-Some examples of invalid polyhedron are shown in~\cref{fig:improper_polyhedrons}.
-\begin{figure}[h]
-    \centering
-    \subcaptionbox{Point lies on two surfaces\label{fig:two_surfaces}}{\includegraphics[width=.33\textwidth]{figures/computational_geometry/hanging_face.png}}~
-    \subcaptionbox{The neighborhood around this point is not homeomorphic to a disk\label{fig:knotted_polyhedron}}{\includegraphics[width=.33\textwidth]{figures/computational_geometry/pinched.png}}~
-    \subcaptionbox{The surface is not closed\label{fig:open_polyhedron}}{\includegraphics[width=.33\textwidth]{figures/computational_geometry/open.png}}
-    \caption{Three example objects which are not polyhedra. For each example, the neighborhood about each point is not homeomorphic to an open disk.~\label{fig:improper_polyhedrons}}
-\end{figure}
 
 The second constraint is related to the local topology around each point on the surface of the polyhedron.
 In order to be locally proper, the neighborhood about any point on the surface of the polyhedron should be homeomorphic to a two-dimensional disk.
@@ -840,13 +815,11 @@ For example, a torus, or a donut shape, is also considered a polyhedron.
 The key difference between a hole and a cavity is that there are no disconnected surfaces and as a result a polyhedron can have any number of such holes. 
 In practice, we tend to limit our analysis to polyhedron with no holes, or with a genus of zero.
 
-% TODO Euler's constant description
-
 \subsection{Polyhedron Data Structures}\label{sec:polyhedron_data_structures}
-While the shape of the asteroid will be represented mathematically as a polyhedron, we are still left with the issue of representing this shape in digital form. 
+While the shape of the small body will be represented mathematically as a polyhedron, we are still left with the issue of representing this shape in digital form. 
 The eventual computational efficiency and memory consumption of the subsequent sections is heavily dependent on the underlying data structure used to represent the surface.
 In this section, we review some of the basic requirements and features of any data structure.
-In addition, we summarize the ones most popular in the astrodynamics community and the halfedge data structure which we use in this work.
+In addition, we summarize the ones most popular in the astrodynamics community and the halfedge data structure which we use in this dissertation.
 
 The requirements for any surface/mesh data structure vary between applications and are designed to satisfy both topological and algorithmic requirements.
 Some examples of topological considerations are the use of triangular/polygonal facets or the ability to represent manifold/non-manifold meshes.
@@ -857,85 +830,81 @@ A wide variety of data structures have been developed to represent general polyh
 The simplest method to represent a surface mesh is composed to storing the individual vertices which define each face of the surface.
 In the specific case of a triangular mesh, this entails storing the three vertex coordinates of each face of the mesh, also called the \textit{face-set}~\cite{botsch2010}.
 By assuming that the vertex coordinates are stored as double precision, or \SI{64}{\bit} values, results in \( 3 \cdot 3 \cdot 64 = \SI{576}{\bit} = \SI{72}{\byte}\) per triangular face.
-% TODO Add reference to euler's formula
-Equivalently, from Euler's formula, there is approximately twice as many faces as vertices, and this \textit{face-set} structure will require on average \SI{144}{\byte} per vertex.
+Euler's formula defines the relationship between the number of faces, edges, and vertices of a polyhedron as
+\begin{align}\label{eq:eulers_formula}
+    F &= 2 V - 4, \nonumber\\
+    E &= 3\parenth{V -2 }.
+\end{align}
+Form~\cref{eq:eulers_formula}, there are approximately twice as many faces as vertices, and this \textit{face-set} structure will require on average \SI{144}{\byte} per vertex.
 A simple optimization is possible by reducing the redundancy in the representation.
-Each vertex will duplicated as many times as the degree of the vertex.
+Each vertex is duplicated as many times as the degree of the vertex.
 This redundancy can be eliminated by storing a list of vertices, and to define the vertices of each face as an index/reference into this vertex list.
 This results in the so called \textit{indexed face set} or \textit{shared-vertex} data structure.
 In the case of triangular meshes and using double precision values, each vertex will require \(\SI{192}{\bit} = \SI{24}{\byte}\).
 Vertex indices of each face can be stored using single precision, \( \SI{32}{\bit} = \SI{4}{\byte}\), values which results in a storage requirement of \( \SI{96}{\bit} = \SI{12}{\byte}\) per triangle.
 This type of representation will therefore require on average approximately \( \SI{60}{\byte} \) per vertex, which is half the requirement of the \textit{face-set} data structure.
-\begin{figure}
-    \centering
-    \includegraphics[width=\textwidth]{example-image-golden}
-    \caption{Face based data structure look in PMP Fig2.3 or 2.4~\label{fig:face_based_data_structure}}
-\end{figure}
 Examples of this type of data structure include the \gls{stl}, \gls{obj}, and \gls{off} file formats.
 
 While conceptually simple the face based data structure has several critical drawbacks.
 It is difficult to determine the connectivity of individual vertices or faces of the mesh, which makes it ill-suited for most algorithms.
 The vast of majority of computational geometry algorithms will require as a minimum~\cite{botsch2010}:
 \begin{itemize}
-    \item Access to individual vertices, edges and faces, as well as random access to any element.
-    \item Enumeration of the edges of a single face.
-    \item Access to the adjacent faces of an edge which enables access to the neighboring faces.
-    \item Given an edge one must determine the two vertices which define the endpoints.
-    \item Given a vertex one must determine all neighboring faces.
+    \item access to individual vertices, edges and faces, as well as random access to any element.
+    \item enumeration of the edges of a single face.
+    \item access to the adjacent faces of an edge which enables access to the neighboring faces.
+    \item given an edge one must determine the two vertices which define the endpoints.
+    \item given a vertex one must determine all neighboring faces.
 \end{itemize}
 As a result, any application making use a face based data structure will need to store additional connectivity information in a separate data structure.
 
+\paragraph{Halfedge Data Structure}\label{sec:halfedge_data_structure}
+
 In contrast to face-based structures, edge-based data structures store the connectivity information in the edges or halfedges~\cite{botsch2010,orourke1998,berg2008}.
-By splitting each unorientated edge into two orientated halfedges, the halfedge data structure, or also known as the doubly-connected edge list, provides an efficient data structure for mesh based operations.
+By splitting each edge into two orientated halfedges, the halfedge data structure, or also known as the doubly-connected edge list, provides an efficient data structure for mesh based operations.
 Each halfedge is ordered in a clockwise fashion around each face, typically such that the face normal is orientated outwards from the mesh.
 In addition, each halfedge will also store a reference to:
 \begin{itemize}
-    \item The vertex it points to, or its target,
+    \item the vertex it points to, or its target,
     \item its adjacent face,
-    \item the next halfedge of the face in a counterclock wise direction,
-    \item the previous halfedge of the face
+    \item the next halfedge of the face in a counterclockwise direction,
+    \item the previous halfedge of the face,
     \item the opposite or incident halfedge.
 \end{itemize}
 In addition, each face stores the reference to one of its halfedges, while each vertex stores an outgoing halfedge. 
-The halfedge data structure will require more memory in contrast to face based approaches it offers several advantages which make it ideal for computational geometry operations.
+The halfedge data structure will require more memory in contrast to face based approaches but it offers several advantages which make it ideal for computational geometry operations.
 
-\paragraph{Halfedge Data Structure}\label{sec:halfedge_data_structure}
 A halfedge data structure allows us to iterate through all elements, vertices, edge, halfedge, or face, in a simple manner.
 In addition, the halfedge data structure can store arbitrary polygon meshes.
-Furthermore, additional data can be attached to the elements as each is store explicitly.
+Furthermore, additional data can be attached to the elements of the mesh as each is explicitly referenced using its index.
 Finally, the halfedge data structure allows for simple manipulation and modification of the underlying mesh, enabling operations such as mesh subdivision or simplification.
 There are a number of publicly available implementations of the halfedge data structure~\cite{cgalproject2018,botsch2002}.
-We utilize the \texttt{Surface\_mesh} data structure implemented within the Computational Geometry Algorithms Library~\cite{sieger2011}.
-This provides a well defined and highly optimized data structure for the representation of the polyhedron shape of the asteroid.
+We utilize the \texttt{Surface\_mesh} data structure implemented within \gls{cgal}~\cite{sieger2011}.
+This provides a well defined and highly optimized data structure for the representation of the polyhedron shape of the small body.
 Furthermore, the ability to incorporate additional properties enables us to efficiently compute the polyhedron potential model.
-\begin{figure}
-    \centering
-    \includegraphics[width=\textwidth]{example-image-golden}
-    \caption{Halfedge data structure look in PMP Fig3.4~\label{fig:halfedge_data_structure}}
-\end{figure}
-
-% TODO Describe the halfedge data structure and Surface_mesh in more detail
 
 \paragraph{Wavefront OBJ files}
-The OBJ format is a geometry definition file format used for a variety of computer modeling applications, and is regularly used by the asteroid community~\cite{neese2004}.
+The \gls{obj} format is a geometry definition file format used for a variety of computer modeling applications, and is regularly used by the asteroid community~\cite{neese2004}.
 The basic format of the file is an ASCII file where the first \( N_v\) lines begin with \texttt{v} and define the three components of a vertex in the body fixed reference frame.
 The following \( N_f\) lines begin with \texttt{f} and define the three indices of the vertices that make up the face.
 The numbering of the vertices is implicitly defined by the order listed in the file, i.e. the vertices are defined from \( 1 \) to \( N_v\).
-There are two main assumptions used by the asteroid community.
+There are two main assumptions used by the astrodynamics community.
 First, each face is triangular and second, the vertices are numbered in a counterclockwise fashion about each face.
 This allows the outward facing normal to each face to be uniquely defined without any additional data.
 
-This polyhedron model, captured using the OBJ format, allows for a much larger class of potential object shapes. 
+\begin{figure}
+    \centering
+    \subcaptionbox{4769 Castalia\label{fig:castalia}}{\includegraphics[trim={25cm 15cm 25cm 15cm},clip,width=0.5\textwidth]{figures/mathematical_background/castalia_isometric.jpg}}~
+    \subcaptionbox{Geographus\label{fig:geographus}}{\includegraphics[trim={25cm 15cm 25cm 15cm},clip,width=0.5\textwidth]{figures/mathematical_background/geographus_isometric.jpg}}
+
+    \subcaptionbox{Golevka\label{fig:golevka}}{\includegraphics[trim={25cm 15cm 25cm 15cm},clip,width=0.5\textwidth]{figures/mathematical_background/golevka_isometric.jpg}}
+    \caption{Polyhedron Shape Models for several asteroids demonstrating the wide variety of possible shapes possible in the solar system.~\label{fig:asteroid_shape}}
+\end{figure}
+The polyhedron model, captured using the OBJ format, allows for a much larger class of potential object shapes. 
 The accuracy of the shape model can be arbitrarily improved by incorporating additional vertices and faces, which increase the resolution of the model in regions of high complexity.
 The polyhedron model can capture arbitrary depressions, ridges, or holes through the asteroid.
 Small bodies typically lack sufficient mass to create regular, spherical shapes, and exhibit a large variety in resulting shapes such as the examples shown in~\cref{fig:asteroid_shape}.
-\begin{figure}
-    \centering
-    \subcaptionbox{4769 Castalia\label{fig:castalia}}{\includegraphics[width=0.33\textwidth]{figures/mathematical_background/castalia_isometric.jpg}}~
-    \subcaptionbox{Geographus\label{fig:geographus}}{\includegraphics[width=0.33\textwidth]{figures/mathematical_background/geographus_isometric.jpg}}~
-    \subcaptionbox{Golevka\label{fig:golevka}}{\includegraphics[width=0.33\textwidth]{figures/mathematical_background/golevka_isometric.jpg}}
-    \caption{Polyhedron Shape Models for several asteroids~\label{fig:asteroid_shape}}
-\end{figure}
+\Cref{fig:asteroid_shape} shows several examples of current shape estimates for asteroids Castalia, Geographus, and Geolevka.
+
 Polyhedron shape models are available for several asteroids~\cite{neese2004,gaskell2008b}.
 The quality and resolution is dependent on the measurement available of the body.
 \Cref{fig:itokawa_radar} shows a polyhedron model of asteroid 25143 Itokawa based on ground radar measurements~\cite{neese2004}.
@@ -945,11 +914,27 @@ In contrast,~\cref{fig:itokawa_insitu} shows the model derived from in-situ meas
 It is composed of \num{1579014} vertices and \num{3145728} faces and is able to capture small surface features such as boulders.
 \begin{figure}
     \centering
-    \subcaptionbox{25143 Itokawa Radar Model\label{fig:itokawa_radar}}{\includegraphics[width=0.5\textwidth]{figures/mathematical_background/itokawa_radar_isometric.jpg}}~
-    \subcaptionbox{25143 Itokawa In-Situ Model\label{fig:itokawa_insitu}}{\includegraphics[width=0.5\textwidth]{figures/mathematical_background/itokawa_isometric.jpg}}
-    \caption[Comparison of Radar and In-situ Itokawa models]{Comparision of polyhedron models of 25143 Itokawa based on ground based radar or in-situ measurements.
+    \subcaptionbox{25143 Itokawa Radar Model\label{fig:itokawa_radar}}{\includegraphics[trim={25cm 15cm 25cm 15cm},clip,width=0.35\textwidth]{figures/mathematical_background/itokawa_radar_isometric.jpg}}\quad
+    \subcaptionbox{25143 Itokawa In-Situ Model\label{fig:itokawa_insitu}}{\includegraphics[trim={25cm 12cm 25cm 15cm},clip,width=0.35\textwidth]{figures/mathematical_background/itokawa_isometric.jpg}}
+    \caption{Comparison of polyhedron models of 25143 Itokawa based on ground based radar or in-situ measurements.
         The ground based model can capture the rough ellipsoidal shape but does not capture fine surface details.}
 \end{figure}
-From this simple example, it is clear that prior to the arrival of a spacecraft the shape and surface knowledge of an asteroid is limited.
+From this simple example, it is clear that prior to the arrival of a spacecraft the shape and surface knowledge of a small body is limited.
+As a result, any gravitational model based on the coarse shape will be inaccurate and cause significant errors in the dynamic model
 
+\section{Summary}
 
+This chapter provided the mathematical background that is used throughout the dissertation.
+The coupled equations of motion of a dumbbell spacecraft around a small body are derived.
+The equations of motion explicitly consider the dynamic coupling between the rotational and translational states of the spacecraft.
+In addition, the dynamics are presented in both the Lagrangian and Hamiltonian forms for motion defined in both the inertial frame and the rotating reference frame.
+The use of the rotating reference frame transforms the dynamics into the study of the relative motions which is often much more valuable fro astrodynamic operations.
+Also, the use of the rotating reference frame ensures that the gravitational potential is time invariant enabling the use of additional mathematical tools for the study of the motion.
+The rotating reference frame is utilized in~\cref{sec:lowthrust_transfers} for the design of low thrust transfers.
+
+This chapter also reviewed the fundamental concepts involved in representing the shape of small solar system bodies.
+These bodies exhibit a wide variety of possible shapes and efficiently storing and representing these shapes is a critical concern.
+The shape model is fundamental to determining the gravitational potential through the use of the polyhedron potential model.
+Based on ground measurements alone the shape model will inevitably remain coarse and inaccurate.
+It is only possible to compute an accurate shape model from repeated measurements in the vicinity of the small body.
+The shape model representations discussed in this chapter will be utilized in~\cref{sec:shape_reconstruction} to efficiently reconstruct the shape from measurements.

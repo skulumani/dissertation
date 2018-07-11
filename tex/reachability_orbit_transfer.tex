@@ -99,45 +99,12 @@ Periodic solutions will appear as fixed points on the section, such as \( q_0, q
 This allows for greater insight into the stability and dynamics of periodic solutions of a dynamic system as a fixed point on the \Poincare section corresponds to a periodic orbit while movement on the section is associate with the stability of neighboring trajectories. 
 For example, \Poincare maps have been used to prove the existence of homoclinic orbits, which are orbits both forward and backward asymptotic to a single unstable periodic orbit, and heteroclinic orbits, which join different periodic orbits~\cite{conley1968,koon2000b}.
 These dynamic features have been shown to play a vital role in the movement of natural bodies as well as critical for spacecraft missions~\cite{gomez2001,lo1997}.
+
 \begin{figure}
-        \centering
-        \begin{scaletikzpicturetowidth}{0.5\textwidth}
-            \tdplotsetmaincoords{60}{125} % view angle in spherical coordinates
-    \begin{tikzpicture}[tdplot_main_coords,
-      poincare/.style={opacity=.2,very thick,fill=blue},
-      orbit/.style={very thick,black},
-      orbit hidden/.style={very thick,dashed},
-      grid/.style={very thin,gray!50},
-      axis/.style={->,blue,thick}, scale=\tikzscale]
-
-    % nodes for the poincare section
-    \node[label=above:\(\Sigma\)] (upper_right) at (0,5,5) {};
-    \node[] (upper_left) at (0,1,5) {};
-    \node[] (lower_left) at (0,1,0) {};
-    \node[] (lower_right) at (0,5,0) {};
-
-    % draw poincare section
-    \draw[poincare] (upper_right.center) -- (upper_left.center) -- (lower_left.center) -- (lower_right.center) -- (upper_right.center);
-    
-    % draw a periodic orbit
-    \coordinate (center) at (0,0,2);
-    \node[below right] (x0) at (0,2,2) {\(\vecbf{q}_0\)};
-    \filldraw (0,2,2) circle (3pt);
-
-    \node[below right] (x1) at (0,3,2) {\(\vecbf{q}_1\)};
-    \filldraw (0,3,2) circle (3pt);
-
-    \tdplotdrawarc[orbit hidden]{(center)}{2}{90}{190}{}{};
-    \tdplotdrawarc[orbit,<-]{(center)}{2}{-170}{90}{}{};
-
-    \tdplotdrawarc[orbit hidden]{(center)}{3}{90}{199}{}{};
-    \tdplotdrawarc[orbit,<-]{(center)}{3}{-161}{90}{}{};
-
-        \end{tikzpicture}
-    \end{scaletikzpicturetowidth}
+    \centering
+    \includegraphics[width=\textwidth,height=0.1\textheight]{tikz/poincare_map.tikz}
     \caption{Diagram of the \Poincare map: Periodic orbits will appear as fixed points on the \Poincare section \( \Sigma \). Stability of periodic orbits is clearly visible on the section as successive intersections approach or depart a fixed point.\label{fig:poincare_map}}
 \end{figure}
-
 % drawbacks of this approach on how we seek to improve upon it
 Combining invariant manifolds and an appropriate \Poincare section provides a conceptually simple manner to determine trajectories which connect wide regions of the phase space.
 However, the results previously developed are highly case specific and difficult to generalize to arbitrary transfers.
@@ -252,54 +219,7 @@ In~\cref{fig:reachability_set} the reachable set is shown as a circular region o
 In practice, the reachable set will be of a general shape and also higher dimensional in the nonplanar case.
 \begin{figure}
         \centering
-%       \includegraphics[width=0.5\textwidth]{reachability_set_hand}
-        \begin{scaletikzpicturetowidth}{0.6\textwidth}
-          \tdplotsetmaincoords{60}{125} % view angle in spherical coordinates
-        \begin{tikzpicture}[tdplot_main_coords,
-          poincare/.style={opacity=.2,very thick,fill=blue},
-          orbit/.style={very thick,black},
-          orbit hidden/.style={very thick,dashed},
-          grid/.style={very thin,black},
-          axis/.style={->,blue,thick},
-          reachability/.style={thick,blue},scale=\tikzscale]
-
-        % nodes for the poincare section
-        \node[label=above:\(\Sigma\)] (upper_right) at (0,5,5) {};
-        \node[] (upper_left) at (0,1,5) {};
-        \node[] (lower_left) at (0,1,0) {};
-        \node[] (lower_right) at (0,5,0) {};
-
-        % draw poincare section
-        \draw[poincare] (upper_right.center) -- (upper_left.center) -- (lower_left.center) -- (lower_right.center) -- (upper_right.center);
-        
-        % draw a periodic orbit
-        \coordinate (center) at (0,0,2);
-        \node[label=below:\(\vecbf{x}_n\)] (x0) at (0,3,2) {};
-        % \node[label=below:\(\vecbf{x}_n\)] at (x0) {};
-        \filldraw (x0) circle (3pt);
-
-        % \tdplotdrawarc[orbit hidden]{(center)}{3}{90}{200}{}{};
-        \tdplotdrawarc[orbit,<-]{(center)}{3}{-160}{90}{}{};
-
-        % draw reachability set on the poincare section
-        \coordinate (reach) at (0,4.5,2);
-        \tdplotsetthetaplanecoords{90}
-
-        \draw[tdplot_rotated_coords,grid] (x0) -- (reach);
-        \draw[tdplot_rotated_coords,grid] (x0) -- ++(-45:1.5);
-
-        \tdplotdrawarc[tdplot_rotated_coords,grid]{(x0)}{0.5}{-45}{90}{above}{\(\theta_d\)};
-
-        % draw terminal state on reachability set
-        \node[tdplot_rotated_coords,label=above:\(\vecbf{x}_f\)] (xf) at ($ (x0)+(-45:1.5) $) {};
-        \filldraw (xf) circle (3pt);
-
-        \node[tdplot_rotated_coords,label=below:\(J\)] at (xf) {};
-
-        \tdplotdrawarc[tdplot_rotated_coords,reachability]{(x0)}{1.5}{0}{360}{}{};
-        % place
-    \end{tikzpicture}
-        \end{scaletikzpicturetowidth}
+        \includegraphics[width=\textwidth]{tikz/reachability_set.tikz}
         \caption{Reachability set on a \Poincare section: Pictorial representation of the reachability set (blue circle) on the \Poincare section, \(\Sigma\). 
             The terminal state, \( x_n\), is the intersection without any control input. 
             Adding a control input allows for the terminal state, \( x_f \), to be displaced by some distance/cost \( J \) as measured on the section.
@@ -376,70 +296,11 @@ This multiple shooting approach incorporates additional interior constraints but
 The use of the multiple shooting method reduces the sensitivity of changes in the initial costate at the expense of additional design variables, but has been shown to provide more stable and robust solutions~\cite{ozimek2010a}.
 
 \begin{figure}
-        \centering
-        \begin{scaletikzpicturetowidth}{1\textwidth}
-                \begin{tikzpicture}[scale=\tikzscale]
-                    % \draw[help lines] (0,0) grid (20,5) ; %grid
-
-                    \node[label=west:\(\vc{x}\)] (x0m) at (0,5) {};
-                    \node[] (x1m) at (5,5) {};
-                    \node[] (x2m) at (10,5) {};
-                    \node[] (x3m) at (15,5) {};
-                    \node[] (xnm) at (20,5) {};
-
-                    \node[label=below:\(k_0\)] (t0) at (0,0) {};
-                    \node[label=below:\(k_1\)] (t1) at (5,0) {};
-                    \node[label=below:\(k_2\)] (t2) at (10,0) {};
-                    \node[label=below:\(k_{n-1}\)] (t3) at (15,0) {};
-                    \node[label=below:\(k_n\)] (tn) at (20,0) {};
-
-                    % nodes for each subsegment
-                    \node[label=left:\(\vc{x}_0\)] (x0) at (0,1) {\pgfuseplotmark{*}};
-                    \node[label=below left:\(\vc{\lambda}_0\)] at (x0) {};
-
-                    \node[label=right:\(\vc{x}_1^{-}\)] (x1minus) at (5,2) {\pgfuseplotmark{*}};
-                    \node[label=below right:\(\vc{\lambda}_1^{-}\)] at (x1minus) {};
-
-                    \node[label=above left:\(\vc{x}_1^{+}\)] (x1plus) at (5,3) {\pgfuseplotmark{o}};
-                    \node[label=left:\(\vc{\lambda}_1^{+}\)] at (x1plus) {};
-
-                    \node[label=right:\(\vc{x}_2^{-}\)] (x2minus) at (10,2) {\pgfuseplotmark{*}};
-                    \node[label=below right:\(\vc{\lambda}_2^{-}\)] at (x2minus) {};
-
-                    \node[label=above left:\(\vc{x}_2^{+}\)] (x2plus) at (10,3) {\pgfuseplotmark{o}};
-                    \node[label=left:\(\vc{\lambda}_2^{+}\)] at (x2plus) {};
-
-                    \node[label=right:\(\vc{x}_{n-1}^{-}\)] (x3minus) at (15,2) {\pgfuseplotmark{*}};
-                    \node[label=below right:\(\vc{\lambda}_{n-1}^{-}\)] at (x3minus) {};
-
-                    \node[label=above left:\(\vc{x}_{n-1}^{+}\)] (x3plus) at (15,3) {\pgfuseplotmark{o}};
-                    \node[label=left:\(\vc{\lambda}_{n-1}^{+}\)] at (x3plus) {};
-
-                    \node[label=right:\(\vc{x}_n\)] (xnminus) at (20,3) {\pgfuseplotmark{*}};
-                    \node[label=below right:\(\vc{\lambda}_n\)] at (xnminus) {};
-                    % draw axes
-                    \draw [<->,thick] (tn.center) -- (t0.center) -- (x0m.center);
-
-                    % draw segement dividers
-                    \draw [dashed,thick] (t1.center) -- (x1m.center);
-                    \draw [dashed,thick] (t2.center) -- (x2m.center);
-                    \draw [dashed,thick] (t3.center) -- (x3m.center);
-                    \draw [dashed,thick] (tn.center) -- (xnm.center);
-
-                    % draw markers at each subsegment
-
-                    % draw the subsegments
-                    \draw [->] (x0.center) to [bend left=30] (x1minus.center);
-                    \draw [->] (x1plus.center) to [bend left=30] (x2minus.center);
-                    % dotted lines here
-                    \draw[decorate sep={1mm}{5mm},fill] (x2plus.east) to [bend left=10] (x3minus.west);
-
-                    \draw [->] (x3plus.center) to [bend left=30] (xnminus.center);
-                \end{tikzpicture}
-        \end{scaletikzpicturetowidth}
-        \caption{Schematic diagram of the multiple shooting method:
+    \centering
+    \includegraphics[width=\textwidth]{tikz/multiple_shooting.tikz}
+    \caption{Schematic diagram of the multiple shooting method:
         The complete trajectory is split into a number of sub-segments, and additional interior constraints are included to ensure state and costate continuity.
-    Splitting the optimal trajectory into short segments reduces the sensitivity of terminal states to variations of the initial states.\label{fig:multiple shooting}}
+        Splitting the optimal trajectory into short segments reduces the sensitivity of terminal states to variations of the initial states.\label{fig:multiple shooting}}
 \end{figure}
 
 In~\cref{fig:multiple shooting}, we show a schematic representation of the multiple shooting procedure.
