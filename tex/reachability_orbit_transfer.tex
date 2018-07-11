@@ -23,10 +23,22 @@ Defining the reachable set on a \Poincare section reduces the dimensionality of 
 Through the use of low-thrust control input, the reachable set on the \Poincare section is enlarged and enables a larger space of potential transfers.
 
 % low thrust inputs are accumulated (variational integrator)
-The use of low thrust control inputs raises additional complications for numerical analysis.
-kk
-The method is formulated as an extension to the control free method based on invariant manifolds~\cite{koon2011}.
-This paper provides a discrete optimal control formulation to generate the reachability set on a \Poincare section.
+In order to impart the same momentum change as impulsive systems, a low thrust system must operate for a proportionally longer period.
+Typical systems will operate continuously for weeks at a time in order to complete an orbital transfer~\cite{choueiri2009}.
+The benefit is a much greater efficiency, typically quantified using the specific impulse, due to the much higher exhaust velocities.
+As a result, any numerical analysis utilizing low thrust systems must accurately account for the accumulation of continuous small magnitude perturbations.
+Typical integration schemes, do not preserve the geometric structure of mechanical systems and will tend to cause deviations in conserved quantities of the system.
+Variational integrators provide a geometrically exact method to develop numerical integration schemes which preserve the symmetries inherent in the dynamic system~\cite{west2004,marsden2001,kulumani2018}.
+
+The method developed in this chapter are formulated as an extension to the control free method based on invariant manifolds~\cite{koon2011}.
+The use of low thrust propulsion allows for the spacecraft to continue to utilize the invariant manifolds for transfer even if they do not immediately intersect the target orbit.
+The reachability set gives a precise representation of the attainable regions within the phase space.
+A discrete optimal control problem is used to generate the reachability set on a lower dimensional \Poincare section which greatly simplifies the computational demand.
+
+The approach of this chapter are first developed in the \gls{pcrtbp} which is a simplification of the more general \gls{rtbp}.
+The dynamics of the \gls{pcrtbp} are presented in~\cref{sec:pcrtbp} and offer a simple lower dimensional space for the developments of the chapter.
+These insights are then generalized to the \gls{rf2bp} in~\cref{sec:sc_eoms}.
+Finally, a number of numerical examples are presented in~\cref{sec:simulation} demonstrating the use of our approach in both the \gls{pcrtbp} and the \gls{rf2bp}.
 
 % outline of chapter
 \section{Planar Circular Restricted Three Body Problem}\label{sec:pcrtbp}
