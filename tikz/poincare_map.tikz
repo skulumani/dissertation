@@ -1,6 +1,7 @@
 \tikzsetnextfilename{poincare_map}
 \tdplotsetmaincoords{60}{125} % view angle in spherical coordinates
 \begin{tikzpicture}[
+    scale=2,
     tdplot_main_coords, 
     poincare/.style={opacity=.2,
     very thick,
@@ -31,9 +32,9 @@
     \filldraw (0,3,2) circle (3pt);
 
     \tdplotdrawarc[orbit hidden]{(center)}{2}{90}{190}{}{};
-    \tdplotdrawarc[orbit,<-]{(center)}{2}{-170}{90}{}{};
+    \tdplotdrawarc[orbit,Latex-]{(center)}{2}{-170}{90}{}{};
 
     \tdplotdrawarc[orbit hidden]{(center)}{3}{90}{199}{}{};
-    \tdplotdrawarc[orbit,<-]{(center)}{3}{-161}{90}{}{};
+    \tdplotdrawarc[orbit,Latex-]{(center)}{3}{-161}{90}{}{};
 
 \end{tikzpicture}

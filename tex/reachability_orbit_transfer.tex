@@ -5,8 +5,8 @@
 In this chapter, we propose a systematic design method which enables low-thrust transfers in the rotating frame of the \gls{rtbp} and \gls{rf2bp}.
 The dynamics of a particle around an elongated small body can be modeled using the \gls{rf2bp} which are a slight reformulation of the relative dynamics presented in~\cref{sec:relative_eoms}.
 There are many similarities between the well known \gls{rtbp} and \gls{rf2bp}.
-In both mathematical models, there are are relative equilibirium points, also known as Lagrange points~\cite{szebehely1967,scheeres1994}, as well as periodic orbits around them.
-As in the \gls{rtbp}, two of the equilibirum points around an elongated small body have an unstable saddle-center behavior and therefore the periodic orbits around these points also exhibit stable and unstable invariant manifolds~\cite{hu2002a,koon2011}.
+In both mathematical models, there are are relative equilibrium points, also known as Lagrange points~\cite{szebehely1967,scheeres1994}, as well as periodic orbits around them.
+As in the \gls{rtbp}, two of the equilibrium points around an elongated small body have an unstable saddle-center behavior and therefore the periodic orbits around these points also exhibit stable and unstable invariant manifolds~\cite{hu2002a,koon2011}.
 The theory developed in the \gls{rtbp} is directly applicable to motion around asteroids~\cite{herrera2014}.
 
 % why we need  low thrust transfers
@@ -38,22 +38,33 @@ A discrete optimal control problem is used to generate the reachability set on a
 The approach of this chapter are first developed in the \gls{pcrtbp} which is a simplification of the more general \gls{rtbp}.
 The dynamics of the \gls{pcrtbp} are presented in~\cref{sec:pcrtbp} and offer a simple lower dimensional space for the developments of the chapter.
 These insights are then generalized to the \gls{rf2bp} in~\cref{sec:sc_eoms}.
-Finally, a number of numerical examples are presented in~\cref{sec:simulation} demonstrating the use of our approach in both the \gls{pcrtbp} and the \gls{rf2bp}.
+The transfer methodology considers only the translational motion of the spacecraft in contrast to the full coupled motion derived in~\cref{sec:dumbbell_model}.
+It is typical to only consider the translational motion in the design of orbital transfers in astrodynamics.
+The spacecraft is usually operating at a large distance from the attracting bodies and therefore the rotational coupling is much less pronounced.
+A number of numerical examples are presented in~\cref{sec:simulation} demonstrating the use of our approach in both the \gls{pcrtbp} and the \gls{rf2bp}.
+The low thrust transfers are developed around asteroid Castalia to enable the transfer between various periodic orbits of the body in~\cref{sec:castalia_transfer}.
 
 % outline of chapter
 \section{Planar Circular Restricted Three Body Problem}\label{sec:pcrtbp}
 % discuss some of the pros/cons of using PCRTBP model
 We utilize the \gls{pcrtbp} as the basis of our system definition. 
 It is a popular model in the preliminary analysis of multibody spacecraft trajectories. 
+The \gls{pcrtbp} can be considered as a specific case of the more general three body problem.
+The three body problem concerns the general motion of three spherical masses under the influence of their mutual gravitational attraction.
+In the \gls{rtbp}, we make the assumption that two of the masses are much larger than the third and therefore are not affected in their relative motion. 
+This is further restricted in the \gls{crtbp} which makes an additional assumption that the motion of the secondary primary is circular.
+This model is frequently used for the study of the dynamics of the Moon with respect to the Sun and Earth three body problem.
+Finally, the \gls{pcrtbp} further restricts the motion to the two dimensional plane and is used in this section for the developments of our transfer approach.
+
 In the context of Earth based mission, the \gls{pcrtbp} affords a relatively simple dynamic model while still capturing the major third body perturbation of the Moon.
 In addition, this model allows for a systematic process to define and exploit \Poincare sections.
 Furthermore, the 2D solutions afforded by the \gls{pcrtbp} are frequently used to gain a qualitative understanding of the trade space of transfers in the Earth-Moon system.
-The PCRTBP approach offers insight into the fundamental dynamical structure while capturing the major dynamic properties of the planar motion.
+The \gls{pcrtbp} approach offers insight into the fundamental dynamical structure while capturing the major dynamic properties of the planar motion.
 As a result, this approach is best suited for preliminary trajectories which do not require large plane changes.
 
 The Earth is assumed to be the more massive primary, \( m_1 \), while the Moon is the second, smaller primary \( m_2\).
 The equations of motion are developed in a rotating reference frame which allows for much greater insight into the structure of the dynamics.
-This rotating reference frame is later used when deriving the motion about an asteroid.
+This rotating reference frame is later used when deriving the motion in the \gls{rf2bp}.
 Following convention, the system is also non-dimensionalized by the characteristic units of length, mass, and time~\cite{koon2011}.
 As a result, the system can be characterized by a single mass ratio parameter \( \mu \),
 \begin{equation}
@@ -130,7 +141,7 @@ These dynamic features have been shown to play a vital role in the movement of n
 
 \begin{figure}
     \centering
-    \includegraphics[width=\textwidth,height=0.1\textheight]{tikz/poincare_map.tikz}
+    \includegraphics[width=\textwidth]{tikz/poincare_map.tikz}
     \caption{Diagram of the \Poincare map: Periodic orbits will appear as fixed points on the \Poincare section \( \Sigma \). Stability of periodic orbits is clearly visible on the section as successive intersections approach or depart a fixed point.\label{fig:poincare_map}}
 \end{figure}
 % drawbacks of this approach on how we seek to improve upon it
@@ -813,7 +824,7 @@ We use eight iterations of computing the reachability set in order to transfer f
 This approach allows for a larger class of potential transfers which leverage the capabilities of low-thrust propulsion systems.
 We are able to achieve a transfer that is not possible via the standard invariant manifold approach. 
 In addition, this example illustrates a straightforward method to depart from the natural dynamics and transfer to a large region of the phase space that is not accessible via invariant manifolds alone.
-\subsection{4769 Castalia Examples}
+\subsection{4769 Castalia Examples}\label{sec:castalia_transfer}
 In this section, we extend the results developed in the planar three body problem to the higher dimensional space around an asteroid.
 As shown in~\cref{sec:sc_eoms}, the translational dynamics of a point mass around an asteroid asteroid are similar to that of the three body problem.
 Similar to~\cref{sec:periodic_orbit_transfer}, a \Poincare section is defined and the reachability set is approximated on this space. 
