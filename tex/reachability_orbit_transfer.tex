@@ -1,31 +1,70 @@
 % !TEX root = ../dissertation.tex
 
-\chapter{Low Thrust Orbital Transfers using Reachability Sets}\label{sec:lowthrust_transfers}
-In this chapter, we propose a systematic design method which enables low-thrust transfers in the planar circular restricted three-body problem as well as an extension for use about asteroids.
+\chapter{Low Thrust Orbital Transfers using Reachability Sets}\label{sec:lowthrust_transfers}%
+
+In this chapter, we propose a systematic design method which enables low-thrust transfers in the rotating frame of the \gls{rtbp} and \gls{rf2bp}.
+The dynamics of a particle around an elongated small body can be modeled using the \gls{rf2bp} which are a slight reformulation of the relative dynamics presented in~\cref{sec:relative_eoms}.
+There are many similarities between the well known \gls{rtbp} and \gls{rf2bp}.
+In both mathematical models, there are are relative equilibrium points, also known as Lagrange points~\cite{szebehely1967,scheeres1994}, as well as periodic orbits around them.
+As in the \gls{rtbp}, two of the equilibrium points around an elongated small body have an unstable saddle-center behavior and therefore the periodic orbits around these points also exhibit stable and unstable invariant manifolds~\cite{hu2002a,koon2011}.
+The theory developed in the \gls{rtbp} is directly applicable to motion around asteroids~\cite{herrera2014}.
+
+% why we need  low thrust transfers
+The invariant manifolds of the \gls{rtbp} have been used previously to develop many low or energy free transfers~\cite{koon2000b,koon2001}.
+In the case of the \gls{rtbp}, the invariant manifolds associated with the periodic orbits only pass close to the secondary body but do not pass near the primary body.
+However, as a result it is not possible to directly utilize the invariant manifolds for orbital transfers for all scenarios, such as those departing from the primary body.
+In the \gls{rf2bp} the invariant manifolds might approach or intersect the body depending on the shape or rotational rate. 
+The manifolds of the \gls{rf2bp} offer additional opportunities for low energy transfers and can even be extended to landing or take off trajectories for sample return missions.
+
+This chapter presents a low energy transfer scheme which leverages the use of low thrust propulsion to design transfer trajectories about the \gls{rtbp} and \gls{rf2bp}.
 We utilize the concept of the reachability set to enable a simple methodology of selecting initial conditions to achieve general orbital transfers. 
 The reachable set, defined as the set of all attainable states subject to the system constraints, allows for the extension of the previous control-free methods based on invariant manifolds.
 Defining the reachable set on a \Poincare section reduces the dimensionality of the system dynamics to the study of a related discrete update map.
 Through the use of low-thrust control input, the reachable set on the \Poincare section is enlarged and enables a larger space of potential transfers.
-By iteratively computing the reachable set, and minimizing the distance to the target on the \Poincare section, we generate general transfer trajectories.
-With this proposed method, the previous research on control-free trajectories will be generalized with the addition of low thrust propulsion systems.
 
-The method is formulated as an extension to the control free method based on invariant manifolds in the three-body problem~\cite{koon2011}.
-Much of the previous work using invariant manifolds has been applied to the planar circular restricted three body problem.
-This paper provides a discrete optimal control formulation to generate the reachability set on a \Poincare section.
+% low thrust inputs are accumulated (variational integrator)
+In order to impart the same momentum change as impulsive systems, a low thrust system must operate for a proportionally longer period.
+Typical systems will operate continuously for weeks at a time in order to complete an orbital transfer~\cite{choueiri2009}.
+The benefit is a much greater efficiency, typically quantified using the specific impulse, due to the much higher exhaust velocities.
+As a result, any numerical analysis utilizing low thrust systems must accurately account for the accumulation of continuous small magnitude perturbations.
+Typical integration schemes, do not preserve the geometric structure of mechanical systems and will tend to cause deviations in conserved quantities of the system.
+Variational integrators provide a geometrically exact method to develop numerical integration schemes which preserve the symmetries inherent in the dynamic system~\cite{west2004,marsden2001,kulumani2018}.
 
+The method developed in this chapter are formulated as an extension to the control free method based on invariant manifolds~\cite{koon2011}.
+The use of low thrust propulsion allows for the spacecraft to continue to utilize the invariant manifolds for transfer even if they do not immediately intersect the target orbit.
+The reachability set gives a precise representation of the attainable regions within the phase space.
+A discrete optimal control problem is used to generate the reachability set on a lower dimensional \Poincare section which greatly simplifies the computational demand.
+
+The approach of this chapter are first developed in the \gls{pcrtbp} which is a simplification of the more general \gls{rtbp}.
+The dynamics of the \gls{pcrtbp} are presented in~\cref{sec:pcrtbp} and offer a simple lower dimensional space for the developments of the chapter.
+These insights are then generalized to the \gls{rf2bp} in~\cref{sec:sc_eoms}.
+The transfer methodology considers only the translational motion of the spacecraft in contrast to the full coupled motion derived in~\cref{sec:dumbbell_model}.
+It is typical to only consider the translational motion in the design of orbital transfers in astrodynamics.
+The spacecraft is usually operating at a large distance from the attracting bodies and therefore the rotational coupling is much less pronounced.
+A number of numerical examples are presented in~\cref{sec:simulation} demonstrating the use of our approach in both the \gls{pcrtbp} and the \gls{rf2bp}.
+The low thrust transfers are developed around asteroid Castalia to enable the transfer between various periodic orbits of the body in~\cref{sec:castalia_transfer}.
+
+% outline of chapter
 \section{Planar Circular Restricted Three Body Problem}\label{sec:pcrtbp}
 % discuss some of the pros/cons of using PCRTBP model
 We utilize the \gls{pcrtbp} as the basis of our system definition. 
 It is a popular model in the preliminary analysis of multibody spacecraft trajectories. 
+The \gls{pcrtbp} can be considered as a specific case of the more general three body problem.
+The three body problem concerns the general motion of three spherical masses under the influence of their mutual gravitational attraction.
+In the \gls{rtbp}, we make the assumption that two of the masses are much larger than the third and therefore are not affected in their relative motion. 
+This is further restricted in the \gls{crtbp} which makes an additional assumption that the motion of the secondary primary is circular.
+This model is frequently used for the study of the dynamics of the Moon with respect to the Sun and Earth three body problem.
+Finally, the \gls{pcrtbp} further restricts the motion to the two dimensional plane and is used in this section for the developments of our transfer approach.
+
 In the context of Earth based mission, the \gls{pcrtbp} affords a relatively simple dynamic model while still capturing the major third body perturbation of the Moon.
 In addition, this model allows for a systematic process to define and exploit \Poincare sections.
 Furthermore, the 2D solutions afforded by the \gls{pcrtbp} are frequently used to gain a qualitative understanding of the trade space of transfers in the Earth-Moon system.
-The PCRTBP approach offers insight into the fundamental dynamical structure while capturing the major dynamic properties of the planar motion.
+The \gls{pcrtbp} approach offers insight into the fundamental dynamical structure while capturing the major dynamic properties of the planar motion.
 As a result, this approach is best suited for preliminary trajectories which do not require large plane changes.
 
 The Earth is assumed to be the more massive primary, \( m_1 \), while the Moon is the second, smaller primary \( m_2\).
 The equations of motion are developed in a rotating reference frame which allows for much greater insight into the structure of the dynamics.
-This rotating reference frame is later used when deriving the motion about an asteroid.
+This rotating reference frame is later used when deriving the motion in the \gls{rf2bp}.
 Following convention, the system is also non-dimensionalized by the characteristic units of length, mass, and time~\cite{koon2011}.
 As a result, the system can be characterized by a single mass ratio parameter \( \mu \),
 \begin{equation}
@@ -102,7 +141,7 @@ These dynamic features have been shown to play a vital role in the movement of n
 
 \begin{figure}
     \centering
-    \includegraphics[width=\textwidth,height=0.1\textheight]{tikz/poincare_map.tikz}
+    \includegraphics[width=\textwidth]{tikz/poincare_map.tikz}
     \caption{Diagram of the \Poincare map: Periodic orbits will appear as fixed points on the \Poincare section \( \Sigma \). Stability of periodic orbits is clearly visible on the section as successive intersections approach or depart a fixed point.\label{fig:poincare_map}}
 \end{figure}
 % drawbacks of this approach on how we seek to improve upon it
@@ -114,27 +153,36 @@ The addition of low-thrust propulsion offers the potential of reduced transit ti
 In this paper, we formulate an optimal control problem to generate the reachable set of the spacecraft.
 We compute the reachable set on an appropriate \Poincare section and use this to design a transfer trajectory.
 
-% TODO Generalize this description to be applicable to both the PCRTBP and Asteroid examples
 
-\section{Transfer Design around Asteroids}\label{sec:sc_eoms}
+\section{Transfer Design around Small Bodies}\label{sec:sc_eoms}
 
-The motion of a massless particle, or spacecraft, about an asteroid shares many similarities with that of the three-body problem.
+The motion of a massless particle, or spacecraft, about small body shares many similarities with that of the three-body problem.
 As is typical in the three-body problem, the equations of motion are usually represented in a uniformly rotating frame aligned with the two primaries.
-Similarly, the equations of motion about an asteroid are also defined in a body-fixed frame with uniform rotation.
+Similarly, the equations of motion about a small body are also defined in a body-fixed frame with uniform rotation.
 In this reference frame, the gravitational potential field is time invariant and only a function of the position of the particle.
-In addition, since the rotational rate of the asteroid is constant, the equations of motion are time invariant.
-Finally, the use of the rotating reference frame allows for much greater insight into the dynamic structure of the behavior around the asteroid.
-Here we consider a simplified form of the relative equations of motion about an asteroid.
-We only treat the translational motion of the spacecraft with respect to the asteroid instead of the full coupled equations of motion introduced in~\cref{sec:asteroid_dumbbell_eoms}.
+In addition, since the rotational rate of the small body is constant, the equations of motion are time invariant.
+Finally, the use of the rotating reference frame allows for much greater insight into the dynamic structure of the behavior around the small body.
+Here we consider another representation of the dynamics of a spacecraft around a small body which is a slight reformulation of the translational motion presented in~\cref{sec:asteroid_dumbbell_eoms}.
+We only treat the translational motion of the spacecraft with respect to the small body instead of the full coupled equations of motion introduced in~\cref{sec:asteroid_dumbbell_eoms}.
+The primary use for low thrust transfers is for large scale orbital transfers.
+When far from the small body the impact of the irregular shape and rotational state of the spacecraft become less critical to the dynamics.
 
-We define a reference frame originating at the center of mass of the asteroid.
-The body-fixed reference frame is composed of the unit vectors \( \hat{\vc{x}} , \hat{\vc{y}}, \hat{\vc{z}} \), which are aligned along the principal axes of smallest, intermediate, and largest moment of inertia, respectively.
-The body-fixed equations of motion of a massless particle about an arbitrarily rotating asteroid are given by
+We utilize the small body fixed frame, \( \fvec{i} \), originating at the center of mass of the small body.
+The body-fixed reference frame is composed of the unit vectors \( \fvec{1} , \fvec{2}, \fvec{3} \), which are aligned along the principal axes of smallest, intermediate, and largest moment of inertia, respectively.
+From~\cref{sec:asteroid_dumbbell_eoms}, the translational equations of relative motion are given as
+\begin{align*}
+    \dot{x}_r &= \rvel - \hat{\Omega}_A \rpos, \\
+     \dot{v}_r  &= \hat{\Omega}_A \rvel +  \deriv{U}{\rpos},
+\end{align*}
+where the relative velocity \( \rvel \) is defined as the representation of the inertial velocity in the small body fixed frame, \( \rvel = \aatt^T \dot{\ipos}\).
+The position of the spacecraft in the inertial frame is given by \( \ipos \) while the position with respect to the small body frame is \( r = \rpos = \aatt^T \ipos \).
+In the \gls{rf2bp}, we consider the time rate of change of the position with respect to the small body frame and define the velocity as \( \dot{r} = \aatt^T \dot{\ipos} - \hat{\Omega}_A r \).
+Using this substitution, the body-fixed equations of motion of a massless particle about an arbitrarily rotating small body are given by
 \begin{align}\label{eq:body_eoms}
-    \ddot{\vc{r}} + 2 \vc{\Omega} \times \dot{\vc{r}} + \vc{\Omega} \times \parenth{ \vc{\Omega} \times \vc{r} } + \dot{\vc{\Omega}} \times \vc{r} = \nabla U(\vc{r}) ,
+    \ddot{\vc{r}} + 2 \vc{\Omega}_A \times \dot{\vc{r}} + \vc{\Omega}_A \times \parenth{ \vc{\Omega}_A \times \vc{r} } + \dot{\vc{\Omega}}_A \times \vc{r} = \nabla U(\vc{r}) ,
 \end{align}
-where \( \vc{\Omega} \in \R^{3 \times 1}\) is the instantaneous angular velocity vector of the asteroid represented in the body-fixed frame, \( \vc{r} \) is the position of the particle in the body-fixed frame, and \( \nabla U(\vc{r}) \) is the gradient of the gravitational potential~\cite{scheeres2012a}.
-We assume that the asteroid rotates at a uniform rate, \( \norm{\vc{\Omega}} = \omega \in \R^1 \), about the axis of the maximum moment of inertia, i.e.\ \( \vc{\Omega} = \omega \hat{\vc{z} }\).
+where \( \vc{\Omega}_A \in \R^{3 \times 1}\) is the instantaneous angular velocity vector of the small body represented in the body-fixed frame, \( \vc{r} \) is the position of the particle in the body-fixed frame, and \( \nabla U(\vc{r}) \) is the gradient of the gravitational potential~\cite{scheeres2012a}.
+We assume that the small body rotates at a uniform rate, \( \norm{\vc{\Omega}_A} = \omega \in \R^1 \), about the axis of the maximum moment of inertia, i.e.\ \( \vc{\Omega}_A = \omega \hat{\fvec{3}}\).
 As a result, we can represent the equations of motion in scalar form as
 \begin{align} \label{eq:eoms}
     \begin{split}
@@ -158,9 +206,9 @@ where the terms \(\vc{g} \parenth{\vc{r}} \) and \( \vc{h}\parenth{\vc{v}} \) ar
     \vc{h}\parenth{\vc{r}} = \begin{bmatrix} 2 \omega \dot{y} \\ -2 \omega \dot{x} \\ 0 \end{bmatrix} .
 \end{align}
 
-Since Castalia is a uniformly rotating asteroid, the equations of motion are time invariant when represented in the body-fixed frame.
+Since we assume that the small body is uniformly rotating, the equations of motion are time invariant when represented in the body-fixed frame.
 In addition, there exists an integral of motion, or a conserved quantity, that is constant for all motion of a particle.
-The Jacobi constant, \( J (\vc{r} , \vc{v} ) \), is given by
+Similar to the three-body problem, the Jacobi constant for the \gls{rf2bp} is given by
 \begin{align}\label{eq:jacobi}
     J \parenth{\vc{r}, \vc{v}} = \frac{1}{2} \omega^2 \parenth{x^2 + y^2} + U(\vc{r}) - \frac{1}{2} \parenth{\dot{x}^2 + \dot{y}^2 + \dot{z}^2} .
 \end{align}
@@ -171,23 +219,16 @@ Just as in the three-body problem, the Jacobi constant in~\cref{eq:jacobi} divid
 Similarly, there exist, in general, four equilibrium points and also their associated stable and unstable manifolds~\cite{scheeres1996,scheeres1994}.
 The properties of these manifolds play a critical role in the dynamics of trajectories in their vicinity.
 
-\section{Optimal Control Formulation for Reachability Set}\label{sec:optimal_control}
+\section{Optimal Control Formulation for Reachability Sets}\label{sec:optimal_control}
 % introduce method
-In this section, an optimal control formulation is presented to determine and design transfers within the three-body problem.
-The application of variational integrators to optimal control problems is referred to as computational geometric optimal control.
+In this section, an optimal control formulation is presented to determine the reachability set on a \Poincare section.
+This reachability set is then used to define transfers in both the \gls{pcrtbp} and \gls{rf2bp}.
 Our formulation is based on the concept of the reachability set on a \Poincare section.
 This method allows one to easily determine potential transfer opportunities by finding set intersections on a lower dimensional space and greatly reduces the design process.
 The addition of continuous low thrust propulsion extends the control free design process developed previously and allows for a greater range of potential transfers with a reduced time of flight.
+The process is first derived for the \gls{pcrtbp} and then expanded to the higher dimensional case around a small body in the \gls{rf2bp}.
 
-The numerical examples presented in this section are designed in the context of the PCRTBP.
-The dynamic environment has a four dimensional state space and offers a convenient integration constant in the form of the Jacobi integral.
-As a result, there are well defined methods to define and exploit \Poincare sections, which result in straightforward two-dimensional subspaces of the system.
-Our approach uses the \Poincare section to approximate the reachability set on this reduced subspace.
-As a result, this approach is more difficult to apply to three-dimensional transfers in the general three body problem.
-\Poincare sections in the case of the general six dimensional state space are significantly more challenging and typically require more complicated visualization techniques. 
-However, this is an area of active research and some of the authors future research is aimed at implementing this approach for non-planar transfer trajectories~\cite{kulumani2016d}.
-
-\subsection{Reachability Set}\label{sec:reachability_set}
+\subsection{Reachability Sets}\label{sec:reachability_set}
 % discuss reachability and application to space system
 Reachability theory provides a framework to evaluate control capability and safety.  
 The reachable set contains all possible trajectories that are achievable over a fixed time horizon from a defined initial condition, subject to the operational constraints of the system.
@@ -205,13 +246,13 @@ Coupling the ability for continuous low-thrust propulsion between measurements i
 Computing the reachability set given estimated states and control authorities allows one to better correlate subsequent measurements or determine sensor pointing regions in the event of a lost spacecraft. 
 
 
-\subsection{Optimal Control Formulation}\label{sec:optimal_control}
+\subsection{Optimal Control Problem Formulation}\label{sec:optimal_control}
 In this paper, we seek to approximate the reachability set on a \Poincare section by solving a related optimal control problem. 
 We choose our \Poincare section in a similar manner to those used previously for the design of transfers via invariant manifolds.
 The \Poincare section is chosen to intersect transversally with trajectories emanating from the initial orbit. 
 In the case of a periodic orbit the trajectories will cross the \Poincare section at two distinct fixed points every half period.
 The main idea is that the addition of low thrust propulsion allows us to enlarge the set of trajectories achievable in the \Poincare section. 
-\Cref{fig:reachability_set} illustrates how, without any control input, trajectories will intersect with the \Poincare section at \( \vecbf{x}_n \). 
+\Cref{fig:reachability_set} illustrates how, without any control input, trajectories will intersect with the \Poincare section at \( \vc{x}_n \). 
 However, the addition of low thrust propulsion allows the spacecraft to depart from the natural dynamics and intersect the \Poincare section at a different location.
 We use a cost function to define a distance metric on the \Poincare section from the control-free intersection to an intersection under the influence of the control input.
 Maximization of this distance along varying directions enables us to generate the largest reachability set under the bounded control input.
@@ -263,7 +304,7 @@ The \Poincare section is defined through the use of appropriate terminal constra
 \end{subequations}
 where the angle \( \theta_d\) defines a direction in which we wish to maximize the reachability set on the \Poincare section.
 The maximum control thrust magnitude is defined by \( u_{max} \) and is non-dimensionalized by the characteristic units of length, mass, and time.
-The goal is to determine the control input \( \vc{u}_k\) such that the cost function~\cref{eq:cost} is minimized subject to the state equations of motion~\cref{eqn:cont_dyn} and constraints~\cref{eq:constraints}.
+The goal is to determine the control input \( \vc{u}\) such that the cost function~\cref{eq:cost} is minimized subject to the state equations of motion~\cref{eqn:cont_dyn} and constraints~\cref{eq:constraints}.
 
 Application of the Euler-Lagrange equations allows us to derive the necessary conditions for optimality~\cite{bryson1975}.
 This results in an optimal control problem and the necessary conditions are given as
@@ -280,7 +321,7 @@ where the Hamiltonian \(H\) is defined as
         \label{eq:hamiltonian_opt}
 \end{equation}
 and \( \vc{\lambda} \in \R^{4 \times 1} \) is the costate and \(\vecbf{\beta} \in \R^{2 \times 1} \) are the additional Lagrange multipliers associated with the terminal constraints in~\cref{eq:constraints}.
-The state dynamics are represented by \( \vc{f}(\vc{x}_k, \vc{\lambda}_k ) \) after substituting~\cref{eqn:control_necc_cond} into~\cref{eqn:cont_dyn}.
+The state dynamics are represented by \( \vc{f}(\vc{x}, \vc{\lambda} ) \) after substituting~\cref{eqn:control_necc_cond} into~\cref{eqn:cont_dyn}.
 This indirect optimal control formulation leads to a two point boundary value problem with split boundary conditions. 
 By sweeping the angle \( \theta_d \) one can approximate the reachable set on the \Poincare section subject to the bounded control input. 
 
@@ -297,7 +338,7 @@ The use of the multiple shooting method reduces the sensitivity of changes in th
 
 \begin{figure}
     \centering
-    \includegraphics[width=\textwidth]{tikz/multiple_shooting.tikz}
+    \includegraphics[width=1\textwidth]{tikz/multiple_shooting.tikz}
     \caption{Schematic diagram of the multiple shooting method:
         The complete trajectory is split into a number of sub-segments, and additional interior constraints are included to ensure state and costate continuity.
         Splitting the optimal trajectory into short segments reduces the sensitivity of terminal states to variations of the initial states.\label{fig:multiple shooting}}
@@ -328,27 +369,30 @@ The numerical results are specific to the choice of nonlinear solver, and differ
 
 % TODO Add numerical examples of the three-body problem
 \section{Numerical Examples of Transfers using Reachability Sets}\label{sec:simulation}
-We present two numerical simulations in the Earth-Moon system to demonstrate the transfer procedure.
+
+We present a total of three examples of the using the reachability set to determine orbital transfers.
+The first two examples are defined in the \gls{pcrtbp} and the last is designed for a transfer about asteroid Castalia.
 These simulations enable the spacecraft to depart from the natural dynamics through the use of low-thrust propulsion.
 The reachability set on the \Poincare section allows for a straightforward method of determining transfer opportunities.
+
 The first example is a transfer from a periodic orbit of the \( L_1 \) Lagrange point to a fixed orbit of the moon.
 This example uses a single iteration of the reachable set computation in the design of the transfer.
 The second example is a transfer from geostationary orbit of the Earth to a period orbit of \( L_1 \). 
 This examples demonstrates the ability to extend the reachability process to multiple iterations, to allow for a much larger and more general transfer.
-With both examples it is possible to depart from the vicinity of the Earth to a Moon orbit via a series of reachable sets defined on \Poincare sections.
-The numerical examples presented in this section satisfy the necessary conditions for local optimality and obtaining a globally optimal solution is considered beyond the scope of this paper.
-Next, the results are extended from the planar problem to three dimensions with a simulation about asteroid 4769 Castlia.
-This numerical examples demonstrates the extension of the method to the more complicated dynamic enviornment around an asteroid.
+Utilizing both examples it is possible to depart from the vicinity of the Earth to a Moon orbit via a series of reachable sets defined on \Poincare sections.
+Finally, the results are extended from the planar problem to three dimensions with a simulation about asteroid 4769 Castlia.
+This numerical example demonstrates the extension of the method to the more complicated dynamic enviornment around an asteroid.
 
 \subsection{Three Body Examples}
 
 \paragraph{Periodic Orbit Transfer}\label{sec:periodic_orbit_transfer}
+
 The first objective is to design a transfer trajectory from a planar periodic orbit about the \( L_1\) Lagrange point to a bounded orbit in the vicinity of the Moon.
 The target region is created by choosing an initial condition of \( x_0 = \begin{bmatrix}1.05 & 0 & 0 & 0.35 \end{bmatrix}^T \) with \( \mu = 0.0125 \).
 The target set is propagated over a period of \( t = \num{20} \) in non-dimensional units which corresponds to approximately \num{1.5} years.
 \begin{figure}[htbp]
    \centering
-   \includegraphics[width=0.5\textwidth]{figures/2017_JAS/moon_orbit.pdf} % requires the graphicx package
+   \includegraphics[width=0.75\textwidth]{figures/2017_JAS/moon_orbit.pdf} % requires the graphicx package
    \caption{\(L_1\) periodic orbit transfer to orbit of the Moon: Example scenario demonstrating the initial and target orbit.
    Without the low-thrust propulsion, the spacecraft is constrained to the initial periodic orbit. 
    We determine the reachability set to find a transfer trajectory to the target orbit about the moon.}
@@ -378,7 +422,7 @@ The required travel time for a transfer using the unstable invariant manifold is
         \begin{subfigure}[htbp]{0.5\textwidth} 
             \includegraphics[width=\textwidth]{figures/2017_JAS/manifold_trajectory} 
                 \caption{Position space view of invariant manifold} \label{fig:manifold_trajectory} 
-        \end{subfigure}~ %
+        \end{subfigure}~%
         \begin{subfigure}[htbp]{0.5\textwidth} 
             \includegraphics[width=\textwidth]{figures/2017_JAS/manifold_poincare} 
                 \caption{\Poincare intersection of invariant manifold (green), target orbit (blue) and the initial orbit (black)} \label{fig:manifold_poincare} 
@@ -405,7 +449,8 @@ Similarly, the costate trajectory is initialized from an initial guess of \( \vc
 This results in the initial guess of the design vector \( \vc{\chi} = \begin{bmatrix} \vc{\lambda}_0 & \vc{x}_1^{-} & \vc{\lambda}_1^{-} & \vc{\beta} \end{bmatrix}^T\).
 This design vector is then varied to ensure that the necessary conditions of optimality and the interior point constraints are satisfied. 
 \Cref{tab:varying_tf} shows the range of terminal times, \( t_f \), and maximum control bound, \( u_m \), which are used to investigate their effect on the subsequent reachable set on the \Poincare section.
-\begin{table}
+
+\begin{table}[htbp]
     \centering
     \begin{tabular}{ll}  
         \toprule
@@ -447,7 +492,7 @@ This example demonstrates that increasing the \( u_m \) results in a larger disp
 The reachable set is enlarged from a single point, as shown in~\cref{fig:manifold_poincare} by the black point, to a larger region as shown in~\cref{fig:varying_tf_poincare}.
 The choice of \( u_m\), \( t_f \) and initial condition all combine to change the resulting reachability set. 
 
-\paragraph{Transfer to Periodic Orbit}~\label{sssec:periodic_orbit_transfer}
+\paragraph{Transfer from a Periodic Orbit}~\label{sssec:periodic_orbit_transfer}
 % reachable set transfer
 Here we use the results of the preceding section to demonstrate one specific example of a transfer designed using the reachability set.
 The acceleration limit is chosen as  \( u_{max} = 0.75 \approx \SI{2}{\milli\meter\per\second\squared} \) in the Earth-Moon system.
@@ -500,8 +545,8 @@ The reachable set is an ellipsoidal region with a major axis aligned along \( \t
 As both regions are discretely approximated a linear interpolation is used to determine the exact intersection state on the \Poincare section.
 This intersection generates a partial target state of \( x_t \text{ and } \dot{x}_t \).
 Using the energy level of the target region, defined by~\cref{eq:jacobi}, and the intersection state we can calculate the final component \( \dot{y} \). 
-This results in a complete target state \( \vecbf{x}_t \) which lies on the reachable set and on the target orbit. 
-A final optimal trajectory is generated such that the \( \vecbf{x}(N) = \vecbf{x}_t \).
+This results in a complete target state \( \vc{x}_t \) which lies on the reachable set and on the target orbit. 
+A final optimal trajectory is generated such that the \( \vc{x}(N) = \vc{x}_t \).
 This transfer trajectory is denoted by the green path in~\cref{fig:reach_transfer}.
 The optimal control input is shown in~\cref{fig:control_l1}. 
 The spacecraft achieves the desired target while satisfying the bounded control input.
@@ -615,42 +660,18 @@ We use the same initial guess of \( \vc{\lambda}_0\) as in~\cref{sec:periodic_or
 
 \begin{figure}[htbp]
     \centering
-    \begin{subfigure}[htbp]{0.5\textwidth} 
-        \includegraphics[width=\textwidth, keepaspectratio]{figures/2017_JAS/stage1_trajectory_zoom.pdf} 
-        \caption{Stage 1 Trajectory~\label{fig:stage1_trajecotry_zoom}} 
-    \end{subfigure}~
-    \begin{subfigure}[htbp]{0.5\textwidth} 
-        \includegraphics[width=\textwidth, keepaspectratio]{figures/2017_JAS/stage1_poincare.pdf} 
-        \caption{Stage 1 \Poincare~section \label{fig:stage1_poincare}} 
-    \end{subfigure}
+    \subcaptionbox{Stage 1 Trajectory\label{fig:stage1_trajectory_zoom}}{\includegraphics[height=0.2\textheight,keepaspectratio]{figures/2017_JAS/stage1_trajectory_zoom.pdf}}
+    \subcaptionbox{Stage 1 \Poincare~section\label{fig:stage1_poincare}}{\includegraphics[height=0.2\textheight,keepaspectratio]{figures/2017_JAS/stage1_poincare.pdf}}
 
+    \subcaptionbox{Stage 2 Trajectory\label{fig:stage2_trajectory_zoom}}{\includegraphics[height=0.2\textheight,keepaspectratio]{figures/2017_JAS/stage2_trajectory_zoom.pdf}}
+    \subcaptionbox{Stage 2 \Poincare~section\label{fig:stage2_poincare}}{\includegraphics[height=0.2\textheight,keepaspectratio]{figures/2017_JAS/stage2_poincare.pdf}}
 
-    \begin{subfigure}[htbp]{0.5\textwidth} 
-        \includegraphics[width=\textwidth, keepaspectratio]{figures/2017_JAS/stage2_trajectory_zoom.pdf} 
-        \caption{Stage 2 Trajectory~\label{fig:stage2_trajecotry_zoom}} 
-    \end{subfigure}~
-    \begin{subfigure}[htbp]{0.5\textwidth} 
-        \includegraphics[width=\textwidth, keepaspectratio]{figures/2017_JAS/stage2_poincare.pdf} 
-        \caption{Stage 2 \Poincare~section \label{fig:stage2_poincare}} 
-    \end{subfigure}
+    \subcaptionbox{Stage 3 Trajectory\label{fig:stage3_trajectory_zoom}}{\includegraphics[height=0.2\textheight,keepaspectratio]{figures/2017_JAS/stage3_trajectory_zoom.pdf}} 
+    \subcaptionbox{Stage 3 \Poincare~section\label{fig:stage3_poincare}}{\includegraphics[height=0.2\textheight,keepaspectratio]{figures/2017_JAS/stage3_poincare.pdf}}
 
-    \begin{subfigure}[htbp]{0.5\textwidth} 
-        \includegraphics[width=\textwidth, keepaspectratio]{figures/2017_JAS/stage3_trajectory_zoom.pdf} 
-        \caption{Stage 3 Trajectory~\label{fig:stage3_trajecotry_zoom}} 
-    \end{subfigure}~
-    \begin{subfigure}[htbp]{0.5\textwidth} 
-        \includegraphics[width=\textwidth, keepaspectratio]{figures/2017_JAS/stage3_poincare.pdf} 
-        \caption{Stage 3 \Poincare~section \label{fig:stage3_poincare}} 
-    \end{subfigure}
- 
-    \begin{subfigure}[htbp]{0.5\textwidth} 
-        \includegraphics[width=\textwidth, keepaspectratio]{figures/2017_JAS/stage5_trajectory_zoom.pdf} 
-        \caption{Stage 4 Trajectory~\label{fig:stage4_trajecotry_zoom}} 
-    \end{subfigure}~
-    \begin{subfigure}[htbp]{0.5\textwidth} 
-        \includegraphics[width=\textwidth, keepaspectratio]{figures/2017_JAS/stage4_poincare.pdf} 
-        \caption{Stage 4 \Poincare~section \label{fig:stage4_poincare}} 
-    \end{subfigure}   
+    \subcaptionbox{Stage 4 Trajectory\label{fig:stage4_trajectory_zoom}}{\includegraphics[height=0.2\textheight,keepaspectratio]{figures/2017_JAS/stage4_trajectory_zoom.pdf}} 
+    \subcaptionbox{Stage 4 \Poincare~section\label{fig:stage4_poincare}}{\includegraphics[height=0.2\textheight,keepaspectratio]{figures/2017_JAS/stage4_poincare.pdf}}
+
     \caption{Stage 1-4 reachability sets: The first four reachability sets visualized in both the position (left) and \Poincare space (right).
         The minimum trajectories from the preceding stages are shown in red, while the next stage is shown in blue.
     The transfer goal is to generate a complete trajectory from the initial geostationary orbit to the \( L_1 \) stable manifold, with an eventual arrival at the \( L_1 \) periodic orbit~\label{fig:stage1to4_reachability}}
@@ -666,54 +687,31 @@ The distance on the \Poincare section between the reachable set and the stable m
         d(\vc{x}(N)) = \sqrt{\parenth{x - x_t}^2 + \parenth{\dot{x} - \dot{x}_t}^2}.
 \end{align*}
 From the reachable set, the trajectory which minimizes \( d \) is used to initialize the next iteration.
-The minimum trajectory is also shown in~\cref{fig:stage1_trajecotry_zoom} and is used to initialize the following stage.
+The minimum trajectory is also shown in~\cref{fig:stage1_trajectory_zoom} and is used to initialize the following stage.
 Over the relatively short time horizon of the geostationary orbital period, the reachability set remains quite close to the initial orbit. 
 However, the addition of the control input has increased the velocity component of the trajectory.
 It is this velocity change that is subsequently exploited to generate the transfer trajectory.
 
 The minimum trajectory from the first iteration of the reachability set is used to initialize the following stage.
-From the terminal state of the first iteration, the second reachability set is computed and displayed in~\cref{fig:stage2_trajecotry_zoom,fig:stage2_poincare}.
+From the terminal state of the first iteration, the second reachability set is computed and displayed in~\cref{fig:stage2_trajectory_zoom,fig:stage2_poincare}.
 The second reachability set is shown on the \Poincare section in~\cref{fig:stage2_poincare}.
 This iteration greatly decreases the distance in the \( x \) component between the trajectory and the target, at the expense of a small deviation in the \( \dot{x} \) component.
-In~\cref{fig:stage2_trajecotry_zoom}, the first stage trajectory is shown in red while the additional stage is shown in blue, which demonstrates the decrease in the \( x \) component.
+In~\cref{fig:stage2_trajectory_zoom}, the first stage trajectory is shown in red while the additional stage is shown in blue, which demonstrates the decrease in the \( x \) component.
 
 \begin{figure}[htbp]
     \centering
-    \begin{subfigure}[htbp]{0.5\textwidth} 
-        \includegraphics[width=\textwidth, keepaspectratio]{figures/2017_JAS/stage5_trajectory_zoom.pdf} 
-        \caption{Stage 5 Trajectory~\label{fig:stage5_trajecotry_zoom}} 
-    \end{subfigure}~
-    \begin{subfigure}[htbp]{0.5\textwidth} 
-        \includegraphics[width=\textwidth, keepaspectratio]{figures/2017_JAS/stage5_poincare.pdf} 
-        \caption{Stage 5 \Poincare~section \label{fig:stage5_poincare}} 
-    \end{subfigure}
+    \subcaptionbox{Stage 5 Trajectory\label{fig:stage5_trajectory_zoom}}{\includegraphics[width=0.2\textheight,keepaspectratio]{figures/2017_JAS/stage5_trajectory_zoom.pdf}}~
+    \subcaptionbox{Stage 5 \Poincare~section\label{fig:stage5_poincare}}{\includegraphics[width=0.2\textheight,keepaspectratio]{figures/2017_JAS/stage5_poincare.pdf}}
 
-    \begin{subfigure}[htbp]{0.5\textwidth} 
-        \includegraphics[width=\textwidth, keepaspectratio]{figures/2017_JAS/stage6_trajectory_zoom.pdf} 
-        \caption{Stage 6 Trajectory~\label{fig:stage6_trajecotry_zoom}} 
-    \end{subfigure}~
-    \begin{subfigure}[htbp]{0.5\textwidth} 
-        \includegraphics[width=\textwidth, keepaspectratio]{figures/2017_JAS/stage6_poincare.pdf} 
-        \caption{Stage 6 \Poincare~section \label{fig:stage6_poincare}} 
-    \end{subfigure}
+    \subcaptionbox{Stage 6 Trajectory\label{fig:stage6_trajectory_zoom}}{\includegraphics[width=0.2\textheight,keepaspectratio]{figures/2017_JAS/stage6_trajectory_zoom.pdf}}~
+    \subcaptionbox{Stage 6 \Poincare~section\label{fig:stage6_poincare}}{\includegraphics[width=0.2\textheight,keepaspectratio]{figures/2017_JAS/stage6_poincare.pdf}}
 
-    \begin{subfigure}[htbp]{0.5\textwidth} 
-        \includegraphics[width=\textwidth, keepaspectratio]{figures/2017_JAS/stage7_trajectory_zoom.pdf} 
-        \caption{Stage 7 Trajectory~\label{fig:stage7_trajecotry_zoom}} 
-    \end{subfigure}~
-    \begin{subfigure}[htbp]{0.5\textwidth} 
-        \includegraphics[width=\textwidth, keepaspectratio]{figures/2017_JAS/stage7_poincare.pdf} 
-        \caption{Stage 7 \Poincare~section \label{fig:stage7_poincare}} 
-    \end{subfigure}
- 
-    \begin{subfigure}[htbp]{0.5\textwidth} 
-        \includegraphics[width=\textwidth, keepaspectratio]{figures/2017_JAS/stage8_trajectory_zoom.pdf} 
-        \caption{Stage 8 Trajectory~\label{fig:stage8_trajecotry_zoom}} 
-    \end{subfigure}~
-    \begin{subfigure}[htbp]{0.5\textwidth} 
-        \includegraphics[width=\textwidth, keepaspectratio]{figures/2017_JAS/stage8_poincare.pdf} 
-        \caption{Stage 8 \Poincare~section \label{fig:stage8_poincare}} 
-    \end{subfigure}   
+    \subcaptionbox{Stage 7 Trajectory\label{fig:stage7_trajectory_zoom}}{\includegraphics[width=0.2\textheight,keepaspectratio]{figures/2017_JAS/stage7_trajectory_zoom.pdf}}~
+    \subcaptionbox{Stage 7 \Poincare~section\label{fig:stage7_poincare}}{\includegraphics[width=0.2\textheight,keepaspectratio]{figures/2017_JAS/stage7_poincare.pdf}}
+
+    \subcaptionbox{Stage 8 Trajectory\label{fig:stage8_trajectory_zoom}}{\includegraphics[width=0.2\textheight,keepaspectratio]{figures/2017_JAS/stage8_trajectory_zoom.pdf}}~
+    \subcaptionbox{Stage 8 \Poincare~section\label{fig:stage8_poincare}}{\includegraphics[width=0.2\textheight,keepaspectratio]{figures/2017_JAS/stage8_poincare.pdf}}
+
     \caption{Stage 5-8 reachability sets: The last four reachability sets visualized in both the position (left) and \Poincare space (right).
         The minimum trajectories from the preceding stages are shown in red, while the next stage is shown in blue.
     The transfer goal is to generate a complete trajectory from the initial geostationary orbit to the \( L_1 \) stable manifold, with an eventual arrival at the \( L_1 \) periodic orbit~\label{fig:stage5to8_reachability}}
@@ -739,24 +737,7 @@ The optimization statistics for the final transfer are shown in~\cref{tab:geo_tr
     \end{tabular}
     \caption{Convergence statistics for the geostationary orbit transfer\label{tab:geo_transfer}}
 \end{table}
-The complete transfer trajectory, after eight iterations, is shown in~\Cref{fig:geo_transfer}. 
-Combining these trajectories results in the powered portion of the transfer from the geostationary orbit to the stable manifold. 
-Each iteration systematically moves the reachable set towards the stable manifold. 
-Furthermore, the optimal control formulation is simplified as each iteration is initialized using a simple distance metric on the \Poincare section.
-\Cref{fig:geo_transfer_full,fig:geo_transfer_zoom} shows the resulting trajectory, with the final trajectory shown in red which ensures the intersection with the stable invariant manifold.
-\Cref{fig:geo_transfer_poincare} shows the \Poincare section with the minimum reachable state from each iteration.
-Each iteration seeks to decrease the distance to the stable manifold on the \Poincare section.
-Furthermore, these minimum states serve to initialize each subsequent stage of the transfer. 
-This method provides a systematic and simple methodology to determine transfer trajectories.
-Instead of relying purely on numerical optimization to find an appropriate trajectory, our method instead utilizes the reachability set to determine suitable trajectories.
-Once at the stable manifold, no further control input is required and the vehicle will coast towards the target periodic orbit.
-\Cref{fig:control_input_geo} shows the control input during the powered portion of the transfer. 
-We utilize the same spacecraft assumption of \SI{500}{\kilo\gram} from~\cref{sec:periodic_orbit_transfer} which gives a maximum thrust of approximately \SI{1}{\newton}.
-The spacecraft maintains a bounded control magnitude during the transfer to the stable manifold.
-\Cref{fig:jacobi_geo} shows the evolution of the Jacobi energy over the transfer.
-Each stage of the transfer serves to raise the energy level of the vehicle.
-After eight stages the reachability set intersects the stable manifold and a demonstrates that a transfer is achievable.
-The final optimal control drives the vehicle towards the target manifold with the appropriate energy level.
+
 \begin{figure} 
         \centering 
         \subcaptionbox{Transfer trajectory: Complete trajectory consisting of eight iterations (1-7 black and final in red) of the reachability sets with a final control-free coast (blue)  on the stable manifold (green).\label{fig:geo_transfer_full}}{\includegraphics[width=0.45\textwidth]{figures/2017_JAS/geo_transfer_full}}\hfill
@@ -779,13 +760,33 @@ The final reachability set intersects the stable manifold and enables a large fi
 
         \caption{Geostationary to \( L_1 \) periodic orbit transfer: Complete transfer from the geostationary orbit to the stable manifold.\label{fig:geo_transfer}}
 \end{figure}
+The complete transfer trajectory, after eight iterations, is shown in~\Cref{fig:geo_transfer}. 
+Combining these trajectories results in the powered portion of the transfer from the geostationary orbit to the stable manifold. 
+Each iteration systematically moves the reachable set towards the stable manifold. 
+Furthermore, the optimal control formulation is simplified as each iteration is initialized using a simple distance metric on the \Poincare section.
+\Cref{fig:geo_transfer_full,fig:geo_transfer_zoom} shows the resulting trajectory, with the final trajectory shown in red which ensures the intersection with the stable invariant manifold.
+\Cref{fig:geo_transfer_poincare} shows the \Poincare section with the minimum reachable state from each iteration.
+Each iteration seeks to decrease the distance to the stable manifold on the \Poincare section.
+Furthermore, these minimum states serve to initialize each subsequent stage of the transfer. 
+This method provides a systematic and simple methodology to determine transfer trajectories.
+Instead of relying purely on numerical optimization to find an appropriate trajectory, our method instead utilizes the reachability set to determine suitable trajectories.
+Once at the stable manifold, no further control input is required and the vehicle will coast towards the target periodic orbit.
+\Cref{fig:control_input_geo} shows the control input during the powered portion of the transfer. 
+We utilize the same spacecraft assumption of \SI{500}{\kilo\gram} from~\cref{sec:periodic_orbit_transfer} which gives a maximum thrust of approximately \SI{1}{\newton}.
+The spacecraft maintains a bounded control magnitude during the transfer to the stable manifold.
+\Cref{fig:jacobi_geo} shows the evolution of the Jacobi energy over the transfer.
+Each stage of the transfer serves to raise the energy level of the vehicle.
+After eight stages the reachability set intersects the stable manifold and a demonstrates that a transfer is achievable.
+The final optimal control drives the vehicle towards the target manifold with the appropriate energy level.
+
 
 This numerical example demonstrates the ability to link several computations of the reachability set to enable a more general transfer.
 We use eight iterations of computing the reachability set in order to transfer from the geostationary orbit to the stable manifold.
 This approach allows for a larger class of potential transfers which leverage the capabilities of low-thrust propulsion systems.
 We are able to achieve a transfer that is not possible via the standard invariant manifold approach. 
 In addition, this example illustrates a straightforward method to depart from the natural dynamics and transfer to a large region of the phase space that is not accessible via invariant manifolds alone.
-\subsection{4769 Castalia Examples}
+\subsection{4769 Castalia Example}\label{sec:castalia_transfer}
+
 In this section, we extend the results developed in the planar three body problem to the higher dimensional space around an asteroid.
 As shown in~\cref{sec:sc_eoms}, the translational dynamics of a point mass around an asteroid asteroid are similar to that of the three body problem.
 Similar to~\cref{sec:periodic_orbit_transfer}, a \Poincare section is defined and the reachability set is approximated on this space. 
@@ -857,26 +858,25 @@ The objective is to transfer the spacecraft between two periodic equatorial orbi
 The initial and target orbits are periodic solutions about Castlia computed using the method introduced by Reference~\cite{scheeres2003}.
 The initial conditions for both orbits are defined in the body-fixed frame as
 \begin{align}\label{sec:initial_transfer}
-    \vc{x}_i = 
+    \vc{x}_i &= 
     \begin{bmatrix}
-        1.4973 \\ 0 \\ 0.0061 \\ 0\\ -0.0009 \\ 0
-    \end{bmatrix} ,
-    \quad
-    \vc{x}_t =
+        1.4973 & 0 & 0.0061 & 0 & -0.0009  & 0
+    \end{bmatrix}^T,\\
+    \vc{x}_t &=
     \begin{bmatrix}
-        6.1175 \\ 0 \\ 0.0001 \\ 0\\ -0.0025 \\ 0
-    \end{bmatrix} .
+        6.1175 & 0 & 0.0001 & 0 & -0.0025 & 0
+    \end{bmatrix}^T.
 \end{align}
 \Cref{fig:initial_transfer} shows the initial, \( \vc{x}_i \), and target, \( \vc{x}_t\), periodic orbits which lie in the equatorial plane of Castalia.
 Our goal is to transfer from a lower altitude to a higher altitude while remaining in the equatorial plane of the asteroid.
 This type of scenario would occur frequently during mapping and observation missions to asteroids.
 \begin{figure}[htbp]
     \centering 
-    \begin{subfigure}[htbp]{0.45\textwidth} 
+    \begin{subfigure}[htbp]{0.5\textwidth} 
         \includegraphics[width=\textwidth]{figures/2016_AAS/initial_transfer} 
         \caption{Equatorial View} \label{fig:eq_initial_transfer} 
     \end{subfigure}~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. %(or a blank line to force the subfigure onto a new line) 
-    \begin{subfigure}[htbp]{0.45\textwidth} 
+    \begin{subfigure}[htbp]{0.5\textwidth} 
         \includegraphics[width=\textwidth]{figures/2016_AAS/initial_transfer_3d} 
         \caption{3D view} \label{fig:initial_transfer_3d} 
     \end{subfigure} ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. %(or a blank line to force the subfigure onto a new line) 
@@ -888,7 +888,7 @@ Rather than using the full \num{4092} face model we reduce the number of faces t
 This greatly speeds up the computation with only a small difference in the gravitational field.
 
 We first compute the reachability set originating from the initial periodic orbit at \( \vecbf{x}_i\) for a fixed time of flight and bounded control magnitude as defined previously.
-The reachability set is computed by solving the two-point boundary value problem using a multiple shooting algorithm to satisfy the necessary conditions in~\cref{eq:necc_conditions}.
+The reachability set is computed by solving the two-point boundary value problem using a multiple shooting algorithm to satisfy the necessary conditions in~\cref{eq:terminal_constraints}.
 The reachability set is generated on the lower dimensional \Poincare section and is composed of the terminal states in the \( \parenth{x,z,\dot{x},\dot{z} } \) space.
 We approximate the reachability set by discretization of each of the angles \( \phi_1, \phi_2 , \phi_3 \) into ten discrete steps. 
 This results in a total of \(10^3\) trajectories which approximate the reachability set on the \Poincare section.
@@ -896,11 +896,11 @@ This results in a total of \(10^3\) trajectories which approximate the reachabil
 We visualize the section using the two figures in~\cref{fig:poincare_section}.
 \begin{figure}[htbp]
     \centering 
-    \begin{subfigure}[htbp]{0.45\textwidth} 
+    \begin{subfigure}[htbp]{0.5\textwidth} 
         \includegraphics[width=\textwidth]{figures/2016_AAS/poincare_xvsxdot.pdf} 
         \caption{\( x \) vs. \( \dot{x} \) \Poincare section} \label{fig:poincare_xvsxdot} 
     \end{subfigure}~
-    \begin{subfigure}[htbp]{0.45\textwidth} 
+    \begin{subfigure}[htbp]{0.5\textwidth} 
         \includegraphics[width=\textwidth]{figures/2016_AAS/poincare_zvszdot.pdf} 
         \caption{\( z \) vs. \( \dot{z} \) \Poincare section} \label{fig:poincare_zvszdot} 
     \end{subfigure}
@@ -918,19 +918,20 @@ where \( k_x, k_z, k_{\dot{x}}, k_{\dot{z}} \) are used to weight the relative i
 \Cref{fig:phi_distance} shows the distance to the target for the chosen discretization of \( \phi_i \).
 \begin{figure}[htbp] 
     \centering 
-    \begin{subfigure}[htbp]{0.3\textwidth} 
+    \begin{subfigure}[htbp]{0.5\textwidth} 
         \includegraphics[width=\textwidth]{figures/2016_AAS/phi1.pdf} 
         \caption{ \( \phi_1 \)} \label{fig:phi1} 
     \end{subfigure}~
-    \begin{subfigure}[htbp]{0.3\textwidth} 
+    \begin{subfigure}[htbp]{0.5\textwidth} 
         \includegraphics[width=\textwidth]{figures/2016_AAS/phi2.pdf} 
         \caption{\( \phi_2 \)} \label{fig:phi2} 
-    \end{subfigure}~
-    \begin{subfigure}[htbp]{0.3\textwidth} 
+    \end{subfigure}
+
+    \begin{subfigure}[htbp]{0.5\textwidth} 
         \includegraphics[width=\textwidth]{figures/2016_AAS/phi3.pdf} 
         \caption{\( \phi_3 \)} \label{fig:phi3} 
     \end{subfigure} 
-    \caption{Variation of \(d(\vecbf{x}_f,\vecbf{x}_t)\) due to \( \phi_i\)}
+    \caption{Variation of \(d(\vc{x}_f,\vc{x}_t)\) due to \( \phi_i\)}
     \label{fig:phi_distance} 
 \end{figure}
 
@@ -949,23 +950,24 @@ A final optimal transfer is computed to satisfy the fixed terminal state \( \vc{
 \Cref{fig:trajectory} shows the entire transfer trajectory, from the four reachable set trajectories as well as the final transfer to the target.
 \begin{figure}[htbp] 
     \centering 
-    \begin{subfigure}[htbp]{0.45\textwidth} 
+    \begin{subfigure}[htbp]{0.5\textwidth} 
         \includegraphics[width=\textwidth]{figures/2016_AAS/trajectory.pdf} 
         \caption{Equatorial view of transfer} \label{fig:trajectory_up} 
     \end{subfigure}~
-    \begin{subfigure}[htbp]{0.45\textwidth} 
+    \begin{subfigure}[htbp]{0.5\textwidth} 
         \includegraphics[width=\textwidth]{figures/2016_AAS/trajectory_3d.pdf} 
         \caption{Out of plane view} \label{fig:trajectory_3d} 
     \end{subfigure}~ 
     \caption{Complete transfer trajectory}
     \label{fig:trajectory} 
 \end{figure}
-It is interesting to note that while both the initial and target periodic orbit lie in the equatorial plane, the reachability trajectories show a relatively large out of plane component during the transfers.
-In spite of this out of plane movement, the reachability set approaches and meets the target orbit. 
+
 \begin{figure}
     \centering
-    \includegraphics[width=0.45\textwidth]{figures/2016_AAS/control.pdf}
+    \includegraphics[width=0.5\textwidth]{figures/2016_AAS/control.pdf}
     \caption{Control history \label{fig:control}}
 \end{figure}
+It is interesting to note that while both the initial and target periodic orbit lie in the equatorial plane, the reachability trajectories show a relatively large out of plane component during the transfers.
+In spite of this out of plane movement, the reachability set approaches and meets the target orbit. 
 \Cref{fig:control} shows the control input required during the maneuver.
 We can see that the control constraint in~\cref{eq:control_constraint} is satisfied over the entire trajectory.

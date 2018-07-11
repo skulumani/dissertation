@@ -1,4 +1,4 @@
-\tikzsetnextfilename{reachability_set}
+% \tikzsetnextfilename{reachability_set}
 \tdplotsetmaincoords{60}{125} % view angle in spherical coordinates
 \begin{tikzpicture}[
     tdplot_main_coords,
@@ -21,12 +21,12 @@
     
     % draw a periodic orbit
     \coordinate (center) at (0,0,2);
-    \node[label=below:\(\vecbf{x}_n\)] (x0) at (0,3,2) {};
+    \node[label=below:\(\vc{x}_n\)] (x0) at (0,3,2) {};
     % \node[label=below:\(\vecbf{x}_n\)] at (x0) {};
     \filldraw (x0) circle (3pt);
 
     % \tdplotdrawarc[orbit hidden]{(center)}{3}{90}{200}{}{};
-    \tdplotdrawarc[orbit,<-]{(center)}{3}{-160}{90}{}{};
+    \tdplotdrawarc[orbit,Latex-]{(center)}{3}{-160}{90}{}{};
 
     % draw reachability set on the poincare section
     \coordinate (reach) at (0,4.5,2);
@@ -38,7 +38,7 @@
     \tdplotdrawarc[tdplot_rotated_coords,grid]{(x0)}{0.5}{-45}{90}{above}{\(\theta_d\)};
 
     % draw terminal state on reachability set
-    \node[tdplot_rotated_coords,label=above:\(\vecbf{x}_f\)] (xf) at ($ (x0)+(-45:1.5) $) {};
+    \node[tdplot_rotated_coords,label=above:\(\vc{x}_f\)] (xf) at ($ (x0)+(-45:1.5) $) {};
     \filldraw (xf) circle (3pt);
 
     \node[tdplot_rotated_coords,label=below:\(J\)] at (xf) {};

@@ -1,4 +1,4 @@
-\tikzsetnextfilename{polyhedron_faces}
+% \tikzsetnextfilename{polyhedron_faces}
 
 \begin{tikzpicture}[line join=bevel,z=-5.5]
 	% \draw[help lines] (-10,-10) grid (10,10); %grid
