@@ -141,7 +141,7 @@ These dynamic features have been shown to play a vital role in the movement of n
 
 \begin{figure}
     \centering
-    \includegraphics[width=\textwidth]{tikz/poincare_map.tikz}
+    \input{tikz/poincare_map.tikz}
     \caption{Diagram of the \Poincare map: Periodic orbits will appear as fixed points on the \Poincare section \( \Sigma \). Stability of periodic orbits is clearly visible on the section as successive intersections approach or depart a fixed point.\label{fig:poincare_map}}
 \end{figure}
 % drawbacks of this approach on how we seek to improve upon it
@@ -260,7 +260,7 @@ In~\cref{fig:reachability_set} the reachable set is shown as a circular region o
 In practice, the reachable set will be of a general shape and also higher dimensional in the nonplanar case.
 \begin{figure}
         \centering
-        \includegraphics[width=\textwidth]{tikz/reachability_set.tikz}
+        \input{tikz/reachability_set.tikz}
         \caption{Reachability set on a \Poincare section: Pictorial representation of the reachability set (blue circle) on the \Poincare section, \(\Sigma\). 
             The terminal state, \( x_n\), is the intersection without any control input. 
             Adding a control input allows for the terminal state, \( x_f \), to be displaced by some distance/cost \( J \) as measured on the section.
@@ -338,7 +338,7 @@ The use of the multiple shooting method reduces the sensitivity of changes in th
 
 \begin{figure}
     \centering
-    \includegraphics[width=1\textwidth]{tikz/multiple_shooting.tikz}
+    \input{tikz/multiple_shooting.tikz}
     \caption{Schematic diagram of the multiple shooting method:
         The complete trajectory is split into a number of sub-segments, and additional interior constraints are included to ensure state and costate continuity.
         Splitting the optimal trajectory into short segments reduces the sensitivity of terminal states to variations of the initial states.\label{fig:multiple shooting}}
