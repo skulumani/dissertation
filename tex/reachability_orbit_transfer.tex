@@ -371,27 +371,28 @@ The numerical results are specific to the choice of nonlinear solver, and differ
 \section{Numerical Examples of Transfers using Reachability Sets}\label{sec:simulation}
 
 We present a total of three examples of the using the reachability set to determine orbital transfers.
-The first two examples are defined in the
+The first two examples are defined in the \gls{pcrtbp} and the last is designed for a transfer about asteroid Castalia.
 These simulations enable the spacecraft to depart from the natural dynamics through the use of low-thrust propulsion.
 The reachability set on the \Poincare section allows for a straightforward method of determining transfer opportunities.
+
 The first example is a transfer from a periodic orbit of the \( L_1 \) Lagrange point to a fixed orbit of the moon.
 This example uses a single iteration of the reachable set computation in the design of the transfer.
 The second example is a transfer from geostationary orbit of the Earth to a period orbit of \( L_1 \). 
 This examples demonstrates the ability to extend the reachability process to multiple iterations, to allow for a much larger and more general transfer.
-With both examples it is possible to depart from the vicinity of the Earth to a Moon orbit via a series of reachable sets defined on \Poincare sections.
-The numerical examples presented in this section satisfy the necessary conditions for local optimality and obtaining a globally optimal solution is considered beyond the scope of this paper.
-Next, the results are extended from the planar problem to three dimensions with a simulation about asteroid 4769 Castlia.
-This numerical examples demonstrates the extension of the method to the more complicated dynamic enviornment around an asteroid.
+Utilizing both examples it is possible to depart from the vicinity of the Earth to a Moon orbit via a series of reachable sets defined on \Poincare sections.
+Finally, the results are extended from the planar problem to three dimensions with a simulation about asteroid 4769 Castlia.
+This numerical example demonstrates the extension of the method to the more complicated dynamic enviornment around an asteroid.
 
 \subsection{Three Body Examples}
 
 \paragraph{Periodic Orbit Transfer}\label{sec:periodic_orbit_transfer}
+
 The first objective is to design a transfer trajectory from a planar periodic orbit about the \( L_1\) Lagrange point to a bounded orbit in the vicinity of the Moon.
 The target region is created by choosing an initial condition of \( x_0 = \begin{bmatrix}1.05 & 0 & 0 & 0.35 \end{bmatrix}^T \) with \( \mu = 0.0125 \).
 The target set is propagated over a period of \( t = \num{20} \) in non-dimensional units which corresponds to approximately \num{1.5} years.
 \begin{figure}[htbp]
    \centering
-   \includegraphics[width=0.5\textwidth]{figures/2017_JAS/moon_orbit.pdf} % requires the graphicx package
+   \includegraphics[width=0.75\textwidth]{figures/2017_JAS/moon_orbit.pdf} % requires the graphicx package
    \caption{\(L_1\) periodic orbit transfer to orbit of the Moon: Example scenario demonstrating the initial and target orbit.
    Without the low-thrust propulsion, the spacecraft is constrained to the initial periodic orbit. 
    We determine the reachability set to find a transfer trajectory to the target orbit about the moon.}
@@ -421,7 +422,7 @@ The required travel time for a transfer using the unstable invariant manifold is
         \begin{subfigure}[htbp]{0.5\textwidth} 
             \includegraphics[width=\textwidth]{figures/2017_JAS/manifold_trajectory} 
                 \caption{Position space view of invariant manifold} \label{fig:manifold_trajectory} 
-        \end{subfigure}~ %
+        \end{subfigure}~%
         \begin{subfigure}[htbp]{0.5\textwidth} 
             \includegraphics[width=\textwidth]{figures/2017_JAS/manifold_poincare} 
                 \caption{\Poincare intersection of invariant manifold (green), target orbit (blue) and the initial orbit (black)} \label{fig:manifold_poincare} 
@@ -448,7 +449,8 @@ Similarly, the costate trajectory is initialized from an initial guess of \( \vc
 This results in the initial guess of the design vector \( \vc{\chi} = \begin{bmatrix} \vc{\lambda}_0 & \vc{x}_1^{-} & \vc{\lambda}_1^{-} & \vc{\beta} \end{bmatrix}^T\).
 This design vector is then varied to ensure that the necessary conditions of optimality and the interior point constraints are satisfied. 
 \Cref{tab:varying_tf} shows the range of terminal times, \( t_f \), and maximum control bound, \( u_m \), which are used to investigate their effect on the subsequent reachable set on the \Poincare section.
-\begin{table}
+
+\begin{table}[htbp]
     \centering
     \begin{tabular}{ll}  
         \toprule
@@ -490,7 +492,7 @@ This example demonstrates that increasing the \( u_m \) results in a larger disp
 The reachable set is enlarged from a single point, as shown in~\cref{fig:manifold_poincare} by the black point, to a larger region as shown in~\cref{fig:varying_tf_poincare}.
 The choice of \( u_m\), \( t_f \) and initial condition all combine to change the resulting reachability set. 
 
-\paragraph{Transfer to Periodic Orbit}~\label{sssec:periodic_orbit_transfer}
+\paragraph{Transfer from a Periodic Orbit}~\label{sssec:periodic_orbit_transfer}
 % reachable set transfer
 Here we use the results of the preceding section to demonstrate one specific example of a transfer designed using the reachability set.
 The acceleration limit is chosen as  \( u_{max} = 0.75 \approx \SI{2}{\milli\meter\per\second\squared} \) in the Earth-Moon system.
@@ -543,8 +545,8 @@ The reachable set is an ellipsoidal region with a major axis aligned along \( \t
 As both regions are discretely approximated a linear interpolation is used to determine the exact intersection state on the \Poincare section.
 This intersection generates a partial target state of \( x_t \text{ and } \dot{x}_t \).
 Using the energy level of the target region, defined by~\cref{eq:jacobi}, and the intersection state we can calculate the final component \( \dot{y} \). 
-This results in a complete target state \( \vecbf{x}_t \) which lies on the reachable set and on the target orbit. 
-A final optimal trajectory is generated such that the \( \vecbf{x}(N) = \vecbf{x}_t \).
+This results in a complete target state \( \vc{x}_t \) which lies on the reachable set and on the target orbit. 
+A final optimal trajectory is generated such that the \( \vc{x}(N) = \vc{x}_t \).
 This transfer trajectory is denoted by the green path in~\cref{fig:reach_transfer}.
 The optimal control input is shown in~\cref{fig:control_l1}. 
 The spacecraft achieves the desired target while satisfying the bounded control input.
@@ -658,42 +660,18 @@ We use the same initial guess of \( \vc{\lambda}_0\) as in~\cref{sec:periodic_or
 
 \begin{figure}[htbp]
     \centering
-    \begin{subfigure}[htbp]{0.5\textwidth} 
-        \includegraphics[width=\textwidth, keepaspectratio]{figures/2017_JAS/stage1_trajectory_zoom.pdf} 
-        \caption{Stage 1 Trajectory~\label{fig:stage1_trajecotry_zoom}} 
-    \end{subfigure}~
-    \begin{subfigure}[htbp]{0.5\textwidth} 
-        \includegraphics[width=\textwidth, keepaspectratio]{figures/2017_JAS/stage1_poincare.pdf} 
-        \caption{Stage 1 \Poincare~section \label{fig:stage1_poincare}} 
-    \end{subfigure}
+    \subcaptionbox{Stage 1 Trajectory\label{fig:stage1_trajectory_zoom}}{\includegraphics[height=0.2\textheight,keepaspectratio]{figures/2017_JAS/stage1_trajectory_zoom.pdf}}
+    \subcaptionbox{Stage 1 \Poincare~section\label{fig:stage1_poincare}}{\includegraphics[height=0.2\textheight,keepaspectratio]{figures/2017_JAS/stage1_poincare.pdf}}
 
+    \subcaptionbox{Stage 2 Trajectory\label{fig:stage2_trajectory_zoom}}{\includegraphics[height=0.2\textheight,keepaspectratio]{figures/2017_JAS/stage2_trajectory_zoom.pdf}}
+    \subcaptionbox{Stage 2 \Poincare~section\label{fig:stage2_poincare}}{\includegraphics[height=0.2\textheight,keepaspectratio]{figures/2017_JAS/stage2_poincare.pdf}}
 
-    \begin{subfigure}[htbp]{0.5\textwidth} 
-        \includegraphics[width=\textwidth, keepaspectratio]{figures/2017_JAS/stage2_trajectory_zoom.pdf} 
-        \caption{Stage 2 Trajectory~\label{fig:stage2_trajecotry_zoom}} 
-    \end{subfigure}~
-    \begin{subfigure}[htbp]{0.5\textwidth} 
-        \includegraphics[width=\textwidth, keepaspectratio]{figures/2017_JAS/stage2_poincare.pdf} 
-        \caption{Stage 2 \Poincare~section \label{fig:stage2_poincare}} 
-    \end{subfigure}
+    \subcaptionbox{Stage 3 Trajectory\label{fig:stage3_trajectory_zoom}}{\includegraphics[height=0.2\textheight,keepaspectratio]{figures/2017_JAS/stage3_trajectory_zoom.pdf}} 
+    \subcaptionbox{Stage 3 \Poincare~section\label{fig:stage3_poincare}}{\includegraphics[height=0.2\textheight,keepaspectratio]{figures/2017_JAS/stage3_poincare.pdf}}
 
-    \begin{subfigure}[htbp]{0.5\textwidth} 
-        \includegraphics[width=\textwidth, keepaspectratio]{figures/2017_JAS/stage3_trajectory_zoom.pdf} 
-        \caption{Stage 3 Trajectory~\label{fig:stage3_trajecotry_zoom}} 
-    \end{subfigure}~
-    \begin{subfigure}[htbp]{0.5\textwidth} 
-        \includegraphics[width=\textwidth, keepaspectratio]{figures/2017_JAS/stage3_poincare.pdf} 
-        \caption{Stage 3 \Poincare~section \label{fig:stage3_poincare}} 
-    \end{subfigure}
- 
-    \begin{subfigure}[htbp]{0.5\textwidth} 
-        \includegraphics[width=\textwidth, keepaspectratio]{figures/2017_JAS/stage5_trajectory_zoom.pdf} 
-        \caption{Stage 4 Trajectory~\label{fig:stage4_trajecotry_zoom}} 
-    \end{subfigure}~
-    \begin{subfigure}[htbp]{0.5\textwidth} 
-        \includegraphics[width=\textwidth, keepaspectratio]{figures/2017_JAS/stage4_poincare.pdf} 
-        \caption{Stage 4 \Poincare~section \label{fig:stage4_poincare}} 
-    \end{subfigure}   
+    \subcaptionbox{Stage 4 Trajectory\label{fig:stage4_trajectory_zoom}}{\includegraphics[height=0.2\textheight,keepaspectratio]{figures/2017_JAS/stage4_trajectory_zoom.pdf}} 
+    \subcaptionbox{Stage 4 \Poincare~section\label{fig:stage4_poincare}}{\includegraphics[height=0.2\textheight,keepaspectratio]{figures/2017_JAS/stage4_poincare.pdf}}
+
     \caption{Stage 1-4 reachability sets: The first four reachability sets visualized in both the position (left) and \Poincare space (right).
         The minimum trajectories from the preceding stages are shown in red, while the next stage is shown in blue.
     The transfer goal is to generate a complete trajectory from the initial geostationary orbit to the \( L_1 \) stable manifold, with an eventual arrival at the \( L_1 \) periodic orbit~\label{fig:stage1to4_reachability}}
@@ -709,54 +687,31 @@ The distance on the \Poincare section between the reachable set and the stable m
         d(\vc{x}(N)) = \sqrt{\parenth{x - x_t}^2 + \parenth{\dot{x} - \dot{x}_t}^2}.
 \end{align*}
 From the reachable set, the trajectory which minimizes \( d \) is used to initialize the next iteration.
-The minimum trajectory is also shown in~\cref{fig:stage1_trajecotry_zoom} and is used to initialize the following stage.
+The minimum trajectory is also shown in~\cref{fig:stage1_trajectory_zoom} and is used to initialize the following stage.
 Over the relatively short time horizon of the geostationary orbital period, the reachability set remains quite close to the initial orbit. 
 However, the addition of the control input has increased the velocity component of the trajectory.
 It is this velocity change that is subsequently exploited to generate the transfer trajectory.
 
 The minimum trajectory from the first iteration of the reachability set is used to initialize the following stage.
-From the terminal state of the first iteration, the second reachability set is computed and displayed in~\cref{fig:stage2_trajecotry_zoom,fig:stage2_poincare}.
+From the terminal state of the first iteration, the second reachability set is computed and displayed in~\cref{fig:stage2_trajectory_zoom,fig:stage2_poincare}.
 The second reachability set is shown on the \Poincare section in~\cref{fig:stage2_poincare}.
 This iteration greatly decreases the distance in the \( x \) component between the trajectory and the target, at the expense of a small deviation in the \( \dot{x} \) component.
-In~\cref{fig:stage2_trajecotry_zoom}, the first stage trajectory is shown in red while the additional stage is shown in blue, which demonstrates the decrease in the \( x \) component.
+In~\cref{fig:stage2_trajectory_zoom}, the first stage trajectory is shown in red while the additional stage is shown in blue, which demonstrates the decrease in the \( x \) component.
 
 \begin{figure}[htbp]
     \centering
-    \begin{subfigure}[htbp]{0.5\textwidth} 
-        \includegraphics[width=\textwidth, keepaspectratio]{figures/2017_JAS/stage5_trajectory_zoom.pdf} 
-        \caption{Stage 5 Trajectory~\label{fig:stage5_trajecotry_zoom}} 
-    \end{subfigure}~
-    \begin{subfigure}[htbp]{0.5\textwidth} 
-        \includegraphics[width=\textwidth, keepaspectratio]{figures/2017_JAS/stage5_poincare.pdf} 
-        \caption{Stage 5 \Poincare~section \label{fig:stage5_poincare}} 
-    \end{subfigure}
+    \subcaptionbox{Stage 5 Trajectory\label{fig:stage5_trajectory_zoom}}{\includegraphics[width=0.2\textheight,keepaspectratio]{figures/2017_JAS/stage5_trajectory_zoom.pdf}}~
+    \subcaptionbox{Stage 5 \Poincare~section\label{fig:stage5_poincare}}{\includegraphics[width=0.2\textheight,keepaspectratio]{figures/2017_JAS/stage5_poincare.pdf}}
 
-    \begin{subfigure}[htbp]{0.5\textwidth} 
-        \includegraphics[width=\textwidth, keepaspectratio]{figures/2017_JAS/stage6_trajectory_zoom.pdf} 
-        \caption{Stage 6 Trajectory~\label{fig:stage6_trajecotry_zoom}} 
-    \end{subfigure}~
-    \begin{subfigure}[htbp]{0.5\textwidth} 
-        \includegraphics[width=\textwidth, keepaspectratio]{figures/2017_JAS/stage6_poincare.pdf} 
-        \caption{Stage 6 \Poincare~section \label{fig:stage6_poincare}} 
-    \end{subfigure}
+    \subcaptionbox{Stage 6 Trajectory\label{fig:stage6_trajectory_zoom}}{\includegraphics[width=0.2\textheight,keepaspectratio]{figures/2017_JAS/stage6_trajectory_zoom.pdf}}~
+    \subcaptionbox{Stage 6 \Poincare~section\label{fig:stage6_poincare}}{\includegraphics[width=0.2\textheight,keepaspectratio]{figures/2017_JAS/stage6_poincare.pdf}}
 
-    \begin{subfigure}[htbp]{0.5\textwidth} 
-        \includegraphics[width=\textwidth, keepaspectratio]{figures/2017_JAS/stage7_trajectory_zoom.pdf} 
-        \caption{Stage 7 Trajectory~\label{fig:stage7_trajecotry_zoom}} 
-    \end{subfigure}~
-    \begin{subfigure}[htbp]{0.5\textwidth} 
-        \includegraphics[width=\textwidth, keepaspectratio]{figures/2017_JAS/stage7_poincare.pdf} 
-        \caption{Stage 7 \Poincare~section \label{fig:stage7_poincare}} 
-    \end{subfigure}
- 
-    \begin{subfigure}[htbp]{0.5\textwidth} 
-        \includegraphics[width=\textwidth, keepaspectratio]{figures/2017_JAS/stage8_trajectory_zoom.pdf} 
-        \caption{Stage 8 Trajectory~\label{fig:stage8_trajecotry_zoom}} 
-    \end{subfigure}~
-    \begin{subfigure}[htbp]{0.5\textwidth} 
-        \includegraphics[width=\textwidth, keepaspectratio]{figures/2017_JAS/stage8_poincare.pdf} 
-        \caption{Stage 8 \Poincare~section \label{fig:stage8_poincare}} 
-    \end{subfigure}   
+    \subcaptionbox{Stage 7 Trajectory\label{fig:stage7_trajectory_zoom}}{\includegraphics[width=0.2\textheight,keepaspectratio]{figures/2017_JAS/stage7_trajectory_zoom.pdf}}~
+    \subcaptionbox{Stage 7 \Poincare~section\label{fig:stage7_poincare}}{\includegraphics[width=0.2\textheight,keepaspectratio]{figures/2017_JAS/stage7_poincare.pdf}}
+
+    \subcaptionbox{Stage 8 Trajectory\label{fig:stage8_trajectory_zoom}}{\includegraphics[width=0.2\textheight,keepaspectratio]{figures/2017_JAS/stage8_trajectory_zoom.pdf}}~
+    \subcaptionbox{Stage 8 \Poincare~section\label{fig:stage8_poincare}}{\includegraphics[width=0.2\textheight,keepaspectratio]{figures/2017_JAS/stage8_poincare.pdf}}
+
     \caption{Stage 5-8 reachability sets: The last four reachability sets visualized in both the position (left) and \Poincare space (right).
         The minimum trajectories from the preceding stages are shown in red, while the next stage is shown in blue.
     The transfer goal is to generate a complete trajectory from the initial geostationary orbit to the \( L_1 \) stable manifold, with an eventual arrival at the \( L_1 \) periodic orbit~\label{fig:stage5to8_reachability}}
@@ -782,24 +737,7 @@ The optimization statistics for the final transfer are shown in~\cref{tab:geo_tr
     \end{tabular}
     \caption{Convergence statistics for the geostationary orbit transfer\label{tab:geo_transfer}}
 \end{table}
-The complete transfer trajectory, after eight iterations, is shown in~\Cref{fig:geo_transfer}. 
-Combining these trajectories results in the powered portion of the transfer from the geostationary orbit to the stable manifold. 
-Each iteration systematically moves the reachable set towards the stable manifold. 
-Furthermore, the optimal control formulation is simplified as each iteration is initialized using a simple distance metric on the \Poincare section.
-\Cref{fig:geo_transfer_full,fig:geo_transfer_zoom} shows the resulting trajectory, with the final trajectory shown in red which ensures the intersection with the stable invariant manifold.
-\Cref{fig:geo_transfer_poincare} shows the \Poincare section with the minimum reachable state from each iteration.
-Each iteration seeks to decrease the distance to the stable manifold on the \Poincare section.
-Furthermore, these minimum states serve to initialize each subsequent stage of the transfer. 
-This method provides a systematic and simple methodology to determine transfer trajectories.
-Instead of relying purely on numerical optimization to find an appropriate trajectory, our method instead utilizes the reachability set to determine suitable trajectories.
-Once at the stable manifold, no further control input is required and the vehicle will coast towards the target periodic orbit.
-\Cref{fig:control_input_geo} shows the control input during the powered portion of the transfer. 
-We utilize the same spacecraft assumption of \SI{500}{\kilo\gram} from~\cref{sec:periodic_orbit_transfer} which gives a maximum thrust of approximately \SI{1}{\newton}.
-The spacecraft maintains a bounded control magnitude during the transfer to the stable manifold.
-\Cref{fig:jacobi_geo} shows the evolution of the Jacobi energy over the transfer.
-Each stage of the transfer serves to raise the energy level of the vehicle.
-After eight stages the reachability set intersects the stable manifold and a demonstrates that a transfer is achievable.
-The final optimal control drives the vehicle towards the target manifold with the appropriate energy level.
+
 \begin{figure} 
         \centering 
         \subcaptionbox{Transfer trajectory: Complete trajectory consisting of eight iterations (1-7 black and final in red) of the reachability sets with a final control-free coast (blue)  on the stable manifold (green).\label{fig:geo_transfer_full}}{\includegraphics[width=0.45\textwidth]{figures/2017_JAS/geo_transfer_full}}\hfill
@@ -822,13 +760,33 @@ The final reachability set intersects the stable manifold and enables a large fi
 
         \caption{Geostationary to \( L_1 \) periodic orbit transfer: Complete transfer from the geostationary orbit to the stable manifold.\label{fig:geo_transfer}}
 \end{figure}
+The complete transfer trajectory, after eight iterations, is shown in~\Cref{fig:geo_transfer}. 
+Combining these trajectories results in the powered portion of the transfer from the geostationary orbit to the stable manifold. 
+Each iteration systematically moves the reachable set towards the stable manifold. 
+Furthermore, the optimal control formulation is simplified as each iteration is initialized using a simple distance metric on the \Poincare section.
+\Cref{fig:geo_transfer_full,fig:geo_transfer_zoom} shows the resulting trajectory, with the final trajectory shown in red which ensures the intersection with the stable invariant manifold.
+\Cref{fig:geo_transfer_poincare} shows the \Poincare section with the minimum reachable state from each iteration.
+Each iteration seeks to decrease the distance to the stable manifold on the \Poincare section.
+Furthermore, these minimum states serve to initialize each subsequent stage of the transfer. 
+This method provides a systematic and simple methodology to determine transfer trajectories.
+Instead of relying purely on numerical optimization to find an appropriate trajectory, our method instead utilizes the reachability set to determine suitable trajectories.
+Once at the stable manifold, no further control input is required and the vehicle will coast towards the target periodic orbit.
+\Cref{fig:control_input_geo} shows the control input during the powered portion of the transfer. 
+We utilize the same spacecraft assumption of \SI{500}{\kilo\gram} from~\cref{sec:periodic_orbit_transfer} which gives a maximum thrust of approximately \SI{1}{\newton}.
+The spacecraft maintains a bounded control magnitude during the transfer to the stable manifold.
+\Cref{fig:jacobi_geo} shows the evolution of the Jacobi energy over the transfer.
+Each stage of the transfer serves to raise the energy level of the vehicle.
+After eight stages the reachability set intersects the stable manifold and a demonstrates that a transfer is achievable.
+The final optimal control drives the vehicle towards the target manifold with the appropriate energy level.
+
 
 This numerical example demonstrates the ability to link several computations of the reachability set to enable a more general transfer.
 We use eight iterations of computing the reachability set in order to transfer from the geostationary orbit to the stable manifold.
 This approach allows for a larger class of potential transfers which leverage the capabilities of low-thrust propulsion systems.
 We are able to achieve a transfer that is not possible via the standard invariant manifold approach. 
 In addition, this example illustrates a straightforward method to depart from the natural dynamics and transfer to a large region of the phase space that is not accessible via invariant manifolds alone.
-\subsection{4769 Castalia Examples}\label{sec:castalia_transfer}
+\subsection{4769 Castalia Example}\label{sec:castalia_transfer}
+
 In this section, we extend the results developed in the planar three body problem to the higher dimensional space around an asteroid.
 As shown in~\cref{sec:sc_eoms}, the translational dynamics of a point mass around an asteroid asteroid are similar to that of the three body problem.
 Similar to~\cref{sec:periodic_orbit_transfer}, a \Poincare section is defined and the reachability set is approximated on this space. 
