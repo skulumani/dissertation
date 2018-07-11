@@ -228,7 +228,7 @@ This method allows one to easily determine potential transfer opportunities by f
 The addition of continuous low thrust propulsion extends the control free design process developed previously and allows for a greater range of potential transfers with a reduced time of flight.
 The process is first derived for the \gls{pcrtbp} and then expanded to the higher dimensional case around a small body in the \gls{rf2bp}.
 
-\subsection{Reachability Set}\label{sec:reachability_set}
+\subsection{Reachability Sets}\label{sec:reachability_set}
 % discuss reachability and application to space system
 Reachability theory provides a framework to evaluate control capability and safety.  
 The reachable set contains all possible trajectories that are achievable over a fixed time horizon from a defined initial condition, subject to the operational constraints of the system.
@@ -246,13 +246,13 @@ Coupling the ability for continuous low-thrust propulsion between measurements i
 Computing the reachability set given estimated states and control authorities allows one to better correlate subsequent measurements or determine sensor pointing regions in the event of a lost spacecraft. 
 
 
-\subsection{Optimal Control Formulation}\label{sec:optimal_control}
+\subsection{Optimal Control Problem Formulation}\label{sec:optimal_control}
 In this paper, we seek to approximate the reachability set on a \Poincare section by solving a related optimal control problem. 
 We choose our \Poincare section in a similar manner to those used previously for the design of transfers via invariant manifolds.
 The \Poincare section is chosen to intersect transversally with trajectories emanating from the initial orbit. 
 In the case of a periodic orbit the trajectories will cross the \Poincare section at two distinct fixed points every half period.
 The main idea is that the addition of low thrust propulsion allows us to enlarge the set of trajectories achievable in the \Poincare section. 
-\Cref{fig:reachability_set} illustrates how, without any control input, trajectories will intersect with the \Poincare section at \( \vecbf{x}_n \). 
+\Cref{fig:reachability_set} illustrates how, without any control input, trajectories will intersect with the \Poincare section at \( \vc{x}_n \). 
 However, the addition of low thrust propulsion allows the spacecraft to depart from the natural dynamics and intersect the \Poincare section at a different location.
 We use a cost function to define a distance metric on the \Poincare section from the control-free intersection to an intersection under the influence of the control input.
 Maximization of this distance along varying directions enables us to generate the largest reachability set under the bounded control input.
@@ -304,7 +304,7 @@ The \Poincare section is defined through the use of appropriate terminal constra
 \end{subequations}
 where the angle \( \theta_d\) defines a direction in which we wish to maximize the reachability set on the \Poincare section.
 The maximum control thrust magnitude is defined by \( u_{max} \) and is non-dimensionalized by the characteristic units of length, mass, and time.
-The goal is to determine the control input \( \vc{u}_k\) such that the cost function~\cref{eq:cost} is minimized subject to the state equations of motion~\cref{eqn:cont_dyn} and constraints~\cref{eq:constraints}.
+The goal is to determine the control input \( \vc{u}\) such that the cost function~\cref{eq:cost} is minimized subject to the state equations of motion~\cref{eqn:cont_dyn} and constraints~\cref{eq:constraints}.
 
 Application of the Euler-Lagrange equations allows us to derive the necessary conditions for optimality~\cite{bryson1975}.
 This results in an optimal control problem and the necessary conditions are given as
@@ -321,7 +321,7 @@ where the Hamiltonian \(H\) is defined as
         \label{eq:hamiltonian_opt}
 \end{equation}
 and \( \vc{\lambda} \in \R^{4 \times 1} \) is the costate and \(\vecbf{\beta} \in \R^{2 \times 1} \) are the additional Lagrange multipliers associated with the terminal constraints in~\cref{eq:constraints}.
-The state dynamics are represented by \( \vc{f}(\vc{x}_k, \vc{\lambda}_k ) \) after substituting~\cref{eqn:control_necc_cond} into~\cref{eqn:cont_dyn}.
+The state dynamics are represented by \( \vc{f}(\vc{x}, \vc{\lambda} ) \) after substituting~\cref{eqn:control_necc_cond} into~\cref{eqn:cont_dyn}.
 This indirect optimal control formulation leads to a two point boundary value problem with split boundary conditions. 
 By sweeping the angle \( \theta_d \) one can approximate the reachable set on the \Poincare section subject to the bounded control input. 
 
@@ -338,7 +338,7 @@ The use of the multiple shooting method reduces the sensitivity of changes in th
 
 \begin{figure}
     \centering
-    \includegraphics[width=\textwidth]{tikz/multiple_shooting.tikz}
+    \includegraphics[width=1\textwidth]{tikz/multiple_shooting.tikz}
     \caption{Schematic diagram of the multiple shooting method:
         The complete trajectory is split into a number of sub-segments, and additional interior constraints are included to ensure state and costate continuity.
         Splitting the optimal trajectory into short segments reduces the sensitivity of terminal states to variations of the initial states.\label{fig:multiple shooting}}
