@@ -1,4 +1,4 @@
-\tikzsetnextfilename{dist_adapt}
+% \tikzsetnextfilename{dist_adapt}
 \begin{tikzpicture}[]
     \begin{groupplot}[
         group style={
@@ -9,6 +9,8 @@
             xticklabels at=edge bottom,
             vertical sep=0pt,
         },
+        width=\textwidth,
+        height=0.2\textheight,
         xlabel={$t~(\si{\second})$},
     ]
     \nextgroupplot[ylabel={$ \Delta_1 $}]
