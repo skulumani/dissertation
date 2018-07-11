@@ -57,24 +57,21 @@
 % TIKZ
 \usepackage{pgfplots}
 \pgfplotsset{compat=newest}
-\usepgfplotslibrary{groupplots}
+\usepgfplotslibrary{groupplots,external}
 \usepackage{tikzscale}
-\usepackage{pgf}
-\usepackage{tikz}
-\usepackage{environ}
+\usepackage{tikz-3dplot}
 \usetikzlibrary{decorations.markings,decorations.pathreplacing,calc}
 \usetikzlibrary{decorations.shapes}
 \usetikzlibrary{plotmarks, positioning}
 \usetikzlibrary{arrows.meta}
-\usepackage{tikz-3dplot}
 
 % externalize tikz plots for speed
-\usepgfplotslibrary{external}
 \tikzexternalize[
 prefix=build/,
 mode=list and make,
-optimize=false,
+% optimize=false,
 ]
+% \tikzexternaldisable
 
 % \tikzset{help lines/.style={very thin,color=gray!50}} % modify the help lines style
 
