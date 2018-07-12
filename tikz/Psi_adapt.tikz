@@ -1,3 +1,4 @@
+\tikzsetnextfilename{Psi_adapt}
 \begin{tikzpicture}[baseline]
     \begin{axis}[
         name={Psi_adapt},

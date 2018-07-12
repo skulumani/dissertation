@@ -520,7 +520,7 @@ The first term of~\cref{eqn:delta_dot} has the effect of increasing the proporti
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.7\textwidth,height=0.14\textwidth]{tikz/eR_noadapt.tikz}
+    \input{tikz/eR_noadapt.tikz}
     \caption{Attitude error vector \( e_R \) components for attitude control without adaptive update law.
     The desired attitude corresponding to \( e_R = 0 \) is denoted in red.\label{fig:eRcon}}
 \end{figure}
@@ -531,7 +531,7 @@ Without the update law, the system does not achieve zero steady state error.
 \Cref{fig:Psi_con} shows that the configuration error function does not converge to zero and there exist steady state errors.
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.7\textwidth,height=0.43\textwidth]{tikz/Psi_noadapt.tikz}
+    \input{tikz/Psi_noadapt.tikz}
     \caption{Configuration error \( \Psi \) for attitude control without adaptive update law.
     The desired attitude corresponding to \( \Psi = 0 \) is denoted in red.\label{fig:Psi_con}}
 \end{figure}
@@ -539,7 +539,7 @@ In spite of the uncompensated disturbance, the system is able to avoid the const
 The angle to each of the constraints, which is measured in degrees and given by \( \arccos(r^T R^T v_i) \), is always greater than the specified angle, \( \theta_i \), in~\Cref{tab:constraints}.
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.7\textwidth,height=0.43\textwidth]{tikz/ang_con_noadapt.tikz}
+    \input{tikz/ang_con_noadapt.tikz}
     \caption{Angle between the sensor view axis and each constraints for attitude control without adaptive update law.
     The attitude controller is able to satisfy all constraints. \label{fig:con_angles_con}}
 \end{figure}
@@ -547,7 +547,7 @@ The angle to each of the constraints, which is measured in degrees and given by 
 \Cref{fig:Psi_adapt,fig:con_angles,fig:delta_adapt,fig:cad_adapt} shows the results with the addition of the adaptive update law.
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.7\textwidth,height=0.43\textwidth]{tikz/Psi_adapt.tikz}
+    \input{tikz/Psi_adapt.tikz}
     \caption{Configuration error \( \Psi \) for attitude control with adaptive update law.
     The desired attitude corresponding to \( \Psi = 0 \) is denoted in red.\label{fig:Psi_adapt}}
 \end{figure}
@@ -555,7 +555,7 @@ The angle to each of the constraints, which is measured in degrees and given by 
 The addition of the adaptive update law allows the system to converge to the desired attitude in the presence of constraints.
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.7\textwidth,height=0.43\textwidth]{tikz/ang_con_noadapt.tikz}
+    \input{tikz/ang_con_noadapt.tikz}
     \caption{Angle between the sensor view axis and each constraints for attitude control with adaptive update law.
     The attitude controller is able to satisfy all constraints. \label{fig:con_angles}}
 \end{figure}
@@ -564,7 +564,7 @@ The rendering of the spacecraft is presented in the desired, or final, orientati
 The inequality constraints from~\Cref{tab:constraints} are depicted as red cones, where the cone half angle is \( \theta \).
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.7\textwidth,height=0.14\textwidth]{tikz/dist_adapt.tikz}
+    \input{tikz/dist_adapt.tikz}
     \caption{Distance estimate \( \Delta \) components for attitude control with adaptive update law.
     The controller is able to accurately estimate the constant disturbance\label{fig:delta_adapt}}
 \end{figure}
@@ -608,7 +608,7 @@ The goal is to rotate the vehicle about the \( e_3 \) axis while avoiding the ob
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.7\textwidth,height=0.43\textwidth]{tikz/Psi_timevarying.tikz}
+    \input{tikz/Psi_timevarying.tikz}
     \caption{Configuration error \( \Psi \) for attitude control with adaptive update law assuming a time varying external disturbance.
     The desired attitude corresponding to \( \Psi = 0 \) is denoted in red.\label{fig:Psi_tv}}
 \end{figure}
@@ -617,13 +617,13 @@ The goal is to rotate the vehicle about the \( e_3 \) axis while avoiding the ob
 In addition,~\cref{fig:con_angle_tv} shows that the constraint is never violated as the angle between the body-fixed sensor \( r \) and the constraint \( v \) is greater than \SI{12}{\degree} over the entire attitude maneuver.
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.7\textwidth,height=0.43\textwidth]{tikz/ang_con_timevarying.tikz}
+    \input{tikz/ang_con_timevarying.tikz}
     \caption{Angle between the sensor view axis and the constraint for attitude control with adaptive update law with a time varying disturbance. \label{fig:con_angle_tv}}
 \end{figure}
 We can see in~\cref{fig:Delta_tv} that that estimate \(\bar \Delta \) for each of the components accurately tracks the true disturbance after approximately~\SI{5}{\second}.
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.7\textwidth,height=0.14\textwidth]{tikz/dist_timevarying.tikz}
+    \input{tikz/dist_timevarying.tikz}
     \caption{Distance estimate \( \Delta \) components for attitude control with adaptive update law and time varying disturbance.
     The controller is able to accurately estimate the varying disturbance\label{fig:Delta_tv}}
 \end{figure}
@@ -672,14 +672,14 @@ The experimental results are shown in~\Cref{fig:exp}.
 \Cref{fig:eR_exp,fig:Psi_adapt,fig:eR_exp,fig:u_exp,fig:con_angle_exp} shows the behavior of each of the components of the attitude error vector, defined by~\cref{eq:eR}, over the experiment time span.
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.7\textwidth,height=0.14\textwidth]{tikz/eR_exp.tikz}
+    \input{tikz/eR_exp.tikz}
     \caption{Attitude error vector \( e_R \) components for hexrotor experiment.
     The desired attitude corresponding to \( e_R = 0 \) is denoted in red.\label{fig:eR_exp}}
 \end{figure}
 \Cref{fig:Psi_exp} shows the time history of the attitude error function, defined by~\cref{eq:psi}.
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.7\textwidth,height=0.43\textwidth]{tikz/Psi_exp.tikz}
+    \input{tikz/Psi_exp.tikz}
     \caption{Configuration error \( \Psi \) for hexrotor experiment.
     The desired attitude corresponding to \( \Psi = 0 \) is denoted in red.\label{fig:Psi_exp}}
 \end{figure}
@@ -687,7 +687,7 @@ The experimental results are shown in~\Cref{fig:exp}.
 Finally,~\cref{fig:con_angle_exp} shows the angle between the body-fixed sensor and the obstacle in degrees.
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.7\textwidth,height=0.14\textwidth]{tikz/eR_exp.tikz}
+    \input{tikz/eR_exp.tikz}
     \caption{Control input \( u \) components for hexrotor experiment.\label{fig:u_exp}}
 \end{figure}
 In order to maneuver the system ``close" to the constrained zone we utilize several intermediary set points on either side of the obstacle.
@@ -695,7 +695,7 @@ From the initial attitude the hexrotor rotates to the first set point, pauses, a
 As a result this creates the stepped behavior of the configuration error history as shown in~\cref{fig:Psi_exp}.
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.7\textwidth,height=0.43\textwidth]{tikz/ang_con_exp.tikz}
+    \input{tikz/ang_con_exp.tikz}
     \caption{Angle between the sensor view axis and the constraint for hexrotor experiment.
     The attitude controller is able to satisfy the constraint. \label{fig:con_angle_exp}}
 \end{figure}

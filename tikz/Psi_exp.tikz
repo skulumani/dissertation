@@ -1,4 +1,5 @@
-\begin{tikzpicture}[baseline]
+\tikzsetnextfilename{Psi_exp}
+\begin{tikzpicture}[]
     \begin{axis}[
         name={Psi_exp},
         ylabel={$\Psi$},
