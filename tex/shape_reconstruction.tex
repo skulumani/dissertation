@@ -217,23 +217,43 @@ The approach presented in this section allows one to update the shape of small b
 A sequential process can be used to iteratively update the shape estimate given many measurements of the surface. 
 For example,~\cref{sec:reconstruction_examples} shows the Bayesian update approach applied to several different asteroids.
 
-\section{Autonomous Mapping Guidance}\label{sec:explore_asteroid}
+\section{Optimal Guidance for Shape Reconstruction}\label{sec:explore_asteroid}
 
 The mesh update algorithm presented in~\cref{sec:radius_update} does not offer a method to determine which portion of the surface needs to be updated. 
-In this section, we present a computationally efficient approach to surface mapping and trajectory generation.
-Utilizing the nonlinear controllers developed in~\cref{sec:se3_control} allows the spacecraft to manuever to the best location that will update the shape estimate.
-Utilizing this approach enables autonomous operations at the asteroid. 
+In this section, we present an optimal approach for the guidance of the vehicle in order to update the shape estimate.
+Utilizing the nonlinear controllers developed in~\cref{sec:se3_control}, allows the spacecraft to maneuver to the best location that will update the shape estimate.
+This guidance schemes enables autonomous operations around a small body.
+% TODO talk about the basics of guidance/control for systems here and add tikz of block diagram
+
+\gls{gnc} refers to the design of systems to control the operations of vehicles, specifically automobiles, aircraft, or spacecraft.
+For spacecraft, many of these operations are computed ahead of time by operators and executed on board in an open loop fashion.
+Guidance refers to the determination of the desired future states, or trajectory, that the spacecraft should follow to achieve some goals.
+Navigation, or estimation, refers to the determination of the current state of the spacecraft given measurements.
+Control refers to the application of forces, \( u_m, u_f \), required by the spacecraft to follow the desired trajectory while maintaining stability and other criteria. 
+A block diagram representation of the entire \gls{gnc} system is shown in~\cref{fig:gnc}.
+The approach presented in this section addresses the guidance and control portions of \cref{fig:gnc} but does not address the navigation. 
+We assume that we have precise knowledge of the spacecraft state and small body rotation.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{example-image-golden}
+    \caption{Block diagram of GNC system\label{fig:gnc}}
+\end{figure}
 
 The ideal guidance approach involves solving a global optimal control problem which satisfies the system dynamics from~\cref{sec:dumbbell_model} while minimizing the shape uncertainty.
-There are a wide variety of optimal control techniques which may be utilized to solve the problem, such as indirect methods~\cite{kirk2012,bryson1975}.
-However, regardless of the method an optimal control formulation will result in a more computationally demanding algorithm.
+There are a wide variety of optimal control techniques which may be utilized to solve the problem, such as indirect methods based on the calculus of variations or direction methods based on solving a related nonlinear programming problem~\cite{kirk2012,bryson1975}.
+The difficulty lies in implementing an algorithm that can operate in real time.
 Since the \gls{lidar} will be operating at upwards of \SI{1}{\hertz} efficient processing of the measurement and computation of the guidance commands is critical.
+Our approach solves this complexity by determining the vertex that should be measured to optimally update the shape estimate.
 
-We define a cost associated with each vertex \( \vc{v}_i \) of the shape estimateas
+We define a cost associated with each vertex \( \vc{v}_i \) of the shape estimate
 \begin{align}\label{eq:explore_cost}
-    J_i (\ipos) = \alpha_w J_{w_i} + \alpha_d J_{d_i}(\ipos) + \alpha_c J_{c_i}(\ipos)
+    J_i (\ipos, \iatt, \aatt) = \alpha_w J_{w_i} + \alpha_d J_{d_i}(\rpos) + \alpha_c J_{c_i}(\rpos)
 \end{align}
 where the weighting factors \( \alpha_w, \alpha_d, \alpha_c \in \R^1 \) are chosen such that \( \alpha_w + \alpha_d + \alpha_c = 1 \).
+The cost function is defined as a function of the current inertial position, \gls{sym:ipos}, and the attitude, \gls{sym:iatt} of the spacecraft.
+Furthermore, knowledge of the small body rotation is required in order to determine the position of the spacecraft in the small body fixed frame, \( \gls{sym:rpos} = \gls{sym:aatt}[^T] \gls{sym:ipos}\).
+
 The term \( J_{w_i} \in \R^1 \) represents the cost associated with the uncertainty of vertex \( i \) as
 \begin{align}\label{eq:weight_cost}
     J_{w_i} &= - \frac{w_i}{w_m}
@@ -241,11 +261,11 @@ The term \( J_{w_i} \in \R^1 \) represents the cost associated with the uncertai
 where \( w_i \) is the uncertainty of vertex \( i \) and \( w_m \) is a maximum uncertainty used to scale the values.
 The term \( J_{d_i} \) represents the scaled geodesic distance between the current state of the spacecraft and vertex \( i \),
 \begin{align}\label{eq:distance_cost}
-    J_{d_i}(\ipos) &= \frac{1}{\pi} \arctan \parenth{ \frac{\norm{\ipos \times \vc{v}_i}}{\ipos \cdot \vc{v}_i}}.
+    J_{d_i}(\rpos) &= \frac{1}{\pi} \arctan \parenth{ \frac{\norm{\rpos \times \vc{v}_i}}{\rpos \cdot \vc{v}_i}}.
 \end{align}
 
 Finally, a control component is included in the cost function which penalizes vertices that are difficult to reach.
-Consider, the current position of the spacecraft in the asteroid fixed frame as \( \rpos\) and a desired vertex \( \vc{v}_i \) of the shape estimate.
+Consider, the current position of the spacecraft in the small body fixed frame as \( \rpos\) and a desired vertex \( \vc{v}_i \) of the shape estimate.
 We can define a normal vector to the plane spanned by \( \rpos, \vc{v}_i \) as
 \begin{align}\label{eq:normal_to_plane}
     \vc{n}_i = \frac{\rpos \times \vc{v}_i}{\norm{\rpos} \norm{\vc{v}_i}}.
@@ -256,9 +276,9 @@ Then a trajectory \( x_d(\theta) \) as
 \end{align}
 where \( \theta : \bracket{0, \frac{\rpos \cdot \vc{v}_i}{\norm{\rpos}\norm{\vc{v}_i}}} \to \R^1\) parameterizes the desired trajectory.
 \Cref{eq:spherical_waypoint} simply describes a portion of a great circle trajectory between the current state, \( \rpos \), and the desired vertex \( \vc{v}_i \)~\cite{chen2016}.
-The altitude of the spacecraft, \( r_d \in \R \), can be chosen based on sensor characterisitics of safety concerns.
-For example, \( r_d \) can be chosen as the distance of the Biroullin sphere with an additional safety margin to mitigate any surface collision.
-The translational controller presented in~\cref{eq:translational_control} is used to determine the magnitude of the control to follow \( x_d\).
+The altitude of the spacecraft, \( r_d \in \R \), can be chosen based on sensor characteristics of safety concerns.
+For example, \( r_d \) can be chosen as the distance of the Biroullin sphere with an additional safety margin to mitigate any surface collision~\cite{scheeres2012a}.
+The translational controller presented in~\cref{eq:translational_control} is used to determine the control input to follow \( x_d\).
 We assume that the tracking errors are small, such that \( e_x, e_v \) are negligible, therefore the control becomes
 \begin{align}\label{eq:tracking_control_cost}
     u_f(\theta) = -F_{ext}(x_d(\theta)), 
@@ -273,15 +293,17 @@ where \( u_m \) is used to normalize and scale \( J_{c_i} \).
 
 The vertex which minimizes~\cref{eq:explore_cost} 
 \begin{align*}
-    \vc{v}_{min} = \min_{\vc{v}_i} J,
+    \vc{v}_{min} = \min_{i} J_i(\ipos, \iatt, \aatt),
 \end{align*}
-is determined and used to determine the desired position of the spacecraft in the asteroid fixed frame.
-The terminal state is transformed into the inertial frame and chosen as a point above \( \vc{v}_{min} \) as
+is determined and used to determine the optimum vertex of the shape model to measure.
+This vertex is then used to determine the required state of the spacecraft in order to collect a measurement.
+We assume that the spacecraft will maneuver to a location directly above the selected vertex, \( \vc{v}_{min} \), and point in the nadir direction to collect a measurement.
+The desired state is transformed into the inertial frame and chosen as a location above \( \vc{v}_{min} \) as
 \begin{align}
-    \rpos = r_d \aatt \vc{v}_{min}, 
+    \ipos_d = r_d \aatt \vc{v}_{min}, 
 \end{align}
 where \( r_d \) is again chosen to ensure a safety margin above the surface.
-The desired attitude command, \( R_d\), is chosen such that the spacecraft camera axis, \( \vc{b}_1 \), is directed along the nadir towards the asteroid.
+The desired attitude command, \( R_d\), is chosen such that the spacecraft camera axis, \( \vc{b}_1 \), is directed along the nadir towards the small body.
 It is sufficient to define two orthogonal vectors to uniquely determine the attitude of the spacecraft.
 The \( \vc{b}_{3d} \) vector is chosen to lie in the plane spanned by \(\vc{b}_{1d} \) and \( \vc{e}_3 = \vc{f}_3 \).
 The desired attitude command is defined as
@@ -291,28 +313,29 @@ The desired attitude command is defined as
     \vc{b}_{2d} &= \vc{b}_{3d} \times \vc{b}_{1d} , \\
     R_d &= \begin{bmatrix} \vc{b}_{1d} & \vc{b}_{2d} & \vc{b}_{3d} \end{bmatrix} .
 \end{align}
-The camera axis is aligned with the spacecraft \( \vb{b}_ 1 \) axis, which is direted towards the asteroid, throughout the trajectory.
+This form of \( R_d \) will direct the \( \bvec{1} \) axis towards the small body, and can be modified for a different camera orientation.
 
-\subsection{Landing Area Refinement}\label{sec:landing_refinement}
+\section{Multi-resolution Landing Area Refinement}\label{sec:landing_refinement}
+
 The shape update approach presented in~\cref{sec:radius_update} is designed with autonomous operations in mind. 
 It is based on an initial coarse shape estimate that is iteratively updated with range measurements of the surface.
 Furthermore, the original mesh is uniformly distributed and as a result many small topological features such as rocks or small craters are not be captured by the shape model. 
 However, these small features are critical for surface operations and safe landings.
-In addition, it would be computationaly prohibitive to have a uniformly high resolution mesh.
+In addition, it would be computationally prohibitive to have a uniformly high resolution mesh.
 In this section, we extend the previous shape update approach to enable a much higher fidelity in a specific location.
 
 Mixed resolution surface meshes are routinely used in finite element and geometric modeling applications~\cite{botsch2010}.
 As shown in~\cite{mcmahon2017}, utilizing mixed resolution shape models for asteroid missions offers the potential of reduced computational demands.
-The computational cost of the polyhedron potential model given by~\cref{eq:potential} is roughly proporitional to the number of faces in the shape model.
-As a result, a uniformly high resolution shape would quickly become intractable for realtime operations.
+The computational cost of the polyhedron potential model, given by~\cref{eq:potential}, is roughly proportional to the number of faces in the shape model.
+As a result, a uniformly high resolution shape would quickly become intractable for real time operations.
 However, utilizing a mixed resolution approach allows for a high fidelity in a smaller mission critical area, such as a landing site, with a limited impact on the computational cost.
 
 The selection of a landing site will typically require a vast quantity of data and weigh a multitude of possible metrics, such as scientific value, hardware constraints, timing and communication limits, or safety considerations. 
 In our analysis we consider the surface slope, the distance to the surface, and a fictitious science metric in order to determine the best landing site based on the complete shape estimate.
-This approach allows for a spacecraft to autonomously select and land on an asteroid.
+This approach allows for a spacecraft to autonomously select and land on small body.
 
 The surface slope is computed according to the method developed in~\cite{scheeres1996}.
-Due to the small size, and therefore low gravitational attraction, the force at each point on the surface is a combination of the gravitational attraction and the centripital acceleration.
+Due to the small size, and therefore low gravitational attraction, the force at each point on the surface is a combination of the gravitational attraction and the centripetal acceleration.
 At the center of each face, \( f_i = \begin{bmatrix} f_x & f_y & f_z \end{bmatrix} \), we compute a modified surface acceleration as
 \begin{align}\label{eq:surface_force}
     U_m = \omega^2 \begin{bmatrix} f_x \\ f_y \\ 0 \end{bmatrix} + \begin{bmatrix} U_x \\ U_y \\ U_z \end{bmatrix},
@@ -331,11 +354,12 @@ Utilizing these metric, a landing site is chosen to minimize the surface cost gi
 \begin{align}\label{eq:surface_cost}
     J_l =  J_{\text{distance}} - J_{\text{science}},
 \end{align}
-where the surface slope is considered a hard constraint such that any candidate landing site must satisify \( \phi \leq \phi_m \).
+where the surface slope is considered a hard constraint such that any candidate landing site must satisfy \( \phi \leq \phi_m \).
 
 \paragraph{Mesh Refinement}\label{sec:refinement}
-Once a suitable landing site is selected the surround area is isolated and refined by adding new vertices and faces in the specified area.
-The goal of refinement, or more generally remeshing, is given a mesh ( or a portion of it), compute another mesh whose elements satisfy some quality metrics while suitabably approximating the original mesh.
+
+Once a suitable landing site is selected, the surround area is isolated and refined by adding new vertices and faces in the specified area.
+The goal of refinement, or more generally remeshing, is given a mesh ( or a portion of it), compute another mesh whose elements satisfy some quality metrics while suitably approximating the original mesh.
 In this work, we utilize the isotropic remeshing algorithm implemented in \gls{cgal}.
 This algorithm uses an iterative method which repeatedly splits long edges, collapses short edges, and relocates vertices until all edges are approximately the desired target edge length.
 \begin{figure}[htbp]
@@ -348,37 +372,42 @@ The original unit cube is composed of \num{8} vertices and \num{12} faces.
 The two triangular faces of the visible side of the cube are selected for the isotropic remeshing operation as shown in~\cref{fig:cube_original_mesh}.
 A target edge length of \num{0.1} is selected for these faces and used to generate~\cref{fig:cube_refine_mesh}.
 The two large triangular faces are divided into a number of smaller triangular faces.
-Furtheremore, the addiitonal faces are all approximatley the same size and preserve the original surface of the cube.
+Furthermore, the additional faces are all approximately the same size and preserve the original surface of the cube.
 After the isotropic remeshing operation the number of vertices has increased from \num{8} to \num{140}.
 \begin{figure}[htbp]
     \centering
-    \subcaptionbox{Original Cube\label{fig:cube_original_mesh}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/isotropic/original_cube.jpg}}~
-    \subcaptionbox{Remeshed Cube\label{fig:cube_refine_mesh}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/isotropic/remesh_cube.jpg}}
+    \subcaptionbox{Original Cube\label{fig:cube_original_mesh}}{\includegraphics[width=0.49\textwidth]{figures/computational_geometry/isotropic/original_cube.jpg}}~
+    \subcaptionbox{Remeshed Cube\label{fig:cube_refine_mesh}}{\includegraphics[width=0.49\textwidth]{figures/computational_geometry/isotropic/remesh_cube.jpg}}
     \caption{Example of Isotropic remeshing of a face of a cube\label{fig:cube_remesh}}
 \end{figure}
 
-The true shape model of asteroid Castalia is generated from radar imagery.
-As a result, the shape model is not highly detailed as it does not contain small craters or surface features.
-In order to apply the landing refinement process we agument a small portion of the mesh with some additional features and utilize the mesh update scheme in~\cref{sec:radius_update} to measure the surface.
-The augmented model of Castalia is shown in~\cref{fig:bumpy_castalia}.
 \begin{figure}[htbp]
     \centering
-    \subcaptionbox{Augmented shape of Castalia with surface features\label{fig:orig_castalia}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/dynamic_exploration/castalia_bump_true.jpg}}~
-    \subcaptionbox{Estimated shape model after measuring the surface\label{fig:bump_castalia}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/dynamic_exploration/castalia_bump_est.jpg}}
+    \subcaptionbox{Augmented shape of Castalia with surface features\label{fig:orig_castalia}}{\includegraphics[trim={15cm 0 15cm 0},clip,keepaspectratio,width=0.49\textwidth]{figures/computational_geometry/dynamic_exploration/castalia_bump_true.jpg}}~
+    \subcaptionbox{Estimated shape model after measuring the surface\label{fig:bump_castalia}}{\includegraphics[trim={15cm 0 15cm 0},clip,keepaspectratio,width=0.49\textwidth]{figures/computational_geometry/dynamic_exploration/castalia_bump_est.jpg}}
     \caption{Estimated reconstruction of augmented Castalia with landing features~\label{fig:bumpy_castalia}}
 \end{figure}
+In order to demonstrate the multi resolution surface refinement we require a true shape model that contains small scale surface features.
+In this dissertation, we utilize the true radar shape model of asteroid 4769 Castalia.
+However, the shape model is not highly detailed as it does not contain small craters or surface features.
+In order to apply the landing refinement process we augment a small portion of the mesh with some additional features and utilize the mesh update scheme in~\cref{sec:radius_update} to measure the surface.
+The augmented model of Castalia is shown in~\cref{fig:bumpy_castalia}.
+\Cref{fig:bump_castalia} shows that the increased resolution is required in order to reconstruct these small surface details.
 
-\section{Shape Reconstruction Examples}\label{sec:reconstruction_examples}
-In this section, we demonstrate the use of the results presented in~\cref{sec:dumbbell_model,sec:se3_control,sec:shape_reconstruction} with several numerical examples.
-The incremental mesh update approach from~\cref{sec:radius_update} is used to iteratively reconstruct the shape of several asteroid given \gls{lidar} measurements.
+
+\section{Numerical Examples}\label{sec:reconstruction_examples}
+
+In this section, we demonstrate the use of the results presented in~\cref{sec:mathematical_background,sec:se3_control,sec:shape_reconstruction} with several numerical examples.
+The incremental shape reconstruction approach from~\cref{sec:radius_update} is used to iteratively reconstruct the shape of several asteroid given \gls{lidar} measurements.
 We utilize radar shape models of asteroids \num{4769} Castalia, (\num{52760}) \num{1998} \(\text{ML}_{14}\), \num{1620} Geographos, and 6489 Golevka~\cite{neese2004}.
 The asteroids exhibit a wide range of shapes and demonstrate the effectiveness of the mesh update approach.
 \Cref{sec:kinematic_exploration} focuses on the application of the incremental mesh update scheme of~\cref{sec:radius_update} for several different asteroids.
 \Cref{sec:dynamic_exploration} incorporates the full dynamic model on \( \SE \) of a dumbbell spacecraft given in~\cref{sec:inertial_dumbbell_eoms}, the polyhedron potential model from~\cref{sec:polyhedron_potential}, and the mesh update and guidance scheme presented in~\cref{sec:radius_update}.
 
-\subsection{Kinematic Model}\label{sec:kinematic_exploration}
-The results utilize a kinematics only model of the spacecraft and dynamics instead of the full dynamic simulation. 
-We ignore the dynamics of the asteroid and spacecraft and instead focus soley on the shape reconstruction.
+\subsection{Shape Reconstruction}\label{sec:kinematic_exploration}
+
+The results in this section utilize a kinematics only model of the spacecraft and dynamics instead of the full dynamic simulation. 
+We ignore the dynamics of the asteroid and spacecraft and instead focus solely on the shape reconstruction.
 \Cref{tab:kinematic_asteroids} lists the true shape model parameters of asteroids Geographos and Golevka.
 \begin{table}[htbp]
     \centering
@@ -400,61 +429,65 @@ With this estimate, measurements are made of the surface and used to reconstruct
     \sum_i w_i,
 \end{align*}
 is sufficiently small.
-In addition, we compute the volume of the estimate shape throughout the simulation using the algorithm presented in~\cref{proof:polyhedron_volume}.
+In addition, we compute the volume of the estimate shape throughout the simulation using the algorithm presented in~\cref{sec:polyhedron_volume}.
 
 \begin{figure}[htbp]
     \centering
-    \subcaptionbox{Initial Shape Estimate\label{fig:geographos_partial_0}}{\includegraphics[height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/mesh_update/geographos/partial_0.jpg}}~
-    \subcaptionbox{\SI{25}{\percent} of measurements added\label{fig:geographos_partial_25}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/geographos/partial_1872.jpg}}
+    \subcaptionbox{Initial Shape Estimate\label{fig:geographos_partial_0}}{\includegraphics[trim={20cm 15cm 20cm 15cm}, clip,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/mesh_update/geographos/partial_0.jpg}}%
+    \subcaptionbox{\SI{25}{\percent} of measurements added\label{fig:geographos_partial_25}}{\includegraphics[trim={20cm 15cm 20cm 15cm},clip,keepaspectratio,width=0.5\textwidth]{figures/computational_geometry/mesh_update/geographos/partial_1872.jpg}}
 
-    \subcaptionbox{\SI{50}{\percent} of measurments added\label{fig:geographos_partial_50}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/geographos/partial_3745.jpg}}~
-    \subcaptionbox{\SI{75}{\percent} of measurements added\label{fig:geographos_partial_75}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/geographos/partial_5617.jpg}}
+    \subcaptionbox{\SI{50}{\percent} of measurements added\label{fig:geographos_partial_50}}{\includegraphics[trim={20cm 15cm 20cm 15cm},clip,keepaspectratio,width=0.5\textwidth]{figures/computational_geometry/mesh_update/geographos/partial_3745.jpg}}%
+    \subcaptionbox{\SI{75}{\percent} of measurements added\label{fig:geographos_partial_75}}{\includegraphics[trim={20cm 15cm 20cm 15cm},clip,keepaspectratio,width=0.5\textwidth]{figures/computational_geometry/mesh_update/geographos/partial_5617.jpg}}
 
-    \subcaptionbox{\SI{100}{\percent} of measurements added\label{fig:geographos_partial_100}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/geographos/partial_7489.jpg}}~
-    \subcaptionbox{True Shape Model\label{fig:geographos_truth}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/geographos/truth.jpg}}
+    \subcaptionbox{\SI{100}{\percent} of measurements added\label{fig:geographos_partial_100}}{\includegraphics[trim={20cm 15cm 20cm 15cm},clip,keepaspectratio,width=0.5\textwidth]{figures/computational_geometry/mesh_update/geographos/partial_7489.jpg}}%
+    \subcaptionbox{True Shape Model\label{fig:geographos_truth}}{\includegraphics[trim={20cm 15cm 20cm 15cm},clip,keepaspectratio,width=0.5\textwidth]{figures/computational_geometry/mesh_update/geographos/truth.jpg}}
     \caption[Asteroid Geographos Incremental Reconstruction]{Incremental Reconstruction of asteroid Geographos~\label{fig:geographos_reconstruction}}
 \end{figure}
+
 \num{1620} Geographos is a highly elongated stony asteroid of the Apollo group.
-Discoved in \num{1951}, Geographos is a potentially hazardous asteroid which passes sufficiently close to the Earth to present a hazard.
+Discovered in \num{1951}, Geographos is a potentially hazardous asteroid which passes sufficiently close to the Earth to present a hazard.
 \Cref{fig:geographos_reconstruction} shows the shape reconstruction for asteroid Geographos at several distinct points during the process.
 Comparing~\cref{fig:geographos_partial_100,fig:geographos_truth} shows that the final shape closely matches the true radar model.
 In~\cref{fig:geographos_metrics} we display the vertex uncertainty and mesh volume as a function of time.
+The plots show that the reconstruction achieves an accurate shape estimate with a total volume which closely matches the true volume.
+
 \begin{figure}[htbp]
     \centering
-    \subcaptionbox{Normalized Uncertainty\label{fig:geographos_uncertainty}}{\input{tikz/geographos_uncertainty.tikz}}~
-    \subcaptionbox{Volume Percent Error\label{fig:geographos_volume}}{\input{tikz/geographos_volume.tikz}}
+    \input{tikz/geographos_metrics.tikz}
     \caption{Normalized uncertainty and volume percent error for Geographos\label{fig:geographos_metrics}}
 \end{figure}
-The plots show the the reconstruction achieves an accurate shape estimate with a total volume which closesly matches the true volume.
 
 \num{6489} Golevka is a small angular shaped asteroid of the Apollo group.
 Discoved in \num{1995}, Golevka is a potentially hazardous asteroid which passes sufficiently close to the Earth to present a hazard.
-\Cref{fig:golevka_reconstruction} shows the shape reconstruction for asteroid Geographos at several distinct points during the process.
+\Cref{fig:golevka_reconstruction} shows the shape reconstruction for asteroid Golevka at several distinct points during the process.
 Comparing~\cref{fig:golevka_partial_100,fig:golevka_truth} shows that the final shape closely matches the true radar model.
 In~\cref{fig:golevka_metrics} we display the vertex uncertainty and mesh volume as a function of time.
+
 \begin{figure}[htbp]
     \centering
-    \subcaptionbox{Normalized Uncertainty\label{fig:golevka_uncertainty}}{\input{tikz/golevka_uncertainty.tikz}}~
-    \subcaptionbox{Volume Percent Error\label{fig:golevka_volume}}{\input{tikz/golevka_volume.tikz}}
+    \input{tikz/golevka_metrics.tikz}
     \caption{Normalized uncertainty and volume percent error for Golevka\label{fig:golevka_metrics}}
 \end{figure}
-The plots show the the reconstruction achieves an accurate shape estimate with a total volume which closesly matches the true volume.
+
+The plots show that the reconstruction achieves an accurate shape estimate with a total volume which closely matches the true volume.
 It is interesting to note that the reconstruction of Golevka achieves an accurate shape reconstruction in a much smaller amount of time as compared to Geographos.
 This is primarily due to the smaller size of Golevka and the relatively spherical shape of the body in contrast to the highly elliptical shape of Geographos.
+
 \begin{figure}[htbp]
     \centering
-    \subcaptionbox{Initial Shape Estimate\label{fig:golevka_partial_0}}{\includegraphics[height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/mesh_update/golevka/partial_0.jpg}}~
-    \subcaptionbox{\SI{25}{\percent} of measurements added\label{fig:golevka_partial_25}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/golevka/partial_1321.jpg}}
+    \subcaptionbox{Initial Shape Estimate\label{fig:golevka_partial_0}}{\includegraphics[trim={20cm 5cm 20cm 5cm},clip,keepaspectratio,height=0.25\textheight]{figures/computational_geometry/mesh_update/golevka/partial_0.jpg}}%
+    \subcaptionbox{\SI{25}{\percent} of measurements added\label{fig:golevka_partial_25}}{\includegraphics[trim={20cm 10cm 20cm 10cm},clip,keepaspectratio,height=0.25\textheight]{figures/computational_geometry/mesh_update/golevka/partial_1321.jpg}}\\%
 
-    \subcaptionbox{\SI{50}{\percent} of measurments added\label{fig:golevka_partial_50}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/golevka/partial_2643.jpg}}~
-    \subcaptionbox{\SI{75}{\percent} of measurements added\label{fig:golevka_partial_75}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/golevka/partial_3964.jpg}}
+    \subcaptionbox{\SI{50}{\percent} of measurements added\label{fig:golevka_partial_50}}{\includegraphics[trim={20cm 10cm 20cm 10cm},clip,keepaspectratio,height=0.25\textheight]{figures/computational_geometry/mesh_update/golevka/partial_2643.jpg}}%
+    \subcaptionbox{\SI{75}{\percent} of measurements added\label{fig:golevka_partial_75}}{\includegraphics[trim={20cm 10cm 20cm 10cm},clip,keepaspectratio,height=0.25\textheight]{figures/computational_geometry/mesh_update/golevka/partial_3964.jpg}}\\%
 
-    \subcaptionbox{\SI{100}{\percent} of measurements added\label{fig:golevka_partial_100}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/golevka/partial_5285.jpg}}~
-    \subcaptionbox{True Shape Model\label{fig:golevka_truth}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/golevka/truth.jpg}}
+    \subcaptionbox{\SI{100}{\percent} of measurements added\label{fig:golevka_partial_100}}{\includegraphics[trim={20cm 10cm 20cm 10cm},clip,keepaspectratio,height=0.25\textheight]{figures/computational_geometry/mesh_update/golevka/partial_5285.jpg}}%
+    \subcaptionbox{True Shape Model\label{fig:golevka_truth}}{\includegraphics[trim={20cm 10cm 20cm 10cm},clip,keepaspectratio,height=0.25\textheight]{figures/computational_geometry/mesh_update/golevka/truth.jpg}}
     \caption[Asteroid Golevka Incremental Reconstruction]{Incremental Reconstruction of asteroid Golevka~\label{fig:golevka_reconstruction}}
 \end{figure}
 
 \subsection{Full Dynamic Model }\label{sec:dynamic_exploration}
+
 In this section, we simulate a dumbbell spacecraft in motion around asteroid \num{52760} and asteroid Castalia.
 The dynamic simulation utilizes the inertial equations of motion from~\cref{sec:inertial_dumbbell_eoms} and are given as
 \begin{align*}
@@ -470,7 +503,8 @@ The control inputs are duplicated from~\cref{sec:se3_control} as
     \vc{u}_m &= -k_R e_R - k_\Omega e_\Omega + \Omega \times J \Omega - M_{ext}.
 \end{align*}
 Throughout the simulation the control inputs are computed using the current shape estimate of the asteroid. 
-As measurements are collected, the spacecraft autonomously updates its shape estimate and uses this estimate to compute the control inputs and desired future states.
+As measurements are collected, the spacecraft autonomously updates its shape estimate and uses this estimate to compute the control inputs and desired future states using the details provided in~\cref{sec:radius_update,sec:explore_asteroid}.
+These simulations demonstrate the ability of a spacecraft to autonomously explore and maneuver around an unknown small body.
 
 We consider two simulations about asteroids \num{52760} and Castalia.
 The asteroids are assumed to constantly rotate about the \( \vc{f}_3 = \vc{e}_3\) axis according to the parameters given in~\cref{tab:dynamic_asteroids}.
