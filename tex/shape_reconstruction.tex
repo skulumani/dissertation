@@ -90,6 +90,11 @@ Our goal is to use the true shape model of a small body and simulate the interse
 These rays will serve to emulate the range measurements of the surface using a \gls{lidar} sensor.
 As a result, we must also implement a ray casting algorithm that will find the intersection of a measurement of the surface. 
 
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{example-image-golden}
+    \caption{View Frustrum for Spacecraft sensor modeling\label{fig:view_frustrum}}
+\end{figure}
 We assume that the spacecraft is located at \(\rpos\) in the asteroid fixed frame.
 We define a camera fixed frame, \( \vc{c}_i \in \R^3 \), which is defined with respect to the spacecraft body fixed frame, \( \vc{b}_i \).
 The camera/sensor is aligned with \gls{view_axis} in the spacecraft fixed frame and we define an additional vector, termed the up axis \gls{up_axis} as the vertical direction of the image plane. 
@@ -111,53 +116,50 @@ From these values, the extents of the far plane are defined by the vectors
     D = \vc{c}_1 - H \vc{c}_3 - W \vc{c}_2.
 \end{align*}
 The view frustrum is visualized in~\cref{fig:view_frustrum} and allows for any vector in the field of view to befined as a linear combination of the extents of the far plane.
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[width=\textwidth]{example-image-golden}
-    \caption{View Frustrum for Spacecraft sensor modeling\label{fig:view_frustrum}}
-\end{figure}
 
 \section{Incremental Shape Reconstruction}\label{sec:radius_update}
 
-One of the first main tasks for any spacecraft mission to an asteroid is to generate an estimate of the asteroid shape.
+\begin{figure}[htbp]
+    \centering
+    \subcaptionbox{Coarse Uniform Mesh\label{fig:coarse_uniform_mesh}}{\includegraphics[trim={10cm 0 10cm 0}, clip,width=0.49\textwidth,keepaspectratio]{figures/computational_geometry/uniform_mesh_coarse.jpg}}
+    \subcaptionbox{Fine Uniform Mesh\label{fig:fine_uniform_mesh}}{\includegraphics[trim={10cm 0 10cm 0}, clip,width=0.49\textwidth,keepaspectratio]{figures/computational_geometry/uniform_mesh_fine.jpg}}
+    \caption{Examples of Resolution of Uniform Meshes of Triaxial Ellipsoid~\label{fig:uniform_mesh}}
+\end{figure}
+
+One of the first main tasks for any spacecraft mission to a small body is to generate an estimate of the shape.
 This shape model is used for a variety of purposes, such as the polyhedron potential model, like that presented in~\cref{sec:polyhedron_potential} or landing site section and guidance.
-We assume that upon arrival at a target body, the spacecraft contains an initial estimate for the shape of the asteroid.
-This shape can be a coarse estimate computed from ground measurements or it can be a triaxial ellipsoid based on the semimajor axes of the asteroid, such as that shown in~\cref{fig:start} which represents the maximum axes for asteroid Castalia.
+We assume that upon arrival at a target body, the spacecraft contains an initial estimate for the shape of the small body.
+This shape can be a coarse estimate computed from ground measurements or it can be a triaxial ellipsoid based on the semimajor axes of the asteroid, such as that shown in~\cref{fig:uniform_mesh} which represents the maximum axes for asteroid Castalia.
 Additionally, we assume that the shape estimate is closed and a triangular faceted surface mesh, emulating those used in practice to represent asteroids.
 Furthermore, the number of vertices in the estimate can be scaled according to the desired final acccuracy or computational capabilities.
 For example,~\cref{fig:uniform_mesh} demonstrates two surface mesh representation for a triaxial ellipsoid at varying levels of detail. 
 A wide variety of algorithms are available to generate a near uniformly spaced mesh for an arbitrary surface~\cite{persson2004,boissonnat2005}.
-\begin{figure}[htbp]
-    \centering
-    \subcaptionbox{Coarse Uniform Mesh\label{fig:coarse_uniform_mesh}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/uniform_mesh_coarse.jpg}}~
-    \subcaptionbox{Fine Uniform Meesh\label{fig:fine_uniform_mesh}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/uniform_mesh_fine.jpg}}
-    \caption{Examples of Resolution of Uniform Meshes of Triaxial Ellipsoid~\label{fig:uniform_mesh}}
-\end{figure}
 
+We assume the spacecraft contains a range sensor, such as \gls{lidar}, that allows for the accurate measurement of the relative distance between the spacecraft and asteroid~\cite{zuber1997,zuber2000}.
+This type of sensor measures the round-trip time for a pulse of energy to leave the spacecraft, reflect off the surface, and return to a collector on board.
+Given the time total time of flight, the distance can be accurately computed using \( d = \frac{\Delta TOF}{2 c} \) where \gls{sym:c} is the constant speed of light.
+Assuming accurate knowledge of the pointing direction of the spacecraft, in the form of the rotation matrix \gls{sym:iatt}, we can compute a direction from the spacecraft to the measurement location on the surface.
+The output of this sensor is a vector, \( \vc{d}_i \), defined in the spacecraft fixed frame which gives the direction to a measurement point on the surface. 
+Using the state of the asteroid, we can transform this measurement to the asteroid fixed frame using the simple transformation
+\begin{align*}
+    \vc{p}_i = R_A^T R \vc{d}_i .
+\end{align*}
+Given many measurements, \( \vc{p}_i \in \R^3 \), of the asteroid surface we can efficiently update our initial shape estimate to that of the true surface.
+\Cref{fig:lidar_example} shows asteroid 4769 Castalia and a representation of several LIDAR measurements. 
+The spacecraft measures the range between itself and the asteroid surface to several points within the field of view of the sensor. 
+These measurements provide a collection of points which lie on the surface of the asteroid, and by combining many points, a so called ``point cloud'', allows us to reconstruct the shape.
 \begin{figure}
     \centering
     \includegraphics[width=0.75\textwidth]{figures/2018_SSPI/castalia_raycasting_plot.jpg}
     \caption{Simulated LIDAR measurements of asteroid Castalia~\label{fig:lidar_example}}
 \end{figure}
-We assume the spacecraft contains a range sensor, such as LIDAR, that allows for the accurate measurement of the relative distance between the spacecraft and asteroid~\cite{zuber1997,zuber2000}.
-This type of sensor measures the round-trip time for a pulse of energy to leave the spacecraft, reflect off the surface, and return to a collector on board.
-Given the time total time of flight, the distance can be accurately computed using \( d = \frac{\Delta TOF}{2 c} \) where \gls{sym:c} is the constant speed of light.
-Assuming accurate knowledge of the pointing direction of the spacecraft we can compute a direction from the spacecraft to the measurement location on the surface.
-The output of this sensor is a vector, \( \vc{d}_i \), defined in the spacecraft fixed frame which gives the direction to a measurement point on the surface of the asteroid. 
-Using the state of the asteroid, we can transform this measurement to the asteroid fixed frame using the simple transformation
-\begin{align*}
-    \vc{p}_i = R_A^T R \vc{d}_i .
-\end{align*}
-Given many measurements, \( \vc{p}_i \), of the asteroid surface we can efficiently update our initial shape estimate to that of the true surface.
-\Cref{fig:lidar_example} shows asteroid 4769 Castalia and a representation of several LIDAR measurements. 
-The spacecraft measures the range between itself and the asteroid surface to several points within the field of view of the sensor. 
-These measurements provide a collection of points which lie on the surface of the asteroid, and by combining many points, a so called ``point cloud'', allows us to reconstruct the shape.
-% TODO Discuss point cloud reconstruction approaches (all computational exspensive and designed for unknown surfaces)
+
+\paragraph{Bayesian Shape Update}
 
 Our algorithm applies a Bayesian framework to radially modify each vertex \( \vc{v}_i \in \R^3\) of the shape estimate based on measurement \( \vc{p}_i \in \R^3 \). 
 This approach alleviates much of complexity of incorporating new vertices or surface triangulation common in surface reconstruction methods~\cite{berg2008}.
 This assumption means that the total number of vertices of the shape model is fixed.
-However, additional detail, in the form of additional vertices, is possible by using standard mesh subdivision algorithms~\cite{orourke1998}, which we demonstrate in a subsequent section.
+However, additional detail, in the form of additional vertices, is possible by using standard mesh subdivision algorithms~\cite{orourke1998}, which we later demonstrate in~\cref{sec:landing_refinement}.
 
 The radial distance of each vertex, \( v_i = \norm{\vc{v}_i}\), is assumed to be distributed according to the Gaussian distribution
 \begin{align*}
@@ -174,22 +176,22 @@ As a result, the measurement \( p_{j, i} \) defines the distribution of measurem
 Any given measurement may be used to update one or several vertices.
 
 The variance for each measurement vector is assumed to be related to the ``distance'' from the measurement to vertex \( \vc{v}_i \).
-Here we use the \gls{geodesic} distance to parameterize the difference, and hence  uncertainty, of associating the measurement with a given vertex.
-From spherical trigonometry~\cite{gade2010} the central angle between measurement \( \vc{p}_i \) and vertex \( \vc{v}_i \) of the shape estimate is
+Here, we use the \gls{geodesic} distance to parameterize the difference, and hence  uncertainty, of associating the measurement with a given vertex.
+From spherical trigonometry~\cite{gade2010}, the central angle between measurement \( \vc{p}_i \) and vertex \( \vc{v}_i \) of the shape estimate is
 \begin{align}\label{eq:geodesic_distance}
     \Delta \sigma_{j,i} = \arctan \parenth{\frac{\norm{\vc{p}_j \times \vc{v}_i}}{\vc{p}_j \cdot \vc{v}_i }}.
 \end{align}
-The variance of measurement \( \vc{p}_i \) with respect to vertex \( \vc{v}_i \) is then defined as the arc length as
+The variance of measurement \( \vc{p}_i \) with respect to vertex \( \vc{v}_i \) is then defined by the geodesic distance as
 \begin{align}
     w_{j, i} = \norm{\vc{p}_j} \Delta \sigma_{j,i} .
 \end{align}
-This approach relates the uncertainty of the measurement, \( \vc{p}_j \) with the geodesic distance to a given vertex, \( \vc{v}_i \).
-As a result, measurements which are far from a vertex, where \( \Delta \sigma \) is large, will tend to have a larger variance and hence uncertainty. 
+This approach relates the uncertainty of the measurement \( \vc{p}_j \) with the geodesic distance to a given vertex, \( \vc{v}_i \).
+As a result, measurements which are far from a vertex, i.e.\ \( \Delta \sigma \) is large, will tend to have a larger variance and hence uncertainty. 
 This approach can be considered as a form of a correlation based sensor model~\cite{thrun2005}.
-The main benefit of a correlation based approach, in constrast to feature extraction is the relative simplicity of implementation.
+The main benefit of a correlation based approach, in contrast to feature extraction is the relative simplicity of implementation.
 However, the resulting correlation values do not posses any physical significance and do not represent the noise or uncertainty characteristics of the sensor.
 
-From Bayes' theorem, the posterior probability is
+From Bayes' theorem, the posterior probability is defined as
 \begin{align}
     p(v_i | p_{j, i}) = \frac{p(p_{j, i} | v_i) p(v_i)}{p( p_{j, i})} \propto p(p_{j,i} | v_i) p(v_i).
 \end{align}
@@ -211,27 +213,10 @@ We relate \( \Delta S \) to an equivalent angular constraint using
 where \( r_b \) defines the Brillouin  sphere radius, or the radius of the circumscribing sphere of the asteroid.
 Only vertices which satisfy \( \Delta \sigma_i \leq \Delta \sigma_{max} \) are considered in the Bayesian update shown in~\cref{eq:posterior_probability}.
 
-The approach presented in~\cref{sec:radius_update} allows one to update the shape of an asteroid given a single range measurement of the surface.
+The approach presented in this section allows one to update the shape of small body given a single range measurement of the surface.
 A sequential process can be used to iteratively update the shape estimate given many measurements of the surface. 
-For example,~\cref{fig:reconstruction} illustrates the process of updating an initial shape estimate of asteroid 4769 Castalia.
-The initial shape for Castalia is a triaxial ellipsoid with semi-axes equal to \( \SI{1.8}{\kilo\meter} \times \SI{0.8}{\kilo\meter} \times \SI{0.8}{\kilo\meter}\) and shown in~\cref{fig:start}.
+For example,~\cref{sec:reconstruction_examples} shows the Bayesian update approach applied to several different asteroids.
 
-Simulated measurements of the surface of 4769 Castalia are used to update the initial mesh estimate.
-The truth shape model, and the associated vertices, are used as simulated measurements of the shape of Castalia~\cite{neese2004}.
-The true shape model of 4769 Castalia is composed of \num{2048} vertices and \num{4092} triangular faces.
-The initial shape estimate is chosen to have approximately the same number of vertices as the final true shape and such that the total number of vertices remains constant.
-\begin{figure}[htbp]
-    \centering
-    \subcaptionbox{Initial mesh estimate\label{fig:start}}{\includegraphics[height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/2018_SSPI/partial_initial.jpg}}~
-    \subcaptionbox{First measurement added\label{fig:first}}{\includegraphics[width=0.5\textwidth]{figures/2018_SSPI/partial_0.jpg}}
-
-    \subcaptionbox{\SI{25}{\percent} of measurments added\label{fig:quarter}}{\includegraphics[width=0.5\textwidth]{figures/2018_SSPI/partial_512.jpg}}~
-    \subcaptionbox{\SI{50}{\percent} of measurements added\label{fig:half}}{\includegraphics[width=0.5\textwidth]{figures/2018_SSPI/partial_1024.jpg}}
-
-    \subcaptionbox{\SI{75}{\percent} of measurements added\label{fig:threequarter}}{\includegraphics[width=0.5\textwidth]{figures/2018_SSPI/partial_1536.jpg}}~
-    \subcaptionbox{Final reconstruction\label{fig:final}}{\includegraphics[width=0.5\textwidth]{figures/2018_SSPI/partial_2047.jpg}}
-    \caption{4769 Castalia incremental reconstruction. The initial ellipsoid is incrementally modified by radially moving each vertex to best match the measurements.~\label{fig:reconstruction}}
-\end{figure}
 \section{Autonomous Mapping Guidance}\label{sec:explore_asteroid}
 
 The mesh update algorithm presented in~\cref{sec:radius_update} does not offer a method to determine which portion of the surface needs to be updated. 
@@ -383,7 +368,7 @@ The augmented model of Castalia is shown in~\cref{fig:bumpy_castalia}.
     \caption{Estimated reconstruction of augmented Castalia with landing features~\label{fig:bumpy_castalia}}
 \end{figure}
 
-\section{Shape Reconstruction Examples}
+\section{Shape Reconstruction Examples}\label{sec:reconstruction_examples}
 In this section, we demonstrate the use of the results presented in~\cref{sec:dumbbell_model,sec:se3_control,sec:shape_reconstruction} with several numerical examples.
 The incremental mesh update approach from~\cref{sec:radius_update} is used to iteratively reconstruct the shape of several asteroid given \gls{lidar} measurements.
 We utilize radar shape models of asteroids \num{4769} Castalia, (\num{52760}) \num{1998} \(\text{ML}_{14}\), \num{1620} Geographos, and 6489 Golevka~\cite{neese2004}.
