@@ -99,7 +99,7 @@ The view frustrum is visualized in~\cref{fig:view_frustrum} and allows for any v
     \caption{View Frustrum for Spacecraft sensor modeling\label{fig:view_frustrum}}
 \end{figure}
 
-\section{Incremental Radius modification}\label{sec:radius_update}
+\section{Incremental Radius Modification}\label{sec:radius_update}
 
 One of the first main tasks for any spacecraft mission to an asteroid is to generate an estimate of the asteroid shape.
 This shape model is used for a variety of purposes, such as the polyhedron potential model, like that presented in~\cref{sec:polyhedron_potential} or landing site section and guidance.
@@ -418,8 +418,8 @@ Comparing~\cref{fig:geographos_partial_100,fig:geographos_truth} shows that the 
 In~\cref{fig:geographos_metrics} we display the vertex uncertainty and mesh volume as a function of time.
 \begin{figure}[htbp]
     \centering
-    \subcaptionbox{Normalized Uncertainty\label{fig:geographos_uncertainty}}{\includegraphics[width=0.5\textwidth,height=0.31\textwidth]{tikz/geographos_uncertainty.tikz}}~
-    \subcaptionbox{Volume Percent Error\label{fig:geographos_volume}}{\includegraphics[width=0.5\textwidth,height=0.31\textwidth]{tikz/geographos_volume.tikz}}
+    \subcaptionbox{Normalized Uncertainty\label{fig:geographos_uncertainty}}{\input{tikz/geographos_uncertainty.tikz}}~
+    \subcaptionbox{Volume Percent Error\label{fig:geographos_volume}}{\input{tikz/geographos_volume.tikz}}
     \caption{Normalized uncertainty and volume percent error for Geographos\label{fig:geographos_metrics}}
 \end{figure}
 The plots show the the reconstruction achieves an accurate shape estimate with a total volume which closesly matches the true volume.
@@ -431,8 +431,8 @@ Comparing~\cref{fig:golevka_partial_100,fig:golevka_truth} shows that the final 
 In~\cref{fig:golevka_metrics} we display the vertex uncertainty and mesh volume as a function of time.
 \begin{figure}[htbp]
     \centering
-    \subcaptionbox{Normalized Uncertainty\label{fig:golevka_uncertainty}}{\includegraphics[width=0.5\textwidth,height=0.31\textwidth]{tikz/golevka_uncertainty.tikz}}~
-    \subcaptionbox{Volume Percent Error\label{fig:golevka_volume}}{\includegraphics[width=0.5\textwidth,height=0.31\textwidth]{tikz/golevka_volume.tikz}}
+    \subcaptionbox{Normalized Uncertainty\label{fig:golevka_uncertainty}}{\input{tikz/golevka_uncertainty.tikz}}~
+    \subcaptionbox{Volume Percent Error\label{fig:golevka_volume}}{\input{tikz/golevka_volume.tikz}}
     \caption{Normalized uncertainty and volume percent error for Golevka\label{fig:golevka_metrics}}
 \end{figure}
 The plots show the the reconstruction achieves an accurate shape estimate with a total volume which closesly matches the true volume.
@@ -457,7 +457,7 @@ The dynamic simulation utilizes the inertial equations of motion from~\cref{sec:
 \begin{align*}
     \dot{\ipos} &= \ivel, \\
     \parenth{m_1 + m_2} \dot{\ivel} &= - \sum_{i=0}^2 m_i \aatt \deriv{U}{\apos_i} + u_f, \\
-    \dot{\iatt} &= \iatt \iangvel, \label{eq:inertial_attitude_dynamics}\\
+    \dot{\iatt} &= \iatt \iangvel, \\
     J \dot{\iangvel} + \hat{\iangvel} J \iangvel &= \sum_{i=0}^2 m_i \hat{\spos}_i \iatt^T \aatt \deriv{U}{\apos_i} + u_m. 
 \end{align*}
 The nonlinear controllers described in~\cref{sec:se3_control} are used to control both the translational and rotational states of the vehicle.
@@ -532,8 +532,8 @@ Areas of high uncertainty are denoted in yellow while areas of low uncertainty a
 The plots show that the reconstruction  converges to an accurate shape estimate after approximately \SI{8000}{\second}.
 \begin{figure}[htbp]
     \centering
-    \subcaptionbox{Normalized Uncertainty\label{fig:52760_uncertainty}}{\includegraphics[width=0.5\textwidth,height=0.31\textwidth]{tikz/52760_uncertainty.tikz}}~
-    \subcaptionbox{Volume Percent Error\label{fig:52760_volume}}{\includegraphics[width=0.5\textwidth,heigth=0.31\textwidth]{tikz/52760_volume.tikz}}
+    \subcaptionbox{Normalized Uncertainty\label{fig:52760_uncertainty}}{\input{tikz/52760_uncertainty.tikz}}~
+    \subcaptionbox{Volume Percent Error\label{fig:52760_volume}}{\input{tikz/52760_volume.tikz}}
     \caption{Normalized uncertainty and volume percent error for 52760\label{fig:52760_metrics}}
 \end{figure}
 
@@ -577,8 +577,8 @@ The plots show that the reconstruction converges to an accurate shape estimate a
 In addition, the volume estimate is initially a much larger value but quickly converges to the true value.
 \begin{figure}[htbp]
     \centering
-    \subcaptionbox{Normalized Uncertainty\label{fig:castalia_uncertainty}}{\includegraphics[width=0.5\textwidth,height=0.31\textwidth]{tikz/castalia_uncertainty.tikz}}~
-    \subcaptionbox{Volume Percent Error\label{fig:castalia_volume}}{\includegraphics[width=0.5\textwidth,height=0.31\textwidth]{tikz/castalia_volume.tikz}}
+    \subcaptionbox{Normalized Uncertainty\label{fig:castalia_uncertainty}}{\input{tikz/castalia_uncertainty.tikz}}~
+    \subcaptionbox{Volume Percent Error\label{fig:castalia_volume}}{\input{tikz/castalia_volume.tikz}}
     \caption{Normalized uncertainty and volume percent error for Castalia\label{fig:castalia_metrics}}
 \end{figure}
 

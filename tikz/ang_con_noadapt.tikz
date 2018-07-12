@@ -1,12 +1,17 @@
-\begin{tikzpicture}
+\tikzsetnextfilename{ang_con_noadapt}
+\begin{tikzpicture}[baseline]
     \begin{axis}[
         name={ang_con_noadapt},
         ylabel={ $\arccos \parenth{r^T R^T v_i}$},
         xlabel={$t~(\si{\second})$},
+        scale only axis,
+        width=0.8\textwidth,
+        height=0.2\textheight,
+        cycle list name=exotic,
         ]
-        \addplot +[mark=none] table [x=TIME, y=ang_con_1, col sep=comma] {figures/2016_IJCAS_pgf/csv/noadapt.csv}; 
-        \addplot +[mark=none] table [x=TIME, y=ang_con_2, col sep=comma] {figures/2016_IJCAS_pgf/csv/noadapt.csv}; 
-        \addplot +[mark=none] table [x=TIME, y=ang_con_3, col sep=comma] {figures/2016_IJCAS_pgf/csv/noadapt.csv}; 
-        \addplot +[mark=none] table [x=TIME, y=ang_con_4, col sep=comma] {figures/2016_IJCAS_pgf/csv/noadapt.csv}; 
+        \addplot +[ultra thick, mark=none] table [x=TIME, y=ang_con_1, col sep=comma] {figures/2016_IJCAS_pgf/csv/noadapt.csv}; 
+        \addplot +[ultra thick, mark=none] table [x=TIME, y=ang_con_2, col sep=comma] {figures/2016_IJCAS_pgf/csv/noadapt.csv}; 
+        \addplot +[ultra thick, mark=none] table [x=TIME, y=ang_con_3, col sep=comma] {figures/2016_IJCAS_pgf/csv/noadapt.csv}; 
+        \addplot +[ultra thick, mark=none] table [x=TIME, y=ang_con_4, col sep=comma] {figures/2016_IJCAS_pgf/csv/noadapt.csv}; 
     \end{axis} 
 \end{tikzpicture}

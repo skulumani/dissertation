@@ -1,14 +1,25 @@
-\documentclass[]{article}
+\documentclass{article}
 
 \usepackage{pgfplots}
-\usepgfplotslibrary{groupplots}
 \usepackage{tikzscale}
+% \usepackage{tikz-3dplot}
 \pgfplotsset{compat=newest}
+
+% \usepgfplotslibrary{groupplots}
+\usepgfplotslibrary{external}
+
+% \usetikzlibrary{decorations.markings,decorations.pathreplacing,calc}
+% \usetikzlibrary{decorations.shapes}
+\usetikzlibrary{arrows.meta}
+
 \usepackage{siunitx}
+\tikzexternalize
+\newcommand{\vecbf}[1]{#1}
+\newcommand{\vc}[1]{#1}
 
 \begin{document}
 \begin{figure}
     \centering
-    \includegraphics[width=\textwidth,height=0.1\textheight]{eR_noadapt.tikz}
+    \includegraphics[width=0.5\textwidth]{polyhedron_faces.tikz}
 \end{figure}
 \end{document}

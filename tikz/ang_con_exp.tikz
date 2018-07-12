@@ -1,9 +1,13 @@
+\tikzsetnextfilename{ang_con_exp}
 \begin{tikzpicture}
     \begin{axis}[
         name={ang_con_exp},
         ylabel={ $\arccos \parenth{r^T R^T v_i}$},
         xlabel={$t~(\si{\second})$},
+        scale only axis,
+        width=0.8\textwidth,
+        height=0.2\textheight,
         ]
-        \addplot +[mark=none] table [x=TIME, y=ang_con, col sep=comma] {figures/2016_IJCAS_pgf/csv/exp.csv}; 
+        \addplot +[ultra thick, color=blue, mark=none] table [x=TIME, y=ang_con, col sep=comma] {figures/2016_IJCAS_pgf/csv/exp.csv}; 
     \end{axis} 
 \end{tikzpicture}

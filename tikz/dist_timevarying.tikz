@@ -1,7 +1,8 @@
+\tikzsetnextfilename{dist_timevarying}
 \begin{tikzpicture}[baseline]
     \begin{groupplot}[
         group style={
-            group name={dist_adapt},
+            group name={dist_timevarying},
             group size=1 by 3,
             xlabels at=edge bottom,
             ylabels at=edge left,
@@ -9,17 +10,20 @@
             vertical sep=0pt,
         },
         xlabel={$t~(\si{\second})$},
+        width=0.8\textwidth,
+        height=0.1\textheight,
+        scale only axis,
     ]
     \nextgroupplot[ylabel={$ \Delta_1 $}]
-    \addplot [blue, mark=none] table [x=TIME, y=D_1, col sep=comma] {figures/2016_IJCAS_pgf/csv/timevarying.csv};
-    \addplot [red, mark=none, dashed] table [x=TIME, y=D_true_1, col sep=comma] {figures/2016_IJCAS_pgf/csv/timevarying.csv};
+    \addplot [ultra thick, blue, mark=none] table [x=TIME, y=D_1, col sep=comma] {figures/2016_IJCAS_pgf/csv/timevarying.csv};
+    \addplot [ultra thick, red, mark=none, dashed] table [x=TIME, y=D_true_1, col sep=comma] {figures/2016_IJCAS_pgf/csv/timevarying.csv};
 
     \nextgroupplot[ylabel={$ \Delta_2 $}]
-    \addplot [blue, mark=none] table [x=TIME, y=D_2, col sep=comma] {figures/2016_IJCAS_pgf/csv/timevarying.csv};
-    \addplot [red, mark=none, dashed] table [x=TIME, y=D_true_2, col sep=comma] {figures/2016_IJCAS_pgf/csv/timevarying.csv};
+    \addplot [ultra thick, blue, mark=none] table [x=TIME, y=D_2, col sep=comma] {figures/2016_IJCAS_pgf/csv/timevarying.csv};
+    \addplot [ultra thick, red, mark=none, dashed] table [x=TIME, y=D_true_2, col sep=comma] {figures/2016_IJCAS_pgf/csv/timevarying.csv};
 
     \nextgroupplot[ylabel={$ \Delta_3 $}]
-    \addplot [blue, mark=none] table [x=TIME, y=D_3, col sep=comma] {figures/2016_IJCAS_pgf/csv/timevarying.csv};
-    \addplot [red, mark=none, dashed] table [x=TIME, y=D_true_3, col sep=comma] {figures/2016_IJCAS_pgf/csv/timevarying.csv};
+    \addplot [ultra thick, blue, mark=none] table [x=TIME, y=D_3, col sep=comma] {figures/2016_IJCAS_pgf/csv/timevarying.csv};
+    \addplot [ultra thick, red, mark=none, dashed] table [x=TIME, y=D_true_3, col sep=comma] {figures/2016_IJCAS_pgf/csv/timevarying.csv};
 \end{groupplot}
 \end{tikzpicture}

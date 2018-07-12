@@ -1,6 +1,7 @@
+\tikzsetnextfilename{golevka_volume}
 \begin{tikzpicture}[]
     \begin{axis}[
-        name={Golevka_uncertainty},
+        name={golevka_volume},
         xlabel={Normalized Time},
         ylabel={Volume Error},
         ]

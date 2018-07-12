@@ -1,6 +1,7 @@
+\tikzsetnextfilename{geographos_volume}
 \begin{tikzpicture}[]
     \begin{axis}[
-        name={Geographos_uncertainty},
+        name={geographos_volume},
         xlabel={Normalized Time},
         ylabel={Volume Error},
         ]
