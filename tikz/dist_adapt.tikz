@@ -11,7 +11,7 @@
         },
         scale only axis,
         width=0.8\textwidth,
-        height=0.2\textheight,
+        height=0.1\textheight,
         xlabel={$t~(\si{\second})$},
     ]
     \nextgroupplot[ylabel={$ \Delta_1 $}]

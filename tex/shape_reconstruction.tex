@@ -457,7 +457,7 @@ The dynamic simulation utilizes the inertial equations of motion from~\cref{sec:
 \begin{align*}
     \dot{\ipos} &= \ivel, \\
     \parenth{m_1 + m_2} \dot{\ivel} &= - \sum_{i=0}^2 m_i \aatt \deriv{U}{\apos_i} + u_f, \\
-    \dot{\iatt} &= \iatt \iangvel, \label{eq:inertial_attitude_dynamics}\\
+    \dot{\iatt} &= \iatt \iangvel, \\
     J \dot{\iangvel} + \hat{\iangvel} J \iangvel &= \sum_{i=0}^2 m_i \hat{\spos}_i \iatt^T \aatt \deriv{U}{\apos_i} + u_m. 
 \end{align*}
 The nonlinear controllers described in~\cref{sec:se3_control} are used to control both the translational and rotational states of the vehicle.
