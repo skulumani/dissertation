@@ -1,5 +1,5 @@
 \tikzsetnextfilename{dist_timevarying}
-\begin{tikzpicture}[]
+\begin{tikzpicture}[baseline]
     \begin{groupplot}[
         group style={
             group name={dist_timevarying},
@@ -11,7 +11,7 @@
         },
         xlabel={$t~(\si{\second})$},
         width=0.8\textwidth,
-        height=0.2\textheight,
+        height=0.1\textheight,
         scale only axis,
     ]
     \nextgroupplot[ylabel={$ \Delta_1 $}]
