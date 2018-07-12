@@ -11,20 +11,22 @@
         },
         xlabel={$t~(\si{\second})$},
         ymin=-1.5, ymax=1.5,
+        width=0.9\textwidth,
+        height=0.2\textheight,
     ]
     \nextgroupplot[ylabel={$ e_{R_1}$}]
-    \addplot [blue, mark=none] table [x=TIME, y=eR_1, col sep=comma] {figures/2016_IJCAS_pgf/csv/noadapt.csv};
-    \addplot [red, mark=none, dashed] coordinates {
+    \addplot [ultra thick, blue, mark=none] table [x=TIME, y=eR_1, col sep=comma] {figures/2016_IJCAS_pgf/csv/noadapt.csv};
+    \addplot [ultra thick,red, mark=none, dashed] coordinates {
         (0.0, 0.0) (10.0, 0.0) 
     };
     \nextgroupplot[ylabel={$ e_{R_2}$}]
-        \addplot [blue, mark=none] table [x=TIME, y=eR_2, col sep=comma] {figures/2016_IJCAS_pgf/csv/noadapt.csv};
-        \addplot [red, mark=none, dashed] coordinates {
+        \addplot [ultra thick, blue, mark=none] table [x=TIME, y=eR_2, col sep=comma] {figures/2016_IJCAS_pgf/csv/noadapt.csv};
+        \addplot [ultra thick, red, mark=none, dashed] coordinates {
             (0.0, 0.0) (10.0, 0.0) 
         };
     \nextgroupplot[ylabel={$ e_{R_3}$}]
-        \addplot [blue, mark=non] table [x=TIME, y=eR_3, col sep=comma] {figures/2016_IJCAS_pgf/csv/noadapt.csv};
-        \addplot [red, mark=none, dashed] coordinates {
+        \addplot [ultra thick, blue, mark=non] table [x=TIME, y=eR_3, col sep=comma] {figures/2016_IJCAS_pgf/csv/noadapt.csv};
+        \addplot [ultra thick, red, mark=none, dashed] coordinates {
             (0.0, 0.0) (10.0, 0.0) 
         };
 \end{groupplot}
