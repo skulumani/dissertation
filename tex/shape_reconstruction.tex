@@ -1,28 +1,36 @@
 % !TEX root = ../dissertation.tex
 
-\chapter{Asteroid Shape Reconstruction and Refinement}\label{sec:shape_reconstruction}
-This chapter is devoted to introducing the application of computational geometry to asteroid shape reconstruction.
-The polyhedron potential model is the standard approach for missions operating around small-bodies.
+\chapter{Small Body Shape Reconstruction and Refinement}\label{sec:shape_reconstruction}
+
+This chapter is devoted to introducing the application of computational geometry to small body shape reconstruction.
+The polyhedron potential model is the standard approach for missions operating around small bodies.
 As a result, the determination of an accurate shape is critical for both the gravitational model as well as any low-altitude operations.
-Prior to any spacecraft mission to an asteroid, extensive ground measurements will be collected on the potential target.
+Prior to any spacecraft mission to an small body, extensive ground measurements will be collected on the potential target.
 These measurements will be used to not only accurately track the small body in space, but also to generate an approximate shape model of the body. 
 However, these shape models are relatively coarse and only provide a general shape of the body and lack detailed features critical for safe and accurate landing.
 Typically, a significant portion of the mission life cycle is devoted solely to terrain mapping and shape modeling.
 For example, the NEAR mission devoted the first five months in the vicinity of asteroid Eros to mapping and shape estimation~\cite{antreasian2002} while the Hyabusa mission spent three months near asteroid Itokawa~\cite{barnouin-jha2008} using a \gls{lidar} sensor to accurately measure the surface.
 However, for certain types of missions, such as asteroid mitigation~\cite{garshnek2000,pitz2014} or multiple body surveying~\cite{stuart2011a,stuart2016} this type of extensive mapping is not feasible.
-This chapter develops an efficient method for the reconstruction of an asteroid shape given \gls{lidar} measurements.
-The approach enables a spacecraft to arrive at an asteroid with a very coarse shape model, autonomously measure the surface to rebuild the shape, and finally determine an appropriate landing location and descend to the surface.
-We utilize many concepts and development from computational geometry for a variety of purposes, from simply representing and operating on data structures to efficient computational algorithms.
 
 Precise relative navigation and landing near asteroids is critically dependent on an accurate knowledge of the shape of the body.
 The fine topological structure of the surface is not possible without a spacecraft in the vicinity of the asteroid.
-From ground  based measurments, such as radar or optical telescopes, it is only possible to achieve a coarse model of asteroid, such as a triaxial ellipsoid representation~\cite{hudson1994}.
+From ground  based measurements, such as radar or optical telescopes, it is only possible to achieve a coarse model of asteroid, such as a triaxial ellipsoid representation~\cite{hudson1994}.
 The size and shape of asteroid presents critical information into the thermal and collisional histories and more critically into their internal structure~\cite{cole1998}.
 
-Typical missions spend months after arrival at an asteorid mapping and measuring the surface.
-During this mapping phase, which requires upwards of \num{6} months, the spacecraft must maintain a specific trajectory and attitude to ensure best measurements of the surface~\cite{cheng2002,barnouin-jha2008}.
-Both the spacecraft orbit and it's attitude is constrained to best satsify the competing requirements of the range measurements, spacecraft power, and Earth based communications.
-These measurements are then sent back to Earth, and combined with the spacecraft orbit determination to simulateously estimate the asteroid shape, mass, gravity field, spin state, and spacecraft state~\cite{miller2002}.
+% introduce contributions of chapter
+This chapter develops an efficient method for the shape reconstruction of small body given \gls{lidar} measurements.
+Several different concepts in dynamics, control, estimation, and computational geometry are combined in this chapter.
+First, a Bayesian surface reconstruction algorithm is derived to incrementally update a shape estimate given new measurements of the surface.
+The approach operates in a local region about each measurement in contrast to global update schemes common in the typically surface reconstruction methods~\cite{dey2006}.
+This enable the Bayesian shape reconstruction to operate in real time to continually provide an updated shape of the small body.
+Second, an optimal guidance scheme is used to optimally determine future states to best update the shape estimate. 
+Utilizing the shape estimate, a future state, \( \parenth{x_d, R_d} \in \SE \), is determined to optimally improve the shape estimate. 
+The optimal cost is chosen to weight the relative importance of reducing the shape uncertainty and minimizing control effort.
+Finally, the Bayesian update and optimal guidance are combined to enable surface landing.
+A multi resolution refinement step is introduced to provide a higher shape representation in the region surrounding the potential landing site.
+This high resolution region is determined around the landing site to allow the identification of small surface features and topology that may be dangerous for the vehicle. 
+Furthermore, the use of multi resolution small body models provides an efficient method of increasing the gravitational potential fidelity without a large increase in computational burden~\cite{mcmahon2017}.
+We demonstrate the approach of this chapter using several examples utilizing true radar shape models of \glspl{nea}.
 
 \section{Range Measurement Model}
 
@@ -663,3 +671,7 @@ The landing trajectory, using the estimated shape, is visualized in the asteroid
     \includegraphics[width=\textwidth]{figures/computational_geometry/dynamic_exploration/castalia/land/asteroid_trajectory.jpg}
     \caption{Vertical descent onto 4769 Castalia~\label{fig:castalia_landing}}
 \end{figure}
+
+\section{Summary}
+
+The developments of this chapter, when combined with the details of~\cref{sec:mathematical_background,sec:lowthrust_transfers,sec:se3_control}, provide a complete approach for the operation of a spacecraft around a small body.
