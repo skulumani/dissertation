@@ -584,7 +584,7 @@ This achieves an intersection with the target orbit with a much lower time of fl
 In addition, by generating the reachability set we are able to compute the required control input to exactly intersect the target orbit.
 This avoids having to compute and accomplish a secondary impulsive maneuver to transition from the invariant manifold to the target orbit.
 
-\paragraph{Geostationary Orbit Transfer}
+\paragraph{Geostationary Orbit Transfer}\label{sec:geostationary_transfer_example}
 % motivation - may need to compute several reachability sets
 There are many situations where a more complicated and extensive orbital transfer is desired. 
 In this section, we present a simulation of transferring from a geostationary orbit to a periodic orbit about the \( L_1 \) Lagrange point.
@@ -971,3 +971,22 @@ It is interesting to note that while both the initial and target periodic orbit 
 In spite of this out of plane movement, the reachability set approaches and meets the target orbit. 
 \Cref{fig:control} shows the control input required during the maneuver.
 We can see that the control constraint in~\cref{eq:control_constraint} is satisfied over the entire trajectory.
+
+\section{Summary}\label{sec:lowthrust_transfer_summary}
+
+In this chapter, we presented a systematic approach which combines the concepts of reachability sets and \Poincare~sections to generate orbital transfers.
+The \Poincare~section allows for trajectory design on a lower dimensional phase space thereby reducing the complexity and search space.
+The approximation of the reachability set enables a simple methodology for the selection of \textit{good} initial parameters which will allow for convergence of the optimal control formulation.
+The combination of these two concepts allows the engineer to capture the characteristics inherent in the three-body problem.
+The approach is demonstrated in the context of both the \gls{pcrtbp} and \gls{rf2bp}.
+
+The results of this chapter provide a simple methodology to extend the use of invariant manifolds for the design of general transfer trajectories.
+Rather than being constrained by the dynamics, this approach allows the use of a low thrust control input to expand the reachable set.
+Utilizing this approach allows for a much larger class of possible transfers by linking regions that are typically inaccessible to invariant manifolds.
+For example,~\cref{sec:geostationary_transfer_example} demonstrated that it's possible to link the invariant manifolds associated with the \( L_1\) point to the Earth.
+
+The \gls{pcrtbp} and \gls{rf2bp} share many characteristics and the design process developed in the planar case was extended to the more complicated dynamics around a small body.
+For many small solar system bodies, it is not possible to directly perform orbital maneuvers using ``hovering'' or other closed loop control schemes such as that presented in~\cref{sec:se3_control}.
+Instead several bodies, such as asteroid Vesta, Ceres, and Eros, are sufficiently large that it is possible for a spacecraft to enter into orbit. 
+In this situation, this chapter provides a systematic methodology for the design of large scale orbital transfers.
+
