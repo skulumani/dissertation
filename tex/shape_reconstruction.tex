@@ -527,29 +527,29 @@ Furthermore, the state of the asteroid, namely the rotation matrix \( \aatt \), 
 At the beginning of the simulation the spacecraft is assumed to lie on the inertial \( e_1 \) axis, i.e.\ \( \ipos(0) = \begin{bmatrix} x_0 & 0 & 0 \end{bmatrix} \si{\kilo\meter} \).
 In addition, at the initial state the spacecraft is orientated such that the \( b_1 \) axis is aligned with the inertial \( e_2 \) axis.
 In other words the initial orientation is given by \( \iatt(0) = \exp(\frac{\pi}{2} \hat{e}_3)\).
-The shape reconstruction phase of the simulation is simulation over \SI{15000}{\second}, over which time the spacecraft will take \gls{lidar} measurements of the surface at \SI{1}{\hertz}.
-Once the total uncertainty has been reduced sufficiently the spacecraft manuevers to a ``home'' position aligned with the \( f_1 \) axis of the asteroid.
+The shape reconstruction phase of the simulation is performed over \SI{15000}{\second}, over which time the spacecraft will take \gls{lidar} measurements of the surface at \SI{1}{\hertz}.
+Once the total uncertainty has been reduced sufficiently the spacecraft maneuvers to a ``home'' position aligned with the \( f_1 \) axis of the asteroid.
 
 \paragraph{Asteroid 52760 Reconstruction}
-% TODO 52760 asteroid - show reconstruction, state trajectory, uncertainty and volume
+
 Asteroid (\num{52760}) \num{1998} \(\text{ML}_{14}\) was discovered in \num{1998} and is near Earth asteroid of the Apollo group and classified as a potentially hazardous body.
 The asteroid is roughly spherical with a mean radius of approximately \SI{1}{\kilo\meter}.
 The initial shape estimate is assumed to be spherical with approximately the same number of vertices as the truth model.
 \Cref{fig:52760_reconstruction,fig:52760_weights_reconstruction} show the shape reconstruction at several discrete points during the simulation.
-Due to the roughly spherical shape of the asteorid large portions of the surface are quickly modified to match the measurements.
+Due to the roughly spherical shape of the asteroid large portions of the surface are quickly modified to match the measurements.
 In addition~\cref{fig:52760_weights_reconstruction} displays the vertex uncertainty \( w_i \) as a colormap on the surface. 
 Areas of high uncertainty are denoted in yellow while areas of low uncertainty are in purple/blue.
 
 \begin{figure}[htbp]
     \centering
-    \subcaptionbox{Initial Shape Estimate\label{fig:52760_partial_0}}{\includegraphics[height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/52760/partial_1.jpg}}~
-    \subcaptionbox{\SI{25}{\percent} of measurements added\label{fig:52760_partial_25}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/dynamic_exploration/52760/partial_3749.jpg}}
+    \subcaptionbox{Initial Shape Estimate\label{fig:52760_partial_0}}{\fbox{\includegraphics[trim={10cm 0cm 10cm 0cm},clip,height=0.25\textheight,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/52760/partial_1.jpg}}}%
+    \subcaptionbox{\SI{25}{\percent} of measurements added\label{fig:52760_partial_25}}{\includegraphics[trim={10cm 0cm 10cm 0cm},clip,keepaspectratio,height=0.25\textheight]{figures/computational_geometry/dynamic_exploration/52760/partial_3749.jpg}}
 
-    \subcaptionbox{\SI{50}{\percent} of measurments added\label{fig:52760_partial_50}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/dynamic_exploration/52760/partial_7499.jpg}}~
-    \subcaptionbox{\SI{75}{\percent} of measurements added\label{fig:52760_partial_75}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/dynamic_exploration/52760/partial_11249.jpg}}
+    \subcaptionbox{\SI{50}{\percent} of measurements added\label{fig:52760_partial_50}}{\includegraphics[trim={10cm 0cm 10cm 0cm},clip,keepaspectratio,height=0.25\textheight]{figures/computational_geometry/dynamic_exploration/52760/partial_7499.jpg}}%
+    \subcaptionbox{\SI{75}{\percent} of measurements added\label{fig:52760_partial_75}}{\includegraphics[trim={10cm 0cm 10cm 0cm},clip,keepaspectratio,height=0.25\textheight]{figures/computational_geometry/dynamic_exploration/52760/partial_11249.jpg}}
 
-    \subcaptionbox{\SI{100}{\percent} of measurements added\label{fig:52760_partial_100}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/dynamic_exploration/52760/partial_14998.jpg}}~
-    \subcaptionbox{True Shape Model\label{fig:52760_truth}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/52760/truth.jpg}}
+    \subcaptionbox{\SI{100}{\percent} of measurements added\label{fig:52760_partial_100}}{\includegraphics[trim={10cm 0cm 10cm 0cm},clip,keepaspectratio,height=0.25\textheight]{figures/computational_geometry/dynamic_exploration/52760/partial_14998.jpg}}%
+    \subcaptionbox{True Shape Model\label{fig:52760_truth}}{\includegraphics[trim={10cm 0cm 10cm 0cm},clip,keepaspectratio,height=0.25\textheight]{figures/computational_geometry/mesh_update/52760/truth.jpg}}
     \caption[Asteroid 52760 Incremental Reconstruction]{Incremental Reconstruction of asteroid 52760~\label{fig:52760_reconstruction}}
 \end{figure}
 
@@ -648,7 +648,7 @@ Areas which violate the slope constraint of \( \phi < \SI{5}{\degree} \) are exc
 
 The next metric is related to the distance from the current spacecraft position to all candidate landing sites on the surface.
 We utilize~\cref{eq:geodesic_distance} to compute a distance metric to the surface.
-Landing sites which are closely will be considered preferentially over those at a larger distance.
+Landing sites which are closer will be considered preferentially over those at a larger distance.
 \Cref{fig:distance_castalia_both} shows a surface plot of the distance to the surface. 
 The area immediately beneath the spacecraft has a small cost while those on the opposite side of the asteroid have a much larger cost.
 \begin{figure}[htbp]
