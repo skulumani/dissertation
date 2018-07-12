@@ -29,7 +29,7 @@ The controllers presented in this section and the low thrust orbital transfer sc
 The reachability based transfers of~\cref{sec:lowthrust_transfers} are ideal for arrival, departure, or other large scale orbital transfers around a small body.
 The controllers presented in this chapter are best suited for precise trajectory tracking, such as the shape reconstruction and landing guidance presented in~\cref{sec:shape_reconstruction}.
 
-\section{Attitude Control}\label{sec:attitude_control}
+\section{Control for Attitude Dynamics}\label{sec:attitude_control}
 
 One distinctive feature of the attitude dynamics of rigid bodies is that it evolves on a nonlinear manifold.
 The three-dimensional special orthogonal group, or \( \SO \), is the set of \( 3 \times 3 \) orthogonal matrices whose determinant is one.
@@ -49,6 +49,18 @@ An immediate implication of this ambiguity is that closed-loop stability propert
 During implementation, the designer must carefully resolve this non-unique representation in quaternion based attitude control systems to avoid undesirable unwinding behavior~\cite{bhat2000}.
 This behavior is characterized by situations where the rigid body starts close to the desired attitude, yet the system unnecessarily rotates through a large angle in spite of a small initial error. 
 
+\subsection{Problem Formulation}\label{sec:control_problem_formulation}
+
+In this section, we consider the attitude dynamics of a rigid body, and more specifically those of a dumbbell spacecraft around a small body. 
+We consider the inertial attitude dynamics given by~\cref{eq:inertial_attitude_dynamics,eq:inertial_angvel_dynamics} and repeated here as
+\begin{align*}
+    \dot{\iatt} &= \iatt \iangvel, \\
+    J \dot{\iangvel} + \hat{\iangvel} J \iangvel &= M_{ext} + u_m,
+\end{align*}
+where we combined the gravitational moment into a single term \( M_{ext} \in \R^3 \) which defines the total external moment on the spacecraft.
+The control system developed in this section are focused on the inertial motion of the spacecraft.
+The same control system can also be applied to the relative equations of motion defined in~\cref{sec:asteroid_dumbbell_eoms} by using the relative variables.
+
 The first step in designing a control system on a nonlinear manifold \( \Q \) is the selection of a proper configuration error function. 
 This configuration error function, \( \Psi : \Q \times \Q \to \R \), is a smooth and proper positive definite function that measures the error between the current configuration and a desired configuration. 
 Once an appropriate configuration error function is chosen, one can then define a configuration error vector and a velocity error vector in the tangent space \( \mathsf{T}_q \Q \) through the derivatives of \( \Psi \)~\cite{bullo2004}. 
@@ -64,12 +76,14 @@ An arbitrary smooth attitude tracking command \( R_d (t) \in \SO \in \R^3 \) are
 The corresponding angular velocity command is obtained using the attitude kinematics equation, \( \hat{\Omega}_d = R_d^T \dot{R}_d \).
 With the desired attitude command, \( R_d(t), \Omega_d(t) \), we then define the errors associated with the attitude and angular velocity.
 The attitude and angular velocity tracking errors must be careful chosen to remain on the tangent bundle of \SO.
+The control objective is then to determine a control input \( u_m \) such that the system is able to accurately track the attitude command \( R_d(t) \) and compensate for the external moment \( M_{ext} \).
+
 \begin{prop}[ Attitude Configuration Error Function ]\label{prop:attitude_control_configuration_error}
 
 First, an attitude error function \(A : \SO \times \SO  \to \R \), an attitude error vector \( e_R : \SO \times \SO \to \R \), and an angular velocity error \( e_\Omega : \SO \times \R^3 \times \SO \times \R^3 \) are defined as
 \begin{subequations}\label{eq:attitude_error_function}
 \begin{align}
-    A(R, R_d) &= \frac{1}{2} G \tr{I - R_d^T R}, \label{eq:A} \\
+    A(R, R_d) &= \frac{1}{2}  \tr{G\parenth{I - R_d^T R}}, \label{eq:A} \\
     e_R &= \frac{1}{2} G \parenth{R_d^T R - R^T R_d^\vee}, \label{eq:eRA}\\
     e_\Omega &= \Omega - R^T R_d \Omega_d \label{eq:eWA}.
 \end{align}
@@ -92,7 +106,7 @@ Then the following properties hold:
 		h_1 &= \min\braces{g_1 + g_2, g_2 + g_3 , g_3 + g_1} ,\\
 		h_2 &= \max\braces{\parenth{g_1 -g_2}^2,\parenth{g_2 -g_3}^2 , \parenth{g_3 -g_1}^2} ,\\
 		h_3 &= \max\braces{\parenth{g_1 + g_2}^2, \parenth{g_2 + g_3}^2 , \parenth{g_3 + g_1}^2}, \\		
-        h_4 &= \max\braces{g_1 + g_, g_2 +g_3, g+3 + g_1}, \\
+        h_4 &= \max\braces{g_1 + g_, g_2 +g_3, g_3 + g_1}, \\
         h_5 &= \max\braces{\parenth{g_1 + g_2}^2, \parenth{g_2 + g_3}^2, \parenth{g_3 + g_1}^2}.
 	\end{align*}
 \end{enumerate}
@@ -107,7 +121,7 @@ With the appropriate attitude configuration error we now present the error dynam
 	\begin{gather}
     	\diff{}{t} \parenth{A(R)} = e_{R_A} \cdot e_\Omega , \label{eq:A_dot} \\
 		\diff{}{t} \parenth{e_{R_A}} = E(R, R_d) e_\Omega , \label{eq:eRA_dot} \\
-        \diff{}{t} \parenth{e_\Omega} = J^{-1} \parenth{-\Omega \times J \Omega + u + W(R, \Omega) \Delta + M_{ext}} , \label{eq:eW_dot}
+        \diff{}{t} \parenth{e_\Omega} = J^{-1} \parenth{-\hat{\Omega} J \Omega + u_m + M_{ext}} , \label{eq:eW_dot}
 	\end{gather}
 	where the matrix \(E(R,R_d)\in \R^{3\times3} \) is given by
 	\begin{align}
@@ -118,19 +132,14 @@ With the appropriate attitude configuration error we now present the error dynam
     See~\Cref{proof:attractive_error_dynamics}
 \end{proof}
 
-\subsection{Attitude Control without Disturbance}
-With the appropriate attitude configuration error we now present an attitude controller for attitude stabailization and tracking. 
-This controller assumes that there is no disturbances on the attitude dynamics, i.e.\ \( \Delta = 0 \) for
-\begin{align}\label{eq:Wdot}
-    J\dot{\Omega} + \hat{\Omega} J \Omega = u_m + \Delta.
-\end{align}
+With the appropriate attitude configuration error we now present an attitude controller for attitude stabilization and tracking of the inertial attitude dynamics given in~\cref{eq:inertial_attitude_dynamics,eq:inertial_angvel_dynamics}.
 
 \begin{prop}[Attitude Control]\label{prop:att_control}
 	Given a desired attitude command \( \parenth{R_d, \Omega_d = 0} \) and positive constants \( k_R, k_\Omega \in \R \) we define a control input \( u \in \R^3 \) as follows
 	\begin{gather}
         u = -k_R e_R - k_\Omega e_\Omega + \Omega \times J \Omega - M_{ext}. \label{eqn:nodist_control}
 	\end{gather}
-	Then the zero equilibrium of the attitude error is asymptotically stable, and the inequality constraint is always satisfied.
+	Then the zero equilibrium of the attitude error is asymptotically stable.
 \end{prop}
 \begin{proof}
 See~\Cref{proof:att_control}
