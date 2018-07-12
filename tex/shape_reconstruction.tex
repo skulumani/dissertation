@@ -91,13 +91,14 @@ These rays will serve to emulate the range measurements of the surface using a \
 As a result, we must also implement a ray casting algorithm that will find the intersection of a measurement of the surface. 
 
 We assume that the spacecraft is located at \(\rpos\) in the asteroid fixed frame.
-The camera/sensor is aligned with \gls{view_axis} in the spacecraft fixed frame.
-An additional vector, defined as the up axis \gls{up_axis}, finally the standard basis is completed with \(  \gls{right_axis} = \gls{view_axis} \times \gls{up_axis} \) which defines a reference frame attached to the image plane of the sensor.
-Furthermore, we model the the laser ranging sensor as having a fixed field of view defined by the angles \( \gls{fov_h}, \gls{fov_v}\), defining the vertical and horizontal fields of view.
-In order to simulate depth measurements we need to determine the transformation of locations in the image frame to the asteroid frame. 
+We define a camera fixed frame, \( \vc{c}_i \in \R^3 \), which is defined with respect to the spacecraft body fixed frame, \( \vc{b}_i \).
+The camera/sensor is aligned with \gls{view_axis} in the spacecraft fixed frame and we define an additional vector, termed the up axis \gls{up_axis} as the vertical direction of the image plane. 
+Finally, the standard basis is completed with \(  \gls{right_axis} = \gls{view_axis} \times \gls{up_axis} \) which defines a reference frame attached to the image plane of the sensor.
+Furthermore, we model the laser ranging sensor as having a fixed field of view defined by the angles \( \gls{fov_h}, \gls{fov_v}\), defining the vertical and horizontal fields of view.
+In order to simulate depth measurements we need to determine the transformation of locations in the image frame to the small body fixed frame. 
 Given the view axis, and a chosen distance \gls{view_distance}, we can define a viewing \gls{frustum} associated with the sensor. 
 We can compute the vectors associated with the maximum extents of the far plane as follows.
-The half height and width of the far plane, at a distance \( d \), is computed as
+The half height and width of the far plane, at a distance \( d \), are computed as
 \begin{align*}
     H = d \tan \frac{\alpha}{2} , \\
     W = d \tan \frac{\beta}{2} .
@@ -116,7 +117,7 @@ The view frustrum is visualized in~\cref{fig:view_frustrum} and allows for any v
     \caption{View Frustrum for Spacecraft sensor modeling\label{fig:view_frustrum}}
 \end{figure}
 
-\section{Incremental Radius Modification}\label{sec:radius_update}
+\section{Incremental Shape Reconstruction}\label{sec:radius_update}
 
 One of the first main tasks for any spacecraft mission to an asteroid is to generate an estimate of the asteroid shape.
 This shape model is used for a variety of purposes, such as the polyhedron potential model, like that presented in~\cref{sec:polyhedron_potential} or landing site section and guidance.
