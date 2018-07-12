@@ -555,26 +555,26 @@ Areas of high uncertainty are denoted in yellow while areas of low uncertainty a
 
 \begin{figure}[htbp]
     \centering
-    \subcaptionbox{Initial Shape Estimate\label{fig:52760_partial_weights_0}}{\includegraphics[height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/52760/partial_weights_1.jpg}}~
-    \subcaptionbox{\SI{25}{\percent} of measurements added\label{fig:52760_partial_weights_25}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/dynamic_exploration/52760/partial_weights_3749.jpg}}
+    \subcaptionbox{Initial Shape Estimate\label{fig:52760_partial_weights_0}}{\includegraphics[trim={10cm 0cm 10cm 0cm},clip,height=0.25\textheight,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/52760/partial_weights_1.jpg}}%
+    \subcaptionbox{\SI{25}{\percent} of measurements added\label{fig:52760_partial_weights_25}}{\includegraphics[trim={10cm 0cm 10cm 0cm},clip,height=0.25\textheight,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/52760/partial_weights_3749.jpg}}
 
-    \subcaptionbox{\SI{50}{\percent} of measurments added\label{fig:52760_partial_weights_50}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/dynamic_exploration/52760/partial_weights_7499.jpg}}~
-    \subcaptionbox{\SI{75}{\percent} of measurements added\label{fig:52760_partial_weights_75}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/dynamic_exploration/52760/partial_weights_11249.jpg}}
+    \subcaptionbox{\SI{50}{\percent} of measurements added\label{fig:52760_partial_weights_50}}{\includegraphics[trim={10cm 0cm 10cm 0cm},clip,height=0.25\textheight,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/52760/partial_weights_7499.jpg}}%
+    \subcaptionbox{\SI{75}{\percent} of measurements added\label{fig:52760_partial_weights_75}}{\includegraphics[trim={10cm 0cm 10cm 0cm},clip,height=0.25\textheight,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/52760/partial_weights_11249.jpg}}
 
-    \subcaptionbox{\SI{100}{\percent} of measurements added\label{fig:52760_partial_weights_100}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/dynamic_exploration/52760/partial_weights_14998.jpg}}~
-    \subcaptionbox{True Shape Model\label{fig:52760_weights_truth}}{\includegraphics[width=0.5\textwidth]{figures/computational_geometry/mesh_update/52760/truth.jpg}}
+    \subcaptionbox{\SI{100}{\percent} of measurements added\label{fig:52760_partial_weights_100}}{\includegraphics[trim={10cm 0cm 10cm 0cm},clip,height=0.25\textheight,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/52760/partial_weights_14998.jpg}}%
+    % \subcaptionbox{True Shape Model\label{fig:52760_weights_truth}}{\includegraphics[trim={15cm 0cm 15cm 5cm},clip,height=0.18\textheight,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/mesh_update/52760/truth.jpg}}
     \caption[Asteroid 52760 Shape Reconstruction with Uncertainty]{Incremental Reconstruction of asteroid 52760. The images colored according to the shape uncertainty. Areas of high uncertainty are in yellow while ares of low uncertainty are in purple.~\label{fig:52760_weights_reconstruction}}
 \end{figure}
 \Cref{fig:52760_metrics} shows the total normalized uncertainty and percent error for the volume estimate. 
 The plots show that the reconstruction  converges to an accurate shape estimate after approximately \SI{8000}{\second}.
 \begin{figure}[htbp]
     \centering
-    \subcaptionbox{Normalized Uncertainty\label{fig:52760_uncertainty}}{\input{tikz/52760_uncertainty.tikz}}~
-    \subcaptionbox{Volume Percent Error\label{fig:52760_volume}}{\input{tikz/52760_volume.tikz}}
+    \input{tikz/52760_metrics.tikz}
     \caption{Normalized uncertainty and volume percent error for 52760\label{fig:52760_metrics}}
 \end{figure}
 
 \paragraph{Asteroid 4769 Castalia Reconstruction}
+
 Asteroic 4769 Castalia is a small near Earth asteroid of the Apollo group.
 In addition, it is classified as a potentially hazardous object with a closed approach distance of less than \SI{0.05}{\astronomicalunit}.
 Castalia was discoved in \num{1989} and is the first asteroid to be modeled using radar imagery~\cite{hudson1994}.
