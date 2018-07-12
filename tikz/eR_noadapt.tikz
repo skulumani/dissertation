@@ -11,8 +11,9 @@
         },
         xlabel={$t~(\si{\second})$},
         ymin=-1.5, ymax=1.5,
-        width=0.9\textwidth,
+        width=0.8\textwidth,
         height=0.2\textheight,
+        scale only axis,
     ]
     \nextgroupplot[ylabel={$ e_{R_1}$}]
     \addplot [ultra thick, blue, mark=none] table [x=TIME, y=eR_1, col sep=comma] {figures/2016_IJCAS_pgf/csv/noadapt.csv};

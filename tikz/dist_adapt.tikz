@@ -1,5 +1,5 @@
 \tikzsetnextfilename{dist_adapt}
-\begin{tikzpicture}[]
+\begin{tikzpicture}[baseline]
     \begin{groupplot}[
         group style={
             group name={dist_adapt},
@@ -9,20 +9,21 @@
             xticklabels at=edge bottom,
             vertical sep=0pt,
         },
-        width=\textwidth,
+        scale only axis,
+        width=0.8\textwidth,
         height=0.2\textheight,
         xlabel={$t~(\si{\second})$},
     ]
     \nextgroupplot[ylabel={$ \Delta_1 $}]
-    \addplot [blue, mark=none] table [x=TIME, y=D_1, col sep=comma] {figures/2016_IJCAS_pgf/csv/adapt.csv};
-    \addplot [red, mark=none, dashed] table [x=TIME, y=D_true_1, col sep=comma] {figures/2016_IJCAS_pgf/csv/adapt.csv};
+    \addplot [ultra thick, blue, mark=none] table [x=TIME, y=D_1, col sep=comma] {figures/2016_IJCAS_pgf/csv/adapt.csv};
+    \addplot [ultra thick, red, mark=none, dashed] table [x=TIME, y=D_true_1, col sep=comma] {figures/2016_IJCAS_pgf/csv/adapt.csv};
 
     \nextgroupplot[ylabel={$ \Delta_2 $}]
-    \addplot [blue, mark=none] table [x=TIME, y=D_2, col sep=comma] {figures/2016_IJCAS_pgf/csv/adapt.csv};
-    \addplot [red, mark=none, dashed] table [x=TIME, y=D_true_2, col sep=comma] {figures/2016_IJCAS_pgf/csv/adapt.csv};
+    \addplot [ultra thick, blue, mark=none] table [x=TIME, y=D_2, col sep=comma] {figures/2016_IJCAS_pgf/csv/adapt.csv};
+    \addplot [ultra thick, red, mark=none, dashed] table [x=TIME, y=D_true_2, col sep=comma] {figures/2016_IJCAS_pgf/csv/adapt.csv};
 
     \nextgroupplot[ylabel={$ \Delta_3 $}]
-    \addplot [blue, mark=none] table [x=TIME, y=D_3, col sep=comma] {figures/2016_IJCAS_pgf/csv/adapt.csv};
-    \addplot [red, mark=none, dashed] table [x=TIME, y=D_true_3, col sep=comma] {figures/2016_IJCAS_pgf/csv/adapt.csv};
+    \addplot [ultra thick, blue, mark=none] table [x=TIME, y=D_3, col sep=comma] {figures/2016_IJCAS_pgf/csv/adapt.csv};
+    \addplot [ultra thick, red, mark=none, dashed] table [x=TIME, y=D_true_3, col sep=comma] {figures/2016_IJCAS_pgf/csv/adapt.csv};
 \end{groupplot}
 \end{tikzpicture}
