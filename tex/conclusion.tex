@@ -1,29 +1,34 @@
 % !TEX root = ../dissertation.tex
 
 \chapter{Conclusion}\label{sec:conclusion}
-Summarize the paper. 
-Highlight all the contributions.
 
-Conclusion
-\begin{itemize}
-    \item What are the lessons learned?
-    \item What were the overall insights?
-    \item Was the problem completely solved? 
-    \item Don't copy the introduction
-\end{itemize}
-
+This dissertation combined concepts from the fields of astrodynamics, geometric mechanics and control, and computational geometry.
+The results provide a wide ranging solution for the operation of a spacecraft around a small body.
+The low thrust transfer results of~\cref{sec:lowthrust_transfers} allow for the determination of low thrust orbital transfers around a small body. 
+These transfers are ideal for large scale orbital manuevers, such as arrival or departure operations.
+The coupled dynamics of a rigid body spacecraft are developed using geometric mechanics in~\cref{sec:mathematical_background}.
+This derivation is derived on the intrinsic configuration manifold, \( \SE \), and as a result does not utilize any coordinate representations.
+Furtheremore, the dynamics are developed in a generalized manner and presented in four equivalent forms which allows for straightforward extension to other spacecraft models.
+The shape reconstruction approach presented in~\cref{sec:shape_reconstruction}
 \section{Future Work and Conclusions}
 
 The developments in this dissertation we developed with the assumption the location of the spacecraft and the motion of the small body are both accurately known.
 In reality this is far from the norm and both are unknown and subject of stochastic errors from uncertain measurements and dynamics. 
 Developing mapping and control schemes that probablisiticly estimate both the spacecraft and small body motion would be a worthwhile research topic.
 Furthmore, this approach could leverage some of the recent advances in \gls{slam} and extend their use to the space domain.
-A number of recent publications, such as \textcite{cocaud2010,cocaud2012,vassallo2015}, have investigated the use of \gls{slam} techniques around asteroids.
+A number of recent publications, such as \textcite{cocaud2010,cocaud2012,vassallo2015,kulumani2017b}, have investigated the use of \gls{slam} techniques around asteroids.
 One key issue for the space domain is that in typical \gls{slam} approaches, such as that for autonomous driving, the terrain is assumed to be fixed.
 
 Extending these methods to consider uncertainty in both measurement and dyanmics would greatly increase the applicability of the approaches presented in this dissertation.
 Careful consideration should be placed on numerical techniques which respect the geometric properties of the dynamic environments.
 Recent work, such as~\textcite{kulumani2017}, have investigated Bayesian estimation schemes on \( \SO \). 
 Extending their use to the full space of rigid body motions would enable a holistic approach to the solution of the full two body problem.
+
+The transfer approaches presented in this dissertation include two sperate schemes, an optimal control formulation for large scale transfers and a geometric nonlinear controller for low altitude operations.
+Enabling large scale orbit transfers through the use of nonlinear control has been developed for the relative two body problem~\cite{chang2002}.
+The results are based on the two invariant properties of keplerian orbits, namely the angular momentum vector and the eccentricty vector.
+As a result, the control of these two vectors uniquely identifies any elliptical orbit.
+In the case of the \gls{pcrtbp} or \gls{rf2bp} there is only a single constant of motion and the results are not directly applicable.
+Extending this approach to these dynamic systems would enable new closed loop control schemes that are globablly applicable.
 
 
