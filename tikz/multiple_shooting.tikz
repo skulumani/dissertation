@@ -1,0 +1,71 @@
+\tikzsetnextfilename{multiple_shooting}
+\begin{tikzpicture}[
+    % help lines/.style={very thin,color=gray!50},
+    % ->-/.style={decoration={markings, mark=at position .5 with {\arrow{>}}}, postaction={decorate}},
+    % decorate sep/.style 2 args={decorate,decoration={shape backgrounds,shape=circle,shape size=#1,shape sep=#2}},
+    ]
+    % \draw[help lines] (0,0) grid (20,5) ; %grid
+    \pgfmathsetmacro{\kzero}{0};
+    \pgfmathsetmacro{\kone}{2};
+    \pgfmathsetmacro{\ktwo}{4};
+    \pgfmathsetmacro{\kthree}{6};
+    \pgfmathsetmacro{\kfour}{8};
+    \pgfmathsetmacro{\topheight}{3};
+    \pgfmathsetmacro{\lowheight}{1};
+    \pgfmathsetmacro{\midheight}{2};
+
+    \node[label=west:\(\vc{x}\)] (x0m) at (\kzero,\topheight) {};
+    \node[] (x1m) at (\kone,\topheight) {};
+    \node[] (x2m) at (\ktwo,\topheight) {};
+    \node[] (x3m) at (\kthree,\topheight) {};
+    \node[] (xnm) at (\kfour,\topheight) {};
+
+    \node[label=below:\(k_0\)] (t0) at (\kzero,0) {};
+    \node[label=below:\(k_1\)] (t1) at (\kone,0) {};
+    \node[label=below:\(k_2\)] (t2) at (\ktwo,0) {};
+    \node[label=below:\(k_{n-1}\)] (t3) at (\kthree,0) {};
+    \node[label=below:\(k_n\)] (tn) at (\kfour,0) {};
+
+    % draw axes
+    \draw [Latex-Latex,thick] (tn.center) -- (t0.center) -- (x0m.center);
+
+    % nodes for each subsegment
+    \node[label=left:\(\vc{x}_0\)] (x0) at (\kzero,\lowheight) {\pgfuseplotmark{*}};
+    \node[label=below left:\(\vc{\lambda}_1\)] at (x0) {};
+
+    \node[label=right:\(\vc{x}_1^{-}\)] (x1minus) at (\kone,\lowheight) {\pgfuseplotmark{*}};
+    \node[label=below right:\(\vc{\lambda}_1^{-}\)] at (x1minus) {};
+
+    \node[label=above left:\(\vc{x}_1^{+}\)] (x1plus) at (\kone,\midheight) {\pgfuseplotmark{o}};
+    \node[label=left:\(\vc{\lambda}_1^{+}\)] at (x1plus) {};
+
+    \node[label=right:\(\vc{x}_2^{-}\)] (x2minus) at (\ktwo,\lowheight) {\pgfuseplotmark{*}};
+    \node[label=below right:\(\vc{\lambda}_2^{-}\)] at (x2minus) {};
+
+    \node[label=above left:\(\vc{x}_2^{+}\)] (x2plus) at (\ktwo,\midheight) {\pgfuseplotmark{o}};
+    \node[label=left:\(\vc{\lambda}_2^{+}\)] at (x2plus) {};
+
+    \node[label=right:\(\vc{x}_{n-1}^{-}\)] (x3minus) at (\kthree,\lowheight) {\pgfuseplotmark{*}};
+    \node[label=below right:\(\vc{\lambda}_{n-1}^{-}\)] at (x3minus) {};
+
+    \node[label=above left:\(\vc{x}_{n-1}^{+}\)] (x3plus) at (\kthree,\midheight) {\pgfuseplotmark{o}};
+    \node[label=left:\(\vc{\lambda}_{n-1}^{+}\)] at (x3plus) {};
+
+    \node[label=right:\(\vc{x}_n\)] (xnminus) at (\kfour,\lowheight) {\pgfuseplotmark{*}};
+    \node[label=below right:\(\vc{\lambda}_n\)] at (xnminus) {};
+
+    % draw segement dividers
+    \draw [dashed] (t1.center) -- (x1m.center);
+    \draw [dashed,thick] (t2.center) -- (x2m.center);
+    \draw [dashed,thick] (t3.center) -- (x3m.center);
+    \draw [dashed,thick] (tn.center) -- (xnm.center);
+
+    % draw the subsegments
+    \draw [-Latex] (x0.center) to [bend left=30] (x1minus.center);
+    \draw [-Latex] (x1plus.center) to [bend left=30] (x2minus.center);
+    % dotted lines here
+    \draw[ultra thick, loosely dotted] (x2plus.east) to [bend left=10] (x3minus.west);
+
+    \draw [-Latex] (x3plus.center) to [bend left=30] (xnminus.center);
+
+\end{tikzpicture}

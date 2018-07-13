@@ -5,7 +5,7 @@
 Small solar system bodies, such as asteroids and comets, continue to remain a focus of scientific study.
 The small size of these bodies prevents the formation of large internal pressures and temperatures which helps to preserve the early chemistry of the solar system.
 This insight offers additional detail into the formation of the Earth and also of the probable formation of other extrasolar planetary bodies.
-Of particular interest are those near-Earth asteroids (NEA) which inhabit heliocentric orbits in the vicinity of the Earth. 
+Of particular interest are those \gls{nea} which inhabit heliocentric orbits in the vicinity of the Earth. 
 These easily accessible bodies provide attractive targets to support space industrialization, mining operations, and scientific missions.
 
 % impact threat from asteroids
@@ -21,30 +21,30 @@ In spite of the significant interest in asteroid deflection, and the extensive r
 The sustained interest in small solar system bodies has resulted in a number of planetary science missions.
 These missions vary in scope from flybys or rendezvous missions to impactors and sample return missions. 
 The first successful rendezvous and landing with a small body was accomplished by \gls{nasa} NEAR-Shoemaker spacecraft at asteroid Eros in \num{2000}~\cite{miller2002}.
-The first sample return was achieved in \num{2005} by \gls{jaxa} Hayabusa spacecraft at asteroid \num{25143} Itokawa~\cite{yoshimitsu2009}.
-In \num{2011}, \gls{nasa} Dawn spacecraft rendezvoused with asteroid  Vesta and then later with Ceres and became the first spacecraf to orbit two distinct bodies within a single mission~\cite{rayman2006}.
+The first sample return was achieved in \num{2005} by \gls{jaxa} Hayabusa spacecraft at asteroid 25143 Itokawa~\cite{yoshimitsu2009}.
+In \num{2011}, \gls{nasa} Dawn spacecraft rendezvoused with asteroid  Vesta and then later with Ceres and became the first spacecraft to orbit two distinct bodies within a single mission~\cite{rayman2006}.
 More recently, in \num{2014} the first comet rendezvous and landing was achieved by \gls{esa} Rosetta spacecraft and lander Philae at comet \(67/P\) Churyumov-Gerasimenko~\cite{bibring2015}.
-Currently, the \gls{nasa} OSIRIS-REx mission is enroute to asteroid Bennu with the goal to rendezvous, collect a surface sample, and return to the Earth~\cite{beshore2015}.
+Currently, the \gls{nasa} OSIRIS-REx mission is en route to asteroid Bennu with the goal to rendezvous, collect a surface sample, and return to the Earth~\cite{beshore2015}.
 
 % Overall thesis. Development of autonomous methods to operate around small bodies.
-This dissertation studies the operation of spacecraft around small-bodies with an explicit focus on the accurate representation of the geometric properties of the dynamic enviornment.
+This dissertation studies the operation of spacecraft around small-bodies with an explicit focus on the accurate representation of the geometric properties of the dynamic environment.
 An optimal control formulation is developed to enable the use of low thrust propulsion systems to generate large magnitude orbital transfers.
 Next, the dynamics of a spacecraft are derived with a special focus on the preservation of the geometric properties of the motion.
-Finally, an efficient computational geometry based approach is developed to reconstruct the small-body shape.
-The goal of this work is to develop tools for the autonomous operations of spacecraft around small-bodies.
+Finally, an efficient computational geometry based approach is developed to reconstruct the small body shape.
+The goal of this work is to develop tools for the autonomous operations of spacecraft around small bodies.
 
 \section{Literature Review}
 
 Due to the concerted effort to investigate small bodies, a number of varied approaches have been developed.
 Particularly, any mission will require a number of varied techniques from various fields of astrodynamics, estimation and control. 
 The operation around small bodies is characterized first by the dynamic environment and second by the spacecraft means of control. 
-Many spacecraft utilize impulse control in the form of chemical propulsion system.
+Many spacecraft utilize impulsive control in the form of chemical propulsion system.
 However, the use of low thrust propulsion devices offer the potential for new long duration mission at reduced propellant costs.
 The first task of any mission is the transfer of the spacecraft from the Earth to the vicinity of the body, and similarly between various orbits of the small-body. 
-The subsequent stages are heaviliy mission dependent but typically entail an extensive mapping and characterization phase followed by potential surface operations.
+The subsequent stages are heavily mission dependent but typically entail an extensive mapping and characterization phase followed by potential surface operations.
 In this section we summarize several of the current approaches to orbital transfers and the dynamics and  control around small bodies.
 
-\subsection{Low thrust orbital transfers}
+\subsection{Low Thrust Orbital Transfers}
 
 The use of optimal control methods have been extensively studied in the field of astrodynamics.
 Optimal expenditure of onboard propellant is critical to allowing a mission to continue for a longer period of time or to enable the launch of a less massive spacecraft.
@@ -52,31 +52,40 @@ Electric propulsion systems offer a much greater specific impulse than chemical 
 However, these electric propulsion systems typically have much less thrust than their chemical counterparts and therefore must operate over longer durations in order to impart the desired momentum change.
 With the potential for more demanding missions, even greater importance is placed on the mission design to ensure that optimal trajectories satisfy mission requirements. 
 
-The dynamics of a spacecraft about small bodies is very similar to that of the three-body problem.
-This model has many similarities with the restricted three body problem, and much of the theory developed for the three-body problem is also applicable~\cite{mondelo2010,herrera2014}.
-In addition, there has been a large amount of work on the optimal control of spacecraft orbital transfers in the three-body problem~\cite{mingotti2011,grebow2011}.
+The dynamics of a spacecraft about small bodies is very similar to that of the three body problem.
+This model has many similarities with the \gls{rtbp}, and much of the theory developed for the three-body problem is also applicable~\cite{mondelo2010,herrera2014}.
+In addition, there has been a large amount of work on the optimal control of spacecraft orbital transfers in the three body problem~\cite{mingotti2011,grebow2011}.
 Typically, the optimal control problem is solved via direct methods, which approximate the continuous time problem as a parameter optimization problem.
-The state and control trajectories are discretly parameterized and solved in the form of a nonlinear optimization problem.
+The state and control trajectories are discreetly parameterized and solved in the form of a nonlinear optimization problem.
 Alternatively, indirect methods apply calculus of variations to derive the necessary conditions for optimality. 
 This yields a lower dimensioned problem as compared to the direct approach.
-In addition, satisfication of the necessary conditions guarantee local optimality in contrast to direct methods which result in sub-optimal solutions.
+In addition, satisfaction of the necessary conditions guarantee local optimality in contrast to direct methods which result in sub-optimal solutions.
 
 % CHAOTIC SYSTEM AND INITIAL GUESSES FOR OPTIMIZATION
 The application of optimal control methods for orbital trajectory design is nontrivial.
 In order to implement any optimization method a sufficiently accurate ``initial guess'' is required.
 Frequently, insight into the problem or intuition on the part of the designer is often required to determine initial conditions that will converge to the optimal solution.
-However, the three-body system, as well as the motion around asteroids, are nonlinear and exhibit chaotic behaviors~\cite{scheeres2012a,szebehely1967}.
-Popularly refered to as the ``butterfly effect'' small changes in initial conditions result in large variations of the resulting system trajectory. 
+However, the three body system, as well as the motion around small bodies, are nonlinear and exhibit chaotic behaviors~\cite{scheeres2012a,szebehely1967}.
+Popularly referred to as the ``butterfly effect'' small changes in initial conditions result in large variations of the resulting system trajectory. 
 This makes solving the optimization problem highly dependent on the initial condition.
+
+The use of low thrust propulsion for optimal orbital transfers is particularly difficult.
+Due to their low thrust, transfers utilizing electric propulsion systems must rely on the accumulation of minuscule thrust over extended time periods. 
+As a result, accurate numerical methods are required to correctly account for these small perturbations.
+Furthermore, it has been shown that conventional integration schemes do not correctly preserve the geometric properties of dynamic systems~\cite{leok2007,marsden2001}.
+As a result, optimal control solutions utilizing these small magnitude perturbations must be carefully constructed to ensure accuracy and valid solutions.
+Variational integrators provide a consistent framework for the development of numerical integration schemes that preserve the geometric properties of dynamic systems.
+Their use has been extended to optimal control problems and demonstrate the importance of accurate numerical methods when utilizing low thrust orbital transfers~\cite{koon2004,leok2007,moore2011,gawlik2006,lee2007}.
+
 In addition, closed form analytical solutions are only possible in the most restricted scenarios, such as the familiar conic solution to the two body problem of Kepler~\cite{bate1971}.
 Since there is an insufficient number of analytical constants, or integral of motion, numerical methods must be used to investigate solutions to the three-body problem.
 As a result, accurate numerical methods are required to determine optimal solutions.
 These methods are critically dependent on accurate initial guess in order to allow for convergence to an optimal solution.
 
-\subsection{Dynamics and Control}
+\subsection{Dynamics and Control around Small Bodies}
 
 % dynamics are difficult around asteroids
-The dynamic environment around asteroids is strongly perturbed and challenging for analysis and mission operations~\cite{scheeres2012}.
+The dynamic environment around small bodies is strongly perturbed and challenging for analysis and mission operations~\cite{scheeres2012}.
 Due to their low mass, which in turn causes a low gravitational attraction, asteroids may have irregular shapes.
 Furthermore, asteroids may also have a chaotic spin state due to the absorption and emittance of solar radiation~\cite{rubincam2000}.
 As a result, approaches utilizing an inverse square gravitational model do not capture the  true dynamic environment.
@@ -89,37 +98,37 @@ Another key dynamic consideration is the coupling between rotational and transla
 The coupling is induced due to the different gravitational forces experienced on various portions of the spacecraft. 
 The effect of the gravitational coupling is related to the ratio of the spacecraft size and orbital radius~\cite{hughes2004}.
 For operations around asteroids, the ratio is relatively large which causes a much larger coupling between the translational and rotational states.
-References~\textcite{elmasri2005} and~\textcite{sanyal2004a} investigated the coupling of an elastic dumbbell spacecraft in orbit about a central body, but only considered the case of a spherically symmetric central body.
+\Textcite{elmasri2005,sanyal2004a} investigated the coupling of an elastic dumbbell spacecraft in orbit about a central body, but only considered the case of a spherically symmetric central body.
 Furthermore, the spacecraft model is assumed to remain in a planar orbit.
 As a result, these developments are not directly applicable to motion about an asteroid, which experiences highly non-Keplerian motion.
-Reference~\textcite{misra2015b} investigated the effect of coupled motion on long term trajectories around asteroids.
+\Textcite{misra2015b} investigated the effect of coupled motion on long term trajectories around asteroids.
 However, the analysis only considered a second order spherical harmonic gravitational potential model. 
-Therefore, these results are only valid when far from the asteroid surface and will diverge when used within the Brillouin sphere.
+Therefore, these results are only valid when far from the asteroid surface and will diverge when used within the Brillouin sphere~\cite{scheeres2012a}.
 
 % Gravity model is important and dependent on shape
-An accurate gravitational potential model is critical for performing low altitude and/or surface operations around asteroids.
-Due to the irregular shape, trajectories will pass within the Brillouin sphere, where the typical spherical harmonic model diverges from the true gravitational potential.
-The standard approach for asteroid missions is to compute the gravitational potential using a polyhedron potential model~\cite{werner1996}.
-The polyhedron potential model provides the exact gravitational potential, and subsequently the gravitational acceleration, for a given triangular faceted shape model of an asteroid.
+An accurate gravitational potential model is critical for performing low altitude and/or surface operations around small bodies.
+Due to their irregular shape, trajectories will pass within the Brillouin sphere, where the typical spherical harmonic model diverges from the true gravitational potential~\cite{scheeres2012a}.
+The standard approach for small body missions is to compute the gravitational potential using a polyhedron potential model~\cite{werner1996}.
+The polyhedron potential model provides the exact gravitational potential, and subsequently the gravitational acceleration, for a given triangular faceted shape model of a small body.
 The method provides the exact potential at any point outside the body for a given shape model.
 As a result, the accuracy of the gravitational potential is primarily dependent on the accuracy with which the shape model represents the true surface.
 A high fidelity shape, which necessarily has many vertices and faces, is required for an accurate computation of the gravitational acceleration and enabling low altitude operations.
 
-An additional layer of complexity is the design of landing trajectories on asteroids.
-Beginning with the first landing of NEAR Shoemaker on asteroid 433 Eros, there has been a concerted effort to develop techniques and methodologies for asteroid landing~\cite{dunham2002, kubota2006}.
+An additional layer of complexity is the design of landing trajectories to the surface of a small body.
+Beginning with the first landing of NEAR Shoemaker on asteroid 433 Eros, there has been a concerted effort to develop techniques and methodologies for small body landing~\cite{dunham2002, kubota2006}.
 There is already considerable knowledge on the planetary landing problem~\cite{acikmese2007, meditch1964, ingoldby1978}.
 While conceptually similar, the landing of spacecraft on small bodies requires additional consideration. 
-The surface of an asteroid is highly irregular and, as discussed previously, there is a large coupling between the translational and rotational dynamics of the vehicle, which is further exaggerated when close to the surface.
-References~\textcite{guelman1994, furfaro2013, zexu2012} consider the soft landing problem on an asteroid.
-These approaches were primarily based on nonlinear control techniques which allowed for the development of closed loop controllers which enable landing.
+The surface of most small bodies is highly irregular and, as discussed previously, there is a large coupling between the translational and rotational dynamics of the vehicle, which is further exaggerated when close to the surface.
+\Textcite{guelman1994, furfaro2013, zexu2012} consider the soft landing problem onto an asteroid.
+These approaches are primarily based on nonlinear control techniques which allowed for the development of closed loop controllers which enable landing.
 However, only the translational dynamics of the body was considered and no notion of the attitude dynamics or it's coupling to the position is considered.
 Furthermore, relatively simple gravitational models are used which make the results unsuitable for operations near irregular bodies.
 
-\subsubsection{Attitude Parameterizations}\label{ssec:attitude_parameterization}
+\paragraph{Attitude Parameterizations}\label{ssec:attitude_parameterization}
 
 % Discuss the benefits of using this geometric representation as compared to Euler angles or quaternions
-Attitude parameterizations, such as Euler angles and Quaternions, are frequently used in the aerospace and astrodynamics communities~\cite{vallado2007}.
-For example, Euler angle sequences are frequently used to describe the transformation between a variety of reference frames used to describe the position and orientation of the orbit of Earth satellites~\cite{vallado2007}.
+Attitude parameterizations, such as Euler angles and Quaternions, are frequently used in the aerospace and astrodynamics communities~\cite{vallado2007,wertz1978,hughes2004}.
+For example, Euler angle sequences are frequently used to describe the transformation between a variety of reference frames used to describe the position and orientation of the orbit of Earth satellites~\cite{vallado2007,bate1971}.
 In addition, quaternions were used during the operation of Skylab and the NASA Space Shuttle~\cite{hughes2004}.
 However, the choice of attitude parameterization plays a critical role in control design and the resulting motion of the system.
 
@@ -160,20 +169,19 @@ From~\cref{eq:euler313_diff}, it is immediately clear that a singularity exists 
 In the vicinity of the singularity, the angular velocities of the Euler angles will tend to approach \( \pm \infty \) and the angular velocities will experience instantaneous sign changes.
 Furthermore, all Euler angle sequences will exhibit a similar singularity at either \( \theta_2 = 0, \pm \pi \) or \( \theta_2 = \pm \frac{\pi}{2}, \pm \frac{3\pi}{2} \).
 Therefore simply switching the sequence does not alleviate the issue, but rather only moves the singularity.
-As a result, Euler angles are not appropriate for systems which experience large angular rotations, such as those demonstrated in~\cref{fig:adapt}, or control systems which rely on the angular velocities \( \theta_i \).
-% discuss the unwinding phenomenon with quaternions
+As a result, Euler angles are not appropriate for systems which experience large angular rotations, such as those demonstrated in~\cref{sec:se3_control,sec:shape_reconstruction}, or control systems which rely on the angular velocities \( \theta_i \).
 
-
+% TODO discuss the unwinding phenomenon with quaternions
 
 \subsection{Surface Reconstruction}
 
 % Challenges involved in operation near asteroids (gravity, shape, distance)
 % generating the shape from the ground is difficult
-Prior to the arrival of a spacecraft at an asteroid, Earth-based sensors are used to characterize the body.
-Using both optical and radar sensors allows for the precise orbit of the asteroid to be determined
+Prior to the arrival of a spacecraft at a small body Earth-based sensors are used to characterize the body.
+Using both optical and radar sensors allows for the precise orbit of the small body to be determined
 Another vital task is the determination of the asteroid shape from radar data~\cite{hudson1994,busch2011}.
-This is a challenging problem as it requires the simultaneous estimation of the asteroid spin state and shape.
-Furthermore, determining the shape from radar is currently the only Earth-based technique that can produce detailed three-dimensional shape information of near-Earth objects~\cite{greenberg2015}.
+This is a challenging problem as it requires the simultaneous estimation of the body spin state and shape.
+Furthermore, determining the shape from radar is currently the only Earth-based technique that can produce detailed three-dimensional shape information of near Earth objects~\cite{greenberg2015}.
 The current approach is based on an estimation scheme which iteratively perturbs a shape to match given radar data.
 This computationally intensive approach is only able to capture the gross size and shape and is unable to capture the small surface features of the asteroid.
 Frequently, only a coarse model is possible from the ground and an accurate shape must be determined only after a spacecraft has rendezvoused with the asteroid.
@@ -181,28 +189,28 @@ As a result, upon arrival the gravitational environment near the asteroid is poo
 Therefore, the polyhedron potential model is not appropriate immediately upon arrival but rather only after the shape has been determined.
 
 % on arrival spacecraft spend long periods mapping, and depending on mission this might be unallocable
-On approach to an asteroid, spacecraft navigation and guidance is primarily based on ground measurements.
+On approach to a small body, spacecraft navigation and guidance is primarily based on ground measurements.
 After arrival, a spacecraft will generally spend months or years in a mapping mission phase~\cite{kubota2003,cole1998}.
-During this period, spacecraft sensors, such as on board optical telescopes or Light radio Detection and Ranging (LIDAR), are used to characterize the asteroid.
-The resulting imagery and range data is transmitted to the ground and the resulting asteroid shape and motion is estimated. 
+During this period, spacecraft sensors, such as on board optical telescopes or \gls{lidar}, are used to characterize the asteroid.
+The resulting imagery and range data is transmitted to the ground and the resulting body shape and motion is estimated. 
 During this mapping phase the spacecraft must remain in a quiescent state devoted entirely to mapping the surface.
 Depending on the mission type, this long period of mapping is crucial to the mission, such as sample collection~\cite{gates2015}. 
 However, other missions, such as asteroid mitigation, may be severely limited by the time and ground resources required to generate a surface shape.
 Furthermore, the long distances involved necessitate on-board autonomy to enable to spacecraft to operate without ground communications.
 Similarly, during landing the spacecraft will require the ability to sense and model the surface topography in order to safely land in an unknown environment.
-The dependency on expensive ground-based shape reconstruction techniques limits the ability of spacecraft to autonomously operate at asteroids.
-Mitigation of this ground based surface modeling will greatly expand the range of missions possible.
+The dependency on expensive ground-based shape reconstruction techniques limits the ability of spacecraft to autonomously operate at small bodies.
+Mitigation of this ground based surface modeling will greatly expand the range of possible missions.
 
 % Gravity model is important and dependent on shape
-An accurate gravitational potential model is critical for performing low altitude and/or surface operations around asteroids.
+An accurate gravitational potential model is critical for performing low altitude and/or surface operations around small bodies.
 Due to the irregular shape, trajectories will pass within the Brillouin sphere, where the typical spherical harmonic model diverges from the true gravitational potential.
-The standard approach for asteroid missions is to compute the gravitational potential using a polyhedron potential model~\cite{werner1996}.
+The standard approach for small body missions is to compute the gravitational potential using a polyhedron potential model~\cite{werner1996}.
 The polyhedron potential model provides the exact gravitational potential, and subsequently the gravitational acceleration, for a given triangular faceted shape model of an asteroid.
 The method provides the exact potential at any point outside the body for a given shape model.
 As a result, the accuracy of the gravitational potential is primarily dependent on the accuracy with which the shape model represents the true surface.
 A high fidelity shape, which necessarily has many vertices and faces, is required for an accurate computation of the gravitational acceleration and enabling low altitude operations.
 
-One of the main mission objectives for asteroid operations is to generate the three-dimensional shape of an asteroid.
+One of the main mission objectives for small body operations is to generate the three-dimensional shape of the body.
 This shape generation is a subset of a larger class of methods called surface reconstruction.
 The goal of surface reconstruction is stated as follows: Given a set of sample points \( X\) assumed to lie on /near the surface \( U \), create a surface model \( S \) approximating \( U \).
 Surface reconstruction is a well-researched field and widely applied in the industrial and computer vision fields.
@@ -210,15 +218,15 @@ The generation of a surface from an object is important in reverse engineering, 
 The surface reconstruction problem is applied in a variety of fields in science and engineering including 3D scanning, surface reconstruction from contours and surface sketching~\cite{hoppe1992}.
 
 Surface reconstruction, or sometimes referred to as 3D scanning, is the generation of accurate models of real world objects.
-Surface Reconstruction techniques are frequently used to digitize sculptures/architecture, machine parts, archaeological artifacts, or terrain.
+Surface reconstruction techniques are frequently used to digitize sculptures/architecture, machine parts, archaeological artifacts, or terrain.
 There are a variety of methods to digitize objects, such as laser range finding, mechanical touch probes, or computer vision techniques, i.e. depth from stereo.
 From these digitization methods, a large collection, often times on the order of \( 10^6 - 10^9\), of points are generated.
 From this \gls{point_cloud}, the goal is to construct a surface representation which is faithful to the original data, and the underlying object of interest.
 This process of generating the surface should ideally have the following properties:
 \begin{itemize}
     \item Fast - low computational cost
-    \item Low memory - storing/operating on large collection of points is frequently memory constrained. Also for use in constrained enviornments
-    \item Robustness - Algorithm must be robust to holes, noisy data, varying or low sample density
+    \item Low memory - storing/operating on large collection of points is frequently memory constrained. Also for use in constrained environments
+    \item Robustness - algorithm must be robust to holes, noisy data, varying or low sample density
     \item Accuracy - the method should approximate the shape based on the data rather than interpolating between data points
     \item Features - ability to capture sharp edges or features
 \end{itemize}
@@ -236,30 +244,38 @@ In this dissertation, we present a complete approach for the operation of a spac
 Specific emphasis is placed on the development of dynamics and control tools which preserve the geometric properties of the configuration space. 
 In addition, the mathematical tools are combined to enable the autonomous operation and shape reconstruction at an asteroid.
 
-\paragraph{Low thrust orbital transfers}
+\paragraph{Low Thrust Orbital Transfers}
 First, a systematic design method which enables low-thrust transfers is developed.
 Our approach avoids the difficulties in selecting an appropriate initial guess for optimization.
 To achieve these objectives, an optimal control problem is formulated to determine the reachability set on a \Poincare section.
 Given an initial condition and fixed time horizon, the reachable set is the set of states attainable, subject to the operational constraints of the spacecraft. 
 Generation of this reachability set allows for the extension of the previous methods based on invariant manifolds to be extended with the use of the low thrust control.
 In addition, the generation of the reachable set allows for a more systematic method of determining initial conditions and eases the burden on the designer. 
-The \Poincare section reduces the dimensionality of the system dyanmics to the study of a related discrete update map.  
+The \Poincare section reduces the dimensionality of the system dynamics to the study of a related discrete update map.  
 
 \paragraph{Coordinate Free Dynamics and Control}
 Second, the complete rigid body dynamics of a spacecraft around a small body are considered.
-An explicit focus is placed on the preservation of the geometric structure of the rigid body dynamics of the spacecaft.
+An explicit focus is placed on the preservation of the geometric structure of the rigid body dynamics of the spacecraft.
 A control system is then presented which utilizes this geometrically exact dynamic formulation to control the motion of the spacecraft. 
-Utiliizing the polyhedron potential model provides a closed form solution for the gravitational attraction around an arbitrary body. 
-Furth
+Utilizing the polyhedron potential model provides a closed form solution for the gravitational attraction around an arbitrary body. 
 
 \paragraph{Efficient Shape Reconstruction}
-Finally, and efficient algorithm is presented for the shape reconstruction of an asteroid from range measurements. 
+Finally, an efficient algorithm is presented for the shape reconstruction of an small body from range measurements. 
 This approach alleviates the need for extensive mapping prior to spacecraft arrival. 
 Furthermore, it enables a spacecraft to arrive at a poorly unknown body, autonomously measure and map the surface, and use this shape estimate for accurate control to the surface.
+A Bayesian framework is utilized to stochastically update a shape estimate with new measurements
 The shape reconstruction differs in previous approaches as it is focused on local shape operations rather than global which greatly improves the computational efficiency.
+Furthermore, the Bayesian approach also provides an uncertainty metric to determine the accuracy of the shape.
+Next, an optimal guidance algorithm is developed to maximize the information gain of future measurements.
+This guidance scheme determines future spacecraft states to best improve the shape estimate. 
+Additionally, we present a multi-resolution mapping scheme for the representation of a small body.
+This method enables for a higher resolution surface representation in mission critical areas, such as a landing site, and enables the measurement of small surface features.
+The use of mixed resolution ensures that the computational demands of the approach are maintained while increasing the fidelity in areas of complex terrain.
 
 \subsection{Publications}
-The contributions in this dissertation have been published in the following manuscripts.
+
+The contributions described in this dissertation have been published in the following manuscripts.
+
 
 \begin{itemize}
     \item \fullcite{kulumani2015}
@@ -279,12 +295,12 @@ The overall outline of the dissertation is summarized in~\cref{fig:dissertation_
 In~\cref{sec:mathematical_background}, the mathematical background for the dynamics of the motion of a spacecraft around a small body are presented. 
 Additional background information is also provided for the gravitational models and computational tools that are developed throughout the dissertation.
 \Cref{sec:lowthrust_transfers} presents a low thrust orbit transfer scheme based on the concept of reachability sets on a lower dimensional \Poincare section.
-Several examples are presented demonstrating the transfer design process in two related dynamic enviornments, namely the three body problem and around an asteroid.
+Several examples are presented demonstrating the transfer design process in two related dynamic environments, namely the three body problem and the restricted full body problem.
 \Cref{sec:se3_control} derives several nonlinear geometric controllers for the coupled motion of a rigid body around a small body.
 Controllers are developed on the nonlinear manifold of possible rigid body rotations, namely the special orthogonal group \( \SO \).
 A further extension is presented for the closed loop attitude control in the presence of state inequality constraints.
-Finally,~\cref{sec:shape_reconstruction} presents an approach for the efficient shape reconstruction of an asteroid from range measurements of its surface.
-The developments of~\cref{sec:mathematical_background,sec:se3_control} are combined to demonstrate the autonomous control and shape reconstruction around several asteroids.
+Finally,~\cref{sec:shape_reconstruction} presents an approach for the efficient shape reconstruction of a small body from range measurements of its surface.
+The developments of~\cref{sec:mathematical_background,sec:se3_control,sec:shape_reconstruction} are combined to demonstrate the autonomous control and shape reconstruction around several asteroids.
 
 \begin{figure}[htbp]
     \centering

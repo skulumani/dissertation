@@ -1,0 +1,13 @@
+\tikzsetnextfilename{geographos_uncertainty}
+\begin{tikzpicture}[baseline]
+    \begin{axis}[
+        name={geographos_uncertainty},
+        xlabel={Normalized Time},
+        ylabel style={align=center},ylabel={Normalized\\Uncertainty},
+        scale only axis,
+        width=0.8\textwidth,
+        height=0.2\textheight,
+        ]
+    \addplot [ultra thick, color=blue, mark=none] table [x=NORMALIZED_TIME, y=NORMALIZED_UNCERTAINTY, col sep=comma] {figures/computational_geometry/mesh_update/geographos/uncertainty.csv};
+    \end{axis}
+\end{tikzpicture}

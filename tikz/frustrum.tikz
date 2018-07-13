@@ -1,0 +1,58 @@
+\tikzsetnextfilename{frustrum}
+\begin{tikzpicture}[scale=1.7]
+
+    \pgfmathsetmacro{\posalongpath}{0.37}
+    \pgfmathsetmacro{\distance}{6};
+    \pgfmathsetmacro{\nearplane}{0.37};
+    \pgfmathsetmacro{\hfov}{15};
+    \pgfmathsetmacro{\wfov}{15};
+    \pgfmathsetmacro{\H}{\distance*tan(\hfov/2)};
+    \pgfmathsetmacro{\W}{\distance*tan(\wfov/2)};
+    \pgfmathsetmacro{\dlength}{1};
+
+    \pgfmathsetmacro{\conex}{1};
+    \pgfmathsetmacro{\coney}{0};
+    \pgfmathsetmacro{\conez}{0};
+
+    \pgfmathsetmacro{\ctwox}{0};
+    \pgfmathsetmacro{\ctwoy}{1};
+    \pgfmathsetmacro{\ctwoz}{0};
+
+    \pgfmathsetmacro{\cthreex}{0};
+    \pgfmathsetmacro{\cthreey}{0};
+    \pgfmathsetmacro{\cthreez}{1};
+    
+    \coordinate (V) at (0,0,0);
+    \coordinate (A) at ($ (\distance * \conex, \distance * \coney, \distance * \conez) + (-\W * \ctwox, -\W * \ctwoy, -\W * \ctwoz) + ( \H * \cthreex, \H * \cthreey, \H * \cthreez) $);
+    \coordinate (B) at ($ (\distance * \conex, \distance * \coney, \distance * \conez) + (\W * \ctwox, \W * \ctwoy, \W * \ctwoz) + ( \H * \cthreex, \H * \cthreey, \H * \cthreez) $);
+    \coordinate (C) at ($ (\distance * \conex, \distance * \coney, \distance * \conez) + (\W * \ctwox, \W * \ctwoy, \W * \ctwoz) + ( -\H * \cthreex, -\H * \cthreey, -\H * \cthreez) $);
+    \coordinate (D) at ($ (\distance * \conex, \distance * \coney, \distance * \conez) + (-\W * \ctwox, -\W * \ctwoy, -\W * \ctwoz) + ( -\H * \cthreex, -\H * \cthreey, -\H * \cthreez) $);
+
+    \coordinate (m1) at ($ (V) + (\dlength * \conex, \dlength * \coney, \dlength * \ctwoz )$);
+    \coordinate (m2) at ($ (V) - (\dlength * \conex, \dlength * \coney, \dlength * \ctwoz )$);
+
+    \path (A) -- (V) coordinate[pos=\posalongpath] (A-V);
+    \path (B) -- (V) coordinate[pos=\posalongpath] (B-V);
+    \path (C) -- (V) coordinate[pos=\posalongpath] (C-V);
+    \path (D) -- (V) coordinate[pos=\posalongpath] (D-V);
+    
+    % labels of points
+    \node[below] at (A) {$A$};
+    \node[above] at (B) {$B$};
+    \node[above] at (C) {$C$};
+    \node[right] at (D) {$D$};
+
+    \draw[red!50!black, dashed] (V) -- (A-V) (V) -- (B-V) (V) -- (C-V) (V) -- (D-V);
+    % \draw[red!50!black] (A) -- (A-V) (B) -- (B-V) (C) -- (C-V) (D) -- (D-V);
+    \draw[red!50!black, -Latex] (A-V) -- (A);
+    \draw[red!50!black, -Latex] (B-V) -- (B);
+    \draw[red!50!black, -Latex] (C-V) -- (C);
+    \draw[red!50!black, -Latex] (D-V) -- (D);
+    \fill[red,opacity=0.5,draw=red!80!black,thick] (A) -- (B) -- (C) -- (D) -- cycle;
+    \fill[blue,opacity=0.5,draw=blue!80!black,thick] (A-V) -- (B-V) -- (C-V) -- (D-V) -- cycle; 
+    
+    \draw[blue!50!black, ultra thick] (m1) -- (m2);
+    \shade[ball color=blue] (m1) circle (0.2);
+    \shade[ball color=blue] (m2) circle (0.2);
+
+\end{tikzpicture}

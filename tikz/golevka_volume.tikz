@@ -1,0 +1,10 @@
+\tikzsetnextfilename{golevka_volume}
+\begin{tikzpicture}[]
+    \begin{axis}[
+        name={golevka_volume},
+        xlabel={Normalized Time},
+        ylabel={Volume Error},
+        ]
+    \addplot [blue, mark=none] table [x=NORMALIZED_TIME, y=VOLUME_PERCENT_ERROR, col sep=comma] {figures/computational_geometry/mesh_update/golevka/volume.csv};
+    \end{axis}
+\end{tikzpicture}
