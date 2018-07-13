@@ -10,10 +10,10 @@ The infinitesimal variation of a rotation matrix is defined as
     \delta R = \left. \diff{}{\epsilon} \right|_{\epsilon=0} R \exp{\epsilon \hat{\eta}} = R \hat{\eta}.
 \end{align*}
 Using this, the variation of~\cref{eq:A} is taken with respect to \( R \) as
-\begin{align}\label{eq:dirDiff_A}
+\begin{align*}
 	\dirDiff{A}{R} &= \eta \cdot \frac{1}{2} \left( G R_d^T R - R^T R_d G\right)^\vee ,
 %	&= -\frac{1}{2} \tr{G R_d^T \left( R \hat{\eta}\right)} \\
-\end{align}
+\end{align*}
 where we used~\cref{eqn:hat1} to achieve the simplified form.
 \Cref{eq:dirDiff_A} also proves~\cref{item:prop_eRA}.
 Evaluating~\cref{eq:dirDiff_A} at \( R = R_d \) demonstrates that \( R_d \) is a critical point of \( A \).
@@ -68,10 +68,22 @@ Since, \( Q = R_d^T R \) is orthonormal the main diagonal of \( QQ^T \) is equal
 \begin{align*}
     Q Q^T &= I, \\
           &= \begin{bmatrix}
-            q_{11}^2 + q_{12}^2 + q_{13}^2 & q_{11}q_{12}\frac{g_1}{g_2} + q_{12}q_{22} + q_{13}q_{23} & q_{11}q_{13}\frac{g_1}{g_3} + q_{12}q_{23}\frac{g_2}{g_3} + q_{13}q_{33} \\
-            q_{11}q_{12}\frac{g_1}{g_2}  + q_{12}q_{22} + q_{23}q_{13} & \frac{g_1^2}{g_2^2}q_{12}^2 + q_{22}^2 + q_{23}^2 & \frac{g_1^2}{g_2g_3} q_{12}q_{13} + \frac{g_2}{g_3}q_{23}q_{22} + q_{23}q_{33} \\
-            \frac{g_1}{g_3} q_{11}q_{13} + \frac{g_2}{g_3}q_{23}q_{12} + q_{33}q_{13} & \frac{g_1^2}{g_3 g_2} q_{12}q_{13} + \frac{g_2}{g_3} q_{23}q_{22} + q_{33} q_{23} & \frac{g_1^2}{g_3^2}q_{13}^2 + \frac{g_2^2}{g_3^2}q_{23}^2 + q_{33}^2
-\end{bmatrix} , 
+    Q_{11} & Q_{12} & Q_{13} \\ 
+    Q_{21} & Q_{22} & Q_{23} \\ 
+    Q_{31} & Q_{32} & Q_{33} 
+\end{bmatrix}, 
+\end{align*}
+where
+\begin{align*}
+    Q_{11} &= q_{11}^2 + q_{12}^2 + q_{13}^2 ,\\
+    Q_{12} &= q_{11}q_{12}\frac{g_1}{g_2} + q_{12}q_{22} + q_{13}q_{23} ,\\
+    Q_{13} &= q_{11}q_{13}\frac{g_1}{g_3} + q_{12}q_{23}\frac{g_2}{g_3} + q_{13}q_{33},\\
+    Q_{21} &= q_{11}q_{12}\frac{g_1}{g_2}  + q_{12}q_{22} + q_{23}q_{13} ,\\
+    Q_{22} &= \frac{g_1^2}{g_2^2}q_{12}^2 + q_{22}^2 + q_{23}^2 ,\\
+    Q_{23} &= \frac{g_1^2}{g_2g_3} q_{12}q_{13} + \frac{g_2}{g_3}q_{23}q_{22} + q_{23}q_{33},\\
+    Q_{31} &= \frac{g_1}{g_3} q_{11}q_{13} + \frac{g_2}{g_3}q_{23}q_{12} + q_{33}q_{13},\\
+    Q_{32} &= \frac{g_1^2}{g_3 g_2} q_{12}q_{13} + \frac{g_2}{g_3} q_{23}q_{22} + q_{33} q_{23},\\
+    Q_{33} &= \frac{g_1^2}{g_3^2}q_{13}^2 + \frac{g_2^2}{g_3^2}q_{23}^2 + q_{33}^2.
 \end{align*}
 As a result the following \num{6} conditions must be satisfied when \( e_{R_A} = 0 \):
 \begin{align}
@@ -198,7 +210,7 @@ It follows that
 	0 \leq  \frac{\cos \theta -  r^T R^T v}{1 + \cos \theta} \leq 1 ,
 \end{align*}
 for all \( R \in \SO \). 
-As a result, its negative logarithm is always positive and from~\cref{eq:B}, \(1 < B\).
+As a result, its negative logarithm is always positive and proves that~\cref{eq:B} is positive definite.
 The error function \( \Psi = A B \) is composed of two positive terms and is therefore also positive definite, and it is minimized at \( R = R_d \).
 
 A straightforward application of the chain and product rules of differentiation allows us to show~\cref{item:prop_erb} as
@@ -377,7 +389,7 @@ The time derivative of \( \mathcal{V}\) with the control input defined by~\cref{
 	&- k_\Omega c e_R^T e_\Omega + c J e_\Omega^T \dot{e}_R - \frac{1}{k_\Delta} e_\Delta^T \dot{\bar{\Delta}} , \label{eqn:vdot}
 \end{align*}
 where we used \( \dot{e}_\Delta = - \dot{\bar{\Delta}} \).
-The terms linearly dependent on \( e_\Delta\) are combined with~\cref{eqn:delta_dot} to yield
+The terms linearly dependent on \( e_\Delta\) are combined with~\cref{eqn:delta_dot} to yield the following
 \begin{align*}
 	 e_\Delta^T \parenth{W^T \parenth{e_\Omega + c e_R} - \frac{1}{k_\Delta} \dot{\bar{\Delta}}} = 0. 
 \end{align*}

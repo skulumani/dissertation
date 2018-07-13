@@ -25,10 +25,10 @@ The variations of the reduced variables are obtained from the variations of the 
 
 \subsection{Relative Position}\label{sec:relative_position_variation}
 The variation of the relative position given in~\cref{eq:relative_position} is defined as
-\begin{align}
+\begin{align*}
     \delta \gls{sym:rpos} &= \left. \diff{}{\epsilon} \right|_{\epsilon=0} \gls{sym:aatt}[^T] \gls{sym:ipos}^\epsilon ,\nonumber \\
-                        &= \gls{sym:aatt}[^T] \delta \gls{sym:ipos} .\label{eq:relative_position_variation}
-\end{align}
+                        &= \gls{sym:aatt}[^T] \delta \gls{sym:ipos}.
+\end{align*}
 
 \subsection{Relative Attitude}\label{sec:relative_attitude_variation}
 The variation of the relative attitude given in~\cref{eq:relative_attitude} is expressed as
@@ -40,7 +40,7 @@ where we used the fact that the asteroid attitude does not vary, \( \delta \gls{
 The variation of the spacecraft attitude \( \gls{sym:iattvar} \in \so \) is related to the relative variation \( \gls{sym:rattvar} \in \so \) by
 \begin{align}
     \gls{sym:rattvar} &= \gls{sym:ratt} \gls{sym:iattvar} \gls{sym:ratt}[^T],\nonumber\\
-                      &= \gls{sym:aatt}[^T] \gls{sym:iatt} \gls{sym:iattvar} \gls{sym:iatt}[^T] \gls{sym:aatt}.\label{eq:relative_attitude_variation}
+                      &= \gls{sym:aatt}[^T] \gls{sym:iatt} \gls{sym:iattvar} \gls{sym:iatt}[^T] \gls{sym:aatt}.
 \end{align}
 We can invert~\cref{eq:relative_attitude_variation} to find
 \begin{align}\label{eq:relative_attitude_variation_inverse}
@@ -129,7 +129,7 @@ We can redefine~\cref{eq:relative_velocity_variation_1} in terms of the relative
                      &= \parenth{\gls{sym:aatt} \hat{\Omega}_A}^T \delta\gls{sym:ipos} + \gls{sym:aatt}[^T] \parenth{\delta \dot{\gls{sym:ipos}}}.
 \end{align}
 Rearranging~\cref{eq:relative_position_variation_derivative_1} for \(\delta \dot{\gls{sym:ipos}} \) and substituting into~\cref{eq:relative_velocity_variation_1} gives
-\begin{align}\label{eq:relative_velocity_variation}
+\begin{align}
     \delta \gls{sym:rvel} = \delta \dot{x}_r + \hat{\Omega}_A \delta \gls{sym:rpos}.
 \end{align}
 

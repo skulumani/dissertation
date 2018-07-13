@@ -570,10 +570,10 @@ The plots show that the reconstruction  converges to an accurate shape estimate 
 
 \begin{figure}[htbp]
     \centering
-    \subcaptionbox{3D visualization of the trajectory\label{fig:castalia_explore_trajectory}}{\includegraphics[trim={0 0 0 0},clip,keepaspectratio,width=0.99\textwidth]{figures/computational_geometry/dynamic_exploration/52760/state/asteroid_trajectory.jpg}
+    \subcaptionbox{3D visualization of the trajectory\label{fig:52760_explore_trajectory}}{\includegraphics[trim={0 0 0 0},clip,keepaspectratio,width=0.99\textwidth]{figures/computational_geometry/dynamic_exploration/52760/state/asteroid_trajectory.jpg}
 }\\%
-    \subcaptionbox{Compoents of position\label{fig:castalia_explore_components}}{\input{tikz/castalia_asteroid_position.tikz}}
-    \caption{Spacecraft trajectory in the rotating asteroid frame for the exploration of 52760~\label{fig:52760_explore_trajectory}}
+    \subcaptionbox{Compoents of position\label{fig:52760_explore_components}}{\input{tikz/castalia_asteroid_position.tikz}}
+    \caption{Spacecraft trajectory in the rotating asteroid frame for the exploration of 52760~\label{fig:52760_trajectory}}
 \end{figure}
 
 \paragraph{Asteroid 4769 Castalia Reconstruction}
@@ -629,7 +629,7 @@ The component plots of the trajectory are shown in~\cref{fig:castalia_explore_co
     \centering
     \subcaptionbox{3D visualization of the trajectory\label{fig:castalia_explore_trajectory}}{\includegraphics[trim={15cm 0cm 15cm 0cm},clip,keepaspectratio,width=\textwidth,height=0.5\textheight]{figures/computational_geometry/dynamic_exploration/castalia/state/asteroid_trajectory.jpg}}\\%
     \subcaptionbox{Compoents of position\label{fig:castalia_explore_components}}{\input{tikz/castalia_asteroid_position.tikz}}
-    \caption{Spacecraft trajectory in the rotating asteroid frame for the exploration of Castalia~\label{fig:castalia_explore_trajectory}}
+    \caption{Spacecraft trajectory in the rotating asteroid frame for the exploration of Castalia~\label{fig:castalia_trajectory}}
 \end{figure}
 
 \paragraph{Castalia Landing Site Selection}
@@ -654,7 +654,7 @@ The area immediately beneath the spacecraft has a small cost while those on the 
 \begin{figure}[htbp]
     \centering
     \subcaptionbox{Surface Distance to surface of Castalia\label{fig:surface_distance_castalia}}{\includegraphics[width=\textwidth]{figures/computational_geometry/dynamic_exploration/castalia/refine/dist.pdf}}\\%
-    \subcaptionbox{Masked distance to surface with areas \( \phi > \SI{5}{\degree}\) excluded\label{fig:surface_slope_castalia_masked}}{\includegraphics[width=\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/castalia/refine/dist_masked.pdf}}
+    \subcaptionbox{Masked distance to surface with areas \( \phi > \SI{5}{\degree}\) excluded\label{fig:surface_distance_castalia_masked}}{\includegraphics[width=\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/castalia/refine/dist_masked.pdf}}
     \caption{Distance to surface of Asteroid Castalia\label{fig:distance_castalia_both}}
 \end{figure}
 We can combine~\cref{fig:distance_castalia_both,fig:surface_slope_castalia_both} to determine the best landing site. 
@@ -669,7 +669,7 @@ After selecting the appropriate landing site we then prepare for landing by coll
 \paragraph{Castalia Landing Site Refinement}
 One key benefit of an in-situ spacecraft is the ability to measure surface features at a much higher resolution than is possible from the ground. 
 This detail provides a much higher fidelity data source than ground based measurements. 
-In order to emulate this in the simulation we augment the shape model of Castalia with several small craters and outcroppings as shown in~\cref{fig:castalia_bump_true}.
+In order to emulate this in the simulation we augment the shape model of Castalia with several small craters and outcroppings as shown in~\cref{fig:castalia_refinement}.
 However, these small features would be difficult to capture with the current low resolution shape model of approximately \num{4000} faces.
 The lower number of faces is useful for the evaluation of the polyhedron potential model, it is not ideal for the capture of minute surface features. 
 As a result, we utilize the isotropic remeshing operation described previously to selectively increase the fidelity in the region about the desired landing site.

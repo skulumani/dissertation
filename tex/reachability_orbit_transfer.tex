@@ -246,7 +246,7 @@ Coupling the ability for continuous low-thrust propulsion between measurements i
 Computing the reachability set given estimated states and control authorities allows one to better correlate subsequent measurements or determine sensor pointing regions in the event of a lost spacecraft. 
 
 
-\subsection{Optimal Control Problem Formulation}\label{sec:optimal_control}
+\subsection{Optimal Control Problem Formulation}\label{sec:optimal_control_problem}
 In this paper, we seek to approximate the reachability set on a \Poincare section by solving a related optimal control problem. 
 We choose our \Poincare section in a similar manner to those used previously for the design of transfers via invariant manifolds.
 The \Poincare section is chosen to intersect transversally with trajectories emanating from the initial orbit. 
@@ -422,7 +422,7 @@ The required travel time for a transfer using the unstable invariant manifold is
         \begin{subfigure}[htbp]{0.5\textwidth} 
             \includegraphics[width=\textwidth]{figures/2017_JAS/manifold_trajectory} 
                 \caption{Position space view of invariant manifold} \label{fig:manifold_trajectory} 
-        \end{subfigure}~%
+        \end{subfigure}%
         \begin{subfigure}[htbp]{0.5\textwidth} 
             \includegraphics[width=\textwidth]{figures/2017_JAS/manifold_poincare} 
                 \caption{\Poincare intersection of invariant manifold (green), target orbit (blue) and the initial orbit (black)} \label{fig:manifold_poincare} 
@@ -473,7 +473,7 @@ Each solution on the reachability set is computed in approximately \SI{2}{\minut
 The intersection of the optimal trajectories as well as those of the target Moon orbit with the \Poincare section are shown in~\cref{fig:varying_tf_reachability_sets}.
 
 \begin{figure}
-    \subcaptionbox{Position space view of reachability sets\label{fig:varying_tf_trajectory}}{\includegraphics[width=0.5\textwidth]{figures/2017_JAS/trajectory_varying_um.pdf}}~
+    \subcaptionbox{Position space view of reachability sets\label{fig:varying_tf_trajectory}}{\includegraphics[width=0.5\textwidth]{figures/2017_JAS/trajectory_varying_um.pdf}}%
     \subcaptionbox{\Poincare section view of reachability sets\label{fig:varying_tf_poincare}}{\includegraphics[width=0.5\textwidth]{figures/2017_JAS/poincare_section_varying_um.pdf}}
     \caption{Variation of \( t_f \) and \( u_m\) on the reachability set. 
         Colors, \braces{\text{red}, \text{blue}, \text{green}, \text{yellow}}, are used note increasing \( t_f\) while markers, \braces{\text{circle}, \text{square}, \text{cross}}, are used to denote increasing \(u_m\).
@@ -513,7 +513,7 @@ The reachable set is an ellipsoidal region with a major axis aligned along \( \t
         \begin{subfigure}[htbp]{0.5\textwidth} 
             \includegraphics[width=\textwidth]{figures/2017_JAS/reach_trajectory} 
                 \caption{Position space view of reachability set} \label{fig:reach_trajectory} 
-        \end{subfigure}~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. %(or a blank line to force the subfigure onto a new line) 
+        \end{subfigure}%add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. %(or a blank line to force the subfigure onto a new line) 
         \begin{subfigure}[htbp]{0.5\textwidth} 
             \includegraphics[width=\textwidth]{figures/2017_JAS/poincare_compare} 
                 \caption{\Poincare section view of reachability set} \label{fig:poincare_compare} 
@@ -522,11 +522,11 @@ The reachable set is an ellipsoidal region with a major axis aligned along \( \t
         \begin{subfigure}[htbp]{0.5\textwidth} 
             \includegraphics[width=\textwidth]{figures/2017_JAS/reach_transfer} 
                 \caption{Transfer trajectory selected from reachability set viewed in the position space} \label{fig:reach_transfer} 
-        \end{subfigure}~ 
+        \end{subfigure}%
         \begin{subfigure}[htbp]{0.5\textwidth} 
             \includegraphics[width=\textwidth]{figures/2017_JAS/control_input_l1} 
                 \caption{Control input for the selected transfer trajectory} \label{fig:control_l1} 
-        \end{subfigure}~
+        \end{subfigure}
 
         \begin{subfigure}[htbp]{0.5\textwidth} 
             \includegraphics[width=\textwidth, keepaspectratio]{figures/2017_JAS/jacobi.pdf} 
@@ -875,7 +875,7 @@ This type of scenario would occur frequently during mapping and observation miss
     \begin{subfigure}[htbp]{0.5\textwidth} 
         \includegraphics[width=\textwidth]{figures/2016_AAS/initial_transfer} 
         \caption{Equatorial View} \label{fig:eq_initial_transfer} 
-    \end{subfigure}~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. %(or a blank line to force the subfigure onto a new line) 
+    \end{subfigure}%add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. %(or a blank line to force the subfigure onto a new line) 
     \begin{subfigure}[htbp]{0.5\textwidth} 
         \includegraphics[width=\textwidth]{figures/2016_AAS/initial_transfer_3d} 
         \caption{3D view} \label{fig:initial_transfer_3d} 
@@ -899,7 +899,7 @@ We visualize the section using the two figures in~\cref{fig:poincare_section}.
     \begin{subfigure}[htbp]{0.5\textwidth} 
         \includegraphics[width=\textwidth]{figures/2016_AAS/poincare_xvsxdot.pdf} 
         \caption{\( x \) vs. \( \dot{x} \) \Poincare section} \label{fig:poincare_xvsxdot} 
-    \end{subfigure}~
+    \end{subfigure}%
     \begin{subfigure}[htbp]{0.5\textwidth} 
         \includegraphics[width=\textwidth]{figures/2016_AAS/poincare_zvszdot.pdf} 
         \caption{\( z \) vs. \( \dot{z} \) \Poincare section} \label{fig:poincare_zvszdot} 
@@ -910,7 +910,7 @@ These two-dimensional sections allow us to visualize the four-dimensional \Poinc
 The first stage of the transfer is represented by the magenta markers in~\cref{fig:poincare_section}.
 From~\cref{fig:poincare_xvsxdot}, we can see that the reachability set has grown in the \( \dot{x} \) dimension but has not been enlarged much in the \( x \) direction.
 Similarly,~\cref{fig:poincare_zvszdot} shows an increase in the \( \dot{z} \) component.
-From the reachability set, we chose a trajectory and terminal state which minimizes a distance metric \( d(\vecbf{x}_f,\vecbf{x}_t) \) to the desired target
+From the reachability set, we chose a trajectory and terminal state which minimizes a distance metric \( d(\vc{x}_f,\vc{x}_t) \) to the desired target
 \begin{align}\label{eq:reach_dist}
     d = \sqrt{k_x \parenth{x_f - x_t }^2 + k_z \parenth{z_f - z_t }^2 + k_{\dot{x}}\parenth{\dot{x}_f - \dot{x}_t }^2 + k_{\dot{z}}\parenth{\dot{z}_f - \dot{z}_t }^2} ,
 \end{align}
@@ -921,7 +921,7 @@ where \( k_x, k_z, k_{\dot{x}}, k_{\dot{z}} \) are used to weight the relative i
     \begin{subfigure}[htbp]{0.5\textwidth} 
         \includegraphics[width=\textwidth]{figures/2016_AAS/phi1.pdf} 
         \caption{ \( \phi_1 \)} \label{fig:phi1} 
-    \end{subfigure}~
+    \end{subfigure}%
     \begin{subfigure}[htbp]{0.5\textwidth} 
         \includegraphics[width=\textwidth]{figures/2016_AAS/phi2.pdf} 
         \caption{\( \phi_2 \)} \label{fig:phi2} 
@@ -935,7 +935,7 @@ where \( k_x, k_z, k_{\dot{x}}, k_{\dot{z}} \) are used to weight the relative i
     \label{fig:phi_distance} 
 \end{figure}
 
-The trajectory which minimizes \( d \) is indicated by the red circular markers in~\cref{fig:poincare_section,fig:phi_distance}.
+The trajectory which minimizes \( d \) is indicated by the red circular markers in \cref{fig:poincare_section,fig:phi_distance}.
 Since the first reachability set does not include the target we use the minimum state from the first stage to initialize another reachability computation.
 Once again we compute the reachability set by discretization of the angles \( \phi_i \) on the \Poincare section.
 This second stage, represented by the cyan markers in~\cref{fig:poincare_section,fig:phi_distance}, further increases the \( x, z\) components but does not reach the target orbit.
@@ -953,11 +953,11 @@ A final optimal transfer is computed to satisfy the fixed terminal state \( \vc{
     \begin{subfigure}[htbp]{0.5\textwidth} 
         \includegraphics[width=\textwidth]{figures/2016_AAS/trajectory.pdf} 
         \caption{Equatorial view of transfer} \label{fig:trajectory_up} 
-    \end{subfigure}~
+    \end{subfigure}%
     \begin{subfigure}[htbp]{0.5\textwidth} 
         \includegraphics[width=\textwidth]{figures/2016_AAS/trajectory_3d.pdf} 
         \caption{Out of plane view} \label{fig:trajectory_3d} 
-    \end{subfigure}~ 
+    \end{subfigure}
     \caption{Complete transfer trajectory}
     \label{fig:trajectory} 
 \end{figure}
