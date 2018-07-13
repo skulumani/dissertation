@@ -1,11 +1,15 @@
+\tikzsetnextfilename{Psi_noadapt}
 \begin{tikzpicture}[baseline]
     \begin{axis}[
         name={Psi_noadapt},
         ylabel={$\Psi$},
         xlabel={$t~(\si{\second})$},
+        width=0.8\textwidth,
+        height=0.2\textheight,
+        scale only axis,
         ]
-        \addplot [blue, mark=none] table [x=TIME, y=Psi, col sep=comma] {figures/2016_IJCAS_pgf/csv/noadapt.csv};
-        \addplot [red, mark=none, dashed] coordinates {
+        \addplot [ultra thick, blue, mark=none] table [x=TIME, y=Psi, col sep=comma] {figures/2016_IJCAS_pgf/csv/noadapt.csv};
+        \addplot [ultra thick, red, mark=none, dashed] coordinates {
                 (0.0, 0.0) (10.0, 0.0) 
             };
     \end{axis}

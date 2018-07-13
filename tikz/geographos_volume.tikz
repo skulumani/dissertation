@@ -1,0 +1,13 @@
+\tikzsetnextfilename{geographos_volume}
+\begin{tikzpicture}[baseline]
+    \begin{axis}[
+        name={geographos_volume},
+        xlabel={Normalized Time},
+        ylabel style={align=center},ylabel={Volume Percent\\Error},
+        scale only axis,
+        width=0.8\textwidth,
+        height=0.2\textheight,
+        ]
+    \addplot [blue, mark=none] table [x=NORMALIZED_TIME, y=VOLUME_PERCENT_ERROR, col sep=comma] {figures/computational_geometry/mesh_update/geographos/volume.csv};
+    \end{axis}
+\end{tikzpicture}

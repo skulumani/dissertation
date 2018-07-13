@@ -1,0 +1,34 @@
+\tikzsetnextfilename{eR_exp}
+\begin{tikzpicture}[baseline]
+    \begin{groupplot}[
+        group style={
+            group name={eR_exp},
+            group size=1 by 3,
+            xlabels at=edge bottom,
+            ylabels at=edge left,
+            xticklabels at=edge bottom,
+            vertical sep=0pt,
+        },
+        xlabel={$t~(\si{\second})$},
+        ymin=-1.5, ymax=1.5,
+        scale only axis,
+        width=0.8\textwidth,
+        height=0.1\textheight,
+    ]
+    \nextgroupplot[ylabel={$ e_{R_1}$}]
+    \addplot [ultra thick,blue, mark=none] table [x=TIME, y=eR_1, col sep=comma] {figures/2016_IJCAS_pgf/csv/exp.csv};
+    \addplot [ultra thick,red, mark=none, dashed] coordinates {
+        (0.0, 0.0) (12.0, 0.0) 
+    };
+    \nextgroupplot[ylabel={$ e_{R_2}$}]
+        \addplot [ultra thick,blue, mark=none] table [x=TIME, y=eR_2, col sep=comma] {figures/2016_IJCAS_pgf/csv/exp.csv};
+        \addplot [ultra thick,red, mark=none, dashed] coordinates {
+            (0.0, 0.0) (12.0, 0.0) 
+        };
+    \nextgroupplot[ylabel={$ e_{R_3}$}]
+        \addplot [ultra thick,blue, mark=non] table [x=TIME, y=eR_3, col sep=comma] {figures/2016_IJCAS_pgf/csv/exp.csv};
+        \addplot [ultra thick,red, mark=none, dashed] coordinates {
+            (0.0, 0.0) (12.0, 0.0) 
+        };
+\end{groupplot}
+\end{tikzpicture}

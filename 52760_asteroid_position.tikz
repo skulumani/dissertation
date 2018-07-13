@@ -1,0 +1,27 @@
+\tikzsetnextfilename{52760_ast_comp}
+\begin{tikzpicture}[baseline]
+    \begin{groupplot}[
+        group style={
+            group name={52760_ast_comp},
+            group size=1 by 3,
+            xlabels at=edge bottom,
+            ylabels at=edge left,
+            xticklabels at=edge bottom,
+            vertical sep=0pt,
+        },
+        xlabel={Normalized Time},
+        scale only axis,
+        width=0.8\textwidth,
+        height=0.1\textheight,
+    ]
+    \nextgroupplot[ylabel={$ x$}]
+    \addplot [ultra thick,blue, mark=none] table [x=NORMALIZED_TIME, y=ASTEROID_X, col sep=comma] {figures/computational_geometry/dynamic_exploration/52760/state/state_trajectory.csv};
+
+    \nextgroupplot[ylabel={$ y  $}]
+    \addplot [ultra thick,blue, mark=none] table [x=NORMALIZED_TIME, y=ASTEROID_Y, col sep=comma] {figures/computational_geometry/dynamic_exploration/52760/state/state_trajectory.csv};
+
+    \nextgroupplot[ylabel={$ z  $}]
+    \addplot [ultra thick,blue, mark=non] table [x=NORMALIZED_TIME, y=ASTEROID_Z, col sep=comma] {figures/computational_geometry/dynamic_exploration/52760/state/state_trajectory.csv};
+
+\end{groupplot}
+\end{tikzpicture}

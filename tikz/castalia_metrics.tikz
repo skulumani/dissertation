@@ -1,0 +1,30 @@
+\tikzsetnextfilename{castalia_metrics}
+\begin{tikzpicture}[baseline]
+    \begin{groupplot}[
+        group style={
+            group name={castalia_metrics},
+            group size=1 by 2,
+            xlabels at=edge bottom,
+            ylabels at=edge left,
+            xticklabels at=edge bottom,
+        },
+        xlabel={Normalized Time},
+        scale only axis,
+        width=0.8\textwidth,
+        height=0.1\textheight,
+        ylabel style={align=center},
+    ]
+    \nextgroupplot[ylabel={Normalized\\Uncertainty}]
+    \addplot [ultra thick, color=blue, mark=none] table [x=NORMALIZED_TIME, y=NORMALIZED_UNCERTAINTY, col sep=comma] {figures/computational_geometry/dynamic_exploration/castalia/uncertainty.csv};
+    \addplot [ultra thick,red, mark=none, dashed] coordinates {
+        (0.0, 0.0) (1.0, 0.0) 
+    };
+
+    \nextgroupplot[ylabel={Volume Percent\\Error}]
+    \addplot [ultra thick, blue, mark=none] table [x=NORMALIZED_TIME, y=VOLUME_PERCENT_ERROR, col sep=comma] {figures/computational_geometry/dynamic_exploration/castalia/volume.csv};
+        \addplot [ultra thick,red, mark=none, dashed] coordinates {
+            (0.0, 0.0) (1.0, 0.0) 
+        };
+\end{groupplot}
+\end{tikzpicture}
+
