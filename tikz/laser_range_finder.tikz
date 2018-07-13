@@ -1,0 +1,36 @@
+\tikzsetnextfilename{laser_range_finder}
+\begin{tikzpicture}[
+    block/.style={rectangle,thick,
+        draw=blue!50,
+        fill=blue!20, 
+        rounded corners, 
+        text centered, 
+        minimum height = 3em, 
+        minimum width=6em},
+        on grid=false,
+        node distance=3em,
+        auto,
+    ]
+
+    \node [block] (detector) {Detector};
+    \node [block, below = of detector] (amplifier) {Amplifier};
+    \node [block, right = of amplifier] (transmitter) {Transmitter};
+    \node [block, below = of $(amplifier)!0.5!(transmitter)$] (timer)  {Clock};
+    \node [block, right = of detector] (beamsplitter) {Optics};
+    \node [block, right = of beamsplitter] (target) {Target};
+    
+    \node [below = of timer] (system) {};
+
+    \draw[-Latex] (amplifier) |- node[left] {\scriptsize Stop pulse}  (timer.west);
+    \draw[-Latex] (transmitter.south) |- node[right] {\scriptsize Start pulse} (timer.east);
+    \draw[-Latex] (detector.south) -- (amplifier.north);
+
+    \draw[-Latex] (transmitter.north) -- (beamsplitter.south);
+    \draw[->,decorate,
+        decoration={snake,amplitude=.4mm,segment length=2mm,post length=1mm}] (beamsplitter.350) -- (target.190);
+    \draw[->,decorate,
+        decoration={snake,amplitude=.4mm,segment length=2mm,post length=1mm}] (target.170) -- (beamsplitter.10);
+
+    \draw[-Latex] (beamsplitter) -- (detector);
+    \draw[-Latex] (timer) -- node[left] {\scriptsize $\Delta t$} (system);
+\end{tikzpicture}
