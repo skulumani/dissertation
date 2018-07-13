@@ -9,7 +9,10 @@ These transfers are ideal for large scale orbital manuevers, such as arrival or 
 The coupled dynamics of a rigid body spacecraft are developed using geometric mechanics in~\cref{sec:mathematical_background}.
 This derivation is derived on the intrinsic configuration manifold, \( \SE \), and as a result does not utilize any coordinate representations.
 Furtheremore, the dynamics are developed in a generalized manner and presented in four equivalent forms which allows for straightforward extension to other spacecraft models.
-The shape reconstruction approach presented in~\cref{sec:shape_reconstruction}
+The shape reconstruction approach presented in~\cref{sec:shape_reconstruction} provides an efficent approach to estimate the shape of a body. 
+Also developed was an optimal guidance schmeme to determine future states that best update the shape estimate. 
+Finally, utilizing a multi-resolution approach to the shape model allows for an increase in fidelity in specific regions without a correspondingly large increase in the computational demand.
+
 \section{Future Work and Conclusions}
 
 The developments in this dissertation we developed with the assumption the location of the spacecraft and the motion of the small body are both accurately known.
