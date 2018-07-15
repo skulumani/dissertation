@@ -96,7 +96,7 @@ where the matrix \( A \) and pseudo gravitational potential gradient \( \nabla U
 and the control input is defined as \( \vc{u} = \begin{bmatrix} u_x & u_y \end{bmatrix}^T \in \R^{2\times1} \) and assumed to be continuously variable but bounded in magnitude, i.e. \( \vc{u}^T \vc{u} \leq u_{max}^2 \).
 The state is defined as \( \vc{x} = \begin{bmatrix}\vc{r} &\vc{v} \end{bmatrix}^T\) with \(\vc{r} = \begin{bmatrix} x & y \end{bmatrix}^T \in \R^{2\times1}\) and \(\vc{v}= \begin{bmatrix} \dot{x} & \dot{y} \end{bmatrix}^T \in \R^{2\times1}\) representing the position and velocity with respect to the system barycenter, respectively.
 
-\subsection{Jacobi Integral}\label{sec:jacobi}
+\paragraph{Jacobi Integral}\label{sec:jacobi}
 There exists a single integral, or constant of motion for the three-body problem~\cite{szebehely1967,lanczos1970}.
 This energy constant is analogous to the total mechanical energy, however it is a non-physical quantity arising from the problem formulation~\cite{szebehely1967}.
 Also known as the Jacobi constant, it is defined as a function of the position and velocity in the rotating frame and given by
@@ -115,7 +115,7 @@ The Jacobi integral is a valuable invariant property of the three-body system th
 \begin{figure}[htbp]
         \centering
         \includegraphics[width=0.75\textwidth]{./figures/2017_JAS/energy_contours.pdf}
-        \caption[Jacobi integral]{Contour plot of Jacobi integral: Zero velocity curves of constant Jacobi integral. A particle with fixed energy level cannot cross the contour lines and is therefore limited to specific regions of the phase space. }
+        \caption{Contour plot of Jacobi integral: Zero velocity curves of constant Jacobi integral. A particle with fixed energy level cannot cross the contour lines and is therefore limited to specific regions of the phase space. }
         \label{fig:energy_contour}
 \end{figure} 
 
@@ -872,7 +872,7 @@ This type of scenario would occur frequently during mapping and observation miss
         \includegraphics[width=\textwidth]{figures/2016_AAS/initial_transfer_3d} 
         \caption{3D view} \label{fig:initial_transfer_3d} 
     \end{subfigure} ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. %(or a blank line to force the subfigure onto a new line) 
-    \caption{Initial and target periodic orbits}
+    \caption{Initial and target periodic orbits for low thrust transfer around asteroid 4769 Castalia.}
     \label{fig:initial_transfer} 
 \end{figure}
 In this transfer example we also have used a reduced model of Castalia.
@@ -896,7 +896,7 @@ We visualize the section using the two figures in~\cref{fig:poincare_section}.
         \includegraphics[width=\textwidth]{figures/2016_AAS/poincare_zvszdot.pdf} 
         \caption{\( z \) vs. \( \dot{z} \) \Poincare section} \label{fig:poincare_zvszdot} 
     \end{subfigure}
-    \caption{\Poincare section visualization \label{fig:poincare_section}}
+    \caption{\Poincare section visualization for transfer around asteroid 4769 Castalia.\label{fig:poincare_section}}
 \end{figure}
 These two-dimensional sections allow us to visualize the four-dimensional \Poincare section defined by~\cref{eq:poincare_section}.
 The first stage of the transfer is represented by the magenta markers in~\cref{fig:poincare_section}.
@@ -923,7 +923,7 @@ where \( k_x, k_z, k_{\dot{x}}, k_{\dot{z}} \) are used to weight the relative i
         \includegraphics[width=\textwidth]{figures/2016_AAS/phi3.pdf} 
         \caption{\( \phi_3 \)} \label{fig:phi3} 
     \end{subfigure} 
-    \caption{Variation of \(d(\vc{x}_f,\vc{x}_t)\) due to \( \phi_i\)}
+    \caption{Variation of \(d(\vc{x}_f,\vc{x}_t)\) due to \( \phi_i\). Each stage serves to reduce the distance  towards the target set.}
     \label{fig:phi_distance} 
 \end{figure}
 
@@ -950,14 +950,14 @@ A final optimal transfer is computed to satisfy the fixed terminal state \( \vc{
         \includegraphics[width=\textwidth]{figures/2016_AAS/trajectory_3d.pdf} 
         \caption{Out of plane view} \label{fig:trajectory_3d} 
     \end{subfigure}
-    \caption{Complete transfer trajectory}
+    \caption{Complete transfer trajectory about asteroid 4769 Castalia}
     \label{fig:trajectory} 
 \end{figure}
 
 \begin{figure}
     \centering
     \includegraphics[width=0.5\textwidth]{figures/2016_AAS/control.pdf}
-    \caption{Control history \label{fig:control}}
+    \caption{Control history for transfer about asteroid 4769 Castalia.\label{fig:control}}
 \end{figure}
 It is interesting to note that while both the initial and target periodic orbit lie in the equatorial plane, the reachability trajectories show a relatively large out of plane component during the transfers.
 In spite of this out of plane movement, the reachability set approaches and meets the target orbit. 

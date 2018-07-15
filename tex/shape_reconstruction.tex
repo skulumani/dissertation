@@ -96,7 +96,7 @@ As a result, we must also implement a ray casting algorithm that will find the i
 \begin{figure}[htbp]
     \centering
     \input{tikz/frustrum.tikz}
-    \caption{View Frustrum for Spacecraft sensor modeling\label{fig:view_frustrum}}
+    \caption{View frustrum for spacecraft sensor modeling\label{fig:view_frustrum}}
 \end{figure}
 We assume that the spacecraft is located at \(\rpos\) in the asteroid fixed frame.
 We define a camera fixed frame, \( \vc{c}_i \in \R^3 \), which is defined with respect to the spacecraft body fixed frame, \( \vc{b}_i \).
@@ -378,7 +378,7 @@ After the isotropic remeshing operation the number of vertices has increased fro
     \centering
     \subcaptionbox{Original Cube\label{fig:cube_original_mesh}}{\includegraphics[width=0.49\textwidth]{figures/computational_geometry/isotropic/original_cube.jpg}}~
     \subcaptionbox{Remeshed Cube\label{fig:cube_refine_mesh}}{\includegraphics[width=0.49\textwidth]{figures/computational_geometry/isotropic/remesh_cube.jpg}}
-    \caption{Example of Isotropic remeshing of a face of a cube\label{fig:cube_remesh}}
+    \caption{Example of isotropic remeshing of a face of a cube\label{fig:cube_remesh}}
 \end{figure}
 
 In order to demonstrate the multi resolution surface refinement we require a true shape model that contains small scale surface features.
@@ -435,7 +435,7 @@ In addition, we compute the volume of the estimate shape throughout the simulati
 
     \subcaptionbox{\SI{100}{\percent} of measurements added\label{fig:geographos_partial_100}}{\includegraphics[trim={20cm 15cm 20cm 15cm},clip,keepaspectratio,width=0.5\textwidth]{figures/computational_geometry/mesh_update/geographos/partial_7489.jpg}}%
     \subcaptionbox{True Shape Model\label{fig:geographos_truth}}{\includegraphics[trim={20cm 15cm 20cm 15cm},clip,keepaspectratio,width=0.5\textwidth]{figures/computational_geometry/mesh_update/geographos/truth.jpg}}
-    \caption[Asteroid Geographos Incremental Reconstruction]{Incremental Reconstruction of asteroid Geographos~\label{fig:geographos_reconstruction}}
+    \caption[Asteroid Geographos incremental reconstruction]{Incremental reconstruction of asteroid Geographos~\label{fig:geographos_reconstruction}}
 \end{figure}
 
 \num{1620} Geographos is a highly elongated stony asteroid of the Apollo group.
@@ -477,7 +477,7 @@ This is primarily due to the smaller size of Golevka and the relatively spherica
 
     \subcaptionbox{\SI{100}{\percent} of measurements added\label{fig:golevka_partial_100}}{\includegraphics[trim={20cm 10cm 20cm 10cm},clip,keepaspectratio,height=0.25\textheight]{figures/computational_geometry/mesh_update/golevka/partial_5285.jpg}}%
     \subcaptionbox{True Shape Model\label{fig:golevka_truth}}{\includegraphics[trim={20cm 10cm 20cm 10cm},clip,keepaspectratio,height=0.25\textheight]{figures/computational_geometry/mesh_update/golevka/truth.jpg}}
-    \caption[Asteroid Golevka Incremental Reconstruction]{Incremental Reconstruction of asteroid Golevka~\label{fig:golevka_reconstruction}}
+    \caption[Asteroid Golevka incremental reconstruction]{Incremental reconstruction of asteroid Golevka~\label{fig:golevka_reconstruction}}
 \end{figure}
 
 \subsection{Full Dynamic Model }\label{sec:dynamic_exploration}
@@ -544,7 +544,7 @@ Areas of high uncertainty are denoted in yellow while areas of low uncertainty a
 
     \subcaptionbox{\SI{100}{\percent} of measurements added\label{fig:52760_partial_100}}{\includegraphics[trim={10cm 0cm 10cm 0cm},clip,keepaspectratio,height=0.25\textheight]{figures/computational_geometry/dynamic_exploration/52760/partial_14998.jpg}}%
     \subcaptionbox{True Shape Model\label{fig:52760_truth}}{\includegraphics[trim={10cm 0cm 10cm 0cm},clip,keepaspectratio,height=0.25\textheight]{figures/computational_geometry/mesh_update/52760/truth.jpg}}
-    \caption[Asteroid 52760 Incremental Reconstruction]{Incremental Reconstruction of asteroid 52760~\label{fig:52760_reconstruction}}
+    \caption[Asteroid 52760 incremental reconstruction]{Incremental reconstruction of asteroid 52760~\label{fig:52760_reconstruction}}
 \end{figure}
 
 \begin{figure}[htbp]
@@ -557,7 +557,7 @@ Areas of high uncertainty are denoted in yellow while areas of low uncertainty a
 
     \subcaptionbox{\SI{100}{\percent} of measurements added\label{fig:52760_partial_weights_100}}{\includegraphics[trim={30cm 15cm 30cm 15cm},clip,height=0.25\textheight,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/52760/partial_weights_14998.jpg}}%
     % \subcaptionbox{True Shape Model\label{fig:52760_weights_truth}}{\includegraphics[trim={15cm 0cm 15cm 5cm},clip,height=0.18\textheight,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/mesh_update/52760/truth.jpg}}
-    \caption[Asteroid 52760 Shape Reconstruction with Uncertainty]{Incremental Reconstruction of asteroid 52760. The images colored according to the shape uncertainty. Areas of high uncertainty are in yellow while ares of low uncertainty are in purple.~\label{fig:52760_weights_reconstruction}}
+    \caption[Asteroid 52760 shape reconstruction with uncertainty]{Incremental reconstruction of asteroid 52760. The images colored according to the shape uncertainty. Areas of high uncertainty are in yellow while ares of low uncertainty are in purple.~\label{fig:52760_weights_reconstruction}}
 \end{figure}
 \Cref{fig:52760_metrics} shows the total normalized uncertainty and percent error for the volume estimate. 
 The plots show that the reconstruction  converges to an accurate shape estimate after approximately \SI{8000}{\second}.
@@ -597,7 +597,7 @@ Within \SI{50}{\percent} of the simulation span the spacecraft is able to achiev
 
     \subcaptionbox{\SI{100}{\percent} of measurements added\label{fig:castalia_partial_100}}{\includegraphics[trim={15cm 10cm 15cm 10cm},clip,height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/castalia/partial_14998.jpg}}%
     \subcaptionbox{True Shape Model\label{fig:castalia_truth}}{\includegraphics[trim={15cm 10cm 15cm 10cm},clip,height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/mesh_update/castalia/truth.jpg}}
-    \caption[Asteroid Castalia Incremental Reconstruction]{Incremental Reconstruction of asteroid Castalia~\label{fig:castalia_reconstruction}}
+    \caption[Asteroid Castalia incremental reconstruction]{Incremental reconstruction of asteroid Castalia~\label{fig:castalia_reconstruction}}
 \end{figure}
 
 \begin{figure}[htbp]
@@ -610,7 +610,7 @@ Within \SI{50}{\percent} of the simulation span the spacecraft is able to achiev
 
     \subcaptionbox{\SI{100}{\percent} of measurements added\label{fig:castalia_partial_weights_100}}{\includegraphics[trim={15cm 10cm 15cm 10cm},clip,height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/castalia/partial_weights_14998.jpg}}%
     \subcaptionbox{True Shape Model\label{fig:castalia_weights_truth}}{\includegraphics[trim={15cm 10cm 15cm 10cm},clip,height=0.5\textheight,width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/mesh_update/castalia/truth.jpg}}
-    \caption[Asteroid Castalia Shape Reconstruction with Uncertainty]{Incremental Reconstruction of asteroid Castalia. The images colored according to the shape uncertainty. Areas of high uncertainty are in yellow while ares of low uncertainty are in purple.~\label{fig:castalia_weights_reconstruction}}
+    \caption[Asteroid Castalia shape reconstruction with uncertainty]{Incremental reconstruction of asteroid Castalia. The images colored according to the shape uncertainty. Areas of high uncertainty are in yellow while ares of low uncertainty are in purple.~\label{fig:castalia_weights_reconstruction}}
 \end{figure}
 
 \Cref{fig:castalia_metrics} shows the total normalized uncertainty and percent error for the volume estimate. 
@@ -643,7 +643,7 @@ Areas which violate the slope constraint of \( \phi < \SI{5}{\degree} \) are exc
     \centering
     \subcaptionbox{Surface slope of Castalia\label{fig:surface_slope_castalia}}{\includegraphics[width=\textwidth]{figures/computational_geometry/dynamic_exploration/castalia/refine/slope.pdf}}\\%
     \subcaptionbox{Masked surface slope with areas \( \phi > \SI{5}{\degree}\) excluded\label{fig:surface_slope_castalia_masked}}{\includegraphics[width=\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/castalia/refine/slope_masked.pdf}}
-    \caption{Surface Slope of Asteroid Castalia\label{fig:surface_slope_castalia_both}}
+    \caption{Surface slope of asteroid Castalia\label{fig:surface_slope_castalia_both}}
 \end{figure}
 
 The next metric is related to the distance from the current spacecraft position to all candidate landing sites on the surface.
@@ -655,14 +655,14 @@ The area immediately beneath the spacecraft has a small cost while those on the 
     \centering
     \subcaptionbox{Surface Distance to surface of Castalia\label{fig:surface_distance_castalia}}{\includegraphics[width=\textwidth]{figures/computational_geometry/dynamic_exploration/castalia/refine/dist.pdf}}\\%
     \subcaptionbox{Masked distance to surface with areas \( \phi > \SI{5}{\degree}\) excluded\label{fig:surface_distance_castalia_masked}}{\includegraphics[width=\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/castalia/refine/dist_masked.pdf}}
-    \caption{Distance to surface of Asteroid Castalia\label{fig:distance_castalia_both}}
+    \caption{Distance to surface of asteroid Castalia\label{fig:distance_castalia_both}}
 \end{figure}
 We can combine~\cref{fig:distance_castalia_both,fig:surface_slope_castalia_both} to determine the best landing site. 
 The combination of the two is shown in~\cref{fig:landing_site_cost} with the desired landing site shown by the blue marker.
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/castalia/refine/cost.pdf}
-    \caption{Total Cost for surface Landing based on surface slope and distance\label{fig:landing_site_cost}}
+    \caption{Total cost for surface landing based on surface slope and distance\label{fig:landing_site_cost}}
 \end{figure}
 After selecting the appropriate landing site we then prepare for landing by collecting more measurements in the region around the landing area.
 
@@ -683,7 +683,7 @@ As a result, we utilize the isotropic remeshing operation described previously t
 \end{figure}
 
 The increased number of faces and vertices in the landing area allows for the capture of the small surface features.
-\Cref{fig:castalia_bump_est} shows that given \gls{lidar} measurements alone and the algorithm presented in~\cref{sec:radius_update} the small craters and features are effectively estimated.
+\Cref{fig:castalia_refinement} shows that given \gls{lidar} measurements alone and the algorithm presented in~\cref{sec:radius_update} the small craters and features are effectively estimated.
 \begin{figure}[htbp]
     \centering
     \subcaptionbox{Augmented shape of Castalia with surface features\label{fig:orig_castalia}}{\includegraphics[trim={15cm 0 15cm 0},clip,keepaspectratio,width=0.49\textwidth]{figures/computational_geometry/dynamic_exploration/castalia_bump_true.jpg}}~

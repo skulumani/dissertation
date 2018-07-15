@@ -409,7 +409,7 @@ For example, researchers have developed hovering type schemes~\cite{broschart200
 In this section, we present and derive a closed loop control scheme for the translational position of a spacecraft around an asteroid.
 The method applies standard nonlinear control techniques for systems on Euclidean spaces~\cite{khalil1996}.
 
-\subsection{Problem Formulation}\label{sec:translation_control_problem_formulation}
+\paragraph{Problem Formulation}\label{sec:translation_control_problem_formulation}
 
 We consider the translational dynamics of a rigid spacecraft around a small body.
 The inertial translational dynamics were defined in~\cref{sec:inertial_dumbbell_eoms} and are given as
@@ -497,7 +497,7 @@ Constraint Vector (\( v \)) & Angle (\( \theta \)) \\
 \([-0.122 ,\,-0.140,\, -0.983]^T\) & \ang{20} \\
 \bottomrule
 \end{tabular} 
-\caption{Constraint Parameters~\label{tab:constraints}}
+\caption{Constraint parameters for attitude control with state inequality constraints.~\label{tab:constraints}}
 \end{table}
 The initial state is defined as \(R_0 =  \exp(\ang{225} \times \frac{\pi}{180} \hat{e}_3), \Omega_0 = 0\), with \( e_3 = \begin{bmatrix} 0 & 0 & 1 \end{bmatrix}^T \).
 The desired state is \( R_d = I,\Omega_d = 0\).
@@ -652,7 +652,7 @@ In addition, the following parameters were also modified: \(k_R = 0.4, k_\Omega 
 \begin{figure}[t]
     \centering 
     \includegraphics[width=0.75\columnwidth]{2016_IJCAS/traj_exp}
-    \caption{ Attitude Trajectory for hexrotor experiment \label{fig:traj_exp} }
+    \caption{ Attitude trajectory for hexrotor experiment.\label{fig:traj_exp} }
     \label{fig:exp} 
 \end{figure}
 
