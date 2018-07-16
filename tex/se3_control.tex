@@ -14,17 +14,17 @@ This stability guarantee is critical for mission operations passing close to the
 Furthermore, the coupled geometric controller explicitly considers the attitude coupling of the body in contrast to many of the previous approaches.
 
 This chapter considers the controlled motion of a rigid dumbbell spacecraft about a small body.
-We assume that the desired trajectory, \( R_d(t), \vc{x}_d(t) \), are defined as the rotation matrix of the spacecraft body frame with respect to the inertial frame and the relative position of the spacecraft center of mass with respect to the asteorid and defined in the inertial frame, respectively.
+We assume that the desired trajectory, \( R_d(t), \vc{x}_d(t) \), are defined as the rotation matrix of the spacecraft body frame with respect to the inertial frame and the relative position of the spacecraft center of mass with respect to the asteroid and defined in the inertial frame, respectively.
 In contrast to controllers derived for quadrotor \gls{uav}, the attitude and translational motion are only lightly coupled in the spacecraft scenario.
 From the inertial equations of motion given in~\cref{eq:inertial_position_dynamics,eq:inertial_velocity_dynamics,eq:inertial_attitude_dynamics,eq:inertial_angvel_dynamics}, the coupling between the translational and rotational dynamics is due solely to the gravitational moment on the spacecraft.
 Furthermore, we assume that we have a fully actuated spacecraft such that we can apply a torque about all three rotational axes and a force in all three directions.
 This is in contrast to \glspl{uav} where the system is underactuated and in order to produce certain translational forces the system must first rotate.
-This is a relatively standard assumption in the astrodynamics community as most spacecraft contain seperate systems for attitude control, e.g.\ \glspl{rwa}, \glspl{cmg}, or cold gas thrusters, and translational control, e.g.\ cold-gas thrusters, electric propulsion, or large chemical rockets~\cite{hughes2004,wertz1978}.
+This is a relatively standard assumption in the astrodynamics community as most spacecraft contain separate systems for attitude control, e.g.\ \glspl{rwa}, \glspl{cmg}, or cold gas thrusters, and translational control, e.g.\ cold-gas thrusters, electric propulsion, or large chemical rockets~\cite{hughes2004,wertz1978}.
 However, there are also many examples of underactuated spacecraft, such as those with damaged components~\cite{petersen2015a} or cubesats with limited cost and/or size budgets.
 In these situations, there are a variety of methods to handle the underactuation, ranging from optimal control techniques, exploiting external forces, or utilizing multiple control loops.
 
 This chapter presents two controllers for the attitude motion and one controller for the translational motion. 
-These controllers are computed independently and used to manuever the spacecraft around the small body.
+These controllers are computed independently and used to maneuver the spacecraft around the small body.
 The controllers presented in this section and the low thrust orbital transfer scheme of~\cref{sec:lowthrust_transfers} provide a complete solution for the controlled motion of a spacecraft around a small body.
 The reachability based transfers of~\cref{sec:lowthrust_transfers} are ideal for arrival, departure, or other large scale orbital transfers around a small body.
 The controllers presented in this chapter are best suited for precise trajectory tracking, such as the shape reconstruction and landing guidance presented in~\cref{sec:shape_reconstruction}.
@@ -54,7 +54,7 @@ This behavior is characterized by situations where the rigid body starts close t
 In this section, we consider the attitude dynamics of a rigid body, and more specifically those of a dumbbell spacecraft around a small body. 
 We consider the inertial attitude dynamics given by~\cref{eq:inertial_attitude_dynamics,eq:inertial_angvel_dynamics} and repeated here as
 \begin{align*}
-    \dot{\iatt} &= \iatt \iangvel, \\
+    \dot{\iatt} &= \iatt \hat\iangvel, \\
     J \dot{\iangvel} + \hat{\iangvel} J \iangvel &= M_{ext} + u_m,
 \end{align*}
 where we combined the gravitational moment into a single term \( M_{ext} \in \R^3 \) which defines the total external moment on the spacecraft.
@@ -90,7 +90,7 @@ First, an attitude error function \(A : \SO \times \SO  \to \R \), an attitude e
 \end{subequations}
 Then the following properties hold:
 \begin{enumerate}
-    \item \label{item:prop_A_psd} \( A \) is locally positive definite about \( R = R_d \) on \( \SO \).
+    \item \label{item:prop_A_psd} \( A \) is  positive definite about \( R = R_d \) on \( \SO \).
     \item \label{item:prop_eRA} The variation of \( A \) with respect to a variation of \( \delta R = R \hat{\eta} \) for \( \eta \in \R^3 \) is given by
 	\begin{align}\label{eq:dirDiff_A}
 		\dirDiff{A}{R} &= \eta \cdot e_{R} ,
@@ -702,7 +702,7 @@ The controllers are derived on the special euclidean group and avoid the issues 
 In addition, a new adaptive attitude control for state inequality constraints is developed.
 This enables the accurate stabilization and tracking of a desired attitude while avoiding obstacles.
 
-The control approaches presented in this chapter, when combined with the results of~\cref{sec:lowthrust_transfers}, provide a complete approach for the manuevering of a spacecraft around a small body. 
+The control approaches presented in this chapter, when combined with the results of~\cref{sec:lowthrust_transfers}, provide a complete approach for the maneuvering of a spacecraft around a small body. 
 The low thrust propulsion scheme of~\cref{sec:lowthrust_transfers} is ideal for large magnitude orbital changes, while the results of this chapter provide precise trajectory tracking ideal for low altitude operations.
 These nonlinear controllers are ideally suited for low altitude operations.
 The results are utilized in the subsequent chapters to explore an asteroid and land on the surface.

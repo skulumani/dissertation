@@ -6,7 +6,7 @@ There is a simple method for determining the volume of a convex polyhedron.
 The full derivation can be found in~\textcite{newson1899,orourke1998}.
 A polyhedron can be decomposed into a collection of tetrahedron by combining the vertices of each face with that of the origin.
 Without loss of generality, assume that each face of the polyhedron is a triangle, if not there are readily available algorithms to triangulate a surface mesh~\cite{berg2008}.
-Assume that the vertices of a face are defined by \( \vc{v}_0, \vc{v}_2, \vc{v}_3 \) and numbered in a counterclock wise fashion such that the normal to the face is outward facing.
+Assume that the vertices of a face are defined by \( \vc{v}_0, \vc{v}_2, \vc{v}_3 \) and numbered in a counterclockwise fashion such that the normal to the face is outward facing.
 A tetrahedron is created by combining the vertices of the face with any arbitrary point, such as the origin of the polyhedron reference frame.
 Then the volume of the tetrahedron is given by~\cref{eq:volume_tetrahedron}.
 \begin{align}\label{eq:volume_tetrahedron}
@@ -16,9 +16,9 @@ Then the volume of the tetrahedron is given by~\cref{eq:volume_tetrahedron}.
         x_1 & y_2 & z_2 & 1 \\
         x_2 & y_3 & z_3 & 1 \\
         -1 & 0 & 0 & 1
-    \end{vmatrix}
+    \end{vmatrix}.
 \end{align}
-The total volume of the polyhdron can be computed by summing the contributions of each face as shown in~\cref{eq:volume_polyhedron}.
+The total volume of the polyhedron can be computed by summing the contributions of each face as shown in~\cref{eq:volume_polyhedron}.
 \begin{align}\label{eq:volume_polyhedron}
-    V_T = \frac{1}{6} \sum_{f} V_f
+    V_T = \frac{1}{6} \sum_{f} V_f.
 \end{align}
