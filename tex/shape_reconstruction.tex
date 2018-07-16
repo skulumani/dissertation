@@ -118,8 +118,9 @@ From these values, the extents of the far plane are defined by the vectors
     C = \vc{c}_1 - H \vc{c}_3 + W \vc{c}_2, \\
     D = \vc{c}_1 - H \vc{c}_3 - W \vc{c}_2.
 \end{align*}
-The view frustum is visualized in~\cref{fig:view_frustrum} and allows for any vector in the field of view to befined as a linear combination of the extents of the far plane.
-% tylee: not sure what "befined" means?
+The view frustum is visualized in~\cref{fig:view_frustrum} and allows for any vector in the field of view to be defined as a linear combination of the extents of the far plane.
+% tylee: not sure what "befined" means? 
+% shankar: should have been "defined"
 
 \section{Incremental Shape Reconstruction}\label{sec:radius_update}
 
@@ -214,7 +215,8 @@ We relate \( \Delta S \) to an equivalent angular constraint using
 \begin{align}\label{eq:region_of_interest}
     \Delta \sigma_{max} = \sqrt \frac{\Delta S}{r_b^2}
 \end{align}
-where \( r_b \) defines the Bernoulli  sphere radius, or the radius of the circumscribing sphere of the asteroid.
+% shankar: brillouin is correct. https://arc.aiaa.org/doi/10.2514/6.2014-4302
+where \( r_b \) defines the Brillouin  sphere radius, or the radius of the circumscribing sphere of the asteroid.
 Only vertices which satisfy \( \Delta \sigma_i \leq \Delta \sigma_{max} \) are considered in the Bayesian update shown in~\cref{eq:posterior_probability}.
 
 The approach presented in this section allows one to update the shape of small body given a single range measurement of the surface.
@@ -281,7 +283,7 @@ Then a trajectory \( x_d(\theta) \) as
 where \( \theta : \bracket{0, \frac{\rpos \cdot \vc{v}_i}{\norm{\rpos}\norm{\vc{v}_i}}} \to \R^1\) parameterizes the desired trajectory.
 \Cref{eq:spherical_waypoint} simply describes a portion of a great circle trajectory between the current state, \( \rpos \), and the desired vertex \( \vc{v}_i \)~\cite{chen2016}.
 The altitude of the spacecraft, \( r_d \in \R \), can be chosen based on sensor characteristics of safety concerns.
-For example, \( r_d \) can be chosen as the distance of the Bernoulli sphere with an additional safety margin to mitigate any surface collision~\cite{scheeres2012a}.
+For example, \( r_d \) can be chosen as the distance of the Biroullin sphere with an additional safety margin to mitigate any surface collision~\cite{scheeres2012a}.
 The translational controller presented in~\cref{eq:translational_control} is used to determine the control input to follow \( x_d\).
 We assume that the tracking errors are small, such that \( e_x, e_v \) are negligible, therefore the control becomes
 \begin{align}\label{eq:tracking_control_cost}
