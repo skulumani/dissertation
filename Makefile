@@ -3,12 +3,16 @@ MAIN=dissertation
 TEX = $(wildcard ./tex/*.tex ./tex/appendix/*.tex)
 FIGURES = $(wildcare ./figures/* ./tikz/*.tikz)
 
-all: $(MAIN).pdf
+all: $(MAIN).pdf announcement
 
 $(MAIN).pdf: $(MAIN).tex $(TEX) $(FIGURES)
 	pdflatex -shell-escape $(MAIN)
 	make -j4 -f $(MAIN).makefile
 	latexmk -pdf $(MAIN)
+
+announcement: announcement.tex abstract.tex
+	latexmk -gg announcement
+	latexmk -gg abstract
 
 tikz: $(MAIN).makefile $(FIGURES)
 	make -j4 -f $(MAIN).makefile

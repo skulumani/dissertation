@@ -86,7 +86,7 @@ The orientation of any rigid body can be defined as the orientation of a body fi
 As a result, the configuration space for the general motion of a rigid body is defined by at a minimum of three coordinates to represent translation and three coordinates to represent the orientation.
 This configuration space is the semi-direct product, \( \gls{sym:special_euclidean_group} = \R^3 \otimes \gls{sym:special_orthogonal_group} \), or the special euclidean group.
 The special euclidean group is the group of all possible rigid body motions and defines the six degrees of freedom possible by our system.
-An element of the special euclidean group can be expressed using the homogenous representation as
+An element of the special euclidean group can be expressed using the homogeneous representation as
 \begin{align*}
     \begin{bmatrix}
         R & \vc{x} \\
@@ -321,7 +321,7 @@ The control inputs to the spacecraft are defined by \( u_f, u_m \in \R^3 \) whic
 
 \paragraph{Inertial Equations of Motion: Hamiltonian Form}\label{sec:inertial_hamiltonian_form}
 
-Hamilton's equations allows for the representation of the second order equations derived using the Euler-Lagrange equation as a system of \( 2n \) first order equations called a hamiltonian system of equations or canonical equations~\cite{arnold1989}.
+Hamilton's equations allows for the representation of the second order equations derived using the Euler-Lagrange equation as a system of \( 2n \) first order equations called a Hamiltonian system of equations or canonical equations~\cite{arnold1989}.
 Hamilton's equations are derivable directly from the Lagrangian through the use of the Legendre transformation which is a mapping \( \left( q, \dot{q},t\right) \rightarrow \left(q, p, t \right) \) where \( p_i\) is the generalized momenta,
 \begin{align}\label{eq:legendre_transform}
 	p_i = \deriv{L}{\dot{q}}.
@@ -532,7 +532,7 @@ Instead, one must treat both bodies as extended objects and compute the gravitat
 \begin{align}\label{eq:volume_integral_potential}
     \vc{F}_g ( r) = \nabla U = G \int_{\mathcal{B}} \frac{1}{\norm{\vc{r} - \vc{\rho} }} dm (\vc{\rho}),
 \end{align}
-where \( \vc{r} \) is the position of the field point, \( \vc{\rho} \) is the position of the differential mass element of the body and \( \nabla U \) is defined as the gradient of \( U \) with respect to the standard cartesian basis vectors
+where \( \vc{r} \) is the position of the field point, \( \vc{\rho} \) is the position of the differential mass element of the body and \( \nabla U \) is defined as the gradient of \( U \) with respect to the standard Cartesian basis vectors
 \begin{align*}
     \nabla = \deriv{}{x} \vc{i} + \deriv{}{y} \vc{j} + \deriv{}{z} \vc{k}.
 \end{align*}
@@ -559,7 +559,7 @@ and Poisson's equation inside of the body
 \end{align}
 where \( \gls{sym:sigma} \) is the local density of the body.
 Laplace's equation can be solved using the separation of variables in terms of spherical coordinates~\cite{scheeres2012a}.
-The transformation between cartesian, \( \vc{r} = \begin{bmatrix} x & y & z \end{bmatrix}\), and spherical coordinates is given by
+The transformation between Cartesian, \( \vc{r} = \begin{bmatrix} x & y & z \end{bmatrix}\), and spherical coordinates is given by
 \begin{subequations}
     \begin{align*}
         r &= \sqrt{x^2 + y^2 + z^2}, \\
@@ -657,7 +657,7 @@ There is no requirement on the polyhedron shape and it can incorporate craters, 
 Furthermore, the accuracy of the model is solely dependent on the fidelity of the shape in representing the true body and the constant density assumption.
 For bodies with varying density, it is possible to augment the polyhedron potential model to account for the density variations~\cite{scheeres2000a}.
 This approach alleviates the divergence issue of the spherical harmonic model and is applicable for all points on or above the surface and is ideal for general operations around small bodies.
-The polyhedron potential model has become the defacto standard for small body missions and has been used operationally.
+The polyhedron potential model has become the de facto standard for small body missions and has been used operationally.
 In this section we summarize the polyhedron potential model based on the derivations of Werner.
 We additionally present some of the implementation details in our model and the adaptations for use with the \texttt{Surface\_mesh} data structure presented  in~\cref{sec:polyhedron_data_structures}.
 

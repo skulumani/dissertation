@@ -1,0 +1,58 @@
+\documentclass[letterpaper]{article}
+\usepackage[super]{nth}
+\pagestyle{empty}
+
+\newcommand{\Poincare}{Poincar\'e }
+
+\title{Department of Mechanical \& Aerospace Engineering\\
+Doctoral Dissertation Defense}
+
+\date{}
+\begin{document}
+% \maketitle
+\begin{center}
+    \textbf{\large
+    Department of Mechanical \& Aerospace Engineering\\
+    Doctoral Dissertation Defense
+}
+\end{center}
+
+\begin{center}
+    Wednesday, July 25, 2018 at 1230 - 1530\\
+    Science \& Engineering Hall, \nth{2} Floor Conference Room 2000
+\end{center}
+
+\begin{center}
+    \textbf{Shankar Kulumani}
+\end{center}
+
+\begin{center}
+    \textbf{``Geometric Mechanics and Control for Small Body Missions''}
+\end{center}
+
+This dissertation considers the operations of a rigid body spacecraft around a small body.
+Prior to arrival at a small body, such as an asteroid or comet, there is insufficient data to determine an accurate shape of the body, which is critical for the accurate computation of the gravitational acceleration. 
+As a result, the spacecraft will be entering into operation in a poorly modeled dynamic environment.
+Therefore, in order to operate autonomously the vehicle requires the following: a correct dynamic model to predict its own motion due to the gravitational effects of the small body, a control system to track a desired trajectory, and an efficient method to generate an estimate of the shape in order to determine the gravitational force.
+
+First, the complete dynamics of a rigid body spacecraft around a small body are derived and presented in four different forms.
+These equations of motion explicitly consider the interaction between the rotational and translational states of the vehicle.
+Furthermore, this dynamic model is specifically constructed on the nonlinear manifold of rigid body motions to correctly capture the geometric properties of the motion. 
+This geometric mechanics approach results in an intrinsic definition of the equations of motion that is globally valid and crucial for precise operations near a small body.
+
+Second, an optimal control formulation is presented for the low thrust orbital transfers of a spacecraft around an asteroid. 
+This approach enables the use of small magnitude propulsions systems to affect large scale orbital changes of the vehicle. 
+The optimal control problem is solved using the notion of a reachability set on a \Poincare map.
+This provides a representation of the maximum attainable states of a vehicle on a lower dimensional space.
+Additionally, a nonlinear geometric control system is developed for the closed loop control of the spacecraft.
+This control system enables precise trajectory tracking in the face of unknown disturbances or dynamic modeling errors. 
+
+Finally, a Bayesian framework is utilized for the shape reconstruction of an asteroid from range measurements. 
+This provides a computationally efficient method to incrementally update a small body shape. 
+The shape estimate is then utilized in an optimal guidance and control scheme to determine future states that best update the shape.
+A multi-resolution modeling approach is utilized to enable a higher fidelity shape representation in mission critical areas without a corresponding increase in the computational demand.
+These results are combined in a number of numerical simulations around asteroids.
+The results demonstrate the accurate shape reconstruction, precise guidance and control, and multi-resolution modeling that are required for spacecraft operations and landing at small bodies.
+
+\end{document} 
+

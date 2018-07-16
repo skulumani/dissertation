@@ -118,7 +118,9 @@ From these values, the extents of the far plane are defined by the vectors
     C = \vc{c}_1 - H \vc{c}_3 + W \vc{c}_2, \\
     D = \vc{c}_1 - H \vc{c}_3 - W \vc{c}_2.
 \end{align*}
-The view frustrum is visualized in~\cref{fig:view_frustrum} and allows for any vector in the field of view to befined as a linear combination of the extents of the far plane.
+The view frustum is visualized in~\cref{fig:view_frustrum} and allows for any vector in the field of view to be defined as a linear combination of the extents of the far plane.
+% tylee: not sure what "befined" means? 
+% shankar: should have been "defined"
 
 \section{Incremental Shape Reconstruction}\label{sec:radius_update}
 
@@ -134,7 +136,7 @@ This shape model is used for a variety of purposes, such as the polyhedron poten
 We assume that upon arrival at a target body, the spacecraft contains an initial estimate for the shape of the small body.
 This shape can be a coarse estimate computed from ground measurements or it can be a triaxial ellipsoid based on the semimajor axes of the asteroid, such as that shown in~\cref{fig:uniform_mesh} which represents the maximum axes for asteroid Castalia.
 Additionally, we assume that the shape estimate is closed and a triangular faceted surface mesh, emulating those used in practice to represent asteroids.
-Furthermore, the number of vertices in the estimate can be scaled according to the desired final acccuracy or computational capabilities.
+Furthermore, the number of vertices in the estimate can be scaled according to the desired final accuracy or computational capabilities.
 For example,~\cref{fig:uniform_mesh} demonstrates two surface mesh representation for a triaxial ellipsoid at varying levels of detail. 
 A wide variety of algorithms are available to generate a near uniformly spaced mesh for an arbitrary surface~\cite{persson2004,boissonnat2005}.
 
@@ -213,6 +215,7 @@ We relate \( \Delta S \) to an equivalent angular constraint using
 \begin{align}\label{eq:region_of_interest}
     \Delta \sigma_{max} = \sqrt \frac{\Delta S}{r_b^2}
 \end{align}
+% shankar: brillouin is correct. https://arc.aiaa.org/doi/10.2514/6.2014-4302
 where \( r_b \) defines the Brillouin  sphere radius, or the radius of the circumscribing sphere of the asteroid.
 Only vertices which satisfy \( \Delta \sigma_i \leq \Delta \sigma_{max} \) are considered in the Bayesian update shown in~\cref{eq:posterior_probability}.
 
@@ -572,7 +575,7 @@ The plots show that the reconstruction  converges to an accurate shape estimate 
     \centering
     \subcaptionbox{3D visualization of the trajectory\label{fig:52760_explore_trajectory}}{\includegraphics[trim={0 0 0 0},clip,keepaspectratio,width=0.99\textwidth]{figures/computational_geometry/dynamic_exploration/52760/state/asteroid_trajectory.jpg}
 }\\%
-    \subcaptionbox{Components of position\label{fig:52760_explore_components}}{\input{tikz/castalia_asteroid_position.tikz}}
+    \subcaptionbox{Components of position\label{fig:52760_explore_components}}{\input{tikz/52760_asteroid_position.tikz}}
     \caption{Spacecraft trajectory in the rotating asteroid frame for the exploration of 52760~\label{fig:52760_trajectory}}
 \end{figure}
 
