@@ -71,7 +71,7 @@ In this section we summarize the properties developed previously and present sev
 
 % trackign control
 In order to determine the attitude control input, we first define a desired attitude tracking command.
-An arbitrary smooth attitude tracking command \( R_d (t) \in \SO \in \R^3 \) are given as a function of time.
+An arbitrary smooth attitude tracking command \( R_d (t) \in \SO \) is given as a function of time.
 % TODO Add link to this equation in dynamic derivation
 The corresponding angular velocity command is obtained using the attitude kinematics equation, \( \hat{\Omega}_d = R_d^T \dot{R}_d \).
 With the desired attitude command, \( R_d(t), \Omega_d(t) \), we then define the errors associated with the attitude and angular velocity.
@@ -330,7 +330,7 @@ Another terrestrial example is frequently encountered by unmanned aerial vehicle
 Multiple actuator systems, such as quadrotor aerial vehicles, may exhibit an uneven mass distribution during load transportation or must operate in the presence of turbulence.
 An adaptive control system is introduced to asymptotically stabilize the system to a desired attitude while ensuring that state constraints are satisfied. %We first show several properties of the controlled system. 
 
-\begin{prop}[Bound on \( \bm{\dot{e}_R} \)]\label{prop:eR_dot_bound}
+\begin{prop}[Bound on \( \dot{\vc{e}}_R \)]\label{prop:eR_dot_bound}
 Consider the neighborhood \( D \), given in~\cref{prop:repulsive_configuration_error}, about the desired attitude, then the following statements hold:
 \begin{enumerate}
     \item \label{item:prop_eR_dot_bound_AB} Upper bounds of \( A(R) \) and \( B(R) \) are given by
@@ -406,7 +406,7 @@ In the case of missions about very small bodies, typical orbital transfer and co
 Furthermore, since the gravitational attraction is very small in magnitude the effect of external disturbances, such as solar radiation pressure or differential forces on the body, become much more significant.
 In particular, various approaches have been developed for closed-loop control near small-bodies.
 For example, researchers have developed hovering type schemes~\cite{broschart2005,sawai2002}, sliding mode based approaches for landing~\cite{furfaro2013,liaw2000,zexu2012}, optimal control~\cite{guelman1994,guo2011,lantoine2006,miso1999}, and most recently geometric control~\cite{kulumani2017b,misra2015a}.
-In this section, we present and derive a closed loop control scheme for the translational position of a spacecraft around an asteroid.
+In this section, we present and derive a closed loop control scheme for the translational position of a spacecraft around a small body.
 The method applies standard nonlinear control techniques for systems on Euclidean spaces~\cite{khalil1996}.
 
 \paragraph{Problem Formulation}\label{sec:translation_control_problem_formulation}
@@ -678,7 +678,7 @@ Finally,~\cref{fig:con_angle_exp} shows the angle between the body-fixed sensor 
     \input{tikz/u_exp.tikz}
     \caption{Control input \( u \) components for hexrotor experiment.\label{fig:u_exp}}
 \end{figure}
-In order to maneuver the system ``close" to the constrained zone we utilize several intermediary set points on either side of the obstacle.
+In order to maneuver the system ``close'' to the constrained zone we utilize several intermediary set points on either side of the obstacle.
 From the initial attitude the hexrotor rotates to the first set point, pauses, and then continues around the obstacle to the second set point before continuing toward the desired attitude.
 As a result this creates the stepped behavior of the configuration error history as shown in~\cref{fig:Psi_exp}.
 \begin{figure}[htbp]
@@ -689,7 +689,7 @@ As a result this creates the stepped behavior of the configuration error history
 \end{figure}
 
 The hexrotor avoids the constrained region illustrated by the circular cone in \cref{fig:traj_exp}, by rotating around the boundary of the constraint. 
-\Cref{fig:con_angle_exp} shows the angle, \( \arccos r^T R^T v \), between the body mounted sensor and the inertially fixed sensor.
+\Cref{fig:con_angle_exp} shows the angle, \( \arccos \parenth{r^T R^T v} \), between the body mounted sensor and the inertially fixed sensor.
 The experiment demonstrates that the minimum angular separation is \SI{14}{\degree} which satisfies the constraint of \( \theta = \SI{12}{\degree} \).
 This further validates that the proposed control system exhibits the desired performance in the experimental setting as well. 
 A video clip is available at \url{https://youtu.be/dsmAbwQram4}.
@@ -702,5 +702,6 @@ In addition, a new adaptive attitude control for state inequality constraints is
 This enables the accurate stabilization and tracking of a desired attitude while avoiding obstacles.
 
 The control approaches presented in this chapter, when combined with the results of~\cref{sec:lowthrust_transfers}, provide a complete approach for the manuevering of a spacecraft around a small body. 
+The low thrust propulsion scheme of~\cref{sec:lowthrust_transfers} is ideal for large magnitude orbital changes, while the results of this chapter provide precise trajectory tracking ideal for low altitude operations.
 These nonlinear controllers are ideally suited for low altitude operations.
 The results are utilized in the subsequent chapters to explore an asteroid and land on the surface.
