@@ -41,6 +41,11 @@
     \node[above] at (B) {$B$};
     \node[above] at (C) {$C$};
     \node[right] at (D) {$D$};
+    
+    \shade[ball color=red] (A) circle (0.05);
+    \shade[ball color=red] (B) circle (0.05);
+    \shade[ball color=red] (C) circle (0.05);
+    \shade[ball color=red] (D) circle (0.05);
 
     \draw[red!50!black, dashed] (V) -- (A-V) (V) -- (B-V) (V) -- (C-V) (V) -- (D-V);
     % \draw[red!50!black] (A) -- (A-V) (B) -- (B-V) (C) -- (C-V) (D) -- (D-V);

@@ -3,18 +3,21 @@
 \newglossaryentry{linux}{
     name=Linux,
     description={is a generic term referring to the family of Unix-like computer operating systems that use the Linux kernel},
+    nonumberlist=true,
     plural=Linuces
 }
 
 \newglossaryentry{matrix}{
     name={matrix},
     plural={matrices},
+    nonumberlist=true,
     description={rectangular array of quanttities}
 }
 
 \newglossaryentry{frustum}{
     name={frustum},
     plural={frusta},
+    nonumberlist=true,
     description={In geometry: defined as the portion of a solid, normally a cone or pyramid, that lies between two parallel planes.
     In computer graphics: the viewing frustum is the three-dimensional region which is visible on screen.}
 }
@@ -22,6 +25,7 @@
 \newglossaryentry{point_cloud}{
     name={point cloud},
     plural={point clouds},
+    nonumberlist=true,
     description={A set of points in some reference system.
         In a three dimension corrdination system, the points typical represent the cartesian position of the external surface of an object.
     Frequently generated from a 3D scanning process, these points are rarely used directly but rather converted into a surface representation, such as a polygonal mesh.}
@@ -30,6 +34,7 @@
 \newglossaryentry{implicit_shape}{
     name={implicit shape},
     plural={implicit shapes},
+    nonumberlist=true,
     description={In mathematics: an implicit shape or surface is the surface in Euclidean space defined by an equation \( F(x, y, z) = 0\).
     The implicit surface is the zero set of the function \( F \), and is termed \textit{implicit} as the function is not solved for \( x, y, \text{ or } z \).}
 }
@@ -37,6 +42,7 @@
 \newglossaryentry{polygon}{
     name={polygon},
     plural={polygons},
+    nonumberlist=true,
     description={The area of a plane bounded by straight segments, called edges, which intersect only at their endpoints, called vertices.
     Each vertex belongs to exactly two edges and similarly each edge has exactly two vertices.}
 }
@@ -44,28 +50,33 @@
 \newglossaryentry{polyhedron}{
     name={polyhedron},
     plural={polyhedra},
-    description={A solid in three dimensions with flat polygonal faces and straigth edges meeting at vertices.},
+    nonumberlist=true,
+    description={A solid in three dimensions with flat polygonal faces and straight edges meeting at vertices.},
     see={polygon}
 }
 
 \newglossaryentry{MAT}{
     name={medial axis transform},
+    nonumberlist=true,
     description={The medial axis is the set of all point shaving more than one closest point on the objects boundary.
     The medial axis along with the associated radius function of the maximally inscribed discs is called the medial axis transform.}
 }
 
 \newglossaryentry{CAD}{
     name={computer aided design},
+    nonumberlist=true,
     description={The use of computer software to create mechanical design drawings}
 }
 
 \newglossaryentry{pdsg}{
     name={PDS},
+    nonumberlist=true,
     description={The Planetary Data System (PDS) archives and distributes scientific data from NASA planetary missions, astronomical observations, and laboratory measurements.}
 }
 
 \longnewglossaryentry{stlg}{
-    name={STL}
+    name={STL},
+    nonumberlist=true,
 }
 {%
 Stereolithography (STL) is a file format native to 3D CAD software.
@@ -75,27 +86,31 @@ Many software libraries exist to produce and convert STL files.
 }
 
 \longnewglossaryentry{objg}{
-    name={OBJ}
+    name={OBJ},
+    nonumberlist=true,
 }
 {
     OBJ is a file format originally developed by Wavefront technologies.
     The format is now open and has been adopted by many 3D graphics programs.
     The OBJ file format is a simple ASCII text file which represents the object geometry alone.
+    The coordinates of each vertex are stored followed by the indicies of the vertices which make up each face.
 }
 
 \longnewglossaryentry{offg}{
-    name={OFF}
-    see={objg}
+    name={OFF},
+    see={objg},
+    nonumberlist=true,
 }
 {%
 Object file format describing the geometry of a 3D object.
-It is a ASCII text file which lists the coordinates of the vertices followed by the indices, zero based, of vertices which compose each face.
+It is an ASCII text file which lists the coordinates of the vertices followed by the indices, zero based, of vertices which compose each face.
 The file format is very similar to that of the \gls{obj} format.
 }
 
 \longnewglossaryentry{raycasting}{
     name={raycasting},
-    see={raytracing}
+    see={raytracing},
+    nonumberlist=true
 }
 {%
     A rendering technique which determines the object in a three dimensional scene that is visible for each pixel of an image.
@@ -111,11 +126,13 @@ The file format is very similar to that of the \gls{obj} format.
     name={raytracing},
     see={raycasting},
     description={A rendering technique for generating an image by tracing the path of light from a source and it's interaction with virtual objects of a scene.
-    Sometimes used interchangeably with raycasting.}
+    Sometimes used interchangeably with raycasting.},
+    nonumberlist=true
 }
 
 \longnewglossaryentry{kinematics}{
     name={kinematics},
+    nonumberlist=true
 }
 {
     The study of the motions of particles and rigid bodies, disregarding the forces associated with these motions.
@@ -123,16 +140,18 @@ The file format is very similar to that of the \gls{obj} format.
 }
 \longnewglossaryentry{homeomorphism}{
     name={homeomorphism},
+    nonumberlist=true,
     see={topological space}
 }
 {
    A continuous function between topological spaces that has a continuous inverse function.
    Roughly speaking, a homeomorphism is a continous stretching or bending of an object, without tearing, into a new shape. 
-   So a circle and a square are homemorphic to one another, while a circle and an annulus is not.
+   So a circle and a square are homemorphic to one another, while a circle and an annulus are not.
 }
 
 \longnewglossaryentry{topological space}{
     name={topological space},
+    nonumberlist=true,
 }
 {
     A set of points, along with a set of neighborhoods for each point, which satisfy a set of axioms relating points and neighborhoods.
@@ -140,6 +159,7 @@ The file format is very similar to that of the \gls{obj} format.
 
 \longnewglossaryentry{geodesic}{
     name={geodesic},
+    nonumberlist=true,
 }
 {
     A generalization of the notion of the shortest path to a differentiable manifold. 

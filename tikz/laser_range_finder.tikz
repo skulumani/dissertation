@@ -12,12 +12,12 @@
         auto,
     ]
 
-    \node [block] (detector) {Detector};
-    \node [block, below = of detector] (amplifier) {Amplifier};
-    \node [block, right = of amplifier] (transmitter) {Transmitter};
-    \node [block, below = of $(amplifier)!0.5!(transmitter)$] (timer)  {Clock};
-    \node [block, right = of detector] (beamsplitter) {Optics};
-    \node [block, right = of beamsplitter] (target) {Target};
+    \node [block, blur shadow] (detector) {Detector};
+    \node [block, below = of detector, blur shadow] (amplifier) {Amplifier};
+    \node [block, right = of amplifier, blur shadow] (transmitter) {Transmitter};
+    \node [block, below = of $(amplifier)!0.5!(transmitter)$, blur shadow] (timer)  {Clock};
+    \node [block, right = of detector, blur shadow] (beamsplitter) {Optics};
+    \node [block, right = of beamsplitter, blur shadow] (target) {Target};
     
     \node [below = of timer] (system) {};
 

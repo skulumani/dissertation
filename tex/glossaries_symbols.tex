@@ -6,6 +6,7 @@
     name={\ensuremath{ \evec{i} \in \R^3}},
     text={\ensuremath{\vc{e}}},
     sort=E,
+    nonumberlist=true,
     description={The standard basis vectors for the inertial frame.}
 }
 
@@ -14,6 +15,7 @@
     name={\ensuremath{ \fvec{i} \in \R^3}},
     text={\ensuremath{\vc{f}}},
     sort=F,
+    nonumberlist=true,
     description={The standard basis vectors for the rotating frame.}
 }
 
@@ -22,6 +24,7 @@
     name={\ensuremath{ \bvec{i} \in \R^3}},
     text={\ensuremath{\vc{b}}},
     sort=B,
+    nonumberlist=true,
     description={The standard basis vectors for the spacecraft fixed frame.}
 }
 
@@ -30,6 +33,7 @@
     name={\ensuremath{\R^n}},
     text={\ensuremath{\R}},
     sort=R,
+    nonumberlist=true,
     description={The set of of all \( n \)-tuples of real numbers.}
 }
 
@@ -38,6 +42,7 @@
     name={ \( \S^n = \braces{ x \in \R^{n+1} | \norm{x} = 1 }\)},
     text={\ensuremath{\S}},
     sort=S,
+    nonumberlist=true,
     description={The set of of \( n+1 \)-tuples that lie on the surface of a hypersphere in \( n+1\) dimensions. }
 }
 
@@ -46,6 +51,7 @@
     name={\ensuremath{ \SE} },
     text={\ensuremath{\SE}},
     sort=S,
+    nonumberlist=true,
     description={The space of all possible rigid body motions.}
 }
 
@@ -54,6 +60,7 @@
     name={\ensuremath{\SO}},
     text={\ensuremath{\SO}},
     sort=S,
+    nonumberlist=true,
     description={The space of all possible rotations of a rigid body.}
 }
 
@@ -62,6 +69,7 @@
     type=symbols,
     name={\( m \in \R \)},
     text={\ensuremath{m}},
+    nonumberlist=true,
     description={Mass of dumbbell.}
 }
 
@@ -69,6 +77,7 @@
     type=symbols,
     name={\( r \in \R \)},
     text={\ensuremath{r}},
+    nonumberlist=true,
     description={Radius of dumbbell mass.}
 }
 
@@ -76,6 +85,7 @@
     type=symbols,
     name={\( l in \R \)},
     text={\ensuremath{l}},
+    nonumberlist=true,
     description={Distance from total center of mass to center of dumbbell mass.}
 }
 
@@ -83,6 +93,7 @@
     type=symbols,
     name={\( \vc{\rho} \in \R^3 \)},
     text={\ensuremath{\vc{\rho}}},
+    nonumberlist=true,
     description={Position of infitisemal mass element in the spacecraft fixed frame.}
 }
 
@@ -90,6 +101,7 @@
     type=symbols,
     name={\ensuremath{M}},
     sort=M,
+    nonumberlist=true,
     description={a \gls{matrix}}
 }
 
@@ -98,6 +110,7 @@
     name={\( c \in \R^1 \)},
     text={\ensuremath{c} },
     sort=C,
+    nonumberlist=true,
     description={The constant speed of light in a vacuum. Defined as \SI{299792458}{\meter\per\second}}
 }
 
@@ -105,6 +118,7 @@
     type=symbols,
     name={\ensuremath{F}},
     sort=F,
+    nonumberlist=true,
     description={External Force}
 }
 
@@ -112,6 +126,7 @@
     type=symbols,
     name={\( G = \SI{6.673e-20}{\kilo\meter\per\kilo\gram\per\second\squared}\)},
     text={\ensuremath{G}},
+    nonumberlist=true,
     description={Newtonian constant of gravitation.}
 }
 
@@ -119,6 +134,7 @@
     type=symbols,
     name={\( \sigma \in \R^1 \)},
     text={\ensuremath{\sigma}},
+    nonumberlist=true,
     description={Density of the body in \si{\gram\per\centi\meter\cubed}.}
 }
 
@@ -126,6 +142,7 @@
     type=symbols,
     name={\ensuremath{\vec \rho}},
     sort=R,
+    nonumberlist=true,
     description={Range to target}
 }
 
@@ -134,6 +151,7 @@
     text={\ensuremath{\vc{c}_1}},
     name={\( \vc{c}_1 \in \R^3 \)},
     sort=C,
+    nonumberlist=true,
     description={Sensor optical axis defined in the spacecraft fixed frame.}
 }
 
@@ -142,6 +160,7 @@
     text={\ensuremath{d}},
     name={\( d \in \R^1 \)},
     sort=D,
+    nonumberlist=true,
     description={Distance from the sensor, along the view axis, to the far plane defining the sensor viewing frustum},
     see={frustum,view_axis}
 }
@@ -149,6 +168,7 @@
 \newglossaryentry{up_axis}{
     type=symbols,
     text={\ensuremath{\vc{c}_3}},
+    nonumberlist=true,
     name={\( \vc{c}_3 \in \R^3\)},
     sort=C,
     description={Sensor up axis defined in the spacecraft fixed frame.}
@@ -157,6 +177,7 @@
 \newglossaryentry{right_axis}{
     type=symbols,
     text={\ensuremath{\vc{c}_2}},
+    nonumberlist=true,
     name={\(\vc{c}_2 \in \R^3\)},
     sort=C,
     description={Sensor right axis, completes the orthonormal basis for the image plane defined with respect to the spacecraft body fixed frame.}
@@ -164,6 +185,7 @@
 \newglossaryentry{fov_h}{
     type=symbols,
     name={\ensuremath{\alpha}},
+    nonumberlist=true,
     sort=A,
     description={Horizontal sensor field of view}
 }
@@ -172,6 +194,7 @@
     type=symbols,
     name={\ensuremath{\beta}},
     sort=B,
+    nonumberlist=true,
     description={Vertical sensor field of view}
 }
 
@@ -179,7 +202,8 @@
     type=symbols,
     text={\aatt},
     name={\(\aatt \in \R^{3\times3}\)},
-    description={Attitude of the asteroid. This rotation matrix transforms vectors from the asteroid fixed frame to the inertial frame.},
+    description={Attitude of the small body. This rotation matrix transforms the representation of vectors from the small body fixed frame to the inertial frame.},
+    nonumberlist=true,
     nonumberlist=true
 }
 
@@ -224,6 +248,7 @@
     name={\( \ilinmom \in \R^3 \)},
     text={\ensuremath{\ilinmom}},
     sort=P,
+    nonumberlist=true,
     description={Linear momentum of the spacecraft expressed in the inertial frame.}
 }
 
@@ -232,6 +257,7 @@
     name={\( \iangmom \in \R^3 \)},
     text={\ensuremath{\iangmom}},
     sort=P,
+    nonumberlist=true,
     description={Angular momentum of the spacecraft expressed in the body frame}
 }
 
@@ -240,7 +266,7 @@
     text={\rpos},
     name={\( \rpos \in \R^3 \)},
     sort=X,
-    description={Relative position vector of spacecraft with respect to asteroid and expressed in the asteroid fixed frame.},
+    description={Relative position vector of spacecraft with respect to small body and expressed in the small body fixed frame.},
     nonumberlist=true
 }
 
@@ -249,7 +275,7 @@
     text={\rvel},
     name={\( \rvel \in \R^3 \)},
     sort=V,
-    description={Relative velocity vector of spacecraft with respect to asteroid and expressed in the asteroid fixed frame.},
+    description={Relative velocity vector of spacecraft with respect to small body and expressed in the small body fixed frame.},
     nonumberlist=true
 }
 
@@ -258,7 +284,7 @@
     text={\ratt},
     name={\( \ratt \in \R^{3 \times 3} \)},
     sort=R,
-    description={Relative attitude of the spacecraft with respect to the asteroid. This rotation matrix converts vectors in the spacecraft fixed frame to the asteroid fixed frame.},
+    description={Relative attitude of the spacecraft with respect to the small body. This rotation matrix converts the representation of vectors in the spacecraft fixed frame to the small body fixed frame.},
     nonumberlist=true
 }
 
@@ -267,7 +293,7 @@
     text={\rangvel},
     name={\( \rangvel \in \R^3 \)},
     sort=W,
-    description={Angular velocity of the spacecraft with respect to the inertial frame and expressed in the asteroid fixed frame.},
+    description={Angular velocity of the spacecraft with respect to the inertial frame and expressed in the small body fixed frame.},
     nonumberlist=true
 }
 
@@ -276,7 +302,7 @@
     text={\rattvar},
     name={\( \rattvar \in \so\)},
     sort=N,
-    description={The reduced variation of the relative attitude.}
+    description={The reduced variation of the relative attitude.},
     nonumberlist=true
 }
 
@@ -284,14 +310,16 @@
     type=symbols,
     name={\( \rlinmom \in \R^3 \)},
     text={\ensuremath{\rlinmom}},
-    description={Relative linear momentum of the spacecraft expressed in the asteroid frame.}
+    nonumberlist=true,
+    description={Relative linear momentum of the spacecraft expressed in the small body frame.}
 }
 
 \newglossaryentry{sym:rangmom}{
     type=symbols,
     name={\( \rangmom \in \R^3 \)},
     text={\ensuremath{\rangmom}},
-    description={Relative angular momentum of the spacecraft expressed in the asteroid frame.}
+    nonumberlist=true,
+    description={Relative angular momentum of the spacecraft expressed in the small body frame.}
 }
 
 \newglossaryentry{sym:iattvar}{
@@ -308,7 +336,7 @@
     text={\Jdr},
     name={\( \Jdr \in \R^{3 \times 3} \)},
     sort=J,
-    description={Nonstandard moment of inertia matrix expressed in the asteroid fixed frame.},
+    description={Nonstandard moment of inertia matrix expressed in the small body fixed frame.},
     nonumberlist=true
 }
 
@@ -317,7 +345,7 @@
     text={\Jr},
     name={\( \Jr \in \R^{3 \times 3}\)},
     sort=J,
-    description={Standard moment of inertia matrix expressed in the asteroid fixed frame.},
+    description={Standard moment of inertia matrix expressed in the small body fixed frame.},
     nonumberlist=true
 }
 
@@ -345,6 +373,7 @@
     name={\( \vc{h} \in \R^3\)},
     text={\ensuremath{\vc{h}}},
     sort=H,
+    nonumberlist=true,
     description={Halfedge originating at \( \vc{v}_i \) and extending to \( \vc{v}_{i+1}\)}
 }
 
@@ -353,6 +382,7 @@
     name={\( \vc{n}_f \in \R^3\)},
     text={\ensuremath{\vc{n}_f}},
     sort=N,
+    nonumberlist=true,
     description={Normal vector to the face \( f \).}
 }
 
@@ -361,6 +391,7 @@
     name={\( \vc{n}_i^f \in \R^3\)},
     text={\ensuremath{\vc{n}_i^f}},
     sort=N,
+    nonumberlist=true,
     description={Outward facing normal vector orthongonal to both the face \( f \) and halfedge \( i \)}
 }
 
@@ -369,7 +400,8 @@
     name={\( F_f \in \R^{3 \times 3}\)},
     text={\ensuremath{F_f}},
     sort=F,
-    description={Face dyad associated with face \( f \).}
+    description={Face dyad associated with face \( f \).},
+    nonumberlist=true,
 }
 
 \newglossaryentry{sym:Ee}{
@@ -377,6 +409,7 @@
     name={\( E_{ij} \in \R^{3 \times 3}\)},
     text={\ensuremath{E_{12}}},
     sort=E,
+    nonumberlist=true,
     description={Edge dyad associated with the halfedge between vertices \( i \) and \( j\).}
 }
 
@@ -385,6 +418,7 @@
     name={\( L_e \in \R^1 \)},
     text={\ensuremath{L_e}},
     sort=L,
+    nonumberlist=true,
     description={Scalar edge factor which requires knowledge of the field point.}
 }
 
@@ -393,6 +427,7 @@
     name={\( \omega_f \in \R^1 \)},
     text={\ensuremath{\omega_f}},
     sort=W,
+    nonumberlist=true,
     description={Scalar face factor which requires knowledge of the field point.}
 }
 
@@ -401,6 +436,7 @@
     name={\( U(\vc{r}) \in \R^1\)},
     text={\ensuremath{U(\vc{r})}},
     sort=U,
+    nonumberlist=true,
     description={Gravitational potential from polyhedron potential model.}
 }
 
@@ -409,6 +445,7 @@
     name={\(\nabla U(\vc{r}) \in \R^{3\times1}\)},
     text={\ensuremath{\nabla U(\vc{r})}},
     sort=U,
+    nonumberlist=true,
     description={Gravitational attraction from the polyhedron potential model.}
 }
 
@@ -417,6 +454,7 @@
     name={\(\nabla\nabla U(\vc{r}) \in \R^{3 \times 3}\)},
     text={\ensuremath{\nabla \nabla U(\vc{r})}},
     sort=U,
+    nonumberlist=true,
     description={Gravity gradient matrix from the polyhedron potential model.}
 }
 
@@ -425,5 +463,6 @@
     name={\(\nabla^2 U \in \R^1 \)},
     text={\ensuremath{\nabla^2 U}},
     sort=U,
+    nonumberlist=true,
     description={Laplacian of the polyhedron potential model.}
 }
