@@ -20,7 +20,7 @@ The kinetic and potential energy of the dumbbell model is duplicated from~\cref{
 In~\cref{proof:inertial_dumbbell_eoms} the variations of the inertial configuration variables were derived.
 Following a similar process the variations of the reduced variables must be derived such that they also satisfy the variations of the inertial variables.
 These variations must be defined precisely to ensure that the configuration space is preserved properly. 
-These variations will be critical for the following step of applying the Euler-Lagrage equations and deriving the equations of motion.
+These variations will be critical for the following step of applying the Euler-Lagrange equations and deriving the equations of motion.
 The variations of the reduced variables are obtained from the variations of the original variables given in~\cref{eq:inertial_pos_variation,eq:inertial_vel_variation,eq:inertial_att_variation,eq:inertial_ang_vel_variation} and the definition of the reduced variables given in~\cref{eq:relative_position,eq:relative_velocity,eq:relative_attitude,eq:relative_angular_velocity}.
 
 \paragraph{Relative Position}\label{sec:relative_position_variation}
@@ -46,7 +46,7 @@ We can invert~\cref{eq:relative_attitude_variation} to find
 \begin{align}\label{eq:relative_attitude_variation_inverse}
     \gls{sym:iattvar} &= \gls{sym:iatt}[^T] \gls{sym:aatt} \gls{sym:rattvar} \gls{sym:aatt}[^T] \gls{sym:iatt}.
 \end{align}
-Using this, the varation of the relative attitude is derived by substituting~\cref{eq:relative_attitude_variation_inverse} into~\cref{eq:relative_attitude_variation_1} as
+Using this, the variation of the relative attitude is derived by substituting~\cref{eq:relative_attitude_variation_inverse} into~\cref{eq:relative_attitude_variation_1} as
 \begin{align}\label{eq:relative_attitude_matrix_variation}
     \delta \gls{sym:ratt} = \gls{sym:aatt}[^T] \gls{sym:iatt} \gls{sym:iattvar} = \gls{sym:rattvar} \gls{sym:aatt}[^T] \gls{sym:iatt} = \gls{sym:rattvar} \gls{sym:ratt}
 \end{align}
@@ -59,7 +59,7 @@ The variation of the relative angular velocity is defined as follows:
                                               &= \delta \gls{sym:ratt} \hat{\gls{sym:iangvel}} \gls{sym:ratt}[^T] + \gls{sym:ratt} \delta \hat{\gls{sym:iangvel}} \gls{sym:ratt}[^T] + \gls{sym:ratt} \hat{\gls{sym:iangvel}} \delta \gls{sym:ratt}[^T],
 \end{align}
 where we used~\cref{eq:hatRxR} to arrive at the final form.
-The variation \( \delta \gls{sym:iangvel} \) is defined in~\cref{eq:inertial_ang_vel_variation} and subsitituded into~\cref{eq:relative_angular_velocity_variation_1} to give
+The variation \( \delta \gls{sym:iangvel} \) is defined in~\cref{eq:inertial_ang_vel_variation} and substituted into~\cref{eq:relative_angular_velocity_variation_1} to give
 \begin{align}\label{eq:relative_angular_velocity_variation_2}
     \parenth{\delta \gls{sym:rangvel}}^\wedge &= \delta \gls{sym:ratt} \hat{\gls{sym:iangvel}} \gls{sym:ratt}[^T] + \gls{sym:ratt} \delta \hat{\gls{sym:iangvel}} \gls{sym:ratt}[^T] + \gls{sym:ratt}\hat{\gls{sym:iangvel}}\delta \gls{sym:ratt}[^T], \nonumber \\
                                               &= \gls{sym:rattvar} \gls{sym:ratt} \hat{\gls{sym:iangvel}} \gls{sym:ratt}[^T] + \gls{sym:ratt} \parenth{ - \gls{sym:iattvar} \hat{\gls{sym:iangvel}} + \hat{\gls{sym:iangvel}}\gls{sym:iattvar} + \dot{\gls{sym:iattvar}} } \gls{sym:ratt}[^T] + \gls{sym:ratt} \hat{\gls{sym:iangvel}} \gls{sym:ratt}[^T] \gls{sym:rattvar}[^T], \nonumber \\
