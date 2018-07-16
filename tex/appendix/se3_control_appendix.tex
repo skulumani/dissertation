@@ -32,7 +32,7 @@ Evaluating the Hessian at \( R = R_d \)
 shows that the Hessian is positive definite at \( R_d \) and therefore the critical point is a minimum for any variation \( \eta \) and proves~\cref{item:prop_A_psd}.
 
 \subsection{Proof of~\Cref{item:prop_A_critical_points}}\label{proof:prop_A_critical_points}
-To prove~\cref{item:prop_critical_points} we must first determine the critical points of~\cref{eq:eRA}.
+To prove~\cref{item:prop_A_critical_points} we must first determine the critical points of~\cref{eq:eRA}.
 The derivations are originally presented in~\cite{bullo2004,chaturvedi2011a} and we present and expand on their original descriptions.
 We define the relative attitude error as \( Q = R_d^T R \) and expand~\cref{eq:eRA} as
 \begin{align*}
@@ -129,7 +129,7 @@ Using this inequality in~\cref{eq:era_condition_3} implies that
 Therefore the left hand side of~\cref{eq:era_condition_3} is negative and a contradiction.
 Applying a similar logic for the case \( g_1 > g_2 \) shows that~\cref{item:condition_2} is not possible and therefore~\cref{item:condition_1} must be satisfied.
 Substituting~\cref{item:condition_1} into~\cref{eq:relative_attitude_error} shows that the main diagonal of \( Q \) must be composed of \( + 1 \) or \( -1 \).
-Thus, the critical points of \( A(R) \) are those provided in~\cref{item:prop_critical_points}.
+Thus, the critical points of \( A(R) \) are those provided in~\cref{item:prop_A_critical_points}.
 These critical points correspond to additional rotations of \SI{180}{\degree} about each axes, or more explicitly \( R_e = \braces{R_d, R_\alpha, R_\beta, R_\gamma} \) where
 \begin{align}
     R_\alpha &= R_d \begin{bmatrix} 1 & 0 & 0 \\ 0 & -1 & 0 \\ 0 & 0 & -1 \end{bmatrix} , \\
@@ -185,7 +185,7 @@ Consider the following Lyapunov function:
 	\mathcal{V} = \frac{1}{2} e_\Omega \cdot J e_\Omega + k_R \Psi(R,R_d). 
 \end{gather*}
 From~\cref{item:prop_psi_psd} of~\Cref{prop:attitude_control_configuration_error}, \(\mathcal{V} \geq 0 \).
-Using~\cref{eqn:eW_dot,eqn:A_dot} with \( \Delta = 0 \), the time derivative of \( \mathcal{V} \) is given by
+Using~\cref{eq:eW_dot,eq:A_dot} with \( \Delta = 0 \), the time derivative of \( \mathcal{V} \) is given by
 \begin{align*}%\label{eqn:vdot_nodist}
 	\dot{\mathcal{V}} &= -k_\Omega \norm{e_\Omega}^2. 
 %	e_\Omega^T \parenth{ u - \Omega \times J \Omega } + k_R e_R \cdot e_\Omega \nonumber \\
