@@ -2,18 +2,18 @@
 
 \chapter{Low Thrust Orbital Transfers using Reachability Sets}\label{sec:lowthrust_transfers}%
 
-In this chapter, we propose a systematic design method which enables low-thrust transfers in the rotating frame of the \gls{rtbp} and \gls{rf2bp}.
-The dynamics of a particle around an elongated small body can be modeled using the \gls{rf2bp} which are a slight reformulation of the relative dynamics presented in~\cref{sec:relative_eoms}.
+In this chapter, we propose a systematic design method which enables low-thrust transfers in the rotating frame of the \glsdesc{rtbp} (\glsentrytext{rtbp}) and \gls{rf2bp}.
+The dynamics of a particle around an elongated small body can be modeled using the \gls{rf2bp} which are a slight reformulation of the relative dynamics presented in~\cref{sec:mathematical_background}.
 There are many similarities between the well known \gls{rtbp} and \gls{rf2bp}.
 In both mathematical models, there are are relative equilibrium points, also known as Lagrange points~\cite{szebehely1967,scheeres1994}, as well as periodic orbits around them.
 As in the \gls{rtbp}, two of the equilibrium points around an elongated small body have an unstable saddle-center behavior and therefore the periodic orbits around these points also exhibit stable and unstable invariant manifolds~\cite{hu2002a,koon2011}.
-The theory developed in the \gls{rtbp} is directly applicable to motion around asteroids~\cite{herrera2014}.
+The theory developed in the \gls{rtbp} is directly applicable to motion around small bodies~\cite{herrera2014}.
 
 % why we need  low thrust transfers
 The invariant manifolds of the \gls{rtbp} have been used previously to develop many low or energy free transfers~\cite{koon2000b,koon2001}.
 In the case of the \gls{rtbp}, the invariant manifolds associated with the periodic orbits only pass close to the secondary body but do not pass near the primary body.
 However, as a result it is not possible to directly utilize the invariant manifolds for orbital transfers for all scenarios, such as those departing from the primary body.
-In the \gls{rf2bp} the invariant manifolds might approach or intersect the body depending on the shape or rotational rate. 
+In the \gls{rf2bp}, the invariant manifolds might approach or intersect the body depending on the shape or rotational rate. 
 The manifolds of the \gls{rf2bp} offer additional opportunities for low energy transfers and can even be extended to landing or take off trajectories for sample return missions.
 
 This chapter presents a low energy transfer scheme which leverages the use of low thrust propulsion to design transfer trajectories about the \gls{rtbp} and \gls{rf2bp}.
@@ -97,7 +97,7 @@ and the control input is defined as \( \vc{u} = \begin{bmatrix} u_x & u_y \end{b
 The state is defined as \( \vc{x} = \begin{bmatrix}\vc{r} &\vc{v} \end{bmatrix}^T\) with \(\vc{r} = \begin{bmatrix} x & y \end{bmatrix}^T \in \R^{2\times1}\) and \(\vc{v}= \begin{bmatrix} \dot{x} & \dot{y} \end{bmatrix}^T \in \R^{2\times1}\) representing the position and velocity with respect to the system barycenter, respectively.
 
 \paragraph{Jacobi Integral}\label{sec:jacobi}
-There exists a single integral, or constant of motion for the three-body problem~\cite{szebehely1967,lanczos1970}.
+There exists a single integral, or constant of motion for the three body problem~\cite{szebehely1967,lanczos1970}.
 This energy constant is analogous to the total mechanical energy, however it is a non-physical quantity arising from the problem formulation~\cite{szebehely1967}.
 Also known as the Jacobi constant, it is defined as a function of the position and velocity in the rotating frame and given by
 \begin{equation}
@@ -111,7 +111,7 @@ In the vicinity of \( m_1\) or \(m_2\) there exists a potential well.
 As the energy level increases there are five critical points of the effective potential where the slope is zero.
 Three collinear saddle points on the \(\hat{e}_1\) axis and two equilateral points.
 These equilibrium, or Lagrange points, are labeled \( L_i, i = 1, \hdots, 5 \) and are shown in Figure~\ref{fig:energy_contour}.
-The Jacobi integral is a valuable invariant property of the three-body system that allows for greater insight into the motion of the spacecraft.
+The Jacobi integral is a valuable invariant property of the three body system that allows for greater insight into the motion of the spacecraft.
 \begin{figure}[htbp]
         \centering
         \includegraphics[width=0.75\textwidth]{./figures/2017_JAS/energy_contours.pdf}
@@ -120,16 +120,16 @@ The Jacobi integral is a valuable invariant property of the three-body system th
 \end{figure} 
 
 \subsubsection{Invariant Manifolds and \Poincare Map}\label{sec:invariant_manifold}
-Dynamics systems theory has been applied to the design of control-free maneuvers in the restricted three-body problem~\cite{koon2011}.
-As previously introduced in~\Cref{sec:jacobi}, there exist five equilibrium points in the equations of motion for the three-body problem.
+Dynamic systems theory has been applied to the design of control-free maneuvers in the restricted three body problem~\cite{koon2011}.
+As previously introduced in~\Cref{sec:jacobi}, there exist five equilibrium points in the equations of motion for the three body problem.
 It has been shown that the local orbit structure near the Lagrange points gives rise to families of periodic orbits as well as the stable and unstable manifolds of these periodic orbits.
 This rich structure is globally connected and gives rise to a dynamical chain which allows trajectories to pass through the phase space~\cite{koon2011,conley1968}.
 The manifold structure associated with periodic orbits about the \( L_1 \) and \( L_2 \) Lagrange points are critical to the understanding of the motion of spacecraft as well as comets/asteroids.
-In addition, the stable and unstable manifolds serve as the boundaries of the phase space region that allow for the transport between realms in a single three-body system or between multiple three-body systems.
-These invariant manifolds only exist as a result of the dynamic formulation of the three-body problem in a rotating reference frame. 
+In addition, the stable and unstable manifolds serve as the boundaries of the phase space region that allow for the transport between realms in a single three body system or between multiple three body systems.
+These invariant manifolds only exist as a result of the dynamic formulation of the three body problem in a rotating reference frame. 
 Invariant manifolds serve as a higher dimensional generalization of the concept of seperatrices from linear systems as applied to the case of nonlinear systems. 
 
-\Poincare maps are a useful tool in the analysis of the flow near periodic orbits in the three-body problem.
+\Poincare maps are a useful tool in the analysis of the flow near periodic orbits in the three body problem.
 We let \( \Sigma \) define a hypersurface of section chosen such that all trajectories in the vicinity of a state \( \vc{q} \in \Sigma \) cross \( \Sigma \) transversely and in the same direction.
 A \Poincare map, \( P(\vc{q}) = \phi(T;\vc{q}) \), maps the state of a trajectory from one intersection to the next.
 Choosing a section in this manner results in a \Poincare section as shown in~\cref{fig:poincare_map}.
@@ -147,7 +147,7 @@ These dynamic features have been shown to play a vital role in the movement of n
 % drawbacks of this approach on how we seek to improve upon it
 Combining invariant manifolds and an appropriate \Poincare section provides a conceptually simple manner to determine trajectories which connect wide regions of the phase space.
 However, the results previously developed are highly case specific and difficult to generalize to arbitrary transfers.
-Also, these results are based on control-free trajectories which rely on the underlying structure of the three-body system.
+Also, these results are based on control-free trajectories which rely on the underlying structure of the three body system.
 In addition, transfer orbits along an invariant manifold require large time of flights which may be undesirable for time critical missions.
 The addition of low-thrust propulsion offers the potential of reduced transit times and the ability to depart from the free motion trajectory to allow for increased transfer opportunities. 
 In this paper, we formulate an optimal control problem to generate the reachable set of the spacecraft.
@@ -156,8 +156,8 @@ We compute the reachable set on an appropriate \Poincare section and use this to
 
 \section{Transfer Design around Small Bodies}\label{sec:sc_eoms}
 
-The motion of a massless particle, or spacecraft, about small body shares many similarities with that of the three-body problem.
-As is typical in the three-body problem, the equations of motion are usually represented in a uniformly rotating frame aligned with the two primaries.
+The motion of a massless particle, or spacecraft, about small body shares many similarities with that of the three body problem.
+As is typical in the three body problem, the equations of motion are usually represented in a uniformly rotating frame aligned with the two primaries.
 Similarly, the equations of motion about a small body are also defined in a body-fixed frame with uniform rotation.
 In this reference frame, the gravitational potential field is time invariant and only a function of the position of the particle.
 In addition, since the rotational rate of the small body is constant, the equations of motion are time invariant.
@@ -208,14 +208,14 @@ where the terms \(\vc{g} \parenth{\vc{r}} \) and \( \vc{h}\parenth{\vc{v}} \) ar
 
 Since we assume that the small body is uniformly rotating, the equations of motion are time invariant when represented in the body-fixed frame.
 In addition, there exists an integral of motion, or a conserved quantity, that is constant for all motion of a particle.
-Similar to the three-body problem, the Jacobi constant for the \gls{rf2bp} is given by
+Similar to the three body problem, the Jacobi constant for the \gls{rf2bp} is given by
 \begin{align}\label{eq:rf2bp_jacobi}
     J \parenth{\vc{r}, \vc{v}} = \frac{1}{2} \omega^2 \parenth{x^2 + y^2} + U(\vc{r}) - \frac{1}{2} \parenth{\dot{x}^2 + \dot{y}^2 + \dot{z}^2} .
 \end{align}
-The Jacobi constant functions in a similar manner as used in three-body problem~\cite{szebehely1967}.
+The Jacobi constant functions in a similar manner as used in three body problem~\cite{szebehely1967}.
 We can define zero-velocity surfaces using the Jacobi constant by fixing the value to a desired constant.
 The zero-velocity surfaces are the locus of points where the kinetic energy and hence velocity vanishes.
-Just as in the three-body problem, the Jacobi constant in~\cref{eq:rf2bp_jacobi} divides the phase space into distinct realms of possible motion.
+Just as in the three body problem, the Jacobi constant in~\cref{eq:rf2bp_jacobi} divides the phase space into distinct realms of possible motion.
 Similarly, there exist, in general, four equilibrium points and also their associated stable and unstable manifolds~\cite{scheeres1996,scheeres1994}.
 The properties of these manifolds play a critical role in the dynamics of trajectories in their vicinity.
 
@@ -273,7 +273,7 @@ We define the \Poincare section along the horizontal axis, which is equivalent t
         \Sigma = \braces{ ( x, \dot{x}) \, | \, y = 0} . 
         \label{eqn:poincare_section}
 \end{align}
-This is similar to the previous work in determining homoclinic orbits in the three-body problem~\cite{llibre1985,koon2011}.
+This is similar to the previous work in determining homoclinic orbits in the three body problem~\cite{llibre1985,koon2011}.
 Previous analytical results have shown that homoclinic orbits intersect transversally in the \( (x, \dot{x} ) \) space on the plane \( y = 0 \).
 We seek to compliment these results with the addition of low thrust propulsion to maximize the reachable set on the \Poincare section.
 Placing our section at \( y = 0\) ensures that all trajectories will intersect our section.
@@ -367,10 +367,10 @@ In this work, we use the Matlab nonlinear solver \texttt{fsolve} to solve the sy
 Within \texttt{fsolve}, we use the trust-region dogleg solver which makes use of the Powell dogleg procedure for computing a step direction and magnitude to minimize successive iterations of the solver.
 The numerical results are specific to the choice of nonlinear solver, and different tolerances or software tools may result in slight changes.
 
-% TODO Add numerical examples of the three-body problem
+% TODO Add numerical examples of the three body problem
 \section{Numerical Examples of Transfers using Reachability Sets}\label{sec:simulation}
 
-We present a total of three examples of the using the reachability set to determine orbital transfers.
+We present a total of three examples of using the reachability set to determine orbital transfers.
 The first two examples are defined in the \gls{pcrtbp} and the last is designed for a transfer about asteroid Castalia.
 These simulations enable the spacecraft to depart from the natural dynamics through the use of low-thrust propulsion.
 The reachability set on the \Poincare section allows for a straightforward method of determining transfer opportunities.
@@ -419,11 +419,11 @@ The numerical values associated with the green points denote the required time o
 The required travel time for a transfer using the unstable invariant manifold is  approximately \( t_f \approx 3.1\) non-dimensional time units.
 \begin{figure} 
         \centering 
-        \begin{subfigure}[htbp]{0.5\textwidth} 
+        \begin{subfigure}[t]{0.5\textwidth} 
             \includegraphics[width=\textwidth]{figures/2017_JAS/manifold_trajectory} 
                 \caption{Position space view of invariant manifold} \label{fig:manifold_trajectory} 
         \end{subfigure}%
-        \begin{subfigure}[htbp]{0.5\textwidth} 
+        \begin{subfigure}[t]{0.5\textwidth} 
             \includegraphics[width=\textwidth]{figures/2017_JAS/manifold_poincare} 
                 \caption{\Poincare intersection of invariant manifold (green), target orbit (blue) and the initial orbit (black)} \label{fig:manifold_poincare} 
         \end{subfigure} 
@@ -543,13 +543,13 @@ The reachable set is an ellipsoidal region with a major axis aligned along \( \t
 \Cref{fig:poincare_compare} shows that the reachable set and those of the descending target region intersect.
 As both regions are discretely approximated a linear interpolation is used to determine the exact intersection state on the \Poincare section.
 This intersection generates a partial target state of \( x_t \text{ and } \dot{x}_t \).
-Using the energy level of the target region, defined by~\cref{eq:jacobi}, and the intersection state we can calculate the final component \( \dot{y} \). 
+Using the energy level of the target region, defined by~\cref{eq:pcrtbp_jacobi}, and the intersection state we can calculate the final component \( \dot{y} \). 
 This results in a complete target state \( \vc{x}_t \) which lies on the reachable set and on the target orbit. 
 A final optimal trajectory is generated such that the \( \vc{x}(N) = \vc{x}_t \).
 This transfer trajectory is denoted by the green path in~\cref{fig:reach_transfer}.
 The optimal control input is shown in~\cref{fig:control_l1}. 
 The spacecraft achieves the desired target while satisfying the bounded control input.
-The Jacobi energy integral, computed using~\cref{eq:jacobi}, is shown in~\cref{fig:jacobi_l1}.
+The Jacobi energy integral, computed using~\cref{eq:pcrtbp_jacobi}, is shown in~\cref{fig:jacobi_l1}.
 \Cref{fig:jacobi_l1} shows that the vehicle begins with an energy level equal to the periodic orbit and arrives at the target orbit with the appropriate energy.
 The first half of the transfer is associated with and increase in energy as the control is used to transition towards the target orbit which is followed by a energy decrease to the target orbit.
 This roughly corresponds with the expected optimal solution of a bang-coast-bang type orbital transfer~\cite{kirk2012}.
@@ -613,7 +613,7 @@ We select a state on the maximum reachability set which minimizes the distance t
 This straightforward approach achieves an optimal trajectory and is used to generate general transfers.
 
 The invariant manifold method is difficult to apply to general orbital transfers. 
-The manifolds are associated with periodic orbits in the three-body system. 
+The manifolds are associated with periodic orbits in the three body system. 
 In this case, an appropriate periodic orbit must first be determined prior to generating the invariant manifold.
 Furthermore, there is no guarantee that the invariant manifold will pass through a desired region of space. 
 For example, in the Earth-Moon system the unstable manifolds of periodic orbits about \( L_1 \) do not pass close to the Earth, but rather are beyond the geostationary orbit altitude. 
@@ -621,13 +621,13 @@ In addition, determining the intersections between various invariant manifolds i
 It requires an appropriate \Poincare~section and the generation of several invariant manifolds.
 There is no clear method of selecting the periodic orbits required based on the type of transfer desired. 
 Determining an intersection between these invariant manifolds generally requires extended flight times, involving several orbits of the primaries, before an appropriate intersection is found.
-As a result, it is difficult to generalize this method to arbitrary transfers in the three-body problem.
+As a result, it is difficult to generalize this method to arbitrary transfers in the three body problem.
 
 % describe initial and target states for this example
 This numerical simulation demonstrates the ability of the our approach to determine more general transfer trajectories in the \gls{pcrtbp}. 
 We use multiple iterations of the reachability set to achieve a more complicated transfer.
 In this manner, it is possible to design arbitrary transfers which are not possible using a single reachability computation.
-Initially, it is assumed that the spacecraft lies on a circular geostationary orbit in the non-dimensional Earth-Moon three-body system. 
+Initially, it is assumed that the spacecraft lies on a circular geostationary orbit in the non-dimensional Earth-Moon three body system. 
 While the geostationary orbit is not a typical ``parking orbit'' for most spacecraft missions it serves as a convenient altitude to demonstrate our approach.
 The geostationary orbit about the Earth is transformed into the rotating reference frame of the Earth-Moon three body problem.
 In addition, we non-dimensionalize the initial state to find \( \vc{x}_0 = \begin{bmatrix} 0.0972 & 0 & 0 & 3.0010\end{bmatrix}^T\) as the initial condition of the spacecraft on the geostationary orbit.
@@ -671,9 +671,7 @@ We use the same initial guess of \( \vc{\lambda}_0\) as in~\cref{sec:periodic_or
     \subcaptionbox{Stage 4 Trajectory\label{fig:stage4_trajectory_zoom}}{\includegraphics[height=0.2\textheight,keepaspectratio]{figures/2017_JAS/stage4_trajectory_zoom.pdf}} 
     \subcaptionbox{Stage 4 \Poincare~section\label{fig:stage4_poincare}}{\includegraphics[height=0.2\textheight,keepaspectratio]{figures/2017_JAS/stage4_poincare.pdf}}
 
-    \caption{Stage 1-4 reachability sets: The first four reachability sets visualized in both the position (left) and \Poincare space (right).
-        The minimum trajectories from the preceding stages are shown in red, while the next stage is shown in blue.
-    The transfer goal is to generate a complete trajectory from the initial geostationary orbit to the \( L_1 \) stable manifold, with an eventual arrival at the \( L_1 \) periodic orbit.~\label{fig:stage1to4_reachability}}
+    \caption{Stage 1-4 reachability sets: The first four reachability sets visualized in both the position (left) and \Poincare space (right).\label{fig:stage1to4_reachability}}
 \end{figure}
 The first reachable set is computed beginning on the geostationary orbit at it's intersection with the \Poincare section and we again assume a upper bound on the thrust magnitude of \( u_{max} = 0.75 \).
 The reachable set is generated by varying the angle \( \ang{0} \leq \theta < \ang{360} \) in~\cref{eq:constraints} defined on the \Poincare section.
@@ -748,8 +746,7 @@ The optimization statistics for the final transfer are shown in~\cref{tab:geo_tr
     \hfill
     \subcaptionbox{Combined control history for each stage of the reachability analysis.\label{fig:control_input_geo}}{\includegraphics[width=0.45\textwidth]{figures/2017_JAS/control_input_geo.pdf}}
 
-    \subcaptionbox{Energy history throughout the transfer.
-    Each stage of the transfer serves to increase the energy towards the stable manifold.\label{fig:jacobi_geo}}{\includegraphics[width=0.5\textwidth]{figures/2017_JAS/jacobi_energy.pdf}}
+    \subcaptionbox{Energy history throughout the transfer.\label{fig:jacobi_geo}}{\includegraphics[width=0.3\textheight]{figures/2017_JAS/jacobi_energy.pdf}}
         \caption{Geostationary to \( L_1 \) periodic orbit transfer: Complete transfer from the geostationary orbit to the stable manifold.\label{fig:geo_transfer}}
 \end{figure}
 The complete transfer trajectory, after eight iterations, is shown in~\Cref{fig:geo_transfer}. 
@@ -879,7 +876,7 @@ In this transfer example we also have used a reduced model of Castalia.
 Rather than using the full \num{4092} face model we reduce the number of faces to \num{1024} using the Matlab function \verb+reducepatch+. 
 This greatly speeds up the computation with only a small difference in the gravitational field.
 
-We first compute the reachability set originating from the initial periodic orbit at \( \vecbf{x}_i\) for a fixed time of flight and bounded control magnitude as defined previously.
+We first compute the reachability set originating from the initial periodic orbit at \( \vc{x}_i\) for a fixed time of flight and bounded control magnitude as defined previously.
 The reachability set is computed by solving the two-point boundary value problem using a multiple shooting algorithm to satisfy the necessary conditions in~\cref{eq:terminal_constraints}.
 The reachability set is generated on the lower dimensional \Poincare section and is composed of the terminal states in the \( \parenth{x,z,\dot{x},\dot{z} } \) space.
 We approximate the reachability set by discretization of each of the angles \( \phi_1, \phi_2 , \phi_3 \) into ten discrete steps. 
@@ -969,7 +966,7 @@ We can see that the control constraint in~\cref{eq:control_constraint} is satisf
 In this chapter, we presented a systematic approach which combines the concepts of reachability sets and \Poincare~sections to generate orbital transfers.
 The \Poincare~section allows for trajectory design on a lower dimensional phase space thereby reducing the complexity and search space.
 The approximation of the reachability set enables a simple methodology for the selection of \textit{good} initial parameters which will allow for convergence of the optimal control formulation.
-The combination of these two concepts allows the engineer to capture the characteristics inherent in the three-body problem.
+The combination of these two concepts allows the engineer to capture the characteristics inherent in the three body problem.
 The approach is demonstrated in the context of both the \gls{pcrtbp} and \gls{rf2bp}.
 
 The results of this chapter provide a simple methodology to extend the use of invariant manifolds for the design of general transfer trajectories.
