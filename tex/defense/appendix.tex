@@ -107,38 +107,38 @@ Really care about relative motion of \( m_i \) wrt \( m_q \)
 
 \end{frame} %----------------------------------------------------------% 
 
-%\subsection{Attitude Coupling}
+\subsection{Attitude Coupling}
 
-%\begin{frame}[noframenumbering,label=grav] %---------------------------------------%
-%\frametitle{Gravity Expansion}
-%\only<1>{
-%\begin{block}{Force due to gravity on body \( B\) from particle \( P \)}
-%\begin{equation*}
-%    \vc{F} = -G m_P \int_{\mathcal{B}} \vc{r} \parenth{r^2}^{-\frac{3}{2}} \, d m
-%\end{equation*}
-%\end{block}
-%}
-%\only<2>{
-%\begin{block}{Binomial Expansion}
+\begin{frame}[noframenumbering,label=grav] %---------------------------------------%
+\frametitle{Gravity Expansion}
+\only<1>{
+\begin{block}{Force due to gravity on body \( B\) from particle \( P \)}
+\begin{equation*}
+    \vc{F} = -G m_P \int_{\mathcal{B}} \vc{r} \parenth{r^2}^{-\frac{3}{2}} \, d m
+\end{equation*}
+\end{block}
+}
+\only<2>{
+\begin{block}{Binomial Expansion}
 
-%\begin{align*}
-%    \vc{F} &= - \frac{G m_P m_B}{R^2} \parenth{\vc{a}_1 + \sum_{i=2}^\infty \vc{f}^{(i)}} \\
-%    \vc{f}^{(2)} &= \frac{1}{m_B R^2} \braces{\frac{3}{2} \bracket{ \tr{J_B} - 5 \vc{a}_1 \cdot J_B \cdot \vc{a}_1} \vc{a}_1 + 3 J_B \cdot \vc{a}_1}
-%\end{align*}
-%\end{block}
-%}
-%\only<3>{
-%\begin{block}{Gravity Moment}
-%\begin{equation*}
-%    \vc{M} = \frac{3 G m_B}{R^3} \vc{a}_1 \times J \cdot \vc{a}_1 + \frac{G m_B m_P}{R} \sum_{i=3}^\infty \vc{a}_1 \times \vc{f}^{(i)}
-%\end{equation*}
-%%\begin{center}
-%%CG \( \neq \) CM 
-%%\end{center}
-%\end{block}
-%}
+\begin{align*}
+    \vc{F} &= - \frac{G m_P m_B}{R^2} \parenth{\vc{a}_1 + \sum_{i=2}^\infty \vc{f}^{(i)}} \\
+    \vc{f}^{(2)} &= \frac{1}{m_B R^2} \braces{\frac{3}{2} \bracket{ \tr{J_B} - 5 \vc{a}_1 \cdot J_B \cdot \vc{a}_1} \vc{a}_1 + 3 J_B \cdot \vc{a}_1}
+\end{align*}
+\end{block}
+}
+\only<3>{
+\begin{block}{Gravity Moment}
+\begin{equation*}
+    \vc{M} = \frac{3 G m_B}{R^3} \vc{a}_1 \times J \cdot \vc{a}_1 + \frac{G m_B m_P}{R} \sum_{i=3}^\infty \vc{a}_1 \times \vc{f}^{(i)}
+\end{equation*}
+%\begin{center}
+%CG \( \neq \) CM 
+%\end{center}
+\end{block}
+}
 
-%\end{frame}%-------------------------------------------------------------%
+\end{frame}%-------------------------------------------------------------%
 
 
 %\begin{frame}[noframenumbering,label=srp]{Solar Radiation Pressure} %---------------------------------------------------%
