@@ -60,52 +60,52 @@
     }
 \end{frame}
 
-%\begin{frame}[noframenumbering]{Polyhedron Gravitation Model}
-%\label{slide:polyhedron_gravity}
-%\begin{itemize}
-%    \item Potential is a function of only the shape model
-%    \item Globally valid, closed-form expression of potential
-%    \item Exact potential assumes a constant density 
-%    \item Accuracy solely dependent on shape model
-%\end{itemize}
-%\only<2>{
-%\begin{align*}\label{eq:potential}
-%    U(\vc{r}) &= \frac{1}{2} G \sigma \sum_{e \in \text{edges}} \vc{r}_e \cdot \vc{E}_e \cdot \vc{r}_e \cdot L_e - \frac{1}{2}G \sigma \sum_{f \in \text{faces}} \vc{r}_f \cdot \vc{F}_f \cdot \vc{r}_f \cdot \omega_f 
-%\end{align*}
-%}
-%\only<3>{
-%\begin{center}
-%  % \animategraphics[controls,autoplay,loop,width=0.5\textwidth]{30}{animation/2016AAS/castalia/IMG}{00001}{00999}~\hfill
-%  % \includegraphics[width=0.5\textwidth]{figures/2016AAS/radius_contour.pdf}
-%\end{center}
-%}
-%\hyperlink{slide:asteroid_transfer}{\beamergotobutton{Asteroid Transfer}}
-%\end{frame}
+\begin{frame}[noframenumbering]{Polyhedron Gravitation Model}
+\label{slide:polyhedron_gravity}
+\begin{itemize}
+    \item Potential is a function of only the shape model
+    \item Globally valid, closed-form expression of potential
+    \item Exact potential assumes a constant density 
+    \item Accuracy solely dependent on shape model
+\end{itemize}
+\only<2>{
+\begin{align*}\label{eq:potential}
+    U(\vc{r}) &= \frac{1}{2} G \sigma \sum_{e \in \text{edges}} \vc{r}_e \cdot \vc{E}_e \cdot \vc{r}_e \cdot L_e - \frac{1}{2}G \sigma \sum_{f \in \text{faces}} \vc{r}_f \cdot \vc{F}_f \cdot \vc{r}_f \cdot \omega_f 
+\end{align*}
+}
+\only<3>{
+\begin{center}
+  % \animategraphics[controls,autoplay,loop,width=0.5\textwidth]{30}{animation/2016AAS/castalia/IMG}{00001}{00999}~\hfill
+  % \includegraphics[width=0.5\textwidth]{figures/2016AAS/radius_contour.pdf}
+\end{center}
+}
+\hyperlink{slide:asteroid_transfer}{\beamergotobutton{Asteroid Transfer}}
+\end{frame}
 
-%\begin{frame}[noframenumbering]{Astrodynamics}%-------------------------------------------------------%
-%\label{slide:astrodynamics}
+\begin{frame}[noframenumbering]{Astrodynamics}%-------------------------------------------------------%
+\label{slide:astrodynamics}
 
-%\only<1>{
-%\begin{block}{Integrals of Motion}
-%    Require \( 6 n \) integrals of motion but know \( 10 \)
-%        \begin{itemize}
-%            \item Linear Momentum - system CM constant speed - \( 6 \) constants
-%            \item Angular Momentum - system angular moment - \( 3 \) constants
-%            \item Total Energy - Conservative system - \( 1 \) constant
-%        \end{itemize}
-%    Even two-body problem is not solvable
-%\end{block}
-%}
-%\only<2>{
-%\begin{block}{Relative Motion}
-%Really care about relative motion of \( m_i \) wrt \( m_q \)
-%\[
-%    \ddot{\vc{r}}_{qi} + G \frac{m_i + m_q}{r_{qi}^3} \vc{r}_{qi} = G \sum_{\substack{j = 1\\j\neq i,q}}^n m_j \parenth{ \frac{\vc{r}_{ij}}{r_{ij}^3} - \frac{\vc{r}_{qj}}{r_{qj}^3}} \vc{r}_{ji}
-%\]
-%\end{block}
-%}
+\only<1>{
+\begin{block}{Integrals of Motion}
+    Require \( 6 n \) integrals of motion but know \( 10 \)
+        \begin{itemize}
+            \item Linear Momentum - system CM constant speed - \( 6 \) constants
+            \item Angular Momentum - system angular moment - \( 3 \) constants
+            \item Total Energy - Conservative system - \( 1 \) constant
+        \end{itemize}
+    Even two-body problem is not solvable
+\end{block}
+}
+\only<2>{
+\begin{block}{Relative Motion}
+Really care about relative motion of \( m_i \) wrt \( m_q \)
+\[
+    \ddot{\vc{r}}_{qi} + G \frac{m_i + m_q}{r_{qi}^3} \vc{r}_{qi} = G \sum_{\substack{j = 1\\j\neq i,q}}^n m_j \parenth{ \frac{\vc{r}_{ij}}{r_{ij}^3} - \frac{\vc{r}_{qj}}{r_{qj}^3}} \vc{r}_{ji}
+\]
+\end{block}
+}
 
-%\end{frame} %----------------------------------------------------------% 
+\end{frame} %----------------------------------------------------------% 
 
 %\subsection{Attitude Coupling}
 
