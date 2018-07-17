@@ -7,20 +7,26 @@
 % OBSOLETE PACKAGE CHECK
 \RequirePackage[l2tabu,orthodox]{nag}
 
+%------------------------FONTS-------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype} % better fonts/apperance
+\usepackage{bm} % boldface
 % -------------------MATH PACKAGES --------------------------------------
 \usepackage[binary-units=true]{siunitx} % SI units
-
 \usepackage{amssymb}  
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amsthm}
 \usepackage{mathtools}
-\usepackage{microtype} % better fonts/apperance
-\usepackage{bm} % boldface
+
+\usepackage{booktabs}
+\usepackage[shortlabels]{enumitem}
 %----------------------------- GRAPHICS PACKAGES--------------------------
-\usepackage{geometry} % allows for adjustment of margins/layout of the page
+
+\usepackage[]{geometry}
 \usepackage{graphicx} % for pdf, bitmapped graphics files
-\usepackage{color}
 \usepackage{subcaption} % make it possible to include more than one captioned figure/table in a single float
 \graphicspath{{./figures/}}% path to images
 
@@ -70,7 +76,7 @@
 %\usepackage{listings}
 %\usepackage{accents}
 %\usepackage{overcite} % reference numbers appear as superscript exponents. Used by AAS
-\usepackage{footnpag}   
+% \usepackage{footnpag}   
 \usepackage{multimedia}
 \usepackage[]{animate} % for animated gif
 %\usepackage[]{biblatex}
