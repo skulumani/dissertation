@@ -1,0 +1,81 @@
+\documentclass[11pt,professionalfonts,aspectratio=169,final]{beamer}
+
+\definecolor{mygray}{gray}{0.9}
+\definecolor{RoyalBlue}{rgb}{0.25,0.41,0.88}
+\def\Emph{\textcolor{RoyalBlue}}
+
+\definecolor{tmp}{rgb}{0.804,0.941,1.0}
+\setbeamercolor{numerical}{fg=black,bg=tmp}
+\setbeamercolor{exact}{fg=black,bg=red}
+
+\mode<presentation> 
+{
+  \usetheme[hideothersubsections,width=3.5\baselineskip]{Berkeley}
+  \usefonttheme{serif}
+  \setbeamercovered{transparent}
+  \setbeamerfont{section in sidebar}{size=\scriptsize}
+  \setbeamerfont{subsection in sidebar}{size=\tiny}
+}
+
+\makeatletter
+\beamer@headheight=1.5\baselineskip
+
+\setbeamertemplate{sidebar \beamer@sidebarside}%{sidebar theme}
+  {
+    \beamer@tempdim=\beamer@sidebarwidth%
+    \advance\beamer@tempdim by -6pt%
+    \insertverticalnavigation{\beamer@sidebarwidth}%
+    \vfill
+    \ifx\beamer@sidebarside\beamer@lefttext%
+    \else%
+      \usebeamercolor{normal text}%
+      \llap{\usebeamertemplate***{navigation symbols}\hskip0.1cm}%
+      \vskip2pt%
+    \fi%
+}%
+
+\setbeamertemplate{footline}%{split theme}
+{%
+  \leavevmode%
+  \begin{beamercolorbox}[wd=1\paperwidth,ht=2.5ex,dp=1.125ex,leftskip=.3cm,rightskip=.3cm]{title in head/foot}
+%    \usebeamerfont{title in head/foot}\mypaper\hfill \insertframenumber/\inserttotalframenumber
+    \usebeamerfont{title in head/foot}\insertshorttitle \hfill \insertframenumber/\inserttotalframenumber
+  \end{beamercolorbox}
+} 
+\setbeamertemplate{blocks}[rounded][shadow=true]
+\setbeamertemplate{title page}[default][shadow=true,rounded=true]
+\setbeamercolor{box}{fg=black,bg=yellow}
+\setbeamertemplate{navigation symbols}{}
+\makeatother
+
+\title[Defense]{Geometric Mechanics and Controls for Small Body Missions}
+\date{25 July 2018}
+\author[Shankar Kulumani]{Shankar Kulumani}
+
+\institute{
+\normalsize{\textbf{Flight Dynamics \& Control Lab}}\\
+\begin{center}
+    \includegraphics[width=0.7\textwidth,height=0.2\textheight,keepaspectratio]{figures/defense/gw_txh_2cs_pos.pdf}
+\end{center}
+}
+
+\logo{\includegraphics[scale=0.2]{figures/defense/gw_atx_2cs_rev.pdf}}
+
+\begin{document}
+
+\setcounter{framenumber}{-1}
+\begin{frame} %-----------------------------%
+  \titlepage
+\end{frame}   %-----------------------------%
+
+% \include{tex/introduction}
+% \include{tex/challenges}
+% \include{tex/prior_work}
+% \include{tex/conclusion}
+% \include{tex/appendix}
+
+\include{tex/defense/reachability}
+\include{tex/thank_you}
+
+\end{document}
+

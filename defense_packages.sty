@@ -1,0 +1,142 @@
+% AAS PRESENTATION PACKAGES
+\ProvidesPackage{research_summary_packages}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% DEFINE USEFUL PACKAGES
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% OBSOLETE PACKAGE CHECK
+\RequirePackage[l2tabu,orthodox]{nag}
+
+% -------------------MATH PACKAGES --------------------------------------
+\usepackage[binary-units=true]{siunitx} % SI units
+
+\usepackage{amssymb}  
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{mathtools}
+\usepackage{microtype} % better fonts/apperance
+\usepackage{bm} % boldface
+%----------------------------- GRAPHICS PACKAGES--------------------------
+\usepackage{geometry} % allows for adjustment of margins/layout of the page
+\usepackage{graphicx} % for pdf, bitmapped graphics files
+\usepackage{color}
+\usepackage{subcaption} % make it possible to include more than one captioned figure/table in a single float
+\graphicspath{{./figures/}}% path to images
+
+% TIKZ
+\usepackage{tikz}
+\usepackage{environ}
+\usetikzlibrary{decorations.markings,decorations.pathreplacing,calc}
+
+\tikzset{help lines/.style={very thin,color=gray!50}} % modify the help lines style
+\tikzset{->-/.style={decoration={
+  markings,
+  mark=at position .5 with {\arrow{>}}},postaction={decorate}}}
+  
+  \makeatletter
+\newsavebox{\measure@tikzpicture}
+\NewEnviron{scaletikzpicturetowidth}[1]{%
+  \def\tikz@width{#1}%
+  \def\tikzscale{1}\begin{lrbox}{\measure@tikzpicture}%
+  \BODY
+  \end{lrbox}%
+  \pgfmathparse{#1/\wd\measure@tikzpicture}%
+  \edef\tikzscale{\pgfmathresult}%
+  \BODY
+}
+\makeatother
+%------------- CITATION PACKAGES------------------------------
+
+%\usepackage{listings}
+%\usepackage{accents}
+%\usepackage{overcite} % reference numbers appear as superscript exponents. Used by AAS
+\usepackage{footnpag}   
+\usepackage{multimedia}
+\usepackage[]{animate} % for animated gif
+%\usepackage[]{biblatex}
+\usepackage[]{hyperref} % links to stuff
+\hypersetup{
+    bookmarks=true,         % show bookmarks bar?
+    unicode=false,          % non-Latin characters in Acrobat’s bookmarks
+    pdftoolbar=true,        % show Acrobat’s toolbar?
+    pdfmenubar=true,        % show Acrobat’s menu?
+    pdffitwindow=false,     % window fit to page when opened
+    pdfstartview={FitV},    % fits the width of the page to the window
+    pdftitle={},    % title
+    pdfauthor={Shankar Kulumani},     % author
+    pdfsubject={},   % subject of the document
+    pdfcreator={Shankar Kulumani},   % creator of the document
+    pdfproducer={Shankar Kulumani}, % producer of the document
+    pdfkeywords={}, % list of keywords
+    pdfnewwindow=true,      % links in new PDF window
+    colorlinks=false,       % false: boxed links; true: colored links
+    linkcolor=black,          % color of internal links (change box color with linkbordercolor)
+    citecolor=black,        % color of links to bibliography
+    filecolor=magenta,      % color of file links
+    urlcolor=black           % color of external links
+}
+% --------------------------------------
+% MUST BE AFTER HYPERREF!!!!!!!!!
+%------------------------------------------
+\usepackage[noabbrev,capitalize]{cleveref} % get fancy referencing
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+% CUSTOM MACROS
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\linearize}[3]{\ensuremath{\left. \frac{\partial #1}{\partial #2} \right|_{#3} \delta #2}}
+\newcommand{\norm}[1]{\ensuremath{\left\| #1 \right\|}}
+\newcommand{\abs}[1]{\ensuremath{\left| #1 \right|}}
+\newcommand{\Real}[1]{\ensuremath{\Re \left\{ #1 \right\}}}
+\newcommand{\bracket}[1]{\ensuremath{\left[ #1 \right]}}
+\newcommand{\braces}[1]{\ensuremath{\left\{ #1 \right\}}}
+\newcommand{\parenth}[1]{\ensuremath{\left( #1 \right)}}
+\newcommand{\pair}[1]{\ensuremath{\langle #1 \rangle}}
+\newcommand{\met}[1]{\ensuremath{\langle\langle #1 \rangle\rangle}}
+\newcommand{\refeqn}[1]{(\ref{eqn:#1})}
+\newcommand{\reffig}[1]{Fig. \ref{fig:#1}}
+\newcommand{\tr}[1]{\mathrm{tr}\ensuremath{\negthickspace\bracket{#1}}}
+\newcommand{\trs}[1]{\mathrm{tr}\ensuremath{[#1]}}
+\newcommand{\deriv}[2]{\ensuremath{\frac{\partial #1}{\partial #2}}}
+\newcommand{\diff}[2]{\ensuremath{\frac{d #1}{d #2}}}
+\newcommand{\dirDiff}[2]{\ensuremath{\mathbf{D}_{#2} #1 \cdot \delta #2}} % directional derivative
+\newcommand{\SO}{\ensuremath{\mathsf{SO(3)}}}
+\newcommand{\T}{\ensuremath{\mathsf{T}}}
+\renewcommand{\L}{\ensuremath{\mathsf{L}}}
+\newcommand{\so}{\ensuremath{\mathfrak{so}(3)}}
+\newcommand{\SE}{\ensuremath{\mathsf{SE(3)}}}
+\newcommand{\se}{\ensuremath{\mathfrak{se}(3)}}
+\newcommand{\R}{\ensuremath{\mathbb{R}}}
+\newcommand{\aSE}[2]{\ensuremath{\begin{bmatrix}#1&#2\\0&1\end{bmatrix}}}
+\newcommand{\ase}[2]{\ensuremath{\begin{bmatrix}#1&#2\\0&0\end{bmatrix}}}
+\newcommand{\D}{\ensuremath{\mathbf{D}}}
+\newcommand{\Sph}{\ensuremath{\mathsf{S}}}
+\renewcommand{\S}{\Sph}
+\newcommand{\J}{\ensuremath{\mathbf{J}}}
+\newcommand{\Ad}{\ensuremath{\mathrm{Ad}}}
+\newcommand{\intp}{\ensuremath{\mathbf{i}}}
+\newcommand{\extd}{\ensuremath{\mathbf{d}}}
+\newcommand{\hor}{\ensuremath{\mathrm{hor}}}
+\newcommand{\ver}{\ensuremath{\mathrm{ver}}}
+\newcommand{\dyn}{\ensuremath{\mathrm{dyn}}}
+\newcommand{\geo}{\ensuremath{\mathrm{geo}}}
+\newcommand{\Q}{\ensuremath{\mathsf{Q}}}
+\newcommand{\G}{\ensuremath{\mathsf{G}}}
+\newcommand{\g}{\ensuremath{\mathfrak{g}}}
+\newcommand{\Hess}{\ensuremath{\mathrm{Hess}}}
+\newcommand{\refprop}[1]{Proposition \ref{prop:#1}}
+\newcommand{\Poincare}{Poincar\'e }
+\newcommand{\vecbf}[1]{\bm{#1}}
+
+%%%%%%%%%%%
+% OLD PACKAGES
+%%%%%%%%%
+% \usepackage{setspace} % line spacing
+% \usepackage{booktabs} % for much better looking tables without vertical seperators
+% \usepackage{array} % for better arrays (eg matrices) in maths
+% %\usepackage{paralist} % very flexible & customisable lists (eg. enumerate/itemize, etc.)
+% \usepackage{bm} % bold face letters in math environment
+% \usepackage{float}
+% \usepackage{url}
+% \usepackage{verbatim} % adds environment for commenting out blocks of text & for better verbatim

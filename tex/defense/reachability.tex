@@ -1,0 +1,210 @@
+% !TEX root = ../presentation.tex
+\subsection[Low Thrust Transfers]{Orbital transfers via Reachability Sets}
+
+\begin{frame}{Low Thrust Orbital Transfers} % -----------------------------------%
+    \begin{itemize}
+        \item Low Thrust orbital transfers using reachability sets 
+        \begin{itemize}
+            \item Transfer design on lower dimensional \Poincare surface
+            \item Simple method to incorporate effects of low-thrust 
+            \item Avoids the issue of determining initial conditions
+        \end{itemize}
+    \pause
+        \item Alleviates many issues with previous approaches
+        \begin{itemize}
+            \item Initial states chosen from from the reachable set
+            \item Indirect optimal control vs. direct optimal control
+            \item Reachability set gives bounds on motion
+        \end{itemize}    
+    \end{itemize}
+
+  \note[itemize]{
+    \item here we introduce some of our previous work that aims to apply geometric mechanics to the design of trajectories around asteroids
+    \item Reachability set avoids the need to pick initial conditions
+    \item We compute on a lower dimensional surface
+  }
+\end{frame} %--------------------------------------%
+
+\subsubsection[Dynamic Systems Theory Review]{Dynamic Systems}
+
+\begin{frame}{\Poincare map}
+\begin{itemize}
+    \item Intersection of a periodic orbit with a lower dimensional subspace
+    \pause
+        \begin{itemize}
+            \item  \Emph{\Poincare section} - discrete map between intersections
+        \end{itemize}
+        \pause
+    \item Useful for investigating the stability and structure 
+    \pause
+    \item Define a \Poincare section \( \Sigma \) 
+        \begin{itemize}
+            \item Used for initial and target periodic orbits
+            \item Subspace for the \Emph{reachability set}
+        \end{itemize}
+\end{itemize}
+
+\begin{center}
+    \begin{scaletikzpicturetowidth}{0.3\textwidth}
+    \begin{tikzpicture}[tdplot_main_coords,
+          poincare/.style={opacity=.2,very thick,fill=blue},
+          orbit/.style={very thick,black},
+          orbit hidden/.style={very thick,dashed},
+          grid/.style={very thin,gray!50},
+          axis/.style={->,blue,thick},scale=0.6]
+
+        % draw periodic orbit
+        \onslide<4->{
+            % draw a periodic orbit
+            \coordinate (center) at (0,0,2);
+            \node[above left] (x0) at (0,2,2) {\(\vecbf{x}_0\)};
+            \filldraw (0,2,2) circle (3pt);
+        }
+
+        \onslide<5->{
+            \tdplotdrawarc[orbit hidden]{(center)}{2}{90}{190}{}{};
+            \tdplotdrawarc[orbit,<-]{(center)}{2}{-170}{90}{}{};
+        }
+
+        \onslide<6->{
+            % nodes for the poincare section
+            \node[label=above:\(\Sigma\)] (upper_right) at (0,5,5) {};
+            \node[] (upper_left) at (0,1,5) {};
+            \node[] (lower_left) at (0,1,0) {};
+            \node[] (lower_right) at (0,5,0) {};
+
+            % draw poincare section
+            \draw[poincare] (upper_right.center) -- (upper_left.center) -- (lower_left.center) -- (lower_right.center) -- (upper_right.center);
+        }
+        
+        \onslide<7->{
+            \node[below right] (x1) at (0,3,2) {\(\vecbf{x}_1\)};
+            \filldraw (0,3,2) circle (3pt);
+        }
+
+        \onslide<8->{
+            \tdplotdrawarc[orbit hidden]{(center)}{3}{90}{199}{}{};
+            \tdplotdrawarc[orbit,<-]{(center)}{3}{-161}{90}{}{};
+        }
+    \end{tikzpicture}
+    \end{scaletikzpicturetowidth}
+\end{center}
+
+\note[itemize]{
+    \item Here we present a review of the key components of dynamical systems theory
+    \item we start with some initial condition \( \vecbf{x}_0\) on a periodic orbit
+    \item we then define a section \( \Sigma \) transverse to this flow
+    \item we can use the successive iterations of these periodic orbits to study the dynamics of the system on a lower dimensional surface.
+    \item Periodic orbits show up as fixed points while sinks/sources will have a distinctly different behavior
+}
+\end{frame}
+
+% \begin{frame}{Reachability Set}
+
+% \begin{itemize}
+%     \item Set of states achievable from a given initial condition over fixed \( t_f \) s.t. maximum control constraint
+%     \[
+%         R( \vecbf{x}_0, \mathcal{U} , t_f) = \braces{ \vecbf{x}_f \subseteq \mathcal{X} | \exists \vecbf{u} \in \mathcal{U}, \vecbf{x}(t_f) = \vecbf{x}_f }
+%     \]
+%     \pause
+%     \item Directly derivable from optimal control
+%     \item Frequently used for safety planning, e.g. air traffic avoidance
+%     \pause
+%     \item Extend to the design of orbital transfers
+% \end{itemize}
+
+% \note[itemize]{
+%     \item Given the state of an aircraft, we can predict where it can end up over a fixed amount of time.
+%     \item To avoid any possibility of collision, we want to make sure these sets do not intersect
+% }
+% \end{frame}
+
+\begin{frame}{Low Thrust Transfers via Reachability Sets } % -----------------------------------%
+
+\begin{itemize}
+    \item Generate the reachability set on a \Poincare section, \( \Sigma \)
+    \item Control input is chosen to enlarge the reachable set
+\end{itemize}
+
+\begin{center}
+    \begin{tikzpicture}[tdplot_main_coords,
+      poincare/.style={opacity=.2,very thick,fill=blue},
+      orbit/.style={very thick,black},
+      orbit hidden/.style={very thick,dashed},
+      grid/.style={very thin,black},
+      axis/.style={->,blue,thick},
+      reachability/.style={thick,blue}]
+
+    % draw axes
+    % \draw[axis] (0,0,0) -- (5,0,0) node[anchor=west]{$x$};
+ %    \draw[axis] (0,0,0) -- (0,5,0) node[anchor=west]{$y$};
+ %    \draw[axis] (0,0,0) -- (0,0,5) node[anchor=west]{$z$};
+
+    % nodes for the poincare section
+    \node[] (upper_right) at (0,5,5) {};
+    \node[] (upper_left) at (0,1,5) {};
+    \node[] (lower_left) at (0,1,0) {};
+    \node[] (lower_right) at (0,5,0) {};
+
+    \onslide<2->{
+        % draw poincare section
+        \draw[poincare] (upper_right.center) -- (upper_left.center) -- (lower_left.center) -- (lower_right.center) -- (upper_right.center);
+        \node[label=above:\(\Sigma\)] at (upper_right) {};
+        }
+
+    % draw a periodic orbit
+    \coordinate (center) at (0,0,2);
+    \node[] (x0) at (0,3,2) {};
+    \onslide<3>{
+        \node[label=left:\(\vecbf{x}_0\)] at (x0) {};
+        
+    }
+    \onslide<4->{
+        \filldraw (x0) circle (3pt);
+        \node[label=below:\(\vecbf{x}_n\)] at (x0) {};
+    }
+
+    \onslide<4-5>{
+        \tdplotdrawarc[orbit hidden]{(center)}{3}{90}{200}{}{};
+        \tdplotdrawarc[orbit,<-]{(center)}{3}{-160}{90}{}{};
+        }
+
+    \coordinate (reach) at (0,4.5,2);
+    \tdplotsetthetaplanecoords{90}
+
+    % draw poincare angles
+    \onslide<5->{
+        \draw[tdplot_rotated_coords,grid] (x0) -- (reach);
+        \draw[tdplot_rotated_coords,grid] (x0) -- ++(-45:1.5);
+        \tdplotdrawarc[tdplot_rotated_coords,grid]{(x0)}{0.5}{-45}{90}{above}{\(\phi\)};
+        }
+
+
+   % draw terminal state on reachability set
+    \onslide<6->{
+        \node[tdplot_rotated_coords,label=above:\(\vecbf{x}_f\)] (xf) at ($ (x0)+(-45:1.5) $) {};
+        \filldraw (xf) circle (3pt);
+        }
+
+    \onslide<7->{
+        \node[tdplot_rotated_coords,label=below:\(J\)] at (xf) {};
+        }
+
+    \onslide<8->{
+        \tdplotdrawarc[tdplot_rotated_coords,reachability]{(x0)}{1.5}{0}{360}{}{};
+    }
+    
+\end{tikzpicture}
+\end{center}
+
+\note[itemize]{
+    \item We combine both reachability and the \Poincare section to design transfers
+    \item again we define our section \( \Sigma\)
+    \item choose an initial state that is on \( \Sigma \)
+    \item propogate without any control input from \( \vecbf{x}_0 \) to \( \vecbf{x}_n\)
+    \item by adding the control input the terminal state will be something different at \( \vecbf{x}_f\)
+    \item we define the distance between \( \vecbf{x}_n\) and \(\vecbf{x}_f\) with \( J \) - want to maximize this
+    \item Repeat this computation many times for a variety of angles \( \phi\)
+}
+\end{frame} %--------------------------------------%
+
