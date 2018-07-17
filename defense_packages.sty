@@ -53,6 +53,18 @@
   \BODY
 }
 \makeatother
+
+% Tikz macros
+% Draw an arc denoting an angle using start and delta angles
+\newcommand{\drawarcdelta}[4]{
+  \draw ($#1+(#2:#4)$) arc[start angle=#2, delta angle=#3, radius=#4];
+}
+
+% Draw an arc with label denoting an angle using start and delta angles
+\newcommand{\drawlabeledarcdelta}[6]{
+  \drawarcdelta{#1}{#2}{#3}{#4}
+  \node at ($#1+(#2+#3/2:#6)$) {#5};
+}
 %------------- CITATION PACKAGES------------------------------
 
 %\usepackage{listings}
@@ -88,62 +100,3 @@
 %------------------------------------------
 \usepackage[noabbrev,capitalize]{cleveref} % get fancy referencing
 
-%%%%%%%%%%%%%%%%%%%%%%%%%
-% CUSTOM MACROS
-%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\newcommand{\linearize}[3]{\ensuremath{\left. \frac{\partial #1}{\partial #2} \right|_{#3} \delta #2}}
-\newcommand{\norm}[1]{\ensuremath{\left\| #1 \right\|}}
-\newcommand{\abs}[1]{\ensuremath{\left| #1 \right|}}
-\newcommand{\Real}[1]{\ensuremath{\Re \left\{ #1 \right\}}}
-\newcommand{\bracket}[1]{\ensuremath{\left[ #1 \right]}}
-\newcommand{\braces}[1]{\ensuremath{\left\{ #1 \right\}}}
-\newcommand{\parenth}[1]{\ensuremath{\left( #1 \right)}}
-\newcommand{\pair}[1]{\ensuremath{\langle #1 \rangle}}
-\newcommand{\met}[1]{\ensuremath{\langle\langle #1 \rangle\rangle}}
-\newcommand{\refeqn}[1]{(\ref{eqn:#1})}
-\newcommand{\reffig}[1]{Fig. \ref{fig:#1}}
-\newcommand{\tr}[1]{\mathrm{tr}\ensuremath{\negthickspace\bracket{#1}}}
-\newcommand{\trs}[1]{\mathrm{tr}\ensuremath{[#1]}}
-\newcommand{\deriv}[2]{\ensuremath{\frac{\partial #1}{\partial #2}}}
-\newcommand{\diff}[2]{\ensuremath{\frac{d #1}{d #2}}}
-\newcommand{\dirDiff}[2]{\ensuremath{\mathbf{D}_{#2} #1 \cdot \delta #2}} % directional derivative
-\newcommand{\SO}{\ensuremath{\mathsf{SO(3)}}}
-\newcommand{\T}{\ensuremath{\mathsf{T}}}
-\renewcommand{\L}{\ensuremath{\mathsf{L}}}
-\newcommand{\so}{\ensuremath{\mathfrak{so}(3)}}
-\newcommand{\SE}{\ensuremath{\mathsf{SE(3)}}}
-\newcommand{\se}{\ensuremath{\mathfrak{se}(3)}}
-\newcommand{\R}{\ensuremath{\mathbb{R}}}
-\newcommand{\aSE}[2]{\ensuremath{\begin{bmatrix}#1&#2\\0&1\end{bmatrix}}}
-\newcommand{\ase}[2]{\ensuremath{\begin{bmatrix}#1&#2\\0&0\end{bmatrix}}}
-\newcommand{\D}{\ensuremath{\mathbf{D}}}
-\newcommand{\Sph}{\ensuremath{\mathsf{S}}}
-\renewcommand{\S}{\Sph}
-\newcommand{\J}{\ensuremath{\mathbf{J}}}
-\newcommand{\Ad}{\ensuremath{\mathrm{Ad}}}
-\newcommand{\intp}{\ensuremath{\mathbf{i}}}
-\newcommand{\extd}{\ensuremath{\mathbf{d}}}
-\newcommand{\hor}{\ensuremath{\mathrm{hor}}}
-\newcommand{\ver}{\ensuremath{\mathrm{ver}}}
-\newcommand{\dyn}{\ensuremath{\mathrm{dyn}}}
-\newcommand{\geo}{\ensuremath{\mathrm{geo}}}
-\newcommand{\Q}{\ensuremath{\mathsf{Q}}}
-\newcommand{\G}{\ensuremath{\mathsf{G}}}
-\newcommand{\g}{\ensuremath{\mathfrak{g}}}
-\newcommand{\Hess}{\ensuremath{\mathrm{Hess}}}
-\newcommand{\refprop}[1]{Proposition \ref{prop:#1}}
-\newcommand{\Poincare}{Poincar\'e }
-\newcommand{\vc}[1]{\ensuremath{#1}}
-
-% Tikz macros
-% Draw an arc denoting an angle using start and delta angles
-\newcommand{\drawarcdelta}[4]{
-  \draw ($#1+(#2:#4)$) arc[start angle=#2, delta angle=#3, radius=#4];
-}
-
-% Draw an arc with label denoting an angle using start and delta angles
-\newcommand{\drawlabeledarcdelta}[6]{
-  \drawarcdelta{#1}{#2}{#3}{#4}
-  \node at ($#1+(#2+#3/2:#6)$) {#5};
-}
