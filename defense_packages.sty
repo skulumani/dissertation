@@ -1,5 +1,5 @@
 % AAS PRESENTATION PACKAGES
-\ProvidesPackage{research_summary_packages}
+\ProvidesPackage{defense_packages}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % DEFINE USEFUL PACKAGES
@@ -25,9 +25,16 @@
 \graphicspath{{./figures/}}% path to images
 
 % TIKZ
-\usepackage{tikz}
-\usepackage{environ}
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest}
+\usepgfplotslibrary{groupplots,external}
+\usepackage{tikz-3dplot}
 \usetikzlibrary{decorations.markings,decorations.pathreplacing,calc}
+\usetikzlibrary{decorations.shapes}
+\usetikzlibrary{plotmarks,positioning}
+\usetikzlibrary{arrows.meta,shapes,decorations.pathmorphing,fit}
+\usetikzlibrary{shadows.blur}
+\usepackage{environ}
 
 \tikzset{help lines/.style={very thin,color=gray!50}} % modify the help lines style
 \tikzset{->-/.style={decoration={
@@ -129,14 +136,14 @@
 \newcommand{\Poincare}{Poincar\'e }
 \newcommand{\vecbf}[1]{\bm{#1}}
 
-%%%%%%%%%%%
-% OLD PACKAGES
-%%%%%%%%%
-% \usepackage{setspace} % line spacing
-% \usepackage{booktabs} % for much better looking tables without vertical seperators
-% \usepackage{array} % for better arrays (eg matrices) in maths
-% %\usepackage{paralist} % very flexible & customisable lists (eg. enumerate/itemize, etc.)
-% \usepackage{bm} % bold face letters in math environment
-% \usepackage{float}
-% \usepackage{url}
-% \usepackage{verbatim} % adds environment for commenting out blocks of text & for better verbatim
+% Tikz macros
+% Draw an arc denoting an angle using start and delta angles
+\newcommand{\drawarcdelta}[4]{
+  \draw ($#1+(#2:#4)$) arc[start angle=#2, delta angle=#3, radius=#4];
+}
+
+% Draw an arc with label denoting an angle using start and delta angles
+\newcommand{\drawlabeledarcdelta}[6]{
+  \drawarcdelta{#1}{#2}{#3}{#4}
+  \node at ($#1+(#2+#3/2:#6)$) {#5};
+}
