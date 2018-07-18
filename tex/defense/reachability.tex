@@ -66,46 +66,9 @@
 \end{itemize}
 
 \begin{center}
-    \tdplotsetmaincoords{60}{125} % view angle in spherical coordinates
-    \begin{scaletikzpicturetowidth}{0.5\textwidth}
-    \begin{tikzpicture}[
-    tdplot_main_coords, 
-    poincare/.style={opacity=.2,
-    very thick,
-    fill=blue},
-    orbit/.style={very thick,black},
-    orbit hidden/.style={very thick,dashed}, 
-    grid/.style={very thin,gray!50},
-    axis/.style={->,blue,thick},
-    scale=\tikzscale,
-    ]
-
-    % nodes for the poincare section
-    \node[label=above:\(\Sigma\)] (upper_right) at (0,5,5) {}; 
-    \node[] (upper_left) at (0,1,5) {}; 
-    \node[] (lower_left) at (0,1,0) {};
-    \node[] (lower_right) at (0,5,0) {};
-
-        % draw poincare section
-    \draw[poincare] (upper_right.center) -- (upper_left.center) --
-        (lower_left.center) -- (lower_right.center) --
-        (upper_right.center);
-
-        % draw a periodic orbit
-    \coordinate (center) at (0,0,2); 
-    \node[above left] (x0) at (0,2,2) {\(\vc{q}_0\)}; 
-    \filldraw (0,2,2) circle (3pt);
-
-    \node[below right] (x1) at (0,3,2) {\(\vc{q}_1\)};
-    \filldraw (0,3,2) circle (3pt);
-
-    \tdplotdrawarc[orbit hidden]{(center)}{2}{90}{190}{}{};
-    \tdplotdrawarc[orbit,Latex-]{(center)}{2}{-170}{90}{}{};
-
-    \tdplotdrawarc[orbit hidden]{(center)}{3}{90}{199}{}{};
-    \tdplotdrawarc[orbit,Latex-]{(center)}{3}{-161}{90}{}{};
-
-\end{tikzpicture}\end{scaletikzpicturetowidth}
+    \resizebox{!}{0.5\textheight}{%
+        \input{tikz/poincare_map.tikz}
+    }
 \end{center}
 
 \note[itemize]{
@@ -127,8 +90,7 @@
     \pause
     \item Directly derivable from optimal control
     \item Frequently used for safety planning, e.g. air traffic avoidance
-    \pause
-    \item Extend to the design of orbital transfers
+    \item We extend to the design of orbital transfers
 \end{itemize}
 
 \note[itemize]{
@@ -145,54 +107,11 @@
 \end{itemize}
 
 \begin{center}
-\tdplotsetmaincoords{60}{125} % view angle in spherical coordinates
-\begin{tikzpicture}[
-    tdplot_main_coords,
-    poincare/.style={opacity=.2,very thick,fill=blue},
-    orbit/.style={very thick,black},
-    orbit hidden/.style={very thick,dashed},
-    grid/.style={very thin,black},
-    axis/.style={->,blue,thick},
-    reachability/.style={thick,blue},
-    ]
-
-        % nodes for the poincare section
-    \node[label=above:\(\Sigma\)] (upper_right) at (0,5,5) {};
-    \node[] (upper_left) at (0,1,5) {};
-    \node[] (lower_left) at (0,1,0) {};
-    \node[] (lower_right) at (0,5,0) {};
-
-    % draw poincare section
-    \draw[poincare] (upper_right.center) -- (upper_left.center) -- (lower_left.center) -- (lower_right.center) -- (upper_right.center);
-    
-    % draw a periodic orbit
-    \coordinate (center) at (0,0,2);
-    \node[label=below:\(\vc{x}_n\)] (x0) at (0,3,2) {};
-    % \node[label=below:\(\vecbf{x}_n\)] at (x0) {};
-    \filldraw (x0) circle (3pt);
-
-    % \tdplotdrawarc[orbit hidden]{(center)}{3}{90}{200}{}{};
-    \tdplotdrawarc[orbit,Latex-]{(center)}{3}{-160}{90}{}{};
-
-    % draw reachability set on the poincare section
-    \coordinate (reach) at (0,4.5,2);
-    \tdplotsetthetaplanecoords{90}
-
-    \draw[tdplot_rotated_coords,grid] (x0) -- (reach);
-    \draw[tdplot_rotated_coords,grid] (x0) -- ++(-45:1.5);
-
-    \tdplotdrawarc[tdplot_rotated_coords,grid]{(x0)}{0.5}{-45}{90}{above}{\(\theta_d\)};
-
-    % draw terminal state on reachability set
-    \node[tdplot_rotated_coords,label=above:\(\vc{x}_f\)] (xf) at ($ (x0)+(-45:1.5) $) {};
-    \filldraw (xf) circle (3pt);
-
-    \node[tdplot_rotated_coords,label=below:\(J\)] at (xf) {};
-
-    \tdplotdrawarc[tdplot_rotated_coords,reachability]{(x0)}{1.5}{0}{360}{}{};
-        % place
-\end{tikzpicture}
+    \resizebox{!}{0.8\textheight}{%
+        \input{tikz/reachability_set.tikz}
+    }
 \end{center}
+
 \note[itemize]{
     \item We combine both reachability and the \Poincare section to design transfers
     \item again we define our section \( \Sigma\)
@@ -204,3 +123,33 @@
 }
 \end{frame} %--------------------------------------%
 
+% show results of the transfer
+\begin{frame}{Periodic Orbit Transfer}
+    \begin{itemize}
+        \item Transfer from periodic orbit to the Moon
+        \item Orbit would provide constant line of site between Earth and far side
+    \end{itemize}
+    \begin{center}
+        \includegraphics[height=0.75\textheight,keepaspectratio]{figures/2017_JAS/moon_orbit.pdf} % requires the graphicx package
+   \end{center}
+\end{frame}
+
+\begin{frame}{Periodic Orbit Transfer}
+    \begin{itemize}
+        \item Reachable set is determined on the \Poincare section
+        \item Intersection is used to determine the transfer
+    \end{itemize}
+    \begin{center}
+        \only<1>{\includegraphics[width=0.5\textwidth]{figures/2017_JAS/reach_trajectory}}~
+        \only<2>{\includegraphics[width=0.5\textwidth]{figures/2017_JAS/reach_transfer.pdf}}~
+        \includegraphics[width=0.5\textwidth]{figures/2017_JAS/poincare_compare} 
+    \end{center}
+\end{frame}
+
+\begin{frame}{Geostationary Orbit Transfer}
+
+\end{frame}
+
+\begin{frame}{Restricted Full Two Body Example}
+
+\end{frame}
