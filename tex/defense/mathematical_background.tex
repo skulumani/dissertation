@@ -1,6 +1,7 @@
 % !TEX root = ../../defense.tex
 
-\section{Dynamic Model}
+\section{System Model}
+\subsection{EOMs}
 
 \begin{frame}{Reference Frames}
 
@@ -82,4 +83,46 @@
     \dot{R}_r &= \hat{\Omega}_r \ratt  - \hat{\Omega}_A \ratt , \\
     \dot{\parenth{\Jr  \rangvel}} + \hat{\Omega}_A \parenth{\Jr  \rangvel} &= m_1 \parenth{\ratt  \rho_1}^\wedge \deriv{U}{z_1} + m_2 \parenth{\ratt  \rho_2}^\wedge \deriv{U}{z_2}.
 \end{align*}
+\end{frame}
+
+\subsection{Gravity}
+
+\begin{frame}{Gravitational Models}
+    \begin{center}
+        \input{tikz/newton_gravity.tikz}
+    \end{center}
+
+    \begin{itemize}
+        \item Newton's law of gravity only applies to spherical bodies
+        \item Variety of methods to represent irregular bodies
+            \begin{itemize}
+                \item Spherical Harmonic - not valid when close to body
+                \item Constant Density Ellipsoid - only valid for ellipsoids
+                \item \Emph{Polyhedron Potential} - function of shape model
+            \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Polyhedron Gravitation Model}
+
+\begin{columns}
+\begin{column}{0.5\textwidth}
+\begin{itemize}
+    \item Function of shape alone
+    \item Globally valid and closed form
+    \item Assumes a constant density
+    \item Accuracy of the potential depends on the shape estimate
+\end{itemize}
+\end{column}
+\begin{column}{0.5\textwidth}
+    \resizebox{\columnwidth}{!}{%
+    \input{tikz/polyhedron_faces.tikz}
+}
+\end{column}
+\end{columns}
+\visible<2>{
+\begin{align*}
+    U(\vc{r}) =& \frac{1}{2} G \sigma \sum_{e \in \text{edges}} \vc{r}_e \cdot \vc{E}_e \cdot \vc{r}_e \cdot L_e - \frac{1}{2}G \sigma \sum_{f \in \text{faces}} \vc{r}_f \cdot \vc{F}_f \cdot \vc{r}_f \cdot \omega_f 
+\end{align*}
+}
 \end{frame}
