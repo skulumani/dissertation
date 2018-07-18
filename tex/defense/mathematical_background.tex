@@ -1,3 +1,7 @@
+% !TEX root = ../../defense.tex
+
+\section{Dynamic Model}
+
 \begin{frame}{Reference Frames}
 
     \begin{columns}
@@ -27,7 +31,7 @@
 \begin{frame}{Spacecraft Model}
     \begin{itemize}
         \item Spacecraft modeled as a rigid dumbbell
-        \item Two masses \( m_1, m_2 \in \R^1 \) connected by a rigid massless link of length \( l \in \R^1\)
+        \item Two masses \( m_1, m_2 \in \R^1 \) connected by a rigid massless link \( l \in \R^1\)
         \item Effectively captures the mass distribution of a spacecraft
     \end{itemize}
 
@@ -42,9 +46,14 @@
         \item Inertial vs. Relative 
         \item Lagrangian vs. Hamiltonian
     \end{enumerate}
+    True motion of the system is a stationary point of the action integral
+    \begin{align*}
+        \mathcal{G} &= \int_{t_0}^{t_f} T(\dot q) - V(q) dt\\
+        \delta \mathcal{G} &= \int_{t_0}^{t_f} \delta T - \delta V dt = 0
+    \end{align*}
 \end{frame}
 
-\begin{frame}{Inertial Equations of Motion}
+\begin{frame}{Inertial EOMs in Hamiltonian Form}
 \begin{align}
     \dot \ipos &= \frac{\ilinmom}{m_1 + m_2}, \\
     \dot \ilinmom &= - m_1 \aatt \deriv{U}{\apos_1} - m_2 \aatt \deriv{U}{\apos_2}, \\
