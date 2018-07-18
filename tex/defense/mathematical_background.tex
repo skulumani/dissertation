@@ -53,16 +53,33 @@
     \end{align*}
 \end{frame}
 
-\begin{frame}{Inertial EOMs in Hamiltonian Form}
-\begin{align}
-    \dot \ipos &= \frac{\ilinmom}{m_1 + m_2}, \\
-    \dot \ilinmom &= - m_1 \aatt \deriv{U}{\apos_1} - m_2 \aatt \deriv{U}{\apos_2}, \\
-    \dot \iatt &= R \parenth{J^{-1} \iangmom}^\wedge, \\
-    \dot\iangmom  + \hat{\iangvel} \iangmom &= m_1 \hat{\spos}_1 \iatt^T \aatt \deriv{U}{\apos_1} + m_2 \hat{\spos}_2 \iatt^T \aatt \deriv{U}{\apos_2}. 
-\end{align}
-
+\begin{frame}{Inertial EOMs in Lagrangian Form}
+    The kinetic and potential energy of the dumbbell in the inertial frame
+    \begin{align*}
+        T\parenth{\dot{\ipos}, \iangvel} &= \frac{1}{2} m \norm{\dot{\vc{x}}}^2 + \frac{1}{2} \tr{\vh{\Omega} J_d \vh{\Omega}^T} , \\
+        V( \ipos, R ) &=  - m_1 U \parenth{R_A^T \parenth{\vc{x} + R \vc{\rho}_1}} - m_2 U \parenth{R_A^T \parenth{\vc{x} + R \vc{\rho}_2}}. 
+    \end{align*}
+    The stationary point of the action integral gives:
+    \begin{align*}
+        \dot{\ipos} &= \ivel, \\
+        \parenth{m_1 + m_2} \dot{\ivel} &= - \sum_{i=0}^2 m_i \aatt \deriv{U}{\apos_i} + u_f, \\
+        \dot{\iatt} &= \iatt \iangvel, \\
+        J \dot{\iangvel} + \hat{\iangvel} J \iangvel &= \sum_{i=0}^2 m_i \hat{\spos}_i \iatt^T \aatt \deriv{U}{\apos_i} + u_m. 
+    \end{align*}
 \end{frame}
 
 \begin{frame}{Relative Equations of Motion}
 
+\begin{itemize}
+    \item Gravitational potential is a function of relative position
+    \item Can derive EOMs in the rotating small body fixed frame
+    \item Kinematics defined relative to the small body
+\end{itemize}
+
+\begin{align*}
+    \dot{x}_r &= \rvel - \hat{\Omega}_A \rpos, \\
+    \parenth{m_1 + m_2} \dot{v}_r  &= -\parenth{m_1 + m_2} \hat{\Omega}_A \rvel + m_1 \deriv{U}{z_1} + m_2 \deriv{U}{z_2}, \\
+    \dot{R}_r &= \hat{\Omega}_r \ratt  - \hat{\Omega}_A \ratt , \\
+    \dot{\parenth{\Jr  \rangvel}} + \hat{\Omega}_A \parenth{\Jr  \rangvel} &= m_1 \parenth{\ratt  \rho_1}^\wedge \deriv{U}{z_1} + m_2 \parenth{\ratt  \rho_2}^\wedge \deriv{U}{z_2}.
+\end{align*}
 \end{frame}
