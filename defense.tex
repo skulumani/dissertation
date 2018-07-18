@@ -1,6 +1,7 @@
 \documentclass[11pt,professionalfonts,aspectratio=169,final]{beamer}
 
 \usepackage{defense_packages}
+\input{defense_macros.tex}
 
 \definecolor{mygray}{gray}{0.9}
 \definecolor{RoyalBlue}{rgb}{0.25,0.41,0.88}
@@ -70,15 +71,21 @@
   \titlepage
 \end{frame}   %-----------------------------%
 
-% \include{tex/introduction}
-% \include{tex/challenges}
-% \include{tex/prior_work}
-% \include{tex/conclusion}
-% \include{tex/appendix}
-
 \include{tex/defense/introduction}
+
+\include{tex/defense/challenges}
+
+% mathematical background
+\include{tex/defense/mathematical_background}
+% system model
+
+% low thrust propulsion/nonlinear control
 \include{tex/defense/reachability}
-\include{tex/thank_you}
+
+% shape reconstruction
+
+\include{tex/defense/thank_you}
+\include{tex/defense/appendix}
 
 \end{document}
 

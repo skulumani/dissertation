@@ -1,21 +1,23 @@
 
-MAIN=dissertation
 TEX = $(wildcard ./tex/*.tex ./tex/appendix/*.tex)
-FIGURES = $(wildcare ./figures/* ./tikz/*.tikz)
+FIGURES = $(wildcard ./figures/* ./tikz/*.tikz)
 
-all: $(MAIN).pdf announcement
+all: dissertation announcement defense
 
-$(MAIN).pdf: $(MAIN).tex $(TEX) $(FIGURES)
-	pdflatex -shell-escape $(MAIN)
-	make -j4 -f $(MAIN).makefile
-	latexmk -pdf $(MAIN)
+defense: defense.tex $(wildcard ./tex/defense/*.tex)
+	latexmk -pdf -gg defense
+
+dissertation: dissertation.tex $(TEX) $(FIGURES)
+	pdflatex -shell-escape dissertation
+	make -j4 -f dissertation.makefile
+	latexmk -pdf dissertation
 
 announcement: announcement.tex abstract.tex
 	latexmk -gg announcement
 	latexmk -gg abstract
 
-tikz: $(MAIN).makefile $(FIGURES)
-	make -j4 -f $(MAIN).makefile
+tikz: dissertation.makefile $(FIGURES)
+	make -j4 -f dissertation.makefile
 
 deep_clean:
 	latexmk -C

@@ -1,0 +1,59 @@
+\begin{frame}{Reference Frames}
+
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \begin{enumerate}
+                \item \( \vc{e}_i \in \R^3 \) : inertial reference frame fixed in space
+                \item \( \vc{f}_i \in \R^3 \) : small body fixed frame aligned with principle axes of the body
+                \item \( \vc{b}_i \in \R^3 \) : spacecraft fixed frame with \( b_1 \) aligned with the symmetry axis
+            \end{enumerate}
+            
+            \begin{block}{}
+                Spacecraft state is defined on the Special Euclidean group
+
+                \[ \parenth{R, \vc{x}} \in \SE \]
+            \end{block}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \begin{scaletikzpicturetowidth}{2\columnwidth}
+                \resizebox{\columnwidth}{!}{%
+                \input{tikz/ref_frames.tikz}
+            }
+            \end{scaletikzpicturetowidth}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Spacecraft Model}
+    \begin{itemize}
+        \item Spacecraft modeled as a rigid dumbbell
+        \item Two masses \( m_1, m_2 \in \R^1 \) connected by a rigid massless link of length \( l \in \R^1\)
+        \item Effectively captures the mass distribution of a spacecraft
+    \end{itemize}
+
+    \resizebox{\textwidth}{!}{%
+        \input{tikz/dumbbell.tikz}
+    }
+\end{frame}
+
+\begin{frame}{Equations of Motion}
+    Hamilton's principle used to derive equations of motion in four forms:
+    \begin{enumerate}
+        \item Inertial vs. Relative 
+        \item Lagrangian vs. Hamiltonian
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{Inertial Equations of Motion}
+\begin{align}
+    \dot \ipos &= \frac{\ilinmom}{m_1 + m_2}, \\
+    \dot \ilinmom &= - m_1 \aatt \deriv{U}{\apos_1} - m_2 \aatt \deriv{U}{\apos_2}, \\
+    \dot \iatt &= R \parenth{J^{-1} \iangmom}^\wedge, \\
+    \dot\iangmom  + \hat{\iangvel} \iangmom &= m_1 \hat{\spos}_1 \iatt^T \aatt \deriv{U}{\apos_1} + m_2 \hat{\spos}_2 \iatt^T \aatt \deriv{U}{\apos_2}. 
+\end{align}
+
+\end{frame}
+
+\begin{frame}{Relative Equations of Motion}
+
+\end{frame}

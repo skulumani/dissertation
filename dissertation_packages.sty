@@ -96,18 +96,17 @@ mode=list and make,
   \BODY
 }
 \makeatother
+% Tikz macros
+% Draw an arc denoting an angle using start and delta angles
+\newcommand{\drawarcdelta}[4]{
+  \draw ($#1+(#2:#4)$) arc[start angle=#2, delta angle=#3, radius=#4];
+}
 
-% % Tikz macros
-% % Draw an arc denoting an angle using start and delta angles
-% \newcommand{\drawarcdelta}[4]{
-%   \draw ($#1+(#2:#4)$) arc[start angle=#2, delta angle=#3, radius=#4];
-% }
-
-% % Draw an arc with label denoting an angle using start and delta angles
-% \newcommand{\drawlabeledarcdelta}[6]{
-%   \drawarcdelta{#1}{#2}{#3}{#4}
-%   \node at ($#1+(#2+#3/2:#6)$) {#5};
-% }
+% Draw an arc with label denoting an angle using start and delta angles
+\newcommand{\drawlabeledarcdelta}[6]{
+  \drawarcdelta{#1}{#2}{#3}{#4}
+  \node at ($#1+(#2+#3/2:#6)$) {#5};
+}
 
 % These packages should come last for real
 % \usepackage{refcheck} % check for unused references/labels
