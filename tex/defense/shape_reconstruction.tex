@@ -69,3 +69,36 @@
         }
     \end{center}
 \end{frame}
+
+\begin{frame}{Bayesian Shape Reconstruction}
+    \begin{itemize}
+        \item<1-> Framework for combining prior and new data 
+            \begin{itemize}
+                \item Each vertex has an uncertainty -- \( w_i\) in the radial distance
+                \item Each measurement contains error -- \( w_{j, i} \) with respect to each vertex
+            \end{itemize}
+            \begin{align*}
+                v_i \sim \mathcal{N}(r_i, w_i^2) , \quad
+                p_{j,i} \sim \mathcal{N}(r_{j,i}, w_{j,i}^2)
+            \end{align*}
+        \item<2-> New data used to update each vertex and reduce uncertainty
+    \begin{align*}\label{eq:posterior_probability}
+        \mathcal{N} \parenth{\frac{w_{j, i}^2 r_i + w_i^2 r_{j, i}}{w_i^2 + w_{j, i}^2} , \frac{w_i^2  w_{j, i}^2}{w_i^2 +  w_{j, i}^2}} .
+    \end{align*}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Shape Reconstruction}
+    \begin{itemize}
+        \item Numerical examples of shape reconstruction
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}{Optimal Guidance}
+
+\end{frame}
+
+\begin{frame}{Multi-resolution refinement}
+
+\end{frame}
