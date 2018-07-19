@@ -88,17 +88,89 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{Shape Reconstruction}
+\subsection{Shape Reconstruction}
+\begin{frame}{Geographos Reconstruction}
     \begin{itemize}
-        \item Numerical examples of shape reconstruction
+        \item Potentially hazardous Apollo group asteroid discovered in 1951
     \end{itemize}
-
+    
+    \begin{center}
+        \includemedia[
+        keepaspectratio,
+        activate=pagevisible,
+        addresource=videos/geographos.mp4,
+        flashvars={source=videos/geographos.mp4}
+        ]{\includegraphics[trim={20cm 15cm 20cm 15cm},clip,keepaspectratio,width=0.5\textwidth]{figures/computational_geometry/mesh_update/geographos/partial_7489.jpg}}{VPlayer.swf}%
+        \includemedia[
+        keepaspectratio,
+        activate=pagevisible,
+        addresource=videos/geographos_weight.mp4,
+        flashvars={source=videos/geographos_weight.mp4}
+        ]{\includegraphics[trim={20cm 15cm 20cm 15cm},clip,keepaspectratio,width=0.5\textwidth]{figures/computational_geometry/mesh_update/geographos/partial_7489.jpg}}{VPlayer.swf}
+\end{center}
 \end{frame}
 
-\begin{frame}{Optimal Guidance}
+\begin{frame}{Golevka Reconstruction}
+    \begin{itemize}
+        \item Potentially hazardous Apollo group asteroid discovered in 1995
+    \end{itemize}
+    \begin{center}
+        \includemedia[
+        keepaspectratio,
+        activate=pagevisible,
+        addresource=videos/golevka.mp4,
+        flashvars={source=videos/golevka.mp4}
+        ]{\includegraphics[trim={20cm 10cm 20cm 10cm},clip,keepaspectratio,width=0.5\textwidth]{figures/computational_geometry/mesh_update/golevka/partial_5285.jpg}}{VPlayer.swf}%
+        \includemedia[
+        keepaspectratio,
+        activate=pagevisible,
+        addresource=videos/golevka_weight.mp4,
+        flashvars={source=videos/golevka_weight.mp4}
+        ]{\includegraphics[trim={20cm 10cm 20cm 10cm},clip,keepaspectratio,width=0.5\textwidth]{figures/computational_geometry/mesh_update/golevka/partial_5285.jpg}}{VPlayer.swf}
+\end{center}
+\end{frame}
 
+\subsection{Guidance}
+\begin{frame}{Optimal Guidance}
+    \begin{itemize}
+        \item Cost function used to determine future states which provides best measurements
+        \item User selected weighting between: uncertainty, distance, and control effort
+            \begin{align*}
+                J_i (\ipos, \iatt, \aatt) = \alpha_w J_{w_i} + \alpha_d J_{d_i}(\rpos) + \alpha_c J_{c_i}(\rpos)
+            \end{align*}
+    \end{itemize}
+\end{frame}
+
+\subsection{Refinement}
+\begin{frame}{Landing Site Selection}
+    \begin{itemize}
+        \item The shape estimate provides sufficient detail to determine the surface slope
+            \begin{align*}
+                \cos \parenth{ \pi - \phi } = \frac{\vc{n}_f \cdot U_m}{\norm{U_m}},
+            \end{align*}
+        \item The desired landing area selected to minimize: slope and distance
+        \item Desired landing area used for multi-resolution refinement
+    \end{itemize}
+    \begin{center}
+        \only<1>{
+        \includegraphics[width=0.5\textwidth]{figures/computational_geometry/dynamic_exploration/castalia/refine/slope.pdf}%
+        \includegraphics[width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/castalia/refine/slope_masked.pdf}
+    }
+    \only<2>{
+        \includegraphics[width=0.5\textwidth]{figures/computational_geometry/dynamic_exploration/castalia/refine/dist.pdf}%
+        \includegraphics[width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/castalia/refine/dist_masked.pdf}
+    }
+    \only<3>{
+        \includegraphics[width=0.5\textwidth]{figures/computational_geometry/dynamic_exploration/castalia/refine/science.pdf}%
+        \includegraphics[width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/castalia/refine/science_masked.pdf}
+    }
+    \only<4>{
+        \includegraphics[width=0.5\textwidth]{figures/computational_geometry/dynamic_exploration/castalia/refine/cost.pdf}%
+    }
+    \end{center}
 \end{frame}
 
 \begin{frame}{Multi-resolution refinement}
 
 \end{frame}
+
