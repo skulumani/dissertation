@@ -1,0 +1,71 @@
+% !TEX root = ../../defense.tex
+
+\section{Shape Reconstruction}
+\begin{frame}{Asteroid Shape Modeling}
+    \begin{itemize}
+        \item<1-> Ground radar used to compute the 3D shape of the asteroid
+        \begin{itemize}
+            \item Computationally intensive estimation algorithm completed on the ground 
+            \item The result is still coarse and only an approximation solution
+            \item Not accurate enough for low altitude or landing operations
+        \end{itemize}
+    \item<2-> Estimating the asteroid shape is the first step of any mission
+    \begin{itemize}
+        \item Months or years are devoted solely to mapping the surface
+        \item Laser ranging used to accurately measure relative distance 
+        \item All data is sent to the ground for processing (time and manpower intensive)
+    \end{itemize}
+    \end{itemize}
+    
+    \onslide<3->{
+        \begin{block}{}
+            \begin{center}
+                Real-time on board shape estimation
+            \end{center}
+        \end{block}
+    }
+\end{frame}
+
+\section[Problem Statement]{Math Background}
+\begin{frame}{Problem Statement}
+\begin{enumerate}
+    \item<1-> Compute the surface shape from range measurements
+        \begin{itemize}
+            \item Real time and incrementally build the shape
+        \end{itemize}
+    \item<2-> Utilize shape model in dynamics and controller
+        \begin{itemize}
+            \item Coupled equations of motion 
+            \item Nonlinear controller for maneuvering and landing
+        \end{itemize}
+    \item<3-> Autonomously navigate around asteroid 
+        \begin{itemize}
+            \item Locate areas of poor knowledge for measurement
+            \item Avoid obstacles or hazards
+        \end{itemize}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{LIDAR Measurements }
+    \begin{itemize}
+        \item<1-> Laser pulse used to measure relative distance to surface
+        \item<1-> Accurate timing gives the round trip time of flight
+            \begin{align*}
+                d = \frac{\Delta t}{2 c}
+            \end{align*}
+    \end{itemize}
+     
+    \begin{center}
+        \only<1>{
+            \resizebox{!}{0.6\textheight}{
+                \input{tikz/laser_range_finder.tikz}
+            }
+        }
+        \only<2>{
+            \input{tikz/frustrum.tikz}
+        }
+        \only<3>{
+            \includegraphics[width=0.75\textwidth,height=0.7\textheight,keepaspectratio]{figures/2018_SSPI/castalia_raycasting_plot.jpg}
+        }
+    \end{center}
+\end{frame}
