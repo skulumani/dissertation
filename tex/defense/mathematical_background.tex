@@ -1,7 +1,6 @@
 % !TEX root = ../../defense.tex
 
 \section{System Model}
-\subsection{EOMs}
 
 \begin{frame}{Reference Frames}
 
@@ -40,6 +39,9 @@
         \input{tikz/dumbbell.tikz}
     }
 \end{frame}
+\subsection{EOMs}
+
+
 
 \begin{frame}{Equations of Motion}
     Hamilton's principle used to derive equations of motion in four forms:
@@ -50,6 +52,7 @@
     True motion of the system is a stationary point of the action integral
     \begin{align*}
         \mathcal{G} &= \int_{t_0}^{t_f} T(\dot q) - V(q) dt\\
+        \pause
         \delta \mathcal{G} &= \int_{t_0}^{t_f} \delta T - \delta V dt = 0
     \end{align*}
 \end{frame}
@@ -60,6 +63,7 @@
         T\parenth{\dot{\ipos}, \iangvel} &= \frac{1}{2} m \norm{\dot{\vc{x}}}^2 + \frac{1}{2} \tr{\vh{\Omega} J_d \vh{\Omega}^T} , \\
         V( \ipos, R ) &=  - m_1 U \parenth{R_A^T \parenth{\vc{x} + R \vc{\rho}_1}} - m_2 U \parenth{R_A^T \parenth{\vc{x} + R \vc{\rho}_2}}. 
     \end{align*}
+    \pause
     The stationary point of the action integral gives:
     \begin{align*}
         \dot{\ipos} &= \ivel, \\
@@ -76,7 +80,7 @@
     \item Can derive EOMs in the rotating small body fixed frame
     \item Kinematics defined relative to the small body
 \end{itemize}
-
+\pause
 \begin{align*}
     \dot{x}_r &= \rvel - \hat{\Omega}_A \rpos, \\
     \parenth{m_1 + m_2} \dot{v}_r  &= -\parenth{m_1 + m_2} \hat{\Omega}_A \rvel + m_1 \deriv{U}{z_1} + m_2 \deriv{U}{z_2}, \\
@@ -91,14 +95,14 @@
     \begin{center}
         \input{tikz/newton_gravity.tikz}
     \end{center}
-
+    \pause
     \begin{itemize}
         \item Newton's law of gravity only applies to spherical bodies
         \item Variety of methods to represent irregular bodies
             \begin{itemize}
                 \item Spherical Harmonic - not valid when close to body
                 \item Constant Density Ellipsoid - only valid for ellipsoids
-                \item \Emph{Polyhedron Potential} - function of shape model
+                \item \Emph{Polyhedron Potential} - function of shape model 
             \end{itemize}
     \end{itemize}
 \end{frame}
@@ -108,10 +112,9 @@
 \begin{columns}
 \begin{column}{0.5\textwidth}
 \begin{itemize}
-    \item Function of shape alone
-    \item Globally valid and closed form
+    \item Polyhedron: solid with flat polygonal faces
     \item Assumes a constant density
-    \item Accuracy of the potential depends on the shape estimate
+    \item Gravity depends on the shape model
 \end{itemize}
 \end{column}
 \begin{column}{0.5\textwidth}
@@ -120,9 +123,8 @@
 }
 \end{column}
 \end{columns}
-\visible<2>{
+\pause
 \begin{align*}
     U(\vc{r}) =& \frac{1}{2} G \sigma \sum_{e \in \text{edges}} \vc{r}_e \cdot \vc{E}_e \cdot \vc{r}_e \cdot L_e - \frac{1}{2}G \sigma \sum_{f \in \text{faces}} \vc{r}_f \cdot \vc{F}_f \cdot \vc{r}_f \cdot \omega_f 
 \end{align*}
-}
 \end{frame}

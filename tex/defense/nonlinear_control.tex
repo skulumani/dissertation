@@ -2,6 +2,27 @@
 
 \section{Geometric Control}
 
+\begin{frame}{Geometric Control}
+    \begin{itemize}
+        \item Extension of control design to differentiable manifolds
+            \begin{itemize}
+                \item A set which locally ``looks'' like Euclidean space
+                \item More general as the techniques are no longer limited to vector spaces
+            \end{itemize}
+        \item Analysis is ``coordinate-free'' or ``intrinsic''
+            \begin{itemize}
+                \item The choice of coordinates should not bias the dynamics/control 
+            \end{itemize}
+        \item Mathematically precise method to derive dynamics and control laws that faithfully represent the system
+            \begin{itemize}
+                \item Identification of the configuration manifold, \( \SO \)
+                \item Choose a coordinate representation, \( R \in \SO \)
+                \item Dynamics: Derive kinetic and potential energies as function of coordinates
+                \item Control: Configuration error as function of coordinates
+                \item Determine control input to stabilize about desired state/trajectory
+            \end{itemize}
+    \end{itemize}
+\end{frame}
 \subsection[Spacecraft Autonomy]{Spacecraft Autonomy}
 % why study the coupled attitude/translational problem
 
@@ -25,9 +46,6 @@
 }
 \end{frame}   %-----------------------------%
 
-\begin{frame}{Geometric Control}
-Explain geometric control
-\end{frame}
 
 \subsection{Attitude Control}
 

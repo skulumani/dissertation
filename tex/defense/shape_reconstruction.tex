@@ -20,13 +20,12 @@
     \onslide<3->{
         \begin{block}{}
             \begin{center}
-                Real-time on board shape estimation
+                Efficient Shape Reconstruction
             \end{center}
         \end{block}
     }
 \end{frame}
 
-\section[Problem Statement]{Math Background}
 \begin{frame}{Problem Statement}
 \begin{enumerate}
     \item<1-> Compute the surface shape from range measurements
@@ -46,6 +45,8 @@
 \end{enumerate}
 \end{frame}
 
+\subsection{Background}
+
 \begin{frame}{LIDAR Measurements }
     \begin{itemize}
         \item<1-> Laser pulse used to measure relative distance to surface
@@ -54,7 +55,7 @@
                 d = \frac{\Delta t}{2 c}
             \end{align*}
     \end{itemize}
-     
+    \pause 
     \begin{center}
         \only<1>{
             \resizebox{!}{0.6\textheight}{

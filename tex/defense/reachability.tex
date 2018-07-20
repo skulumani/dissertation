@@ -105,7 +105,7 @@
     \item Generate the reachability set on a \Poincare section, \( \Sigma \)
     \item Control input is chosen to enlarge the reachable set
 \end{itemize}
-
+\pause
 \begin{center}
     \resizebox{!}{0.8\textheight}{%
         \input{tikz/reachability_set.tikz}
@@ -140,6 +140,7 @@
         \item Reachable set is determined on the \Poincare section
         \item Intersection is used to determine the transfer
     \end{itemize}
+    \pause
     \begin{center}
         \only<1>{\includegraphics[width=0.5\textwidth]{figures/2017_JAS/reach_trajectory}}~
         \only<2>{\includegraphics[width=0.5\textwidth]{figures/2017_JAS/reach_transfer.pdf}}~
@@ -218,6 +219,10 @@
     \only<3>{
         \includegraphics[width=0.5\textwidth]{figures/2016_AAS/trajectory.pdf}~
         \includegraphics[width=0.5\textwidth]{figures/2016_AAS/trajectory_3d.pdf} 
+    }
+    \only<4>{
+        \animategraphics[autoplay,loop,width=0.5\textwidth]{30}{animation/body/IMG}{00001}{01499}\hfill
+        \animategraphics[autoplay,loop,width=0.5\textwidth]{30}{animation/inertial/IMG}{00001}{01499}
     }
     \end{center}
 \end{frame}
