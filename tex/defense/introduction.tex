@@ -1,8 +1,28 @@
-% !TEX Root = ../defense.tex
+% !TEX Root = ../../defense.tex
 
-\section[PhD Research]{PhD George Washington University}
+\section{Introduction}
 
-\subsection[Asteroid Missions]{Asteroid Missions}
+\subsection{Motivation}
+\begin{frame}[t]{Why send spacecraft to small bodies?}
+    \begin{itemize}
+        \item<1-> Some properties only available at the small body
+            \begin{itemize}
+                \item High fidelity gravitational model
+                \item Surface samples or return missions
+            \end{itemize}
+        \item<2-> Gain experience for future missions
+            \begin{itemize}
+                \item Weak gravitational field allows for less costly manuevers
+                \item Asteroid tours for future deep-space human missions
+            \end{itemize}
+        \item<3-> Avoiding future impacts
+            \begin{itemize}
+                \item Local spacecraft can aid in ground based tracking
+                \item Mitigation: Gravity tractors, kinetic impactors, solar sails
+            \end{itemize}
+    \end{itemize}
+
+\end{frame}
 
 \begin{frame}{Asteroid Missions}
 \begin{itemize}
@@ -48,13 +68,18 @@
 
 \end{frame}
 
+
 \begin{frame}[t]{Problem statement}
     \begin{itemize}
         \item Ground based systems only provide a coarse shape estimate
         \item Spacecraft operations, e.g.\ landing, requires an accurate gravity model
         \item The gravity model accuracy is based on the accuracy of the shape
     \end{itemize}
-
+    \pause
+    \begin{center}
+    \includegraphics[trim={25cm 15cm 25cm 15cm},clip,width=0.35\textwidth,height=0.5\textheight,keepaspectratio]{figures/mathematical_background/itokawa_radar_isometric.jpg}~
+    \includegraphics[trim={25cm 12cm 25cm 15cm},clip,width=0.35\textwidth,height=0.5\textheight,keepaspectratio]{figures/mathematical_background/itokawa_isometric.jpg}
+    \end{center}
     \begin{block}{}
         \begin{center}
             \begin{enumerate}
@@ -64,76 +89,19 @@
         \end{center}
     \end{block}
     
+\end{frame}
+
+\begin{frame}{Thesis}
     This dissertation develops:
+    \pause
     \begin{enumerate}
         \item Correct dynamic model to predict motion of spacecraft,
+            \pause
         \item Control system to transfer around the small body,
+            \pause
         \item An efficient method to estimate and update the shape of the small body.
     \end{enumerate}
 \end{frame}
 
-\subsection[Electric Propulsion]{Electric Propulsion}  
 
-\begin{frame} \label{slide:lowthrust_vehicles}%-----------------------------%
-\frametitle{Low-thrust vehicles} % electric propulsion
-\begin{itemize}
-    \item Low-thrust orbital transfers offer increased mission oportunities
-    \begin{itemize}
-        \item Electric propulsion is increasing in capability
-        \item Offers much higher specific impulse than chemical engines 
-        \item Requires much longer operating periods for maneuvers 
-        \item Enables long duration missions with frequent thrusting
-    \end{itemize}
-\end{itemize}
 
-\begin{center}
-    \includegraphics[height=0.4\textheight,width=0.5\textwidth,keepaspectratio]{figures/defense/patriot_plume.jpg}
-    ~
-    \includegraphics[height=0.4\textheight,width=0.5\textwidth,keepaspectratio]{figures/defense/deepspace1.jpg}
-\end{center}
-\hyperlink{slide:propulsion}{\beamergotobutton{Ideal Rockets}}
-\end{frame}   %-----------------------------%
-
-\subsection[Spacecraft Autonomy]{Spacecraft Autonomy}
-% why study the coupled attitude/translational problem
-
-\begin{frame}[t]{Spacecraft Autonomy} %-----------------------------%
-\begin{itemize}
-    \item Autonomous control of space vehicles is critical
-    \begin{itemize}
-        \item Avoid extensive planning and interaction by operators
-        \item Ability to operate safely with system uncertainty 
-        \item Independently navigate hazards and handle possible failures
-    \end{itemize}
-\end{itemize}
-\visible<2>{
-\begin{center}
-    \includegraphics[width=0.5\textwidth,height=0.35\textheight,keepaspectratio]{figures/defense/hubble.jpg}\hfill
-    \includegraphics[width=0.5\textwidth,height=0.4\textheight,keepaspectratio]{figures/defense/osires_rex.png}
-\end{center}
-}
-\note[itemize]{
-    \item Autonomy is a key component to enable asteroid missions
-}
-\end{frame}   %-----------------------------%
-
-\begin{frame}[t]{Why send spacecraft to asteroids?}
-    \begin{itemize}
-        \item<1-> Some properties only available at the asteroid:
-            \begin{itemize}
-                \item High fidelity gravitational model
-                \item Surface samples or return missions
-            \end{itemize}
-        \item<2-> Gain experience for future missions
-            \begin{itemize}
-                \item Weak gravitational field allows for less costly manuevers
-                \item Asteroid tours for future deep-space human missions
-            \end{itemize}
-        \item<3-> Avoiding future impacts
-            \begin{itemize}
-                \item Local spacecraft can aid in ground based tracking
-                \item Mitigation: Gravity tractors, kinetic impactors, solar sails
-            \end{itemize}
-    \end{itemize}
-
-\end{frame}

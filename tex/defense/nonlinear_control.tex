@@ -1,0 +1,231 @@
+% !TEX root = ../../defense.tex
+
+\section{Geometric Control}
+
+\begin{frame}{Geometric Control}
+    \begin{itemize}
+        \item Extension of control design to differentiable manifolds
+            \begin{itemize}
+                \item A set which locally ``looks'' like Euclidean space
+                \item More general as the techniques are no longer limited to vector spaces
+            \end{itemize}
+        \item Analysis is ``coordinate-free'' or ``intrinsic''
+            \begin{itemize}
+                \item The choice of coordinates should not bias the dynamics/control 
+            \end{itemize}
+        \item Mathematically precise method to derive dynamics and control laws that faithfully represent the system
+            \begin{itemize}
+                \item Identification of the configuration manifold, \( \SO \)
+                \item Choose a coordinate representation, \( R \in \SO \)
+                \item Dynamics: Derive kinetic and potential energies as function of coordinates
+                \item Control: Configuration error as function of coordinates
+                \item Determine control input to stabilize about desired state/trajectory
+            \end{itemize}
+    \end{itemize}
+\end{frame}
+\subsection[Spacecraft Autonomy]{Spacecraft Autonomy}
+% why study the coupled attitude/translational problem
+
+\begin{frame}[t]{Spacecraft Autonomy} %-----------------------------%
+\begin{itemize}
+    \item Autonomous control of space vehicles is critical
+    \begin{itemize}
+        \item Avoid extensive planning and interaction by operators
+        \item Ability to operate safely with system uncertainty 
+        \item Independently navigate hazards and handle possible failures
+    \end{itemize}
+\end{itemize}
+\visible<2>{
+\begin{center}
+    \includegraphics[width=0.5\textwidth,height=0.35\textheight,keepaspectratio]{figures/defense/hubble.jpg}\hfill
+    \includegraphics[width=0.5\textwidth,height=0.4\textheight,keepaspectratio]{figures/defense/osires_rex.png}
+\end{center}
+}
+\note[itemize]{
+    \item Autonomy is a key component to enable asteroid missions
+}
+\end{frame}   %-----------------------------%
+
+
+\subsection{Attitude Control}
+
+\begin{frame}[t]{Problem Formulation} %-----------------------------------%
+\begin{itemize}
+    \item \Emph{Constrained attitude control} : reorient vehicle while avoiding pointing at obstacles
+    \begin{itemize}
+        \item Exclusion zones for payloads e.g infrared telescope
+        \item UAVs manuevering in congested locations
+        \item Laser/Radio emitters on spacecraft
+    \end{itemize}
+    \pause
+    \item Previous approaches have several issues
+    \begin{itemize}
+        \item Attitude parameterizations: singularities/ambiguities
+        \item Ad-hoc path planning: difficult to generalize to arbitrary obstacles
+        \item Randomized methods: lack of stability guarantees
+        \item Optimization based: expensive to compute and only provides open-loop control  
+    \end{itemize}
+\end{itemize}
+\end{frame} %-------------------------------------%
+
+\begin{frame}{Attitude Parameterizations}
+    \begin{itemize}
+        \item Euler Angles
+        \begin{itemize}
+            \item Minimal representation used for small attitude changes.
+            \item Singularities exist for large angle slews: requires switching between 24 sequences
+            \item Complicated trigonometric functions
+        \end{itemize}
+        \pause
+        \item Quaternion 
+        \begin{itemize}
+            \item No singularities
+            \item Two anti-podal quaternions for the same attitude
+            \item Unwinding behavior for control systems
+        \end{itemize}
+        \pause
+        \item Geometric control
+        \begin{itemize}
+            \item Globally and uniquely characterize attitude: \( R \in \SO \)
+            \item Controller is globally valid for large angle maneuvers
+        \end{itemize}
+    \end{itemize}
+    
+\end{frame}
+
+\begin{frame}{Objective} %---------------------------------------%
+
+    \begin{block}{Nonlinear Control Design}
+        Design control input \( u \) that stabilizes system from initial attitude \( R_0 \) to desired attitude \( R_d \) while avoiding obstacles
+    \end{block}
+    \pause
+    \begin{itemize}
+        \item Avoid drawbacks of other approaches 
+        \begin{itemize}
+            \item \Emph{Geometric control} - analysis is conducted directly on \( \SO \) 
+            \item \Emph{Barrier function} - allows for arbitrary amount of constraints
+            \item \Emph{Efficient } - real time feedback control
+            \item \Emph{Stability} - Lyapunov analysis gives rigourous stability proof
+            \item \Emph{Adaptive} - handles system uncertainties
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}{Spacecraft Orientation} %-----------------------------%
+
+\begin{itemize}
+
+    \item \Emph{Attitude Representation}: rotation matrix from body to inertial frame
+     \[\SO =  \{R\in\R^{3\times 3}\,|\, R^TR=I,\;\mathrm{det}[R]=1\} . \]
+    \item Rigid body attitude dynamics:
+    \begin{gather*}
+        J\dot\Omega + \Omega\times J\Omega = u+W(R,\Omega)\Delta , \quad \dot R = R\hat\Omega .
+    \end{gather*}
+
+    \item Sensor and obstacles defined by unit vectors in \( \R^3 \) 
+        \begin{itemize}
+            \item Body fixed sensor: \( r \in \S^2\)
+            \item Inertially fixed hazard: \( v \in \S^2 \)
+        \end{itemize} 
+    \item Hard cone constraint: \( r^T R^T v \leq \cos \theta \)
+    
+\end{itemize}
+\end{frame}   %-----------------------------%
+
+\begin{frame}{Configuration Error Function} %-----------------------------%
+\only<1>{
+\begin{itemize}
+    \item Error function quantifies ``distance'' to desired attitude
+    \begin{align*}
+            \Psi(R, R_d) = A(R, R_d) B(R) .
+    \end{align*}
+    \item Combination of attractive and repulsive terms   
+\end{itemize}
+\begin{gather*}
+    A(R, R_d) = \frac{1}{2} \tr{G \left( I - R_d^T R\right)} . \\ \\
+    B_i(R) = 1 - \frac{1}{\alpha_i} \ln \left( - \frac{ r^T R^T v_i - \cos \theta_i}{1 + \cos \theta_i}\right) .
+\end{gather*}     
+}
+
+\only<2>{
+    \begin{itemize}
+        \item Attractive well at the desired attitude
+    \end{itemize}
+    \begin{align*}
+        A(R,R_d) = \frac{1}{2} \tr{G \left( I - R_d^T R\right)} .
+    \end{align*}
+    \begin{center} 
+        \includegraphics[height=0.8\textheight]{figures/2016_IJCAS/attract_error.pdf}
+    \end{center}
+}
+
+\only<3>{
+    \begin{itemize}
+        \item Define a barrier around obstacles
+    \end{itemize}
+    \begin{align*}
+        B_i(R) = 1 - \frac{1}{\alpha_i} \ln \left( - \frac{ r^T R^T v_i - \cos \theta_i}{1 + \cos \theta_i}\right).
+    \end{align*}
+    \begin{center}
+        \includegraphics[height=0.8\textheight]{figures/2016_IJCAS/avoid_error.pdf}
+    \end{center}
+
+}
+
+\only<4>{
+    \begin{itemize}
+        \item Configuration error: \( \Psi : \Q \times \Q \to \R \) with control chosen to follow slope of \( \Psi \) to minimum at \( R_d\)
+    \end{itemize}
+    \begin{align*}
+        \Psi(R, R_d) = A(R,R_d) B(R) .
+    \end{align*}
+    \begin{center}
+        \includegraphics[height=0.8\textheight]{figures/2016_IJCAS/combined_error.pdf}
+    \end{center}
+}
+
+\note[itemize]{
+    \item First step in control design is the selection of an error function
+}
+\end{frame}   %-----------------------------%
+
+\subsection{Examples}
+\begin{frame}{Numerical Simulation} %-----------------------------%
+
+\begin{itemize}
+    \item Simulate a S/C completing a yaw rotation
+    \item Single obstacle in the path of sensor
+\end{itemize}
+
+\begin{center}
+    \animategraphics[controls,autoplay,loop,width=0.5\textwidth,height=0.7\textheight,keepaspectratio]{8}{animation/2016ACC/single_noavoid/single_noavoid-}{0}{99}~
+    \animategraphics[controls,autoplay,loop,width=0.5\textwidth,height=0.7\textheight,keepaspectratio]{8}{animation/2016ACC/single_avoid/single_avoid-}{0}{99}
+\end{center}
+
+\end{frame}%-----------------------------%
+
+\begin{frame}{Multiple obstacles}%-------------------------------------%
+
+\begin{itemize}
+    \item Easily handle multiple arbitrary constraints 
+    \begin{align*}
+        \Psi = A(R) \bracket{1 + \sum_i C_i(R)} \quad C_i = B(R) - 1
+    \end{align*}
+\end{itemize}
+
+\begin{center}
+    \animategraphics[controls,autoplay,loop,width=0.5\textwidth,height=0.5\textheight,keepaspectratio]{8}{animation/2016ACC/multiple_avoid/multiple_avoid-}{0}{99}
+\end{center}
+
+\end{frame}%---------------------------------------%
+
+\begin{frame}{Hexrotor Experiment} %-----------------------------%
+\begin{itemize}
+    \item Attached to spherical joint to allow only attitude dynamics
+\end{itemize}
+\begin{center}
+    \href{https://youtu.be/dsmAbwQram4?t=20s}{\includegraphics[height=0.7\textheight]{figures/2016_IJCAS/hexrotor}}
+\end{center}
+\end{frame}   %-----------------------------%
+

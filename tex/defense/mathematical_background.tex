@@ -1,3 +1,7 @@
+% !TEX root = ../../defense.tex
+
+\section{System Model}
+
 \begin{frame}{Reference Frames}
 
     \begin{columns}
@@ -27,7 +31,7 @@
 \begin{frame}{Spacecraft Model}
     \begin{itemize}
         \item Spacecraft modeled as a rigid dumbbell
-        \item Two masses \( m_1, m_2 \in \R^1 \) connected by a rigid massless link of length \( l \in \R^1\)
+        \item Two masses \( m_1, m_2 \in \R^1 \) connected by a rigid massless link \( l \in \R^1\)
         \item Effectively captures the mass distribution of a spacecraft
     \end{itemize}
 
@@ -35,6 +39,9 @@
         \input{tikz/dumbbell.tikz}
     }
 \end{frame}
+\subsection{EOMs}
+
+
 
 \begin{frame}{Equations of Motion}
     Hamilton's principle used to derive equations of motion in four forms:
@@ -42,18 +49,82 @@
         \item Inertial vs. Relative 
         \item Lagrangian vs. Hamiltonian
     \end{enumerate}
+    True motion of the system is a stationary point of the action integral
+    \begin{align*}
+        \mathcal{G} &= \int_{t_0}^{t_f} T(\dot q) - V(q) dt\\
+        \pause
+        \delta \mathcal{G} &= \int_{t_0}^{t_f} \delta T - \delta V dt = 0
+    \end{align*}
 \end{frame}
 
-\begin{frame}{Inertial Equations of Motion}
-\begin{align}
-    \dot \ipos &= \frac{\ilinmom}{m_1 + m_2}, \\
-    \dot \ilinmom &= - m_1 \aatt \deriv{U}{\apos_1} - m_2 \aatt \deriv{U}{\apos_2}, \\
-    \dot \iatt &= R \parenth{J^{-1} \iangmom}^\wedge, \\
-    \dot\iangmom  + \hat{\iangvel} \iangmom &= m_1 \hat{\spos}_1 \iatt^T \aatt \deriv{U}{\apos_1} + m_2 \hat{\spos}_2 \iatt^T \aatt \deriv{U}{\apos_2}. 
-\end{align}
-
+\begin{frame}{Inertial EOMs in Lagrangian Form}
+    The kinetic and potential energy of the dumbbell in the inertial frame
+    \begin{align*}
+        T\parenth{\dot{\ipos}, \iangvel} &= \frac{1}{2} m \norm{\dot{\vc{x}}}^2 + \frac{1}{2} \tr{\vh{\Omega} J_d \vh{\Omega}^T} , \\
+        V( \ipos, R ) &=  - m_1 U \parenth{R_A^T \parenth{\vc{x} + R \vc{\rho}_1}} - m_2 U \parenth{R_A^T \parenth{\vc{x} + R \vc{\rho}_2}}. 
+    \end{align*}
+    \pause
+    The stationary point of the action integral gives:
+    \begin{align*}
+        \dot{\ipos} &= \ivel, \\
+        \parenth{m_1 + m_2} \dot{\ivel} &= - \sum_{i=0}^2 m_i \aatt \deriv{U}{\apos_i} + u_f, \\
+        \dot{\iatt} &= \iatt \iangvel, \\
+        J \dot{\iangvel} + \hat{\iangvel} J \iangvel &= \sum_{i=0}^2 m_i \hat{\spos}_i \iatt^T \aatt \deriv{U}{\apos_i} + u_m. 
+    \end{align*}
 \end{frame}
 
 \begin{frame}{Relative Equations of Motion}
 
+\begin{itemize}
+    \item Gravitational potential is a function of relative position
+    \item Can derive EOMs in the rotating small body fixed frame
+    \item Kinematics defined relative to the small body
+\end{itemize}
+\pause
+\begin{align*}
+    \dot{x}_r &= \rvel - \hat{\Omega}_A \rpos, \\
+    \parenth{m_1 + m_2} \dot{v}_r  &= -\parenth{m_1 + m_2} \hat{\Omega}_A \rvel + m_1 \deriv{U}{z_1} + m_2 \deriv{U}{z_2}, \\
+    \dot{R}_r &= \hat{\Omega}_r \ratt  - \hat{\Omega}_A \ratt , \\
+    \dot{\parenth{\Jr  \rangvel}} + \hat{\Omega}_A \parenth{\Jr  \rangvel} &= m_1 \parenth{\ratt  \rho_1}^\wedge \deriv{U}{z_1} + m_2 \parenth{\ratt  \rho_2}^\wedge \deriv{U}{z_2}.
+\end{align*}
+\end{frame}
+
+\subsection{Gravity}
+
+\begin{frame}{Gravitational Models}
+    \begin{center}
+        \input{tikz/newton_gravity.tikz}
+    \end{center}
+    \pause
+    \begin{itemize}
+        \item Newton's law of gravity only applies to spherical bodies
+        \item Variety of methods to represent irregular bodies
+            \begin{itemize}
+                \item Spherical Harmonic - not valid when close to body
+                \item Constant Density Ellipsoid - only valid for ellipsoids
+                \item \Emph{Polyhedron Potential} - function of shape model 
+            \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Polyhedron Gravitation Model}
+
+\begin{columns}
+\begin{column}{0.5\textwidth}
+\begin{itemize}
+    \item Polyhedron: solid with flat polygonal faces
+    \item Assumes a constant density
+    \item Gravity depends on the shape model
+\end{itemize}
+\end{column}
+\begin{column}{0.5\textwidth}
+    \resizebox{\columnwidth}{!}{%
+    \input{tikz/polyhedron_faces.tikz}
+}
+\end{column}
+\end{columns}
+\pause
+\begin{align*}
+    U(\vc{r}) =& \frac{1}{2} G \sigma \sum_{e \in \text{edges}} \vc{r}_e \cdot \vc{E}_e \cdot \vc{r}_e \cdot L_e - \frac{1}{2}G \sigma \sum_{f \in \text{faces}} \vc{r}_f \cdot \vc{F}_f \cdot \vc{r}_f \cdot \omega_f 
+\end{align*}
 \end{frame}

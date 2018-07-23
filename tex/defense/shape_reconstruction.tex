@@ -1,0 +1,203 @@
+% !TEX root = ../../defense.tex
+
+\section{Shape Reconstruction}
+\begin{frame}{Asteroid Shape Modeling}
+    \begin{itemize}
+        \item<1-> Ground radar used to compute the 3D shape of the asteroid
+        \begin{itemize}
+            \item Computationally intensive estimation algorithm completed on the ground 
+            \item The result is still coarse and only an approximation solution
+            \item Not accurate enough for low altitude or landing operations
+        \end{itemize}
+    \item<2-> Estimating the asteroid shape is the first step of any mission
+    \begin{itemize}
+        \item Months or years are devoted solely to mapping the surface
+        \item Laser ranging used to accurately measure relative distance 
+        \item All data is sent to the ground for processing (time and manpower intensive)
+    \end{itemize}
+    \end{itemize}
+    
+    \onslide<3->{
+        \begin{block}{}
+            \begin{center}
+                Efficient Shape Reconstruction
+            \end{center}
+        \end{block}
+    }
+\end{frame}
+
+\begin{frame}{Problem Statement}
+\begin{enumerate}
+    \item<1-> Compute the surface shape from range measurements
+        \begin{itemize}
+            \item Real time and incrementally build the shape
+        \end{itemize}
+    \item<2-> Utilize shape model in dynamics and controller
+        \begin{itemize}
+            \item Coupled equations of motion 
+            \item Nonlinear controller for maneuvering and landing
+        \end{itemize}
+    \item<3-> Autonomously navigate around asteroid 
+        \begin{itemize}
+            \item Locate areas of poor knowledge for measurement
+            \item Avoid obstacles or hazards
+        \end{itemize}
+\end{enumerate}
+\end{frame}
+
+\subsection{Background}
+
+\begin{frame}{LIDAR Measurements }
+    \begin{itemize}
+        \item<1-> Laser pulse used to measure relative distance to surface
+        \item<1-> Accurate timing gives the round trip time of flight
+            \begin{align*}
+                d = \frac{\Delta t}{2 c}
+            \end{align*}
+    \end{itemize}
+    \begin{center}
+        \only<1>{
+            \resizebox{!}{0.6\textheight}{
+                \input{tikz/laser_range_finder.tikz}
+            }
+        }
+        \only<2>{
+            \input{tikz/frustrum.tikz}
+        }
+        \only<3>{
+            \includegraphics[width=0.75\textwidth,height=0.7\textheight,keepaspectratio]{figures/2018_SSPI/castalia_raycasting_plot.jpg}
+        }
+    \end{center}
+\end{frame}
+
+\begin{frame}{Bayesian Shape Reconstruction}
+    \begin{itemize}
+        \item<1-> Framework for combining prior and new data 
+            \begin{itemize}
+                \item Each vertex has an uncertainty -- \( w_i\) in the radial distance
+                \item Each measurement contains error -- \( w_{j, i} \) with respect to each vertex
+            \end{itemize}
+            \begin{align*}
+                v_i \sim \mathcal{N}(r_i, w_i^2) , \quad
+                p_{j,i} \sim \mathcal{N}(r_{j,i}, w_{j,i}^2)
+            \end{align*}
+        \item<2-> New data used to update each vertex and reduce uncertainty
+    \begin{align*}\label{eq:posterior_probability}
+        \mathcal{N} \parenth{\frac{w_{j, i}^2 r_i + w_i^2 r_{j, i}}{w_i^2 + w_{j, i}^2} , \frac{w_i^2  w_{j, i}^2}{w_i^2 +  w_{j, i}^2}} .
+    \end{align*}
+    \end{itemize}
+\end{frame}
+
+\subsection{Shape Reconstruction}
+\begin{frame}{Geographos Reconstruction}
+    \begin{itemize}
+        \item Potentially hazardous Apollo group asteroid discovered in 1951
+    \end{itemize}
+    
+    \begin{center}
+        \href{https://youtu.be/Fy3b80CP2-0}{\includegraphics[trim={20cm 15cm 20cm 15cm},clip,keepaspectratio,width=0.5\textwidth]{figures/computational_geometry/mesh_update/geographos/partial_7489.jpg}}%
+        \href{https://youtu.be/UqISXOuV0ZQ}{\includegraphics[trim={20cm 15cm 20cm 15cm},clip,keepaspectratio,width=0.5\textwidth]{figures/computational_geometry/mesh_update/geographos/partial_7489.jpg}}
+\end{center}
+
+\end{frame}
+
+\begin{frame}{Golevka Reconstruction}
+    \begin{itemize}
+        \item Potentially hazardous Apollo group asteroid discovered in 1995
+    \end{itemize}
+    \begin{center}
+        \href{https://youtu.be/D5JJo1XfOeg}{\includegraphics[trim={20cm 10cm 20cm 10cm},clip,keepaspectratio,width=0.5\textwidth]{figures/computational_geometry/mesh_update/golevka/partial_5285.jpg}}%
+        \href{https://youtu.be/OoaWECewMVI}{\includegraphics[trim={20cm 10cm 20cm 10cm},clip,keepaspectratio,width=0.5\textwidth]{figures/computational_geometry/mesh_update/golevka/partial_5285.jpg}}
+\end{center}
+\end{frame}
+
+\subsection{Guidance}
+\begin{frame}{Optimal Guidance}
+    \begin{itemize}
+        \item Cost function used to determine future states which provides best measurements
+        \item User selected weighting between: uncertainty, distance, and control effort
+            \begin{align*}
+                J_i (\ipos, \iatt, \aatt) = \alpha_w J_{w_i} + \alpha_d J_{d_i}(\rpos) + \alpha_c J_{c_i}(\rpos)
+            \end{align*}
+    \end{itemize}
+\begin{center}
+        \href{https://youtu.be/ZJY9nPXhyxw}{\includegraphics[trim={20cm 10cm 20cm 10cm},clip,keepaspectratio,width=0.5\textwidth,height=0.5\textheight]{figures/computational_geometry/dynamic_exploration/52760/partial_14998.jpg}}%
+        \href{https://youtu.be/VF8dp8D5nVA}{\includegraphics[trim={20cm 10cm 20cm 10cm},clip,keepaspectratio,width=0.5\textwidth,height=0.5\textheight]{figures/computational_geometry/dynamic_exploration/52760/partial_14998.jpg}}
+\end{center}
+\end{frame}
+
+\subsection{Refinement}
+\begin{frame}{Landing Site Selection}
+    \begin{itemize}
+        \item The shape estimate provides sufficient detail to determine the surface slope
+            \begin{align*}
+                \cos \parenth{ \pi - \phi } = \frac{\vc{n}_f \cdot U_m}{\norm{U_m}},
+            \end{align*}
+        \item The desired landing area selected to minimize: slope and distance
+        \item Desired landing area used for multi-resolution refinement
+    \end{itemize}
+    \pause
+    \begin{center}
+        \only<1>{
+        \includegraphics[width=0.5\textwidth]{figures/computational_geometry/dynamic_exploration/castalia/refine/slope.pdf}%
+        \includegraphics[width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/castalia/refine/slope_masked.pdf}
+    }
+    \only<2>{
+        \includegraphics[width=0.5\textwidth]{figures/computational_geometry/dynamic_exploration/castalia/refine/dist.pdf}%
+        \includegraphics[width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/castalia/refine/dist_masked.pdf}
+    }
+    \only<3>{
+        \includegraphics[width=0.5\textwidth]{figures/computational_geometry/dynamic_exploration/castalia/refine/science.pdf}%
+        \includegraphics[width=0.5\textwidth,keepaspectratio]{figures/computational_geometry/dynamic_exploration/castalia/refine/science_masked.pdf}
+    }
+    \only<4>{
+        \includegraphics[width=0.5\textwidth]{figures/computational_geometry/dynamic_exploration/castalia/refine/cost.pdf}%
+    }
+    \end{center}
+\end{frame}
+
+\begin{frame}{Multi-resolution refinement}
+    \begin{itemize}
+        \item The mesh resolution limits the size of captured features
+        \item A uniform high resolution mesh would be computationally intractable
+    \end{itemize}
+    \begin{center}%
+        \only<1>{
+            \includegraphics[height=0.7\textheight]{figures/computational_geometry/isotropic/original_cube.jpg}%
+            \includegraphics[height=0.7\textheight]{figures/computational_geometry/isotropic/remesh_cube.jpg}
+        }
+        \only<2>{
+            \includegraphics[height=0.7\textheight]{figures/computational_geometry/dynamic_exploration/castalia/refine/density.pdf}
+        }
+        \only<3>{
+            \includegraphics[height=0.7\textheight]{figures/computational_geometry/dynamic_exploration/castalia/land/density.pdf}
+        }
+    \end{center}
+\end{frame}
+
+\begin{frame}{4769 Castalia exploration}
+
+\begin{center}
+    \href{https://youtu.be/EMlYvBGN8S0}{\includegraphics[trim={20cm 10cm 20cm 10cm},clip,keepaspectratio,width=0.5\textwidth,height=\textheight]{figures/computational_geometry/dynamic_exploration/castalia/partial_14998.jpg}}%
+        \href{https://youtu.be/jz-_SIi4a5A}{\includegraphics[trim={20cm 10cm 20cm 10cm},clip,keepaspectratio,width=0.5\textwidth,height=\textheight]{figures/computational_geometry/dynamic_exploration/castalia/partial_14998.jpg}}
+\end{center}
+
+\end{frame}
+
+\begin{frame}{4769 Castalia refinement}
+
+\begin{center}
+    \href{https://youtu.be/pS8vLuRZGxE}{\includegraphics[trim={20cm 10cm 20cm 10cm},clip,keepaspectratio,width=0.5\textwidth,height=\textheight]{figures/computational_geometry/dynamic_exploration/castalia/partial_14998.jpg}}%
+    \href{https://youtu.be/5ETsFOXQeOs}{\includegraphics[trim={20cm 10cm 20cm 10cm},clip,keepaspectratio,width=0.5\textwidth,height=\textheight]{figures/computational_geometry/dynamic_exploration/castalia/partial_14998.jpg}}
+\end{center}
+
+\end{frame}
+
+\begin{frame}{4769 Castalia landing}
+
+\begin{center}
+    \href{https://youtu.be/57sGEJRwfH4}{\includegraphics[trim={20cm 10cm 20cm 10cm},clip,keepaspectratio,width=0.5\textwidth,height=\textheight]{figures/computational_geometry/dynamic_exploration/castalia/partial_14998.jpg}}%
+    \href{https://youtu.be/8igpoKcwqXs}{\includegraphics[trim={20cm 10cm 20cm 10cm},clip,keepaspectratio,width=0.5\textwidth,height=\textheight]{figures/computational_geometry/dynamic_exploration/castalia/partial_14998.jpg}}
+\end{center}
+
+\end{frame}
