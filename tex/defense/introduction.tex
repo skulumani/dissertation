@@ -90,17 +90,34 @@
     \end{block}
     
 \end{frame}
-
+% \includegraphics[width=0.25\textwidth]{figures/2016_AAS/initial_transfer.pdf}
 \begin{frame}{Thesis}
+    \begin{center}
+        \begin{tikzpicture}
+            \node (transfer) at (0, 0) {\includegraphics[height=0.4\textheight,keepaspectratio]{figures/2016_AAS/initial_transfer.pdf}}; 
+            \node [right=of transfer] (shape) {\includegraphics[height=0.4\textheight,keepaspectratio]{figures/2018_SSPI/castalia_raycasting_plot.jpg}};
+            \draw[ultra thick, -Latex] (transfer) to (shape);
+        \end{tikzpicture}
+    \end{center}
     This dissertation presents:
     \pause
     \begin{enumerate}
-        \item Low thrust transfers for large scale orbital manuevers,
+        \item Low thrust transfers for large scale orbital maneuvers,
+            \begin{itemize}
+                \item Transfers departing from Earth and around a small body
+            \end{itemize}
             \pause
-        \item Geometric control for near proximty operations,
+        \item Geometric control for close proximity operations,
+            \begin{itemize}
+                \item Precise state trajectory tracking 
+            \end{itemize}
             \pause
-        \item Autonomous shape reconstruction for landing 
+        \item  Autonomous shape reconstruction of a small body
+            \begin{itemize}
+                \item Generate shape estimate for gravity and landing 
+            \end{itemize}
     \end{enumerate}
+    
 \end{frame}
 
 
