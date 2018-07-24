@@ -14,8 +14,6 @@ before_install:
 - export PATH="/tmp/texlive/bin/x86_64-linux:$PATH"
 script:
   - make -j2 dissertation defense announcement
-# - latexmk -pdf -interaction=nonstopmode -halt-on-error dissertation.tex
-# - cd ..
 after_success:
   # - bash ./utilities/word_count.sh && cd utilities && latexmk -pdf word_count.tex
 deploy:

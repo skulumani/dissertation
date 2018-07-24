@@ -5,7 +5,7 @@ FIGURES = $(wildcard ./figures/* ./tikz/*.tikz)
 all: dissertation announcement defense
 
 defense: defense.tex $(wildcard ./tex/defense/*.tex) animation videos
-	latexmk -pdf -gg defense
+	latexmk -pdf defense
 
 dissertation: dissertation.tex $(TEX) $(FIGURES) 
 	pdflatex -shell-escape dissertation
@@ -13,8 +13,8 @@ dissertation: dissertation.tex $(TEX) $(FIGURES)
 	latexmk -pdf dissertation
 
 announcement: announcement.tex abstract.tex
-	latexmk -gg announcement
-	latexmk -gg abstract
+	latexmk -pdf announcement
+	latexmk -pdf abstract
 
 tikz: dissertation.makefile $(FIGURES)
 	make -j4 -f dissertation.makefile
