@@ -3,7 +3,7 @@
 | [![Travis][travis_shield]][travis]       | [![Github Release][release_shield]][github_release] | [![Github Version][version_shield]][github_version] | [![Github Last Commit][last_commit_shield]][github_last_commit] | [![Github commit activity][activity_shield]][github_activity] |
 
 
-[travis_shield]: https://travis-ci.org/skulumani/dissertation.svg?branch=master 
+[travis_shield]: https://travis-ci.com/skulumani/dissertation.svg?branch=master 
 [release_shield]: https://img.shields.io/github/release/skulumani/dissertation.svg
 [version_shield]: https://badge.fury.io/gh/skulumani%2Fdissertation.svg
 [last_commit_shield]: https://img.shields.io/github/last-commit/skulumani/dissertation.svg
