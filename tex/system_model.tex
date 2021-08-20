@@ -135,7 +135,7 @@ where \( \vc{\rho} \in \R^3 \) is the position of a mass element \( dm \) in the
 One can also use~\cref{eq:xTx} to define the inertia matrix in several other equivalent forms
 \begin{align*}
     J_I &= \int_{\mathcal{B}} \bracket{ \parenth{\vc{\rho}^T \vc{\rho} }I - \vc{\rho}\vc{\rho}^T} dm, \\
-        &= \int_{\mathcal{B}} \tr{\vc{\rho}\vc{\rho}^T} I - \vc{\rho}\vc{\rho}^T, \\
+        &= \int_{\mathcal{B}} \tr{\vc{\rho}\vc{\rho}^T} I - \vc{\rho}\vc{\rho}^T dm, \\
         &= \int_{\mathcal{B}} \vh{\rho}^T \vh{\rho} dm.
 \end{align*}
 The location of an infinitesimal mass element \( dm \) can be decomposed into
@@ -180,7 +180,7 @@ The standard moment of inertia \( J \in \R^{3 \times 3} \) of a rigid body is gi
     \begin{bmatrix} 
         y^2 + z^2 & -xy & -zx \\
         -xy & z^2 + x^2 & -yz \\
-        -zx & yz & x^2 + y^2
+        -zx & -yz & x^2 + y^2
     \end{bmatrix} dm, 
 \end{align}
 where \( \vc{\rho} = \begin{bmatrix} x & y & z \end{bmatrix}^T\) and defines the position of the mass element \( dm \) in the body fixed frame.
@@ -246,7 +246,7 @@ T = \frac{1}{2} \int_{\mathcal{B}}  \norm{\dot{\vc{x}}}^2 + 2 \dot{\vc{x}}^T \do
 \end{align*}
 and from using the attitude kinematics \( \dot{R} = \iatt \vh{\Omega} \) for \( \vc{\Omega} \in \R^3 \) 
 \begin{align*}
-    \norm{\dot{R} \vc{\rho} }^2 &= \vc{\rho}\dot{R}^T \dot{R} \vc{\rho} , \\
+    \norm{\dot{R} \vc{\rho} }^2 &= \vc{\rho}^T\dot{R}^T \dot{R} \vc{\rho} , \\
                                 &=  \vc{\rho}^T \vh{\Omega}^T \vh{\Omega} \vc{\rho} , \\
                                 &= \norm{ \vh{\Omega} \vc{\rho} }^2, 
 \end{align*}
